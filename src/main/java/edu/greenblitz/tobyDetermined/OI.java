@@ -1,10 +1,9 @@
 package edu.greenblitz.tobyDetermined;
 
 
-import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.commands.prototypes.NeoMoveByPower;
+import edu.greenblitz.tobyDetermined.commands.prototypes.TalonMoveByPower;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
 	
@@ -38,10 +37,7 @@ public class OI { //GEVALD
 	}
 	
 	private void initButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
-		
-		mainJoystick.Y.whenPressed(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-		mainJoystick.POV_UP.whenPressed(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
+		mainJoystick.Y.whenHeld(new NeoMoveByPower(0.1,4));
 		
 	}
 	

@@ -15,21 +15,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
-		Dashboard.init();
-		Limelight.getInstance();
-		PortForwarder.add(5800, "gloworm.local", 5800);
-		PortForwarder.add(5801, "gloworm.local", 5801);
-		PortForwarder.add(5802, "gloworm.local", 5802);
-		PortForwarder.add(5803, "gloworm.local", 5803);
-		PortForwarder.add(5804, "gloworm.local", 5804);
-		PortForwarder.add(5805, "gloworm.local", 5805);
-		LiveWindow.disableAllTelemetry();
-		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-		
-		//swerve
-		
-		SwerveChassis.getInstance().resetChassisPose();
-		SwerveChassis.getInstance().resetAllEncoders();
+//		Dashboard.init();
+//		Limelight.getInstance();
+//		PortForwarder.add(5800, "gloworm.local", 5800);
+//		PortForwarder.add(5801, "gloworm.local", 5801);
+//		PortForwarder.add(5802, "gloworm.local", 5802);
+//		PortForwarder.add(5803, "gloworm.local", 5803);
+//		PortForwarder.add(5804, "gloworm.local", 5804);
+//		PortForwarder.add(5805, "gloworm.local", 5805);
+//		LiveWindow.disableAllTelemetry();
+//		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+//
+//		//swerve
+//
+//		SwerveChassis.getInstance().resetChassisPose();
+//		SwerveChassis.getInstance().resetAllEncoders();
 		OI.getInstance();
 	}
 	
