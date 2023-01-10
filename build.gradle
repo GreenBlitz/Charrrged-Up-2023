@@ -6,7 +6,7 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-def ROBOT_MAIN_CLASS = "edu.greenblitz.pegasus.Main"
+def ROBOT_MAIN_CLASS = "edu.greenblitz.tobyDetermined.Main"
 
 
 gradle.projectsEvaluated {
