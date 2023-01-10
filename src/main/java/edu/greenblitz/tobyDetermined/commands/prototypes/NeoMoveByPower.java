@@ -1,12 +1,14 @@
 package edu.greenblitz.tobyDetermined.commands.prototypes;
 
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.greenblitz.tobyDetermined.OI;
+import edu.greenblitz.tobyDetermined.Robot;
+import edu.greenblitz.tobyDetermined.subsystems.Prototypes;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.motors.GBSparkMax;
 
 public class NeoMoveByPower extends GBCommand {
     private int[] ids;
-    private GBSparkMax[] motors;
     private double power;
 
     public NeoMoveByPower(double power, int... ids) {
@@ -16,24 +18,24 @@ public class NeoMoveByPower extends GBCommand {
 
     @Override
     public void initialize() {
-            motors = new GBSparkMax[ids.length];
-            for (int i = 0; i < ids.length; i++) {
-                motors[i] = new GBSparkMax(ids[i], CANSparkMaxLowLevel.MotorType.kBrushless);
+        for (int id:ids) {
+            if(!Prototypes.sparks.containsKey(id)){
+                Prototypes.sparks.put(id,new GBSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless));
+            }
         }
     }
 
     @Override
     public void execute() {
-        for (GBSparkMax motor : motors) {
-            motor.set(power);
+        for (int id: ids) {
+            Prototypes.sparks.get(id).set(power);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        for (GBSparkMax motor : motors) {
-            motor.set(0);
-            motor = null;
+        for (int id: ids) {
+            Prototypes.sparks.get(id).set(0);
         }
 
     }

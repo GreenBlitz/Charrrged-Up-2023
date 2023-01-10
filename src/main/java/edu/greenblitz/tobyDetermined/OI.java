@@ -1,9 +1,15 @@
 package edu.greenblitz.tobyDetermined;
 
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.commands.prototypes.NeoMoveByPower;
 import edu.greenblitz.tobyDetermined.commands.prototypes.TalonMoveByPower;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.greenblitz.utils.motors.GBSparkMax;
+
+import java.util.HashMap;
 
 public class OI { //GEVALD
 	
@@ -35,9 +41,14 @@ public class OI { //GEVALD
 	public static void disableHandling() {
 		isHandled = false;
 	}
-	
+
+
+
+
 	private void initButtons() {
-		mainJoystick.Y.whenHeld(new NeoMoveByPower(0.1,4));
+		mainJoystick.Y.whenHeld(new NeoMoveByPower(0.1,9,4));
+		mainJoystick.X.whenHeld(new NeoMoveByPower(0.1,4));
+		mainJoystick.A.whenHeld(new TalonMoveByPower(0.5,1));
 		
 	}
 	
