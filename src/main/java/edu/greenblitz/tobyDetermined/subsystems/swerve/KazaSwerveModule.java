@@ -7,6 +7,7 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 
@@ -29,7 +30,7 @@ public class KazaSwerveModule implements SwerveModule {
 		
 		linearMotor = new GBSparkMax(linearMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		linearMotor.config(RobotMap.Swerve.KazaSwerve.baseLinConfObj.withInverted(linInverted));
-		
+
 		lamprey = new AnalogInput(lampreyID);
 		lamprey.setAverageBits(2);
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
@@ -72,7 +73,18 @@ public class KazaSwerveModule implements SwerveModule {
 	public double getCurrentVelocity() {
 		return (linearMotor.getEncoder().getVelocity());
 	}
-	
+
+	@Override
+	public double getCurrentMeters() {
+		return linearMotor.getEncoder().getPosition();
+	}
+
+	@Override
+	public SwerveModulePosition getCurrentPosition() {
+		return new SwerveModulePosition(getCurrentMeters(),new Rotation2d(getModuleAngle()));
+	}
+
+
 	/**
 	 * resetEncoderToValue - reset the angular encoder to RADIANS
 	 */

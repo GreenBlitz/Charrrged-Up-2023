@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import edu.greenblitz.utils.PIDObject;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public class DecoyModule implements SwerveModule {
@@ -22,7 +23,17 @@ public class DecoyModule implements SwerveModule {
 	public double getCurrentVelocity() {
 		return 0;
 	}
-	
+
+	@Override
+	public double getCurrentMeters() {
+		return 0;
+	}
+
+	@Override
+	public SwerveModulePosition getCurrentPosition() {
+		return null;
+	}
+
 	@Override
 	public void resetEncoderToValue(double angle) {
 	
