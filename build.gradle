@@ -1,6 +1,8 @@
+import edu.wpi.first.gradlerio.GradleRIOPlugin
+
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2022.4.1"
+    id "edu.wpi.first.GradleRIO" version "2023.1.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -60,7 +62,7 @@ repositories {
 
 tasks.register("download-gblib"){
     doLast{
-        implementation 'com.github.GreenBlitz:GBLib:cb43a59d4061108d240c134f3b3103ed2c54299b'
+//        implementation 'com.github.GreenBlitz:GBLib:cb43a59d4061108d240c134f3b3103ed2c54299b'
     }
 }
 
@@ -114,7 +116,7 @@ wpi.sim.addDriverstation()
 // knows where to look for our Robot Class.
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+    manifest GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
@@ -122,7 +124,6 @@ jar {
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
-
 
 tasks.named('wrapper') {
     distributionType = Wrapper.DistributionType.ALL
