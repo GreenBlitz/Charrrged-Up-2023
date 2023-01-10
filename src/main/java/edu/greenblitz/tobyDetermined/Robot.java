@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 
+import edu.greenblitz.tobyDetermined.commands.prototypes.MovePrototypes;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -27,7 +28,7 @@ public class Robot extends TimedRobot {
 //
 //		SwerveChassis.getInstance().resetChassisPose();
 //		SwerveChassis.getInstance().resetAllEncoders();
-		OI.getInstance();
+//		OI.getInstance();
 	}
 	
 	
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
+		new MovePrototypes(5).schedule();
 	}
 	
 	@Override
