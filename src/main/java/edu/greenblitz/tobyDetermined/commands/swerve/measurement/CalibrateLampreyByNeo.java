@@ -40,7 +40,7 @@ public class CalibrateLampreyByNeo extends SwerveCommand {
 	@Override
 	public boolean isFinished() {
 		for (int i = 0; i < 252; i++) {
-			if (!lampreyToNeoTicks.containsValue(new double[]{i}) && !OI.getInstance().getMainJoystick().A.get()) {
+			if (!lampreyToNeoTicks.containsValue(new double[]{i}) && !OI.getInstance().getMainJoystick().A.getAsBoolean()) {
 				SmartDashboard.putNumber("last stopped", i);
 				return false;
 			}

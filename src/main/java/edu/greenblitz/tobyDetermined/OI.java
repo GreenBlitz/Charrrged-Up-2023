@@ -46,10 +46,8 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-		mainJoystick.Y.whenHeld(new NeoMoveByPower(0.1,9,4));
-		mainJoystick.X.whenHeld(new NeoMoveByPower(0.1,4));
-		mainJoystick.A.whenHeld(new TalonMoveByPower(0.5,1));
-		
+
+
 	}
 	
 	public SmartJoystick getMainJoystick() {
