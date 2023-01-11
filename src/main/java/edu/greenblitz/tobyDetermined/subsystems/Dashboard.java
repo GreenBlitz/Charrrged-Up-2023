@@ -27,6 +27,11 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("FL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_LEFT)), 360));
 		SmartDashboard.putNumber("BR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_RIGHT)), 360));
 		SmartDashboard.putNumber("BL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_LEFT)), 360));
+		SmartDashboard.putNumber("FR-angle-lamprey", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_RIGHT));
+		SmartDashboard.putNumber("FL-angle-lamprey", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_LEFT));
+		SmartDashboard.putNumber("BR-angle-lamprey", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
+		SmartDashboard.putNumber("BL-angle-lamprey", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
+		
 		double sum = 0;
 		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
 			sum += SwerveChassis.getInstance().getModuleAngle(module);

@@ -27,6 +27,9 @@ public class KazaSwerveModule implements SwerveModule {
 		//SET ANGLE MOTOR
 		angleMotor = new GBSparkMax(angleMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		angleMotor.config(RobotMap.Swerve.KazaSwerve.baseAngConfObj);
+		angleMotor.getPIDController().setPositionPIDWrappingEnabled(true);
+		angleMotor.getPIDController().setPositionPIDWrappingMaxInput(2* Math.PI);
+		angleMotor.getPIDController().setPositionPIDWrappingMinInput(0);
 		
 		linearMotor = new GBSparkMax(linearMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		linearMotor.config(RobotMap.Swerve.KazaSwerve.baseLinConfObj.withInverted(linInverted));
@@ -51,13 +54,7 @@ public class KazaSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void rotateToAngle(double angle) {
-		
-		double diff = Math.IEEEremainder(angle - getModuleAngle(), 2 * Math.PI);
-		diff -= diff > Math.PI ? 2 * Math.PI : 0;
-		angle = getModuleAngle() + diff;
-		
 		angleMotor.getPIDController().setReference(angle, ControlType.kPosition);
-		
 		targetAngle = angle;
 	}
 	
@@ -100,7 +97,7 @@ public class KazaSwerveModule implements SwerveModule {
 	
 	@Override
 	public void resetEncoderByAbsoluteEncoder(SwerveChassis.Module module) {
-		resetEncoderToValue(Calibration.CALIBRATION_DATASETS.get(module).linearlyInterpolate(getAbsoluteEncoderValue())[0] * NEO_PHYSICAL_TICKS_TO_RADIANS);
+		resetEncoderToValue(Calibration.CALIBRATION_DATASETS.get(module).get(getAbsoluteEncoderValue()) * NEO_PHYSICAL_TICKS_TO_RADIANS/ RobotMap.Swerve.KazaSwerve.ANG_GEAR_RATIO);
 	}
 	
 	@Override
