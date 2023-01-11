@@ -1,4 +1,2 @@
-# Rapid reeee 2022
-The robot code for 2022 season Rapid React
-
-
+# Charged Up 2023
+The robot code for the 2023 FRC Challange
