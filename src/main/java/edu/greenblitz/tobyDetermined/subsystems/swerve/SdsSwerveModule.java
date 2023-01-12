@@ -24,6 +24,8 @@ public class SdsSwerveModule implements SwerveModule {
 	private SimpleMotorFeedforward feedforward;
 	private double expected_speed = 0;
 	private double expected_angle = 0;
+	private double expected_meters = 0;
+
 	
 	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
 		//SET ANGLE MOTO
@@ -108,7 +110,7 @@ public class SdsSwerveModule implements SwerveModule {
 				return new SwerveModulePosition(getCurrentMeters(),new Rotation2d(getModuleAngle()));
 			}
 			else{
-				return new SwerveModulePosition(expected_speed,Rotation2d.fromDegrees(expected_angle));
+				return new SwerveModulePosition(expected_meters,Rotation2d.fromDegrees(expected_angle));
 				}
 			}
 	/**
@@ -201,6 +203,7 @@ public class SdsSwerveModule implements SwerveModule {
 	@Override
 	public void setModuleState(SwerveModuleState moduleState) {
 		expected_speed = moduleState.speedMetersPerSecond;
+		expected_meters += expected_speed * 0.02;
 		expected_angle = moduleState.angle.getDegrees();
 		setLinSpeed(moduleState.speedMetersPerSecond);
 		rotateToAngle(moduleState.angle.getRadians());

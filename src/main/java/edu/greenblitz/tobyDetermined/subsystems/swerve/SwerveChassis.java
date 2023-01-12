@@ -78,10 +78,9 @@ public class SwerveChassis extends GBSubsystem {
 		updatePoseEstimation();
 		odometry.update(getPigeonAngle(), getSwerveModulePositions());
 		//field.setRobotPose(getRobotPose());
-		System.out.println(poseEstimator.getEstimatedPosition());
 		if (!Robot.isReal()){
 			angle += kinematics.toChassisSpeeds(frontLeft.getModuleState(), frontRight.getModuleState(),
-			backLeft.getModuleState(), backRight.getModuleState()).omegaRadiansPerSecond * (sim_timer.get() - lasttime);
+			backLeft.getModuleState(), backRight.getModuleState()).omegaRadiansPerSecond * (sim_timer.get() - lasttime);			
 			lasttime = sim_timer.get();
 			field.setRobotPose(odometry.getPoseMeters());
 			SmartDashboard.putData("Field", field);
