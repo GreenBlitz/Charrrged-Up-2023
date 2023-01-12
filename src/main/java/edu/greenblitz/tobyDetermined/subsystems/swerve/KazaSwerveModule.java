@@ -7,6 +7,7 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 
@@ -26,10 +27,13 @@ public class KazaSwerveModule implements SwerveModule {
 		//SET ANGLE MOTOR
 		angleMotor = new GBSparkMax(angleMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		angleMotor.config(RobotMap.Swerve.KazaSwerve.baseAngConfObj);
+		angleMotor.getPIDController().setPositionPIDWrappingEnabled(true);
+		angleMotor.getPIDController().setPositionPIDWrappingMaxInput(2* Math.PI);
+		angleMotor.getPIDController().setPositionPIDWrappingMinInput(0);
 		
 		linearMotor = new GBSparkMax(linearMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		linearMotor.config(RobotMap.Swerve.KazaSwerve.baseLinConfObj.withInverted(linInverted));
-		
+
 		lamprey = new AnalogInput(lampreyID);
 		lamprey.setAverageBits(2);
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
@@ -50,13 +54,7 @@ public class KazaSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void rotateToAngle(double angle) {
-		
-		double diff = Math.IEEEremainder(angle - getModuleAngle(), 2 * Math.PI);
-		diff -= diff > Math.PI ? 2 * Math.PI : 0;
-		angle = getModuleAngle() + diff;
-		
 		angleMotor.getPIDController().setReference(angle, ControlType.kPosition);
-		
 		targetAngle = angle;
 	}
 	
@@ -72,7 +70,18 @@ public class KazaSwerveModule implements SwerveModule {
 	public double getCurrentVelocity() {
 		return (linearMotor.getEncoder().getVelocity());
 	}
-	
+
+	@Override
+	public double getCurrentMeters() {
+		return linearMotor.getEncoder().getPosition();
+	}
+
+	@Override
+	public SwerveModulePosition getCurrentPosition() {
+		return new SwerveModulePosition(getCurrentMeters(),new Rotation2d(getModuleAngle()));
+	}
+
+
 	/**
 	 * resetEncoderToValue - reset the angular encoder to RADIANS
 	 */
@@ -88,7 +97,7 @@ public class KazaSwerveModule implements SwerveModule {
 	
 	@Override
 	public void resetEncoderByAbsoluteEncoder(SwerveChassis.Module module) {
-		resetEncoderToValue(Calibration.CALIBRATION_DATASETS.get(module).linearlyInterpolate(getAbsoluteEncoderValue())[0] * NEO_PHYSICAL_TICKS_TO_RADIANS);
+		resetEncoderToValue(Calibration.CALIBRATION_DATASETS.get(module).get(getAbsoluteEncoderValue()) * NEO_PHYSICAL_TICKS_TO_RADIANS/ RobotMap.Swerve.KazaSwerve.ANG_GEAR_RATIO);
 	}
 	
 	@Override

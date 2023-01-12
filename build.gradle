@@ -1,6 +1,8 @@
+import edu.wpi.first.gradlerio.GradleRIOPlugin
+
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2022.4.1"
+    id "edu.wpi.first.GradleRIO" version "2023.1.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -58,12 +60,6 @@ repositories {
     mavenCentral()
 }
 
-tasks.register("download-gblib"){
-    doLast{
-        implementation 'com.github.GreenBlitz:GBLib:cb43a59d4061108d240c134f3b3103ed2c54299b'
-    }
-}
-
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
 dependencies {
@@ -87,10 +83,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation 'org.jetbrains:annotations:22.0.0'
 
-    // Optional lines, adds common robot code libraries to the project
-    // The jitpack line in repositories is required for these libraries.
-    implementation 'com.github.GreenBlitz.MotionControl:motion:b9cf4145325d7c48aa9fe9b771e32537c77a25c0'
-//    implementation 'com.github.GreenBlitz:GBLib:d7201aca9d6880aed577b511840eee3cfa0ace2b'
 
     implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
 
@@ -114,7 +106,7 @@ wpi.sim.addDriverstation()
 // knows where to look for our Robot Class.
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+    manifest GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
@@ -122,7 +114,6 @@ jar {
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
-
 
 tasks.named('wrapper') {
     distributionType = Wrapper.DistributionType.ALL

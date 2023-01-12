@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import edu.greenblitz.utils.PIDObject;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public interface SwerveModule {
@@ -9,6 +10,10 @@ public interface SwerveModule {
 	double getModuleAngle();
 	
 	double getCurrentVelocity();
+
+	double getCurrentMeters();
+
+	SwerveModulePosition getCurrentPosition();
 	
 	void resetEncoderToValue(double angle);
 	

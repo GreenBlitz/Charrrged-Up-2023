@@ -8,6 +8,7 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -52,6 +53,14 @@ public class SdsSwerveModule implements SwerveModule {
 	public static double convertTicksToRads(double angInTicks) {
 		return angInTicks * RobotMap.Swerve.SdsSwerve.angleTicksToRadians;
 	}
+
+	public static double convertMetersToTicks(double distanceInMeters) {
+		return distanceInMeters / RobotMap.Swerve.SdsSwerve.linTicksToMeters;
+	}
+
+	public static double convertTicksToMeters(double angInTicks){
+		return angInTicks * RobotMap.Swerve.SdsSwerve.linTicksToMeters;
+	}
 	
 	/**
 	 * @param angleInRads - angle to turn to in radians
@@ -61,7 +70,7 @@ public class SdsSwerveModule implements SwerveModule {
 		double diff = Math.IEEEremainder(angleInRads - getModuleAngle(), 2 * Math.PI);
 		diff -= diff > Math.PI ? 2 * Math.PI : 0;
 		angleInRads = getModuleAngle() + diff;
-		
+
 		angleMotor.set(ControlMode.Position, convertRadsToTicks(angleInRads));
 		
 		targetAngle = angleInRads;
@@ -83,7 +92,17 @@ public class SdsSwerveModule implements SwerveModule {
 	public double getCurrentVelocity() {
 		return linearMotor.getSelectedSensorVelocity() * RobotMap.Swerve.SdsSwerve.linTicksToMetersPerSecond;
 	}
-	
+
+	@Override
+	public double getCurrentMeters() {
+		return convertTicksToMeters(linearMotor.getSelectedSensorPosition()); //TODO make sure its true
+	}
+
+	@Override
+	public SwerveModulePosition getCurrentPosition() {
+		return new SwerveModulePosition(getCurrentMeters(),new Rotation2d(getModuleAngle()));
+	}
+
 	/**
 	 * @param angleInRads - Position to set for the angular encoder (in raw sensor units).
 	 */
