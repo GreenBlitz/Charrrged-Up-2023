@@ -130,7 +130,7 @@ public class SwerveChassis extends GBSubsystem {
 
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(),new Pose2d()); //TODO - make sure if it works
+		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(),new Pose2d());
 	}
 
 	/**
