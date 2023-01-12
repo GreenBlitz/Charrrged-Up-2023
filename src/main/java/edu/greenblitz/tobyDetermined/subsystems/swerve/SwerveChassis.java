@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
@@ -29,6 +30,7 @@ public class SwerveChassis extends GBSubsystem {
 	private  PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
+	private final SwerveDriveOdometry odometry;
 	private final Field2d field = new Field2d();
 	private Timer sim_timer;
 	private double angle;
@@ -48,7 +50,6 @@ public class SwerveChassis extends GBSubsystem {
 		}
 		else{
 			this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
-
 		}
 
 		this.kinematics = new SwerveDriveKinematics(
@@ -60,8 +61,9 @@ public class SwerveChassis extends GBSubsystem {
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01));
-		SmartDashboard.putData("field", getField());
-		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
+		//SmartDashboard.putData("field", getField());
+		//field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
+		odometry = new SwerveDriveOdometry(kinematics, getPigeonAngle(), getSwerveModulePositions());
 	}
 
 	public static SwerveChassis getInstance() {
@@ -74,13 +76,20 @@ public class SwerveChassis extends GBSubsystem {
 	@Override
 	public void periodic() {
 		updatePoseEstimation();
-		field.setRobotPose(getRobotPose());
+		odometry.update(getPigeonAngle(), getSwerveModulePositions());
+		//field.setRobotPose(getRobotPose());
+		System.out.println(poseEstimator.getEstimatedPosition());
 		if (!Robot.isReal()){
 			angle += kinematics.toChassisSpeeds(frontLeft.getModuleState(), frontRight.getModuleState(),
 			backLeft.getModuleState(), backRight.getModuleState()).omegaRadiansPerSecond * (sim_timer.get() - lasttime);
 			lasttime = sim_timer.get();
-			field.setRobotPose(poseEstimator.getEstimatedPosition());
-			SmartDashboard.putData("Field", field);	  
+			field.setRobotPose(odometry.getPoseMeters());
+			SmartDashboard.putData("Field", field);
+			double xr = field.getRobotObject().getPose().getX();
+			double yr = field.getRobotObject().getPose().getY();
+			double rr = field.getRobotObject().getPose().getRotation().getDegrees();
+			double[] arr = {xr,yr,rr};
+			SmartDashboard.putNumberArray("pose_array", arr);	  
 		}
 	}
 
@@ -272,9 +281,9 @@ public class SwerveChassis extends GBSubsystem {
 	public void updatePoseEstimation() {
 		poseEstimator.update(getPigeonAngle(),
 				getSwerveModulePositions());
-		if (Limelight.getInstance().FindTarget()) {
-			poseEstimator.addVisionMeasurement(Limelight.getInstance().estimateLocationByVision(), Limelight.getInstance().getTimeStamp());
-		}
+		//if (Limelight.getInstance().FindTarget()) {
+			//poseEstimator.addVisionMeasurement(Limelight.getInstance().estimateLocationByVision(), Limelight.getInstance().getTimeStamp());
+		//}
 	}
 
 	public Pose2d getRobotPose() {

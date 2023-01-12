@@ -104,9 +104,13 @@ public class SdsSwerveModule implements SwerveModule {
 
 	@Override
 	public SwerveModulePosition getCurrentPosition() {
-		return new SwerveModulePosition(getCurrentMeters(),new Rotation2d(getModuleAngle()));
-	}
-
+			if (Robot.isReal()){
+				return new SwerveModulePosition(getCurrentMeters(),new Rotation2d(getModuleAngle()));
+			}
+			else{
+				return new SwerveModulePosition(expected_speed,Rotation2d.fromDegrees(expected_angle));
+				}
+			}
 	/**
 	 * @param angleInRads - Position to set for the angular encoder (in raw sensor units).
 	 */

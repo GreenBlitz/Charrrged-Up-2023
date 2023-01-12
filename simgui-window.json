@@ -1,25 +1,32 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "720",
-      "maximized": "0",
+      "height": "1017",
+      "maximized": "1",
       "style": "0",
       "userScale": "2",
-      "width": "1280",
-      "xpos": "270",
-      "ypos": "150"
+      "width": "1920",
+      "xpos": "1920",
+      "ypos": "23"
+    }
+  },
+  "Table": {
+    "0x542B5671,2": {
+      "Column 0  Width": "262",
+      "Column 1  Width": "702",
+      "RefScale": "13"
     }
   },
   "Window": {
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "177,30",
-      "Size": "848,562"
+      "Pos": "406,211",
+      "Size": "294,549"
     },
     "###Analog Inputs": {
       "Collapsed": "0",
       "Pos": "640,20",
-      "Size": "260,164"
+      "Size": "204,65"
     },
     "###FMS": {
       "Collapsed": "0",
@@ -28,13 +35,18 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "250,465",
+      "Pos": "1261,701",
       "Size": "796,240"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "250,277",
-      "Size": "750,185"
+      "Pos": "168,353",
+      "Size": "1300,623"
+    },
+    "###NetworkTables Info": {
+      "Collapsed": "0",
+      "Pos": "250,130",
+      "Size": "750,390"
     },
     "###Other Devices": {
       "Collapsed": "0",
@@ -49,7 +61,7 @@
     "###Timing": {
       "Collapsed": "0",
       "Pos": "5,150",
-      "Size": "135,150"
+      "Size": "135,127"
     },
     "Debug##Default": {
       "Collapsed": "0",

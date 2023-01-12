@@ -27,7 +27,8 @@
       "/LiveWindow/Ungrouped/DigitalInput[8]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[9]": "Digital Input",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/SmartDashboard/Field": "Field2d"
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/field": "Field2d"
     },
     "windows": {
       "/SmartDashboard/Field": {
@@ -35,6 +36,27 @@
           "visible": true
         }
       }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "Field": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "AdvantageScope_64319112": {
+      "open": true
+    },
+    "Clients": {
+      "open": true
+    },
+    "Server": {
+      "open": true
     }
   }
 }
