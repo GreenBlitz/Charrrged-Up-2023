@@ -64,7 +64,7 @@ public class RobotMap {
 				new Translation2d(-0.3020647, -0.25265)/*br*/};
 		
 		public static final double MAX_VELOCITY = 4.1818320981472068;
-		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
+		public static final double MAX_ANGULAR_SPEED = 0.1;
 		
 		
 		public static final PIDObject rotationPID = new PIDObject().withKp(0.5).withKi(0).withKd(0).withFF(0.1);
