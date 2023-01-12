@@ -17,12 +17,12 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().enable();
 		Dashboard.init();
 		Limelight.getInstance();
-		PortForwarder.add(5800, "gloworm.local", 5800);
-		PortForwarder.add(5801, "gloworm.local", 5801);
-		PortForwarder.add(5802, "gloworm.local", 5802);
-		PortForwarder.add(5803, "gloworm.local", 5803);
-		PortForwarder.add(5804, "gloworm.local", 5804);
-		PortForwarder.add(5805, "gloworm.local", 5805);
+		PortForwarder.add(5800, "photonvision.local", 5800);
+		PortForwarder.add(5801, "photonvision.local", 5801);
+		PortForwarder.add(5802, "photonvision.local", 5802);
+		PortForwarder.add(5803, "photonvision.local", 5803);
+		PortForwarder.add(5804, "photonvision.local", 5804);
+		PortForwarder.add(5805, "photonvision.local", 5805);
 		LiveWindow.disableAllTelemetry();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		

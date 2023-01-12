@@ -28,10 +28,10 @@ public class SwerveChassis extends GBSubsystem {
 	private final Field2d field = new Field2d();
 
 	public SwerveChassis() {
-		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule1);
-		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule2);
-		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule3);
-		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule4);
+		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModule1);
+		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModule2);
+		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModule3);
+		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModule4);
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 
 		this.kinematics = new SwerveDriveKinematics(
@@ -42,7 +42,7 @@ public class SwerveChassis extends GBSubsystem {
 				getSwerveModulePositions(),
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01),
-				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01));
+				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.3, 0.3, 0.1));
 		SmartDashboard.putData("field", getField());
 		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
 	}
@@ -130,9 +130,8 @@ public class SwerveChassis extends GBSubsystem {
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(),new Pose2d());
-	}
-
-	/**
+		}
+		/**
 	 * returns chassis angle in radians
 	 */
 	private Rotation2d getPigeonAngle() {

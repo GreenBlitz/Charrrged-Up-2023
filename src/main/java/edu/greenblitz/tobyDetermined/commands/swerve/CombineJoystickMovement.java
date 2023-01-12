@@ -24,8 +24,8 @@ public class CombineJoystickMovement extends SwerveCommand {
 	@Override
 	public void initialize() {
 		if (isSlow) {
-			ANG_SPEED_FACTOR = RobotMap.Swerve.MAX_ANGULAR_SPEED * 0.01;
-			LIN_SPEED_FACTOR = RobotMap.Swerve.MAX_VELOCITY * 0.025;
+			ANG_SPEED_FACTOR = RobotMap.Swerve.MAX_ANGULAR_SPEED * 0.1;
+			LIN_SPEED_FACTOR = RobotMap.Swerve.MAX_VELOCITY * 0.25;
 		}
 	}
 	
