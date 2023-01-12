@@ -132,6 +132,11 @@ public class SwerveChassis extends GBSubsystem {
 		pigeonGyro.setYaw(0);
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(),new Pose2d()); //TODO - make sure if it works
 	}
+	
+	public void resetChassisPose(Pose2d pose) {
+		pigeonGyro.setYaw(pose.getRotation().getDegrees());
+		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(),new Pose2d()); //TODO - make sure if it works
+	}
 
 	/**
 	 * returns chassis angle in radians

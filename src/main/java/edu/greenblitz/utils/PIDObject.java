@@ -1,5 +1,9 @@
 package edu.greenblitz.utils;
 
+import com.pathplanner.lib.auto.PIDConstants;
+
+import java.util.concurrent.RecursiveTask;
+
 public class PIDObject {
 	
 	private double kp, kd, ki, ff;
@@ -186,6 +190,10 @@ public class PIDObject {
 	public PIDObject withMaxPower(double maxPower) {
 		setMaxPower(maxPower);
 		return this;
+	}
+	
+	public PIDConstants getPIDConstants (){
+		return new PIDConstants(this.kp,this.ki,this.kd);
 	}
 	
 	
