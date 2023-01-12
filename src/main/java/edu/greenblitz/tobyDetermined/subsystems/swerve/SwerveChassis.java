@@ -32,7 +32,6 @@ public class SwerveChassis extends GBSubsystem {
 		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule2);
 		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule3);
 		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule4);
-
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 
 		this.kinematics = new SwerveDriveKinematics(
