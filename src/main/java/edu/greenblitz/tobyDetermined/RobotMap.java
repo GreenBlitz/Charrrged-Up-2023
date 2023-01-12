@@ -11,6 +11,7 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class RobotMap {
 				new Translation2d(-0.3020647, -0.25265)/*br*/};
 		
 		public static final double MAX_VELOCITY = 4.1818320981472068;
+		public static final double MAX_ACCELERATION = 0; //TODO: find it<3
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		
 		
@@ -139,6 +141,17 @@ public class RobotMap {
 			
 			public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
 			public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageCompSaturation(RobotMap.General.VOLTAGE_COMP_VAL).withPID(linPID);
+		}
+
+		public static class Autonomus {
+			public static final double rotKp = 0;
+			public static final double rotKi = 0;
+			public static final double rotKd = 0;
+
+			public static final double translationKp = 0;
+			public static final double translationKi = 0;
+			public static final double translationKd = 0;
+			public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
 		}
 		
 	}
