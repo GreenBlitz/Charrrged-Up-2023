@@ -3,6 +3,8 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+
+import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
@@ -20,6 +22,8 @@ public class SdsSwerveModule implements SwerveModule {
 	private GBFalcon linearMotor;
 	private DutyCycleEncoder magEncoder;
 	private SimpleMotorFeedforward feedforward;
+	private double expected_speed = 0;
+	private double expected_angle = 0;
 	
 	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
 		//SET ANGLE MOTO
@@ -176,10 +180,15 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public SwerveModuleState getModuleState() {
-		return new SwerveModuleState(
-				getCurrentVelocity(),
-				new Rotation2d(getModuleAngle())
-		);
+		if (!Robot.isReal()){
+			return new SwerveModuleState(expected_speed,Rotation2d.fromDegrees(expected_angle));}
+
+			else{
+				return new SwerveModuleState(
+					getCurrentVelocity(),
+					new Rotation2d(getModuleAngle())
+			);
+			}
 	}
 	
 	/**
@@ -187,6 +196,8 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void setModuleState(SwerveModuleState moduleState) {
+		expected_speed = moduleState.speedMetersPerSecond;
+		expected_angle = moduleState.angle.getDegrees();
 		setLinSpeed(moduleState.speedMetersPerSecond);
 		rotateToAngle(moduleState.angle.getRadians());
 	}

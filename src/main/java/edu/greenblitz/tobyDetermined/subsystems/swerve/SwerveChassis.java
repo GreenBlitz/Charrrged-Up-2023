@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
+import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
@@ -17,15 +18,21 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+
 
 public class SwerveChassis extends GBSubsystem {
 
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
-	private final PigeonGyro pigeonGyro;
+	private  PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
+	private Timer sim_timer;
+	private double angle;
+	private double lasttime;
 
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule1);
@@ -33,7 +40,16 @@ public class SwerveChassis extends GBSubsystem {
 		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule3);
 		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule4);
 
-		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
+		if (!Robot.isReal()){
+			sim_timer = new Timer();
+			sim_timer.start();
+			lasttime = 0;
+			angle = 0;
+		}
+		else{
+			this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
+
+		}
 
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
@@ -59,6 +75,13 @@ public class SwerveChassis extends GBSubsystem {
 	public void periodic() {
 		updatePoseEstimation();
 		field.setRobotPose(getRobotPose());
+		if (!Robot.isReal()){
+			angle += kinematics.toChassisSpeeds(frontLeft.getModuleState(), frontRight.getModuleState(),
+			backLeft.getModuleState(), backRight.getModuleState()).omegaRadiansPerSecond * (sim_timer.get() - lasttime);
+			lasttime = sim_timer.get();
+			field.setRobotPose(poseEstimator.getEstimatedPosition());
+			SmartDashboard.putData("Field", field);	  
+		}
 	}
 
 	/**
@@ -129,20 +152,46 @@ public class SwerveChassis extends GBSubsystem {
 	 */
 
 	public void resetChassisPose() {
-		pigeonGyro.setYaw(0);
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(),new Pose2d()); //TODO - make sure if it works
+		if (!Robot.isReal()){
+			angle = 0;
+		}
+		else{
+			pigeonGyro.setYaw(0);
+			poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(),new Pose2d()); //TODO - make sure if it works
+
+		}
 	}
+
+	public void resetChassisPose(double ang) {
+		if (!Robot.isReal()){
+			angle = ang;
+		}
+		else{
+			pigeonGyro.setYaw(ang);
+		}
+	}
+
 
 	/**
 	 * returns chassis angle in radians
 	 */
 	private Rotation2d getPigeonAngle() {
-		return new Rotation2d(pigeonGyro.getYaw());
+		if(!Robot.isReal()){
+			return new Rotation2d(angle);
+		}
+		else{
+			return new Rotation2d(pigeonGyro.getYaw());
+		}
 	}
 
 	public double getChassisAngle() {
-		return getRobotPose().getRotation().getRadians();
+		if(!Robot.isReal()){
+			return angle;
 
+		}
+		else{
+			return getRobotPose().getRotation().getRadians();
+		}
 	}
 
 	/**
@@ -237,6 +286,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 
 	public SwerveModuleState getModuleState(Module module) {
+		
 		return getModule(module).getModuleState();
 	}
 
@@ -246,5 +296,7 @@ public class SwerveChassis extends GBSubsystem {
 		BACK_LEFT,
 		BACK_RIGHT
 	}
+
+	
 
 }
