@@ -36,6 +36,9 @@ public class Dashboard extends GBSubsystem {
 		}
 		SmartDashboard.putBoolean("an azimuth encoder is nan", Double.isNaN(sum));
 		SmartDashboard.putString("pose", SwerveChassis.getInstance().getRobotPose().toString());
+		SmartDashboard.putNumber("yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
+		SmartDashboard.putNumber("pitch",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getPitch()));
+		SmartDashboard.putNumber("roll",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 		
 	}
 }
