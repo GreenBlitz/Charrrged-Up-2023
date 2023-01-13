@@ -80,7 +80,7 @@ public class RobotMap {
 				new Translation2d(-0.3020647, -0.25265)/*br*/};
 		
 		public static final double MAX_VELOCITY = 4.1818320981472068;
-		public static final double MAX_ACCELERATION = 0; //TODO: find it<3
+		public static final double MAX_ACCELERATION = 14.37979171376739;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		
 		
