@@ -6,8 +6,8 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.Timer;
 import org.photonvision.PhotonCamera;
-import org.photonvision.RobotPoseEstimator;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.RobotPoseEstimator;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -114,7 +114,8 @@ public class Limelight extends GBSubsystem {
 	 * @return the apriltag id
 	 */
 	public int FindTagId() {
-		return camera.getLatestResult().getBestTarget().getFiducialId();
+		if (FindTarget()){return camera.getLatestResult().getBestTarget().getFiducialId();}
+		else {return 0;}
 	}
 	
 }

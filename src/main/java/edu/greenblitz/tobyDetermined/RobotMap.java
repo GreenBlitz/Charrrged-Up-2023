@@ -56,15 +56,13 @@ public class RobotMap {
 	}
 	
 	public static class Vision {
-		static List<AprilTag> apriltags = new ArrayList<>(15) ;
+		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
+		static List<AprilTag> apriltags = new ArrayList<>(5) ;
 		static {
-			apriltags.add(new AprilTag(1,new Pose3d(new Translation3d(1,1,1),new Rotation3d())));
-			apriltags.add(new AprilTag(2,new Pose3d(new Translation3d(2,2,2),new Rotation3d())));
-			apriltags.add(new AprilTag(3,new Pose3d(new Translation3d(3,3,3),new Rotation3d())));
+			apriltags.add(new AprilTag(1,apriltagLocation));
 		}
 		public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
 		public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
-		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
 		
 	}
 	

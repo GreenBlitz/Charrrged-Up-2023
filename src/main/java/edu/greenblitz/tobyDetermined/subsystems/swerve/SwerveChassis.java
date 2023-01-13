@@ -25,6 +25,8 @@ public class SwerveChassis extends GBSubsystem {
 	private final PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
+
+	
 	private final Field2d field = new Field2d();
 
 	public SwerveChassis() {
@@ -41,8 +43,9 @@ public class SwerveChassis extends GBSubsystem {
 				getPigeonAngle(),
 				getSwerveModulePositions(),
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
-				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01),
+				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.001, 0.001, 0.001),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.3, 0.3, 0.1));
+		
 		SmartDashboard.putData("field", getField());
 		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
 	}
@@ -221,7 +224,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void updatePoseEstimation() {
 		poseEstimator.update(getPigeonAngle(),
 				getSwerveModulePositions());
-		if (Limelight.getInstance().FindTarget()) {
+		if (Limelight.getInstance().FindTarget() && Limelight.getInstance().FindTagId() == 1) {
 			poseEstimator.addVisionMeasurement(Limelight.getInstance().visionPoseEstimator().getFirst(), Limelight.getInstance().visionPoseEstimator().getSecond());
 		}
 	}
