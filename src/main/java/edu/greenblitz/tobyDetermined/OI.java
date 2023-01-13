@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveByVisionSupplier;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -38,8 +39,8 @@ public class OI { //GEVALD
 	}
 	
 	private void initButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
-		
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
+		mainJoystick.X.whileTrue(new MoveByVisionSupplier(true));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
 		
@@ -48,7 +49,6 @@ public class OI { //GEVALD
 	public SmartJoystick getMainJoystick() {
 		return mainJoystick;
 	}
-	
 	public SmartJoystick getSecondJoystick() {
 		return secondJoystick;
 	}
