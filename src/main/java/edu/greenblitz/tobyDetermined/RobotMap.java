@@ -10,12 +10,9 @@ import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +53,11 @@ public class RobotMap {
 	}
 	
 	public static class Vision {
+		public static double standardDeviationOdometry = 0.001;
+		public static double standardDeviationVision2d = 0.3;
+		public static double standardDeviationVisionAngle = 0.1;
+		public static int selectedTagId = 1;
+		public static final int[] portNumbers = {5800,5801,5802,5803,5804,5805};
 		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
 		static List<AprilTag> apriltags = new ArrayList<>(5) ;
 		static {
@@ -87,22 +89,22 @@ public class RobotMap {
 		
 		public static final double ka = 0.11023;
 		
-		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModule1 = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
+		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 		
-		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModule2 = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right
+		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right
 		
 		
-		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModule3 = new KazaSwerveModule.KazaSwerveModuleConfigObject(2, 8, 1, false); //back left
+		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(2, 8, 1, false); //back left
 		
-		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModule4 = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
+		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
 		
-		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModule1 = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 3, false, 3.4635 / (2 * Math.PI)); //front left
+		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 3, false, 3.4635 / (2 * Math.PI)); //front left
 		
-		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModule2 = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 4.55 / (2 * Math.PI)); //front right
+		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 4.55 / (2 * Math.PI)); //front right
 		
-		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModule3 = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 3.947 / (2 * Math.PI)); //back left
+		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 3.947 / (2 * Math.PI)); //back left
 		
-		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModule4 = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 0, true, 5.386 / (2 * Math.PI)); //back right
+		public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 0, true, 5.386 / (2 * Math.PI)); //back right
 		
 		
 		public static class KazaSwerve {

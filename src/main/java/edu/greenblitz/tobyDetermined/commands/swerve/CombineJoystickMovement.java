@@ -9,6 +9,8 @@ import java.util.function.DoubleSupplier;
 public class CombineJoystickMovement extends SwerveCommand {
 	static double ANG_SPEED_FACTOR = RobotMap.Swerve.MAX_ANGULAR_SPEED;
 	static double LIN_SPEED_FACTOR = RobotMap.Swerve.MAX_VELOCITY;
+	static double SLOW_ANG_SPEED_FACTOR = Math.PI;
+	static double SLOW_LIN_SPEED_FACTOR = 0.5;
 	private DoubleSupplier angSupplier;
 	private boolean isSlow;
 	
@@ -24,8 +26,8 @@ public class CombineJoystickMovement extends SwerveCommand {
 	@Override
 	public void initialize() {
 		if (isSlow) {
-			ANG_SPEED_FACTOR = RobotMap.Swerve.MAX_ANGULAR_SPEED * 0.1;
-			LIN_SPEED_FACTOR = RobotMap.Swerve.MAX_VELOCITY * 0.25;
+			ANG_SPEED_FACTOR = SLOW_ANG_SPEED_FACTOR;
+			LIN_SPEED_FACTOR = SLOW_LIN_SPEED_FACTOR;
 		}
 	}
 	
