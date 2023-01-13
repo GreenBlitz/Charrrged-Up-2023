@@ -8,8 +8,16 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RobotMap {
 	public static class General {
@@ -48,7 +56,14 @@ public class RobotMap {
 	}
 	
 	public static class Vision {
-		public static final Transform2d initialCamPosition = new Transform2d(new Translation2d(), new Rotation2d());
+		static List<AprilTag> apriltags = new ArrayList<>(15) ;
+		static {
+			apriltags.add(new AprilTag(1,new Pose3d(new Translation3d(1,1,1),new Rotation3d())));
+			apriltags.add(new AprilTag(2,new Pose3d(new Translation3d(2,2,2),new Rotation3d())));
+			apriltags.add(new AprilTag(3,new Pose3d(new Translation3d(3,3,3),new Rotation3d())));
+		}
+		public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
+		public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
 		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
 		
 	}

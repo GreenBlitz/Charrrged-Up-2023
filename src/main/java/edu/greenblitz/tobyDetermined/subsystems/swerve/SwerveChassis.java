@@ -222,7 +222,7 @@ public class SwerveChassis extends GBSubsystem {
 		poseEstimator.update(getPigeonAngle(),
 				getSwerveModulePositions());
 		if (Limelight.getInstance().FindTarget()) {
-			poseEstimator.addVisionMeasurement(Limelight.getInstance().estimateLocationByVision(), Limelight.getInstance().getTimeStamp());
+			poseEstimator.addVisionMeasurement(Limelight.getInstance().visionPoseEstimator().getFirst(), Limelight.getInstance().visionPoseEstimator().getSecond());
 		}
 	}
 
