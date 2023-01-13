@@ -11,6 +11,8 @@ public class MoveAngularByJoystick extends SwerveCommand {
 	
 	private double prevSpeed;
 	private long prevTimeMilli;
+	private static final double TIME_TO_ACCELERATE = 0.2;
+	private static final double AMOUNT_OF_MILLISECONDS_IN_SECONDS = 1000.0;
 	
 	private Timer timer;
 	
@@ -29,10 +31,10 @@ public class MoveAngularByJoystick extends SwerveCommand {
 			return;
 		}
 		swerve.rotateChassisByPower(angularSpeed);
-		if (timer.advanceIfElapsed(0.2)) {
+		if (timer.advanceIfElapsed(TIME_TO_ACCELERATE)) {
 			double curSpeed = swerve.getChassisSpeeds().omegaRadiansPerSecond;
 			long curTimeMilli = System.currentTimeMillis();
-			double maxAcl = (curSpeed - prevSpeed) / ((curTimeMilli - prevTimeMilli) / 1000.0);
+			double maxAcl = (curSpeed - prevSpeed) / ((curTimeMilli - prevTimeMilli) / AMOUNT_OF_MILLISECONDS_IN_SECONDS);
 			prevTimeMilli = curTimeMilli;
 			prevSpeed = curSpeed;
 			maxAcl = Math.max(Math.abs(maxAcl), SmartDashboard.getNumber("max acceleration", 0));
@@ -44,5 +46,5 @@ public class MoveAngularByJoystick extends SwerveCommand {
 		SmartDashboard.putNumber("max ang speed", maxSpeed);
 		SmartDashboard.putNumber("max lin speed", maxSpeed * RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates[0].getNorm());
 	}
-	
+
 }
