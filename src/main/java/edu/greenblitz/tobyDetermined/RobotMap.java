@@ -13,6 +13,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +84,7 @@ public class RobotMap {
 		
 		
 		public static final PIDObject rotationPID = new PIDObject().withKp(0.5).withKi(0).withKd(0).withFF(0.1);
+		public static final PIDObject balancePID = new PIDObject().withKp(0.5).withMaxPower(0.5).withTolerance(10); //todo calibrate + tolerance
 		
 		public static final double ks = 0.14876;
 		public static final double kv = 3.3055;
