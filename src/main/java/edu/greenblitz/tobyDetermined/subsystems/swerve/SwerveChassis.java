@@ -28,10 +28,12 @@ public class SwerveChassis extends GBSubsystem {
 	private final Field2d field = new Field2d();
 	
 	public SwerveChassis() {
-		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
-		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontRight);
-		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackLeft);
-		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
+
+		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
+		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
+		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackLeft);
+		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackRight);
+
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
@@ -219,11 +221,11 @@ public class SwerveChassis extends GBSubsystem {
 	public void updatePoseEstimation() {
 		poseEstimator.update(getPigeonAngle(),
 				getSwerveModulePositions());
-		if (Limelight.getInstance().hasTarget() && Limelight.getInstance().findTagId() == RobotMap.Vision.selectedTagId) {
-			poseEstimator.addVisionMeasurement(Limelight.getInstance().visionPoseEstimator().getFirst(), Limelight.getInstance().visionPoseEstimator().getSecond());
+		/*if (Limelight.getInstance().FindTarget()) {
+			poseEstimator.addVisionMeasurement(Limelight.getInstance().estimateLocationByVision(), Limelight.getInstance().getTimeStamp());*/
 		}
-	}
-	
+
+
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
 	}
