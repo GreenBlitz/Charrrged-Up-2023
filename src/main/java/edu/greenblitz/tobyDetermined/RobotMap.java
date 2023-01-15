@@ -128,7 +128,7 @@ public class RobotMap {
 			public static final double LIN_GEAR_RATIO = 8.14;
 			
 			public static final double WHEEL_CIRC = 0.0517 * 2 * Math.PI;
-			public static final double linTicksToMeters = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN * WHEEL_CIRC / LIN_GEAR_RATIO;
+			public static final double linTicksToMeters = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN / 2 / Math.PI * WHEEL_CIRC / LIN_GEAR_RATIO;
 			public static final double angleTicksToWheelToRPM = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / ANG_GEAR_RATIO;
 			public static final double linTicksToMetersPerSecond = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / LIN_GEAR_RATIO * WHEEL_CIRC / 60;
 			public static final double angleTicksToRadians = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN / ANG_GEAR_RATIO;
