@@ -1,5 +1,7 @@
 package edu.greenblitz.utils;
 
+import edu.wpi.first.math.controller.PIDController;
+
 public class PIDObject {
 	
 	private double kp, kd, ki, ff;
@@ -186,6 +188,11 @@ public class PIDObject {
 	public PIDObject withMaxPower(double maxPower) {
 		setMaxPower(maxPower);
 		return this;
+	}
+	public PIDController getPIDController (){
+		PIDController cnt = new PIDController(this.kp,this.ki,this.kd);
+		cnt.setTolerance(this.tolerance);
+		return cnt;
 	}
 	
 	

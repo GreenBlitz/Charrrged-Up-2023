@@ -30,6 +30,11 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
 		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
 		
+		
+		
+		SmartDashboard.putNumber("speed",SwerveChassis.getInstance().getModuleState(SwerveChassis.Module.FRONT_RIGHT).speedMetersPerSecond);
+
+		
 		double sum = 0;
 		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
 			sum += SwerveChassis.getInstance().getModuleAngle(module);
