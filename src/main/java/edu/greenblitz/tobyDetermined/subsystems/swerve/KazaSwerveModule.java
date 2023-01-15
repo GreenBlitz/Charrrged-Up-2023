@@ -36,7 +36,7 @@ public class KazaSwerveModule implements SwerveModule {
 
 		lamprey = new AnalogInput(lampreyID);
 		lamprey.setAverageBits(2);
-		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
+		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.KazaSwerve.ks, RobotMap.Swerve.KazaSwerve.kv, RobotMap.Swerve.KazaSwerve.ka);
 		
 	}
 	

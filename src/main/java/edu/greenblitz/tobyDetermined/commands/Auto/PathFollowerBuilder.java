@@ -31,10 +31,9 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	private PathFollowerBuilder() {
 		super(SwerveChassis.getInstance()::getRobotPose,
 				(Pose2d pose) -> SwerveChassis.getInstance().resetChassisPose(pose),
-				SwerveChassis.getInstance().getKinematics(),
-				RobotMap.Swerve.SdsSwerve.linPID.getPIDConstants(),
+				RobotMap.Swerve.translationPID.getPIDConstants(),
 				RobotMap.Swerve.rotationPID.getPIDConstants(),
-				SwerveChassis.getInstance()::setModuleStates,
+				SwerveChassis.getInstance()::moveByChassisSpeeds,
 				eventMap,
 				SwerveChassis.getInstance()
 		);
@@ -57,8 +56,8 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 		return fullAuto(PathPlanner.loadPath(
 				pathName,
 				new PathConstraints(
-						2,
-						1
+						RobotMap.Swerve.MAX_VELOCITY,
+						RobotMap.Swerve.MAX_ACCELERATION
 				))
 		);
 	}

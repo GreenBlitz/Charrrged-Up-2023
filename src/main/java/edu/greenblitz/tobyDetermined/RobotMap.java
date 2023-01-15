@@ -64,16 +64,12 @@ public class RobotMap {
 				new Translation2d(-0.3020647, -0.25265)/*br*/};
 		
 		public static final double MAX_VELOCITY = 4.1818320981472068;
+		public static final double MAX_ACCELERATION = 14.38;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		public static final double MAX_ANGULAR_ACCELERATION = 5; //todo calibrate
-		
-		
-		public static final PIDObject rotationPID = new PIDObject().withKp(0.05).withKi(0).withKd(0).withFF(0.1);
-		
-		public static final double ks = 0.14876;
-		public static final double kv = 3.3055;
-		
-		public static final double ka = 0.11023;
+
+		public static final PIDObject translationPID = new PIDObject().withKp(2).withKi(0).withKd(0);
+		public static final PIDObject rotationPID = new PIDObject().withKp(0.00).withKi(0).withKd(0.0);
 		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModule1 = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 		
@@ -96,7 +92,10 @@ public class RobotMap {
 		public static class KazaSwerve {
 			public static final double ANG_GEAR_RATIO = 6.0;
 			public static final double LIN_GEAR_RATIO = 8.0;
-			
+
+			public static final double ks = 0.14876;
+			public static final double kv = 3.3055;
+			public static final double ka = 0.11023;
 			
 			public static final double WHEEL_CIRC = 0.0517 * 2 * Math.PI;
 			public static final double linTicksToMeters = RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN  * WHEEL_CIRC / LIN_GEAR_RATIO / (2*Math.PI);
@@ -112,7 +111,11 @@ public class RobotMap {
 		public static class SdsSwerve {
 			public static final double ANG_GEAR_RATIO = (150.0 / 7);
 			public static final double LIN_GEAR_RATIO = 8.14;
-			
+
+			public static final double ks = 0.16411;
+			public static final double kv = 2.6824;
+			public static final double ka = 0.25968;
+
 			public static final double WHEEL_CIRC = 0.0517 * 2 * Math.PI;
 			public static final double linTicksToMeters = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN * WHEEL_CIRC/2/Math.PI / LIN_GEAR_RATIO;
 			public static final double angleTicksToWheelToRPM = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / ANG_GEAR_RATIO;
