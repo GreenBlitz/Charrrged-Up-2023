@@ -85,7 +85,7 @@ public class RobotMap {
 		
 		public static final PIDObject rotationPID = new PIDObject().withKp(0.5).withKi(0).withKd(0).withFF(0.1);
 		public static final PIDObject balancePID = new PIDObject()
-				.withKp(1)
+				.withKp(1.3)
 				.withMaxPower(0.5)
 				.withTolerance(Math.toRadians(0));
 		//todo calibrate + tolerance
