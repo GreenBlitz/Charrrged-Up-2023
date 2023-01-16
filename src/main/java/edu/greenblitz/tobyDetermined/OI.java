@@ -4,6 +4,7 @@ package edu.greenblitz.tobyDetermined;
 import edu.greenblitz.tobyDetermined.commands.swerve.BalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveByVisionSupplier;
+import edu.greenblitz.tobyDetermined.commands.swerve.measurement.BalanceOnRampPID;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -43,7 +44,7 @@ public class OI { //GEVALD
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
-		mainJoystick.B.whileTrue(new BalanceOnRamp());
+		mainJoystick.B.onTrue(new BalanceOnRampPID());
 		
 	}
 	

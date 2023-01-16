@@ -87,7 +87,7 @@ public class RobotMap {
 		public static final PIDObject balancePID = new PIDObject()
 				.withKp(1)
 				.withMaxPower(0.5)
-				.withTolerance(Math.toRadians(5));
+				.withTolerance(Math.toRadians(0));
 		//todo calibrate + tolerance
 		
 		public static final double ks = 0.14876;
