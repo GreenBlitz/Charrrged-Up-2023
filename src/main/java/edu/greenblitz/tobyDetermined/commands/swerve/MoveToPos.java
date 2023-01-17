@@ -22,9 +22,9 @@ public class MoveToPos extends SwerveCommand {
         SmartDashboard.putBoolean("did push", true);
         this.pos = pos;
 
-        xController = new ProfiledPIDController(0.001,0,0,RobotMap.Swerve.Autonomus.constraints);
-        yController = new ProfiledPIDController(0.001,0,0,RobotMap.Swerve.Autonomus.constraints);
-        rotationController = new ProfiledPIDController(0.1,0,0,RobotMap.Swerve.Autonomus.constraints);
+        xController = new ProfiledPIDController(0.01,0,0,RobotMap.Swerve.Autonomus.constraints);
+        yController = new ProfiledPIDController(0.01,0,0,RobotMap.Swerve.Autonomus.constraints);
+        rotationController = new ProfiledPIDController(0.01,0,0,RobotMap.Swerve.Autonomus.constraints);
         rotationController.enableContinuousInput(-Math.PI,Math.PI);
         xController.setTolerance(0.2);
         yController.setTolerance(0.2);
