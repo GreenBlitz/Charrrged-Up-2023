@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.PigeonGyro;
-import edu.wpi.first.math.geometry.Rotation2d;
+// import edu.wpi.first.math.geometry.Rotation2d;
 public class LockWheels extends SwerveCommand{
 	
 	PigeonGyro pigeon;
@@ -12,8 +12,8 @@ public class LockWheels extends SwerveCommand{
 	@Override
 	public void execute(){
 		pigeon = new PigeonGyro(RobotMap.gyro.pigeonID);
+		new RotateAllWheelsToAngle(pigeon.getRoll() - Math.PI);
 		
-//		new RotateAllWheelsToAngle()
 	}
 	
 }
