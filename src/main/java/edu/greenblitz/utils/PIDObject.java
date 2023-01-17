@@ -1,5 +1,7 @@
 package edu.greenblitz.utils;
 
+import com.pathplanner.lib.auto.PIDConstants;
+
 public class PIDObject {
 	
 	private double kp, kd, ki, ff;
@@ -142,6 +144,8 @@ public class PIDObject {
 		this.tolerance = tolerance;
 	}
 	
+	public PIDConstants getPIDConst(){return new PIDConstants(this.kp,this.ki, this.kd);}
+
 	
 	public double getMaxPower() {
 		return maxPower;

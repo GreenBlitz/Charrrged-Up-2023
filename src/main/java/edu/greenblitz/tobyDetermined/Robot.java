@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
+import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
@@ -60,7 +61,8 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void autonomousInit() {
-	
+		PathFollowerBuilder.getInstance().followPath("New Path").schedule();
+
 	}
 	
 	@Override

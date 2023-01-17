@@ -305,6 +305,12 @@ public class SwerveChassis extends GBSubsystem {
 		BACK_RIGHT
 	}
 
+	public Pose2d getlocation(){
+		return this.odometry.getPoseMeters();
+	}
 	
+	public void resetLocalizer(Pose2d pose){
+		this.odometry.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+	}
 
 }
