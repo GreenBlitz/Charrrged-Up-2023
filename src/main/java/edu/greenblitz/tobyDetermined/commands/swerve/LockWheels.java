@@ -11,7 +11,7 @@ public class LockWheels extends SwerveCommand{
 	
 	@Override
 	public void execute(){
-		pigeon = new PigeonGyro(RobotMap.gyro.pigeonID);
+		pigeon = swerve.getPigeonGyro();
 		new RotateAllWheelsToAngle(pigeon.getRoll() - Math.PI);
 		
 	}
