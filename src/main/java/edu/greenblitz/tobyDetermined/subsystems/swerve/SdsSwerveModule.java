@@ -12,6 +12,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.greenblitz.tobyDetermined.subsystems.logger;
 
 public class SdsSwerveModule implements SwerveModule {
 	public double targetAngle;
@@ -20,6 +25,12 @@ public class SdsSwerveModule implements SwerveModule {
 	private GBFalcon linearMotor;
 	private DutyCycleEncoder magEncoder;
 	private SimpleMotorFeedforward feedforward;
+
+	private DataLog log;
+	private DoubleLogEntry linearMotorVoltagelog;
+	private DoubleLogEntry angleMotorVoltagelog;
+	private DoubleLogEntry anglelog;
+	private DoubleLogEntry velocitylog;
 	
 	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
 		//SET ANGLE MOTO
@@ -35,7 +46,13 @@ public class SdsSwerveModule implements SwerveModule {
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
 		
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
-		;
+		
+		log = logger.getInstance().get_log();
+		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
+		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
+		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
+		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
+
 	}
 	
 	public SdsSwerveModule(SdsSwerveModuleConfigObject SdsModuleConfigObject) {
@@ -44,6 +61,14 @@ public class SdsSwerveModule implements SwerveModule {
 				SdsModuleConfigObject.AbsoluteEncoderID,
 				SdsModuleConfigObject.linInverted,
 				SdsModuleConfigObject.magEncoderOffset);
+		
+		log = logger.getInstance().get_log();
+		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
+		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
+		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
+		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
+
+		
 	}
 	
 	public static double convertRadsToTicks(double angInRads) {
@@ -227,5 +252,16 @@ public class SdsSwerveModule implements SwerveModule {
 			this.magEncoderOffset = magEncoderOffset;
 		}
 	}
-	
+
+	@Override
+	public void hightLevelLog(String moduleName){
+		anglelog.append(getModuleAngle());
+		velocitylog.append(getCurrentVelocity());
+	}
+
+	@Override
+	public void lowLevelLog(String moduleName){
+		linearMotorVoltagelog.append(linearMotor.getBusVoltage());
+		angleMotorVoltagelog.append(angleMotor.getBusVoltage());
+	}
 }

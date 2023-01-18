@@ -14,9 +14,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.greenblitz.tobyDetermined.subsystems.logger;
+
 
 public class SwerveChassis extends GBSubsystem {
 	
@@ -26,6 +30,7 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
+
 	
 	public SwerveChassis() {
 		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
@@ -241,6 +246,21 @@ public class SwerveChassis extends GBSubsystem {
 		FRONT_RIGHT,
 		BACK_LEFT,
 		BACK_RIGHT
+	}
+
+	public void hightLevelLog(){
+		frontLeft.hightLevelLog("frontleft");
+		frontRight.hightLevelLog("frontright");
+		backLeft.hightLevelLog("backleft");
+		backRight.hightLevelLog("backright");
+	}
+
+	public void lowLevelLog(){
+		frontLeft.lowLevelLog("frontleft");
+		frontRight.lowLevelLog("frontright");
+		backLeft.lowLevelLog("backleft");
+		backRight.lowLevelLog("backright");
+
 	}
 	
 }

@@ -10,6 +10,16 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.greenblitz.tobyDetermined.subsystems.logger;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.General.Motors.NEO_PHYSICAL_TICKS_TO_RADIANS;
 
@@ -21,6 +31,12 @@ public class KazaSwerveModule implements SwerveModule {
 	private GBSparkMax linearMotor;
 	private AnalogInput lamprey;
 	private SimpleMotorFeedforward feedforward;
+
+	private DataLog log;
+	private DoubleLogEntry linearMotorVoltagelog;
+	private DoubleLogEntry angleMotorVoltagelog;
+	private DoubleLogEntry anglelog;
+	private DoubleLogEntry velocitylog;
 	
 	
 	public KazaSwerveModule(int angleMotorID, int linearMotorID, int lampreyID, boolean linInverted) {
@@ -37,6 +53,13 @@ public class KazaSwerveModule implements SwerveModule {
 		lamprey = new AnalogInput(lampreyID);
 		lamprey.setAverageBits(2);
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
+
+		log = logger.getInstance().get_log();
+		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
+		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
+		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
+		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
+
 		
 	}
 	
@@ -46,6 +69,13 @@ public class KazaSwerveModule implements SwerveModule {
 				KazaModuleConfigObject.linearMotorID,
 				KazaModuleConfigObject.AbsoluteEncoderID,
 				KazaModuleConfigObject.linInverted);
+
+		log = logger.getInstance().get_log();
+		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
+		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
+		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
+		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
+
 	}
 	
 	/**
@@ -178,6 +208,18 @@ public class KazaSwerveModule implements SwerveModule {
 			this.AbsoluteEncoderID = AbsoluteEncoderID;
 			this.linInverted = linInverted;
 		}
+	}
+
+	@Override
+	public void hightLevelLog(String moduleName){
+		anglelog.append(getModuleAngle());
+		velocitylog.append(getCurrentVelocity());
+	}
+
+	@Override
+	public void lowLevelLog(String moduleName){
+		linearMotorVoltagelog.append(linearMotor.getBusVoltage());
+		angleMotorVoltagelog.append(angleMotor.getBusVoltage());
 	}
 	
 	
