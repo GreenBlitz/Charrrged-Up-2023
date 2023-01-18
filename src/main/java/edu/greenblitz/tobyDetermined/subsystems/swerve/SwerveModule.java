@@ -3,6 +3,10 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
 
 public interface SwerveModule {
 	void rotateToAngle(double angle);
@@ -43,4 +47,8 @@ public interface SwerveModule {
 	void setRotPowerOnlyForCalibrations(double power);
 	
 	void setLinPowerOnlyForCalibrations(double power);
+
+	void lowLevelLog(String moduleName);
+
+	void hightLevelLog(String moduleName);
 }

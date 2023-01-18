@@ -18,6 +18,11 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.tobyDetermined.subsystems.logger;
 
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.greenblitz.tobyDetermined.subsystems.logger;
 
 public class SdsSwerveModule implements SwerveModule {
 	public double targetAngle;
@@ -51,12 +56,14 @@ public class SdsSwerveModule implements SwerveModule {
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
 		
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
+		
 		log = logger.getInstance().get_log();
 		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
 		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
 		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
 		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
 
+		
 	}
 	
 	public SdsSwerveModule(SdsSwerveModuleConfigObject SdsModuleConfigObject) {
@@ -65,6 +72,14 @@ public class SdsSwerveModule implements SwerveModule {
 				SdsModuleConfigObject.AbsoluteEncoderID,
 				SdsModuleConfigObject.linInverted,
 				SdsModuleConfigObject.magEncoderOffset);
+		
+		log = logger.getInstance().get_log();
+		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
+		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
+		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
+		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
+
+		
 	}
 	
 	public static double convertRadsToTicks(double angInRads) {

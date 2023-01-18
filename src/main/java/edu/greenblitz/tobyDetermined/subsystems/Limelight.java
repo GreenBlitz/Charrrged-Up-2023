@@ -2,14 +2,21 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.wpilibj.Timer;
 import org.photonvision.PhotonCamera;
+import org.photonvision.RobotPoseEstimator;
 import org.photonvision.targeting.PhotonTrackedTarget;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class Limelight extends GBSubsystem {
 	private static Limelight instance;
 	private PhotonCamera camera;
+	private RobotPoseEstimator poseEstimator;
 	private Transform2d cameraToRobot;
 	
 	private Limelight() {
@@ -69,10 +76,10 @@ public class Limelight extends GBSubsystem {
 	 */
 	//todo improve default output
 	public Pose2d estimateLocationByVision() {
-		if (FindTarget()) {
+		if (hasTarget()) {
 			Transform3d target = camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse();
 			Pose3d camPose = RobotMap.Vision.apriltagLocation.transformBy(target);
-			cameraToRobot = RobotMap.Vision.initialCamPosition;
+			cameraToRobot = new Transform2d(RobotMap.Vision.initialCamPosition.getTranslation().toTranslation2d(), RobotMap.Vision.initialCamPosition.getRotation().toRotation2d());
 			Pose2d robotPose = camPose.toPose2d().transformBy(cameraToRobot);
 			return robotPose;
 		}
@@ -80,15 +87,33 @@ public class Limelight extends GBSubsystem {
 		return robotPose;
 	}
 	
-	public boolean FindTarget() {
+	public Pair<Pose2d, Double> visionPoseEstimator() {
+		ArrayList<Pair<PhotonCamera, Transform3d>> camList = new ArrayList<>();
+		camList.add(new Pair<>(camera, RobotMap.Vision.initialCamPosition));
+		poseEstimator = new RobotPoseEstimator(RobotMap.Vision.aprilTagFieldLayout, RobotPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY, camList);
+		
+		double currentTime = Timer.getFPGATimestamp();
+		Optional<Pair<Pose3d, Double>> visionPose = poseEstimator.update();
+		if (visionPose.isPresent()) {
+			return new Pair<>(visionPose.get().getFirst().toPose2d(), currentTime - visionPose.get().getSecond());
+		} else {
+			return new Pair<>(null, 0.0);
+		}
+	}
+	
+	public boolean hasTarget() {
 		return camera.getLatestResult().hasTargets();
 	}
 	
 	/**
 	 * @return the apriltag id
 	 */
-	public int FindTagId() {
-		return camera.getLatestResult().getBestTarget().getFiducialId();
+	public int findTagId() {
+		if (hasTarget()) {
+			return camera.getLatestResult().getBestTarget().getFiducialId();
+		} else {
+			return 0;
+		}
 	}
 	
 }

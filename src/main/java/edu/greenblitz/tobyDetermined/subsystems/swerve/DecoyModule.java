@@ -3,6 +3,10 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
 
 public class DecoyModule implements SwerveModule {
 	public DecoyModule() {
@@ -102,5 +106,13 @@ public class DecoyModule implements SwerveModule {
 	@Override
 	public void setLinPowerOnlyForCalibrations(double power) {
 	
+	}
+
+	@Override
+	public void hightLevelLog(String moduleName){
+	}
+
+	@Override
+	public void lowLevelLog(String moduleName){
 	}
 }
