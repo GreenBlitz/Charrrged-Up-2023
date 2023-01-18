@@ -12,7 +12,7 @@ public class RotateAllWheelsToAngle extends SwerveCommand {
 	}
 	
 	@Override
-	public void execute() {
+	public void initialize() {
 		swerve.setModuleStates(new SwerveModuleState[]{
 				new SwerveModuleState(0, new Rotation2d(targetAngle)),
 				new SwerveModuleState(0, new Rotation2d(targetAngle)),
@@ -22,11 +22,12 @@ public class RotateAllWheelsToAngle extends SwerveCommand {
 	
 	@Override
 	public boolean isFinished() {
-		boolean allInPlace = true;
-		for (SwerveChassis.Module  module: SwerveChassis.Module.values()) {
-			allInPlace &= swerve.getModuleAngle(module) == targetAngle;
-		}
-		return allInPlace;
+//		boolean allInPlace = true;
+//		for (SwerveChassis.Module  module: SwerveChassis.Module.values()) {
+//			allInPlace &= swerve.getModuleAngle(module) == targetAngle;
+//		}
+//		return allInPlace;
+		return true;
 	}
 	
 }
