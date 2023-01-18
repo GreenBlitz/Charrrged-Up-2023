@@ -46,12 +46,12 @@ public class PigeonGyro extends PigeonIMU {
 	
 	@Override
 	public double getPitch() {
-		return Math.IEEEremainder((Math.toRadians(super.getYaw()) - pitchOffset), 2 * Math.PI);
+		return Math.IEEEremainder((Math.toRadians(super.getPitch()) - pitchOffset), 2 * Math.PI);
 	}
 	
 	@Override
 	public double getRoll() {
-		return Math.IEEEremainder((Math.toRadians(super.getYaw()) - rollOffset), 2 * Math.PI);
+		return Math.IEEEremainder((Math.toRadians(super.getRoll()) - rollOffset), 2 * Math.PI);
 	}
 	
 	
