@@ -16,11 +16,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.greenblitz.tobyDetermined.subsystems.logger;
 
 
 public class SwerveChassis extends GBSubsystem {
@@ -36,11 +39,16 @@ public class SwerveChassis extends GBSubsystem {
 	private double angle;
 	private double lasttime;
 
+
+	private Boolean log_flag = true;
+	private DataLog log;
+	private StringLogEntry commandloger;
+
 	public SwerveChassis() {
-		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule1);
-		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule2);
-		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule3);
-		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule4);
+		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
+		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
+		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackLeft);
+		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackRight);
 
 		if (!Robot.isReal()){
 			sim_timer = new Timer();
@@ -64,6 +72,9 @@ public class SwerveChassis extends GBSubsystem {
 		//SmartDashboard.putData("field", getField());
 		//field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
 		odometry = new SwerveDriveOdometry(kinematics, getPigeonAngle(), getSwerveModulePositions());
+
+		log = logger.getInstance().get_log();
+		this.commandloger = new StringLogEntry(this.log, "/SwerveChassis/HighLevel/CommandLogger");
 	}
 
 	public static SwerveChassis getInstance() {
@@ -127,6 +138,8 @@ public class SwerveChassis extends GBSubsystem {
 		getModule(Module.FRONT_RIGHT).resetEncoderToValue(0);
 		getModule(Module.BACK_LEFT).resetEncoderToValue(0);
 		getModule(Module.BACK_RIGHT).resetEncoderToValue(0);
+		if (log_flag){commandloger.append("resetEncodersByCalibrationRod");}
+
 	}
 
 	public void resetAllEncoders() {
@@ -134,6 +147,8 @@ public class SwerveChassis extends GBSubsystem {
 		getModule(Module.FRONT_RIGHT).resetEncoderByAbsoluteEncoder(Module.FRONT_RIGHT);
 		getModule(Module.BACK_LEFT).resetEncoderByAbsoluteEncoder(Module.BACK_LEFT);
 		getModule(Module.BACK_RIGHT).resetEncoderByAbsoluteEncoder(Module.BACK_RIGHT);
+		if (log_flag){commandloger.append("resetAllEncoders");}
+
 
 	}
 
@@ -311,6 +326,26 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public void resetLocalizer(Pose2d pose){
 		this.odometry.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+	}
+
+	public void hightLevelLog(){
+		if (log_flag){
+			frontLeft.hightLevelLog("frontleft");
+			frontRight.hightLevelLog("frontright");
+			backLeft.hightLevelLog("backleft");
+			backRight.hightLevelLog("backright");
+		}
+
+	}
+
+	public void lowLevelLog(){
+		if (log_flag){
+			frontLeft.lowLevelLog("frontleft");
+			frontRight.lowLevelLog("frontright");
+			backLeft.lowLevelLog("backleft");
+			backRight.lowLevelLog("backright");
+		}
+
 	}
 
 }
