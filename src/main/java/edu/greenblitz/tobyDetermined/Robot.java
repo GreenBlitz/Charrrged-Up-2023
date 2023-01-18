@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
 		PortForwarder.add(5804, "gloworm.local", 5804);
 		PortForwarder.add(5805, "gloworm.local", 5805);
 		LiveWindow.disableAllTelemetry();
-		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+//		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		
 		//swerve
 		

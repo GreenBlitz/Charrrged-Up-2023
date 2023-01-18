@@ -52,7 +52,13 @@ public class OI { //GEVALD
 						new Pose2d(new Translation2d(4, 4), new Rotation2d())
 				)
 		));
-		mainJoystick.B.onTrue(PathFollowerBuilder.getInstance().followPath("0 meter"));
+
+		mainJoystick.B.onTrue(new InstantCommand(){
+			@Override
+			public void initialize() {
+				SwerveChassis.getInstance().resetAllEncoders();
+			}
+		});
 	}
 
 	public SmartJoystick getMainJoystick() {
