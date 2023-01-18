@@ -3,7 +3,7 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 
-import edu.greenblitz.tobyDetermined.commands.swerve.BalanceOnRampPID;
+import edu.greenblitz.tobyDetermined.commands.swerve.BalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveByVisionSupplier;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
