@@ -25,6 +25,12 @@ public class MoveToPos extends SwerveCommand {
         xController = new ProfiledPIDController(2,0,0,RobotMap.Swerve.Autonomus.constraints);
         yController = new ProfiledPIDController(2,0,0,RobotMap.Swerve.Autonomus.constraints);
         rotationController = new ProfiledPIDController(2,0,0,RobotMap.Swerve.Autonomus.constraints);
+
+//        SDS
+//        xController = new ProfiledPIDController(0.01,0,0,RobotMap.Swerve.Autonomus.constraints);
+//        yController = new ProfiledPIDController(0.01,0,0,RobotMap.Swerve.Autonomus.constraints);
+//        rotationController = new ProfiledPIDController(0.01,0,0,RobotMap.Swerve.Autonomus.constraints);
+      
         rotationController.enableContinuousInput(-Math.PI,Math.PI);
         xController.setTolerance(0.2);
         yController.setTolerance(0.2);
