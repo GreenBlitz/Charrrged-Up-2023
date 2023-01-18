@@ -64,7 +64,7 @@ public class RobotMap {
 				new Translation2d(-0.3020647, -0.25265)/*br*/};
 		
 		public static final double MAX_VELOCITY = 4.1818320981472068;
-		public static final double MAX_ACCELERATION = 14.38;
+		public static final double MAX_ACCELERATION = 2.0;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		public static final double MAX_ANGULAR_ACCELERATION = 5; //todo calibrate
 

@@ -28,10 +28,10 @@ public class SwerveChassis extends GBSubsystem {
 	private final Field2d field = new Field2d();
 
 	public SwerveChassis() {
-		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule1);
-		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule2);
-		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModule3);
-		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModule4);
+		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModule1);
+		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModule2);
+		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModule3);
+		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModule4);
 
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 
