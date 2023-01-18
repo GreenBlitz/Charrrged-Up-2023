@@ -14,11 +14,13 @@ public class LockWheels extends SwerveCommand{
 	public LockWheels(){}
 
 	@Override
-	public void execute(){
+	public void initialize(){
 		pigeon = swerve.getPigeonGyro();
-		new RotateAllWheelsToAngle(Units.degreesToRadians(pigeon.getRoll() - Units.degreesToRadians(180))).schedule();
+		new RotateAllWheelsToAngle(pigeon.getYaw() - Math.PI /2).schedule();
 	}
-
-
 	
+	@Override
+	public boolean isFinished() {
+		return true;
+	}
 }
