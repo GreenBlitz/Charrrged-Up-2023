@@ -242,5 +242,17 @@ public class SwerveChassis extends GBSubsystem {
 		BACK_LEFT,
 		BACK_RIGHT
 	}
-	
+
+
+	/** set the idle mode of the linear motor to brake */
+	public void setIdleModeBrake (){
+		for (Module module: Module.values()) {
+			getModule(module).setLinIdleModeBrake();
+		}
+	}
+	public void setIdleModeCoast (){
+		for (Module module: Module.values()) {
+			getModule(module).setLinIdleModeCoast();
+		}
+	}
 }

@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.PIDObject;
@@ -211,7 +212,17 @@ public class SdsSwerveModule implements SwerveModule {
 	public void setLinPowerOnlyForCalibrations(double power) {
 		linearMotor.set(ControlMode.PercentOutput, power);
 	}
-	
+
+	@Override
+	public void setLinIdleModeBrake() {
+		linearMotor.setNeutralMode(NeutralMode.Brake);
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+		linearMotor.setNeutralMode(NeutralMode.Coast);
+	}
+
 	public static class SdsSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;
