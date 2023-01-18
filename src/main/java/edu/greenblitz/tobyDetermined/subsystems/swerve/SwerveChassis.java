@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.DoubleArrayEntry;
 import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +33,9 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
 
+	private Boolean log_flag = true;
 	private DataLog log;
+	private StringLogEntry commandloger;
 
 	
 	public SwerveChassis() {
@@ -56,7 +59,9 @@ public class SwerveChassis extends GBSubsystem {
 		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
 			
 		log = logger.getInstance().get_log();
-		log.appendDoubleArray(0, null, 0);
+		this.commandloger = new StringLogEntry(this.log, "/SwerveChassis/HighLevel/CommandLogger");
+
+
 		
 
 
@@ -110,6 +115,7 @@ public class SwerveChassis extends GBSubsystem {
 		getModule(Module.FRONT_RIGHT).resetEncoderToValue(0);
 		getModule(Module.BACK_LEFT).resetEncoderToValue(0);
 		getModule(Module.BACK_RIGHT).resetEncoderToValue(0);
+		if (log_flag){commandloger.append("resetEncodersByCalibrationRod");}
 	}
 	
 	public void resetAllEncoders() {
@@ -117,7 +123,8 @@ public class SwerveChassis extends GBSubsystem {
 		getModule(Module.FRONT_RIGHT).resetEncoderByAbsoluteEncoder(Module.FRONT_RIGHT);
 		getModule(Module.BACK_LEFT).resetEncoderByAbsoluteEncoder(Module.BACK_LEFT);
 		getModule(Module.BACK_RIGHT).resetEncoderByAbsoluteEncoder(Module.BACK_RIGHT);
-		
+		if (log_flag){commandloger.append("resetAllEncoders");}
+
 	}
 	
 	/**
@@ -141,6 +148,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
+		if (log_flag){commandloger.append("resetChassisPose");}
 	}
 	
 	/**
@@ -236,6 +244,12 @@ public class SwerveChassis extends GBSubsystem {
 		if (Limelight.getInstance().hasTarget() && Limelight.getInstance().findTagId() == RobotMap.Vision.selectedTagId) {
 			poseEstimator.addVisionMeasurement(Limelight.getInstance().visionPoseEstimator().getFirst(), Limelight.getInstance().visionPoseEstimator().getSecond());
 		}
+
+		double xr = field.getRobotObject().getPose().getX();
+		double yr = field.getRobotObject().getPose().getY();
+		double rr = field.getRobotObject().getPose().getRotation().getDegrees();
+		double[] arr = {xr,yr,rr};
+		SmartDashboard.putNumberArray("pose_array", arr);	  
 	}
 	
 	public Pose2d getRobotPose() {
@@ -258,18 +272,22 @@ public class SwerveChassis extends GBSubsystem {
 	}
 
 	public void hightLevelLog(){
-		frontLeft.hightLevelLog("frontleft");
-		frontRight.hightLevelLog("frontright");
-		backLeft.hightLevelLog("backleft");
-		backRight.hightLevelLog("backright");
+		if (log_flag){
+			frontLeft.hightLevelLog("frontleft");
+			frontRight.hightLevelLog("frontright");
+			backLeft.hightLevelLog("backleft");
+			backRight.hightLevelLog("backright");
+		}
 
 	}
 
 	public void lowLevelLog(){
-		frontLeft.lowLevelLog("frontleft");
-		frontRight.lowLevelLog("frontright");
-		backLeft.lowLevelLog("backleft");
-		backRight.lowLevelLog("backright");
+		if (log_flag){
+			frontLeft.lowLevelLog("frontleft");
+			frontRight.lowLevelLog("frontright");
+			backLeft.lowLevelLog("backleft");
+			backRight.lowLevelLog("backright");
+		}
 
 	}
 	
