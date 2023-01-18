@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.DoubleArrayEntry;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -30,6 +31,8 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
+
+	private DataLog log;
 
 	
 	public SwerveChassis() {
@@ -51,6 +54,12 @@ public class SwerveChassis extends GBSubsystem {
 		
 		SmartDashboard.putData("field", getField());
 		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
+			
+		log = logger.getInstance().get_log();
+		log.appendDoubleArray(0, null, 0);
+		
+
+
 	}
 	
 	public static SwerveChassis getInstance() {
@@ -253,6 +262,7 @@ public class SwerveChassis extends GBSubsystem {
 		frontRight.hightLevelLog("frontright");
 		backLeft.hightLevelLog("backleft");
 		backRight.hightLevelLog("backright");
+
 	}
 
 	public void lowLevelLog(){

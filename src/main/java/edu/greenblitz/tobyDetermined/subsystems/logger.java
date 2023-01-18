@@ -16,6 +16,7 @@ public class logger extends GBSubsystem {
 
     private logger() {
         DataLogManager.start();
+        DataLogManager.logNetworkTables(true);
         log = DataLogManager.getLog();
 
 	}
@@ -35,5 +36,6 @@ public class logger extends GBSubsystem {
     public void periodic(){
         SwerveChassis.getInstance().hightLevelLog();
         SwerveChassis.getInstance().lowLevelLog();
+        Battery.getInstance().lowLevelLog();
     }
 }

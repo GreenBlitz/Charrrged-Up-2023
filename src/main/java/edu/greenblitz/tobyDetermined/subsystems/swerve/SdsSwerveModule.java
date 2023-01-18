@@ -52,7 +52,7 @@ public class SdsSwerveModule implements SwerveModule {
 		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
 		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
 		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
-
+		
 	}
 	
 	public SdsSwerveModule(SdsSwerveModuleConfigObject SdsModuleConfigObject) {

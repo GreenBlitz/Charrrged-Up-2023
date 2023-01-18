@@ -1,6 +1,8 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 
@@ -11,7 +13,15 @@ public class Battery extends GBSubsystem {
 
 	private static PowerDistribution pdp = new PowerDistribution();
 
+	private DataLog log;
+	private DoubleLogEntry voltagelog;
+	private DoubleLogEntry usagelog;
+
+
 	private Battery() {
+		log = logger.getInstance().get_log();
+		this.voltagelog = new DoubleLogEntry(this.log, "/Battery/LowLevel/Voltage");
+		this.usagelog = new DoubleLogEntry(this.log, "/Battery/LowLevel/Usage");
 	}
 	
 	public static Battery getInstance() {
@@ -31,6 +41,11 @@ public class Battery extends GBSubsystem {
 
 	public double getMinVoltage() {
 		return minVoltage;
+	}
+
+	public void lowLevelLog(){
+		voltagelog.append(getCurrentVoltage());
+		usagelog.append(getCurrentUsage());
 	}
 
 }
