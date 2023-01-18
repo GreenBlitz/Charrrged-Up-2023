@@ -23,7 +23,7 @@ public class Dashboard extends GBSubsystem {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("pigeon angle Yaw", SwerveChassis.getInstance().getPigeonGyro().getYaw());
+		SmartDashboard.putNumber("pigeon angle Yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
 		SmartDashboard.putNumber("pigeon angle Roll", SwerveChassis.getInstance().getPigeonGyro().getRoll());
 		SmartDashboard.putNumber("pigeon angle Pitch", SwerveChassis.getInstance().getPigeonGyro().getPitch());
 		lastRead = System.currentTimeMillis();
