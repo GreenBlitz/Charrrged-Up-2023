@@ -22,9 +22,9 @@ public class MoveToPos extends SwerveCommand {
         SmartDashboard.putBoolean("did push", true);
         this.pos = pos;
 
-        xController = new ProfiledPIDController(0.001,0,0,RobotMap.Swerve.Autonomus.constraints);
-        yController = new ProfiledPIDController(0.001,0,0,RobotMap.Swerve.Autonomus.constraints);
-        rotationController = new ProfiledPIDController(0.1,0,0,RobotMap.Swerve.Autonomus.constraints);
+        xController = new ProfiledPIDController(2,0,0,RobotMap.Swerve.Autonomus.constraints);
+        yController = new ProfiledPIDController(2,0,0,RobotMap.Swerve.Autonomus.constraints);
+        rotationController = new ProfiledPIDController(2,0,0,RobotMap.Swerve.Autonomus.constraints);
         rotationController.enableContinuousInput(-Math.PI,Math.PI);
         xController.setTolerance(0.2);
         yController.setTolerance(0.2);
@@ -36,8 +36,8 @@ public class MoveToPos extends SwerveCommand {
     public void initialize() {
         super.initialize();
         xController.reset(swerve.getRobotPose().getX());
-        xController.reset(swerve.getRobotPose().getY());
-        xController.reset(swerve.getRobotPose().getRotation().getRadians());
+        yController.reset(swerve.getRobotPose().getY());
+        rotationController.reset(swerve.getRobotPose().getRotation().getRadians());
         xController.setGoal(new TrapezoidProfile.State(pos.getX(), 0));
         yController.setGoal(new TrapezoidProfile.State(pos.getY(), 0));
         rotationController.setGoal(new TrapezoidProfile.State(pos.getRotation().getRadians(), 0));
@@ -53,8 +53,8 @@ public class MoveToPos extends SwerveCommand {
         rotationTrap = new TrapezoidProfile(RobotMap.Swerve.Autonomus.constraints, new TrapezoidProfile.State(pos.getRotation().getRadians(), 0), new TrapezoidProfile.State(SwerveChassis.getInstance().getRobotPose().getRotation().getRadians(), SwerveChassis.getInstance().getChassisSpeeds().omegaRadiansPerSecond));
 */
 
-        double xCal = xController.atGoal() ? 0 : xController.calculate(swerve.getRobotPose().getX());
-        double yCal = yController.atGoal() ? 0 : yController.calculate(swerve.getRobotPose().getY());
+        double xCal = xController.atGoal() ? 0 : xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
+        double yCal = yController.atGoal() ? 0 : yController.calculate(SwerveChassis.getInstance().getRobotPose().getY());
         double rotationCal = rotationController.atGoal() ? 0 : rotationController.calculate(swerve.getChassisAngle());
         swerve.moveByChassisSpeeds(
                 xCal,
@@ -62,7 +62,10 @@ public class MoveToPos extends SwerveCommand {
                 rotationCal,
                 SwerveChassis.getInstance().getChassisAngle()
         );
+        SmartDashboard.putBoolean("at goal x",xController.atGoal());
+        SmartDashboard.putBoolean("at goal y",yController.atGoal());
         SmartDashboard.putNumber("x cal",xCal);
+        SmartDashboard.putNumber("y goal", yController.getGoal().position);
         SmartDashboard.putNumber("y cal",yCal);
         SmartDashboard.putNumber("rot cal",rotationCal);
     }
