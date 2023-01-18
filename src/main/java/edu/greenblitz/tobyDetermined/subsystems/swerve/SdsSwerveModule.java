@@ -12,8 +12,12 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.greenblitz.tobyDetermined.subsystems.logger;
+
 
 public class SdsSwerveModule implements SwerveModule {
 	public double targetAngle;
@@ -25,6 +29,12 @@ public class SdsSwerveModule implements SwerveModule {
 	private double expected_speed = 0;
 	private double expected_angle = 0;
 	private double expected_meters = 0;
+
+	private DataLog log;
+	private DoubleLogEntry linearMotorVoltagelog;
+	private DoubleLogEntry angleMotorVoltagelog;
+	private DoubleLogEntry anglelog;
+	private DoubleLogEntry velocitylog;
 
 	
 	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
@@ -41,7 +51,12 @@ public class SdsSwerveModule implements SwerveModule {
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
 		
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
-		;
+		log = logger.getInstance().get_log();
+		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
+		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");
+		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
+		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
+
 	}
 	
 	public SdsSwerveModule(SdsSwerveModuleConfigObject SdsModuleConfigObject) {
@@ -244,6 +259,18 @@ public class SdsSwerveModule implements SwerveModule {
 			this.linInverted = linInverted;
 			this.magEncoderOffset = magEncoderOffset;
 		}
+	}
+
+	@Override
+	public void hightLevelLog(String moduleName){
+		anglelog.append(getModuleAngle());
+		velocitylog.append(getCurrentVelocity());
+	}
+
+	@Override
+	public void lowLevelLog(String moduleName){
+		linearMotorVoltagelog.append(linearMotor.getBusVoltage());
+		angleMotorVoltagelog.append(angleMotor.getBusVoltage());
 	}
 	
 }
