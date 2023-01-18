@@ -22,7 +22,6 @@ public class pathFollowerCommand extends SwerveControllerCommand {
 				createThetaController(),
 				SwerveChassis.getInstance()::setModuleStates,
 				SwerveChassis.getInstance());
-		System.out.println("starting auto");
 	}
 	
 	

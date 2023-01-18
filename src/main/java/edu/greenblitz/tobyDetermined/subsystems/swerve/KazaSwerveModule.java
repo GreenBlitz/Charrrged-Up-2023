@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.General.Motors.NEO_PHYSICAL_TICKS_TO_RADIANS;
 
@@ -113,6 +114,7 @@ public class KazaSwerveModule implements SwerveModule {
 	@Override
 	public void setLinSpeed(double speed) {
 		linearMotor.getPIDController().setReference(speed, ControlType.kVelocity, 0, feedforward.calculate(speed));
+
 	}
 	
 	@Override

@@ -46,6 +46,5 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("y", SwerveChassis.getInstance().getRobotPose().getY());
 		SmartDashboard.putNumber("angle", SwerveChassis.getInstance().getRobotPose().getRotation().getDegrees());
 		SmartDashboard.putNumber("chassis speed x", SwerveChassis.getInstance().getChassisSpeeds().vxMetersPerSecond);
-
 	}
 }

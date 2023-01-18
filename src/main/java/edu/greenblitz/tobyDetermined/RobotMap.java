@@ -66,10 +66,10 @@ public class RobotMap {
 		public static final double MAX_VELOCITY = 4.1818320981472068;
 		public static final double MAX_ACCELERATION = 14.83;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
-		public static final double MAX_ANGULAR_ACCELERATION = 5; //todo calibrate
+		public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
 
 		public static final PIDObject translationPID = new PIDObject().withKp(2).withKi(0).withKd(0);
-		public static final PIDObject rotationPID = new PIDObject().withKp(0.00).withKi(0).withKd(0.0);
+		public static final PIDObject rotationPID = new PIDObject().withKp(2).withFF(0.1);
 		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModule1 = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 		

@@ -10,6 +10,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 
 import java.util.HashMap;
 
@@ -67,8 +69,18 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	 */
 	public Trajectory getTrajectory(String trajectory) {
 		return PathPlanner.loadPath(trajectory,
-				0.5,
-				0.1);
+				new PathConstraints(
+						RobotMap.Swerve.MAX_VELOCITY,
+						RobotMap.Swerve.MAX_ACCELERATION
+				));
+	}
+	public static PathPlannerTrajectory getPathPlannerTrajectory(String path){
+		return PathPlanner.loadPath(
+				path,
+				new PathConstraints(
+						RobotMap.Swerve.MAX_VELOCITY,
+						RobotMap.Swerve.MAX_ACCELERATION
+				));
 	}
 	
 }
