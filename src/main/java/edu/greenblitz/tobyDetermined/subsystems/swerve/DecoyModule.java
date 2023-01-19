@@ -108,4 +108,14 @@ public class DecoyModule implements SwerveModule {
 	public void setLinPowerOnlyForCalibrations(double power) {
 	
 	}
+
+	@Override
+	public void setLinIdleModeBrake() {
+
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+
+	}
 }

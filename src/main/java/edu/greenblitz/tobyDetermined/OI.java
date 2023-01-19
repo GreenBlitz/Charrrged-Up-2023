@@ -3,11 +3,9 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveByVisionSupplier;
-import edu.greenblitz.tobyDetermined.commands.swerve.RotateAllWheelsToAngle;
+import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
@@ -32,21 +30,23 @@ public class OI { //GEVALD
 		}
 		return instance;
 	}
-
+	
 	public static boolean isIsHandled() {
 		return isHandled;
 	}
-
+	
 	public static void disableHandling() {
 		isHandled = false;
 	}
-
+	
 	public double countB = 0;
+	
 	private void initButtons() {
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
-		mainJoystick.X.whileTrue(new MoveByVisionSupplier(true));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
+		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
+		
 		
 		mainJoystick.B.onTrue(new LockWheels());
 	}
@@ -54,6 +54,7 @@ public class OI { //GEVALD
 	public SmartJoystick getMainJoystick() {
 		return mainJoystick;
 	}
+	
 	public SmartJoystick getSecondJoystick() {
 		return secondJoystick;
 	}

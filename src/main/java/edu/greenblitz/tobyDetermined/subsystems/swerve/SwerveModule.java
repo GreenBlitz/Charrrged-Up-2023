@@ -45,4 +45,7 @@ public interface SwerveModule {
 	void setRotPowerOnlyForCalibrations(double power);
 	
 	void setLinPowerOnlyForCalibrations(double power);
+
+	void setLinIdleModeBrake ();
+	void setLinIdleModeCoast ();
 }
