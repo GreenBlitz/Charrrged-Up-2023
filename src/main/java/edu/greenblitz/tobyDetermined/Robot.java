@@ -1,6 +1,5 @@
 package edu.greenblitz.tobyDetermined;
 
-
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;

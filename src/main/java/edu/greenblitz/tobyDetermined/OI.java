@@ -5,8 +5,12 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveByVisionSupplier;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
@@ -41,10 +45,29 @@ public class OI { //GEVALD
 	}
 	
 	private void initButtons() {
-		mainJoystick.Y.whileTrue(new InstantCommand(){
+
+		mainJoystick.Y.whileTrue(new GBCommand(){
+			int cnt = 0;
+			
+			@Override
+			public void initialize() {
+				LED.getInstance().setColor(new Color(0,0,0));
+			}
+			
 			@Override
 			public void execute() {
-				LED.getInstance().setColor(new Color(255,0,0));
+				LED.getInstance().setSpecificLedColor(cnt % 60 == 0 ? 59:cnt%60-1,new Color(0,0,0));
+				Timer.delay(0.01);
+				LED.getInstance().setSpecificLedColor(cnt % 60,new Color(0,255,0));
+				cnt++;
+				SmartDashboard.putNumber("a",cnt % 60);
+				Timer.delay(0.01);
+			}
+			
+			@Override
+			public void end(boolean interrupted) {
+				SmartDashboard.putBoolean("a",false);
+				
 			}
 		});
 		
