@@ -7,7 +7,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 public class RotateAllWheelsToAngle extends SwerveCommand {
 	private final double targetAngle;
 	private final double threshold = Math.toRadians(4);
-	int counter =0;
+	
+	private int timeOutCounter =0;
 	
 	public RotateAllWheelsToAngle(double targetAngleInRads) {
 		this.targetAngle = targetAngleInRads;
@@ -18,6 +19,7 @@ public class RotateAllWheelsToAngle extends SwerveCommand {
 		SwerveModuleState state = new SwerveModuleState(0, new Rotation2d(targetAngle));
 		swerve.setModuleStates(new SwerveModuleState[]{
 				state,state,state,state});
+		timeOutCounter++;
 	}
 	
 	@Override
@@ -26,6 +28,6 @@ public class RotateAllWheelsToAngle extends SwerveCommand {
 		for (SwerveChassis.Module  module: SwerveChassis.Module.values()) {
 			allInPlace &= swerve.moduleIsAtAngle(module,targetAngle, threshold);
 		}
-		return allInPlace;
+		return allInPlace || timeOutCounter > 50;
 	}
 }
