@@ -113,6 +113,14 @@ public class DecoyModule implements SwerveModule {
 	}
 
 	@Override
-	public void lowLevelLog(String moduleName){
+	public void lowLevelLog(String moduleName){}
+	
+	public void setLinIdleModeBrake() {
+
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+
 	}
 }

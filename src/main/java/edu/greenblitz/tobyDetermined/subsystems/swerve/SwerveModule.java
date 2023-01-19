@@ -51,4 +51,7 @@ public interface SwerveModule {
 	void lowLevelLog(String moduleName);
 
 	void hightLevelLog(String moduleName);
+	
+	void setLinIdleModeBrake ();
+	void setLinIdleModeCoast ();
 }

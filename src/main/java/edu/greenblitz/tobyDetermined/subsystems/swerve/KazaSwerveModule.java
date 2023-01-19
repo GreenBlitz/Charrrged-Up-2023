@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
@@ -194,7 +195,17 @@ public class KazaSwerveModule implements SwerveModule {
 	public void setLinPowerOnlyForCalibrations(double power) {
 		linearMotor.set(power);
 	}
-	
+
+	@Override
+	public void setLinIdleModeBrake() {
+		linearMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+		linearMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+	}
+
 	public static class KazaSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;
