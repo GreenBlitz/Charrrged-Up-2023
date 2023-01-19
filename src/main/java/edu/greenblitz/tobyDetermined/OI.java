@@ -45,7 +45,8 @@ public class OI { //GEVALD
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
+		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
+		
 		mainJoystick.X.onTrue(PathFollowerBuilder.getInstance().followPath("1 broder"));
 		mainJoystick.A.onTrue(new InstantCommand(
 				() -> SwerveChassis.getInstance().resetChassisPose(

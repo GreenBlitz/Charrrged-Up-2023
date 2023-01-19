@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
 		PortForwarder.add(5804, "gloworm.local", 5804);
 		PortForwarder.add(5805, "gloworm.local", 5805);
 		LiveWindow.disableAllTelemetry();
-//		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		
 		//swerve
 		
@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void autonomousInit() {
-		PathFollowerBuilder.getInstance().followPath("simple").schedule();
+		PathFollowerBuilder.getInstance().followPath("1 broder").schedule();
 	}
 	
 	@Override
