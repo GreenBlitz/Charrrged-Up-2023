@@ -37,6 +37,10 @@ public class LED extends GBSubsystem{
         }
         this.addressableLED.setData(ledBuffer);
     }
+    public void setColor (int i ,Color color){
+        this.ledBuffer.setLED(i,color);
+        this.addressableLED.setData(ledBuffer);
+    }
     
     public void setHSV (int h, int s, int v){
         for (int i = 0; i < this.ledBuffer.getLength(); i++) {
@@ -54,5 +58,22 @@ public class LED extends GBSubsystem{
         for (int i = 0; true; i = i + 1 % 255) {
             setHSV(100,100,i);
         }
+    }
+    public void setGradiant (Color startingColor,Color endColor){
+        Color current = new Color(startingColor.red,startingColor.green,startingColor.blue);
+        for (int i = 0; i < ledLength; i++) {
+            setColor(i,current);
+            current = new Color(current.red+1,current.green+1,current.blue+1);
+        }
+    }
+    
+    public void move
+    public void move (int cnt , Color color){
+        LED.getInstance().setSpecificLedColor(cnt % 60 == 0 ? 59:cnt%60-1,new Color(0,0,0));
+        Timer.delay(0.01);
+        LED.getInstance().setSpecificLedColor(cnt % 60,new Color(0,255,0));
+        cnt++;
+        SmartDashboard.putNumber("a",cnt % 60);
+        Timer.delay(0.01);
     }
 }
