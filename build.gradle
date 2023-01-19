@@ -60,12 +60,6 @@ repositories {
     mavenCentral()
 }
 
-tasks.register("download-gblib"){
-    doLast{
-//        implementation 'com.github.GreenBlitz:GBLib:cb43a59d4061108d240c134f3b3103ed2c54299b'
-    }
-}
-
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
 dependencies {
