@@ -157,8 +157,6 @@ public class SwerveChassis extends GBSubsystem {
 				SwerveModuleState.optimize(states[2], new Rotation2d(getModuleAngle(Module.BACK_LEFT))));
 		setModuleStateForModule(Module.BACK_RIGHT,
 				SwerveModuleState.optimize(states[3], new Rotation2d(getModuleAngle(Module.BACK_RIGHT))));
-		
-		
 	}
 	
 	public void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed, double currentAng) {

@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
+		SwerveChassis.getInstance().setIdleModeCoast();
 	}
 	
 	@Override

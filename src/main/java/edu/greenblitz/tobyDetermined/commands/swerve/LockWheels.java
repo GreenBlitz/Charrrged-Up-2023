@@ -16,7 +16,8 @@ public class LockWheels extends SwerveCommand{
 	@Override
 	public void initialize(){
 		pigeon = swerve.getPigeonGyro();
-		new RotateAllWheelsToAngle(Math.PI / 2 - pigeon.getYaw()).schedule();
+		new RotateAllWheelsToAngle(Math.toDegrees(90) - pigeon.getYaw()).schedule();
+		swerve.setIdleModeBrake();
 	}
 	
 	@Override
