@@ -49,7 +49,6 @@ public class OI { //GEVALD
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
 		
 		mainJoystick.B.onTrue(new LockWheels());
-
 	}
 	
 	public SmartJoystick getMainJoystick() {
