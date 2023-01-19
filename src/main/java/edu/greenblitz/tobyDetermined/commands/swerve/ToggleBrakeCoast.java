@@ -36,5 +36,14 @@ public class ToggleBrakeCoast extends SwerveCommand {
     public void setLinToCoast (){
         swerve.setIdleModeCoast();
     }
-
+    
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
+    
+    @Override
+    public void end(boolean interrupted) {
+        swerve.stop();
+    }
 }

@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
+import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,8 +47,7 @@ public class OI { //GEVALD
 		
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-		
-		mainJoystick.X.onTrue(PathFollowerBuilder.getInstance().followPath("1 broder"));
+		mainJoystick.X.onTrue(new ToggleBrakeCoast());
 		
 	}
 	
