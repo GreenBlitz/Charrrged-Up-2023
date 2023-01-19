@@ -124,6 +124,10 @@ public class SwerveChassis extends GBSubsystem {
 		return getModule(module).getModuleAngle();
 	}
 	
+	public boolean moduleIsAtAngle(Module module,double targetAngleInRads, double errorInRads){
+		return getModule(module).isAtAngle(targetAngleInRads,errorInRads);
+	}
+	
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
@@ -153,8 +157,6 @@ public class SwerveChassis extends GBSubsystem {
 				SwerveModuleState.optimize(states[2], new Rotation2d(getModuleAngle(Module.BACK_LEFT))));
 		setModuleStateForModule(Module.BACK_RIGHT,
 				SwerveModuleState.optimize(states[3], new Rotation2d(getModuleAngle(Module.BACK_RIGHT))));
-		
-		
 	}
 	
 	public void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed, double currentAng) {

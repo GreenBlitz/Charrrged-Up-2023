@@ -183,6 +183,18 @@ public class SdsSwerveModule implements SwerveModule {
 		);
 	}
 	
+	@Override
+	public boolean isAtAngle(double targetAngleInRads, double errorInRads) {
+		double currentAngleInRads = getModuleAngle() % Math.PI;
+		targetAngleInRads = targetAngleInRads % Math.PI;
+		boolean isInRange = false;
+		for (int i = -1; i <= 1 ; i++) {
+			isInRange |= (currentAngleInRads +Math.PI*i < targetAngleInRads + errorInRads
+					&& currentAngleInRads +Math.PI*i > targetAngleInRads - errorInRads);
+		}
+		return isInRange;
+	}
+	
 	/**
 	 * @param moduleState - @class {@link SwerveModuleState} to set the module to (angle and velocity)
 	 */
