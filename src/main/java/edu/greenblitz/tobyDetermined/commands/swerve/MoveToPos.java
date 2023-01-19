@@ -34,7 +34,7 @@ public class MoveToPos extends SwerveCommand {
         rotationController.enableContinuousInput(-Math.PI,Math.PI);
         xController.setTolerance(0.2);
         yController.setTolerance(0.2);
-        rotationController.setTolerance(Units.degreesToRadians(5));
+        rotationController.setTolerance(Units.degreesToRadians(2));
 
     }
 

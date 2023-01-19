@@ -43,8 +43,8 @@ public class OI { //GEVALD
 	}
 	
 	private void initButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
-		mainJoystick.B.whileTrue(new MoveToPos(new Pose2d((new Translation2d(1,0)),new Rotation2d(0))));
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
+		mainJoystick.B.whileTrue(new MoveToPos(new Pose2d((new Translation2d(1,1)),new Rotation2d(90))));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.X.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
