@@ -47,25 +47,54 @@ public class OI { //GEVALD
 	private void initButtons() {
 
 		mainJoystick.Y.whileTrue(new GBCommand(){
-			int cnt = 0;
-			
+
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(new Color(0,0,0));
-			}
-			
-			@Override
-			public void execute() {
-
-			}
-			
-			@Override
-			public void end(boolean interrupted) {
-				SmartDashboard.putBoolean("a",false);
-				
+				LED.getInstance().setColor(LED.Colors.blue);
 			}
 		});
-		
+		mainJoystick.A.whileTrue(new GBCommand(){
+
+			@Override
+			public void initialize() {
+				LED.getInstance().setColor(LED.Colors.red);
+			}
+		});
+		mainJoystick.B.whileTrue(new GBCommand(){
+
+			@Override
+			public void initialize() {
+				LED.getInstance().setColor(LED.Colors.green);
+			}
+		});
+		mainJoystick.X.whileTrue(new GBCommand(){
+
+			@Override
+			public void initialize() {
+				LED.getInstance().setColor(LED.Colors.yellow);
+			}
+		});
+		mainJoystick.POV_DOWN.whileTrue(new GBCommand(){
+
+			@Override
+			public void initialize() {
+				LED.getInstance().setColor(LED.Colors.white);
+			}
+		});
+		mainJoystick.POV_RIGHT.whileTrue(new GBCommand(){
+
+			@Override
+			public void initialize() {
+				LED.getInstance().setColor(LED.Colors.purple);
+			}
+		});
+		mainJoystick.POV_UP.whileTrue(new GBCommand(){
+
+			@Override
+			public void initialize() {
+				LED.getInstance().setColor(LED.Colors.none);
+			}
+		});
 	}
 	
 	public SmartJoystick getMainJoystick() {
