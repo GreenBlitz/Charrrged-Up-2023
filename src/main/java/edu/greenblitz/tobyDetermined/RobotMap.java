@@ -13,16 +13,16 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RobotMap {
 	public static class General {
-		public final static double minVoltageBattery = 11.97;
+		public final static double MIN_VOLTAGE_BATTERY = 11.97;
+		public static final double HIGH_CURRENT_USAGE = 5;
 		public final static double VOLTAGE_COMP_VAL = 11.5;
 		public final static double RAMP_RATE_VAL = 0.4;
-		
+
 		public static class Motors {
 			public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
 			public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
