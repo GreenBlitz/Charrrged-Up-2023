@@ -1,27 +1,24 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class LED extends GBSubsystem {
 
-    private static final int PORT = 0;
     private static LED instance;
-    private static int ledLength = 60;
     private AddressableLED addressableLED;
     private AddressableLEDBuffer ledBuffer;
-    private Color defaultColor = Colors.white.color;
+    private Color defaultColor = Color.kGreen;
 
     private LED() {
-        this.addressableLED = new AddressableLED(PORT);
-        this.ledBuffer = new AddressableLEDBuffer(ledLength);
-        this.addressableLED.setLength(ledBuffer.getLength());
+        this.addressableLED = new AddressableLED(RobotMap.LED.PORT);
+        this.ledBuffer = new AddressableLEDBuffer(RobotMap.LED.LENGTH);
+        this.addressableLED.setLength(RobotMap.LED.LENGTH);
         this.addressableLED.start();
-        setColor(new Color(255, 255, 255));
     }
 
 
@@ -67,34 +64,13 @@ public class LED extends GBSubsystem {
         SmartDashboard.putNumber("a", cnt % 60);
         Timer.delay(0.01);
     }
-    public void setColor (Colors color){
-        for (int i = 0; i < this.ledBuffer.getLength(); i++) {
-            this.ledBuffer.setLED(i, color.color);
-            SmartDashboard.putNumber("led num", i);
-        }
-        this.addressableLED.setData(ledBuffer);
-    }
 
     public void setDefaultColor(Color color){
         this.defaultColor = color;
     }
-
-    public enum Colors {
-        red(new Color(255, 0, 0)),
-        blue(new Color(0, 0, 255)),
-        green(new Color(0, 255, 0)),
-        yellow(new Color(255, 255, 0)),
-        purple(new Color(230, 0, 250)),
-        none (new Color(0,0,0)),
-        white (new Color(255,255,255));
-        private final Color color;
-
-        Colors(Color color) {
-            this.color = color;
-        }
-
-        Color getColor() {
-            return color;
-        }
+    public Color getDefaultColor(){
+        return defaultColor;
     }
+
+
 }

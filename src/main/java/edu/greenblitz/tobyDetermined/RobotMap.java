@@ -67,6 +67,11 @@ public class RobotMap {
 		public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
 		
 	}
+
+	public static class LED {
+		public static final int LENGTH = 100;
+		public static final int PORT = 0;
+	}
 	
 	public static class Swerve {
 		static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));

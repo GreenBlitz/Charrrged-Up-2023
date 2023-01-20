@@ -50,49 +50,49 @@ public class OI { //GEVALD
 
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(LED.Colors.blue);
+				LED.getInstance().setColor(Color.kTurquoise);
 			}
 		});
 		mainJoystick.A.whileTrue(new GBCommand(){
 
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(LED.Colors.red);
+				LED.getInstance().setColor(Color.kRed);
 			}
 		});
 		mainJoystick.B.whileTrue(new GBCommand(){
 
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(LED.Colors.green);
+				LED.getInstance().setColor(Color.kGreen);
 			}
 		});
 		mainJoystick.X.whileTrue(new GBCommand(){
 
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(LED.Colors.yellow);
+				LED.getInstance().setColor(Color.kGold);
 			}
 		});
 		mainJoystick.POV_DOWN.whileTrue(new GBCommand(){
 
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(LED.Colors.white);
+				LED.getInstance().setColor(Color.kWhiteSmoke);
 			}
 		});
 		mainJoystick.POV_RIGHT.whileTrue(new GBCommand(){
 
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(LED.Colors.purple);
+				LED.getInstance().setColor(Color.kMagenta);
 			}
 		});
 		mainJoystick.POV_UP.whileTrue(new GBCommand(){
 
 			@Override
 			public void initialize() {
-				LED.getInstance().setColor(LED.Colors.none);
+				LED.getInstance().setColor(new Color(0,0,0));
 			}
 		});
 	}
