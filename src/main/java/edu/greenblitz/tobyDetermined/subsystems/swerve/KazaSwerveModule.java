@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
@@ -27,6 +28,9 @@ public class KazaSwerveModule implements SwerveModule {
 		//SET ANGLE MOTOR
 		angleMotor = new GBSparkMax(angleMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		angleMotor.config(RobotMap.Swerve.KazaSwerve.baseAngConfObj);
+		angleMotor.getPIDController().setPositionPIDWrappingEnabled(true);
+		angleMotor.getPIDController().setPositionPIDWrappingMaxInput(2* Math.PI);
+		angleMotor.getPIDController().setPositionPIDWrappingMinInput(0);
 		
 		linearMotor = new GBSparkMax(linearMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		linearMotor.config(RobotMap.Swerve.KazaSwerve.baseLinConfObj.withInverted(linInverted));
@@ -51,13 +55,7 @@ public class KazaSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void rotateToAngle(double angle) {
-		
-		double diff = Math.IEEEremainder(angle - getModuleAngle(), 2 * Math.PI);
-		diff -= diff > Math.PI ? 2 * Math.PI : 0;
-		angle = getModuleAngle() + diff;
-		
 		angleMotor.getPIDController().setReference(angle, ControlType.kPosition);
-		
 		targetAngle = angle;
 	}
 	
@@ -100,7 +98,7 @@ public class KazaSwerveModule implements SwerveModule {
 	
 	@Override
 	public void resetEncoderByAbsoluteEncoder(SwerveChassis.Module module) {
-		resetEncoderToValue(Calibration.CALIBRATION_DATASETS.get(module).linearlyInterpolate(getAbsoluteEncoderValue())[0] * NEO_PHYSICAL_TICKS_TO_RADIANS);
+		resetEncoderToValue(Calibration.CALIBRATION_DATASETS.get(module).get(getAbsoluteEncoderValue()) * NEO_PHYSICAL_TICKS_TO_RADIANS/ RobotMap.Swerve.KazaSwerve.ANG_GEAR_RATIO);
 	}
 	
 	@Override
@@ -141,6 +139,18 @@ public class KazaSwerveModule implements SwerveModule {
 		return new SwerveModuleState(getCurrentVelocity(), new Rotation2d(this.getModuleAngle()));
 	}
 	
+	@Override
+	public boolean isAtAngle(double targetAngleInRads, double errorInRads) {
+		double currentAngleInRads = getModuleAngle() % Math.PI;
+		targetAngleInRads = targetAngleInRads % Math.PI;
+		boolean isInRange = false;
+		for (int i = -1; i <= 1 ; i++) {
+			isInRange |= (currentAngleInRads +Math.PI*i < targetAngleInRads + errorInRads
+					&& currentAngleInRads +Math.PI*i > targetAngleInRads - errorInRads);
+		}
+		return isInRange;
+	}
+	
 	/**
 	 * sets to module to be at the given module state
 	 */
@@ -167,7 +177,17 @@ public class KazaSwerveModule implements SwerveModule {
 	public void setLinPowerOnlyForCalibrations(double power) {
 		linearMotor.set(power);
 	}
-	
+
+	@Override
+	public void setLinIdleModeBrake() {
+		linearMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+		linearMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+	}
+
 	public static class KazaSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;

@@ -1,15 +1,12 @@
 package edu.greenblitz.tobyDetermined;
 
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMaxLowLevel;
-import edu.greenblitz.tobyDetermined.commands.prototypes.NeoMoveByPower;
-import edu.greenblitz.tobyDetermined.commands.prototypes.TalonMoveByPower;
+import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
+import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
+import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.motors.GBSparkMax;
-
-import java.util.HashMap;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
 	
@@ -41,21 +38,25 @@ public class OI { //GEVALD
 	public static void disableHandling() {
 		isHandled = false;
 	}
-
-
-
-
-	private void initButtons() {
-
-
+		
+		public double countB = 0;
+		
+		private void initButtons () {
+			SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
+			mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
+			mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
+			mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
+			
+			
+			mainJoystick.B.onTrue(new LockWheels());
+		}
+		
+		public SmartJoystick getMainJoystick () {
+			return mainJoystick;
+		}
+		
+		public SmartJoystick getSecondJoystick () {
+			return secondJoystick;
+		}
+		
 	}
-	
-	public SmartJoystick getMainJoystick() {
-		return mainJoystick;
-	}
-	
-	public SmartJoystick getSecondJoystick() {
-		return secondJoystick;
-	}
-	
-}

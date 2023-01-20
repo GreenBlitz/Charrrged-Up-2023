@@ -30,14 +30,21 @@ public class BatteryDisabler extends GBCommand {
 	@Override
 	public void execute() {
 		SmartDashboard.putNumber("current battery voltage: ", Battery.getInstance().getCurrentVoltage());
-		
-		
-		double currentAverageVoltage = voltageFilter.calculate(battery.getCurrentVoltage());
-		
-		if (currentAverageVoltage <= battery.getMinVoltage() && DriverStation.getMatchType() == DriverStation.MatchType.None) {
-			CommandScheduler.getInstance().cancelAll();
-			CommandScheduler.getInstance().disable();
-			throw new java.lang.RuntimeException("Battery is low");
+		SmartDashboard.putNumber("current battery usage" , Battery.getInstance().getCurrentUsage());
+		//
+
+		double currentAverageVoltage;
+
+		if(battery.getCurrentUsage() <= 5) {
+			currentAverageVoltage = voltageFilter.calculate(battery.getCurrentVoltage());
+
+
+			if (currentAverageVoltage <= battery.getMinVoltage()
+					&& DriverStation.getMatchType() == DriverStation.MatchType.None) {
+				CommandScheduler.getInstance().cancelAll();
+				CommandScheduler.getInstance().disable();
+				throw new java.lang.RuntimeException("Battery is low");
+			}
 		}
 	}
 }
