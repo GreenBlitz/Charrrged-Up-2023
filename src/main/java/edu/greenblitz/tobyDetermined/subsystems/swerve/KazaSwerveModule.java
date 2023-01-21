@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
@@ -138,6 +139,18 @@ public class KazaSwerveModule implements SwerveModule {
 		return new SwerveModuleState(getCurrentVelocity(), new Rotation2d(this.getModuleAngle()));
 	}
 	
+	@Override
+	public boolean isAtAngle(double targetAngleInRads, double errorInRads) {
+		double currentAngleInRads = getModuleAngle() % Math.PI;
+		targetAngleInRads = targetAngleInRads % Math.PI;
+		boolean isInRange = false;
+		for (int i = -1; i <= 1 ; i++) {
+			isInRange |= (currentAngleInRads +Math.PI*i < targetAngleInRads + errorInRads
+					&& currentAngleInRads +Math.PI*i > targetAngleInRads - errorInRads);
+		}
+		return isInRange;
+	}
+	
 	/**
 	 * sets to module to be at the given module state
 	 */
@@ -164,7 +177,17 @@ public class KazaSwerveModule implements SwerveModule {
 	public void setLinPowerOnlyForCalibrations(double power) {
 		linearMotor.set(power);
 	}
-	
+
+	@Override
+	public void setLinIdleModeBrake() {
+		linearMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+		linearMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+	}
+
 	public static class KazaSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;
