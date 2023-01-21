@@ -26,6 +26,11 @@ public class ToggleBrakeCoast extends SwerveCommand {
         SmartDashboard.putBoolean("isBrake",isBrake);
     }
 
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
+
     /** set all linear motors to brake mode */
     public void setLinToBrake (){
         swerve.setIdleModeBrake();

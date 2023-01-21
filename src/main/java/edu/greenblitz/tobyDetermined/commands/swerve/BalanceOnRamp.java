@@ -25,9 +25,6 @@ public class BalanceOnRamp extends SwerveCommand {
 		swerve.moveByChassisSpeeds(speed * -Math.signum(gyro.getRoll()), 0,0,0);
 		
 		if (currentAngle > highPoint){hasPassedHighPoint = true;}
-//		SmartDashboard.putBoolean("hasPassedHighPoint" ,hasPassedHighPoint);
-//		SmartDashboard.putBoolean("on", true);
-//		SmartDashboard.putNumber("delta", currentAngle - lastAngle);
 	}
 	
 	@Override
@@ -36,7 +33,6 @@ public class BalanceOnRamp extends SwerveCommand {
 			SmartDashboard.putBoolean("on",false);
 			return true;
 		}
-		lastAngle = Math.abs(gyro.getRoll());
 		return false;
 	}
 	
@@ -44,6 +40,5 @@ public class BalanceOnRamp extends SwerveCommand {
 	public void end(boolean interrupted) {
 		swerve.stop();
 		hasPassedHighPoint = false;
-//		SmartDashboard.putBoolean("hasPassedHighPoint" ,hasPassedHighPoint);
 	}
 }
