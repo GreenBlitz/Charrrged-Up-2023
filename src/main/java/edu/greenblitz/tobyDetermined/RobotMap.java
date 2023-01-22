@@ -13,7 +13,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import java.security.ProtectionDomain;
+import java.nio.file.Watchable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +67,27 @@ public class RobotMap {
 		public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
 		public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
 		
+	}
+
+	public static class telescopicArm {
+		public static final int MOTOR_ID = -1;
+		public static final double EXTENDED_LENGTH = 60; //in CM
+		public static final double RATIO = 1;
+		public static final double ROTATING_WHEEL_CIRC = 0.012 * (2 * Math.PI);
+
+		public static final double ANGULAR_GEAR_RATIO = 1;
+		public static final PIDObject ANGULAR_PID = new PIDObject()
+				.withKp(0)
+				.withKi(0)
+				.withKd(0)
+				.withFF(0);
+
+		public static final PIDObject LIFTING_PID = new PIDObject()
+				.withKp(0)
+				.withKi(0)
+				.withKd(0)
+				.withFF(0);
+		public static final double MOTOR_TICKS_TO_METERS = (General.Motors.SPARKMAX_TICKS_PER_RADIAN * ROTATING_WHEEL_CIRC) / RATIO / (2*Math.PI); //todo is it the right calculation?
 	}
 	
 	public static class Swerve {
