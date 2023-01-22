@@ -12,18 +12,9 @@ public class MovePrototypes extends GBCommand {
 
 	private int numOfMotors;
 	private ArrayList<SendableChooser<String>> motors;
-	public MovePrototypes(int numOfMotors){
-		motors = new ArrayList<SendableChooser<String>>(numOfMotors);
-		this.numOfMotors = numOfMotors;
-		for (int i = 0; i < numOfMotors; i++) {
-			motors.add(new SendableChooser<String>());
-			motors.get(i).setDefaultOption("sparkmax", "sparkmax");
-			motors.get(i).addOption("talon", "talon");
-			SmartDashboard.putData("motor" + i,motors.get(i));
-			SmartDashboard.putNumber("id" + i, i);
-			SmartDashboard.putNumber("power" + i, 0);
-		}
-		SmartDashboard.putNumber("power all", -2);
+	public MovePrototypes(int numOfMotors, ArrayList<SendableChooser<String>> motors){
+		this.numOfMotors =numOfMotors;
+		this.motors = motors;
 	}
 
 	@Override
@@ -50,5 +41,19 @@ public class MovePrototypes extends GBCommand {
 			}
 		}
 
+	}
+	
+	public static ArrayList<SendableChooser<String>> initPrototypes(int numOfMotors){
+		ArrayList<SendableChooser<String>> motors = new ArrayList<SendableChooser<String>>(numOfMotors);
+		for (int i = 0; i < numOfMotors; i++) {
+			motors.add(new SendableChooser<String>());
+			motors.get(i).setDefaultOption("sparkmax", "sparkmax");
+			motors.get(i).addOption("talon", "talon");
+			SmartDashboard.putData("motor" + i,motors.get(i));
+			SmartDashboard.putNumber("id" + i, i);
+			SmartDashboard.putNumber("power" + i, 0);
+		}
+		SmartDashboard.putNumber("power all", -2);
+		return motors;
 	}
 }

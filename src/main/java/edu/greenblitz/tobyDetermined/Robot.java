@@ -7,12 +7,15 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Robot extends TimedRobot {
@@ -31,6 +34,7 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 		OI.getInstance();
+		prototypes = MovePrototypes.initPrototypes(3);
 	}
 	
 	private static void initPortForwarding() {
@@ -51,10 +55,11 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().cancelAll();
 	}
 	
+	ArrayList<SendableChooser<String>> prototypes;
 	@Override
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
-		new MovePrototypes(5).schedule();
+		new MovePrototypes(3, prototypes).schedule();
 
 	}
 	
