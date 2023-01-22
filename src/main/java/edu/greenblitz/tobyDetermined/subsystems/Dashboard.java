@@ -1,23 +1,25 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
-import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.PigeonGyro;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.greenblitz.utils.UltrasonicSensor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Dashboard extends GBSubsystem {
 
+	private UltrasonicSensor sensor;
 	private static Dashboard instance;
 	public static Dashboard init() {
+
 		if (instance == null) {
 			instance = new Dashboard();
 		}
 		return instance;
 	}
 
+	private Dashboard(){
+		sensor = new UltrasonicSensor(3,4);
+	}
 
 
 	@Override
@@ -33,7 +35,6 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("FL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_LEFT));
 		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
 		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
-		
-		
+
 	}
 }

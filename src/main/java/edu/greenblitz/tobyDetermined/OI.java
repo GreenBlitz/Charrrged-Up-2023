@@ -8,6 +8,7 @@ import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.UltrasonicSensor;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
@@ -50,7 +51,7 @@ public class OI { //GEVALD
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
 		
 		UltrasonicSensor sensor = new UltrasonicSensor(2,0);
-		mainJoystick.B.onTrue(new InstantCommand(sensor::measure));
+		mainJoystick.B.onTrue(new InstantCommand(()->SmartDashboard.putNumber("measure", sensor.measure())).andThen(new InstantCommand(()-> SmartDashboard.putBoolean("input", sensor.getInput()))));
 	}
 	
 	public SmartJoystick getMainJoystick() {

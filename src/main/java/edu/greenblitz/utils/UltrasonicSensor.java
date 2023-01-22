@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.sql.Time;
-
 public class UltrasonicSensor {
 	private final DigitalOutput trigger;
 	private final DigitalInput input;
@@ -22,12 +20,20 @@ public class UltrasonicSensor {
 	public double measure(){
 		timer.reset();
 		timer.start();
-		trigger.pulse(1.0/1000000); //10 microseconds
-		while (!input.get()){
+		trigger.pulse(10.0/1000000); //10 microseconds
+//		while (!input.get()){
+//			counter++;
+//			SmartDashboard.putNumber("counter In ultrasonic", counter);
+//		}
+//		timer.stop();
+//		return timer.get();
+		while (input.get()){
 			counter++;
-			SmartDashboard.putNumber("counter In ultrasonic", counter);
 		}
-		timer.stop();
-		return timer.get();
+		return counter;
+	}
+
+	public boolean getInput(){
+		return input.get();
 	}
 }
