@@ -48,6 +48,7 @@ public class OI { //GEVALD
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.X.onTrue(new ToggleBrakeCoast());
+		mainJoystick.A.onTrue(PathFollowerBuilder.getInstance().followPath("90 degrees"));
 		
 	}
 	

@@ -11,6 +11,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
 import java.util.HashMap;
@@ -54,14 +55,15 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	 * @return returns the command for the full auto (commands and trajectory included)
 	 */
 	public CommandBase followPath(String pathName) {
-		
-		return fullAuto(PathPlanner.loadPath(
+
+		PathPlannerTrajectory path = PathPlanner.loadPath(
 				pathName,
 				new PathConstraints(
 						RobotMap.Swerve.MAX_VELOCITY,
 						RobotMap.Swerve.MAX_ACCELERATION
-				))
-		);
+				));
+		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
+		return fullAuto(path).beforeStarting(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose(path.getInitialHolonomicPose())));
 	}
 	
 	/**
