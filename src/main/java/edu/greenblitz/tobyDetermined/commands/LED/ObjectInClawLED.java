@@ -11,12 +11,17 @@ public class ObjectInClawLED extends LEDCommand{
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         led.setColor(Color.kBlue);
         Timer.delay(0.4);
         led.setColor(Color.kWhite);
         Timer.delay(0.2);
         led.setColor(Color.kBlue);
-        Timer.delay(0.4);
+        Timer.delay(0.2);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 }

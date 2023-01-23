@@ -11,16 +11,18 @@ public class ObjectInIntakeLED extends LEDCommand{
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         led.setColor(Color.kGreen);
         Timer.delay(0.4);
         led.setColor(Color.kWhite);
         Timer.delay(0.2);
         led.setColor(Color.kGreen);
-        OI.getInstance().getMainJoystick().rumble(true,0.5);
-        OI.getInstance().getSecondJoystick().rumble(true,0.5);
-        Timer.delay(0.4);
-        OI.getInstance().getMainJoystick().rumble(true,0);
-        OI.getInstance().getSecondJoystick().rumble(true,0);
+        Timer.delay(0.2);
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 }

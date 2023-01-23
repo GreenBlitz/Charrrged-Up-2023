@@ -20,7 +20,7 @@ public class RobotWantLED extends LEDCommand{
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         switch (this.object){
             case cone:
                 led.setColor(Color.kYellow);
@@ -28,7 +28,7 @@ public class RobotWantLED extends LEDCommand{
                 led.setColor(Color.kWhite);
                 Timer.delay(0.2);
                 led.setColor(Color.kYellow);
-                Timer.delay(0.4);
+                Timer.delay(0.2);
                 break;
             case cube:
                 led.setColor(Color.kMagenta);
@@ -36,7 +36,12 @@ public class RobotWantLED extends LEDCommand{
                 led.setColor(Color.kWhite);
                 Timer.delay(0.2);
                 led.setColor(Color.kMagenta);
-                Timer.delay(0.4);
+                Timer.delay(0.2);
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 }

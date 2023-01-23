@@ -1,6 +1,9 @@
 package edu.greenblitz.tobyDetermined;
 
 
+import edu.greenblitz.tobyDetermined.commands.LED.ObjectInClawLED;
+import edu.greenblitz.tobyDetermined.commands.LED.ObjectInIntakeLED;
+import edu.greenblitz.tobyDetermined.commands.LED.RobotWantLED;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveByVisionSupplier;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
@@ -46,55 +49,10 @@ public class OI { //GEVALD
 	
 	private void initButtons() {
 
-		mainJoystick.Y.whileTrue(new GBCommand(){
-
-			@Override
-			public void initialize() {
-				LED.getInstance().setColor(Color.kTurquoise);
-			}
-		});
-		mainJoystick.A.whileTrue(new GBCommand(){
-
-			@Override
-			public void initialize() {
-				LED.getInstance().setColor(Color.kRed);
-			}
-		});
-		mainJoystick.B.whileTrue(new GBCommand(){
-
-			@Override
-			public void initialize() {
-				LED.getInstance().setColor(Color.kGreen);
-			}
-		});
-		mainJoystick.X.whileTrue(new GBCommand(){
-
-			@Override
-			public void initialize() {
-				LED.getInstance().setColor(Color.kGold);
-			}
-		});
-		mainJoystick.POV_DOWN.whileTrue(new GBCommand(){
-
-			@Override
-			public void initialize() {
-				LED.getInstance().setColor(Color.kWhiteSmoke);
-			}
-		});
-		mainJoystick.POV_RIGHT.whileTrue(new GBCommand(){
-
-			@Override
-			public void initialize() {
-				LED.getInstance().setColor(Color.kMagenta);
-			}
-		});
-		mainJoystick.POV_UP.whileTrue(new GBCommand(){
-
-			@Override
-			public void initialize() {
-				LED.getInstance().setColor(new Color(0,0,0));
-			}
-		});
+		mainJoystick.B.whileTrue(new ObjectInIntakeLED());
+		mainJoystick.Y.whileTrue(new ObjectInClawLED());
+		mainJoystick.X.whileTrue(new RobotWantLED(RobotWantLED.wantedObject.cube));
+		mainJoystick.A.whileTrue(new RobotWantLED(RobotWantLED.wantedObject.cone));
 	}
 	
 	public SmartJoystick getMainJoystick() {

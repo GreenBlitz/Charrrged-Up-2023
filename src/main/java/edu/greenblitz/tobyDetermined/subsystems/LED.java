@@ -45,25 +45,16 @@ public class LED extends GBSubsystem {
     public void setHSV(int h, int s, int v) {
         for (int i = 0; i < this.ledBuffer.getLength(); i++) {
             this.ledBuffer.setHSV(i, h, s, v);
-            SmartDashboard.putNumber("led num", i);
         }
         this.addressableLED.setData(ledBuffer);
     }
 
-    public void setSpecificLedColor(int n, Color color) {
-        this.ledBuffer.setLED(n, color);
+
+    public void setHSV(int index, int h, int s, int v) {
+        this.ledBuffer.setHSV(index, h, s, v);
         this.addressableLED.setData(ledBuffer);
     }
 
-
-    public void move(int cnt, Color color) {
-        LED.getInstance().setSpecificLedColor(cnt % 60 == 0 ? 59 : cnt % 60 - 1, new Color(0, 0, 0));
-        Timer.delay(0.01);
-        LED.getInstance().setSpecificLedColor(cnt % 60, new Color(0, 255, 0));
-        cnt++;
-        SmartDashboard.putNumber("a", cnt % 60);
-        Timer.delay(0.01);
-    }
 
     public void setDefaultColor(Color color){
         this.defaultColor = color;
@@ -71,6 +62,4 @@ public class LED extends GBSubsystem {
     public Color getDefaultColor(){
         return defaultColor;
     }
-
-
 }
