@@ -71,7 +71,8 @@ public class RobotMap {
 
 	public static class telescopicArm {
 		public static final int MOTOR_ID = -1;
-		public static final double EXTENDED_LENGTH = 60; //in CM
+		public static final double EXTENDED_LENGTH = 0.8;
+		public static final double SHRINKED_LENGTH = 0.2;
 		public static final double RATIO = 1;
 		public static final double ROTATING_WHEEL_CIRC = 0.012 * (2 * Math.PI);
 
