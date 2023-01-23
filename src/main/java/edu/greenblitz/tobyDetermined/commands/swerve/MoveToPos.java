@@ -22,9 +22,6 @@ public class MoveToPos extends SwerveCommand {
     public static final double translationKi = 0;
     public static final double translationKd = 0;
 
-    public static final double translationTolerance = 0.2;
-    public static final double RotTolerance = 2; //in degrees
-
     public MoveToPos(Pose2d pos) {
         SmartDashboard.putBoolean("did push", true);
         this.pos = pos;
@@ -33,9 +30,9 @@ public class MoveToPos extends SwerveCommand {
         yController = new ProfiledPIDController(translationKp,translationKi,translationKd,RobotMap.Swerve.Autonomus.constraints);
         rotationController = new ProfiledPIDController(rotKp,rotKi,rotKd,RobotMap.Swerve.Autonomus.constraints);
         rotationController.enableContinuousInput(-Math.PI,Math.PI);
-        xController.setTolerance(translationTolerance); //magic number and proud
-        yController.setTolerance(translationTolerance);
-        rotationController.setTolerance(Units.degreesToRadians(RotTolerance));
+        xController.setTolerance(0.2); //magic number and proud
+        yController.setTolerance(0.2);
+        rotationController.setTolerance(Units.degreesToRadians(2));
 
     }
 
