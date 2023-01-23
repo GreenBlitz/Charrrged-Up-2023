@@ -26,10 +26,6 @@ public class MoveAngularByJoystick extends SwerveCommand {
 	
 	public void execute() {
 		double angularSpeed = -OI.getInstance().getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_X);
-		if (angularSpeed == 0) {
-			swerve.stop();
-			return;
-		}
 		swerve.rotateChassisByPower(angularSpeed);
 		if (timer.advanceIfElapsed(TIME_TO_ACCELERATE)) {
 			double curSpeed = swerve.getChassisSpeeds().omegaRadiansPerSecond;

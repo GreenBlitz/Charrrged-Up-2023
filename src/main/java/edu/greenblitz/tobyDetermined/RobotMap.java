@@ -143,13 +143,6 @@ public class RobotMap {
 		}
 
 		public static class Autonomus {
-			public static final double rotKp = 0.2;
-			public static final double rotKi = 0;
-			public static final double rotKd = 0;
-
-			public static final double translationKp = 0.2;
-			public static final double translationKi = 0;
-			public static final double translationKd = 0;
 			public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
 		}
 		
