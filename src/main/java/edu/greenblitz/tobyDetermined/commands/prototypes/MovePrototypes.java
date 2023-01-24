@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.prototypes;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.subsystems.Prototypes;
 import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,6 +30,13 @@ public class MovePrototypes extends GBCommand {
 			double power = SmartDashboard.getNumber("power" + i, 0);
 			if(SmartDashboard.getNumber("power all", -2) != -2){
 				power = SmartDashboard.getNumber("power all", 0);
+			}
+			if (!(OI.getInstance().getMainJoystick().A.getAsBoolean() || OI.getInstance().getMainJoystick().B.getAsBoolean())){
+				power = 0;
+			}
+			else{
+				power *= OI.getInstance().getMainJoystick().B.getAsBoolean() ? -1 : 1;
+
 			}
 			switch(motors.get(i).getSelected()){
 				case "sparkmax":
