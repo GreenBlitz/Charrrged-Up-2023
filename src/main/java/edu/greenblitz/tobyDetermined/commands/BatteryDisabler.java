@@ -35,7 +35,7 @@ public class BatteryDisabler extends GBCommand {
 
 		double currentAverageVoltage;
 
-		if(battery.getCurrentUsage() <= 5) {
+		if(battery.getCurrentUsage() <= 1) {
 			currentAverageVoltage = voltageFilter.calculate(battery.getCurrentVoltage());
 
 

@@ -12,6 +12,7 @@ import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
@@ -83,8 +84,8 @@ public class RobotMap {
 		public static final double MAX_ACCELERATION = 14.83;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
-		public static final PIDObject translationPID = new PIDObject().withKp(2);
-		public static final PIDObject rotationPID = new PIDObject().withKp(0);
+		public static final PIDObject translationPID = new PIDObject().withKp(2.95);
+		public static final PIDObject rotationPID = new PIDObject().withKp(2.5).withKi(0); //todo find
 		
 		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left

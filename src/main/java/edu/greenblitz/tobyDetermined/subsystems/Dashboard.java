@@ -1,8 +1,10 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.OI;
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.PigeonGyro;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -15,6 +17,7 @@ public class Dashboard extends GBSubsystem {
 	public static Dashboard init() {
 		if (instance == null) {
 			instance = new Dashboard();
+			SmartDashboard.putNumber("aaaa",0);
 		}
 		return instance;
 	}
@@ -30,12 +33,14 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("y", SwerveChassis.getInstance().getRobotPose().getY());
 		SmartDashboard.putNumber("x", SwerveChassis.getInstance().getRobotPose().getX());
 		SmartDashboard.putNumber("angle", SwerveChassis.getInstance().getRobotPose().getRotation().getDegrees());
+		SmartDashboard.putNumber("pigeon angle", Units.radiansToDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
+		
 		SmartDashboard.putNumber("chassis speed x", SwerveChassis.getInstance().getChassisSpeeds().vxMetersPerSecond);
 		SmartDashboard.putNumber("FR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_RIGHT));
 		SmartDashboard.putNumber("FL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_LEFT));
 		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
 		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
-
+SmartDashboard.putNumber("kp", RobotMap.Swerve.translationPID.getKp())	;
 		SmartDashboard.putNumber("speed",SwerveChassis.getInstance().getModuleState(SwerveChassis.Module.FRONT_RIGHT).speedMetersPerSecond);
 		SmartDashboard.putString("pose", SwerveChassis.getInstance().getRobotPose().toString());
 		
