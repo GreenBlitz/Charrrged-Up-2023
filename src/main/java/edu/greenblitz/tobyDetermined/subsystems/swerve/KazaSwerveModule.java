@@ -153,6 +153,18 @@ public class KazaSwerveModule implements SwerveModule {
 		return isInRange;
 	}
 	
+	
+	@Override
+	public boolean isAtAngle(double errorInRads) {
+		boolean isInRange = false;
+		double currentAngleInRads = getModuleAngle() % Math.PI;
+		for (int i = -1; i <= 1 ; i++) {
+			isInRange |= (currentAngleInRads +Math.PI*i < targetAngle + errorInRads
+					&& currentAngleInRads +Math.PI*i > targetAngle - errorInRads);
+		}
+		return isInRange;
+	}
+	
 	/**
 	 * sets to module to be at the given module state
 	 */

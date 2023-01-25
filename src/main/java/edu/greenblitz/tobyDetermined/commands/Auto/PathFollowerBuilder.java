@@ -8,12 +8,14 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
+import java.sql.Time;
 import java.util.HashMap;
 
 public class PathFollowerBuilder extends SwerveAutoBuilder {
@@ -63,7 +65,12 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 						RobotMap.Swerve.MAX_ACCELERATION
 				));
 		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
-		return fullAuto(path).beforeStarting(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose(path.getInitialHolonomicPose())));
+		return fullAuto(path).beforeStarting(new PreAutoCommand(path).raceWith(new InstantCommand(){
+			@Override
+			public void initialize() {
+				Timer.delay(0.5);
+			}
+		}));
 	}
 	
 	/**

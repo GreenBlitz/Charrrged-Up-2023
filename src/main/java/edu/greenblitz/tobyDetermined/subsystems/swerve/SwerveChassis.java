@@ -125,6 +125,9 @@ public class SwerveChassis extends GBSubsystem {
 	public boolean moduleIsAtAngle(Module module,double targetAngleInRads, double errorInRads){
 		return getModule(module).isAtAngle(targetAngleInRads,errorInRads);
 	}
+	public boolean moduleIsAtAngle (Module module, double errorInRads){
+		return getModule(module).isAtAngle(errorInRads);
+	}
 	
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);

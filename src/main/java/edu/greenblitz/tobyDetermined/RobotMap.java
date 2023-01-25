@@ -84,7 +84,7 @@ public class RobotMap {
 		public static final double MAX_ACCELERATION = 14.83;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
-		public static final PIDObject translationPID = new PIDObject().withKp(2.95);
+		public static final PIDObject translationPID = new PIDObject().withKp(2.9);
 		public static final PIDObject rotationPID = new PIDObject().withKp(2.5).withKi(0); //todo find
 		
 		
