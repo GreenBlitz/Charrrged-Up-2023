@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -11,6 +12,7 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import java.security.ProtectionDomain;
@@ -32,7 +34,9 @@ public class RobotMap {
 			public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
 		}
 	}
-	
+
+	public static final ColorSensorV3 cs = new ColorSensorV3(I2C.Port.kOnboard);
+
 	public static class gyro { //Yum
 		public static final int pigeonID = 12;
 	}
