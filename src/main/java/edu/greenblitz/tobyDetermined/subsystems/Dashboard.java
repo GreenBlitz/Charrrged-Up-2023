@@ -24,35 +24,45 @@ public class Dashboard extends GBSubsystem {
 
 
 
-	@Override
-	public void periodic() {
-		SmartDashboard.putNumber("pigeon angle Yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
-		SmartDashboard.putNumber("pigeon angle Roll", SwerveChassis.getInstance().getPigeonGyro().getRoll());
-		SmartDashboard.putNumber("pigeon angle Pitch", SwerveChassis.getInstance().getPigeonGyro().getPitch());
-		lastRead = System.currentTimeMillis();
-		SmartDashboard.putNumber("FR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_RIGHT)), 360));
-		SmartDashboard.putNumber("FL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_LEFT)), 360));
-		SmartDashboard.putNumber("BR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_RIGHT)), 360));
-		SmartDashboard.putNumber("BL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_LEFT)), 360));
-		SmartDashboard.putNumber("FR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_RIGHT));
-		SmartDashboard.putNumber("FL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_LEFT));
-		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
-		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
-		SmartDashboard.putNumber("pressedticks", OI.getInstance().countB);
-
-		SmartDashboard.putNumber("speed",SwerveChassis.getInstance().getModuleState(SwerveChassis.Module.FRONT_RIGHT).speedMetersPerSecond);
-		double sum = 0;
-		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
-			sum += SwerveChassis.getInstance().getModuleAngle(module);
-		}
-		SmartDashboard.putString("pose", SwerveChassis.getInstance().getRobotPose().toString());
-		SmartDashboard.putNumber("yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
-		SmartDashboard.putNumber("pitch",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getPitch()));
-		SmartDashboard.putNumber("roll",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
-
-		SmartDashboard.putNumber("H", Color.RGBtoHSB(RobotMap.cs.getRed(), RobotMap.cs.getGreen(), RobotMap.cs.getBlue(), new float[3])[0]);
-		SmartDashboard.putNumber("S", Color.RGBtoHSB(RobotMap.cs.getRed(), RobotMap.cs.getGreen(), RobotMap.cs.getBlue(), new float[3])[1]);
-		SmartDashboard.putNumber("V", Color.RGBtoHSB(RobotMap.cs.getRed(), RobotMap.cs.getGreen(), RobotMap.cs.getBlue(), new float[3])[2]);
-		SmartDashboard.putString("Obj", IntakeObjSensor.getInstance().getObject().toString());
-	}
+	//@Override
+//	public void periodic() {
+//		SmartDashboard.putNumber("pigeon angle Yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
+//		SmartDashboard.putNumber("pigeon angle Roll", SwerveChassis.getInstance().getPigeonGyro().getRoll());
+//		SmartDashboard.putNumber("pigeon angle Pitch", SwerveChassis.getInstance().getPigeonGyro().getPitch());
+//		lastRead = System.currentTimeMillis();
+//		SmartDashboard.putNumber("FR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_RIGHT)), 360));
+//		SmartDashboard.putNumber("FL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_LEFT)), 360));
+//		SmartDashboard.putNumber("BR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_RIGHT)), 360));
+//		SmartDashboard.putNumber("BL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_LEFT)), 360));
+//		SmartDashboard.putNumber("FR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_RIGHT));
+//		SmartDashboard.putNumber("FL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_LEFT));
+//		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
+//		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
+//		SmartDashboard.putNumber("pressedticks", OI.getInstance().countB);
+//
+//		SmartDashboard.putNumber("speed",SwerveChassis.getInstance().getModuleState(SwerveChassis.Module.FRONT_RIGHT).speedMetersPerSecond);
+//		double sum = 0;
+//		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
+//			sum += SwerveChassis.getInstance().getModuleAngle(module);
+//		}
+//		SmartDashboard.putString("pose", SwerveChassis.getInstance().getRobotPose().toString());
+//		SmartDashboard.putNumber("yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
+//		SmartDashboard.putNumber("pitch",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getPitch()));
+//		SmartDashboard.putNumber("roll",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
+//
+//		SmartDashboard.putNumber("R", RobotMap.cs.getRed());
+//		SmartDashboard.putNumber("colorR", RobotMap.cs.getRawColor().red);
+//		SmartDashboard.putNumber("colorG", RobotMap.cs.getRawColor().green);
+//		SmartDashboard.putNumber("colorB", RobotMap.cs.getRawColor().blue);
+//		SmartDashboard.putNumber("G", RobotMap.cs.getGreen());
+//		SmartDashboard.putNumber("B", RobotMap.cs.getBlue());
+//
+//
+//		SmartDashboard.putNumber("H", Color.RGBtoHSB(RobotMap.cs.getRed(), RobotMap.cs.getGreen(), RobotMap.cs.getBlue(), new float[3])[0]);
+//		SmartDashboard.putString("color", RobotMap.cs.getColor().toString());
+//
+//		SmartDashboard.putNumber("S", Color.RGBtoHSB(RobotMap.cs.getRed(), RobotMap.cs.getGreen(), RobotMap.cs.getBlue(), new float[3])[1]);
+//		SmartDashboard.putNumber("V", Color.RGBtoHSB(RobotMap.cs.getRed(), RobotMap.cs.getGreen(), RobotMap.cs.getBlue(), new float[3])[2]);
+//		//SmartDashboard.putString("Obj", IntakeObjSensor.getInstance().getObject().toString());
+//	}
 }
