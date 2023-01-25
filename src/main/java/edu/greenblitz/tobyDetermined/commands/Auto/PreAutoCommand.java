@@ -12,7 +12,7 @@ import java.sql.Struct;
 public class PreAutoCommand extends SwerveCommand {
 	
 	private final static double EPSILON = 0.0000001;
-	private final static double moduleAngleTolerance = Units.degreesToRadians(1);
+	private final static double moduleAngleTolerance = Units.degreesToRadians(3);
 	
 	PathPlannerTrajectory path;
 	public PreAutoCommand (PathPlannerTrajectory trajectory){
