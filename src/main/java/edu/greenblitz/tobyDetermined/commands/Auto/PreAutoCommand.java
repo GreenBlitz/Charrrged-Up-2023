@@ -7,12 +7,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.sql.Struct;
-
 public class PreAutoCommand extends SwerveCommand {
 	
-	private final static double EPSILON = 0.0000001;
-	private final static double moduleAngleTolerance = Units.degreesToRadians(3);
+	private final static double EPSILON = 0.00001;
+	private final static double moduleAngleTolerance = Units.degreesToRadians(4);
 	
 	PathPlannerTrajectory path;
 	public PreAutoCommand (PathPlannerTrajectory trajectory){

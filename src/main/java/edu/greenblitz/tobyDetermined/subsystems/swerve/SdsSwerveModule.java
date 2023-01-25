@@ -184,21 +184,15 @@ public class SdsSwerveModule implements SwerveModule {
 	}
 	
 	@Override
-	public boolean isAtAngle(double targetAngleInRads, double errorInRads) {
-		double currentAngleInRads = getModuleAngle() % Math.PI;
-		targetAngleInRads = targetAngleInRads % Math.PI;
-		boolean isInRange = false;
-		for (int i = -1; i <= 1 ; i++) {
-			isInRange |= (currentAngleInRads +Math.PI*i < targetAngleInRads + errorInRads
-					&& currentAngleInRads +Math.PI*i > targetAngleInRads - errorInRads);
-		}
-		return isInRange;
+	public boolean isAtAngle(double targetAngleInRads, double tolerance) {
+		
+		double currentAngleInRads = getModuleAngle();
+		return (currentAngleInRads - targetAngleInRads) %(2*Math.PI) < tolerance
+				|| (targetAngleInRads - currentAngleInRads) % (2*Math.PI) < tolerance;
 	}
 	@Override
-	public boolean isAtAngle(double tollerance) {
-		double currentAngleInRads = getModuleAngle();
-		return (currentAngleInRads - targetAngle) %(2*Math.PI) < tollerance
-				|| (targetAngle - currentAngleInRads) % (2*Math.PI) < tollerance;
+	public boolean isAtAngle(double tolerance) {
+		return isAtAngle(targetAngle, tolerance);
 	}
 	
 	/**

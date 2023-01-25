@@ -49,10 +49,9 @@ public class OI { //GEVALD
 		
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-		mainJoystick.X.onTrue(	PathFollowerBuilder.getInstance().followPath("90  Copy"));
+		mainJoystick.X.onTrue(PathFollowerBuilder.getInstance().followPath("90 degrees Copy"));
 		mainJoystick.A.onTrue(PathFollowerBuilder.getInstance().followPath("90 degrees"));
-		mainJoystick.POV_DOWN.onTrue(new PreAutoCommand(PathFollowerBuilder.getPathPlannerTrajectory("90  Copy")));
-		
+		mainJoystick.B.onTrue(new PreAutoCommand(PathFollowerBuilder.getPathPlannerTrajectory("90 degrees")));
 	}
 	
 	public SmartJoystick getMainJoystick() {

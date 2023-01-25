@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.greenblitz.utils.GBMath;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.General.Motors.NEO_PHYSICAL_TICKS_TO_RADIANS;
 
@@ -142,27 +143,17 @@ public class KazaSwerveModule implements SwerveModule {
 	}
 	
 	@Override
-	public boolean isAtAngle(double targetAngleInRads, double errorInRads) {
-		double currentAngleInRads = getModuleAngle() % Math.PI;
-		targetAngleInRads = targetAngleInRads % Math.PI;
-		boolean isInRange = false;
-		for (int i = -1; i <= 1 ; i++) {
-			isInRange |= (currentAngleInRads +Math.PI*i < targetAngleInRads + errorInRads
-					&& currentAngleInRads +Math.PI*i > targetAngleInRads - errorInRads);
-		}
-		return isInRange;
+	public boolean isAtAngle(double targetAngleInRads, double tolerance) {
+		double currentAngleInRads = getModuleAngle();
+		boolean res = GBMath.modulo((currentAngleInRads - targetAngleInRads), (2 * Math.PI)) < tolerance
+				|| GBMath.modulo((targetAngleInRads - currentAngleInRads), (2 * Math.PI)) < tolerance;
+		return res;
 	}
 	
 	
 	@Override
-	public boolean isAtAngle(double errorInRads) {
-		boolean isInRange = false;
-		double currentAngleInRads = getModuleAngle() % Math.PI;
-		for (int i = -1; i <= 1 ; i++) {
-			isInRange |= (currentAngleInRads +Math.PI*i < targetAngle + errorInRads
-					&& currentAngleInRads +Math.PI*i > targetAngle - errorInRads);
-		}
-		return isInRange;
+	public boolean isAtAngle(double tolerance) {
+		return isAtAngle(targetAngle, tolerance);
 	}
 	
 	/**

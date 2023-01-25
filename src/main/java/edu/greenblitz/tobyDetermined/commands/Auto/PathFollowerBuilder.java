@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
 import java.sql.Time;
@@ -65,12 +66,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 						RobotMap.Swerve.MAX_ACCELERATION
 				));
 		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
-		return fullAuto(path).beforeStarting(new PreAutoCommand(path).raceWith(new InstantCommand(){
-			@Override
-			public void initialize() {
-				Timer.delay(0.5);
-			}
-		}));
+		return fullAuto(path).beforeStarting(new PreAutoCommand(path).raceWith(new WaitCommand(1.5)));
 	}
 	
 	/**

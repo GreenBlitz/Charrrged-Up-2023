@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.commands.swerve.RotateAllWheelsToAngle;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.math.util.Units;
@@ -17,7 +18,7 @@ public class Dashboard extends GBSubsystem {
 	public static Dashboard init() {
 		if (instance == null) {
 			instance = new Dashboard();
-			SmartDashboard.putNumber("aaaa",0);
+			SmartDashboard.putNumber("a",0);
 		}
 		return instance;
 	}
@@ -40,7 +41,8 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("FL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_LEFT));
 		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
 		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
-SmartDashboard.putNumber("kp", RobotMap.Swerve.translationPID.getKp())	;
+		SmartDashboard.putNumber("kp", RobotMap.Swerve.translationPID.getKp())	;
+		RobotMap.Swerve.translationPID.setKp(SmartDashboard.getNumber("a",2.9));
 		SmartDashboard.putNumber("speed",SwerveChassis.getInstance().getModuleState(SwerveChassis.Module.FRONT_RIGHT).speedMetersPerSecond);
 		SmartDashboard.putString("pose", SwerveChassis.getInstance().getRobotPose().toString());
 		
