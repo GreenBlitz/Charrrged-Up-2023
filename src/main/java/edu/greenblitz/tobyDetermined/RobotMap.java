@@ -84,8 +84,8 @@ public class RobotMap {
 		
 		
 		public static final PIDObject rotationPID = new PIDObject().withKp(0.5).withKi(0).withKd(0).withFF(0.1);
-		public static final double ks = 0.14876;
-		public static final double kv = 3.3055;
+		public static final double ks = 0.0452;
+		public static final double kv = 0.2;
 		
 		public static final double ka = 0.11023;
 		
