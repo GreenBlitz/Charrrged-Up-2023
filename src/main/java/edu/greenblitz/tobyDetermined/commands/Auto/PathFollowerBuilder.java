@@ -9,6 +9,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -30,6 +31,54 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	//todo add commands to event map
 	static {
 		// the event name, the command()
+		eventMap.put("place",new InstantCommand(){
+			@Override
+			public void initialize() {
+				SmartDashboard.putBoolean("place" ,true);
+				Timer.delay(2);
+			}
+			
+			
+			@Override
+			public void end(boolean interrupted) {
+				SmartDashboard.putBoolean("place" ,false);
+			}
+		});
+		eventMap.put("intake",new InstantCommand(){
+			@Override
+			public void initialize() {
+				SmartDashboard.putBoolean("intake" ,true);
+			}
+			
+			
+			@Override
+			public void end(boolean interrupted) {
+				SmartDashboard.putBoolean("intake" ,false);
+			}
+		});
+		eventMap.put("stopIntake",new InstantCommand(){
+			@Override
+			public void initialize() {
+				SmartDashboard.putBoolean("stopIntake" ,true);
+			}
+			
+			
+			@Override
+			public void end(boolean interrupted) {
+				SmartDashboard.putBoolean("stopIntake" ,false);
+			}
+		});
+		eventMap.put("processIntake",new InstantCommand(){
+			@Override
+			public void initialize() {
+				SmartDashboard.putBoolean("processes" ,true);
+			}
+			
+			@Override
+			public void end(boolean interrupted) {
+				SmartDashboard.putBoolean("processes" ,false);
+			}
+		});
 	}
 	
 	private static PathFollowerBuilder instance;

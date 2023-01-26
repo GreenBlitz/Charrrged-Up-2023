@@ -85,7 +85,7 @@ public class RobotMap {
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
 		public static final PIDObject translationPID = new PIDObject().withKp(2.9);
-		public static final PIDObject rotationPID = new PIDObject().withKp(2.5).withKi(0); //todo find
+		public static final PIDObject rotationPID = new PIDObject().withKp(3.6).withKi(0); //todo find
 		
 		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left

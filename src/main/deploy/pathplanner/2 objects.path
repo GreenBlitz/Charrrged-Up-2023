@@ -2,41 +2,43 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.7570485140970284,
-        "y": 4.394626074966436
+        "x": 1.8206582490197787,
+        "y": 5.077343335856429
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2208992777471996,
-        "y": 4.71140868101993
+        "x": 2.426737521092731,
+        "y": 5.1116497097473514
       },
-      "holonomicAngle": 178.2642954110716,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "place"
+        ],
         "executionBehavior": "parallel",
-        "waitBehavior": "none",
+        "waitBehavior": "after",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 1.814307485757829,
-        "y": 4.380311332051236
+        "x": 6.657856967639755,
+        "y": 4.562747727492601
       },
       "prevControl": {
-        "x": 4.1077498417479,
-        "y": 5.317487953092882
+        "x": 4.450813580657118,
+        "y": 4.860069634547257
       },
       "nextControl": {
-        "x": 0.8336371965004933,
-        "y": 3.9795769226418627
+        "x": 4.450813580657118,
+        "y": 4.860069634547257
       },
-      "holonomicAngle": -178.2642954110716,
-      "isReversal": false,
+      "holonomicAngle": 0,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
@@ -49,47 +51,44 @@
     },
     {
       "anchorPoint": {
-        "x": 1.7999927428426288,
-        "y": 4.437570303712036
+        "x": 1.7863518751288567,
+        "y": 4.471264063783477
       },
       "prevControl": {
-        "x": 2.2208992777471996,
-        "y": 4.482699521747118
+        "x": 2.6211403064746213,
+        "y": 4.791456886765414
       },
       "nextControl": null,
-      "holonomicAngle": 178.3153156821038,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "place"
+        ],
         "executionBehavior": "parallel",
-        "waitBehavior": "none",
+        "waitBehavior": "after",
         "waitTime": 0
       }
     }
   ],
-  "maxVelocity": 4.5,
-  "maxAcceleration": 14.83,
+  "maxVelocity": null,
+  "maxAcceleration": 14.0,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.0,
+      "position": 0.741818181818181,
       "names": [
-        "place_cube"
+        "intake"
       ]
     },
     {
-      "position": 0.3999999999999999,
+      "position": 1.1781818181817882,
       "names": [
-        "start_gripper"
-      ]
-    },
-    {
-      "position": 1.4545454545454548,
-      "names": [
-        "stop_gripper"
+        "stopIntake",
+        "processIntake"
       ]
     }
   ]
