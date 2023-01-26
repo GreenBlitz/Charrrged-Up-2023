@@ -35,7 +35,14 @@ public class RobotMap {
 		}
 	}
 
-	public static final ColorSensorV3 cs = new ColorSensorV3(I2C.Port.kOnboard);
+	public static class HandleObj {
+		public static final ColorSensorV3 cs = new ColorSensorV3(I2C.Port.kOnboard);
+		public enum Obj {
+			CONE,
+			CUBE,
+			NONE,
+		}
+	}
 
 	public static class gyro { //Yum
 		public static final int pigeonID = 12;
