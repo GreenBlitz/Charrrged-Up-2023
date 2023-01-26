@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RobotMap {
-	public static class General {
+    public static class General {
 		public final static double minVoltageBattery = 11.97;
 		public final static double VOLTAGE_COMP_VAL = 11.5;
 		public final static double RAMP_RATE_VAL = 0.4;
