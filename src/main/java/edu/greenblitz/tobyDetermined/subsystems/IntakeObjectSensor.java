@@ -4,6 +4,7 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class IntakeObjectSensor extends GBSubsystem {
@@ -25,7 +26,7 @@ public class IntakeObjectSensor extends GBSubsystem {
 
 	public GameObject curObject = null;
 	private double confidenceThreshold;
-
+	private static boolean shouldLogCalibration = false;
 	private IntakeObjectSensor(){
 		cs = new ColorSensorV3(I2C.Port.kOnboard);
 		colorMatcher = new ColorMatch();
@@ -38,6 +39,14 @@ public class IntakeObjectSensor extends GBSubsystem {
 	public static IntakeObjectSensor getInstance() {
 		if(instance == null) instance = new IntakeObjectSensor();
 		return instance;
+	}
+
+	public void CalibrteDashBoard(Color detectedColor, ColorMatchResult match){
+		if(match != null) SmartDashboard.putNumber("Confidence", match.confidence);
+		SmartDashboard.putNumber("Red", detectedColor.red);
+		SmartDashboard.putNumber("Green", detectedColor.green);
+		SmartDashboard.putNumber("Blue", detectedColor.blue);
+		SmartDashboard.putNumber("Proxy", cs.getProximity());
 	}
 
 	@Override
@@ -56,24 +65,18 @@ public class IntakeObjectSensor extends GBSubsystem {
 
 		ColorMatchResult match = colorMatcher.matchColor(detectedColor);
 
-		//calibrations
-//		SmartDashboard.putNumber("Red", detectedColor.red);
-//		SmartDashboard.putNumber("Green", detectedColor.green);
-//		SmartDashboard.putNumber("Blue", detectedColor.blue);
-//		SmartDashboard.putNumber("Proxy", cs.getProximity());
-
 		/**
 		 * Run the color match algorithm on our detected color
 		 */
 		if (match == null){
 			curObject = GameObject.NONE;
-			//return; needed if confidence is printed afterwards
+			return;
 		} else if (match.color == YELLOW_TARGET) {
 			curObject = GameObject.CONE;
 		} else if (match.color == PURPLE_TARGET){
 			curObject = GameObject.CUBE;
 		}
-		//calibrations
-//		SmartDashboard.putNumber("Confidence", match.confidence);
+
+		if(shouldLogCalibration) this.CalibrteDashBoard(detectedColor, match);
 	}
 }
