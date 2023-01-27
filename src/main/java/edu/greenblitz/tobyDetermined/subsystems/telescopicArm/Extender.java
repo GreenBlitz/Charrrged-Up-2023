@@ -16,6 +16,13 @@ public class Extender extends GBSubsystem {
     private static Extender instance;
     private GBSparkMax motor;
 
+    public static Extender getInstance (){
+        if(instance == null){
+            instance = new Extender();
+        }
+        return instance;
+    }
+
     private Extender(){
         motor = new GBSparkMax(0, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.getEncoder().setPosition(0);
@@ -25,12 +32,20 @@ public class Extender extends GBSubsystem {
 
     @Override
     public void periodic() {
-
+        
     }
 
     public void setLength(double lengthInMeters){
 
         motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
+    }
+
+    public double getLength (){
+        return motor.getEncoder().getPosition();
+    }
+
+    public ExtenderState getState(){
+        return state;
     }
 
     enum ExtenderState{
