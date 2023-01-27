@@ -5,7 +5,9 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
@@ -22,6 +24,10 @@ import java.util.HashMap;
 
 public class PathFollowerBuilder extends SwerveAutoBuilder {
 	
+	
+	
+	public static final PIDObject translationPID = new PIDObject().withKp(0);
+	public static final PIDObject rotationPID = new PIDObject().withKp(2).withKi(0);
 	
 	/**
 	 * the use of the event map is to run a marker by its name run a command
@@ -86,9 +92,10 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	private PathFollowerBuilder() {
 		super(SwerveChassis.getInstance()::getRobotPose,
 				(Pose2d pose) -> SwerveChassis.getInstance().resetChassisPose(pose),
-				RobotMap.Swerve.translationPID.getPIDConstants(),
-				RobotMap.Swerve.rotationPID.getPIDConstants(),
-				SwerveChassis.getInstance()::moveByChassisSpeeds,
+				SwerveChassis.getInstance().getKinematics(),
+				translationPID.getPIDConstants(),
+				rotationPID.getPIDConstants(),
+				SwerveChassis.getInstance()::setModuleStates,
 				eventMap,
 				SwerveChassis.getInstance()
 		);
@@ -111,29 +118,19 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 		PathPlannerTrajectory path = PathPlanner.loadPath(
 				pathName,
 				new PathConstraints(
-						RobotMap.Swerve.MAX_VELOCITY,
-						RobotMap.Swerve.MAX_ACCELERATION
+						RobotMap.Swerve.Pegaswerve.MAX_VELOCITY,
+						RobotMap.Swerve.Pegaswerve.MAX_ACCELERATION
 				));
 		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
 		return fullAuto(path).beforeStarting(new PreAutoCommand(path).raceWith(new WaitCommand(1.5)));
 	}
 	
-	/**
-	 * get the WPILib trajectory object from a .path file
-	 */
-	public Trajectory getTrajectory(String trajectory) {
-		return PathPlanner.loadPath(trajectory,
-				new PathConstraints(
-						RobotMap.Swerve.MAX_VELOCITY,
-						RobotMap.Swerve.MAX_ACCELERATION
-				));
-	}
 	public static PathPlannerTrajectory getPathPlannerTrajectory(String path){
 		return PathPlanner.loadPath(
 				path,
 				new PathConstraints(
-						RobotMap.Swerve.MAX_VELOCITY,
-						RobotMap.Swerve.MAX_ACCELERATION
+						RobotMap.Swerve.Pegaswerve.MAX_VELOCITY,
+						RobotMap.Swerve.Pegaswerve.MAX_ACCELERATION
 				));
 	}
 	

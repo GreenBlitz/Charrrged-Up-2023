@@ -71,6 +71,13 @@ public class RobotMap {
 	}
 	
 	public static class Swerve {
+		
+		public class Pegaswerve{
+			public static final double MAX_VELOCITY = 3.4930218;
+			public static final double MAX_ACCELERATION = 5.824409;
+			public static final double MAX_ANGULAR_SPEED = 8;
+			public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
+		}
 		static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
 		public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
 				//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
@@ -84,8 +91,6 @@ public class RobotMap {
 		public static final double MAX_ACCELERATION = 14.83;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
-		public static final PIDObject translationPID = new PIDObject().withKp(2.9);
-		public static final PIDObject rotationPID = new PIDObject().withKp(3.6).withKi(0); //todo find
 		
 		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left

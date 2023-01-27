@@ -66,7 +66,6 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void autonomousInit() {
-		PathFollowerBuilder.getInstance().followPath("2 objects").schedule();
 	}
 	
 	@Override

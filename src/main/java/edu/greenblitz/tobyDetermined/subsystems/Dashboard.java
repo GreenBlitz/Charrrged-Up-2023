@@ -41,8 +41,6 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("FL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.FRONT_LEFT));
 		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
 		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
-		SmartDashboard.putNumber("kp", RobotMap.Swerve.translationPID.getKp())	;
-		RobotMap.Swerve.translationPID.setKp(SmartDashboard.getNumber("a",2.9));
 		SmartDashboard.putNumber("speed",SwerveChassis.getInstance().getModuleState(SwerveChassis.Module.FRONT_RIGHT).speedMetersPerSecond);
 		SmartDashboard.putString("pose", SwerveChassis.getInstance().getRobotPose().toString());
 		
