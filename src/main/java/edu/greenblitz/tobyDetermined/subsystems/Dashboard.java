@@ -1,12 +1,8 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.OI;
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.awt.*;
 
 
 public class Dashboard extends GBSubsystem {
@@ -50,6 +46,6 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("pitch",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getPitch()));
 		SmartDashboard.putNumber("roll",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 
-		SmartDashboard.putString("Detected Color", IntakeObjSensor.getInstance().curObj.toString());
+		SmartDashboard.putString("Detected Color", IntakeObjectSensor.getInstance().curObject.toString());
 	}
 }
