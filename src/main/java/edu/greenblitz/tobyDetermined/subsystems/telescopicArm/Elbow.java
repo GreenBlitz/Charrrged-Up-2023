@@ -60,6 +60,9 @@ public class Elbow extends GBSubsystem {
         return state;
     }
 
+    public void stop (){
+        motor.set(0);
+    }
     @Override
     public void periodic() {
         if(getAngle() >= robotEntranceAngle){
