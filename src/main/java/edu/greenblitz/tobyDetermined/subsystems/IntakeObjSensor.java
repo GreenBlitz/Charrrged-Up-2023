@@ -20,7 +20,6 @@ public class IntakeObjSensor extends GBSubsystem {
 		CUBE,
 		NONE,
 	}
-
 	private final Color kYellowTarget = new Color(0.477f, 0.478f, 0.063f);
 	private final Color kPurpleTarget = new Color(0.27f, 0.355f, 0.357f);
 	public final ColorMatch colorMatcher = new ColorMatch();
@@ -49,22 +48,22 @@ public class IntakeObjSensor extends GBSubsystem {
 		 * read the raw color, use GetRawColor().
 		 *
 		 * The color sensor works best when within a few inches from an object in
-		 * well lit conditions (the built in LED is a big help here!). The farther
+		 * well lit conditions (the built-in LED is a big help here!). The farther
 		 * an object is the more light from the surroundings will bleed into the
 		 * measurements and make it difficult to accurately determine its color.
 		 */
 		Color detectedColor = cs.getColor();
 
+		ColorMatchResult match = colorMatcher.matchColor(detectedColor);
+
+//		SmartDashboard.putNumber("Red", detectedColor.red);
+//		SmartDashboard.putNumber("Green", detectedColor.green);
+//		SmartDashboard.putNumber("Blue", detectedColor.blue);
+//		SmartDashboard.putNumber("Proxy", cs.getProximity());
+
 		/**
 		 * Run the color match algorithm on our detected color
 		 */
-		ColorMatchResult match = colorMatcher.matchColor(detectedColor);
-
-		SmartDashboard.putNumber("Red", detectedColor.red);
-		SmartDashboard.putNumber("Green", detectedColor.green);
-		SmartDashboard.putNumber("Blue", detectedColor.blue);
-		SmartDashboard.putNumber("Proxy", cs.getProximity());
-
 		if (match == null){
 			curObj = Obj.NONE;
 			return;
@@ -74,7 +73,6 @@ public class IntakeObjSensor extends GBSubsystem {
 		} else if (match.color == kPurpleTarget){
 			curObj = Obj.CUBE;
 		}
-
-		SmartDashboard.putNumber("Confidence", match.confidence);
+//		SmartDashboard.putNumber("Confidence", match.confidence);
 	}
 }
