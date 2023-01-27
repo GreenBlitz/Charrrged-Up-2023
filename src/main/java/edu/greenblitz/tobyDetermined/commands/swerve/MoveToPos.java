@@ -14,11 +14,11 @@ public class MoveToPos extends SwerveCommand {
     private ProfiledPIDController rotationController;
     private Pose2d pos;
 
-    public static final double rotKp = 0.2;
+    public static final double rotKp = 2;
     public static final double rotKi = 0;
     public static final double rotKd = 0;
 
-    public static final double translationKp = 0.2;
+    public static final double translationKp = 2;
     public static final double translationKi = 0;
     public static final double translationKd = 0;
 
@@ -30,18 +30,18 @@ public class MoveToPos extends SwerveCommand {
         yController = new ProfiledPIDController(translationKp,translationKi,translationKd,RobotMap.Swerve.Autonomus.constraints);
         rotationController = new ProfiledPIDController(rotKp,rotKi,rotKd,RobotMap.Swerve.Autonomus.constraints);
         rotationController.enableContinuousInput(-Math.PI,Math.PI);
-        xController.setTolerance(0.2); //magic number and proud
-        yController.setTolerance(0.2);
-        rotationController.setTolerance(Units.degreesToRadians(2));
+        xController.setTolerance(0.05); //magic number and proud
+        yController.setTolerance(0.05);
+        rotationController.setTolerance(Units.degreesToRadians(4));
 
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        xController.reset(swerve.getRobotPose().getX());
-        yController.reset(swerve.getRobotPose().getY());
-        rotationController.reset(swerve.getRobotPose().getRotation().getRadians());
+        xController.reset(swerve.getRobotPose().getX(), swerve.getChassisSpeeds().vxMetersPerSecond);
+        yController.reset(swerve.getRobotPose().getY(), swerve.getChassisSpeeds().vyMetersPerSecond);
+        rotationController.reset(swerve.getRobotPose().getRotation().getRadians(), swerve.getChassisSpeeds().omegaRadiansPerSecond);
         xController.setGoal(new TrapezoidProfile.State(pos.getX(), 0));
         yController.setGoal(new TrapezoidProfile.State(pos.getY(), 0));
         rotationController.setGoal(new TrapezoidProfile.State(pos.getRotation().getRadians(), 0));
