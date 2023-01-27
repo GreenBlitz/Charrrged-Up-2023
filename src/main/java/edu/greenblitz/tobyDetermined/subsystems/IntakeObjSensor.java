@@ -14,9 +14,8 @@ public class IntakeObjSensor extends GBSubsystem {
 	 * and displays it on the dashboard
 	 */
 
-	private final Color kYellowTarget = new Color(0.364f, 0.522f, 0.107f);
-	private final Color kPurpleTarget = new Color(0.2571f, 0.441f, 0.3f);
-	private final Color kNothingTarget = new Color(0.284f, 0.481f, 0.234f);
+	private final Color kYellowTarget = new Color(0.34509f, 0.51764f, 0.1333f);
+	private final Color kPurpleTarget = new Color(0.25f, 0.328f, 0.456f);
 	public final ColorMatch colorMatcher = new ColorMatch();
 
 	private static IntakeObjSensor instance;
@@ -26,7 +25,8 @@ public class IntakeObjSensor extends GBSubsystem {
 	private IntakeObjSensor(){
 		colorMatcher.addColorMatch(kYellowTarget);
 		colorMatcher.addColorMatch(kPurpleTarget);
-		colorMatcher.addColorMatch(kNothingTarget);
+		
+		colorMatcher.setConfidenceThreshold(0.91);
 	}
 
 	public static IntakeObjSensor getInstance() {
@@ -51,23 +51,25 @@ public class IntakeObjSensor extends GBSubsystem {
 		/**
 		 * Run the color match algorithm on our detected color
 		 */
-		ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-
+		ColorMatchResult match = colorMatcher.matchColor(detectedColor);
+		
+		if (match == null){
+			curObj = RobotMap.HandleObj.Obj.NONE;
+			return;
+		}
 		if (match.color == kYellowTarget) {
 			curObj = RobotMap.HandleObj.Obj.CONE;
 		} else if (match.color == kPurpleTarget){
 			curObj = RobotMap.HandleObj.Obj.CUBE;
-		} else if (match.color == kNothingTarget){
-			curObj = RobotMap.HandleObj.Obj.NONE;
 		}
 
 		/**
 		 * Open Smart Dashboard or Shuffleboard to see the color detected by the
 		 * sensor.
 		 */
-//		SmartDashboard.putNumber("Red", detectedColor.red);
-//		SmartDashboard.putNumber("Green", detectedColor.green);
-//		SmartDashboard.putNumber("Blue", detectedColor.blue);
-//		SmartDashboard.putNumber("Confidence", match.confidence);
+		SmartDashboard.putNumber("Red", detectedColor.red);
+		SmartDashboard.putNumber("Green", detectedColor.green);
+		SmartDashboard.putNumber("Blue", detectedColor.blue);
+		SmartDashboard.putNumber("Confidence", match.confidence);
 	}
 }
