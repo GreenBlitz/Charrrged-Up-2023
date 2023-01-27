@@ -2,26 +2,23 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ControlType;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
 
-import javax.crypto.MacSpi;
 
 public class Elbow extends GBSubsystem {
 
 
     private static Elbow instance;
-
     private elbowState state = elbowState.IN_ROBOT;
     private GBSparkMax motor;
+    private static final double robotEntranceAngle = Math.PI /2;
 
     private static final int motorID = 1;
     private static final PIDObject elbowAngularPID = new PIDObject();
-    private static final double forwardLimit = Math.PI ;
+    private static final double motorAngleLimit = Math.PI;
 
     public static Elbow getInstance(){
         if(instance == null){
@@ -38,23 +35,34 @@ public class Elbow extends GBSubsystem {
                 .withPositionConversionFactor(RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN)
         );
         motor.getEncoder().setPosition(0); //resetPosition
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,(float) forwardLimit);
-    }
-    public void setAngle (double angleInRands){
-        motor.getPIDController().setReference(angleInRands, CANSparkMax.ControlType.kPosition);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,(float) motorAngleLimit);
     }
 
-    public double getAngle (){
+    public void setAngle(double angleInRands){
+        switch (Extender.getInstance().getState()){
+            case OPEN:
+                if (angleInRands < robotEntranceAngle){
+                    motor.getPIDController().setReference(robotEntranceAngle, CANSparkMax.ControlType.kPosition);
+                }
+                break;
+
+            case CLOSED:
+                motor.getPIDController().setReference(angleInRands, CANSparkMax.ControlType.kPosition);
+                break;
+        }
+    }
+
+    public double getAngle(){
         return motor.getEncoder().getPosition();
     }
 
-    public elbowState getState (){
+    public elbowState getState(){
         return state;
     }
 
     @Override
     public void periodic() {
-        if(getAngle() >= 45){
+        if(getAngle() >= robotEntranceAngle){
             state = elbowState.OUT_ROBOT;
         }else{
             state = elbowState.IN_ROBOT;

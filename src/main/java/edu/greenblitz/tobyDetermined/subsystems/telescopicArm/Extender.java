@@ -12,6 +12,8 @@ public class Extender extends GBSubsystem {
     private static final int FORWARD_LIMIT = 0;
     private static ExtenderState state = ExtenderState.CLOSED;
 
+    private static final double maxLengthInRobot = 0.4;
+
     private static final PIDObject extenderPID = new PIDObject();
     private static Extender instance;
     private GBSparkMax motor;
@@ -24,18 +26,35 @@ public class Extender extends GBSubsystem {
     }
 
     private Extender(){
-        motor = new GBSparkMax(0, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor = new GBSparkMax(EXTENDER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.getEncoder().setPosition(0);
+        motor.config(new GBSparkMax.SparkMaxConfObject().withPID(extenderPID));
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, FORWARD_LIMIT);
     }
 
     @Override
     public void periodic() {
-        
+        if (getLength() >=maxLengthInRobot){
+            state = ExtenderState.OPEN;
+        }else{
+            state = ExtenderState.CLOSED;
+        }
+
     }
 
     public void setLength(double lengthInMeters){
+        switch (Elbow.getInstance().getState()){
+            case IN_ROBOT:
+                if (lengthInMeters < maxLengthInRobot){
+                    motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
+                }
+                break;
+
+            case OUT_ROBOT:
+                motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
+                break;
+        }
 
         motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
     }
@@ -49,6 +68,6 @@ public class Extender extends GBSubsystem {
     }
 
     enum ExtenderState{
-        CLOSED, SEMI_OPEN, OPEN
+        CLOSED, OPEN
     }
 }

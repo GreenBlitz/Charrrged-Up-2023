@@ -38,6 +38,4 @@ public class Claw extends GBSubsystem {
         claw.set(DoubleSolenoid.Value.kReverse);
         this.state = ClawState.CLOSED;
     }
-    }
-
-
+}
