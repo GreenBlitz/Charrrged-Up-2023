@@ -4,15 +4,15 @@ import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MoveAngularByJoystick extends SwerveCommand {
+public class CalibrateMaxSpeedAngular extends SwerveCommand {
 	
 	private double prevSpeed;
 	private long prevTimeMilli;
 	private static final double TIME_TO_ACCELERATE = 0.2;
-	private static final double AMOUNT_OF_MILLISECONDS_IN_SECONDS = 1000.0;
 	
 	private Timer timer;
 	
@@ -30,12 +30,12 @@ public class MoveAngularByJoystick extends SwerveCommand {
 		if (timer.advanceIfElapsed(TIME_TO_ACCELERATE)) {
 			double curSpeed = swerve.getChassisSpeeds().omegaRadiansPerSecond;
 			long curTimeMilli = System.currentTimeMillis();
-			double maxAcl = (curSpeed - prevSpeed) / ((curTimeMilli - prevTimeMilli) / AMOUNT_OF_MILLISECONDS_IN_SECONDS);
+			double maxAcl = (curSpeed - prevSpeed) / Units.millisecondsToSeconds(curTimeMilli - prevTimeMilli);
 			prevTimeMilli = curTimeMilli;
 			prevSpeed = curSpeed;
-			maxAcl = Math.max(Math.abs(maxAcl), SmartDashboard.getNumber("max acceleration", 0));
-			SmartDashboard.putNumber("max acceleration", maxAcl);
-			
+			maxAcl = Math.max(Math.abs(maxAcl), SmartDashboard.getNumber("max angular acceleration", 0));
+			SmartDashboard.putNumber("max angular acceleration", maxAcl);
+			SmartDashboard.putNumber("max lin acceleration", maxAcl * RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates[0].getNorm());
 		}
 		double maxSpeed = Math.max(Math.abs(swerve.getChassisSpeeds().omegaRadiansPerSecond), SmartDashboard.getNumber("max ang speed", 0));
 		
