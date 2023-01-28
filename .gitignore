@@ -9,6 +9,7 @@
 *.ctxt
 
 # Duplicate of project file, see http://www.hs-owl.de/fb5/labor/it/de/if1/vl/IF1JavaOhneBluej.pdf, page 4
+.idea/
 bluej.pkh
 
 ### Eclipse ###

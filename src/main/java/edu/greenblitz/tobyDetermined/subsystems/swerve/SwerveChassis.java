@@ -57,8 +57,8 @@ public class SwerveChassis extends GBSubsystem {
 	
 	@Override
 	public void periodic() {
-//		updatePoseEstimation();
-//		field.setRobotPose(getRobotPose());
+		updatePoseEstimation();
+		field.setRobotPose(getRobotPose());
 	}
 	
 	/**

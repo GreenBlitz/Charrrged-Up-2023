@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
-public class IntakeObjectSensor extends GBSubsystem {
+public class IntakeGameObjectSensor extends GBSubsystem {
 	/**
 	 * it senses the object inside (cone/cube) using the color sensor,
 	 * and displays it on the dashboard
@@ -18,26 +18,33 @@ public class IntakeObjectSensor extends GBSubsystem {
 		CUBE,
 		NONE,
 	}
-	private static final Color YELLOW_TARGET = new Color(0.477f, 0.478f, 0.063f);
-	private static final Color PURPLE_TARGET = new Color(0.27f, 0.355f, 0.357f);
+	private static Color YELLOW_TARGET;
+	private static Color PURPLE_TARGET;
 	public final ColorMatch colorMatcher;
 
-	private static IntakeObjectSensor instance;
+	private static IntakeGameObjectSensor instance;
 
 	public GameObject curObject = null;
-	private double confidenceThreshold;
+	private static final double confidenceThreshold  = 0.9;;
 	private static boolean shouldLogCalibration = false;
-	private IntakeObjectSensor(){
+	private IntakeGameObjectSensor(){
 		cs = new ColorSensorV3(I2C.Port.kOnboard);
+
+
+		YELLOW_TARGET = new Color(0.477f, 0.478f, 0.063f);
+		PURPLE_TARGET = new Color(0.27f, 0.355f, 0.357f);
+
 		colorMatcher = new ColorMatch();
 		colorMatcher.addColorMatch(YELLOW_TARGET);
 		colorMatcher.addColorMatch(PURPLE_TARGET);
-		confidenceThreshold = 0.9;
+
 		colorMatcher.setConfidenceThreshold(confidenceThreshold);
+
+
 	}
 
-	public static IntakeObjectSensor getInstance() {
-		if(instance == null) instance = new IntakeObjectSensor();
+	public static IntakeGameObjectSensor getInstance() {
+		if(instance == null) instance = new IntakeGameObjectSensor();
 		return instance;
 	}
 
@@ -70,7 +77,6 @@ public class IntakeObjectSensor extends GBSubsystem {
 		 */
 		if (match == null){
 			curObject = GameObject.NONE;
-			return;
 		} else if (match.color == YELLOW_TARGET) {
 			curObject = GameObject.CONE;
 		} else if (match.color == PURPLE_TARGET){
