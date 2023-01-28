@@ -2,7 +2,6 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -43,6 +42,6 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("roll",Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 
 		SmartDashboard.putNumber("real pitch", Math.toDegrees(PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getRoll(),SwerveChassis.getInstance().getPigeonGyro().getPitch())));
-		
+		SmartDashboard.putString("Detected Color", IntakeObjectSensor.getInstance().curObject.toString());
 	}
 }
