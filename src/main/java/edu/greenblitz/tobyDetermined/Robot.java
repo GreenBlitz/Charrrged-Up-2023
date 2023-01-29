@@ -5,7 +5,7 @@ package edu.greenblitz.tobyDetermined;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
-import edu.greenblitz.tobyDetermined.subsystems.IntakeObjectSensor;
+import edu.greenblitz.tobyDetermined.subsystems.IntakeGameObjectSensor;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.net.PortForwarder;
@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
 		initPortForwarding();
 		LiveWindow.disableAllTelemetry();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-		IntakeObjectSensor.getInstance().periodic();
+		IntakeGameObjectSensor.getInstance().periodic();
 		
 		//swerve
 		
