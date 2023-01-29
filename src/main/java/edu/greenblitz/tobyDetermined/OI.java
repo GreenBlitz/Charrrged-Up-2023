@@ -1,7 +1,14 @@
 package edu.greenblitz.tobyDetermined;
 
 
+import edu.greenblitz.tobyDetermined.commands.funnel.RunFunnel;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
+import edu.greenblitz.tobyDetermined.commands.intake.roller.RunRoller;
+import edu.greenblitz.tobyDetermined.commands.multiSystem.EjectEnemyBallFromGripper;
+import edu.greenblitz.tobyDetermined.commands.shooter.ShooterByRPM;
+import edu.greenblitz.tobyDetermined.commands.shooter.StopShooter;
 import edu.greenblitz.tobyDetermined.commands.swerve.*;
+import edu.greenblitz.tobyDetermined.subsystems.Funnel;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -44,6 +51,19 @@ public class OI { //GEVALD
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
+		
+		secondJoystick.Y.whileTrue(new EjectEnemyBallFromGripper());
+		
+		secondJoystick.R1.whileTrue(new ShooterByRPM(2350).andThen(new StopShooter()));
+		
+		
+		secondJoystick.B.whileTrue(new RunRoller().alongWith(new RunFunnel().until(() -> Funnel.getInstance().isMacroSwitchPressed())));
+		
+		
+		secondJoystick.START.toggleOnTrue(new ToggleRoller());
+		secondJoystick.POV_DOWN.whileTrue(new RunFunnel());
+		
+		
 	}
 	
 	public SmartJoystick getMainJoystick() {

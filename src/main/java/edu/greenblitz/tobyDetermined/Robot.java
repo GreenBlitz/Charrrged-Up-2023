@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 		Limelight.getInstance();
 		initPortForwarding();
 		LiveWindow.disableAllTelemetry();
-		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+		//Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 //		IntakeObjectSensor.getInstance().periodic();
 
 		//swerve
