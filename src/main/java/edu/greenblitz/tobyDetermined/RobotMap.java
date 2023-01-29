@@ -12,6 +12,7 @@ import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -38,15 +39,61 @@ public class RobotMap {
 			public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
 		}
 	}
-
-	public static class gyro { //Yum
-		public static final int pigeonID = 12;
+	
+	public static class Intake {
+		
+		public static final double POWER = 1.0;
+		public static final double REVERSE_POWER = -1.0;
+		
+		public static class Motors {
+			public static final int ROLLER_PORT = 6;
+			public static final boolean IS_REVERSED = false;
+		}
+		
+		public static class Solenoid {
+			public static final int FORWARD_PORT = 1;
+			public static final int REVERSE_PORT = 0;
+		}
 	}
 	
-	public static class Joystick {
-		public static final int MAIN = 0;
-		public static final int SECOND = 1;
+	public static class Shooter {
+		public static class ShooterMotor {
+			public static final int PORT_LEADER = 7;
+			
+			public static final GBSparkMax.SparkMaxConfObject shooterConf = new GBSparkMax.SparkMaxConfObject()
+					.withInverted(true) //whether the motor should be flipped
+					.withCurrentLimit(40) // the max current to allow should be inline with the fuse
+					.withIdleMode(CANSparkMax.IdleMode.kCoast) // trying to force brake is harmful for the motor
+					.withRampRate(General.RAMP_RATE_VAL) // prevents the motor from drawing to much when rapidly changing speeds
+					.withVoltageComp(General.VOLTAGE_COMP_VAL) // makes for more reproducible results
+					.withPositionConversionFactor(1) // todo the gear ratio was not used on the shooter at any point this year should change but not trivial
+					.withVelocityConversionFactor(1)
+					.withPID(new PIDObject(0.0003, 0.0000003, 0).withIZone(300));
+			
+			
+			public static final double RPM = 2350;
+			
+			// devided by 60 because the SysID is in RPS and our code is in RPM
+			public static final double ks = 0.31979 / 60; //todo
+			public static final double kv = 0.13012 / 60;
+			public static final double ka = 0.017243 / 60;
+			
+			public static final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(ShooterMotor.ks, ShooterMotor.kv, ShooterMotor.ka);
+
+		}
+		
 	}
+	public static class Funnel {
+		public static final double POWER = 0.7;
+		public static final double REVERSE_POWER = -0.7;
+		public static final int MACRO_SWITCH_PORT = 1;
+		
+		public static class FunnelMotor {
+			public static final int MOTOR_PORT = 5;
+			public static final boolean IS_REVERSED = true;
+		}
+	}
+	
 	
 	public static class Pneumatics {
 		public static class PCM {
@@ -57,6 +104,15 @@ public class RobotMap {
 		public static class PressureSensor {
 			public static final int PRESSURE = 3;
 		}
+	}
+	
+	public static class gyro { //Yum
+		public static final int pigeonID = 12;
+	}
+	
+	public static class Joystick {
+		public static final int MAIN = 0;
+		public static final int SECOND = 1;
 	}
 	
 	public static class Vision {
