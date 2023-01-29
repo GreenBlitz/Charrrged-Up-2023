@@ -4,13 +4,16 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.utils.GBMath;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.General.Motors.NEO_PHYSICAL_TICKS_TO_RADIANS;
 
@@ -56,6 +59,7 @@ public class KazaSwerveModule implements SwerveModule {
 	@Override
 	public void rotateToAngle(double angle) {
 		angleMotor.getPIDController().setReference(angle, ControlType.kPosition);
+		SmartDashboard.putNumber("error" + angleMotor.getDeviceId(), Units.radiansToDegrees(Math.min(GBMath.modulo(targetAngle - getModuleAngle(), 2* Math.PI), GBMath.modulo(getModuleAngle() - targetAngle, 2* Math.PI))));
 		targetAngle = angle;
 	}
 	

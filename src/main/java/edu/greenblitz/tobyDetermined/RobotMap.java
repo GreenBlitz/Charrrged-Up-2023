@@ -24,7 +24,7 @@ public class RobotMap {
 		public final static double minVoltageBattery = 11.97;
 		public final static double VOLTAGE_COMP_VAL = 11.5;
 		public final static double RAMP_RATE_VAL = 0.4;
-		public final static double ITERATION_DT	= 0.13;
+		public final static double ITERATION_DT	= 0.1175;
 		public static class Motors {
 			public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
 			public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
@@ -120,7 +120,7 @@ public class RobotMap {
 			public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
 			public static final GBSparkMax.SparkMaxConfObject baseLinConfObj = new GBSparkMax.SparkMaxConfObject().withIdleMode(CANSparkMax.IdleMode.kBrake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL).withPID(linPID).withPositionConversionFactor(linTicksToMeters).withVelocityConversionFactor(linTicksToMetersPerSecond);
 			public static final double angleTicksToRadians = RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / ANG_GEAR_RATIO;
-			public static final PIDObject angPID = new PIDObject().withKp(0.5).withMaxPower(1.0);
+			public static final PIDObject angPID = new PIDObject().withKp(0.4).withMaxPower(1.0);
 			public static final GBSparkMax.SparkMaxConfObject baseAngConfObj = new GBSparkMax.SparkMaxConfObject().withIdleMode(CANSparkMax.IdleMode.kBrake).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL).withInverted(true).withPID(angPID).withPositionConversionFactor(angleTicksToRadians).withVelocityConversionFactor(angleTicksToWheelToRPM);
 		}
 		
