@@ -125,8 +125,8 @@ public class SwerveChassis extends GBSubsystem {
 		return getModule(module).getModuleAngle();
 	}
 	
-	public boolean moduleIsAtAngle(Module module,double targetAngleInRads, double errorInRads){
-		return getModule(module).isAtAngle(targetAngleInRads,errorInRads);
+	public boolean moduleIsAtAngle(Module module, double targetAngleInRads, double errorInRads) {
+		return getModule(module).isAtAngle(targetAngleInRads, errorInRads);
 	}
 	
 	public void resetChassisPose() {
@@ -161,32 +161,24 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed, double currentAng) {
-		SmartDashboard.putBoolean("enable pose-exp-comp", SmartDashboard.getBoolean("enable pose-exp-comp", false));
-		boolean enable = SmartDashboard.getBoolean("enable pose-exp-comp", false);
 		ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
 				forwardSpeed,
 				leftwardSpeed,
 				angSpeed,
 				Rotation2d.fromDegrees(Math.toDegrees(currentAng)));
-
+		
 		Pose2d robot_pose_vel = new Pose2d(chassisSpeeds.vxMetersPerSecond * RobotMap.General.ITERATION_DT,
 				chassisSpeeds.vyMetersPerSecond * RobotMap.General.ITERATION_DT,
 				Rotation2d.fromRadians(chassisSpeeds.omegaRadiansPerSecond * RobotMap.General.ITERATION_DT));
 		Twist2d twist_vel = new Pose2d().log(robot_pose_vel);
 		ChassisSpeeds updated_chassis_speeds = new ChassisSpeeds(
 				twist_vel.dx / RobotMap.General.ITERATION_DT, twist_vel.dy / RobotMap.General.ITERATION_DT, twist_vel.dtheta / RobotMap.General.ITERATION_DT);
-
+		
 		SwerveModuleState[] states;
 		SmartDashboard.putNumber("delta x", chassisSpeeds.vxMetersPerSecond - updated_chassis_speeds.vxMetersPerSecond);
 		SmartDashboard.putNumber("delta y", chassisSpeeds.vyMetersPerSecond - updated_chassis_speeds.vyMetersPerSecond);
 		SmartDashboard.putNumber("delta omega", chassisSpeeds.omegaRadiansPerSecond - updated_chassis_speeds.omegaRadiansPerSecond);
-
-		if(enable) {
-			states = kinematics.toSwerveModuleStates(updated_chassis_speeds);
-		}
-		else{
-			states = kinematics.toSwerveModuleStates(chassisSpeeds);
-		}
+		states = kinematics.toSwerveModuleStates(updated_chassis_speeds);
 		setModuleStates(states);
 	}
 	
@@ -265,16 +257,19 @@ public class SwerveChassis extends GBSubsystem {
 		BACK_LEFT,
 		BACK_RIGHT
 	}
-
-
-	/** set the idle mode of the linear motor to brake */
-	public void setIdleModeBrake (){
-		for (Module module: Module.values()) {
+	
+	
+	/**
+	 * set the idle mode of the linear motor to brake
+	 */
+	public void setIdleModeBrake() {
+		for (Module module : Module.values()) {
 			getModule(module).setLinIdleModeBrake();
 		}
 	}
-	public void setIdleModeCoast (){
-		for (Module module: Module.values()) {
+	
+	public void setIdleModeCoast() {
+		for (Module module : Module.values()) {
 			getModule(module).setLinIdleModeCoast();
 		}
 	}
