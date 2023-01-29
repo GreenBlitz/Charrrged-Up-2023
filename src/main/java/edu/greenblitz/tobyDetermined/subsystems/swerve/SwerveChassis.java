@@ -10,6 +10,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -161,12 +162,32 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed, double currentAng) {
+		SmartDashboard.putBoolean("enable pose-exp-comp", SmartDashboard.getBoolean("enable pose-exp-comp", false));
+		boolean enable = SmartDashboard.getBoolean("enable pose-exp-comp", false);
 		ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
 				forwardSpeed,
 				leftwardSpeed,
 				angSpeed,
 				Rotation2d.fromDegrees(Math.toDegrees(currentAng)));
-		SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
+
+		Pose2d robot_pose_vel = new Pose2d(chassisSpeeds.vxMetersPerSecond * RobotMap.General.ITERATION_DT,
+				chassisSpeeds.vyMetersPerSecond * RobotMap.General.ITERATION_DT,
+				Rotation2d.fromRadians(chassisSpeeds.omegaRadiansPerSecond * RobotMap.General.ITERATION_DT));
+		Twist2d twist_vel = new Pose2d().log(robot_pose_vel);
+		ChassisSpeeds updated_chassis_speeds = new ChassisSpeeds(
+				twist_vel.dx / RobotMap.General.ITERATION_DT, twist_vel.dy / RobotMap.General.ITERATION_DT, twist_vel.dtheta / RobotMap.General.ITERATION_DT);
+
+		SwerveModuleState[] states;
+		SmartDashboard.putNumber("delta x", chassisSpeeds.vxMetersPerSecond - updated_chassis_speeds.vxMetersPerSecond);
+		SmartDashboard.putNumber("delta y", chassisSpeeds.vyMetersPerSecond - updated_chassis_speeds.vyMetersPerSecond);
+		SmartDashboard.putNumber("delta omega", chassisSpeeds.omegaRadiansPerSecond - updated_chassis_speeds.omegaRadiansPerSecond);
+
+		if(enable) {
+			states = kinematics.toSwerveModuleStates(updated_chassis_speeds);
+		}
+		else{
+			states = kinematics.toSwerveModuleStates(chassisSpeeds);
+		}
 		setModuleStates(states);
 	}
 	

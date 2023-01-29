@@ -40,11 +40,10 @@ public class OI { //GEVALD
 	public double countB = 0;
 	
 	private void initButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-
 	}
 	
 	public SmartJoystick getMainJoystick() {
