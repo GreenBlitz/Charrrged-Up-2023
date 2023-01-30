@@ -6,19 +6,21 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.math.util.Units;
 
 
 public class Elbow extends GBSubsystem {
 
 
     private static Elbow instance;
-    private elbowState state = elbowState.IN_ROBOT;
-    private GBSparkMax motor;
-    private static final double robotEntranceAngle = Math.PI /2;
+    public ElbowState state = ElbowState.IN_ROBOT;
+    public GBSparkMax motor;
+    public static final double forwardEntranceAngle = Units.degreesToRadians(69);
+    public static final double backWardEntranceAngle = Units.degreesToRadians(-69);
 
-    private static final int motorID = 1;
-    private static final PIDObject elbowAngularPID = new PIDObject();
-    private static final double motorAngleLimit = Math.PI;
+    public static final int motorID = 1;
+    public static final PIDObject elbowAngularPID = new PIDObject();
+    public static final double motorAngleLimit = Math.PI;
 
     public static Elbow getInstance(){
         if(instance == null){
@@ -38,16 +40,16 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,(float) motorAngleLimit);
     }
 
-    public void setAngle(double angleInRands){
+    public void setAngle(double angleInRads){
         switch (Extender.getInstance().getState()){
             case OPEN:
-                if (angleInRands < robotEntranceAngle){
-                    motor.getPIDController().setReference(robotEntranceAngle, CANSparkMax.ControlType.kPosition);
+                if (getHypotheticalState(angleInRads) == ElbowState.OUT_ROBOT){
+                    motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
                 }
                 break;
 
             case CLOSED:
-                motor.getPIDController().setReference(angleInRands, CANSparkMax.ControlType.kPosition);
+                motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
                 break;
         }
     }
@@ -56,7 +58,7 @@ public class Elbow extends GBSubsystem {
         return motor.getEncoder().getPosition();
     }
 
-    public elbowState getState(){
+    public ElbowState getState(){
         return state;
     }
 
@@ -65,14 +67,18 @@ public class Elbow extends GBSubsystem {
     }
     @Override
     public void periodic() {
-        if(getAngle() >= robotEntranceAngle){
-            state = elbowState.OUT_ROBOT;
+        state = getHypotheticalState(getAngle());
+    }
+
+    public static ElbowState getHypotheticalState(double angleInRads){
+        if(angleInRads >= forwardEntranceAngle){
+            return ElbowState.OUT_ROBOT;
         }else{
-            state = elbowState.IN_ROBOT;
+            return ElbowState.IN_ROBOT;
         }
     }
 
-    public enum elbowState {
+    public enum ElbowState {
         IN_ROBOT,OUT_ROBOT;
     }
 

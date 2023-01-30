@@ -12,8 +12,15 @@ public class Extender extends GBSubsystem {
     private static final int BACKWARDS_LIMIT = 0;
     private static final int FORWARD_LIMIT = 0;
     private static final double distanceBetweenHoles = 6.35;
-    private static final double gearRation = 1 / 7.0;
-    private static final double extenderConversionFactor = (RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / gearRation) * distanceBetweenHoles;
+    private static final double lastGearTeethNumber = 32;
+    private static final double gearRatio = 1 / 7.0;
+    private static final double extenderConversionFactor =
+            (((RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / gearRatio) * lastGearTeethNumber) /
+                    RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN) * distanceBetweenHoles;
+
+
+
+    ; //todo this is wrong!
     private static ExtenderState state = ExtenderState.CLOSED;
 
     private static final double maxLengthInRobot = 0.4;
@@ -50,11 +57,21 @@ public class Extender extends GBSubsystem {
 
     }
 
+    public static ExtenderState getHypotheticalState (double lengthInMeters){
+        if(lengthInMeters >= maxLengthInRobot){
+            return ExtenderState.OPEN;
+        }else{
+            return ExtenderState.CLOSED;
+        }
+    }
+
     public void setLength(double lengthInMeters){
-        switch (Elbow.getInstance().getState()){
+        switch (Elbow.getHypotheticalState(Elbow.getInstance().getAngle())){
             case IN_ROBOT:
-                if (lengthInMeters < maxLengthInRobot){
+                if (getHypotheticalState(lengthInMeters) == ExtenderState.CLOSED){
                     motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
+                }else{
+                    stop();
                 }
                 break;
 
@@ -81,4 +98,25 @@ public class Extender extends GBSubsystem {
     enum ExtenderState{
         CLOSED, OPEN
     }
+
+    public enum presetPositions {
+        //height in meters
+        //angle in radians
+        coneHigh(1.545639026, 49.1),
+        coneMid(1.04560987, 56.30993247),
+        CubeHigh(1.352811886, 41.70388403),
+        CubeMid(83.45058418, 34.59228869),
+        low(0, 5),
+        ;
+        public final double distance;
+        public final double angleInDegrees;
+
+        presetPositions(double distance, double angle) {
+            this.distance = distance;
+            this.angleInDegrees = angle;
+
+        }
+    }
 }
+
+
