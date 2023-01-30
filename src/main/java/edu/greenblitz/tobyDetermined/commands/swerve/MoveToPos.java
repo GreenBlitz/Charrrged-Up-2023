@@ -21,24 +21,24 @@ public class MoveToPos extends SwerveCommand {
     public static final double translationKp = 2;
     public static final double translationKi = 0;
     public static final double translationKd = 0;
+    
+    private double tolerance = 0.05;
+    private double rotationTolerance = 4;
 
     public MoveToPos(Pose2d pos) {
-        SmartDashboard.putBoolean("did push", true);
         this.pos = pos;
-
-        xController = new ProfiledPIDController(translationKp,translationKi,translationKd,RobotMap.Swerve.Autonomus.constraints);
-        yController = new ProfiledPIDController(translationKp,translationKi,translationKd,RobotMap.Swerve.Autonomus.constraints);
-        rotationController = new ProfiledPIDController(rotKp,rotKi,rotKd,RobotMap.Swerve.Autonomus.constraints);
-        rotationController.enableContinuousInput(-Math.PI,Math.PI);
-        xController.setTolerance(0.05); //magic number and proud
-        yController.setTolerance(0.05);
-        rotationController.setTolerance(Units.degreesToRadians(4));
+        xController = new ProfiledPIDController(translationKp, translationKi, translationKd, RobotMap.Swerve.Autonomus.constraints);
+        yController = new ProfiledPIDController(translationKp, translationKi, translationKd, RobotMap.Swerve.Autonomus.constraints);
+        rotationController = new ProfiledPIDController(rotKp, rotKi, rotKd, RobotMap.Swerve.Autonomus.constraints);
+        rotationController.enableContinuousInput(-Math.PI, Math.PI);
+        xController.setTolerance(tolerance);
+        yController.setTolerance(tolerance);
+        rotationController.setTolerance(Units.degreesToRadians(rotationTolerance));
 
     }
 
     @Override
     public void initialize() {
-        super.initialize();
         xController.reset(swerve.getRobotPose().getX(), swerve.getChassisSpeeds().vxMetersPerSecond);
         yController.reset(swerve.getRobotPose().getY(), swerve.getChassisSpeeds().vyMetersPerSecond);
         rotationController.reset(swerve.getRobotPose().getRotation().getRadians(), swerve.getChassisSpeeds().omegaRadiansPerSecond);
@@ -50,21 +50,21 @@ public class MoveToPos extends SwerveCommand {
 
     @Override
     public void execute() {
-        double xCal = xController.atGoal() ? 0 : xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
-        double yCal = yController.atGoal() ? 0 : yController.calculate(SwerveChassis.getInstance().getRobotPose().getY());
-        double rotationCal = rotationController.atGoal() ? 0 : rotationController.calculate(swerve.getChassisAngle());
+        double xCalc = xController.atGoal() ? 0 : xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
+        double yCalc = yController.atGoal() ? 0 : yController.calculate(SwerveChassis.getInstance().getRobotPose().getY());
+        double rotationCalc = rotationController.atGoal() ? 0 : rotationController.calculate(swerve.getChassisAngle());
         swerve.moveByChassisSpeeds(
-                xCal,
-                yCal,
-                rotationCal,
+                xCalc,
+                yCalc,
+                rotationCalc,
                 SwerveChassis.getInstance().getChassisAngle()
         );
+        
         SmartDashboard.putBoolean("at goal x",xController.atGoal());
         SmartDashboard.putBoolean("at goal y",yController.atGoal());
-        SmartDashboard.putNumber("x cal",xCal);
-        SmartDashboard.putNumber("y goal", yController.getGoal().position);
-        SmartDashboard.putNumber("y cal",yCal);
-        SmartDashboard.putNumber("rot cal",rotationCal);
+        SmartDashboard.putNumber("x cal",xCalc);
+        SmartDashboard.putNumber("y cal",yCalc);
+        SmartDashboard.putNumber("rot cal",rotationCalc);
     }
 
     @Override
