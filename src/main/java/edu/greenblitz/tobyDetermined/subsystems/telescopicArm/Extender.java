@@ -75,7 +75,8 @@ public class Extender extends GBSubsystem {
                 }
                 break;
 
-            case OUT_ROBOT:
+            case OUT_ROBOT_BACKWARD:
+            case OUT_ROBO_FORWARD:
                 motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
                 break;
         }

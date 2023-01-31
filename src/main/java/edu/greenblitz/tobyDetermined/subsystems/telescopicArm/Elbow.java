@@ -43,11 +43,10 @@ public class Elbow extends GBSubsystem {
     public void setAngle(double angleInRads){
         switch (Extender.getInstance().getState()){
             case OPEN:
-                if (getHypotheticalState(angleInRads) == ElbowState.OUT_ROBOT){
+                if (getHypotheticalState(angleInRads) != ElbowState.IN_ROBOT){
                     motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
                 }
                 break;
-
             case CLOSED:
                 motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
                 break;
@@ -72,14 +71,16 @@ public class Elbow extends GBSubsystem {
 
     public static ElbowState getHypotheticalState(double angleInRads){
         if(angleInRads >= forwardEntranceAngle){
-            return ElbowState.OUT_ROBOT;
-        }else{
+            return ElbowState.OUT_ROBO_FORWARD;
+        } else if (angleInRads <= backWardEntranceAngle) {
+            return ElbowState.OUT_ROBOT_BACKWARD;
+        } else{
             return ElbowState.IN_ROBOT;
         }
     }
 
     public enum ElbowState {
-        IN_ROBOT,OUT_ROBOT;
+        IN_ROBOT,OUT_ROBO_FORWARD,OUT_ROBOT_BACKWARD
     }
 
 }

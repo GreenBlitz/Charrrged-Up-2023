@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands;
 
 import edu.greenblitz.tobyDetermined.commands.TelescopicArm.ExtenderCommand;
 
-public class extendToLength extends ExtenderCommand {
+public class ExtendToLength extends ExtenderCommand {
 
     private double wantedLength;
     private static final double tolerance = 0.03;
@@ -13,7 +13,7 @@ public class extendToLength extends ExtenderCommand {
     /**
      * @param length length in meters
      * */
-    public extendToLength (double length){
+    public ExtendToLength(double length){
         this.wantedLength = length;
     }
 
