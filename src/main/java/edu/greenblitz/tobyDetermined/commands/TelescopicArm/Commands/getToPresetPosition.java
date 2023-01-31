@@ -5,6 +5,8 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+import static edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands.armUtils.isInTheSameSide;
+
 public class getToPresetPosition extends SequentialCommandGroup {
 
     Extender.presetPositions position;
@@ -24,9 +26,5 @@ public class getToPresetPosition extends SequentialCommandGroup {
     }
 
 
-    public boolean isInTheSameSide (double angle1, double angle2) {//in rads
-        return (Elbow.getHypotheticalState(angle1) == Elbow.getHypotheticalState(angle2));
-
-    }
 
 }
