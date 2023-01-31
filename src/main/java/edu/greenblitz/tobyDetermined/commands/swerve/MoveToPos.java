@@ -9,6 +9,9 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveToPos extends SwerveCommand {
+    /**
+     * get to a given pose with 3 pidControllers - x, y, rotational<3
+     */
     private ProfiledPIDController xController;
     private ProfiledPIDController yController;
     private ProfiledPIDController rotationController;
@@ -24,6 +27,7 @@ public class MoveToPos extends SwerveCommand {
     
     private double tolerance = 0.05;
     private double rotationTolerance = 4;
+    private boolean debugDash = false;
 
     public MoveToPos(Pose2d pos) {
         this.pos = pos;
@@ -45,7 +49,16 @@ public class MoveToPos extends SwerveCommand {
         xController.setGoal(new TrapezoidProfile.State(pos.getX(), 0));
         yController.setGoal(new TrapezoidProfile.State(pos.getY(), 0));
         rotationController.setGoal(new TrapezoidProfile.State(pos.getRotation().getRadians(), 0));
-
+        
+    }
+    
+    public void debugDashboard(double xCalc, double yCalc, double rotationCalc){
+        SmartDashboard.putBoolean("at goal x",xController.atGoal());
+        SmartDashboard.putBoolean("at goal y",yController.atGoal());
+        SmartDashboard.putNumber("x cal",xCalc);
+        SmartDashboard.putNumber("y cal",yCalc);
+        SmartDashboard.putNumber("rot cal",rotationCalc);
+        
     }
 
     @Override
@@ -59,16 +72,13 @@ public class MoveToPos extends SwerveCommand {
                 rotationCalc,
                 SwerveChassis.getInstance().getChassisAngle()
         );
+        if(debugDash) { this.debugDashboard(xCalc, yCalc, rotationCalc); }
         
-        SmartDashboard.putBoolean("at goal x",xController.atGoal());
-        SmartDashboard.putBoolean("at goal y",yController.atGoal());
-        SmartDashboard.putNumber("x cal",xCalc);
-        SmartDashboard.putNumber("y cal",yCalc);
-        SmartDashboard.putNumber("rot cal",rotationCalc);
     }
 
     @Override
     public boolean isFinished() {
         return super.isFinished() || (xController.atGoal() && yController.atGoal() && rotationController.atGoal());
+        
     }
 }
