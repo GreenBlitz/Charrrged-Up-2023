@@ -9,28 +9,9 @@ import static edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands.armU
 
 public class GoToPosition extends SequentialCommandGroup {
 
-    private double length;
-    private double angle;
-
     public GoToPosition (double lengthInMeters, double angleInRads){
-        this.length = lengthInMeters;
-        this.angle = angleInRads;
 
-
-        if(isInTheSameSide(Elbow.getInstance().getAngle(), angleInRads)){
-            addCommands(new RotateToAngle(angleInRads));
-            addCommands(new ExtendToLength(length));
-            return;
-        }else{
-            addCommands(new ExtendToLength(0));
-            addCommands(new RotateToAngle(angleInRads));
-            addCommands(new ExtendToLength(length));
-        }
-
-
+        addCommands(new RotateToAngle(angleInRads));
+        addCommands(new ExtendToLength(lengthInMeters));
     }
-
-
-
-
 }

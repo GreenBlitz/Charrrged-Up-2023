@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.math.util.Units;
 
 public class Extender extends GBSubsystem {
     private static final int EXTENDER_MOTOR_ID = 0;
@@ -49,11 +50,7 @@ public class Extender extends GBSubsystem {
 
     @Override
     public void periodic() {
-        if (getLength() >=maxLengthInRobot){
-            state = ExtenderState.OPEN;
-        }else{
-            state = ExtenderState.CLOSED;
-        }
+        state = getHypotheticalState(getLength());
 
     }
 
@@ -74,9 +71,7 @@ public class Extender extends GBSubsystem {
                     stop();
                 }
                 break;
-
-            case OUT_ROBOT_BACKWARD:
-            case OUT_ROBO_FORWARD:
+            case OUT_ROBOT:
                 motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
                 break;
         }
@@ -102,7 +97,7 @@ public class Extender extends GBSubsystem {
 
     public enum presetPositions {
         //height in meters
-        //angle in radians
+        //angle in degrees
         coneHigh(1.545639026, 49.1),
         coneMid(1.04560987, 56.30993247),
         CubeHigh(1.352811886, 41.70388403),
@@ -111,10 +106,12 @@ public class Extender extends GBSubsystem {
         ;
         public final double distance;
         public final double angleInDegrees;
+        public final double angleInRadians;
 
         presetPositions(double distance, double angle) {
             this.distance = distance;
             this.angleInDegrees = angle;
+            this.angleInRadians = Units.degreesToRadians(angleInDegrees);
 
         }
     }

@@ -15,12 +15,11 @@ public class Elbow extends GBSubsystem {
     private static Elbow instance;
     public ElbowState state = ElbowState.IN_ROBOT;
     public GBSparkMax motor;
-    public static final double forwardEntranceAngle = Units.degreesToRadians(69);
-    public static final double backWardEntranceAngle = Units.degreesToRadians(-69);
+    public static final double EntranceAngle = Units.degreesToRadians(69);
 
     public static final int motorID = 1;
     public static final PIDObject elbowAngularPID = new PIDObject();
-    public static final double motorAngleLimit = Math.PI;
+    public static final double motorAngleLimit = Units.degreesToRadians(270);
 
     public static Elbow getInstance(){
         if(instance == null){
@@ -40,17 +39,13 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,(float) motorAngleLimit);
     }
 
-    public void setAngle(double angleInRads){
-        switch (Extender.getInstance().getState()){
-            case OPEN:
-                if (getHypotheticalState(angleInRads) != ElbowState.IN_ROBOT){
-                    motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
-                }
-                break;
-            case CLOSED:
-                motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
-                break;
+    public void setAngle(double angleInRads) {
+        if (Extender.getInstance().getState() == Extender.ExtenderState.OPEN && getHypotheticalState(angleInRads) == ElbowState.IN_ROBOT ) {
+            stop();
+        } else {
+            motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
         }
+
     }
 
     public double getAngle(){
@@ -70,17 +65,15 @@ public class Elbow extends GBSubsystem {
     }
 
     public static ElbowState getHypotheticalState(double angleInRads){
-        if(angleInRads >= forwardEntranceAngle){
-            return ElbowState.OUT_ROBO_FORWARD;
-        } else if (angleInRads <= backWardEntranceAngle) {
-            return ElbowState.OUT_ROBOT_BACKWARD;
-        } else{
-            return ElbowState.IN_ROBOT;
+        if(angleInRads >= EntranceAngle){
+            return ElbowState.OUT_ROBOT;
         }
+        return ElbowState.IN_ROBOT;
+
     }
 
     public enum ElbowState {
-        IN_ROBOT,OUT_ROBO_FORWARD,OUT_ROBOT_BACKWARD
+        IN_ROBOT,OUT_ROBOT
     }
 
 }
