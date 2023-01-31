@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands;
+package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands.Elbow;
 
 import edu.greenblitz.tobyDetermined.commands.TelescopicArm.ElbowCommand;
 import edu.wpi.first.math.util.Units;

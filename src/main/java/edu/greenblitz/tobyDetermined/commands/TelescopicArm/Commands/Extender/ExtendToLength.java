@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands;
+package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands.Extender;
 
 import edu.greenblitz.tobyDetermined.commands.TelescopicArm.ExtenderCommand;
 
