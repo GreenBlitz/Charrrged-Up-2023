@@ -24,7 +24,7 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
-	private final SwerveDrivePoseEstimator poseEstimator;
+	public final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
 	
 	public SwerveChassis() {

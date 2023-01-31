@@ -52,6 +52,7 @@ public class OI { //GEVALD
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
 		mainJoystick.A.onTrue(new MoveToPos(new Pose2d()));
+		mainJoystick.B.onTrue(new InstantCommand(()->SwerveChassis.getInstance().poseEstimator.resetPosition(new Rotation2d(SwerveChassis.getInstance().getPigeonGyro().getYaw()), SwerveChassis.getInstance().getSwerveModulePositions(), new Pose2d(0,0, new Rotation2d(0,0)))));
 	}
 	
 	public SmartJoystick getMainJoystick() {
