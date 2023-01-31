@@ -13,6 +13,7 @@ import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import java.security.ProtectionDomain;
@@ -82,6 +83,7 @@ public class RobotMap {
 				new Translation2d(-0.3020647, -0.25265)/*br*/};
 		
 		public static final double MAX_VELOCITY = 4.1818320981472068;
+		public static final double MAX_ACCELERATION = 14.37979171376739;
 		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
 		
 		
@@ -140,6 +142,10 @@ public class RobotMap {
 			
 			public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
 			public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageCompSaturation(RobotMap.General.VOLTAGE_COMP_VAL).withPID(linPID);
+		}
+
+		public static class Autonomus {
+			public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
 		}
 		
 	}
