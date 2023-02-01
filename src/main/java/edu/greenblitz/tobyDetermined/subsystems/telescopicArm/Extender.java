@@ -9,24 +9,21 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.util.Units;
 
 public class Extender extends GBSubsystem {
-    private static final int EXTENDER_MOTOR_ID = 0;
-    private static final int BACKWARDS_LIMIT = 0;
-    private static final int FORWARD_LIMIT = 0;
-    private static final double distanceBetweenHoles = 6.35;
-    private static final double lastGearTeethNumber = 32;
-    private static final double gearRatio = 1 / 7.0;
-    private static final double extenderConversionFactor =
-            (((RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / gearRatio) * lastGearTeethNumber) /
-                    RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN) * distanceBetweenHoles;
+    public static final int EXTENDER_MOTOR_ID = 0;
+    public static final int BACKWARDS_LIMIT = 0;
+    public static final double FORWARD_LIMIT = 0.6;
+    public static final double distanceBetweenHoles = 6.35;
+    public static final double outputGearAmountOfTeeth = 32;
+    public static final double gearRatio = 1 / 7.0;
 
+    public static final double maxLengthInRobot = 0.4;
+    public static final PIDObject extenderPID = new PIDObject();
+    public static final double extenderConversionFactor =
+            (((RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / gearRatio) * outputGearAmountOfTeeth) / (2 * Math.PI) ) * distanceBetweenHoles;
 
-
-    ; //todo this is wrong!
     private static ExtenderState state = ExtenderState.CLOSED;
 
-    private static final double maxLengthInRobot = 0.4;
 
-    private static final PIDObject extenderPID = new PIDObject();
     private static Extender instance;
     private GBSparkMax motor;
 
@@ -39,13 +36,13 @@ public class Extender extends GBSubsystem {
 
     private Extender(){
         motor = new GBSparkMax(EXTENDER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.getEncoder().setPosition(0);
+        motor.getEncoder().setPosition(0); //maybe absolute encoder+*
         motor.config(new GBSparkMax.SparkMaxConfObject()
                 .withPID(extenderPID)
-                .withPositionConversionFactor(extenderConversionFactor) //fixme supposed to be true but im not sure
+                .withPositionConversionFactor(extenderConversionFactor)
         );
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, FORWARD_LIMIT);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float) FORWARD_LIMIT);
     }
 
     @Override
@@ -54,8 +51,11 @@ public class Extender extends GBSubsystem {
 
     }
 
-    public static ExtenderState getHypotheticalState (double lengthInMeters){
-        if(lengthInMeters >= maxLengthInRobot){
+    public static ExtenderState getHypotheticalState (double lengthInMeters) {
+
+        if(lengthInMeters > FORWARD_LIMIT){
+            return ExtenderState.OUT_OF_BOUNDS;
+        }else if(lengthInMeters >= maxLengthInRobot){
             return ExtenderState.OPEN;
         }else{
             return ExtenderState.CLOSED;
@@ -64,6 +64,9 @@ public class Extender extends GBSubsystem {
 
     public void setLength(double lengthInMeters){
 
+        if(getHypotheticalState(lengthInMeters) == ExtenderState.OUT_OF_BOUNDS){
+            return;
+        }
 
         if(Elbow.getHypotheticalState(Elbow.getInstance().getAngle()) == Elbow.ElbowState.IN_ROBOT && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN){
             stop();
@@ -71,7 +74,13 @@ public class Extender extends GBSubsystem {
             motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
 
         }
+
     }
+
+    public boolean isOutOfBounds (){
+        return state == ExtenderState.OUT_OF_BOUNDS;
+    }
+
 
     public double getLength (){
         return motor.getEncoder().getPosition();
@@ -86,7 +95,7 @@ public class Extender extends GBSubsystem {
     }
 
     enum ExtenderState{
-        CLOSED, OPEN
+        CLOSED, OPEN, OUT_OF_BOUNDS
     }
 
     public enum presetPositions {
@@ -99,7 +108,7 @@ public class Extender extends GBSubsystem {
         low(0, 5),
         ;
         public final double distance;
-        public final double angleInDegrees;
+        private final double angleInDegrees;
         public final double angleInRadians;
 
         presetPositions(double distance, double angle) {
