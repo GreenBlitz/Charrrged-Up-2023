@@ -63,20 +63,14 @@ public class Extender extends GBSubsystem {
     }
 
     public void setLength(double lengthInMeters){
-        switch (Elbow.getHypotheticalState(Elbow.getInstance().getAngle())){
-            case IN_ROBOT:
-                if (getHypotheticalState(lengthInMeters) == ExtenderState.CLOSED){
-                    motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
-                }else{
-                    stop();
-                }
-                break;
-            case OUT_ROBOT:
-                motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
-                break;
-        }
 
-        motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
+
+        if(Elbow.getHypotheticalState(Elbow.getInstance().getAngle()) == Elbow.ElbowState.IN_ROBOT && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN){
+            stop();
+        }else{
+            motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition);
+
+        }
     }
 
     public double getLength (){
