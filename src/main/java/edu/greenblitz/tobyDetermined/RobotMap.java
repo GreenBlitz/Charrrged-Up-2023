@@ -11,9 +11,9 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import java.nio.file.Watchable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,26 +70,49 @@ public class RobotMap {
 	}
 
 	public static class telescopicArm {
-		public static final int MOTOR_ID = -1;
-		public static final double EXTENDED_LENGTH =  0.6;
-		public static final double RATIO = 1;
-		public static final double ROTATING_WHEEL_CIRC = 0.012 * (2 * Math.PI);
 
-		public static final double ANGULAR_GEAR_RATIO = 1;
-		public static final PIDObject ANGULAR_PID = new PIDObject()
-				.withKp(0)
-				.withKi(0)
-				.withKd(0)
-				.withFF(0);
 
-		public static final PIDObject LIFTING_PID = new PIDObject()
-				.withKp(0)
-				.withKi(0)
-				.withKd(0)
-				.withFF(0);
-		public static final double MOTOR_TICKS_TO_METERS = (General.Motors.SPARKMAX_TICKS_PER_RADIAN * ROTATING_WHEEL_CIRC) / RATIO / (2*Math.PI); //todo is it the right calculation?
+
+		public static class extender{
+			public static final int MOTOR_ID = -1;
+			public static final double RATIO = 1;
+			public static final double EXTENDED_LENGTH =  0.6;
+
+			public static final int BACKWARDS_LIMIT = 0;
+			public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
+			public static final double DISTANCE_BETWEEN_HOLES = 6.35;
+			public static final double OUTPUT_GEAR_AMOUNT_OF_TEETH = 32;
+			public static final double MAX_LENGTH_IN_ROBOT = 0.4;
+			public static final PIDObject PID = new PIDObject();
+			public static final double EXTENDER_CONVERSION_FACTOR =
+					(((RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / RATIO) * OUTPUT_GEAR_AMOUNT_OF_TEETH) / (2 * Math.PI) ) * DISTANCE_BETWEEN_HOLES; //todo wrong
+			public static final double LENGTH_TOLERANCE = 0.03; //in meters
+
+		}
+		public static class claw{
+			public static final int MOTOR_ID = 0;
+
+
+		}
+		public static class elbow{
+			public static final int MOTOR_ID = 1;
+			public static final double RATIO = 1;
+
+			public static final PIDObject PID = new PIDObject()
+					.withKp(0)
+					.withKi(0)
+					.withKd(0)
+					.withFF(0);
+			public static final double ENTRANCE_ANGLE = Units.degreesToRadians(69);
+
+			public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
+			public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
+
+			public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
+
+		}
 	}
-	
+
 	public static class Swerve {
 		static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
 		public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{

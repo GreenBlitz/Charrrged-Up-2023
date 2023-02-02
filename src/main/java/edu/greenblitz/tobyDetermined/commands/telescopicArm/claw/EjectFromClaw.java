@@ -1,12 +1,6 @@
-package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands.claw;
+package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
-import edu.greenblitz.tobyDetermined.commands.TelescopicArm.ClawCommand;
-
-public class ejectFromClaw extends ClawCommand {
-
-    public ejectFromClaw(){
-
-    }
+public class EjectFromClaw extends ClawCommand {
 
     @Override
     public void initialize() {

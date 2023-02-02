@@ -4,22 +4,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.util.Units;
 
 public class Extender extends GBSubsystem {
-    public static final int EXTENDER_MOTOR_ID = 0;
-    public static final int BACKWARDS_LIMIT = 0;
-    public static final double FORWARD_LIMIT = 0.6;
-    public static final double distanceBetweenHoles = 6.35;
-    public static final double outputGearAmountOfTeeth = 32;
-    public static final double gearRatio = 1 / 7.0;
 
-    public static final double maxLengthInRobot = 0.4;
-    public static final PIDObject extenderPID = new PIDObject();
-    public static final double extenderConversionFactor =
-            (((RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / gearRatio) * outputGearAmountOfTeeth) / (2 * Math.PI) ) * distanceBetweenHoles;
 
     private static ExtenderState state = ExtenderState.CLOSED;
 
@@ -35,14 +24,14 @@ public class Extender extends GBSubsystem {
     }
 
     private Extender(){
-        motor = new GBSparkMax(EXTENDER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor = new GBSparkMax(RobotMap.telescopicArm.extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.getEncoder().setPosition(0); //maybe absolute encoder+*
         motor.config(new GBSparkMax.SparkMaxConfObject()
-                .withPID(extenderPID)
-                .withPositionConversionFactor(extenderConversionFactor)
+                .withPID(RobotMap.telescopicArm.extender.PID)
+                .withPositionConversionFactor(RobotMap.telescopicArm.extender.EXTENDER_CONVERSION_FACTOR)
         );
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float) FORWARD_LIMIT);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.extender.BACKWARDS_LIMIT);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.extender.FORWARD_LIMIT);
     }
 
     @Override
@@ -53,9 +42,9 @@ public class Extender extends GBSubsystem {
 
     public static ExtenderState getHypotheticalState (double lengthInMeters) {
 
-        if(lengthInMeters > FORWARD_LIMIT || lengthInMeters < BACKWARDS_LIMIT){
+        if(lengthInMeters > RobotMap.telescopicArm.extender.FORWARD_LIMIT || lengthInMeters < RobotMap.telescopicArm.extender.BACKWARDS_LIMIT){
             return ExtenderState.OUT_OF_BOUNDS;
-        }else if(lengthInMeters >= maxLengthInRobot){
+        }else if(lengthInMeters >= RobotMap.telescopicArm.extender.MAX_LENGTH_IN_ROBOT){
             return ExtenderState.OPEN;
         }else{
             return ExtenderState.CLOSED;
@@ -65,6 +54,7 @@ public class Extender extends GBSubsystem {
     public void setLength(double lengthInMeters){
 
         if(getHypotheticalState(lengthInMeters) == ExtenderState.OUT_OF_BOUNDS){
+            stop();
             return;
         }
 
@@ -75,10 +65,6 @@ public class Extender extends GBSubsystem {
 
         }
 
-    }
-
-    public boolean isOutOfBounds (){
-        return state == ExtenderState.OUT_OF_BOUNDS;
     }
 
 
@@ -98,14 +84,18 @@ public class Extender extends GBSubsystem {
         CLOSED, OPEN, OUT_OF_BOUNDS
     }
 
+    public boolean isAtLength (double wantedLengthInMeters){
+        return Math.abs(getLength() - wantedLengthInMeters) <= RobotMap.telescopicArm.extender.LENGTH_TOLERANCE;
+    }
+
     public enum presetPositions {
         //height in meters
         //angle in degrees
-        coneHigh(1.545639026, 49.1),
-        coneMid(1.04560987, 56.30993247),
-        CubeHigh(1.352811886, 41.70388403),
-        CubeMid(83.45058418, 34.59228869),
-        low(0, 5),
+        CONE_HIGH(1.545639026, 49.1),
+        CONE_MID(1.04560987, 56.30993247),
+        CUBE_HIGH(1.352811886, 41.70388403),
+        CUBE_MID(83.45058418, 34.59228869),
+        LOW(0, 5),
         ;
         public final double distance;
         private final double angleInDegrees;

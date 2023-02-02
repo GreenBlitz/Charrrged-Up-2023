@@ -1,9 +1,9 @@
-package edu.greenblitz.tobyDetermined.commands.TelescopicArm;
+package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 
-public class ExtenderCommand extends GBCommand {
+public abstract class ExtenderCommand extends GBCommand {
 
     protected Extender extender;
 

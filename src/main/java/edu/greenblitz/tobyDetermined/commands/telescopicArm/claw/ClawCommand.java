@@ -1,9 +1,9 @@
-package edu.greenblitz.tobyDetermined.commands.TelescopicArm;
+package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.utils.GBCommand;
 
-public class ClawCommand extends GBCommand {
+public abstract class ClawCommand extends GBCommand {
 
     protected Claw claw;
     public ClawCommand (){

@@ -1,12 +1,6 @@
-package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands.claw;
-
-import edu.greenblitz.tobyDetermined.commands.TelescopicArm.ClawCommand;
+package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
 public class RunClawGrip extends ClawCommand {
-
-    public RunClawGrip(){
-
-    }
 
     @Override
     public void initialize() {
