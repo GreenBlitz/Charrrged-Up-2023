@@ -47,7 +47,7 @@ public class SwerveChassis extends GBSubsystem {
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVisionAngle));
 		
 		SmartDashboard.putData("field", getField());
-		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
+		field.getObject("apriltag").setPose(RobotMap.Vision.redApriltagLocationId1.toPose2d());
 	}
 	
 	public static SwerveChassis getInstance() {

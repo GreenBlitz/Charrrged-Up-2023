@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -12,11 +11,9 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +22,11 @@ public class RobotMap {
 		public final static double minVoltageBattery = 11.97;
 		public final static double VOLTAGE_COMP_VAL = 11.5;
 		public final static double RAMP_RATE_VAL = 0.4;
+		
+		public static class Field{
+			public final static double fieldLength = 16.54175;
+			public final static double fieldWidth = 8.0137;
+		}
 		
 		public static class Motors {
 			public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
@@ -62,12 +64,26 @@ public class RobotMap {
 		public static double standardDeviationVisionAngle = 0.1;
 		public static int selectedTagId = 1;
 		public static final int[] portNumbers = {5800,5801,5802,5803,5804,5805};
-		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 96.4, 0), new Rotation3d(0, 0, Math.PI));
-		static List<AprilTag> apriltags = new ArrayList<>(5) ;
+		public static final Pose3d redApriltagLocationId1 = new Pose3d(new Translation3d(15.513558, 1.071626, 0), new Rotation3d(0, 0, Math.PI));
+		public static final Pose3d redApriltagLocationId2 = new Pose3d(new Translation3d(15.513558, 2.748026, 0), new Rotation3d(0, 0, Math.PI));
+		public static final Pose3d redApriltagLocationId3 = new Pose3d(new Translation3d(15.513558, 4.424426, 0), new Rotation3d(0, 0, Math.PI));
+		public static final Pose3d blueApriltagLocationId1 = new Pose3d(new Translation3d(1.02743, 4.424426, 0), new Rotation3d(0, 0, Math.PI));
+		public static final Pose3d blueApriltagLocationId2 = new Pose3d(new Translation3d(1.02743, 2.748026, 0), new Rotation3d(0, 0, Math.PI));
+		public static final Pose3d blueApriltagLocationId3 = new Pose3d(new Translation3d(1.02743, 1.071626, 0), new Rotation3d(0, 0, Math.PI));
+		static List<AprilTag> redApriltags = new ArrayList<>(9) ;
 		static {
-			apriltags.add(new AprilTag(1,apriltagLocation));
+			redApriltags.add(new AprilTag(1, redApriltagLocationId1));
+			redApriltags.add(new AprilTag(2,redApriltagLocationId2));
+			redApriltags.add(new AprilTag(3,redApriltagLocationId3));
 		}
-		public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
+		
+		static List<AprilTag> blueApriltags = new ArrayList<>(9);
+		static {
+			blueApriltags.add(new AprilTag(6,blueApriltagLocationId1));
+			blueApriltags.add(new AprilTag(7,blueApriltagLocationId2));
+			blueApriltags.add(new AprilTag(8,blueApriltagLocationId3));
+		}
+		public static final AprilTagFieldLayout redAprilTagFieldLayout = new AprilTagFieldLayout(redApriltags,10,10);
 		public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
 		
 	}
