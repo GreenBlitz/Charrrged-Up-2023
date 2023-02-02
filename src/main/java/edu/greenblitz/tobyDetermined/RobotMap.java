@@ -60,15 +60,15 @@ public class RobotMap {
 		public static double standardDeviationOdometry = 0.001;
 		public static double standardDeviationVision2d = 0.3;
 		public static double standardDeviationVisionAngle = 0.1;
-		public static int selectedTagId = 1;
+		public static int selectedTagId = 4;
 		public static final int[] portNumbers = {5800,5801,5802,5803,5804,5805};
-		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 96.4, 0), new Rotation3d(0, 0, Math.PI));
+		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
 		static List<AprilTag> apriltags = new ArrayList<>(5) ;
 		static {
-			apriltags.add(new AprilTag(1,apriltagLocation));
+			apriltags.add(new AprilTag(selectedTagId,apriltagLocation));
 		}
 		public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
-		public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
+		public static final Transform3d RobotToCamera = new Transform3d(new Translation3d(), new Rotation3d());
 		
 	}
 	

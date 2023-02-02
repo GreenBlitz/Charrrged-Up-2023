@@ -6,12 +6,16 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPos;
 import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import org.photonvision.EstimatedRobotPose;
+
+import java.util.Optional;
 
 public class OI { //GEVALD
 	
@@ -53,6 +57,10 @@ public class OI { //GEVALD
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
 		mainJoystick.A.onTrue(new MoveToPos(new Pose2d()));
 		mainJoystick.B.onTrue(new InstantCommand(()->SwerveChassis.getInstance().poseEstimator.resetPosition(new Rotation2d(SwerveChassis.getInstance().getPigeonGyro().getYaw()), SwerveChassis.getInstance().getSwerveModulePositions(), new Pose2d(0,0, new Rotation2d(0,0)))));
+		mainJoystick.X.onTrue(new InstantCommand(() -> {
+			Optional<EstimatedRobotPose> pose = Limelight.getInstance().visionPoseEstimator();
+			pose.ifPresent(estimatedRobotPose -> SwerveChassis.getInstance().resetAll(estimatedRobotPose.estimatedPose.toPose2d()));
+		}));
 	}
 	
 	public SmartJoystick getMainJoystick() {
