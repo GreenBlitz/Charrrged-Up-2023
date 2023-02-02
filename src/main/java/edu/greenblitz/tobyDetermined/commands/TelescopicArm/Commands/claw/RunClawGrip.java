@@ -2,19 +2,25 @@ package edu.greenblitz.tobyDetermined.commands.TelescopicArm.Commands.claw;
 
 import edu.greenblitz.tobyDetermined.commands.TelescopicArm.ClawCommand;
 
-public class CloseClaw extends ClawCommand {
+public class RunClawGrip extends ClawCommand {
 
-    public CloseClaw(){
+    public RunClawGrip(){
 
     }
 
     @Override
     public void initialize() {
-        claw.close();
+        claw.grip();
     }
 
     @Override
     public boolean isFinished() {
         return true;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+
+        claw.stopMotor();
     }
 }
