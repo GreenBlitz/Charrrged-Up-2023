@@ -28,7 +28,15 @@ public class MoveAngularByJoystick extends SwerveCommand {
 		swerve.rotateChassisByPower(angularSpeed);
 		double maxSpeed = Math.max(Math.abs(swerve.getChassisSpeeds().omegaRadiansPerSecond), SmartDashboard.getNumber("max ang speed", 0));
 		SmartDashboard.putNumber("max ang speed", maxSpeed);
-		SmartDashboard.putNumber("max lin speed", maxSpeed * RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates[0].getNorm());
+
+		switch (RobotMap.robotName){
+			case pegaSwerve:
+				SmartDashboard.putNumber("max lin speed", maxSpeed * RobotMap.Swerve.Pegaswerve.SwerveLocationsInSwerveKinematicsCoordinates[0].getNorm());
+			case TobyDetermined:
+				SmartDashboard.putNumber("max lin speed", maxSpeed * RobotMap.Swerve.TobyDetermined.SwerveLocationsInSwerveKinematicsCoordinates[0].getNorm());
+
+		}
+
 	}
 	
 }

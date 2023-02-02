@@ -1,16 +1,11 @@
 package edu.greenblitz.tobyDetermined;
 
 
-import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
-import edu.greenblitz.tobyDetermined.commands.Auto.PreAutoCommand;
+import edu.greenblitz.tobyDetermined.commands.Auto.SetToFirstTrajectoryState;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
-import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
@@ -51,7 +46,7 @@ public class OI { //GEVALD
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.X.onTrue(PathFollowerBuilder.getInstance().followPath("90 degrees Copy"));
 		mainJoystick.A.onTrue(PathFollowerBuilder.getInstance().followPath("2 objects"));
-		mainJoystick.B.onTrue(new PreAutoCommand(PathFollowerBuilder.getPathPlannerTrajectory("90 degrees")));
+		mainJoystick.B.onTrue(new SetToFirstTrajectoryState(PathFollowerBuilder.getPathPlannerTrajectory("90 degrees")));
 	}
 	
 	public SmartJoystick getMainJoystick() {

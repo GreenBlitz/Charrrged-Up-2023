@@ -1,6 +1,5 @@
 package edu.greenblitz.tobyDetermined.commands.swerve;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.PIDObject;
@@ -13,7 +12,7 @@ import java.util.function.DoubleSupplier;
 public class AngPIDSupplier implements DoubleSupplier {
 	
 	
-	public static final PIDObject rotationPID = new PIDObject().withKp(3.6).withKi(0);
+	public static final PIDObject ROTATION_PID = new PIDObject().withKp(3.6).withKi(0);
 	private Translation2d targetLoc;
 	private PIDController chassisPid;
 	
@@ -22,7 +21,7 @@ public class AngPIDSupplier implements DoubleSupplier {
 		SmartDashboard.putNumber("ki", 0);
 		SmartDashboard.putNumber("kd", 0);
 		this.targetLoc = targetLoc;
-		chassisPid = new PIDController(rotationPID.getKp(), rotationPID.getKi(), rotationPID.getKd());
+		chassisPid = new PIDController(ROTATION_PID.getKp(), ROTATION_PID.getKi(), ROTATION_PID.getKd());
 		chassisPid.enableContinuousInput(0, 2 * Math.PI); //min and max
 	}
 	

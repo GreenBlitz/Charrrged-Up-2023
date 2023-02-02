@@ -18,7 +18,6 @@ public class Dashboard extends GBSubsystem {
 	public static Dashboard init() {
 		if (instance == null) {
 			instance = new Dashboard();
-			SmartDashboard.putNumber("a",0);
 		}
 		return instance;
 	}

@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RobotMap {
+	public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
 	public static class General {
 		public final static double minVoltageBattery = 11.97;
 		public final static double VOLTAGE_COMP_VAL = 11.5;
@@ -72,27 +74,52 @@ public class RobotMap {
 	
 	public static class Swerve {
 		
-		public class Pegaswerve{
+		public static class Pegaswerve{
 			public static final double MAX_VELOCITY = 3.4930218;
 			public static final double MAX_ACCELERATION = 5.824409;
 			public static final double MAX_ANGULAR_SPEED = 8;
 			public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
+			public static final int LAMPREY_AVERAGE_BITS = 2;
+
+			
+			public static final PIDConstants TRANSLATION_PID = new PIDConstants(0,0,0);
+
+			public static final PIDConstants ROTATION_PID = new PIDConstants(2,0,0);
+
+			public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
+					//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
+					//the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
+					new Translation2d(0.3020647, 0.25265), /*fl*/
+					new Translation2d(0.3020647, -0.25265),/*fr*/
+					new Translation2d(-0.3020647, 0.25265),/*bl*/
+					new Translation2d(-0.3020647, -0.25265)/*br*/
+			};
+		}
+
+		public static class TobyDetermined {
+			//todo calibrate
+			public static final double MAX_VELOCITY = 0;
+			public static final double MAX_ACCELERATION = 0;
+			public static final double MAX_ANGULAR_SPEED = 0;
+			public static final double MAX_ANGULAR_ACCELERATION = 0;
+			public static final int LAMPREY_AVERAGE_BITS = 0;
+
+
+			public static final PIDConstants TRANSLATION_PID = new PIDConstants(0,0,0);
+
+			public static final PIDConstants ROTATION_PID = new PIDConstants(0,0,0);
+
+			public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
+					//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
+					//the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
+					new Translation2d(0, 0), /*fl*/
+					new Translation2d(0, -0),/*fr*/
+					new Translation2d(-0, 0),/*bl*/
+					new Translation2d(-0, -0)/*br*/
+			};
 		}
 		static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
-		public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
-				//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
-				//the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
-				new Translation2d(0.3020647, 0.25265), /*fl*/
-				new Translation2d(0.3020647, -0.25265),/*fr*/
-				new Translation2d(-0.3020647, 0.25265),/*bl*/
-				new Translation2d(-0.3020647, -0.25265)/*br*/};
-		
-		public static final double MAX_VELOCITY = 4.1818320981472068;
-		public static final double MAX_ACCELERATION = 14.83;
-		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
-		public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
-		
-		
+
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right

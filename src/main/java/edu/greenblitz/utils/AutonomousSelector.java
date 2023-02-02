@@ -2,11 +2,11 @@ package edu.greenblitz.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-public class AutoSelector {
-	static private AutoSelector instance; //i did some shenanigan with the static private hehe
+public class AutonomousSelector {
+	static private AutonomousSelector instance; //i did some shenanigan with the static private hehe
 	private SendableChooser<String> chooser = new SendableChooser<>();
 	
-	private AutoSelector (){
+	private AutonomousSelector(){
 		//         m_chooser.addOption(auto name, path name );
 		chooser.addOption("1 meter", "1 meter");
 		chooser.addOption("3 ball auto","3 ball auto");
@@ -19,9 +19,9 @@ public class AutoSelector {
 		return chooser.getSelected();
 	}
 
-	public static AutoSelector getInstance () {
+	public static AutonomousSelector getInstance () {
 		if (instance == null) {
-			instance = new AutoSelector();
+			instance = new AutonomousSelector();
 		}
 		return instance;
 	}

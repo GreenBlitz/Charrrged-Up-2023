@@ -7,13 +7,11 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.AutoSelector;
+import edu.greenblitz.utils.AutonomousSelector;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-import java.nio.file.Path;
 
 public class Robot extends TimedRobot {
 	@Override
@@ -24,7 +22,7 @@ public class Robot extends TimedRobot {
 		initPortForwarding();
 		LiveWindow.disableAllTelemetry();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-		AutoSelector.getInstance();
+		AutonomousSelector.getInstance();
 		//swerve
 		
 		SwerveChassis.getInstance().resetChassisPose();
@@ -67,7 +65,7 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void autonomousInit() {
-		PathFollowerBuilder.getInstance().followPath(AutoSelector.getInstance().getChosenValue()).schedule();
+		PathFollowerBuilder.getInstance().followPath(AutonomousSelector.getInstance().getChosenValue()).schedule();
 	}
 
 	@Override
@@ -77,5 +75,8 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testPeriodic() {
+	}
+	public enum robotName{
+		pegaSwerve, TobyDetermined
 	}
 }
