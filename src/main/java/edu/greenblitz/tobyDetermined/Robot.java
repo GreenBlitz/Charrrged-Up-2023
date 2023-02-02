@@ -7,6 +7,7 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.utils.AutoSelector;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -23,7 +24,7 @@ public class Robot extends TimedRobot {
 		initPortForwarding();
 		LiveWindow.disableAllTelemetry();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-		
+		AutoSelector.getInstance();
 		//swerve
 		
 		SwerveChassis.getInstance().resetChassisPose();
@@ -66,8 +67,9 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void autonomousInit() {
+		PathFollowerBuilder.getInstance().followPath(AutoSelector.getInstance().getChosenValue()).schedule();
 	}
-	
+
 	@Override
 	public void testInit() {
 		CommandScheduler.getInstance().cancelAll();

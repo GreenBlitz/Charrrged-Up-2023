@@ -12,9 +12,13 @@ public class AutoSelector {
 		chooser.addOption("3 ball auto","3 ball auto");
 		chooser.addOption("new", "new"); //this is the name of the path
 		chooser.setDefaultOption("default","1 meter");
-		SmartDashboard.putData(chooser);
+		SmartDashboard.putData("chooser",chooser);
 	}
-	
+
+	public String getChosenValue (){
+		return chooser.getSelected();
+	}
+
 	public static AutoSelector getInstance () {
 		if (instance == null) {
 			instance = new AutoSelector();
