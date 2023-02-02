@@ -53,7 +53,7 @@ public class Extender extends GBSubsystem {
 
     public static ExtenderState getHypotheticalState (double lengthInMeters) {
 
-        if(lengthInMeters > FORWARD_LIMIT){
+        if(lengthInMeters > FORWARD_LIMIT || lengthInMeters < BACKWARDS_LIMIT){
             return ExtenderState.OUT_OF_BOUNDS;
         }else if(lengthInMeters >= maxLengthInRobot){
             return ExtenderState.OPEN;

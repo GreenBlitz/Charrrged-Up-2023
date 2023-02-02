@@ -19,7 +19,9 @@ public class Elbow extends GBSubsystem {
 
     public static final int motorID = 1;
     public static final PIDObject elbowAngularPID = new PIDObject();
-    public static final double motorAngleLimit = Units.degreesToRadians(270);
+    public static final double forwardAngleLimit = Units.degreesToRadians(270);
+    public static final double backwardAngleLimit = Units.degreesToRadians(270);
+
 
     public static Elbow getInstance(){
         if(instance == null){
@@ -36,7 +38,7 @@ public class Elbow extends GBSubsystem {
                 .withPositionConversionFactor(RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN)
         );
         motor.getEncoder().setPosition(0); //resetPosition
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,(float) motorAngleLimit);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,(float) forwardAngleLimit);
     }
 
     public void setAngle(double angleInRads) {
@@ -65,6 +67,9 @@ public class Elbow extends GBSubsystem {
     }
 
     public static ElbowState getHypotheticalState(double angleInRads){
+        if(angleInRads > forwardAngleLimit || angleInRads < backwardAngleLimit){
+            return ElbowState.OUT_OF_BOUNDS;
+        }
         if(angleInRads >= EntranceAngle){
             return ElbowState.OUT_ROBOT;
         }
@@ -73,7 +78,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public enum ElbowState {
-        IN_ROBOT,OUT_ROBOT
+        IN_ROBOT,OUT_ROBOT,OUT_OF_BOUNDS
     }
 
 }
