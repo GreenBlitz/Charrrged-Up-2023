@@ -24,10 +24,10 @@ public class MoveToPos extends SwerveCommand {
     public static final double translationKp = 2;
     public static final double translationKi = 0;
     public static final double translationKd = 0;
-    
+
     private double tolerance = 0.05;
     private double rotationTolerance = 4;
-    private boolean debugDash = false;
+    private boolean debugDash = true;
 
     public MoveToPos(Pose2d pos) {
         this.pos = pos;
@@ -49,23 +49,27 @@ public class MoveToPos extends SwerveCommand {
         xController.setGoal(new TrapezoidProfile.State(pos.getX(), 0));
         yController.setGoal(new TrapezoidProfile.State(pos.getY(), 0));
         rotationController.setGoal(new TrapezoidProfile.State(pos.getRotation().getRadians(), 0));
-        
+
     }
-    
+
     public void debugDashboard(double xCalc, double yCalc, double rotationCalc){
         SmartDashboard.putBoolean("at goal x",xController.atGoal());
         SmartDashboard.putBoolean("at goal y",yController.atGoal());
         SmartDashboard.putNumber("x cal",xCalc);
         SmartDashboard.putNumber("y cal",yCalc);
         SmartDashboard.putNumber("rot cal",rotationCalc);
-        
+        SmartDashboard.putNumber("tol", xController.getPositionTolerance());
+
     }
 
     @Override
     public void execute() {
-        double xCalc = xController.atGoal() ? 0 : xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
-        double yCalc = yController.atGoal() ? 0 : yController.calculate(SwerveChassis.getInstance().getRobotPose().getY());
-        double rotationCalc = rotationController.atGoal() ? 0 : rotationController.calculate(swerve.getChassisAngle());
+        double xCalc = xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
+        xCalc = xController.atGoal() ? 0 : xCalc;
+        double yCalc = xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
+        yCalc = yController.atGoal() ? 0 : yCalc;
+        double rotationCalc = xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
+        rotationCalc = rotationController.atGoal() ? 0 : rotationCalc;
         swerve.moveByChassisSpeeds(
                 xCalc,
                 yCalc,
@@ -73,12 +77,12 @@ public class MoveToPos extends SwerveCommand {
                 SwerveChassis.getInstance().getChassisAngle()
         );
         if(debugDash) { this.debugDashboard(xCalc, yCalc, rotationCalc); }
-        
+
     }
 
     @Override
     public boolean isFinished() {
         return super.isFinished() || (xController.atGoal() && yController.atGoal() && rotationController.atGoal());
-        
+
     }
 }

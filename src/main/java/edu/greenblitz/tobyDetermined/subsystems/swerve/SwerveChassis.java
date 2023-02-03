@@ -75,7 +75,7 @@ public class SwerveChassis extends GBSubsystem {
 		Limelight.getInstance().visionPoseEstimator().ifPresent((EstimatedRobotPose pose) -> vision.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 		vision.update(getPigeonAngle(), getSwerveModulePositions());
 		field.setRobotPose(getRobotPose());
-		field.getObject("odo").setPose(odometry.getPoseMeters());
+		// field.getObject("odo").setPose(odometry.getPoseMeters());
 		field.getObject("vis").setPose(vision.getEstimatedPosition());
 		
 	}
@@ -247,6 +247,7 @@ public class SwerveChassis extends GBSubsystem {
 		Limelight.getInstance().visionPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
 	}
+
 
 
 	public Pose2d getRobotPose() {
