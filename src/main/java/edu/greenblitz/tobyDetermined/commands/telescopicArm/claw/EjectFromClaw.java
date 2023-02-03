@@ -1,7 +1,14 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class EjectFromClaw extends ClawCommand {
 
+    private double timeOfEjection;
+    public EjectFromClaw(double timeOfEjection){
+
+        this.timeOfEjection = timeOfEjection;
+    }
     @Override
     public void initialize() {
         claw.eject();
@@ -9,6 +16,7 @@ public class EjectFromClaw extends ClawCommand {
 
     @Override
     public boolean isFinished() {
+        Timer.delay(timeOfEjection);
         return true;
     }
 

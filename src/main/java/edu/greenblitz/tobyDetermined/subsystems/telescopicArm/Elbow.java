@@ -14,8 +14,6 @@ public class Elbow extends GBSubsystem {
     public ElbowState state = ElbowState.IN_ROBOT;
     public GBSparkMax motor;
 
-
-
     public static Elbow getInstance(){
         if(instance == null){
             instance = new Elbow();
@@ -82,6 +80,11 @@ public class Elbow extends GBSubsystem {
         return getHypotheticalState(getAngle()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) !=ElbowState.OUT_OF_BOUNDS;
     }
 
+    public static double getFeedForward (double extenderLength, double elbowAngle, double wantedAngularSpeed,double wantedAcc){
+        double Kg =  (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength )
+                /RobotMap.telescopicArm.extender.EXTENDED_LENGTH) )* Math.cos(elbowAngle);
+        return Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
+    }
     public enum ElbowState {
         IN_ROBOT,OUT_ROBOT,OUT_OF_BOUNDS
     }

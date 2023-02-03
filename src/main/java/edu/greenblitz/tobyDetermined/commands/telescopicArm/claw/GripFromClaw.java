@@ -1,7 +1,9 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
-public class RunClawGrip extends ClawCommand {
+import edu.wpi.first.wpilibj.Timer;
 
+public class GripFromClaw extends ClawCommand {
+    private static final double gripTime = 2; //seconds
     @Override
     public void initialize() {
         claw.grip();
@@ -9,6 +11,7 @@ public class RunClawGrip extends ClawCommand {
 
     @Override
     public boolean isFinished() {
+        Timer.delay(gripTime);
         return true;
     }
 

@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.math.util.Units;
 
 public class Extender extends GBSubsystem {
 
@@ -88,26 +87,6 @@ public class Extender extends GBSubsystem {
         return Math.abs(getLength() - wantedLengthInMeters) <= RobotMap.telescopicArm.extender.LENGTH_TOLERANCE;
     }
 
-    public enum presetPositions {
-        //height in meters
-        //angle in degrees
-        CONE_HIGH(1.545639026, 49.1),
-        CONE_MID(1.04560987, 56.30993247),
-        CUBE_HIGH(1.352811886, 41.70388403),
-        CUBE_MID(83.45058418, 34.59228869),
-        LOW(0, 5),
-        ;
-        public final double distance;
-        private final double angleInDegrees;
-        public final double angleInRadians;
-
-        presetPositions(double distance, double angle) {
-            this.distance = distance;
-            this.angleInDegrees = angle;
-            this.angleInRadians = Units.degreesToRadians(angleInDegrees);
-
-        }
-    }
 }
 
 
