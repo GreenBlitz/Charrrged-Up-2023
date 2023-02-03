@@ -76,7 +76,7 @@ public class Elbow extends GBSubsystem {
         return Math.abs(getAngle() - wantedAngle) <= RobotMap.telescopicArm.elbow.ANGLE_TOLERANCE;
     }
 
-    public  boolean isOnTheSameState(double wantedAng){
+    public  boolean isInTheSameState(double wantedAng){
         return getHypotheticalState(getAngle()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) !=ElbowState.OUT_OF_BOUNDS;
     }
 
