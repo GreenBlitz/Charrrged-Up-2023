@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 
 public class Elbow extends GBSubsystem {
@@ -34,14 +36,14 @@ public class Elbow extends GBSubsystem {
     }
 
     public void setAngle(double angleInRads) {
-        if(Extender.getHypotheticalState(angleInRads) == Extender.ExtenderState.OUT_OF_BOUNDS){
+    if(Extender.getHypotheticalState(angleInRads) == Extender.ExtenderState.OUT_OF_BOUNDS){
             stop();
             return;
         }
         if (Extender.getInstance().getState() == Extender.ExtenderState.OPEN && getHypotheticalState(angleInRads) == ElbowState.IN_ROBOT ) {
-            motor.getPIDController().setReference(RobotMap.telescopicArm.elbow.ENTRANCE_ANGLE, CANSparkMax.ControlType.kPosition);
+            motor.set( RobotMap.telescopicArm.elbow.PID_CONTROLLER.calculate(motor.getEncoder().getPosition(),RobotMap.telescopicArm.elbow.ENTRANCE_ANGLE));
         } else {
-            motor.getPIDController().setReference(angleInRads, CANSparkMax.ControlType.kPosition);
+            motor.set( RobotMap.telescopicArm.elbow.PID_CONTROLLER.calculate(motor.getEncoder().getPosition(),angleInRads)));
         }
 
     }

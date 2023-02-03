@@ -11,10 +11,13 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,10 +120,21 @@ public class RobotMap {
 			public static final int MOTOR_ID = 1;
 			public static final double GEAR_RATIO = 1;
 
+			public static final double kS = 0;
+			public static final double kA = 0;
+			public static final double kV = 0;
+			public static final double MIN_Kg = 0;
+			public static final double MAX_Kg =	0;
+			public static final double MAX_ACCELERATION = 0;
+			public static final double MAX_VELOCITY = 0;
+			public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
+
 			public static final PIDObject PID = new PIDObject()
 					.withKp(0)
 					.withKi(0)
 					.withKd(0);
+			public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(),PID.getKi(),PID.getKd(),CONSTRAINTS);
+
 			public static final double ENTRANCE_ANGLE = Units.degreesToRadians(69);
 
 			public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
@@ -129,11 +143,8 @@ public class RobotMap {
 			public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 
 
-			public static final double kS = 0;
-			public static final double kA = 0;
-			public static final double kV = 0;
-			public static final double MIN_Kg = 0;
-			public static final double MAX_Kg =	0;
+
+
 		}
 	}
 
