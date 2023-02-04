@@ -4,11 +4,18 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class EjectFromClaw extends ClawCommand {
 
+    public static final double timeOfEjectionConstant = 2;
     private double timeOfEjection;
     public EjectFromClaw(double timeOfEjection){
 
         this.timeOfEjection = timeOfEjection;
     }
+
+    public EjectFromClaw(){
+        timeOfEjection = timeOfEjectionConstant;
+    }
+
+
     @Override
     public void initialize() {
         claw.eject();

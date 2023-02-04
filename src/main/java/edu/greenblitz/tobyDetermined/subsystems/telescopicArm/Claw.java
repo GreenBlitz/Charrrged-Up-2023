@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;

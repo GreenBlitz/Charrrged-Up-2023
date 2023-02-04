@@ -6,12 +6,14 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+
 	@Override
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
@@ -34,11 +36,13 @@ public class Robot extends TimedRobot {
 		}
 	}
 	
-	
+
 	@Override
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
+		RoborioUtils.updateCurrentCycleTime();
 	}
+
 	
 	
 	@Override

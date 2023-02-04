@@ -1,8 +1,5 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.wpi.first.math.util.Units;
-
 public class RotateToAngle extends ElbowCommand {
 
     private double wantedAngle;
@@ -14,7 +11,7 @@ public class RotateToAngle extends ElbowCommand {
 
     @Override
     public void execute() {
-        elbow.setAngle(wantedAngle);
+        elbow.moveTowardsAngle(wantedAngle);
     }
 
     @Override

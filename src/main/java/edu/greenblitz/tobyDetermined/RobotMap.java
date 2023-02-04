@@ -105,10 +105,25 @@ public class RobotMap {
 			public static final double DISTANCE_BETWEEN_HOLES = 6.35;
 			public static final double OUTPUT_GEAR_AMOUNT_OF_TEETH = 32;
 			public static final double MAX_LENGTH_IN_ROBOT = 0.4;
+			public static final double MAX_ENTRANCE_LENGTH = 0.3;
 			public static final PIDObject PID = new PIDObject();
-			public static final double EXTENDER_CONVERSION_FACTOR =
+			public static final double CONVERSION_FACTOR =
 					(((RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO) * OUTPUT_GEAR_AMOUNT_OF_TEETH) / (2 * Math.PI) ) * DISTANCE_BETWEEN_HOLES; //todo wrong
+			public static final double RAMP_RATE = 30;
 			public static final double LENGTH_TOLERANCE = 0.03; //in meters
+
+			public static final double KV = 0;
+			public static final double KA = 0;
+			public static final double KS = 0;
+
+			public static final double MAX_ACCELERATION = 0;
+			public static final double MAX_VELOCITY = 0;
+			public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
+			public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(),PID.getKi(),PID.getKd(),CONSTRAINTS);
+
+
+
+
 
 		}
 		public static class claw{
@@ -134,13 +149,16 @@ public class RobotMap {
 					.withKi(0)
 					.withKd(0);
 			public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(),PID.getKi(),PID.getKd(),CONSTRAINTS);
-
 			public static final double ENTRANCE_ANGLE = Units.degreesToRadians(69);
+
+			public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
 
 			public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
 			public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
 
 			public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
+
+			public static final double MOTOR_RAMP_RATE = 30;
 
 
 
