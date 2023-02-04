@@ -28,10 +28,7 @@ public class Grid {
 		 selectedPos = pose;
 	}
 	
-	public void moveSelectedPoseLeft(){
-		selectedPos = Location.values()[Math.max(selectedPos.ordinal()-1,0)];
-	}
-	
+
 	public enum Location {
 		
 		POS1(new Pose2d()),
