@@ -66,9 +66,9 @@ public class MoveToPos extends SwerveCommand {
     public void execute() {
         double xCalc = xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
         xCalc = xController.atGoal() ? 0 : xCalc;
-        double yCalc = xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
+        double yCalc = yController.calculate(SwerveChassis.getInstance().getRobotPose().getY());
         yCalc = yController.atGoal() ? 0 : yCalc;
-        double rotationCalc = xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
+        double rotationCalc = rotationController.calculate(SwerveChassis.getInstance().getChassisAngle());
         rotationCalc = rotationController.atGoal() ? 0 : rotationCalc;
         swerve.moveByChassisSpeeds(
                 xCalc,
