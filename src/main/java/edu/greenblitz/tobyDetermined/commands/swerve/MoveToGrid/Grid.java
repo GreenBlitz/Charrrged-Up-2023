@@ -31,15 +31,15 @@ public class Grid {
 	
 
 	public enum Location {
-		POS0(new Pose2d()),
-		POS1(new Pose2d()),
-		POS2(new Pose2d()),
-		POS3(new Pose2d()),
-		POS4(new Pose2d()),
-		POS5(new Pose2d()),
-		POS6(new Pose2d()),
-		POS7(new Pose2d()),
-		POS8(new Pose2d());
+		POS0(new Pose2d(new Translation2d(0,0),new Rotation2d())),
+		POS1(new Pose2d(new Translation2d(1,0),new Rotation2d())),
+		POS2(new Pose2d(new Translation2d(0,1),new Rotation2d())),
+		POS3(new Pose2d(new Translation2d(1,1),new Rotation2d())),
+		POS4(new Pose2d(new Translation2d(0.5,0),new Rotation2d())),
+		POS5(new Pose2d(new Translation2d(0,0.5),new Rotation2d())),
+		POS6(new Pose2d(new Translation2d(0.5,0.5),new Rotation2d())),
+		POS7(new Pose2d(new Translation2d(1,0.5),new Rotation2d())),
+		POS8(new Pose2d(new Translation2d(0.5,1),new Rotation2d()));
 		private final Pose2d pose;
 		private Location(Pose2d pose){
 			this.pose = pose;

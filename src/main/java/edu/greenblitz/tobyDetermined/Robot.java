@@ -18,16 +18,16 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
 		Dashboard.init();
-		//Limelight.getInstance();
+		Limelight.getInstance();
 		initPortForwarding();
 		LiveWindow.disableAllTelemetry();
-		//Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-		//IntakeGameObjectSensor.getInstance().periodic();
-		
+		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+		IntakeGameObjectSensor.getInstance().periodic();
+
 		//swerve
-		
-		//SwerveChassis.getInstance().resetChassisPose();
-		//SwerveChassis.getInstance().resetAllEncoders();
+
+		SwerveChassis.getInstance().resetChassisPose();
+		SwerveChassis.getInstance().resetAllEncoders();
 		OI.getInstance();
 	}
 	

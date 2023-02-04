@@ -15,7 +15,7 @@ public class MoveToPos extends SwerveCommand {
     private ProfiledPIDController xController;
     private ProfiledPIDController yController;
     private ProfiledPIDController rotationController;
-    private Pose2d pos;
+    protected Pose2d pos;
 
     public static final double rotKp = 2;
     public static final double rotKi = 0;
