@@ -5,12 +5,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Grid {
 	private static Grid instance;
 	private Location selectedPos;
 	public Grid() {
-		this.selectedPos = Location.POS1;
+		this.selectedPos = Location.POS0;
 	}
 	
 	public static Grid getInstance() {
@@ -30,10 +31,15 @@ public class Grid {
 	
 
 	public enum Location {
-		
+		POS0(new Pose2d()),
 		POS1(new Pose2d()),
 		POS2(new Pose2d()),
-		POS3(new Pose2d());
+		POS3(new Pose2d()),
+		POS4(new Pose2d()),
+		POS5(new Pose2d()),
+		POS6(new Pose2d()),
+		POS7(new Pose2d()),
+		POS8(new Pose2d());
 		private final Pose2d pose;
 		private Location(Pose2d pose){
 			this.pose = pose;
