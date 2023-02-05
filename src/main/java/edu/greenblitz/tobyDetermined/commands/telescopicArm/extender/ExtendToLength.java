@@ -14,7 +14,7 @@ public class ExtendToLength extends ExtenderCommand {
     }
     @Override
     public void execute() {
-        extender.setLength(wantedLength);
+        extender.moveTowardsLength(wantedLength);
     }
 
     @Override
