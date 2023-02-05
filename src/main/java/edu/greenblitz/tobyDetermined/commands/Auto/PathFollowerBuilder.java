@@ -69,7 +69,14 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
                                 RobotMap.Swerve.TobyDetermined.MAX_VELOCITY,
                                 RobotMap.Swerve.TobyDetermined.MAX_ACCELERATION
                         ));
-
+                break;
+            default:
+                path = PathPlanner.loadPath(
+                        pathName, new PathConstraints(
+                                RobotMap.Swerve.TobyDetermined.MAX_VELOCITY,
+                                RobotMap.Swerve.TobyDetermined.MAX_ACCELERATION
+                        ));
+                break;
         }
 
 

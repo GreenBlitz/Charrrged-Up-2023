@@ -4,6 +4,7 @@ package edu.greenblitz.tobyDetermined;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -12,6 +13,8 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -35,7 +38,7 @@ public class RobotMap {
 			public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
 		}
 	}
-	
+
 	public static class gyro { //Yum
 		public static final int pigeonID = 12;
 	}
@@ -62,7 +65,7 @@ public class RobotMap {
 		public static double standardDeviationVisionAngle = 0.1;
 		public static int selectedTagId = 1;
 		public static final int[] portNumbers = {5800,5801,5802,5803,5804,5805};
-		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
+		public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 96.4, 0), new Rotation3d(0, 0, Math.PI));
 		static List<AprilTag> apriltags = new ArrayList<>(5) ;
 		static {
 			apriltags.add(new AprilTag(1,apriltagLocation));
@@ -119,7 +122,25 @@ public class RobotMap {
 			};
 		}
 		static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
-
+		public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
+				//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
+				//the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
+				new Translation2d(0.3020647, 0.25265), /*fl*/
+				new Translation2d(0.3020647, -0.25265),/*fr*/
+				new Translation2d(-0.3020647, 0.25265),/*bl*/
+				new Translation2d(-0.3020647, -0.25265)/*br*/};
+		
+		public static final double MAX_VELOCITY = 4.1818320981472068;
+		public static final double MAX_ACCELERATION = 14.37979171376739;
+		public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
+		
+		
+		public static final PIDObject rotationPID = new PIDObject().withKp(0.5).withKi(0).withKd(0).withFF(0.1);
+		public static final double ks = 0.14876;
+		public static final double kv = 3.3055;
+		
+		public static final double ka = 0.11023;
+		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 		
 		public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right
@@ -176,6 +197,10 @@ public class RobotMap {
 			
 			public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
 			public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageCompSaturation(RobotMap.General.VOLTAGE_COMP_VAL).withPID(linPID);
+		}
+
+		public static class Autonomus {
+			public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
 		}
 		
 	}
