@@ -60,7 +60,7 @@ public class Limelight extends GBSubsystem {
 	}
 	
 	public boolean hasTarget() {
-		return camera.getLatestResult().hasTargets();
+		return visionPoseEstimator().isPresent();
 	}
 	
 	/**
