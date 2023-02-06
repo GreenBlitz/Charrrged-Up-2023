@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
@@ -15,12 +16,14 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RobotMap {
+	public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
 	public static class General {
 		public final static double minVoltageBattery = 11.97;
 		public final static double VOLTAGE_COMP_VAL = 11.5;
@@ -73,6 +76,51 @@ public class RobotMap {
 	}
 	
 	public static class Swerve {
+		
+		public static class Pegaswerve{
+			public static final double MAX_VELOCITY = 3.4930218;
+			public static final double MAX_ACCELERATION = 5.824409;
+			public static final double MAX_ANGULAR_SPEED = 8;
+			public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
+			public static final int LAMPREY_AVERAGE_BITS = 2;
+
+			
+			public static final PIDConstants TRANSLATION_PID = new PIDConstants(0,0,0);
+
+			public static final PIDConstants ROTATION_PID = new PIDConstants(2,0,0);
+
+			public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
+					//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
+					//the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
+					new Translation2d(0.3020647, 0.25265), /*fl*/
+					new Translation2d(0.3020647, -0.25265),/*fr*/
+					new Translation2d(-0.3020647, 0.25265),/*bl*/
+					new Translation2d(-0.3020647, -0.25265)/*br*/
+			};
+		}
+
+		public static class TobyDetermined {
+			//todo calibrate
+			public static final double MAX_VELOCITY = 0;
+			public static final double MAX_ACCELERATION = 0;
+			public static final double MAX_ANGULAR_SPEED = 0;
+			public static final double MAX_ANGULAR_ACCELERATION = 0;
+			public static final int LAMPREY_AVERAGE_BITS = 0;
+
+
+			public static final PIDConstants TRANSLATION_PID = new PIDConstants(0,0,0);
+
+			public static final PIDConstants ROTATION_PID = new PIDConstants(0,0,0);
+
+			public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
+					//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
+					//the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
+					new Translation2d(0, 0), /*fl*/
+					new Translation2d(0, -0),/*fr*/
+					new Translation2d(-0, 0),/*bl*/
+					new Translation2d(-0, -0)/*br*/
+			};
+		}
 		static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
 		public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
 				//the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
@@ -113,10 +161,13 @@ public class RobotMap {
 		public static class KazaSwerve {
 			public static final double ANG_GEAR_RATIO = 6.0;
 			public static final double LIN_GEAR_RATIO = 8.0;
-			
+
+			public static final double ks = 0.14876;
+			public static final double kv = 3.3055;
+			public static final double ka = 0.11023;
 			
 			public static final double WHEEL_CIRC = 0.0517 * 2 * Math.PI;
-			public static final double linTicksToMeters = RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN * WHEEL_CIRC / LIN_GEAR_RATIO / (2 * Math.PI);
+			public static final double linTicksToMeters = RobotMap.General.Motors.SPARKMAX_TICKS_PER_RADIAN  * WHEEL_CIRC / LIN_GEAR_RATIO / (2*Math.PI);
 			public static final double angleTicksToWheelToRPM = RobotMap.General.Motors.SPARKMAX_VELOCITY_UNITS_PER_RPM / ANG_GEAR_RATIO;
 			public static final double linTicksToMetersPerSecond = RobotMap.General.Motors.SPARKMAX_VELOCITY_UNITS_PER_RPM * WHEEL_CIRC / 60 / LIN_GEAR_RATIO;
 			public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
@@ -129,9 +180,13 @@ public class RobotMap {
 		public static class SdsSwerve {
 			public static final double ANG_GEAR_RATIO = (150.0 / 7);
 			public static final double LIN_GEAR_RATIO = 8.14;
-			
+
+			public static final double ks = 0.16411;
+			public static final double kv = 2.6824;
+			public static final double ka = 0.25968;
+
 			public static final double WHEEL_CIRC = 0.0517 * 2 * Math.PI;
-			public static final double linTicksToMeters = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN / 2 / Math.PI * WHEEL_CIRC / LIN_GEAR_RATIO;
+			public static final double linTicksToMeters = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN * WHEEL_CIRC/2/Math.PI / LIN_GEAR_RATIO;
 			public static final double angleTicksToWheelToRPM = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / ANG_GEAR_RATIO;
 			public static final double linTicksToMetersPerSecond = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / LIN_GEAR_RATIO * WHEEL_CIRC / 60;
 			public static final double angleTicksToRadians = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN / ANG_GEAR_RATIO;
