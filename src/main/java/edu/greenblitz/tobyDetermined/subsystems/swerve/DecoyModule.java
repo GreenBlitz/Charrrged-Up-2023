@@ -90,6 +90,11 @@ public class DecoyModule implements SwerveModule {
 	}
 	
 	@Override
+	public boolean isAtAngle(double errorInRads) {
+		return true;
+	}
+	
+	@Override
 	public void setModuleState(SwerveModuleState moduleState) {
 	
 	}

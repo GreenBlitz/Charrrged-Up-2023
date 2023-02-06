@@ -1,0 +1,96 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.7570485140970284,
+        "y": 4.394626074966436
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2208992777471996,
+        "y": 4.71140868101993
+      },
+      "holonomicAngle": 178.2642954110716,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.814307485757829,
+        "y": 4.380311332051236
+      },
+      "prevControl": {
+        "x": 4.1077498417479,
+        "y": 5.317487953092882
+      },
+      "nextControl": {
+        "x": 0.8336371965004933,
+        "y": 3.9795769226418627
+      },
+      "holonomicAngle": -178.2642954110716,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.7999927428426288,
+        "y": 4.437570303712036
+      },
+      "prevControl": {
+        "x": 2.2208992777471996,
+        "y": 4.482699521747118
+      },
+      "nextControl": null,
+      "holonomicAngle": 178.3153156821038,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": 4.5,
+  "maxAcceleration": 14.83,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 0.0,
+      "names": [
+        "place_cube"
+      ]
+    },
+    {
+      "position": 0.3999999999999999,
+      "names": [
+        "start_gripper"
+      ]
+    },
+    {
+      "position": 1.4545454545454548,
+      "names": [
+        "stop_gripper"
+      ]
+    }
+  ]
+}

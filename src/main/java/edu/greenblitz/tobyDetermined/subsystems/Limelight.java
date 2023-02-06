@@ -31,23 +31,6 @@ public class Limelight extends GBSubsystem {
 	}
 	
 	
-	public double getYawTarget() {
-		var result = camera.getLatestResult();
-		if (!result.hasTargets()) {
-			return 0;
-		}
-		PhotonTrackedTarget target = result.getBestTarget();
-		return Math.IEEEremainder(Math.toRadians(target.getYaw()), 2 * Math.PI);
-	}
-	
-	/**
-	 * it is minus because photon vision is inverted
-	 *
-	 * @return the curr angle minus the target angle
-	 */
-	public double fieldRelativeTargetYaw() {
-		return Math.IEEEremainder(SwerveChassis.getInstance().getChassisAngle() - getYawTarget(), 2 * Math.PI);
-	}
 	
 	/**
 	 * @return an array of three dimensions [x - forward , y - left, z - up]
