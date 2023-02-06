@@ -37,6 +37,19 @@ public class LED extends GBSubsystem {
         this.addressableLED.setData(ledBuffer);
     }
 
+    public void turnOff (){
+            setColor(new Color(0,0,0));
+    }
+
+    public void turnOff (int index){
+        setColor(index,new Color(0,0,0));
+    }
+    public void turnoff (int startIndex,int endIndex){
+        for (int i = startIndex; i < endIndex; i++) {
+            setColor(i,new Color(0,0,0));
+        }
+    }
+
     public void setColor(int i, Color color) {
         this.ledBuffer.setLED(i, color);
         this.addressableLED.setData(ledBuffer);

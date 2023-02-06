@@ -3,18 +3,8 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.LED.ObjectInClawLED;
 import edu.greenblitz.tobyDetermined.commands.LED.ObjectInIntakeLED;
-import edu.greenblitz.tobyDetermined.commands.LED.RobotWantLED;
-import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveByVisionSupplier;
-import edu.greenblitz.tobyDetermined.subsystems.LED;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.GBCommand;
+import edu.greenblitz.tobyDetermined.commands.LED.HumanPlayerObjectIndicator;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
 	
@@ -51,8 +41,8 @@ public class OI { //GEVALD
 
 		mainJoystick.B.whileTrue(new ObjectInIntakeLED());
 		mainJoystick.Y.whileTrue(new ObjectInClawLED());
-		mainJoystick.X.whileTrue(new RobotWantLED(RobotWantLED.wantedObject.cube));
-		mainJoystick.A.whileTrue(new RobotWantLED(RobotWantLED.wantedObject.cone));
+		mainJoystick.X.whileTrue(new HumanPlayerObjectIndicator(HumanPlayerObjectIndicator.wantedObject.CUBE));
+		mainJoystick.A.whileTrue(new HumanPlayerObjectIndicator(HumanPlayerObjectIndicator.wantedObject.CONE));
 	}
 	
 	public SmartJoystick getMainJoystick() {
