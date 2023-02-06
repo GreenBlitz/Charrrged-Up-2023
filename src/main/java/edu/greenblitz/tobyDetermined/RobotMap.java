@@ -79,11 +79,7 @@ public class RobotMap {
         public enum presetPositions { //todo find real positions.
             //height in meters
             //input angle degrees out put angle radians
-            CONE_HIGH(0, 0),
-            CONE_MID(0, 0),
-            CUBE_HIGH(0, 0),
-            CUBE_MID(0, 0),
-            LOW(0, 5),
+            CONE_HIGH(0, 0), CONE_MID(0, 0), CUBE_HIGH(0, 0), CUBE_MID(0, 0), LOW(0, 5),
             ;
             public final double distance;
             public final double angleInRadians;
@@ -99,6 +95,7 @@ public class RobotMap {
             public static final int MOTOR_ID = -1;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
+            public static final double SHRINKED_LENGTH = 0.6;
 
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
@@ -144,12 +141,12 @@ public class RobotMap {
             public static final double MAX_VELOCITY = 0;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 
-            public static final PIDObject PID = new PIDObject()
-                    .withKp(0)
-                    .withKi(0)
-                    .withKd(0);
+            public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
             public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-            public static final double ENTRANCE_ANGLE = Units.degreesToRadians(69);
+
+            public static final double STARTING_WALL_ZONE_ANGLE = 67;
+            public static final double END_WALL_ZONE_ANGLE = 70;
+
 
             public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
 

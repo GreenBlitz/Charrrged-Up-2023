@@ -52,7 +52,9 @@ public class Elbow extends GBSubsystem {
                 Extender.getInstance().getState() != Extender.ExtenderState.ENTRANCE_LENGTH){
             stop();
         } else if (Extender.getInstance().getState() == Extender.ExtenderState.OPEN && getHypotheticalState(angleInRads) == ElbowState.IN_ROBOT) {
-            setAngleByPID(RobotMap.telescopicArm.elbow.ENTRANCE_ANGLE);
+            setAngleByPID(
+                    state == ElbowState.IN_ROBOT ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE
+            );
         }else {
             setAngleByPID(angleInRads);
         }
@@ -94,8 +96,9 @@ public class Elbow extends GBSubsystem {
     public static ElbowState getHypotheticalState(double angleInRads) {
         if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {
             return ElbowState.OUT_OF_BOUNDS;
-        }
-        if (angleInRads >= RobotMap.telescopicArm.elbow.ENTRANCE_ANGLE) {
+        } else if (angleInRads > RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE && angleInRads <RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
+            return ElbowState.IN_FRONT_OF_ENTRANCE;
+        } else if (angleInRads > RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
             return ElbowState.OUT_ROBOT;
         }
         return ElbowState.IN_ROBOT;
@@ -121,7 +124,10 @@ public class Elbow extends GBSubsystem {
     }
 
     public enum ElbowState {
-        IN_ROBOT, OUT_ROBOT, OUT_OF_BOUNDS
+        IN_ROBOT, 
+        OUT_ROBOT,
+        IN_FRONT_OF_ENTRANCE,
+        OUT_OF_BOUNDS
     }
 
     public void setMotorVoltage (double voltage){

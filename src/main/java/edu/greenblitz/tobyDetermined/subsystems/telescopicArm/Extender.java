@@ -11,7 +11,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 public class Extender extends GBSubsystem {
 
 
-    private static ExtenderState state = ExtenderState.CLOSED;
+    private static ExtenderState state = ExtenderState.IN_ROBOT_BELLY_LENGTH;
 
     private ProfiledPIDController profiledPIDController;
     private static Extender instance;
@@ -60,7 +60,7 @@ public class Extender extends GBSubsystem {
         }else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH){
             return ExtenderState.ENTRANCE_LENGTH;
         } else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_LENGTH_IN_ROBOT) {
-            return ExtenderState.CLOSED;
+            return ExtenderState.IN_ROBOT_BELLY_LENGTH;
         } else {
             return ExtenderState.OPEN;
         }
@@ -112,8 +112,8 @@ public class Extender extends GBSubsystem {
         motor.set(0);
     }
 
-    enum ExtenderState {
-        CLOSED,
+    public enum ExtenderState {
+        IN_ROBOT_BELLY_LENGTH,
         OPEN,
         ENTRANCE_LENGTH,
         OUT_OF_BOUNDS
@@ -126,6 +126,8 @@ public class Extender extends GBSubsystem {
     public void setMotorVoltage (double voltage){
         motor.setVoltage(voltage);
     }
+
+
 }
 
 
