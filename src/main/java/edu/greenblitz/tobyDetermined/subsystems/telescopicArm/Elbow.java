@@ -60,6 +60,7 @@ public class Elbow extends GBSubsystem {
 
     public void setAngleByPID(double goalAngle) {
         ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
+        pidController.reset(getAngle());
         pidController.setGoal(goalAngle);
         double feedForward = getFeedForward(
                 pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),

@@ -78,6 +78,7 @@ public class Extender extends GBSubsystem {
         return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG ;
     }
     private void setLengthByPID(double lengthInMeters) {;
+        profiledPIDController.reset(getLength());
         profiledPIDController.setGoal(lengthInMeters);
         double feedForward = getFeedForward(
                 profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(),Elbow.getInstance().getAngle());
@@ -91,7 +92,7 @@ public class Extender extends GBSubsystem {
             return;
         }
 
-        if (Elbow.getHypotheticalState(Elbow.getInstance().getAngle()) == Elbow.ElbowState.IN_ROBOT && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
+        if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_ROBOT && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
             setLengthByPID(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH);
         } else {
             setLengthByPID(lengthInMeters);
