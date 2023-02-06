@@ -2,10 +2,15 @@ package edu.greenblitz.tobyDetermined;
 
 
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.StayAtCurrentAngle;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.StayAtCurrentLength;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -28,6 +33,11 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 		OI.getInstance();
+
+		//telescopic arm
+		Elbow.getInstance().setDefaultCommand(new StayAtCurrentAngle());
+		Extender.getInstance().setDefaultCommand(new StayAtCurrentLength());
+		Claw.getInstance();
 	}
 	
 	private static void initPortForwarding() {

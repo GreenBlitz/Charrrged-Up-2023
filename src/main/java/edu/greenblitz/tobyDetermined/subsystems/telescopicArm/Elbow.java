@@ -43,19 +43,22 @@ public class Elbow extends GBSubsystem {
     }
 
     public void moveTowardsAngle(double angleInRads) {
-        if (Extender.getHypotheticalState(angleInRads) == Extender.ExtenderState.OUT_OF_BOUNDS) {
+        if (Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
             stop();
             return;
         }
 
-        if (Extender.getInstance().getState() == Extender.ExtenderState.OPEN && getHypotheticalState(angleInRads) == ElbowState.IN_ROBOT) {
+        if(Elbow.getInstance().getState() != Elbow.getHypotheticalState(angleInRads) &&
+                Extender.getInstance().getState() != Extender.ExtenderState.ENTRANCE_LENGTH){
+            stop();
+        } else if (Extender.getInstance().getState() == Extender.ExtenderState.OPEN && getHypotheticalState(angleInRads) == ElbowState.IN_ROBOT) {
             setAngleByPID(RobotMap.telescopicArm.elbow.ENTRANCE_ANGLE);
-        } else {
+        }else {
             setAngleByPID(angleInRads);
         }
     }
 
-    private void setAngleByPID(double goalAngle) {
+    public void setAngleByPID(double goalAngle) {
         ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
         pidController.setGoal(goalAngle);
         double feedForward = getFeedForward(
@@ -81,6 +84,7 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         state = getHypotheticalState(getAngle());
         lastSpeed = getVelocity();
+
     }
 
     public double getVelocity (){
@@ -105,14 +109,22 @@ public class Elbow extends GBSubsystem {
         return getHypotheticalState(getAngle()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) != ElbowState.OUT_OF_BOUNDS;
     }
 
-    private static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
+    public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
         double Kg = (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
                 / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
         return Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
     }
+    public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
+        return (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
+                / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
+    }
 
     public enum ElbowState {
         IN_ROBOT, OUT_ROBOT, OUT_OF_BOUNDS
+    }
+
+    public void setMotorVoltage (double voltage){
+        motor.setVoltage(voltage);
     }
 
 }

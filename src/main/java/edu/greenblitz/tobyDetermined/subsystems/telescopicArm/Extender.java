@@ -57,21 +57,26 @@ public class Extender extends GBSubsystem {
 
         if (lengthInMeters > RobotMap.telescopicArm.extender.FORWARD_LIMIT || lengthInMeters < RobotMap.telescopicArm.extender.BACKWARDS_LIMIT) {
             return ExtenderState.OUT_OF_BOUNDS;
-        } else if (lengthInMeters >= RobotMap.telescopicArm.extender.MAX_LENGTH_IN_ROBOT) {
-            return ExtenderState.OPEN;
-        } else {
+        }else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH){
+            return ExtenderState.ENTRANCE_LENGTH;
+        } else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_LENGTH_IN_ROBOT) {
             return ExtenderState.CLOSED;
+        } else {
+            return ExtenderState.OPEN;
         }
     }
 
 
-    private static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
+    public static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
         return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG +
                 RobotMap.telescopicArm.extender.kS * Math.signum(wantedSpeed) +
                 RobotMap.telescopicArm.extender.kV * wantedSpeed +
                 RobotMap.telescopicArm.extender.kA * wantedAcceleration;
     }
 
+    public static double getStaticFeedForward (double elbowAngle){
+        return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG ;
+    }
     private void setLengthByPID(double lengthInMeters) {;
         profiledPIDController.setGoal(lengthInMeters);
         double feedForward = getFeedForward(
@@ -107,13 +112,19 @@ public class Extender extends GBSubsystem {
     }
 
     enum ExtenderState {
-        CLOSED, OPEN, OUT_OF_BOUNDS
+        CLOSED,
+        OPEN,
+        ENTRANCE_LENGTH,
+        OUT_OF_BOUNDS
     }
 
     public boolean isAtLength(double wantedLengthInMeters) {
         return Math.abs(getLength() - wantedLengthInMeters) <= RobotMap.telescopicArm.extender.LENGTH_TOLERANCE;
     }
 
+    public void setMotorVoltage (double voltage){
+        motor.setVoltage(voltage);
+    }
 }
 
 
