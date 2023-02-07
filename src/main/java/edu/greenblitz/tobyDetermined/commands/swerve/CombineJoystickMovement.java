@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve;
 import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import java.util.function.DoubleSupplier;
 
@@ -38,11 +39,11 @@ public class CombineJoystickMovement extends SwerveCommand {
 		double angSpeed = angSupplier.getAsDouble() * ANG_SPEED_FACTOR;
 		angSpeed = Math.min(angSpeed, ANG_SPEED_FACTOR);
 		if (forwardSpeed == 0 && leftwardSpeed == 0 && angSpeed == 0) {
+			swerve.setWantedSpeeds(new ChassisSpeeds());
 			swerve.stop();
 			return;
 		}
-		swerve.moveByChassisSpeeds(forwardSpeed, leftwardSpeed, angSpeed,
-				swerve.getChassisAngle());
+		swerve.setWantedSpeeds(new ChassisSpeeds(forwardSpeed, leftwardSpeed, angSpeed));
 	}
 	
 	@Override

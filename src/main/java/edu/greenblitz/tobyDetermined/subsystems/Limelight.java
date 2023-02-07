@@ -16,7 +16,6 @@ import java.util.Optional;
 public class Limelight extends GBSubsystem {
 	private static Limelight instance;
 	private PhotonCamera camera;
-	private RobotPoseEstimator poseEstimator;
 	private Transform2d cameraToRobot;
 	
 	private Limelight() {
@@ -73,16 +72,11 @@ public class Limelight extends GBSubsystem {
 	public Pair<Pose2d, Double> visionPoseEstimator() {
 		ArrayList<Pair<PhotonCamera, Transform3d>> camList = new ArrayList<>();
 		camList.add(new Pair<>(camera, RobotMap.Vision.initialCamPosition));
-		poseEstimator = new RobotPoseEstimator(RobotMap.Vision.aprilTagFieldLayout, RobotPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY, camList);
-		
+
 		double currentTime = Timer.getFPGATimestamp();
-		Optional<Pair<Pose3d, Double>> visionPose = poseEstimator.update();
-		if (visionPose.isPresent()) {
-			return new Pair<>(visionPose.get().getFirst().toPose2d(), currentTime - visionPose.get().getSecond());
-		} else {
-			return new Pair<>(null, 0.0);
+			return new Pair<>(new Pose2d(), 0.0);
 		}
-	}
+
 	
 	public boolean hasTarget() {
 		return camera.getLatestResult().hasTargets();

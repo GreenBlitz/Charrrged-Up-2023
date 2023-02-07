@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,6 +28,9 @@ public class SwerveChassis extends GBSubsystem {
     private final SwerveDriveKinematics kinematics;
     public final SwerveDrivePoseEstimator poseEstimator;
     private final Field2d field = new Field2d();
+    private volatile ChassisSpeeds wantedSpeeds;
+    private Thread moduleUpdater;
+    private volatile double lastUpdate = 0;
 
     public SwerveChassis() {
 
@@ -49,6 +53,20 @@ public class SwerveChassis extends GBSubsystem {
 
         SmartDashboard.putData("field", getField());
         field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
+
+        moduleUpdater = new Thread(() -> {
+            while(true){
+                moveByChassisSpeeds(wantedSpeeds);
+                SmartDashboard.putNumber("cycle time", (Timer.getFPGATimestamp() - lastUpdate) * 1000);
+                lastUpdate = Timer.getFPGATimestamp();
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        wantedSpeeds = new ChassisSpeeds();
     }
 
     public static SwerveChassis getInstance() {
@@ -169,36 +187,35 @@ public class SwerveChassis extends GBSubsystem {
         setModuleStateForModule(Module.BACK_RIGHT,
                 SwerveModuleState.optimize(states[3], new Rotation2d(getModuleAngle(Module.BACK_RIGHT))));
     }
-	
-	public void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed, double currentAng) {
-		ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-				forwardSpeed,
-				leftwardSpeed,
-				angSpeed,
-				Rotation2d.fromDegrees(Math.toDegrees(currentAng)));
-		
-		ChassisSpeeds updatedChassisSpeeds = getPoseExponentialCompensatedSpeeds(chassisSpeeds);
-		SwerveModuleState[] states = kinematics.toSwerveModuleStates(updatedChassisSpeeds);
-		setModuleStates(states);
+
+    public void startUpdaterThread(){
+        moduleUpdater.start();
+    }
+
+    public void setWantedSpeeds(ChassisSpeeds wantedSpeeds){
+        this.wantedSpeeds = wantedSpeeds;
+    }
+
+	private void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed) {
+		moveByChassisSpeeds(new ChassisSpeeds(forwardSpeed, leftwardSpeed, angSpeed));
 	}
 	
-	private static ChassisSpeeds getPoseExponentialCompensatedSpeeds(ChassisSpeeds speeds){
+	private static ChassisSpeeds getPoseExponentialCompensatedSpeeds(ChassisSpeeds speeds, double currSpeed){
 		Pose2d robot_pose_vel = new Pose2d(speeds.vxMetersPerSecond * RobotMap.General.ITERATION_DT,
 				speeds.vyMetersPerSecond * RobotMap.General.ITERATION_DT,
 				Rotation2d.fromRadians(speeds.omegaRadiansPerSecond * RobotMap.General.ITERATION_DT));
 		Twist2d twist_vel = new Pose2d().log(robot_pose_vel);
 		return new ChassisSpeeds(
-				twist_vel.dx / RobotMap.General.ITERATION_DT, twist_vel.dy / RobotMap.General.ITERATION_DT, twist_vel.dtheta / RobotMap.General.ITERATION_DT);
+				twist_vel.dx / RobotMap.General.ITERATION_DT, twist_vel.dy / RobotMap.General.ITERATION_DT, speeds.omegaRadiansPerSecond);
 	}
 
-    public void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        moveByChassisSpeeds(chassisSpeeds.vxMetersPerSecond,
-                chassisSpeeds.vyMetersPerSecond,
-                chassisSpeeds.omegaRadiansPerSecond,
-                getChassisAngle()
-        );
-        SmartDashboard.putNumber("omega", chassisSpeeds.omegaRadiansPerSecond);
-    }
+    private void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        ChassisSpeeds updatedChassisSpeeds = getPoseExponentialCompensatedSpeeds(chassisSpeeds, getChassisSpeeds().omegaRadiansPerSecond);
+        ChassisSpeeds robotRelativeSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                updatedChassisSpeeds,
+                Rotation2d.fromDegrees(Math.toDegrees(getChassisAngle())));
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotRelativeSpeeds);
+        setModuleStates(states);}
 
     public ChassisSpeeds getChassisSpeeds() {
         return kinematics.toChassisSpeeds(getModuleState(Module.FRONT_LEFT),

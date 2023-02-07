@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve;
 
 import edu.greenblitz.utils.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AdvancedBalanceOnRamp extends SwerveCommand {
@@ -28,7 +29,7 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
         lastAngle = currentAngle;
         currentAngle = Math.abs(PitchRollAdder.add(gyro.getRoll(),gyro.getPitch()));
 
-        swerve.moveByChassisSpeeds(speed , 0, 0, gyro.getYaw());
+        swerve.setWantedSpeeds(new ChassisSpeeds(speed , 0, 0));
 
         if (currentAngle > highPoint) {
             hasPassedHighPoint = true;

@@ -34,7 +34,7 @@ public class SetToFirstTrajectoryState extends SwerveCommand {
         double forwardSpeeeeed =
                 state.poseMeters.getRotation().getCos() * state.velocityMetersPerSecond;
         ChassisSpeeds speeds = new ChassisSpeeds(forwardSpeeeeed * EPSILON, leftwardSpeed * EPSILON, state.holonomicAngularVelocityRadPerSec * EPSILON);
-        swerve.moveByChassisSpeeds(speeds);
+        swerve.setWantedSpeeds(speeds);
     }
 
     @Override

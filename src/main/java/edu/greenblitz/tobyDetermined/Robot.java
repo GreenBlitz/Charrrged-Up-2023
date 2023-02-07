@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
 
         SwerveChassis.getInstance().resetChassisPose();
         SwerveChassis.getInstance().resetAllEncoders();
+        SwerveChassis.getInstance().startUpdaterThread();
         OI.getInstance();
     }
 

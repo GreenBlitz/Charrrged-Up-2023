@@ -28,7 +28,7 @@ public class RobotMap {
 		public final static double minVoltageBattery = 11.97;
 		public final static double VOLTAGE_COMP_VAL = 11.5;
 		public final static double RAMP_RATE_VAL = 0.4;
-		public final static double ITERATION_DT	= 0.1175;
+		public final static double ITERATION_DT	= 0.021;
 		public static class Motors {
 			public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
 			public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;

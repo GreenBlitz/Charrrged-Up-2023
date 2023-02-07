@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,11 +67,10 @@ public class MoveToPos extends SwerveCommand {
         double xCalc = xController.atGoal() ? 0 : xController.calculate(SwerveChassis.getInstance().getRobotPose().getX());
         double yCalc = yController.atGoal() ? 0 : yController.calculate(SwerveChassis.getInstance().getRobotPose().getY());
         double rotationCalc = rotationController.atGoal() ? 0 : rotationController.calculate(swerve.getChassisAngle());
-        swerve.moveByChassisSpeeds(
+        swerve.setWantedSpeeds(new ChassisSpeeds(
                 xCalc,
                 yCalc,
-                rotationCalc,
-                SwerveChassis.getInstance().getChassisAngle()
+                rotationCalc)
         );
         if(debugDash) { this.debugDashboard(xCalc, yCalc, rotationCalc); }
         
