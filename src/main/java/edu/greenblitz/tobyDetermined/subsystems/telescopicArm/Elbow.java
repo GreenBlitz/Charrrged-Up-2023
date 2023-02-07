@@ -43,18 +43,17 @@ public class Elbow extends GBSubsystem {
     }
 
     public void moveTowardsAngle(double angleInRads) {
+        // going out of bounds should not be allowed
         if (Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
             stop();
             return;
         }
 
+        //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
+        // if its not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.ENTRANCE_LENGTH){
-            stop();
-        } else if (Extender.getInstance().getState() == Extender.ExtenderState.OPEN && getHypotheticalState(angleInRads) == ElbowState.IN_ROBOT) {
-            setAngleByPID(
-                    state == ElbowState.IN_ROBOT ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE
-            );
+            setAngleByPID(state == ElbowState.IN_ROBOT ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
         }else {
             setAngleByPID(angleInRads);
         }
@@ -122,10 +121,18 @@ public class Elbow extends GBSubsystem {
                 / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
     }
 
+    /*
+    each elbow state represents some range of angles with a corresponding max length represented by an extender state
+     */
+
     public enum ElbowState {
-        IN_ROBOT, 
+        // the state of being inside the robot in front of the rotating plate
+        IN_ROBOT,
+        // the state of being outside the robot for placement
         OUT_ROBOT,
+        // the state of being in front of the plates wall, this should not happen on purpose
         IN_FRONT_OF_ENTRANCE,
+        // this state should not be possible and is either used to stop dangerous movement or to signal a bug
         OUT_OF_BOUNDS
     }
 

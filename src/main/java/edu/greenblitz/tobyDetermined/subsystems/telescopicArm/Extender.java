@@ -86,15 +86,18 @@ public class Extender extends GBSubsystem {
     }
 
     public void moveTowardsLength(double lengthInMeters) {
-
+        // going out of bounds should not be allowed
         if (getHypotheticalState(lengthInMeters) == ExtenderState.OUT_OF_BOUNDS) {
             stop();
             return;
         }
-
         if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_ROBOT && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
             setLengthByPID(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH);
-        } else {
+        }
+        if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_FRONT_OF_ENTRANCE && getHypotheticalState(lengthInMeters) != ExtenderState.ENTRANCE_LENGTH){
+            stop();
+        }
+        else {
             setLengthByPID(lengthInMeters);
         }
     }
@@ -113,9 +116,14 @@ public class Extender extends GBSubsystem {
     }
 
     public enum ExtenderState {
+        //see elbow state first
+        //the state corresponding to IN_ROBOT
         IN_ROBOT_BELLY_LENGTH,
+        //the state corresponding to OUT_ROBOT
         OPEN,
+        //the state corresponding to IN_FRONT_OF_ENTRANCE
         ENTRANCE_LENGTH,
+        // this state should not be possible and is either used to stop dangerous movement or to signal a bug
         OUT_OF_BOUNDS
     }
 
