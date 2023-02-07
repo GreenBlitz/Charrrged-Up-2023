@@ -48,7 +48,7 @@ public class Elbow extends GBSubsystem {
             return;
         }
 
-        if(Elbow.getInstance().getState() != Elbow.getHypotheticalState(angleInRads) &&
+        if(getState() != getHypotheticalState(angleInRads) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.ENTRANCE_LENGTH){
             stop();
         } else if (Extender.getInstance().getState() == Extender.ExtenderState.OPEN && getHypotheticalState(angleInRads) == ElbowState.IN_ROBOT) {
@@ -114,8 +114,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
-        double Kg = (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
-                / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
+        double Kg = getStaticFeedForward(extenderLength,elbowAngle);
         return Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
     }
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {

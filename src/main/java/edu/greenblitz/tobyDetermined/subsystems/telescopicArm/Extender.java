@@ -68,7 +68,7 @@ public class Extender extends GBSubsystem {
 
 
     public static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
-        return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG +
+        return getStaticFeedForward(elbowAngle) +
                 RobotMap.telescopicArm.extender.kS * Math.signum(wantedSpeed) +
                 RobotMap.telescopicArm.extender.kV * wantedSpeed +
                 RobotMap.telescopicArm.extender.kA * wantedAcceleration;
