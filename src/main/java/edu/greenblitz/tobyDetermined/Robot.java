@@ -1,17 +1,15 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
-import edu.greenblitz.tobyDetermined.commands.LED.DefaultColor;
+import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
@@ -27,7 +25,7 @@ public class Robot extends TimedRobot {
 		//swerve
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
-		LED.getInstance().setDefaultCommand(new DefaultColor());
+		LED.getInstance().setDefaultCommand(new BackgroundColor());
 
 		OI.getInstance();
 	}

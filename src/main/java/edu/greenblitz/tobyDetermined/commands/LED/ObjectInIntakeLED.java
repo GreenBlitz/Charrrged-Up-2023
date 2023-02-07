@@ -9,7 +9,9 @@ public class ObjectInIntakeLED extends LEDCommand{
 
 
     @Override
-    public void execute() {
+    public void initialize() {
+        led.setBackgroundColor(Color.kRed);
+
         led.setColor(Color.kRed);
         Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
         led.turnOff();
@@ -17,10 +19,5 @@ public class ObjectInIntakeLED extends LEDCommand{
         led.setColor(Color.kRed);
         Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
 
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
     }
 }

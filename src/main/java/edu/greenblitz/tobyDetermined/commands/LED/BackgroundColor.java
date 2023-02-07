@@ -1,13 +1,9 @@
 package edu.greenblitz.tobyDetermined.commands.LED;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.wpilibj.util.Color;
 
-public class DefaultColor extends LEDCommand{
-
-    @Override
-    public void initialize() {
-        led.setBackgroundColor(RobotMap.LED.DEFAULT_COLOR);
-    }
+public class BackgroundColor extends LEDCommand {
 
     @Override
     public void execute() {

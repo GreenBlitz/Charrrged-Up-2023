@@ -12,6 +12,7 @@ import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.util.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,7 @@ public class RobotMap {
 
 		public static final double BLINKING_ON_TIME = 0.4;
 		public static final double BLINKING_OFF_TIME = 0.2;
+		public static final Color DEFAULT_COLOR = Color.kFloralWhite;
 	}
 	
 	public static class Swerve {

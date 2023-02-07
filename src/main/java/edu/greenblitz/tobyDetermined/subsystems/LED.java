@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -12,9 +11,10 @@ public class LED extends GBSubsystem {
     private static LED instance;
     private AddressableLED addressableLED;
     private AddressableLEDBuffer ledBuffer;
-    private Color defaultColor = Color.kGreen;
+    private Color backgroundColor;
 
     private LED() {
+        this.backgroundColor = RobotMap.LED.DEFAULT_COLOR;
         this.addressableLED = new AddressableLED(RobotMap.LED.PORT);
         this.ledBuffer = new AddressableLEDBuffer(RobotMap.LED.LENGTH);
         this.addressableLED.setLength(RobotMap.LED.LENGTH);
@@ -69,10 +69,10 @@ public class LED extends GBSubsystem {
     }
 
 
-    public void setDefaultColor(Color color){
-        this.defaultColor = color;
+    public void setBackgroundColor(Color color){
+        this.backgroundColor = color;
     }
-    public Color getDefaultColor(){
-        return defaultColor;
+    public Color getBackgroundColor(){
+        return backgroundColor;
     }
 }
