@@ -30,7 +30,6 @@ public class SwerveChassis extends GBSubsystem {
     private final Field2d field = new Field2d();
     private volatile ChassisSpeeds wantedSpeeds;
     private Thread moduleUpdater;
-    private volatile double lastUpdate = 0;
 
     public SwerveChassis() {
 
@@ -57,8 +56,6 @@ public class SwerveChassis extends GBSubsystem {
         moduleUpdater = new Thread(() -> {
             while(true){
                 moveByChassisSpeeds(wantedSpeeds);
-                SmartDashboard.putNumber("cycle time", (Timer.getFPGATimestamp() - lastUpdate) * 1000);
-                lastUpdate = Timer.getFPGATimestamp();
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
@@ -200,7 +197,7 @@ public class SwerveChassis extends GBSubsystem {
 		moveByChassisSpeeds(new ChassisSpeeds(forwardSpeed, leftwardSpeed, angSpeed));
 	}
 	
-	private static ChassisSpeeds getPoseExponentialCompensatedSpeeds(ChassisSpeeds speeds, double currSpeed){
+	private static ChassisSpeeds getPoseExponentialCompensatedSpeeds(ChassisSpeeds speeds){
 		Pose2d robot_pose_vel = new Pose2d(speeds.vxMetersPerSecond * RobotMap.General.ITERATION_DT,
 				speeds.vyMetersPerSecond * RobotMap.General.ITERATION_DT,
 				Rotation2d.fromRadians(speeds.omegaRadiansPerSecond * RobotMap.General.ITERATION_DT));
@@ -210,7 +207,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 
     private void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        ChassisSpeeds updatedChassisSpeeds = getPoseExponentialCompensatedSpeeds(chassisSpeeds, getChassisSpeeds().omegaRadiansPerSecond);
+        ChassisSpeeds updatedChassisSpeeds = getPoseExponentialCompensatedSpeeds(chassisSpeeds);
         ChassisSpeeds robotRelativeSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 updatedChassisSpeeds,
                 Rotation2d.fromDegrees(Math.toDegrees(getChassisAngle())));
