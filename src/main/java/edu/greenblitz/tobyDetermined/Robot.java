@@ -3,10 +3,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
-import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
-import edu.greenblitz.tobyDetermined.subsystems.IntakeGameObjectSensor;
-import edu.greenblitz.tobyDetermined.subsystems.Limelight;
+import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -25,7 +22,9 @@ public class Robot extends TimedRobot {
 		IntakeGameObjectSensor.getInstance().periodic();
 		
 		//swerve
-		
+
+		RotatingBelly.getInstance();
+
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 		OI.getInstance();
