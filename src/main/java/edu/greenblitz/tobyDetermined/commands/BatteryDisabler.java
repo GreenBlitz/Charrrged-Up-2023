@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class BatteryDisabler extends GBCommand {
 	
 	private static final int LEN_OF_AVG = 50;
+	private static final double USAGE_MIN_LEVEL = 2;
 	private Battery battery;
 	private LinearFilter voltageFilter;
 	
@@ -35,7 +36,7 @@ public class BatteryDisabler extends GBCommand {
 
 		double currentAverageVoltage;
 
-		if(battery.getCurrentUsage() <= 5) {
+		if(battery.getCurrentUsage() <= USAGE_MIN_LEVEL) {
 			currentAverageVoltage = voltageFilter.calculate(battery.getCurrentVoltage());
 
 
