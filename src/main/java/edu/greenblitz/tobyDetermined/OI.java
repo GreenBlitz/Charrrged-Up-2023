@@ -46,10 +46,6 @@ public class OI { //GEVALD
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
-		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-
-		mainJoystick.POV_RIGHT.whileTrue(new DriveRightwardOnly(true, 0.2));
-		mainJoystick.POV_LEFT.whileTrue(new DriveRightwardOnly(false, 0.2));
 	}
 	
 	public SmartJoystick getMainJoystick() {

@@ -22,9 +22,6 @@ public class Dashboard extends GBSubsystem {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("ultrasonic", SwerveChassis.getInstance().getUltrasonicDistance());
-		SmartDashboard.putBoolean("goin' fast?", SwerveChassis.getInstance().getUltrasonicDistance() < 120);
-
 		SmartDashboard.putNumber("pigeon angle Yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
 		SmartDashboard.putNumber("pigeon angle Roll", SwerveChassis.getInstance().getPigeonGyro().getRoll());
 		SmartDashboard.putNumber("pigeon angle Pitch", SwerveChassis.getInstance().getPigeonGyro().getPitch());

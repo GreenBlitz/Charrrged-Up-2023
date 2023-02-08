@@ -2,13 +2,8 @@ package edu.greenblitz.tobyDetermined.commands.swerve;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.wpi.first.math.filter.MedianFilter;
-import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class DriveRightwardOnly extends SwerveCommand {
-
-	private static final double SLOW_ANG_SPEED_FACTOR = Math.PI;
 	private static final double SLOW_LIN_SPEED_FACTOR = 0.4;
 	private double speed;
 
