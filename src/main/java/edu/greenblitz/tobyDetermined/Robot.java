@@ -5,7 +5,7 @@ import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
-import edu.greenblitz.tobyDetermined.subsystems.IntakeGameObjectSensor;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.AutonomousSelector;

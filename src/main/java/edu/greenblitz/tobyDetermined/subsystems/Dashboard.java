@@ -1,10 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
-import edu.greenblitz.tobyDetermined.OI;
-import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.swerve.RotateAllWheelsToAngle;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.math.util.Units;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

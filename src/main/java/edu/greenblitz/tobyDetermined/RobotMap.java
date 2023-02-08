@@ -4,7 +4,6 @@ package edu.greenblitz.tobyDetermined;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -13,12 +12,9 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -203,5 +199,19 @@ public class RobotMap {
 			public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
 		}
 		
+	}
+	
+	public static class Intake{
+		public static final int ROLLER_ID = 0;
+		public static final boolean INVERTED = false;
+		public static final double RAMP_RATE = 0.1;
+		public static final double DEFAULT_POWER = 1;
+		public static final int CUR_LIMIT = 40;
+		public static final double ROLL_INSIDE_POWER = 0.5;
+		
+		public static class Solenoid {
+			public static final int FORWARD_PORT = 1;
+			public static final int REVERSE_PORT = 0;
+		}
 	}
 }
