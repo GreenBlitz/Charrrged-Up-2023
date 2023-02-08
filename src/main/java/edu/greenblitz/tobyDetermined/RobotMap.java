@@ -13,7 +13,6 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,12 @@ public class RobotMap {
 			public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
 		}
 	}
-	
+
+	public static class Ultrasonic {
+		public static final int PING_CHANNEL = 0;
+		public static final int ECHO_CHANNEL = 1;
+		public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
+	}
 	public static class gyro { //Yum
 		public static final int pigeonID = 12;
 	}

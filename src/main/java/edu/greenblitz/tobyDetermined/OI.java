@@ -2,11 +2,9 @@ package edu.greenblitz.tobyDetermined;
 
 
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
-import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
+import edu.greenblitz.tobyDetermined.commands.swerve.DriveRightwardOnly;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
-import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.UltrasonicSensor;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -49,9 +47,9 @@ public class OI { //GEVALD
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetAllEncoders()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-		
-		UltrasonicSensor sensor = new UltrasonicSensor(2,0);
-		mainJoystick.B.onTrue(new InstantCommand(()->SmartDashboard.putNumber("measure", sensor.measure())).andThen(new InstantCommand(()-> SmartDashboard.putBoolean("input", sensor.getInput()))));
+
+		mainJoystick.POV_RIGHT.whileTrue(new DriveRightwardOnly(true, 0.2));
+		mainJoystick.POV_LEFT.whileTrue(new DriveRightwardOnly(false, 0.2));
 	}
 	
 	public SmartJoystick getMainJoystick() {

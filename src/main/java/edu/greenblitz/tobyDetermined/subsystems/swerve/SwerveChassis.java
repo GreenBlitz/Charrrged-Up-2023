@@ -7,6 +7,7 @@ import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,7 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,14 +28,18 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
-	
+
+	private final Ultrasonic ultrasonic;
+
 	public SwerveChassis() {
 		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
 		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontRight);
 		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackLeft);
 		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
-		
+		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_CHANNEL, RobotMap.Ultrasonic.ECHO_CHANNEL);
+		edu.wpi.first.wpilibj.Ultrasonic.setAutomaticMode(true);
+
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
@@ -44,7 +49,7 @@ public class SwerveChassis extends GBSubsystem {
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVisionAngle));
-		
+
 		SmartDashboard.putData("field", getField());
 		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
 	}
@@ -237,6 +242,11 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public SwerveModuleState getModuleState(Module module) {
 		return getModule(module).getModuleState();
+	}
+
+	public double getUltrasonicDistance(){
+		MedianFilter filter = new MedianFilter(15);
+		return filter.calculate(ultrasonic.getRangeMM());
 	}
 	
 	public enum Module {

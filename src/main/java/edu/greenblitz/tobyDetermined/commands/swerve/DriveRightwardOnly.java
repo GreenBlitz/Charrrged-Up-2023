@@ -1,42 +1,34 @@
 package edu.greenblitz.tobyDetermined.commands.swerve;
 
-import edu.greenblitz.tobyDetermined.OI;
-import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.filter.MedianFilter;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class DriveRightwardOnly extends SwerveCommand {
-	private Ultrasonic ultrasonic;
-    private MedianFilter filter;
-    private final AnalogInput rightUltrasonicSensor = new AnalogInput(0);
-	private final AnalogInput leftUltrasonicSensor = new AnalogInput(1);
+
 	private static final double SLOW_ANG_SPEED_FACTOR = Math.PI;
-	private static final double SLOW_LIN_SPEED_FACTOR = 0.5;
-	private static final int minSensorValueToStop = 250; //todo change to real;
+	private static final double SLOW_LIN_SPEED_FACTOR = 0.4;
 	private double speed;
 
 
-	public DriveRightwardOnly(boolean left, double speed){
+	public DriveRightwardOnly(boolean right, double speed){
 		this.speed = speed;
-		if(left) this.speed *= -1;
-        ultrasonic = new Ultrasonic(0, 1);
-        Ultrasonic.setAutomaticMode(true);
-        filter = new MedianFilter(15);
+		if(right) this.speed *= -1;
 	}
 
 	@Override
 	public void execute() {
-		//needs to add an if to make sure that the chassis won't fall of the ramp
-		;
-		if (rightUltrasonicSensor.getValue() > minSensorValueToStop && leftUltrasonicSensor.getValue() > minSensorValueToStop) {
+		if (SwerveChassis.getInstance().getUltrasonicDistance() < RobotMap.Ultrasonic.DISTANCE_FROM_FLOOR_TO_STOP_IN_MM) {
 			swerve.moveByChassisSpeeds(
 					0,
 					speed * SLOW_LIN_SPEED_FACTOR,
-//					OI.getInstance().getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_X) * SLOW_ANG_SPEED_FACTOR,
 					0,
 					swerve.getChassisAngle());
+		}
+		else {
+			swerve.stop();
 		}
 	}
 
