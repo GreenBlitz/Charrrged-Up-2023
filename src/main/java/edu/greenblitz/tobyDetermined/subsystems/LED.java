@@ -36,6 +36,11 @@ public class LED extends GBSubsystem {
         }
         this.addressableLED.setData(ledBuffer);
     }
+    public void setColor(int i, Color color) {
+        this.ledBuffer.setLED(i, color);
+        this.addressableLED.setData(ledBuffer);
+    }
+
 
     public void turnOff (){
             setColor(new Color(0,0,0));
@@ -50,10 +55,7 @@ public class LED extends GBSubsystem {
         }
     }
 
-    public void setColor(int i, Color color) {
-        this.ledBuffer.setLED(i, color);
-        this.addressableLED.setData(ledBuffer);
-    }
+
 
     public void setHSV(int h, int s, int v) {
         for (int i = 0; i < this.ledBuffer.getLength(); i++) {
