@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 public class CombineJoystickMovement extends SwerveCommand {
 	static double ANG_SPEED_FACTOR = RobotMap.Swerve.MAX_ANGULAR_SPEED;
 	static double LIN_SPEED_FACTOR = RobotMap.Swerve.MAX_VELOCITY;
-	static double SLOW_ANG_SPEED_FACTOR = Math.PI;
+	static double SLOW_ANG_SPEED_FACTOR = Math.PI / 2;
 	static double SLOW_LIN_SPEED_FACTOR = 0.5;
 	private DoubleSupplier angSupplier;
 	private boolean isSlow;
