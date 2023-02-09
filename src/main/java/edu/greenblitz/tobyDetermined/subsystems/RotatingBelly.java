@@ -19,15 +19,15 @@ public class RotatingBelly extends GBSubsystem{
         motor = new GBSparkMax(RobotMap.RotatingBelly.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     }
 
-    public void setSpeed (double percentageSpeed){
-        motor.set(percentageSpeed);
-    }
-
     public static RotatingBelly getInstance (){
         if(instance == null){
             instance = new RotatingBelly();
         }
         return instance;
+    }
+
+    public void setPower(double power){
+        motor.set(power);
     }
 
     public IntakeGameObjectSensor.GameObject getGameObject (){
@@ -37,6 +37,7 @@ public class RotatingBelly extends GBSubsystem{
     public boolean isMacroSwitchPressed (){
         return macroSwitch.get();
     }
+
     public void stop (){
         motor.set(0);
     }

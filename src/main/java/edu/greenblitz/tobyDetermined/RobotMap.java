@@ -148,7 +148,7 @@ public class RobotMap {
 
 	public static class RotatingBelly {
 		public static final int MOTOR_ID = 0;
-		public static final double PERCENTAGE_ROTATING_SPEED = 0.5;
+		public static final double ROTATING_POWER = 0.5;
 		public static final int MACRO_SWITCH_PORT = 0;
 	}
 }

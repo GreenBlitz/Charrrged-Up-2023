@@ -6,7 +6,7 @@ public class RotateBellyObjectToPosition extends RotatingBellyCommand {
 
     @Override
     public void execute() {
-        belly.setSpeed(RobotMap.RotatingBelly.PERCENTAGE_ROTATING_SPEED);
+        belly.setPower(RobotMap.RotatingBelly.ROTATING_POWER);
     }
 
     @Override
