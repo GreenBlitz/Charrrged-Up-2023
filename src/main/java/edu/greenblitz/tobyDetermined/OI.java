@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
 
-import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPos;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
@@ -42,13 +41,7 @@ public class OI { //GEVALD
     }
 
     private void initButtons() {
-        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
-//
-//		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-//		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-//		mainJoystick.X.onTrue(PathFollowerBuilder.getInstance().followPath("90 degrees Copy"));
-//		mainJoystick.A.onTrue(PathFollowerBuilder.getInstance().followPath("2 objects"));
-//		mainJoystick.B.onTrue(new SetToFirstTrajectoryState(PathFollowerBuilder.getPathPlannerTrajectory("90 degrees")));
+
         mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
         mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
         mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
@@ -65,3 +58,4 @@ public class OI { //GEVALD
     }
 
 }
+
