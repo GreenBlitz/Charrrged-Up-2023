@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.util.Color;
 public class ObjectInClawLED extends LEDCommand{
 
     @Override
-    public void initialize() {
+    public void execute() {
         led.setBackgroundColor(Color.kBlue);
 
         led.setColor(Color.kBlue);
@@ -20,5 +20,8 @@ public class ObjectInClawLED extends LEDCommand{
         led.setBackgroundColor(Color.kBlue);
     }
 
-
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

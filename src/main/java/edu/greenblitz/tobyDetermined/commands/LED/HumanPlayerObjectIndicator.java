@@ -10,20 +10,20 @@ import edu.wpi.first.wpilibj.util.Color;
  * */
 public class HumanPlayerObjectIndicator extends LEDCommand{
 
-    private wantedObject wantedGmaeObject;
+    private final wantedObject wantedGameObject;
 
     public HumanPlayerObjectIndicator(wantedObject object){
-        this.wantedGmaeObject = object;
+        this.wantedGameObject = object;
     }
 
     public enum wantedObject{
         CUBE,
-        CONE;
+        CONE
     }
 
     @Override
-    public void initialize() {
-        switch (this.wantedGmaeObject){
+    public void execute() {
+        switch (this.wantedGameObject){
             case CONE:
                 led.setBackgroundColor(Color.kYellow);
 
