@@ -85,6 +85,16 @@ public class DecoyModule implements SwerveModule {
 	}
 	
 	@Override
+	public boolean isAtAngle(double targetAngleInRads, double errorInRads) {
+		return true;
+	}
+	
+	@Override
+	public boolean isAtAngle(double errorInRads) {
+		return true;
+	}
+	
+	@Override
 	public void setModuleState(SwerveModuleState moduleState) {
 	
 	}
@@ -102,5 +112,15 @@ public class DecoyModule implements SwerveModule {
 	@Override
 	public void setLinPowerOnlyForCalibrations(double power) {
 	
+	}
+
+	@Override
+	public void setLinIdleModeBrake() {
+
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+
 	}
 }

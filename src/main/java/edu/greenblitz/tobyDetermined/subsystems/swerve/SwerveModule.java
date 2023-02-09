@@ -36,6 +36,9 @@ public interface SwerveModule {
 	
 	SwerveModuleState getModuleState();
 	
+	boolean isAtAngle(double targetAngleInRads, double errorInRads);
+	boolean isAtAngle (double errorInRads);
+	
 	void setModuleState(SwerveModuleState moduleState);
 	
 	double getAbsoluteEncoderValue();
@@ -43,4 +46,7 @@ public interface SwerveModule {
 	void setRotPowerOnlyForCalibrations(double power);
 	
 	void setLinPowerOnlyForCalibrations(double power);
+
+	void setLinIdleModeBrake ();
+	void setLinIdleModeCoast ();
 }

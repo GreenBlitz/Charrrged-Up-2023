@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.PIDObject;
@@ -34,7 +35,7 @@ public class SdsSwerveModule implements SwerveModule {
 		this.magEncoder.setPositionOffset(magEncoderOffset);
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
 		
-		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
+		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
 		;
 	}
 	
@@ -182,6 +183,17 @@ public class SdsSwerveModule implements SwerveModule {
 		);
 	}
 	
+	@Override
+	public boolean isAtAngle(double targetAngleInRads, double tolerance) {
+		double currentAngleInRads = getModuleAngle();
+		return (currentAngleInRads - targetAngleInRads) %(2*Math.PI) < tolerance
+				|| (targetAngleInRads - currentAngleInRads) % (2*Math.PI) < tolerance;
+	}
+	@Override
+	public boolean isAtAngle(double tolerance) {
+		return isAtAngle(targetAngle, tolerance);
+	}
+	
 	/**
 	 * @param moduleState - @class {@link SwerveModuleState} to set the module to (angle and velocity)
 	 */
@@ -211,7 +223,17 @@ public class SdsSwerveModule implements SwerveModule {
 	public void setLinPowerOnlyForCalibrations(double power) {
 		linearMotor.set(ControlMode.PercentOutput, power);
 	}
-	
+
+	@Override
+	public void setLinIdleModeBrake() {
+		linearMotor.setNeutralMode(NeutralMode.Brake);
+	}
+
+	@Override
+	public void setLinIdleModeCoast() {
+		linearMotor.setNeutralMode(NeutralMode.Coast);
+	}
+
 	public static class SdsSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;
