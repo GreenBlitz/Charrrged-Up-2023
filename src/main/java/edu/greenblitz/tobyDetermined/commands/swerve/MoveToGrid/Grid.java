@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Grid {
 	private static Grid instance;
@@ -21,7 +20,7 @@ public class Grid {
 		return instance;
 	}
 	
-	public Location getPose(){
+	public Location getLocation(){
 		return selectedPos;
 	}
 	
@@ -45,7 +44,7 @@ public class Grid {
 			this.pose = pose;
 		}
 		
-		public Pose2d getPose(DriverStation.Alliance allianceColor) {
+		public Pose2d getPose2D(DriverStation.Alliance allianceColor) {
 			if(allianceColor == DriverStation.Alliance.Blue){
 				return pose;
 			}

@@ -1,9 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
-import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -45,7 +42,7 @@ public class Dashboard extends GBSubsystem {
 //		SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
 //		SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
 		SmartDashboard.putNumber("length",Grid.Location.values().length);
-		SmartDashboard.putString("grid pos", Grid.getInstance().getPose().toString());
-		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getPose().ordinal());
+		SmartDashboard.putString("grid pos", Grid.getInstance().getLocation().toString());
+		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getLocation().ordinal());
 	}
 }

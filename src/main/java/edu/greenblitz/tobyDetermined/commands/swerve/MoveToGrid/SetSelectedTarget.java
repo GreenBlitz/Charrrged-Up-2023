@@ -21,8 +21,8 @@ private int sideMultiplier;
         }
         int side = allianceSideMultiplier * sideMultiplier;
 		int gridLength = Grid.Location.values().length;
-        if (!(Grid.getInstance().getPose().ordinal() + side >= gridLength || Grid.getInstance().getPose().ordinal() + side < 0)) {
-			Grid.getInstance().setPose(Grid.Location.values()[Grid.getInstance().getPose().ordinal() + side]);
+        if (!(Grid.getInstance().getLocation().ordinal() + side >= gridLength || Grid.getInstance().getLocation().ordinal() + side < 0)) {
+			Grid.getInstance().setPose(Grid.Location.values()[Grid.getInstance().getLocation().ordinal() + side]);
 		}
 	}
 
