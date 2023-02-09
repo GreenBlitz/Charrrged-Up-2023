@@ -51,7 +51,5 @@ public class Dashboard extends GBSubsystem {
         SmartDashboard.putNumber("roll", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 
         SmartDashboard.putNumber("real pitch", Math.toDegrees(PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getRoll(), SwerveChassis.getInstance().getPigeonGyro().getPitch())));
-        SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
-        SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
     }
 }

@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined;
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
 import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
-import edu.greenblitz.tobyDetermined.commands.LED.DefaultColor;
 import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.AutonomousSelector;

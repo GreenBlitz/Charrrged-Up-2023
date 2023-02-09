@@ -20,75 +20,82 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RobotMap {
-    public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
-
+	public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
     public static class General {
-        public final static double minVoltageBattery = 11.97;
-        public final static double VOLTAGE_COMP_VAL = 11.5;
-        public final static double RAMP_RATE_VAL = 0.4;
 
+	    public final static double minVoltageBattery = 11.97;
+	    public final static double VOLTAGE_COMP_VAL = 11.5;
+	    public final static double RAMP_RATE_VAL = 0.4;
         public static class Motors {
-            public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
-            public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
-            public static final double NEO_PHYSICAL_TICKS_TO_RADIANS = SPARKMAX_TICKS_PER_RADIAN / 42; //do not use unless you understand the meaning
 
+	        public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
+	        public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
+	        public static final double NEO_PHYSICAL_TICKS_TO_RADIANS = SPARKMAX_TICKS_PER_RADIAN / 42; //do not use unless you understand the meaning
             public final static double FALCON_TICKS_PER_RADIAN = 2 * Math.PI / 2048.0;
-            public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
+
+	        public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
         }
     }
-
     public static class gyro { //Yum
-        public static final int pigeonID = 12;
-    }
 
+	    public static final int pigeonID = 12;
+    }
     public static class Joystick {
-        public static final int MAIN = 0;
-        public static final int SECOND = 1;
-    }
 
+	    public static final int MAIN = 0;
+	    public static final int SECOND = 1;
+    }
     public static class Pneumatics {
-        public static class PCM {
-            public static final int PCM_ID = 22;
-            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
-        }
 
+	    public static class PCM {
+		    public static final int PCM_ID = 22;
+		    public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
+	    }
         public static class PressureSensor {
-            public static final int PRESSURE = 3;
+
+	        public static final int PRESSURE = 3;
         }
     }
-
     public static class Vision {
-        public static double standardDeviationOdometry = 0.001;
-        public static double standardDeviationVision2d = 0.3;
-        public static double standardDeviationVisionAngle = 0.1;
-        public static int selectedTagId = 1;
-        public static final int[] portNumbers = {5800, 5801, 5802, 5803, 5804, 5805};
-        public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 96.4, 0), new Rotation3d(0, 0, Math.PI));
-        static List<AprilTag> apriltags = new ArrayList<>(5);
+	    public static double standardDeviationOdometry = 0.001;
 
+	    public static double standardDeviationVision2d = 0.3;
+	    public static double standardDeviationVisionAngle = 0.1;
+	    public static int selectedTagId = 1;
+	    public static final int[] portNumbers = {5800, 5801, 5802, 5803, 5804, 5805};
+	    public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 96.4, 0), new Rotation3d(0, 0, Math.PI));
+	    static List<AprilTag> apriltags = new ArrayList<>(5);
         static {
             apriltags.add(new AprilTag(1, apriltagLocation));
         }
 
         public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags, 10, 10);
-        public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
+
+	    public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
 
     }
-
     public static class LED {
-        public static final int LENGTH = 100;
-        public static final int PORT = 0;
 
+	    public static final int LENGTH = 100;
+	    public static final int PORT = 0;
         public static final double BLINKING_ON_TIME = 0.4;
-        public static final double BLINKING_OFF_TIME = 0.2;
-        public static final Color DEFAULT_COLOR = Color.kFloralWhite;
+
+	    public static final double BLINKING_OFF_TIME = 0.2;
+	    public static final Color DEFAULT_COLOR = Color.kFloralWhite;
     }
 
-    public static class Swerve {
+	public static class RotatingBelly {
+		public static final int MOTOR_ID = 0;
+		public static final double ROTATING_POWER = 0.5;
+		public static final int MACRO_SWITCH_PORT = 0;
+	}
 
-        public static class Pegaswerve {
-            public static final double MAX_VELOCITY = 3.4930218;
-            public static final double MAX_ACCELERATION = 5.824409;
+	public static class Swerve {
+
+	    public static class Pegaswerve {
+
+	        public static final double MAX_VELOCITY = 3.4930218;
+	        public static final double MAX_ACCELERATION = 5.824409;
             public static final double MAX_ANGULAR_SPEED = 8;
             public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
             public static final int LAMPREY_AVERAGE_BITS = 2;

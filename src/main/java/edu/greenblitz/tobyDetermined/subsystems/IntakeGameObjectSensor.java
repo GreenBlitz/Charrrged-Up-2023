@@ -24,7 +24,7 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 
 	private static IntakeGameObjectSensor instance;
 
-	public GameObject curObject = null;
+	private GameObject curObject = null;
 	private static final double confidenceThreshold  = 0.9;;
 	private static boolean shouldLogCalibration = false;
 	private IntakeGameObjectSensor(){
@@ -56,6 +56,9 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 		SmartDashboard.putNumber("Proxy", cs.getProximity());
 	}
 
+	public GameObject getCurObject (){
+		return curObject;
+	}
 	@Override
 	public void periodic() {
 		/**
