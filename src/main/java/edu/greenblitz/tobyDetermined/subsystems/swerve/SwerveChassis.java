@@ -30,6 +30,7 @@ public class SwerveChassis extends GBSubsystem {
 	private final Field2d field = new Field2d();
 
 	private final Ultrasonic ultrasonic;
+    private final int FILTER_BUFFER_SIZE = 15;
 
 	public SwerveChassis() {
 		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
@@ -38,7 +39,7 @@ public class SwerveChassis extends GBSubsystem {
 		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_CHANNEL, RobotMap.Ultrasonic.ECHO_CHANNEL);
-		edu.wpi.first.wpilibj.Ultrasonic.setAutomaticMode(true);
+		Ultrasonic.setAutomaticMode(true);
 
         this.kinematics = new SwerveDriveKinematics(
                 RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
@@ -262,7 +263,7 @@ public class SwerveChassis extends GBSubsystem {
     }
 
     public double getUltrasonicDistance(){
-        MedianFilter filter = new MedianFilter(15);
+        MedianFilter filter = new MedianFilter(FILTER_BUFFER_SIZE);
         return filter.calculate(ultrasonic.getRangeMM());
     }
 

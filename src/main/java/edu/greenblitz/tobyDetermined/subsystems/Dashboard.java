@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Dashboard extends GBSubsystem {
 
 	private static Dashboard instance;
