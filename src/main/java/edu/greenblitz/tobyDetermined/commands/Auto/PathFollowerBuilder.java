@@ -7,7 +7,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.DelayAndDisplayCommand;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPos;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -33,7 +33,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 //        eventMap.put("intake", new DelayAndDisplayCommand("intake", 0));
 //        eventMap.put("stopIntake", new DelayAndDisplayCommand("stop intake", 0));
 //        eventMap.put("processIntake", new DelayAndDisplayCommand("process intake", 0));
-		eventMap.put("moveToPose8", new MoveToPos(new Pose2d(3.35, 4.4, new Rotation2d())));
+		eventMap.put("moveToPose8", new MoveToPose(new Pose2d(3.35, 4.4, new Rotation2d())));
 		eventMap.put("place", new DelayAndDisplayCommand("placing", 1.5));
 		eventMap.put("openGripper", new DelayAndDisplayCommand("openGripper", 0.3));
 		
