@@ -13,6 +13,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -79,7 +80,7 @@ public class Robot extends TimedRobot {
         new SequentialCommandGroup(
                 PathFollowerBuilder.getInstance()
                         .followPath("2"),
-                new MoveToPose(new Pose2d(1.8,4.4,new Rotation2d(180)), true)
+                new MoveToPose(new Pose2d(1.8,4.4,new Rotation2d(Units.degreesToRadians(180))), true)
         ).schedule();
     }
 

@@ -87,9 +87,10 @@ public class RobotMap {
 		static List<AprilTag> apriltags = new ArrayList<>(5) ;
 		static {
 			apriltags.add(new AprilTag(selectedTagId,apriltagLocation));
+			apriltags.add(new AprilTag(8,new Pose3d(1.09,4.46,0, new Rotation3d())));
 		}
 		public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
-		public static final Transform3d RobotToCamera = new Transform3d(new Translation3d(), new Rotation3d());
+		public static final Transform3d RobotToCamera = new Transform3d(new Translation3d(0.40, 0.09, 0), new Rotation3d());
 
 	}
 
