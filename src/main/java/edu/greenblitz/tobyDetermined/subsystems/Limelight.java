@@ -1,12 +1,10 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.*;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 import java.util.Optional;
 
@@ -55,12 +53,12 @@ public class Limelight extends GBSubsystem {
 		return result.getTimestampSeconds();
 	}
 	
-	public Optional<EstimatedRobotPose> visionPoseEstimator() {
+	public Optional<EstimatedRobotPose> getUpdatedPoseEstimator() {
 		return poseEstimator.update();
 	}
 	
 	public boolean hasTarget() {
-		return visionPoseEstimator().isPresent();
+		return getUpdatedPoseEstimator().isPresent();
 	}
 	
 	/**

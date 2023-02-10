@@ -8,17 +8,13 @@ import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
-
-import java.util.Optional;
 
 public class SwerveChassis extends GBSubsystem {
 
@@ -228,7 +224,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public void updatePoseEstimation() {
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
-		Limelight.getInstance().visionPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
+		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 	}
 
 
