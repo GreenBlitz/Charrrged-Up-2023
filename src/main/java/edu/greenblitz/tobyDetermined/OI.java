@@ -1,11 +1,8 @@
 package edu.greenblitz.tobyDetermined;
 
-
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPos;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
-import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -17,7 +14,7 @@ public class OI { //GEVALD
 	private static OI instance;
 	private static boolean isHandled = true;
 	private final SmartJoystick mainJoystick;
-	
+
 	private final SmartJoystick secondJoystick;
 	
 	
@@ -49,25 +46,24 @@ public class OI { //GEVALD
 	}
 	
 	public double countB = 0;
-	
 
-    private void initButtons() {
 
-        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-        mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-        mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-        mainJoystick.A.onTrue(new ExtendRoller());
-        mainJoystick.B.onTrue(new RetractRoller());
-        mainJoystick.START.onTrue(new ToggleRoller());
-    }
+	private void initButtons() {
 
-    public SmartJoystick getMainJoystick() {
-        return mainJoystick;
-    }
+		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
+		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
+		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
+		mainJoystick.A.onTrue(new ExtendRoller());
+		mainJoystick.B.onTrue(new RetractRoller());
+		mainJoystick.START.onTrue(new ToggleRoller());
+	}
 
-    public SmartJoystick getSecondJoystick() {
-        return secondJoystick;
-    }
+	public SmartJoystick getMainJoystick() {
+		return mainJoystick;
+	}
 
+	public SmartJoystick getSecondJoystick() {
+		return secondJoystick;
+	}
 }
 

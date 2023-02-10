@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard extends GBSubsystem {
 
-	private static Dashboard instance;
-	long lastRead = System.currentTimeMillis();
-
+    private static Dashboard instance;
 	public static Dashboard getInstance() {
 		if (instance == null) {
 			init();

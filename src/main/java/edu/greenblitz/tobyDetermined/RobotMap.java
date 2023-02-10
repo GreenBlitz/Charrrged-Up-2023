@@ -39,131 +39,42 @@ public class RobotMap {
 	        public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
         }
     }
+
+
     public static class gyro { //Yum
-
-	    public static final int pigeonID = 12;
+        public static final int pigeonID = 12;
     }
+
     public static class Joystick {
-
-	    public static final int MAIN = 0;
-	    public static final int SECOND = 1;
+        public static final int MAIN = 0;
+        public static final int SECOND = 1;
     }
+
     public static class Pneumatics {
+        public static class PCM {
+            public static final int PCM_ID = 22;
+            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
+        }
 
-	    public static class PCM {
-		    public static final int PCM_ID = 22;
-		    public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
-	    }
         public static class PressureSensor {
-
-	        public static final int PRESSURE = 3;
+            public static final int PRESSURE = 3;
         }
     }
+
     public static class Vision {
-	    public static double standardDeviationOdometry = 0.001;
-
-	    public static double standardDeviationVision2d = 0.3;
-	    public static double standardDeviationVisionAngle = 0.1;
-	    public static int selectedTagId = 1;
-	    public static final int[] portNumbers = {5800, 5801, 5802, 5803, 5804, 5805};
-	    public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 96.4, 0), new Rotation3d(0, 0, Math.PI));
-	    static List<AprilTag> apriltags = new ArrayList<>(5);
+        public static double standardDeviationOdometry = 0.001;
+        public static double standardDeviationVision2d = 0.3;
+        public static double standardDeviationVisionAngle = 0.1;
+        public static int selectedTagId = 5;
+        public static final int[] portNumbers = {5800,5801,5802,5803,5804,5805};
+        public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
+        static List<AprilTag> apriltags = new ArrayList<>(5) ;
         static {
-            apriltags.add(new AprilTag(1, apriltagLocation));
+            apriltags.add(new AprilTag(selectedTagId,apriltagLocation));
         }
+        public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
+        public static final Transform3d RobotToCamera = new Transform3d(new Translation3d(), new Rotation3d());
 
-        public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags, 10, 10);
-
-        public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
-
-
-    }
-
-    public static class telescopicArm {
-
-
-        public enum presetPositions {
-            //height in meters
-            //input angle degrees out put angle radians
-            CONE_HIGH(0, 0), CONE_MID(0, 0), CUBE_HIGH(0, 0), CUBE_MID(0, 0), LOW(0, 5),
-            ;
-            public final double distance;
-            public final double angleInRadians;
-
-            presetPositions(double distance, double angle) {
-                this.distance = distance;
-                this.angleInRadians = Units.degreesToRadians(angle);
-
-            }
-        }
-
-        public static class extender {
-            public static final int MOTOR_ID = -1;
-            public static final double GEAR_RATIO = 1;
-            public static final double EXTENDED_LENGTH = 0.6;
-            public static final double SHRINKED_LENGTH = 0.6;
-
-            public static final int BACKWARDS_LIMIT = 0;
-            public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
-            public static final double DISTANCE_BETWEEN_HOLES = 6.35;
-            public static final double OUTPUT_GEAR_AMOUNT_OF_TEETH = 32;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.4;
-            public static final double MAX_ENTRANCE_LENGTH = 0.3;
-            public static final PIDObject PID = new PIDObject();
-
-            public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
-            public static final double CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
-            public static final double RAMP_RATE = 2;
-            public static final double LENGTH_TOLERANCE = 0.03; //in meters
-
-            public static final double kV = 0;
-            public static final double kA = 0;
-            public static final double kS = 0;
-            public static final double kG = 0;
-
-            public static final double MAX_ACCELERATION = 0;
-            public static final double MAX_VELOCITY = 0;
-            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final int CURRENT_LIMIT = 30;
-        }
-
-        public static class claw {
-            public static final int MOTOR_ID = 0;
-
-
-        }
-
-        public static class elbow {
-            public static final int MOTOR_ID = 1;
-            public static final double GEAR_RATIO = 1;
-
-            public static final double kS = 0;
-            public static final double kA = 0;
-            public static final double kV = 0;
-            public static final double MIN_Kg = 0;
-            public static final double MAX_Kg = 0;
-            public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -Math.toRadians(-90);
-            public static final double MAX_ACCELERATION = 0;
-            public static final double MAX_VELOCITY = 0;
-            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
-            public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-            public static final double STARTING_WALL_ZONE_ANGLE = 67;
-            public static final double END_WALL_ZONE_ANGLE = 70;
-
-
-            public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
-
-            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
-            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
-
-            public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
-
-            public static final double MOTOR_RAMP_RATE = 1;
-
-
-            public static final int CURRENT_LIMIT = 40;
-        }
     }
 
     public static class LED {
@@ -175,12 +86,6 @@ public class RobotMap {
 	    public static final double BLINKING_OFF_TIME = 0.2;
 	    public static final Color DEFAULT_COLOR = Color.kFloralWhite;
     }
-
-	public static class RotatingBelly {
-		public static final int MOTOR_ID = 0;
-		public static final double ROTATING_POWER = 0.5;
-		public static final int MACRO_SWITCH_PORT = 0;
-	}
 
 	public static class Swerve {
 
@@ -313,8 +218,101 @@ public class RobotMap {
         }
 
     }
-	
-	public static class Intake{
+
+
+    public static class RotatingBelly {
+        public static final int MOTOR_ID = 0;
+        public static final double ROTATING_POWER = 0.5;
+        public static final int MACRO_SWITCH_PORT = 0;
+    }
+    public static class telescopicArm {
+
+
+        public enum presetPositions {
+            //height in meters
+            //input angle degrees out put angle radians
+            CONE_HIGH(0, 0), CONE_MID(0, 0), CUBE_HIGH(0, 0), CUBE_MID(0, 0), LOW(0, 5),
+            ;
+            public final double distance;
+            public final double angleInRadians;
+
+            presetPositions(double distance, double angle) {
+                this.distance = distance;
+                this.angleInRadians = Units.degreesToRadians(angle);
+
+            }
+        }
+
+        public static class extender {
+            public static final int MOTOR_ID = -1;
+            public static final double GEAR_RATIO = 1;
+            public static final double EXTENDED_LENGTH = 0.6;
+            public static final double SHRINKED_LENGTH = 0.6;
+
+            public static final int BACKWARDS_LIMIT = 0;
+            public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
+            public static final double DISTANCE_BETWEEN_HOLES = 6.35;
+            public static final double OUTPUT_GEAR_AMOUNT_OF_TEETH = 32;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.4;
+            public static final double MAX_ENTRANCE_LENGTH = 0.3;
+            public static final PIDObject PID = new PIDObject();
+
+            public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
+            public static final double CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
+            public static final double RAMP_RATE = 2;
+            public static final double LENGTH_TOLERANCE = 0.03; //in meters
+
+            public static final double kV = 0;
+            public static final double kA = 0;
+            public static final double kS = 0;
+            public static final double kG = 0;
+
+            public static final double MAX_ACCELERATION = 0;
+            public static final double MAX_VELOCITY = 0;
+            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
+            public static final int CURRENT_LIMIT = 30;
+        }
+
+        public static class claw {
+            public static final int MOTOR_ID = 0;
+
+
+        }
+
+        public static class elbow {
+            public static final int MOTOR_ID = 1;
+            public static final double GEAR_RATIO = 1;
+
+            public static final double kS = 0;
+            public static final double kA = 0;
+            public static final double kV = 0;
+            public static final double MIN_Kg = 0;
+            public static final double MAX_Kg = 0;
+            public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -Math.toRadians(-90);
+            public static final double MAX_ACCELERATION = 0;
+            public static final double MAX_VELOCITY = 0;
+            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
+            public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
+            public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
+            public static final double STARTING_WALL_ZONE_ANGLE = 67;
+            public static final double END_WALL_ZONE_ANGLE = 70;
+
+
+            public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
+
+            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
+            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
+
+            public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
+
+            public static final double MOTOR_RAMP_RATE = 1;
+
+
+            public static final int CURRENT_LIMIT = 40;
+        }
+    }
+
+    public static class Intake{
 		public static final int ROLLER_ID = 0;
 		public static final boolean INVERTED = false;
 		public static final double RAMP_RATE = 0.1;
