@@ -23,10 +23,14 @@ public class RobotMap {
     public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
 
     public static class General {
-        public final static double minVoltageBattery = 11.97;
+        public final static double minVoltageBattery = 11.3;
         public final static double VOLTAGE_COMP_VAL = 11.5;
         public final static double RAMP_RATE_VAL = 0.4;
-
+        
+        public final static double ROBOT_WIDTH = 0.69;
+        public final static double ROBOT_LENGTH = 0.79;
+    
+    
         public static class Motors {
             public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
             public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
@@ -94,7 +98,7 @@ public class RobotMap {
             public static final int LAMPREY_AVERAGE_BITS = 2;
 
 
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(0, 0, 0);
+            public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
 
             public static final PIDConstants ROTATION_PID = new PIDConstants(2, 0, 0);
 

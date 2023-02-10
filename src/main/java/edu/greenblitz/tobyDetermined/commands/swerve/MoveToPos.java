@@ -60,6 +60,7 @@ public class MoveToPos extends SwerveCommand {
     public void debugDashboard(double xCalc, double yCalc, double rotationCalc){
         SmartDashboard.putBoolean("at goal x",xController.atGoal());
         SmartDashboard.putBoolean("at goal y",yController.atGoal());
+        SmartDashboard.putBoolean("at goal angle",rotationController.atGoal());
         SmartDashboard.putNumber("x cal",xCalc);
         SmartDashboard.putNumber("y cal",yCalc);
         SmartDashboard.putNumber("rot cal",rotationCalc);
