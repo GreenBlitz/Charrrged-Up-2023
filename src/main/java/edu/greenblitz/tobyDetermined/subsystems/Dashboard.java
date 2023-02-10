@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Dashboard extends GBSubsystem {
-
     private static Dashboard instance;
 
     public static Dashboard init() {
