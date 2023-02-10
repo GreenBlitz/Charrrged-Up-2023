@@ -1,11 +1,12 @@
 package edu.greenblitz.tobyDetermined;
 
-
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
+import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
+import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
-import edu.greenblitz.tobyDetermined.subsystems.IntakeGameObjectSensor;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.AutonomousSelector;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+
     @Override
     public void robotInit() {
         CommandScheduler.getInstance().enable();
@@ -25,6 +27,8 @@ public class Robot extends TimedRobot {
         Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         AutonomousSelector.getInstance();
         IntakeGameObjectSensor.getInstance().periodic();
+
+        LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
 
         SwerveChassis.getInstance().resetChassisPose();
