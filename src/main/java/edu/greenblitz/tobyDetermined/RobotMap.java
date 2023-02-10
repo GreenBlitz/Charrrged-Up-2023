@@ -221,4 +221,18 @@ public class RobotMap {
         }
 
     }
+	
+	public static class Intake{
+		public static final int ROLLER_ID = 0;
+		public static final boolean INVERTED = false;
+		public static final double RAMP_RATE = 0.1;
+		public static final double DEFAULT_POWER = 1;
+		public static final int CURRENT_LIMIT = 40;
+		public static final double ROLL_INSIDE_POWER = 0.5;
+		
+		public static class Solenoid {
+			public static final int FORWARD_PORT = 1;
+			public static final int REVERSE_PORT = 0;
+		}
+	}
 }

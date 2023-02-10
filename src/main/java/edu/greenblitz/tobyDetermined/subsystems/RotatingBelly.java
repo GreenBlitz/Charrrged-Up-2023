@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 
