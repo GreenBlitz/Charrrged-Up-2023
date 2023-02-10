@@ -47,8 +47,8 @@ public class OI { //GEVALD
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_RIGHT.onTrue(new SetSelectedTargetRight(DriverStation.Alliance.Blue));
-		mainJoystick.A.onTrue(new MoveToGrid());
 		mainJoystick.POV_LEFT.onTrue(new SetSelectedTargetLeft(DriverStation.Alliance.Blue));
+		mainJoystick.A.onTrue(new MoveToGrid());
 //		mainJoystick.A.onTrue(new MoveToPos(new Pose2d()));
 //		mainJoystick.B.onTrue(new InstantCommand(()->SwerveChassis.getInstance().poseEstimator.resetPosition(new Rotation2d(SwerveChassis.getInstance().getPigeonGyro().getYaw()), SwerveChassis.getInstance().getSwerveModulePositions(), new Pose2d(0,0, new Rotation2d(0,0)))));
 	}
