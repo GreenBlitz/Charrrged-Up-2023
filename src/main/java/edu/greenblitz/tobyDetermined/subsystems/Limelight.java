@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -26,9 +27,14 @@ public class Limelight extends GBSubsystem {
 	
 	public static Limelight getInstance() {
 		if (instance == null) {
-			instance = new Limelight();
+			init();
+			SmartDashboard.putBoolean("limelight initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new Limelight();
 	}
 	
 	

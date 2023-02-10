@@ -10,14 +10,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Dashboard extends GBSubsystem {
-    private static Dashboard instance;
 
-    public static Dashboard init() {
-        if (instance == null) {
-            instance = new Dashboard();
-        }
-        return instance;
-    }
+    private static Dashboard instance;
+	public static Dashboard getInstance() {
+		if (instance == null) {
+			init();
+			SmartDashboard.putBoolean("dashboard initialized via getinstance", true);
+		}
+		return instance;
+	}
+	public static void init(){
+		instance = new Dashboard();
+	}
 
 
     @Override

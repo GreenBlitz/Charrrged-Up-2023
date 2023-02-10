@@ -2,6 +2,8 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.StayAtCurrentAngle;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.StayAtCurrentLength;
 import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
 import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
@@ -9,6 +11,10 @@ import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -20,20 +26,16 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         CommandScheduler.getInstance().enable();
-        Dashboard.init();
-        Limelight.getInstance();
+		initSubsystems();
         initPortForwarding();
         LiveWindow.disableAllTelemetry();
         Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-        AutonomousSelector.getInstance();
-        IntakeGameObjectSensor.getInstance().periodic();
 
         LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
 
         SwerveChassis.getInstance().resetChassisPose();
         SwerveChassis.getInstance().resetAllEncoders();
-        OI.getInstance();
     }
 
     private static void initPortForwarding() {
@@ -41,6 +43,16 @@ public class Robot extends TimedRobot {
             PortForwarder.add(port, "photonvision.local", port);
         }
     }
+	private static void initSubsystems(){
+		Dashboard.init();
+		Limelight.init();
+		SwerveChassis.init();
+		Claw.init();
+		Elbow.init();
+		Extender.init();
+		Battery.init();
+		OI.init();
+	}
 
 
     @Override

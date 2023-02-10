@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems.intake;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeExtender extends GBSubsystem {
 	private static IntakeExtender instance;
@@ -13,10 +14,15 @@ public class IntakeExtender extends GBSubsystem {
 	}
 	
 	public static IntakeExtender getInstance() {
-		if (instance == null) {
-			instance = new IntakeExtender();
+		if(instance == null) {
+			init();
+			SmartDashboard.putBoolean("intake extender initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new IntakeExtender();
 	}
 
 	private void setValue(DoubleSolenoid.Value value) {

@@ -18,7 +18,6 @@ import org.photonvision.EstimatedRobotPose;
 
 public class SwerveChassis extends GBSubsystem {
 
-	
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
@@ -47,12 +46,18 @@ public class SwerveChassis extends GBSubsystem {
 		SmartDashboard.putData("field", getField());
 		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
 	}
-	
+
+
 	public static SwerveChassis getInstance() {
 		if (instance == null) {
-			instance = new SwerveChassis();
+			init();
+			SmartDashboard.putBoolean("chassis initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new SwerveChassis();
 	}
 	
 	@Override

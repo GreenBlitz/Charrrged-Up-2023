@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeRoller extends GBSubsystem {
 	private static IntakeRoller instance;
@@ -20,10 +21,15 @@ public class IntakeRoller extends GBSubsystem {
 	}
 
 	public static IntakeRoller getInstance() {
-		if (instance != null) {
-			instance = new IntakeRoller();
+		if(instance == null) {
+			init();
+			SmartDashboard.putBoolean("intake roller initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new IntakeRoller();
 	}
 
 	public void roll(double power) {

@@ -45,8 +45,15 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 	}
 
 	public static IntakeGameObjectSensor getInstance() {
-		if(instance == null) instance = new IntakeGameObjectSensor();
+		if(instance == null) {
+			init();
+			SmartDashboard.putBoolean("color sensor initialized via getinstance", true);
+		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new IntakeGameObjectSensor();
 	}
 
 	public void CalibrteDashBoard(Color detectedColor, ColorMatchResult match){
