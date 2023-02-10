@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -15,7 +14,7 @@ public class Elbow extends GBSubsystem {
 
 
     private static Elbow instance;
-    public ElbowState state = ElbowState.IN_ROBOT;
+    public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double lastSpeed;
 
@@ -59,8 +58,8 @@ public class Elbow extends GBSubsystem {
         //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
         // if its not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
-                Extender.getInstance().getState() != Extender.ExtenderState.ENTRANCE_LENGTH){
-            setAngleByPID(state == ElbowState.IN_ROBOT ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
+                Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
+            setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
         }else {
             setAngleByPID(angleInRads);
         }
@@ -103,11 +102,11 @@ public class Elbow extends GBSubsystem {
         if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {
             return ElbowState.OUT_OF_BOUNDS;
         } else if (angleInRads > RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE && angleInRads <RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
-            return ElbowState.IN_FRONT_OF_ENTRANCE;
+            return ElbowState.WALL_ZONE;
         } else if (angleInRads > RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
             return ElbowState.OUT_ROBOT;
         }
-        return ElbowState.IN_ROBOT;
+        return ElbowState.IN_BELLY;
 
     }
 
@@ -134,11 +133,11 @@ public class Elbow extends GBSubsystem {
 
     public enum ElbowState {
         // the state of being inside the robot in front of the rotating plate
-        IN_ROBOT,
+        IN_BELLY,
         // the state of being outside the robot for placement
         OUT_ROBOT,
-        // the state of being in front of the plates wall, this should not happen on purpose
-        IN_FRONT_OF_ENTRANCE,
+        // the state of being in front of the plates wall, this should not be a permanent state on purpose
+        WALL_ZONE,
         // this state should not be possible and is either used to stop dangerous movement or to signal a bug
         OUT_OF_BOUNDS
     }

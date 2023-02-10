@@ -5,13 +5,12 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngle;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class GoToPosition extends SequentialCommandGroup {
 
     public GoToPosition(double lengthInMeters, double angleInRads) {
-        if(Extender.getHypotheticalState(lengthInMeters) == Extender.ExtenderState.ENTRANCE_LENGTH || Elbow.getInstance().isInTheSameState(angleInRads)){
+        if(Extender.getHypotheticalState(lengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH || Elbow.getInstance().isInTheSameState(angleInRads)){
             addCommands(new RotateToAngle(angleInRads).alongWith(new ExtendToLength(lengthInMeters)));
         }
         //if the desired position needs to pass through the entrance zone and the extension to long the movement is split to multiple parts

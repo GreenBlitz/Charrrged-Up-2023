@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -65,7 +64,7 @@ public class Extender extends GBSubsystem {
         if (lengthInMeters > RobotMap.telescopicArm.extender.FORWARD_LIMIT || lengthInMeters < RobotMap.telescopicArm.extender.BACKWARDS_LIMIT) {
             return ExtenderState.OUT_OF_BOUNDS;
         }else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH){
-            return ExtenderState.ENTRANCE_LENGTH;
+            return ExtenderState.IN_WALL_LENGTH;
         } else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_LENGTH_IN_ROBOT) {
             return ExtenderState.IN_ROBOT_BELLY_LENGTH;
         } else {
@@ -98,10 +97,12 @@ public class Extender extends GBSubsystem {
             stop();
             return;
         }
-        if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_ROBOT && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
+        // arm should not extend to open state when inside the belly (would hit chassis)
+        if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
             setLengthByPID(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH);
         }
-        if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_FRONT_OF_ENTRANCE && getHypotheticalState(lengthInMeters) != ExtenderState.ENTRANCE_LENGTH){
+        // arm should not extend too much in front of the wall
+        if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(lengthInMeters) != ExtenderState.IN_WALL_LENGTH){
             stop();
         }
         else {
@@ -124,12 +125,12 @@ public class Extender extends GBSubsystem {
 
     public enum ExtenderState {
         //see elbow state first
-        //the state corresponding to IN_ROBOT
+        //the state corresponding to IN_BELLY
         IN_ROBOT_BELLY_LENGTH,
         //the state corresponding to OUT_ROBOT
         OPEN,
-        //the state corresponding to IN_FRONT_OF_ENTRANCE
-        ENTRANCE_LENGTH,
+        //the state corresponding to WALL_ZONE
+        IN_WALL_LENGTH,
         // this state should not be possible and is either used to stop dangerous movement or to signal a bug
         OUT_OF_BOUNDS
     }
