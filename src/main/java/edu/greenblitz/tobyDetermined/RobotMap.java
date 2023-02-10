@@ -56,27 +56,26 @@ public class RobotMap {
     }
 
     public static class Vision {
+        public static final int[] portNumbers = {5800, 5801, 5802, 5803, 5804, 5805};
+        public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
+        public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
         public static double standardDeviationOdometry = 0.001;
         public static double standardDeviationVision2d = 0.3;
         public static double standardDeviationVisionAngle = 0.1;
         public static int selectedTagId = 1;
-        public static final int[] portNumbers = {5800, 5801, 5802, 5803, 5804, 5805};
-        public static final Pose3d apriltagLocation = new Pose3d(new Translation3d(5, 5, 0), new Rotation3d(0, 0, Math.PI));
         static List<AprilTag> apriltags = new ArrayList<>(5);
+        public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags, 10, 10);
 
         static {
             apriltags.add(new AprilTag(1, apriltagLocation));
         }
-
-        public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags, 10, 10);
-        public static final Transform3d initialCamPosition = new Transform3d(new Translation3d(), new Rotation3d());
 
     }
 
     public static class telescopicArm {
 
 
-        public enum presetPositions { //todo find real positions.
+        public enum presetPositions {
             //height in meters
             //input angle degrees out put angle radians
             CONE_HIGH(0, 0), CONE_MID(0, 0), CUBE_HIGH(0, 0), CUBE_MID(0, 0), LOW(0, 5),
@@ -140,10 +139,8 @@ public class RobotMap {
             public static final double MAX_ACCELERATION = 0;
             public static final double MAX_VELOCITY = 0;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
             public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-
             public static final double STARTING_WALL_ZONE_ANGLE = 67;
             public static final double END_WALL_ZONE_ANGLE = 70;
 
@@ -163,7 +160,6 @@ public class RobotMap {
     }
 
     public static class Swerve {
-        static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
         public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
                 //the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
                 //the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
@@ -171,17 +167,13 @@ public class RobotMap {
                 new Translation2d(0.3020647, -0.25265),/*fr*/
                 new Translation2d(-0.3020647, 0.25265),/*bl*/
                 new Translation2d(-0.3020647, -0.25265)/*br*/};
-
         public static final double MAX_VELOCITY = 4.1818320981472068;
         public static final double MAX_ANGULAR_SPEED = 10.454580245368017;
-
-
         public static final PIDObject rotationPID = new PIDObject().withKp(0.5).withKi(0).withKd(0).withFF(0.1);
         public static final double ks = 0.14876;
         public static final double kv = 3.3055;
-
         public static final double ka = 0.11023;
-
+        static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right

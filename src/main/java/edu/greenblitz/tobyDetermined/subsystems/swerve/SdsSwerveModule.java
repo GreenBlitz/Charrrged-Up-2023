@@ -96,7 +96,7 @@ public class SdsSwerveModule implements SwerveModule {
 
 	@Override
 	public double getCurrentMeters() {
-		return convertTicksToMeters(linearMotor.getSelectedSensorPosition()); //TODO make sure its true
+		return convertTicksToMeters(linearMotor.getSelectedSensorPosition());
 	}
 
 	@Override

@@ -9,14 +9,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Dashboard extends GBSubsystem {
 
 	private static Dashboard instance;
-	double angularState = 0;
 	long lastRead = System.currentTimeMillis();
 
-	public static Dashboard init() {
+	public static Dashboard getInstance() {
 		if (instance == null) {
-			instance = new Dashboard();
+			init();
+			SmartDashboard.putBoolean("dashboard initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new Dashboard();
 	}
 
 

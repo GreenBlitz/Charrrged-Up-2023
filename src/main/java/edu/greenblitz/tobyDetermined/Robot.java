@@ -22,28 +22,36 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
-		Dashboard.init();
-		Limelight.getInstance();
+
 		initPortForwarding();
+		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		
 		//swerve
-		
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
-		OI.getInstance();
 
 		//telescopic arm
 		Elbow.getInstance().setDefaultCommand(new StayAtCurrentAngle());
 		Extender.getInstance().setDefaultCommand(new StayAtCurrentLength());
-		Claw.getInstance();
 	}
 	
 	private static void initPortForwarding() {
 		for (int port:RobotMap.Vision.portNumbers) {
 			PortForwarder.add(port, "photonvision.local", port);
 		}
+	}
+
+	private static void initSubsystems(){
+		Dashboard.init();
+		Limelight.init();
+		SwerveChassis.init();
+		Claw.init();
+		Elbow.init();
+		Extender.init();
+		Battery.init();
+		OI.init();
 	}
 	
 

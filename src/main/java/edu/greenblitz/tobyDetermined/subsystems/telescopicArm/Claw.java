@@ -4,7 +4,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends GBSubsystem {
     private static Claw instance;
@@ -17,10 +19,15 @@ public class Claw extends GBSubsystem {
     }
 
     public static Claw getInstance() {
-        if (instance == null){
-            instance = new Claw();
+        if (instance == null) {
+            init();
+            SmartDashboard.putBoolean("claw initialized via getinstance", true);
         }
         return instance;
+    }
+
+    public static void init(){
+        instance = new Claw();
     }
 
     public void grip() {

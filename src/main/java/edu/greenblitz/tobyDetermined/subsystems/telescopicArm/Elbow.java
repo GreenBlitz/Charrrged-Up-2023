@@ -4,9 +4,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Elbow extends GBSubsystem {
@@ -19,9 +21,14 @@ public class Elbow extends GBSubsystem {
 
     public static Elbow getInstance() {
         if (instance == null) {
-            instance = new Elbow();
+            init();
+            SmartDashboard.putBoolean("elbow initialized via getinstance", true);
         }
         return instance;
+    }
+
+    public static void init(){
+        instance = new Elbow();
     }
 
     private Elbow() {
@@ -70,7 +77,7 @@ public class Elbow extends GBSubsystem {
         motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
     }
 
-    public double getAngle() { //todo maybe not good
+    public double getAngle() {
         return motor.getEncoder().getPosition();
     }
 

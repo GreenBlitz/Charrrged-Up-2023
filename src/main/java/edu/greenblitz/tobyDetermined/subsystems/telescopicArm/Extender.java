@@ -4,9 +4,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Extender extends GBSubsystem {
 
@@ -19,9 +21,14 @@ public class Extender extends GBSubsystem {
 
     public static Extender getInstance() {
         if (instance == null) {
-            instance = new Extender();
+            init();
+            SmartDashboard.putBoolean("extender initialized via getinstance", true);
         }
         return instance;
+    }
+
+    public static void init(){
+        instance = new Extender();
     }
 
     private Extender() {
