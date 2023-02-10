@@ -40,6 +40,11 @@ public class MoveToPos extends SwerveCommand {
         rotationController.setTolerance(Units.degreesToRadians(rotationTolerance));
 
     }
+    
+    public MoveToPos(Pose2d pos, boolean isDebug){
+        this(pos);
+        this.debugDash = isDebug;
+    }
 
     @Override
     public void initialize() {
