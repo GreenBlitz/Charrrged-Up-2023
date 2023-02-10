@@ -195,7 +195,7 @@ public class RobotMap {
 			public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageCompSaturation(RobotMap.General.VOLTAGE_COMP_VAL).withPID(linPID);
 		}
 
-		public static class Autonomus {
+		public static class Autonomous {
 			public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY,MAX_ACCELERATION);
 		}
 		
@@ -206,7 +206,7 @@ public class RobotMap {
 		public static final boolean INVERTED = false;
 		public static final double RAMP_RATE = 0.1;
 		public static final double DEFAULT_POWER = 1;
-		public static final int CUR_LIMIT = 40;
+		public static final int CURRENT_LIMIT = 40;
 		public static final double ROLL_INSIDE_POWER = 0.5;
 		
 		public static class Solenoid {

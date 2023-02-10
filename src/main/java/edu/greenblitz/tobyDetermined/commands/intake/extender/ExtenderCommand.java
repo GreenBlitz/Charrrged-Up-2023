@@ -6,7 +6,6 @@ import edu.greenblitz.utils.GBCommand;
 public abstract class ExtenderCommand extends GBCommand {
 	IntakeExtender extender;
 	public ExtenderCommand(){
-		super();
 		extender = IntakeExtender.getInstance();
 		require(extender);
 	}

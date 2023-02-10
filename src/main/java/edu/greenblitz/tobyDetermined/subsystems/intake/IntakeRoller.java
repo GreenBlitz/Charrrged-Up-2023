@@ -8,38 +8,41 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 public class IntakeRoller extends GBSubsystem {
 	private static IntakeRoller instance;
 	private final GBSparkMax motor;
-	private IntakeRoller(){
+
+	private IntakeRoller() {
 		motor = new GBSparkMax(RobotMap.Intake.ROLLER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		motor.config(
 				new GBSparkMax.SparkMaxConfObject()
-						.withCurrentLimit(RobotMap.Intake.CUR_LIMIT)
+						.withCurrentLimit(RobotMap.Intake.CURRENT_LIMIT)
 						.withInverted(RobotMap.Intake.INVERTED)
 						.withRampRate(RobotMap.Intake.RAMP_RATE)
 		);
 	}
-	
-	public static IntakeRoller getInstance(){
-		if(instance != null) {instance = new IntakeRoller();}
+
+	public static IntakeRoller getInstance() {
+		if (instance != null) {
+			instance = new IntakeRoller();
+		}
 		return instance;
 	}
-	
-	public void roll(double power){
+
+	public void roll(double power) {
 		motor.set(power);
 	}
-	
-	public void rollIn(){
+
+	public void rollIn() {
 		roll(RobotMap.Intake.DEFAULT_POWER);
 	}
-	
-	public void rollOut(){
+
+	public void rollOut() {
 		roll(-RobotMap.Intake.DEFAULT_POWER);
 	}
-	
-	public void rollInside(){
+
+	public void rollInside() {
 		roll(RobotMap.Intake.ROLL_INSIDE_POWER);
 	} //into the robot
-	
-	public void stop(){
+
+	public void stop() {
 		roll(0);
 	}
 }

@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.intake.Roller;
+package edu.greenblitz.tobyDetermined.commands.intake.roller;
 
 public class RollByConst extends RollerCommand{
 	private final double power;
