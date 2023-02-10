@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
  * @see Joystick
  * @see JoystickButton
  */
-public class SmartJoystick { //todo use not this, but the WPILib equivalent
+public class SmartJoystick {
 	private static final double DEADZONE = 0.03;
 	public final JoystickButton A,
 			B,

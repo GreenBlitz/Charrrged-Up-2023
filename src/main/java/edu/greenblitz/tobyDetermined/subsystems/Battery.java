@@ -1,8 +1,10 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Battery extends GBSubsystem {
 	
@@ -16,9 +18,14 @@ public class Battery extends GBSubsystem {
 	
 	public static Battery getInstance() {
 		if (instance == null) {
-			instance = new Battery();
+			init();
+			SmartDashboard.putBoolean("battery initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new Battery();
 	}
 
 	public double getCurrentUsage (){
