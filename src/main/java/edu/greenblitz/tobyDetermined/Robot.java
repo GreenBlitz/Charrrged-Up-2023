@@ -76,12 +76,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
-
-        new SequentialCommandGroup(
-                PathFollowerBuilder.getInstance()
-                        .followPath("2"),
-                new MoveToPose(new Pose2d(1.8,4.4,new Rotation2d(Units.degreesToRadians(180))), true)
-        ).schedule();
+        AutonomousSelector.getInstance().getChosenValue().autonomousCommand.schedule();
     }
 
     @Override
