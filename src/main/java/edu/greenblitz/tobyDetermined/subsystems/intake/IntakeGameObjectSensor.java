@@ -1,8 +1,9 @@
-package edu.greenblitz.tobyDetermined.subsystems;
+package edu.greenblitz.tobyDetermined.subsystems.intake;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -24,7 +25,7 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 
 	private static IntakeGameObjectSensor instance;
 
-	public GameObject curObject = null;
+	private GameObject curObject = null;
 	private static final double confidenceThreshold  = 0.9;;
 	private static boolean shouldLogCalibration = false;
 	private IntakeGameObjectSensor(){
@@ -44,8 +45,15 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 	}
 
 	public static IntakeGameObjectSensor getInstance() {
-		if(instance == null) instance = new IntakeGameObjectSensor();
+		if(instance == null) {
+			init();
+			SmartDashboard.putBoolean("color sensor initialized via getinstance", true);
+		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new IntakeGameObjectSensor();
 	}
 
 	public void CalibrteDashBoard(Color detectedColor, ColorMatchResult match){
@@ -56,6 +64,9 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 		SmartDashboard.putNumber("Proxy", cs.getProximity());
 	}
 
+	public GameObject getCurObject (){
+		return curObject;
+	}
 	@Override
 	public void periodic() {
 		/**

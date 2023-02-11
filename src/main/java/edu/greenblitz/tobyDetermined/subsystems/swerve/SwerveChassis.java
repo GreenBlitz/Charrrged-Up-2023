@@ -11,16 +11,14 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.photonvision.EstimatedRobotPose;
 
 public class SwerveChassis extends GBSubsystem {
-	
+
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
@@ -29,12 +27,12 @@ public class SwerveChassis extends GBSubsystem {
 	private final Field2d field = new Field2d();
 	
 	public SwerveChassis() {
-
+		
 		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
 		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontRight);
 		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackLeft);
 		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
-
+		
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
@@ -46,22 +44,31 @@ public class SwerveChassis extends GBSubsystem {
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVisionAngle));
-		
 		SmartDashboard.putData("field", getField());
 		field.getObject("apriltag").setPose(Field.Apriltags.redApriltagLocationId1.toPose2d());
 	}
-	
+
+
 	public static SwerveChassis getInstance() {
 		if (instance == null) {
-			instance = new SwerveChassis();
+			init();
+			SmartDashboard.putBoolean("chassis initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new SwerveChassis();
 	}
 	
 	@Override
 	public void periodic() {
 		updatePoseEstimation();
 		field.setRobotPose(getRobotPose());
+	}
+	
+	public void resetAll(Pose2d pose){
+		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
 	}
 	
 	/**
@@ -222,12 +229,10 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void updatePoseEstimation() {
-		poseEstimator.update(getPigeonAngle(),
-				getSwerveModulePositions());
-		if(Limelight.getInstance().hasTarget() && Limelight.getInstance().findTagId() == Field.Apriltags.selectedTagId){
-			poseEstimator.addVisionMeasurement(Limelight.getInstance().visionPoseEstimator().getFirst(),Limelight.getInstance().visionPoseEstimator().getSecond());
-		}
+		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 	}
+
 
 
 	public Pose2d getRobotPose() {
@@ -248,17 +253,37 @@ public class SwerveChassis extends GBSubsystem {
 		BACK_LEFT,
 		BACK_RIGHT
 	}
+	
+    public boolean moduleIsAtAngle(Module module, double errorInRads) {
+        return getModule(module).isAtAngle(errorInRads);
+    }
 
+    public void resetChassisPose(Pose2d pose) {
+        poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+    }
 
-	/** set the idle mode of the linear motor to brake */
-	public void setIdleModeBrake (){
-		for (Module module: Module.values()) {
-			getModule(module).setLinIdleModeBrake();
-		}
-	}
-	public void setIdleModeCoast (){
-		for (Module module: Module.values()) {
-			getModule(module).setLinIdleModeCoast();
-		}
-	}
+    public void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        moveByChassisSpeeds(chassisSpeeds.vxMetersPerSecond,
+                chassisSpeeds.vyMetersPerSecond,
+                chassisSpeeds.omegaRadiansPerSecond,
+                getChassisAngle()
+        );
+        SmartDashboard.putNumber("omega", chassisSpeeds.omegaRadiansPerSecond);
+    }
+
+    
+    /**
+     * set the idle mode of the linear motor to brake
+     */
+    public void setIdleModeBrake() {
+        for (Module module : Module.values()) {
+            getModule(module).setLinIdleModeBrake();
+        }
+    }
+
+    public void setIdleModeCoast() {
+        for (Module module : Module.values()) {
+            getModule(module).setLinIdleModeCoast();
+        }
+    }
 }

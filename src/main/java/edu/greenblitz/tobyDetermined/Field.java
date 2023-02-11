@@ -33,20 +33,17 @@ public class Field {
         public static final Pose3d blueApriltagLocationId1 = new Pose3d(new Translation3d(1.02743, 4.424426, 0), new Rotation3d(0, 0, Math.PI));
         public static final Pose3d blueApriltagLocationId2 = new Pose3d(new Translation3d(1.02743, 2.748026, 0), new Rotation3d(0, 0, Math.PI));
         public static final Pose3d blueApriltagLocationId3 = new Pose3d(new Translation3d(1.02743, 1.071626, 0), new Rotation3d(0, 0, Math.PI));
-        static List<AprilTag> redApriltags = new ArrayList<>(9) ;
+        static List<AprilTag> apriltags = new ArrayList<>(9) ;
 
         static {
-            redApriltags.add(new AprilTag(1, redApriltagLocationId1));
-            redApriltags.add(new AprilTag(2,redApriltagLocationId2));
-            redApriltags.add(new AprilTag(3,redApriltagLocationId3));
+            apriltags.add(new AprilTag(1, redApriltagLocationId1));
+            apriltags.add(new AprilTag(2,redApriltagLocationId2));
+            apriltags.add(new AprilTag(3,redApriltagLocationId3));
+            apriltags.add(new AprilTag(6,blueApriltagLocationId1));
+            apriltags.add(new AprilTag(7,blueApriltagLocationId2));
+            apriltags.add(new AprilTag(8,blueApriltagLocationId3));
         }
-        static List<AprilTag> blueApriltags = new ArrayList<>(9);
-        static {
-            blueApriltags.add(new AprilTag(6,blueApriltagLocationId1));
-            blueApriltags.add(new AprilTag(7,blueApriltagLocationId2));
-            blueApriltags.add(new AprilTag(8,blueApriltagLocationId3));
-        }
-        public static final AprilTagFieldLayout redAprilTagFieldLayout = new AprilTagFieldLayout(redApriltags,10,10);
+        public static final AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(apriltags,10,10);
 
     }
     public static class PlacementLocations{

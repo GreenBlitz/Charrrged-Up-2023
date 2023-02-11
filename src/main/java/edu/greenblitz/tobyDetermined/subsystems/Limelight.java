@@ -2,53 +2,43 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
-import org.photonvision.RobotPoseEstimator;
-import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.PhotonPoseEstimator;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 
 public class Limelight extends GBSubsystem {
 	private static Limelight instance;
 	private PhotonCamera camera;
-	private RobotPoseEstimator poseEstimator;
-	private Transform2d cameraToRobot;
+	private PhotonPoseEstimator poseEstimator;
 	
 	private Limelight() {
 		camera = new PhotonCamera("photonvision");
+		poseEstimator = new PhotonPoseEstimator(
+				Field.Apriltags.aprilTagFieldLayout,
+				PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS,
+				camera,
+				RobotMap.Vision.RobotToCamera
+		);
 	}
 	
 	public static Limelight getInstance() {
 		if (instance == null) {
-			instance = new Limelight();
+			init();
+			SmartDashboard.putBoolean("limelight initialized via getinstance", true);
 		}
 		return instance;
 	}
-	
-	
-	public double getYawTarget() {
-		var result = camera.getLatestResult();
-		if (!result.hasTargets()) {
-			return 0;
-		}
-		PhotonTrackedTarget target = result.getBestTarget();
-		return Math.IEEEremainder(Math.toRadians(target.getYaw()), 2 * Math.PI);
+
+	public static void init(){
+		instance = new Limelight();
 	}
 	
-	/**
-	 * it is minus because photon vision is inverted
-	 *
-	 * @return the curr angle minus the target angle
-	 */
-	public double fieldRelativeTargetYaw() {
-		return Math.IEEEremainder(SwerveChassis.getInstance().getChassisAngle() - getYawTarget(), 2 * Math.PI);
-	}
+	
 	
 	/**
 	 * @return an array of three dimensions [x - forward , y - left, z - up]
@@ -69,41 +59,12 @@ public class Limelight extends GBSubsystem {
 		var result = camera.getLatestResult();
 		return result.getTimestampSeconds();
 	}
-	
-	/**
-	 * transforms the target location and the initial cam location.
-	 *
-	 * @return the location of the vision by the robot.
-	 */
-	//todo improve default output
-	public Pose2d estimateLocationByVision() {
-		if (hasTarget()) {
-			Transform3d target = camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse();
-			Pose3d camPose = Field.Apriltags.redApriltagLocationId1.transformBy(target);
-			cameraToRobot = new Transform2d(RobotMap.Vision.initialCamPosition.getTranslation().toTranslation2d(), RobotMap.Vision.initialCamPosition.getRotation().toRotation2d());
-			Pose2d robotPose = camPose.toPose2d().transformBy(cameraToRobot);
-			return robotPose;
-		}
-		Pose2d robotPose = new Pose2d(new Translation2d(), new Rotation2d());
-		return robotPose;
-	}
-	
-	public Pair<Pose2d, Double> visionPoseEstimator() {
-		ArrayList<Pair<PhotonCamera, Transform3d>> camList = new ArrayList<>();
-		camList.add(new Pair<>(camera, RobotMap.Vision.initialCamPosition));
-		poseEstimator = new RobotPoseEstimator(Field.Apriltags.redAprilTagFieldLayout, RobotPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY, camList);
-		
-		double currentTime = Timer.getFPGATimestamp();
-		Optional<Pair<Pose3d, Double>> visionPose = poseEstimator.update();
-		if (visionPose.isPresent()) {
-			return new Pair<>(visionPose.get().getFirst().toPose2d(), currentTime - visionPose.get().getSecond());
-		} else {
-			return new Pair<>(null, 0.0);
-		}
+	public Optional<EstimatedRobotPose> getUpdatedPoseEstimator() {
+		return poseEstimator.update();
 	}
 	
 	public boolean hasTarget() {
-		return camera.getLatestResult().hasTargets();
+		return getUpdatedPoseEstimator().isPresent();
 	}
 	
 	/**

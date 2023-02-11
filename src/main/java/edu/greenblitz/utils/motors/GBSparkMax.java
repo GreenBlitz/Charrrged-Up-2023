@@ -1,6 +1,7 @@
 package edu.greenblitz.utils.motors;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import edu.greenblitz.utils.PIDObject;
 
 public class GBSparkMax extends CANSparkMax {
@@ -47,7 +48,9 @@ public class GBSparkMax extends CANSparkMax {
 		super.getPIDController().setIZone(pidObject.getIZone());
 		super.getPIDController().setOutputRange(-pidObject.getMaxPower(), pidObject.getMaxPower());
 	}
-	
+	public REVLibError setSoftLimit(SoftLimitDirection direction, double limit) {
+		return super.setSoftLimit(direction,(float) limit);
+	}
 	
 	/**
 	 * inner conf class
@@ -64,6 +67,9 @@ public class GBSparkMax extends CANSparkMax {
 	 * .withPID(new PIDObject(0.0003, 0.0000003, 0).withIZone(300)
 	 * );
 	 */
+
+
+
 	
 	public static class SparkMaxConfObject {
 		
@@ -167,8 +173,8 @@ public class GBSparkMax extends CANSparkMax {
 		public PIDObject getPidObject() {
 			return pidObject;
 		}
-		
-		
+
+
 	}
 	
 }
