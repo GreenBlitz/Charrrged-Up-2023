@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.Pair;
@@ -78,7 +79,7 @@ public class Limelight extends GBSubsystem {
 	public Pose2d estimateLocationByVision() {
 		if (hasTarget()) {
 			Transform3d target = camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse();
-			Pose3d camPose = RobotMap.Vision.redApriltagLocationId1.transformBy(target);
+			Pose3d camPose = Field.Apriltags.redApriltagLocationId1.transformBy(target);
 			cameraToRobot = new Transform2d(RobotMap.Vision.initialCamPosition.getTranslation().toTranslation2d(), RobotMap.Vision.initialCamPosition.getRotation().toRotation2d());
 			Pose2d robotPose = camPose.toPose2d().transformBy(cameraToRobot);
 			return robotPose;
@@ -90,7 +91,7 @@ public class Limelight extends GBSubsystem {
 	public Pair<Pose2d, Double> visionPoseEstimator() {
 		ArrayList<Pair<PhotonCamera, Transform3d>> camList = new ArrayList<>();
 		camList.add(new Pair<>(camera, RobotMap.Vision.initialCamPosition));
-		poseEstimator = new RobotPoseEstimator(RobotMap.Vision.redAprilTagFieldLayout, RobotPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY, camList);
+		poseEstimator = new RobotPoseEstimator(Field.Apriltags.redAprilTagFieldLayout, RobotPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY, camList);
 		
 		double currentTime = Timer.getFPGATimestamp();
 		Optional<Pair<Pose3d, Double>> visionPose = poseEstimator.update();

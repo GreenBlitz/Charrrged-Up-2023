@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
@@ -47,7 +48,7 @@ public class SwerveChassis extends GBSubsystem {
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVisionAngle));
 		
 		SmartDashboard.putData("field", getField());
-		field.getObject("apriltag").setPose(RobotMap.Vision.redApriltagLocationId1.toPose2d());
+		field.getObject("apriltag").setPose(Field.Apriltags.redApriltagLocationId1.toPose2d());
 	}
 	
 	public static SwerveChassis getInstance() {
@@ -223,7 +224,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void updatePoseEstimation() {
 		poseEstimator.update(getPigeonAngle(),
 				getSwerveModulePositions());
-		if(Limelight.getInstance().hasTarget() && Limelight.getInstance().findTagId() == RobotMap.Vision.selectedTagId){
+		if(Limelight.getInstance().hasTarget() && Limelight.getInstance().findTagId() == Field.Apriltags.selectedTagId){
 			poseEstimator.addVisionMeasurement(Limelight.getInstance().visionPoseEstimator().getFirst(),Limelight.getInstance().visionPoseEstimator().getSecond());
 		}
 	}

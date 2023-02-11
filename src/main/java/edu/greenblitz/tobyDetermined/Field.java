@@ -1,0 +1,80 @@
+package edu.greenblitz.tobyDetermined;
+
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Field {
+    public static Pose2d[] mirrorPositionsToOtherSide(Pose2d[] poses){
+        Pose2d[] mirroredPoses = new Pose2d[poses.length];
+        for (int i = 0; i< poses.length; i++ ) {
+            mirroredPoses[i] = mirrorPositionToOtherSide(poses[i]);
+        }
+        return mirroredPoses;
+    }
+
+    public static Pose2d mirrorPositionToOtherSide(Pose2d pose){
+        Pose2d mirroredPose = new Pose2d(
+                FieldConstants.fieldLength - pose.getX(),
+                pose.getY(),
+                new Rotation2d(pose.getRotation().getRadians() + Math.PI)); //rotates by 180 degrees;
+        return mirroredPose;
+    }
+
+
+    public static class Apriltags{
+        public static int selectedTagId = 1;
+        public static final Pose3d redApriltagLocationId1 = new Pose3d(new Translation3d(15.513558, 1.071626, 0), new Rotation3d(0, 0, Math.PI));
+        public static final Pose3d redApriltagLocationId2 = new Pose3d(new Translation3d(15.513558, 2.748026, 0), new Rotation3d(0, 0, Math.PI));
+        public static final Pose3d redApriltagLocationId3 = new Pose3d(new Translation3d(15.513558, 4.424426, 0), new Rotation3d(0, 0, Math.PI));
+        public static final Pose3d blueApriltagLocationId1 = new Pose3d(new Translation3d(1.02743, 4.424426, 0), new Rotation3d(0, 0, Math.PI));
+        public static final Pose3d blueApriltagLocationId2 = new Pose3d(new Translation3d(1.02743, 2.748026, 0), new Rotation3d(0, 0, Math.PI));
+        public static final Pose3d blueApriltagLocationId3 = new Pose3d(new Translation3d(1.02743, 1.071626, 0), new Rotation3d(0, 0, Math.PI));
+        static List<AprilTag> redApriltags = new ArrayList<>(9) ;
+
+        static {
+            redApriltags.add(new AprilTag(1, redApriltagLocationId1));
+            redApriltags.add(new AprilTag(2,redApriltagLocationId2));
+            redApriltags.add(new AprilTag(3,redApriltagLocationId3));
+        }
+        static List<AprilTag> blueApriltags = new ArrayList<>(9);
+        static {
+            blueApriltags.add(new AprilTag(6,blueApriltagLocationId1));
+            blueApriltags.add(new AprilTag(7,blueApriltagLocationId2));
+            blueApriltags.add(new AprilTag(8,blueApriltagLocationId3));
+        }
+        public static final AprilTagFieldLayout redAprilTagFieldLayout = new AprilTagFieldLayout(redApriltags,10,10);
+
+    }
+    public static class PlacementLocations{
+
+        private static final Pose2d[] locationsOnBlueSide = {
+                new Pose2d(new Translation2d(0, 0), new Rotation2d()),
+                new Pose2d(new Translation2d(0, 0), new Rotation2d()),
+                new Pose2d(new Translation2d(0, 1), new Rotation2d()),
+                new Pose2d(new Translation2d(1, 1), new Rotation2d()),
+                new Pose2d(new Translation2d(0.5, 0), new Rotation2d()),
+                new Pose2d(new Translation2d(0, 0.5), new Rotation2d()),
+                new Pose2d(new Translation2d(0.5, 0.5), new Rotation2d()),
+                new Pose2d(new Translation2d(1, 0.5), new Rotation2d()),
+                new Pose2d(new Translation2d(0.5, 1), new Rotation2d())
+        };
+
+        public static Pose2d[] getLocationsOnBlueSide(){
+            return locationsOnBlueSide;
+        }
+
+        public static Pose2d[] getLocationsOnRedSide(){
+            return mirrorPositionsToOtherSide(locationsOnBlueSide);
+        }
+
+
+    }
+    public static class FieldConstants{
+        public final static double fieldLength = 16.54175;
+        public final static double fieldWidth = 8.0137;
+    }
+}

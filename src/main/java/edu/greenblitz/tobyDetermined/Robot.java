@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.IntakeGameObjectSensor;
@@ -23,7 +24,7 @@ public class Robot extends TimedRobot {
 		LiveWindow.disableAllTelemetry();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		IntakeGameObjectSensor.getInstance().periodic();
-
+		Grid.init();
 		//swerve
 
 		SwerveChassis.getInstance().resetChassisPose();
