@@ -21,8 +21,8 @@ public abstract class SetSelectedTarget extends InstantCommand {
         }
         int side = allianceSideMultiplier * sideMultiplier;
 		int gridLength = Grid.getInstance().Location.length;
-        if (!(Grid.getInstance().getSelectedPos() + side >= gridLength || Grid.getInstance().getSelectedPos() + side < 0)) {
-			Grid.getInstance().setSelectedPos(Grid.getInstance().getSelectedPos() + side);
+        if (!(Grid.getInstance().getSelectedPositionID() + side >= gridLength || Grid.getInstance().getSelectedPositionID() + side < 0)) {
+			Grid.getInstance().setSelectedPosition(Grid.getInstance().getSelectedPositionID() + side);
 		}
 	}
 

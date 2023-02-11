@@ -42,7 +42,7 @@ public class Dashboard extends GBSubsystem {
 //		SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
 //		SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
 		SmartDashboard.putNumber("length",Grid.getInstance().Location.length);
-		SmartDashboard.putString("grid pos", Grid.getInstance().getLocation().toString());
-		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getSelectedPos());
+		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
+		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getSelectedPositionID());
 	}
 }
