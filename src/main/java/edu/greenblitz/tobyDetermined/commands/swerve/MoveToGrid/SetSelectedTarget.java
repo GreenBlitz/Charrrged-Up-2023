@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public abstract class SetSelectedTarget extends InstantCommand {
     DriverStation.Alliance alliance;
+    Grid grid = Grid.getInstance();
     private int sideMultiplier;
     public SetSelectedTarget(DriverStation.Alliance alliance, boolean moveRight) {
         this.alliance = alliance;
@@ -20,9 +21,9 @@ public abstract class SetSelectedTarget extends InstantCommand {
             allianceSideMultiplier = 1;
         }
         int side = allianceSideMultiplier * sideMultiplier;
-		int gridLength = Grid.getInstance().Location.length;
-        if (!(Grid.getInstance().getSelectedPositionID() + side >= gridLength || Grid.getInstance().getSelectedPositionID() + side < 0)) {
-			Grid.getInstance().setSelectedPosition(Grid.getInstance().getSelectedPositionID() + side);
+		int gridLength = grid.Locations.length;
+        if (!(grid.getSelectedPositionID() + side >= gridLength || grid.getSelectedPositionID() + side < 0)) {
+			grid.setSelectedPositionID(grid.getSelectedPositionID() + side);
 		}
 	}
 

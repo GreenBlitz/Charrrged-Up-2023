@@ -29,11 +29,11 @@ public class Grid {
      */
     public Pose2d getSelectedPosition(DriverStation.Alliance allianceColor) {
         if (allianceColor == DriverStation.Alliance.Blue) {
-            return Location[selectedPositionID];
+            return Locations[selectedPositionID];
         } else {
             return new Pose2d(
-                RobotMap.General.Field.fieldLength - Location[selectedPositionID].getX(),
-                Location[selectedPositionID].getY(),
+                RobotMap.General.Field.fieldLength - Locations[selectedPositionID].getX(),
+                Locations[selectedPositionID].getY(),
                 new Rotation2d(0));
         }
     }
@@ -50,7 +50,7 @@ public class Grid {
         return selectedHeightID;
     }
     
-    public void setSelectedPosition(int positionID){
+    public void setSelectedPositionID(int positionID){
         this.selectedPositionID = positionID;
     }
     
@@ -58,7 +58,7 @@ public class Grid {
         this.selectedHeightID = heightID;
     }
     
-    public Pose2d[] Location = {
+    public Pose2d[] Locations = {
             new Pose2d(new Translation2d(0, 0), new Rotation2d()),
             new Pose2d(new Translation2d(0, 0), new Rotation2d()),
             new Pose2d(new Translation2d(0, 1), new Rotation2d()),

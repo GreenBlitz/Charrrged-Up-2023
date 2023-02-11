@@ -41,8 +41,7 @@ public class Dashboard extends GBSubsystem {
 //		SmartDashboard.putNumber("real pitch", Math.toDegrees(PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getRoll(),SwerveChassis.getInstance().getPigeonGyro().getPitch())));
 //		SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
 //		SmartDashboard.putString("Detected Color", IntakeGameObjectSensor.getInstance().curObject.toString());
-		SmartDashboard.putNumber("length",Grid.getInstance().Location.length);
-		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
-		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getSelectedPositionID());
+		SmartDashboard.putNumber("length",Grid.getInstance().Locations.length);
+		SmartDashboard.putNumber("grid pos", Grid.getInstance().getSelectedPositionID());
 	}
 }
