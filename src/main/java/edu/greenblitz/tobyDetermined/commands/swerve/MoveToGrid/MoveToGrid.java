@@ -14,7 +14,7 @@ public class MoveToGrid extends MoveToPos {
 
     @Override
     public void initialize() {
-        pos = Grid.getInstance().getSelectedPosition(DriverStation.getAlliance());
+        pos = Grid.getInstance().getSelectedPosition();
         super.initialize();
     }
 }

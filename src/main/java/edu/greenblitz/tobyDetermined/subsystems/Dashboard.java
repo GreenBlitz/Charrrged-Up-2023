@@ -35,6 +35,7 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("BR-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_RIGHT));
 		SmartDashboard.putNumber("BL-angle-absolute", SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(SwerveChassis.Module.BACK_LEFT));
 
-		SmartDashboard.putNumber("grid pos", Grid.getInstance().getSelectedPositionID());
+		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getSelectedPositionID());
+		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
 	}
 }

@@ -44,7 +44,7 @@ public class Grid {
      * allows you to get a pose from the Location by its index
      * fitted to the alliance
      */
-    public Pose2d getSelectedPosition(DriverStation.Alliance allianceColor) {
+    public Pose2d getSelectedPosition() {
         if (locations == null) {
             SmartDashboard.putBoolean("Invalid locations in Grid", true);
             return null;
