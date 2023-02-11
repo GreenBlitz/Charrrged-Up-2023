@@ -65,6 +65,8 @@ repositories {
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
+    implementation 'com.netflix.nebula:gradle-override-plugin:4.0.0'
+    implementation 'com.thoughtworks.feature:override_2.12:1.1.0'
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)

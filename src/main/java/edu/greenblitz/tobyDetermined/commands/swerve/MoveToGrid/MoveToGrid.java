@@ -6,11 +6,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class MoveToGrid extends MoveToPos {
     public MoveToGrid(){
-        super(new Pose2d()); //will be overriden
+        super(new Pose2d()); //will be overridden
     }
+
     @Override
     public void initialize() {
-        pos = Grid.getInstance().getLocation().getPose2D(DriverStation.getAlliance());
+        pos = Grid.getInstance().getPose2D(DriverStation.getAlliance());
         super.initialize();
     }
 }

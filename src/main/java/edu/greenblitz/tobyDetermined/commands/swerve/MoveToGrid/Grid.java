@@ -6,54 +6,80 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 
-public class Grid {
-	private static Grid instance;
-	private Location selectedPos;
-	public Grid() {
-		this.selectedPos = Location.POS0;
-	}
-	
-	public static Grid getInstance() {
-		if (instance == null) {
-			instance = new Grid();
-		}
-		return instance;
-	}
-	
-	public Location getLocation(){
-		return selectedPos;
-	}
-	
-	public void setPose(Location pose){
-		 selectedPos = pose;
-	}
-	
+import static com.google.common.collect.Iterables.indexOf;
 
-	public enum Location {
-		POS0(new Pose2d(new Translation2d(0,0),new Rotation2d())),
-		POS1(new Pose2d(new Translation2d(1,0),new Rotation2d())),
-		POS2(new Pose2d(new Translation2d(0,1),new Rotation2d())),
-		POS3(new Pose2d(new Translation2d(1,1),new Rotation2d())),
-		POS4(new Pose2d(new Translation2d(0.5,0),new Rotation2d())),
-		POS5(new Pose2d(new Translation2d(0,0.5),new Rotation2d())),
-		POS6(new Pose2d(new Translation2d(0.5,0.5),new Rotation2d())),
-		POS7(new Pose2d(new Translation2d(1,0.5),new Rotation2d())),
-		POS8(new Pose2d(new Translation2d(0.5,1),new Rotation2d()));
-		private final Pose2d pose;
-		private Location(Pose2d pose){
-			this.pose = pose;
+public class Grid {
+    private static Grid instance;
+    private int selectedPos;
+    private int selectedHeight;
+
+    public Grid() {
+        this.selectedPos = 0;
+    }
+
+    public static Grid getInstance() {
+        if (instance == null) {
+            instance = new Grid();
+        }
+        return instance;
+    }
+
+    public Pose2d getLocation() {
+        return Location[selectedPos];
+    }
+
+    public int getSelectedPos(){
+        return selectedPos;
+    }
+
+    public void setPoseSelectedPose(Pose2d pose) {
+        for (int i = 0; i<Location.length; i++){
+			if(Location[i].equals(pose)) selectedPos = i;
 		}
-		
-		public Pose2d getPose2D(DriverStation.Alliance allianceColor) {
-			if(allianceColor == DriverStation.Alliance.Blue){
-				return pose;
-			}
-			else {
-				return new Pose2d(new Translation2d(RobotMap.General.Field.fieldLength - pose.getX(),pose.getY()), new Rotation2d(0));
-			}
-		}
-		
-		
-		
+    }
+
+	public void setSelectedPos(int pose){
+		this.selectedPos = pose;
 	}
+
+    public Pose2d[] Location = {
+            new Pose2d(new Translation2d(0, 0), new Rotation2d()),
+            new Pose2d(new Translation2d(0, 0), new Rotation2d()),
+            new Pose2d(new Translation2d(0, 1), new Rotation2d()),
+            new Pose2d(new Translation2d(1, 1), new Rotation2d()),
+            new Pose2d(new Translation2d(0.5, 0), new Rotation2d()),
+            new Pose2d(new Translation2d(0, 0.5), new Rotation2d()),
+            new Pose2d(new Translation2d(0.5, 0.5), new Rotation2d()),
+            new Pose2d(new Translation2d(1, 0.5), new Rotation2d()),
+            new Pose2d(new Translation2d(0.5, 1), new Rotation2d())
+    };
+
+    /**
+     * allows you to get a pose from the Location by its index
+     * fitted to the alliance
+     */
+    public Pose2d getPose2D(DriverStation.Alliance allianceColor) {
+        if (allianceColor == DriverStation.Alliance.Blue) {
+            return Location[selectedPos];
+        } else {
+            return new Pose2d(new Translation2d(RobotMap.General.Field.fieldLength - Location[selectedPos].getX(), Location[selectedPos].getY()), new Rotation2d(0));
+        }
+    }
+
+    public enum Height{
+        HIGH,
+        MEDIUM,
+        LOW,
+    }
+    public int getSelectedHeight(){
+        return selectedHeight;
+    }
+
+    public Height getHeight(){
+        return Height.values()[selectedHeight];
+    }
+
+    public void setSelectedHeight(int height){
+        selectedHeight = height;
+    }
 }
