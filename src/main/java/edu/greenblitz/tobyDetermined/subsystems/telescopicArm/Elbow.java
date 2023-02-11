@@ -2,11 +2,13 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -16,6 +18,7 @@ public class Elbow extends GBSubsystem {
     private static Elbow instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
+    public DutyCycleEncoder encoder;
     private double lastSpeed;
 
     public static Elbow getInstance() {
@@ -32,7 +35,7 @@ public class Elbow extends GBSubsystem {
 
     private Elbow() {
         motor = new GBSparkMax(RobotMap.telescopicArm.elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
+        encoder = new DutyCycleEncoder(RobotMap.telescopicArm.elbow.ABSOLUTE_ENCODER_CHANNEL);
         motor.config(new GBSparkMax.SparkMaxConfObject()
                 .withPID(RobotMap.telescopicArm.elbow.PID)
                 .withPositionConversionFactor(RobotMap.telescopicArm.elbow.CONVERSION_FACTOR)
@@ -78,6 +81,10 @@ public class Elbow extends GBSubsystem {
 
     public double getAngle() {
         return motor.getEncoder().getPosition();
+    }
+    
+    public double getAbsoluteAngle(){
+        return encoder.getAbsolutePosition();
     }
 
     public ElbowState getState() {

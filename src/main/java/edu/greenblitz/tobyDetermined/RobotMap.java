@@ -309,6 +309,8 @@ public class RobotMap {
 
 
             public static final int CURRENT_LIMIT = 40;
+            
+            public static final int ABSOLUTE_ENCODER_CHANNEL = 1;
         }
     }
 
