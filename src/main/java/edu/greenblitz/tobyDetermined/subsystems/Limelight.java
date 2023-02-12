@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +19,7 @@ public class Limelight extends GBSubsystem {
 	private Limelight() {
 		camera = new PhotonCamera("photonvision");
 		poseEstimator = new PhotonPoseEstimator(
-				RobotMap.Vision.aprilTagFieldLayout,
+				Field.Apriltags.aprilTagFieldLayout,
 				PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS,
 				camera,
 				RobotMap.Vision.RobotToCamera
@@ -58,7 +59,6 @@ public class Limelight extends GBSubsystem {
 		var result = camera.getLatestResult();
 		return result.getTimestampSeconds();
 	}
-	
 	public Optional<EstimatedRobotPose> getUpdatedPoseEstimator() {
 		return poseEstimator.update();
 	}

@@ -1,11 +1,14 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveToGrid;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -49,7 +52,6 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
