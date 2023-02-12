@@ -4,7 +4,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
 public class RotateBellyObjectToPosition extends RotatingBellyCommand {
-    private static double timeToEnd = 5;
+    private static double timeToEnd = 3;
     public RotateBellyObjectToPosition(double timeToEndSeconds){
         timeToEnd = timeToEndSeconds;
     }

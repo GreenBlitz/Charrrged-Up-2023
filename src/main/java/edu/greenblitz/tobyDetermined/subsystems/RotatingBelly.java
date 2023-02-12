@@ -16,7 +16,7 @@ public class RotatingBelly extends GBSubsystem{
     private RotatingBelly (){
         macroSwitch = new DigitalInput(RobotMap.RotatingBelly.MACRO_SWITCH_PORT);
         colorSensor = IntakeGameObjectSensor.getInstance();
-        motor = new GBSparkMax(RobotMap.RotatingBelly.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor = new GBSparkMax(RobotMap.RotatingBelly.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushed);
     }
 
     public void setSpeed (double percentageSpeed){
