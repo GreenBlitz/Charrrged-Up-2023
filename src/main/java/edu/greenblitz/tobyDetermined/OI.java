@@ -19,15 +19,15 @@ public class OI { //GEVALD
 	private final SmartJoystick mainJoystick;
 
 	private final SmartJoystick secondJoystick;
-	
-	
+
+
 	private OI() {
 		mainJoystick = new SmartJoystick(RobotMap.Joystick.MAIN, 0.1);
 		secondJoystick = new SmartJoystick(RobotMap.Joystick.SECOND, 0.2);
 		initButtons();
-		
+
 	}
-	
+
 	public static OI getInstance() {
 		if (instance == null) {
 			init();
@@ -36,18 +36,18 @@ public class OI { //GEVALD
 		return instance;
 	}
 
-	public static void init(){
+	public static void init() {
 		instance = new OI();
 	}
-	
+
 	public static boolean isIsHandled() {
 		return isHandled;
 	}
-	
+
 	public static void disableHandling() {
 		isHandled = false;
 	}
-	
+
 	public double countB = 0;
 
 
@@ -55,9 +55,6 @@ public class OI { //GEVALD
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-		mainJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-		mainJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-		mainJoystick.X.onTrue(new MoveToGrid());
 		mainJoystick.A.onTrue(new ExtendRoller());
 		mainJoystick.B.onTrue(new RetractRoller());
 		mainJoystick.START.onTrue(new ToggleRoller());

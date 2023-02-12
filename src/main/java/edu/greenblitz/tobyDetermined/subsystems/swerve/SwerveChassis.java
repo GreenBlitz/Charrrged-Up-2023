@@ -8,11 +8,13 @@ import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
@@ -23,15 +25,20 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
-	public final SwerveDrivePoseEstimator poseEstimator;
+	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
-	
+
+	private final Ultrasonic ultrasonic;
+    private final int FILTER_BUFFER_SIZE = 15;
+
 	public SwerveChassis() {
-		
 		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
 		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontRight);
 		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackLeft);
 		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
+		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_CHANNEL, RobotMap.Ultrasonic.ECHO_CHANNEL);
+		Ultrasonic.setAutomaticMode(true);
+
 		
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
@@ -253,7 +260,7 @@ public class SwerveChassis extends GBSubsystem {
 		BACK_LEFT,
 		BACK_RIGHT
 	}
-	
+
     public boolean moduleIsAtAngle(Module module, double errorInRads) {
         return getModule(module).isAtAngle(errorInRads);
     }
@@ -271,7 +278,10 @@ public class SwerveChassis extends GBSubsystem {
         SmartDashboard.putNumber("omega", chassisSpeeds.omegaRadiansPerSecond);
     }
 
-    
+    public double getUltrasonicDistance(){
+        MedianFilter filter = new MedianFilter(FILTER_BUFFER_SIZE);
+        return filter.calculate(ultrasonic.getRangeMM());
+    }
     /**
      * set the idle mode of the linear motor to brake
      */
@@ -281,9 +291,10 @@ public class SwerveChassis extends GBSubsystem {
         }
     }
 
-    public void setIdleModeCoast() {
-        for (Module module : Module.values()) {
-            getModule(module).setLinIdleModeCoast();
-        }
-    }
+	public void setIdleModeCoast(){
+		for (Module module : Module.values()){
+			getModule(module).setLinIdleModeCoast();
+		}
+	}
+
 }

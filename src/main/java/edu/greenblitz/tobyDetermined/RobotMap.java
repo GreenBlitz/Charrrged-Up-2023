@@ -79,6 +79,12 @@ public class RobotMap {
 	    public static final Color DEFAULT_COLOR = Color.kFloralWhite;
     }
 
+	public static class Ultrasonic {
+		public static final int PING_CHANNEL = 0;
+		public static final int ECHO_CHANNEL = 1;
+		public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
+	}
+
 	public static class Swerve {
 
 	    public static class Pegaswerve {

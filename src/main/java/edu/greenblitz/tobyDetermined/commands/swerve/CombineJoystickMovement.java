@@ -13,6 +13,7 @@ public class CombineJoystickMovement extends SwerveCommand {
 	static double SLOW_LIN_SPEED_FACTOR = 1;
 	private DoubleSupplier angSupplier;
 	private boolean isSlow;
+
 	
 	public CombineJoystickMovement(boolean isSlow, DoubleSupplier angSupplier) {
 		this.isSlow = isSlow;
