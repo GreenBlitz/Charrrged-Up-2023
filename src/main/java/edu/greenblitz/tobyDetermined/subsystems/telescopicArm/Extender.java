@@ -7,6 +7,7 @@ import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Extender extends GBSubsystem {
@@ -17,6 +18,7 @@ public class Extender extends GBSubsystem {
     private ProfiledPIDController profiledPIDController;
     private static Extender instance;
     private GBSparkMax motor;
+    private DigitalInput limitSwitch;
 
     public static Extender getInstance() {
         if (instance == null) {
@@ -41,9 +43,9 @@ public class Extender extends GBSubsystem {
                 .withCurrentLimit(RobotMap.telescopicArm.extender.CURRENT_LIMIT)
                 .withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
         );
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.extender.BACKWARDS_LIMIT);
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.extender.FORWARD_LIMIT);
-
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.extender.BACKWARDS_LIMIT / RobotMap.telescopicArm.extender.CONVERSION_FACTOR);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.extender.FORWARD_LIMIT / RobotMap.telescopicArm.extender.CONVERSION_FACTOR);
+        //todo make sure it's working and in the right units because for some reason softLimit doesn't use the conversion factor
 
         profiledPIDController = new ProfiledPIDController(
                 RobotMap.telescopicArm.extender.PID.getKp(),
@@ -56,11 +58,10 @@ public class Extender extends GBSubsystem {
     @Override
     public void periodic() {
         state = getHypotheticalState(getLength());
-
+        resetLengthIfSwitchIsOn();
     }
 
     public static ExtenderState getHypotheticalState(double lengthInMeters) {
-
         if (lengthInMeters > RobotMap.telescopicArm.extender.FORWARD_LIMIT || lengthInMeters < RobotMap.telescopicArm.extender.BACKWARDS_LIMIT) {
             return ExtenderState.OUT_OF_BOUNDS;
         }else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH){
@@ -83,7 +84,7 @@ public class Extender extends GBSubsystem {
     public static double getStaticFeedForward (double elbowAngle){
         return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG ;
     }
-    private void setLengthByPID(double lengthInMeters) {;
+    private void setLengthByPID(double lengthInMeters) {
         profiledPIDController.reset(getLength());
         profiledPIDController.setGoal(lengthInMeters);
         double feedForward = getFeedForward(
@@ -111,12 +112,22 @@ public class Extender extends GBSubsystem {
     }
 
 
-    public double getLength() {
+    public double getLength()   {
         return motor.getEncoder().getPosition();
     }
 
     public ExtenderState getState() {
         return state;
+    }
+    
+    public boolean getLimitSwitch() {
+        return limitSwitch.get();
+    }
+    
+    public void resetLengthIfSwitchIsOn(){
+        if (getLimitSwitch()){
+            motor.getEncoder().setPosition(0);
+        }
     }
 
     public void stop() {
