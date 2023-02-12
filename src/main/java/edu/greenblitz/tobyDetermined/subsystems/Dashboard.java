@@ -1,13 +1,9 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.util.Units;
 import edu.greenblitz.utils.PitchRollAdder;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 public class Dashboard extends GBSubsystem {
 
@@ -23,6 +19,8 @@ public class Dashboard extends GBSubsystem {
 		instance = new Dashboard();
 	}
 
+	private Dashboard(){
+	}
 
     @Override
     public void periodic() {
