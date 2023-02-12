@@ -8,13 +8,16 @@ public class RotateOutOfDoor extends RotatingBellyCommand{
     private static final double endTimeSeconds = 1;
     @Override
     public void execute() {
-        belly.setSpeed(RobotMap.RotatingBelly.PERCENTAGE_ROTATING_SPEED);
+        belly.setSpeed(-RobotMap.RotatingBelly.PERCENTAGE_ROTATING_SPEED);
     }
 
     @Override
     public boolean isFinished() {
-        Timer.delay(1);
-        return true;
+        if(belly.isMacroSwitchPressed()){
+            Timer.delay(endTimeSeconds);
+            return true;
+        }
+        return false;
     }
 
     @Override
