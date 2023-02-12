@@ -27,6 +27,9 @@ public class Robot extends TimedRobot {
 		initSubsystems();
         LiveWindow.disableAllTelemetry();
         Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+        Limelight.getInstance();
+        initPortForwarding();
+        LiveWindow.disableAllTelemetry();
 
         LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
@@ -36,12 +39,9 @@ public class Robot extends TimedRobot {
     }
 	
 	private static void initSubsystems(){
-		Dashboard.init();
-		Limelight.getInstance();
-		initPortForwarding();
-		LiveWindow.disableAllTelemetry();
+        Dashboard.init();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-		IntakeGameObjectSensor.getInstance().periodic();
+		IntakeGameObjectSensor.init();
 		Grid.init();
 		//swerve
 
