@@ -8,20 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Field {
-    public static Pose2d[] mirrorPositionsToOtherSide(Pose2d[] poses){
-        Pose2d[] mirroredPoses = new Pose2d[poses.length];
-        for (int i = 0; i< poses.length; i++ ) {
-            mirroredPoses[i] = mirrorPositionToOtherSide(poses[i]);
-        }
-        return mirroredPoses;
-    }
-
+    /**
+     * gets pose, returns it fitted to the other alliance ("mirrored") and rotated by 180 degrees.
+     * */
     public static Pose2d mirrorPositionToOtherSide(Pose2d pose){
         Pose2d mirroredPose = new Pose2d(
                 FieldConstants.fieldLength - pose.getX(),
                 pose.getY(),
                 new Rotation2d(pose.getRotation().getRadians() + Math.PI)); //rotates by 180 degrees;
         return mirroredPose;
+    }
+
+    /**
+     * gets pose[], returns it fitted to the other alliance ("mirrored") and rotated by 180 degrees.
+     * */
+    public static Pose2d[] mirrorPositionsToOtherSide(Pose2d[] poses){
+        Pose2d[] mirroredPoses = new Pose2d[poses.length];
+        for (int i = 0; i< poses.length; i++ ) {
+            mirroredPoses[i] = mirrorPositionToOtherSide(poses[i]);
+        }
+        return mirroredPoses;
     }
 
 
