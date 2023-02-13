@@ -3,17 +3,17 @@ package edu.greenblitz.tobyDetermined.commands.rotatingBelly;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
-public class RotateBellyObjectToPosition extends RotatingBellyCommand {
+public class RotateObjectToDoor extends RotatingBellyCommand {
     private static double timeToEnd = 3;
-    public RotateBellyObjectToPosition(double timeToEndSeconds){
+    public RotateObjectToDoor(double timeToEndSeconds){
         timeToEnd = timeToEndSeconds;
     }
 
-    public RotateBellyObjectToPosition(){}
+    public RotateObjectToDoor(){}
 
     @Override
     public void execute() {
-        belly.setSpeed(RobotMap.RotatingBelly.PERCENTAGE_ROTATING_SPEED);
+        belly.setPower(RobotMap.RotatingBelly.PERCENTAGE_ROTATING_SPEED);
     }
 
     @Override
