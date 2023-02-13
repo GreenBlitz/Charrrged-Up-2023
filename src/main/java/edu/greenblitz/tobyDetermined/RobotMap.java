@@ -9,8 +9,6 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -216,7 +214,6 @@ public class RobotMap {
         }
 
     }
-
 
     public static class RotatingBelly {
         public static final int MOTOR_ID = 0;
