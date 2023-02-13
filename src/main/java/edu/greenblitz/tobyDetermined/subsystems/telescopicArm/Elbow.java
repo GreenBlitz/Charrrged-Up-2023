@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
@@ -18,7 +19,6 @@ public class Elbow extends GBSubsystem {
     private static Elbow instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
-    public DutyCycleEncoder encoder;
     private double lastSpeed;
 
     public static Elbow getInstance() {
@@ -35,16 +35,16 @@ public class Elbow extends GBSubsystem {
 
     private Elbow() {
         motor = new GBSparkMax(RobotMap.telescopicArm.elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        encoder = new DutyCycleEncoder(RobotMap.telescopicArm.elbow.ABSOLUTE_ENCODER_CHANNEL);
         motor.config(new GBSparkMax.SparkMaxConfObject()
                 .withPID(RobotMap.telescopicArm.elbow.PID)
-                .withPositionConversionFactor(RobotMap.telescopicArm.elbow.CONVERSION_FACTOR)
                 .withIdleMode(CANSparkMax.IdleMode.kBrake)
                 .withRampRate(RobotMap.telescopicArm.elbow.MOTOR_RAMP_RATE)
                 .withCurrentLimit(RobotMap.telescopicArm.elbow.CURRENT_LIMIT)
                 .withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
         );
-        motor.getEncoder().setPosition(0); //resetPosition
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.POSITION_CONVERSION_FACTOR);
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.VELOCITY_CONVERSION_FACTOR);
+        motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
@@ -80,11 +80,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public double getAngle() {
-        return motor.getEncoder().getPosition();
-    }
-    
-    public double getAbsoluteAngle(){
-        return encoder.getAbsolutePosition();
+        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
     }
 
     public ElbowState getState() {
@@ -103,7 +99,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public double getVelocity (){
-        return motor.getEncoder().getVelocity();
+        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getVelocity();
     }
     public static ElbowState getHypotheticalState(double angleInRads) {
         if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {

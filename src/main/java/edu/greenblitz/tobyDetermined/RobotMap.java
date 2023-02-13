@@ -9,17 +9,12 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RobotMap {
 	public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
@@ -243,7 +238,6 @@ public class RobotMap {
 
         public static class extender {
             public static final int MOTOR_ID = -1;
-            public static final int BEAM_BREAKER_ID = -1;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
@@ -257,7 +251,8 @@ public class RobotMap {
             public static final PIDObject PID = new PIDObject();
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
-            public static final double CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
+            public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
+            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR/60 ;
             public static final double RAMP_RATE = 2;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
 
@@ -297,7 +292,8 @@ public class RobotMap {
             public static final double END_WALL_ZONE_ANGLE = 70;
 
 
-            public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
+            public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
+            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
 
             public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
