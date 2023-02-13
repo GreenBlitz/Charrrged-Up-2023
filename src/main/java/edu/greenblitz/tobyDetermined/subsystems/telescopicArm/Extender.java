@@ -33,6 +33,8 @@ public class Extender extends GBSubsystem {
     }
 
     private Extender() {
+        limitSwitch = new DigitalInput(RobotMap.telescopicArm.extender.BEAM_BREAKER_ID);
+        
         motor = new GBSparkMax(RobotMap.telescopicArm.extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.getEncoder().setPosition(0); //maybe absolute encoder+*
         motor.config(new GBSparkMax.SparkMaxConfObject()

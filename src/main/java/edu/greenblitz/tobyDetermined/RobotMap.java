@@ -243,6 +243,7 @@ public class RobotMap {
 
         public static class extender {
             public static final int MOTOR_ID = -1;
+            public static final int BEAM_BREAKER_ID = -1;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
