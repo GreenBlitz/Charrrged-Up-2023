@@ -18,10 +18,10 @@ public class Grid {
     private Grid() {
         this.selectedPositionID = 0;
         this.selectedHeightID = 0;
-    
+
         updateAlliance();
     }
-    
+
     public void updateAlliance(){
         if (DriverStation.getAlliance() == DriverStation.Alliance.Red){
             locations = Field.PlacementLocations.getLocationsOnRedSide();
@@ -32,7 +32,16 @@ public class Grid {
             SmartDashboard.putString("alliance", "blue");
         }
     }
-    
+
+    public void putGridToShuffleboard(){
+        for (int i = 0; i < locations.length; i++) {
+            for (Height height:Height.values()){
+                boolean isSelected = selectedHeightID == height.ordinal() && selectedPositionID == i;
+                SmartDashboard.putBoolean(height.toString()+i, isSelected);
+            }
+        }
+    }
+
     public static void init(){
         if (instance == null) {
             instance = new Grid();

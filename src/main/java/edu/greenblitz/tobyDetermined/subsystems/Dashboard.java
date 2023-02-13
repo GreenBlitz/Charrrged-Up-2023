@@ -43,5 +43,7 @@ public class Dashboard extends GBSubsystem {
 		
 		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getSelectedPositionID());
 		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
+
+        Grid.getInstance().putGridToShuffleboard();
     }
 }
