@@ -35,7 +35,7 @@ public class SdsSwerveModule implements SwerveModule {
 		this.magEncoder.setPositionOffset(magEncoderOffset);
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
 		
-		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
+		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
 		;
 	}
 	
@@ -96,7 +96,7 @@ public class SdsSwerveModule implements SwerveModule {
 
 	@Override
 	public double getCurrentMeters() {
-		return convertTicksToMeters(linearMotor.getSelectedSensorPosition()); //TODO make sure its true
+		return convertTicksToMeters(linearMotor.getSelectedSensorPosition());
 	}
 
 	@Override
@@ -184,15 +184,14 @@ public class SdsSwerveModule implements SwerveModule {
 	}
 	
 	@Override
-	public boolean isAtAngle(double targetAngleInRads, double errorInRads) {
-		double currentAngleInRads = getModuleAngle() % Math.PI;
-		targetAngleInRads = targetAngleInRads % Math.PI;
-		boolean isInRange = false;
-		for (int i = -1; i <= 1 ; i++) {
-			isInRange |= (currentAngleInRads +Math.PI*i < targetAngleInRads + errorInRads
-					&& currentAngleInRads +Math.PI*i > targetAngleInRads - errorInRads);
-		}
-		return isInRange;
+	public boolean isAtAngle(double targetAngleInRads, double tolerance) {
+		double currentAngleInRads = getModuleAngle();
+		return (currentAngleInRads - targetAngleInRads) %(2*Math.PI) < tolerance
+				|| (targetAngleInRads - currentAngleInRads) % (2*Math.PI) < tolerance;
+	}
+	@Override
+	public boolean isAtAngle(double tolerance) {
+		return isAtAngle(targetAngle, tolerance);
 	}
 	
 	/**

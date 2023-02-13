@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class RotatingBelly extends GBSubsystem{
@@ -37,6 +38,7 @@ public class RotatingBelly extends GBSubsystem{
     public boolean isLimitSwitchPressed(){
         return limitSwitch.get();
     }
+
     public void stop (){
         setPower(0);
     }

@@ -4,7 +4,6 @@ import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 public class PigeonGyro extends PigeonIMU {
-	//fixme noam - reminder for myself. if pigeon not working problem is prob here;
 	
 	double yawOffset = 0.0;
 	double pitchOffset = 0.0;
