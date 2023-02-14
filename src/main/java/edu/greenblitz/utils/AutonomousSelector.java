@@ -40,13 +40,13 @@ public class AutonomousSelector {
 
 	public enum AutonomousPaths{
 		//top
-		TOP_THREE_OBJECTS(getInstance().getPathTCommand("T93_d_83-1").andThen(getInstance().getPathTCommand("T83_c_82-2"))),
-		TOP_2_AND_RAMP(getInstance().getPathTCommand("T93_d_83-1").andThen(getInstance().getPathTCommand("T83_ramp"))),
-		TOP_ONLY_2(getInstance().getPathTCommand("T93_d_83-1")),
+		TOP_THREE_OBJECTS(getInstance().getPathTCommand("T93_d_83").andThen(getInstance().getPathTCommand("T83_c_82"))),
+		TOP_2_AND_RAMP(getInstance().getPathTCommand("T93_d_83").andThen(getInstance().getPathTCommand("T83_ramp"))),
+		TOP_ONLY_2(getInstance().getPathTCommand("T93_d_83")),
 		//bottom
-		BOTTOM_THREE_OBJECTS(getInstance().getPathTCommand("B13_a_23-1").andThen(getInstance().getPathTCommand("b23_b_22-2"))),
-		BOTTOM_TWO_AND_RAMP(getInstance().getPathTCommand("B13_a_23-1").andThen(getInstance().getPathTCommand("B23_ramp"))),
-		BOTTOM_ONLY_2(getInstance().getPathTCommand("B13_a_23-1")),
+		BOTTOM_THREE_OBJECTS(getInstance().getPathTCommand("B13_a_23").andThen(getInstance().getPathTCommand("b23_b_22"))),
+		BOTTOM_TWO_AND_RAMP(getInstance().getPathTCommand("B13_a_23").andThen(getInstance().getPathTCommand("B23_ramp"))),
+		BOTTOM_ONLY_2(getInstance().getPathTCommand("B13_a_23")),
 		//middle
 		MIDDLE_RAMP(getInstance().getPathTCommand("M_ramp"));
 		public CommandBase autonomousCommand;
