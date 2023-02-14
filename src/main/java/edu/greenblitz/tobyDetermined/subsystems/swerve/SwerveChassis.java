@@ -197,13 +197,13 @@ public class SwerveChassis extends GBSubsystem {
 	 * @return states that create the same ratio between speeds but scaled down
 	 */
 	private static SwerveModuleState[] desaturateSwerveModuleStates(SwerveModuleState[] states){
-		double max = 1;
+		double desaturationFactor = 1;
 		for (SwerveModuleState state : states){
-			max = Math.max(max, state.speedMetersPerSecond / RobotMap.Swerve.MAX_VELOCITY);
+			desaturationFactor = Math.max(desaturationFactor, state.speedMetersPerSecond / RobotMap.Swerve.MAX_VELOCITY);
 		}
 		SwerveModuleState[] desaturatedStates = new SwerveModuleState[states.length];
 		for (int i = 0; i < states.length; i++){
-			desaturatedStates[i] = new SwerveModuleState(states[i].speedMetersPerSecond / max, states[i].angle);
+			desaturatedStates[i] = new SwerveModuleState(states[i].speedMetersPerSecond / desaturationFactor, states[i].angle);
 		}
 		return desaturatedStates;
 	}
