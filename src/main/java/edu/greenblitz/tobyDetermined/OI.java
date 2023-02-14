@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveToGrid;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
@@ -52,6 +53,7 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
