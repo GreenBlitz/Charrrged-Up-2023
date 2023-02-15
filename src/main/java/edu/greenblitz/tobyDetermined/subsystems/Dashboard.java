@@ -2,12 +2,20 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.Map;
 
 public class Dashboard extends GBSubsystem {
 
-    private static Dashboard instance;
+	private static Dashboard instance;
+
 	public static Dashboard getInstance() {
 		if (instance == null) {
 			init();
@@ -15,16 +23,18 @@ public class Dashboard extends GBSubsystem {
 		}
 		return instance;
 	}
-	public static void init(){
+
+	public static void init() {
 		instance = new Dashboard();
 	}
-	private Dashboard(){
-        driversDashboard();
-        swerveDashboard();
+
+	private Dashboard() {
+		driversDashboard();
+		swerveDashboard();
 	}
 
-    @Override
-    public void periodic() {
+	@Override
+	public void periodic() {
 
 //        SmartDashboard.putNumber("FR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_RIGHT)), 360));
 //        SmartDashboard.putNumber("FL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_LEFT)), 360));
@@ -46,35 +56,53 @@ public class Dashboard extends GBSubsystem {
 //		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getSelectedPositionID());
 //		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
 
-        Grid.getInstance().putGridToShuffleboard();
+		Grid.getInstance().putGridToShuffleboard();
 
-    }
+	}
 
 
-    public void driversDashboard(){
-        ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
+	public void driversDashboard() {
+		ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
 
-        driversTab.addDouble("X",()->SwerveChassis.getInstance().getRobotPose().getX())
-                .withSize(1,1).withPosition(0,0);
-        driversTab.addDouble("Y",()->SwerveChassis.getInstance().getRobotPose().getY())
-                .withSize(1,1).withPosition(0,1);
-        driversTab.addDouble("Rotation",()->SwerveChassis.getInstance().getRobotPose().getRotation().getDegrees())
-                .withSize(1,1).withPosition(0,2);
-//        driversTab.addString("Object color", ()->RotatingBelly.getInstance().getGameObject().toString())
-//                .withSize(1,1).withPosition(1,0);
-//        driversTab.addString()
-    }
+		ShuffleboardLayout robotPoseWidget = driversTab.getLayout("Robot pose", BuiltInLayouts.kList).withPosition(0, 0).withSize(1, 2).withProperties(Map.of("Label position", "TOP"));
+		robotPoseWidget.addDouble("X", () -> SwerveChassis.getInstance().getRobotPose().getX());
+		robotPoseWidget.addDouble("Y", () -> SwerveChassis.getInstance().getRobotPose().getY());
+		robotPoseWidget.addDouble("Rotation", () -> SwerveChassis.getInstance().getRobotPose().getRotation().getDegrees());
 
-    public void swerveDashboard(){
-        ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve");
-        for(SwerveChassis.Module module: SwerveChassis.Module.values()){
-            swerveTab.addDouble(module + "-angle",()->Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(module)), 360))
-                    .withSize(2,1).withPosition(module.ordinal()*2,0);
-            swerveTab.addDouble(module + "-absolute-angle",()->SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(module))
-                    .withSize(2,1).withPosition(module.ordinal()*2,1);
-        }
-        swerveTab.addDouble("pigeon-angle", ()->Math.toDegrees(SwerveChassis.getInstance().getChassisAngle()))
-                .withSize(1,1).withPosition(0,2);
+		ShuffleboardLayout armStateWidget = driversTab.getLayout("Arm State", BuiltInLayouts.kGrid).withPosition(1, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
+		armStateWidget.addDouble("length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
+		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
+		armStateWidget.addDouble("angle", () -> Elbow.getInstance().getAngle()).withPosition(1, 1);
 
-    }
+		driversTab.addDouble("battery", () -> Battery.getInstance().getCurrentVoltage()).withPosition(1, 2);
+
+//		driversTab.addString("Object inside", ()->RotatingBelly.getInstance().getGameObject().toString())
+//				.withSize(1,1).withPosition(1,0);
+
+		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid).withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
+		for (int i = 0; i < 9; i++) {
+			for (Grid.Height height : Grid.Height.values()) {
+				int finalI = i;
+				int finalHeight = height.ordinal();
+				grid.addBoolean(i + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI)).withPosition(finalI,finalHeight);
+			}
+		}
+
+		driversTab.add("field", SwerveChassis.getInstance().getField()).withPosition(4,2).withSize(4,2);
+
+	}
+
+	public void swerveDashboard() {
+		ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve");
+		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
+			swerveTab.addDouble(module + "-angle", () -> Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(module)), 360))
+					.withSize(2, 1).withPosition(module.ordinal() * 2, 0);
+			swerveTab.addDouble(module + "-absolute-angle", () -> SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(module))
+					.withSize(2, 1).withPosition(module.ordinal() * 2, 1);
+		}
+		swerveTab.addDouble("pigeon-angle", () -> Math.toDegrees(SwerveChassis.getInstance().getChassisAngle()))
+				.withSize(1, 1).withPosition(0, 2);
+
+	}
 }

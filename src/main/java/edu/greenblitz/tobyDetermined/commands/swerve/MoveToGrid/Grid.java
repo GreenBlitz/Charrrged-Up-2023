@@ -108,8 +108,8 @@ public class Grid {
 
 
     public enum Height{
-        HIGH,
-        MEDIUM,
         LOW,
+        MEDIUM,
+        HIGH,
     }
 }
