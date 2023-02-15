@@ -6,9 +6,14 @@ import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSim;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ExtenerSim;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngle;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.GoToPosition;
 public class OI { //GEVALD
 
 	private static OI instance;
@@ -50,10 +55,12 @@ public class OI { //GEVALD
 
 	private void initButtons() {
 
-		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
+		mainJoystick.Y.onTrue(new GoToPosition(0.1,Units.degreesToRadians(0)));
 		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-		mainJoystick.A.onTrue(new ExtendRoller());
+		//mainJoystick.A.onTrue(new ExtendToLength(0.6));
+		mainJoystick.A.onTrue(new GoToPosition(0.55,Units.degreesToRadians(140)));
+		//mainJoystick.A.onTrue(new InstantCommand(() -> ElbowSim.getInstance().setAngleByPID(Units.degreesToRadians(90))));
 		mainJoystick.B.onTrue(new RetractRoller());
 		mainJoystick.START.onTrue(new ToggleRoller());
 	}

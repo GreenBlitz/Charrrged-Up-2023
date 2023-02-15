@@ -255,7 +255,7 @@ public class RobotMap {
             public static final double OUTPUT_GEAR_AMOUNT_OF_TEETH = 32;
             public static final double MAX_LENGTH_IN_ROBOT = 0.4;
             public static final double MAX_ENTRANCE_LENGTH = 0.3;
-            public static final PIDObject PID = new PIDObject();
+            public static final PIDObject PID = new PIDObject(10);
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
             public static final double CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
@@ -280,7 +280,7 @@ public class RobotMap {
         }
 
         public static class elbow {
-            public static final int MOTOR_ID = 1;
+            public static final int MOTOR_ID = 20;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;
@@ -294,16 +294,16 @@ public class RobotMap {
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
             public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-            public static final double STARTING_WALL_ZONE_ANGLE = 67;
-            public static final double END_WALL_ZONE_ANGLE = 70;
+            public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(67);
+            public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
 
 
             public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
 
-            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
+            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(150);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
 
-            public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
+            public static final double ANGLE_TOLERANCE = Units.degreesToRadians(5);
 
             public static final double MOTOR_RAMP_RATE = 1;
 

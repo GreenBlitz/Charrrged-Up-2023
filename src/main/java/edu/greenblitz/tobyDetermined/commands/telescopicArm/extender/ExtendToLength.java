@@ -1,8 +1,5 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
-
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-
-public class ExtendToLength extends ExtenderCommand {
+public class ExtendToLength extends AutoExtenderCommand {
 
     private double wantedLength;
 

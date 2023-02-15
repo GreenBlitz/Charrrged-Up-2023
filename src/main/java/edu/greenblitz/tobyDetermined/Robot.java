@@ -13,7 +13,8 @@ import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSim;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ExtenerSim;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.wpi.first.net.PortForwarder;
@@ -48,8 +49,8 @@ public class Robot extends TimedRobot {
 		Limelight.init();
 		SwerveChassis.init();
 		Claw.init();
-		Elbow.init();
-		Extender.init();
+		ElbowSim.init();
+		ExtenerSim.init();
 		Battery.init();
 		OI.init();
 	}

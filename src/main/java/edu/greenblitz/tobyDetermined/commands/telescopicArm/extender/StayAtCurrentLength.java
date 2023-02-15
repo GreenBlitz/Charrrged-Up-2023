@@ -1,12 +1,12 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSim;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ExtenerSim;
 
-public class StayAtCurrentLength extends ExtenderCommand {
+public class StayAtCurrentLength extends AutoExtenderCommand {
 
     @Override
     public void execute() {
-        extender.setMotorVoltage(Extender.getStaticFeedForward(Elbow.getInstance().getAngle()));
+        extender.setMotorVoltage(ExtenerSim.getStaticFeedForward(ElbowSim.getInstance().getAngle()));
     }
 }
