@@ -28,9 +28,9 @@ public class Dashboard extends GBSubsystem {
 	@Override
 	public void periodic() {
 
-		SmartDashboard.putNumber(" Yaw", Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getYaw()));
-		SmartDashboard.putNumber("Roll", SwerveChassis.getInstance().getPigeonGyro().getRoll());
-		SmartDashboard.putNumber("Pitch", SwerveChassis.getInstance().getPigeonGyro().getPitch());
+
+		SmartDashboard.putNumber("current battery voltage: ", Battery.getInstance().getCurrentVoltage());
+		SmartDashboard.putNumber("current battery usage" , Battery.getInstance().getCurrentUsage());
 
 		SmartDashboard.putNumber("FR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_RIGHT)), 360));
 		SmartDashboard.putNumber("FL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_LEFT)), 360));

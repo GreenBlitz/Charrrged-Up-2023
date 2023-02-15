@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 
@@ -10,7 +11,7 @@ public class Battery extends GBSubsystem {
 	private static Battery instance;
 
 	private static PowerDistribution pdp = new PowerDistribution();
-
+	private static PneumaticsControlModule pcm = new PneumaticsControlModule(RobotMap.Pneumatics.PCM.PCM_ID);
 	private Battery() {
 	}
 	
@@ -22,7 +23,7 @@ public class Battery extends GBSubsystem {
 	}
 
 	public double getCurrentUsage (){
-		return  pdp.getTotalCurrent();
+		return  pdp.getTotalCurrent() + pcm.getCompressorCurrent();
 	}
 
 	public double getCurrentVoltage() {
