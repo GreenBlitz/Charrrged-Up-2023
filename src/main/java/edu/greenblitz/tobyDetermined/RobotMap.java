@@ -269,8 +269,10 @@ public class RobotMap {
 
         public static class claw {
             public static final int MOTOR_ID = 0;
+            public static final int SOLENOID_OPEN_CLAW_ID = 0;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
-
+            public static final double TIME_OF_GRIP_CONSTANT = 2;
         }
 
         public static class elbow {
