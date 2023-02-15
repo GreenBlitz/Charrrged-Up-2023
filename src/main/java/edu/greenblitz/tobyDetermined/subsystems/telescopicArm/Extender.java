@@ -52,12 +52,7 @@ public class Extender extends GBSubsystem {
 				RobotMap.telescopicArm.extender.PID.getKd(),
 				RobotMap.telescopicArm.extender.CONSTRAINTS
 		);
-	}
-	
-	@Override
-	public void periodic() {
-		state = getHypotheticalState(getLength());
-		resetLengthIfSwitchIsOn();
+		lastSwitchReading = getLimitSwitch();
 	}
 	
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
@@ -119,14 +114,24 @@ public class Extender extends GBSubsystem {
 		return state;
 	}
 	
+	/**
+	 * @return the current value of the limit switch
+	 */
 	public boolean getLimitSwitch() {
 		return motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
 	}
 	
-	public void resetLengthIfSwitchIsOn() {
-		if (getLimitSwitch()) {
+	private boolean lastSwitchReading;
+	
+	/**
+	 * @return whether the switch changed status from last periodic this is useful to reset at
+	 */
+	public boolean didSwitchFlip(){
+		return lastSwitchReading ^ getLimitSwitch();
+	}
+	
+	public void resetLength() {
 			motor.getEncoder().setPosition(0);
-		}
 	}
 	
 	public void stop() {
@@ -153,6 +158,11 @@ public class Extender extends GBSubsystem {
 		motor.setVoltage(voltage);
 	}
 	
+	@Override
+	public void periodic() {
+		state = getHypotheticalState(getLength());
+		lastSwitchReading = getLimitSwitch();
+	}
 	
 }
 
