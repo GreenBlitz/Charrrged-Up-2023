@@ -54,7 +54,14 @@ public class Elbow extends GBSubsystem {
     public void moveTowardsAngle(double angleInRads) {
         // going out of bounds should not be allowed
         if (Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
-            stop();
+            if(angleInRads <= RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
+            }else if(angleInRads >= RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
+            }else{
+                stop();
+            }
+            System.err.println("arm Elbow is trying to move OUT OF BOUNDS");
             return;
         }
 

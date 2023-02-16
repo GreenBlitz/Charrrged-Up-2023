@@ -269,8 +269,10 @@ public class RobotMap {
 
         public static class claw {
             public static final int MOTOR_ID = 0;
+            public static final int SOLENOID_OPEN_CLAW_ID = 0;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
-
+            public static final double TIME_OF_GRIP_CONSTANT = 2;
         }
 
         public static class elbow {
@@ -288,8 +290,8 @@ public class RobotMap {
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
             public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-            public static final double STARTING_WALL_ZONE_ANGLE = 67;
-            public static final double END_WALL_ZONE_ANGLE = 70;
+            public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(67);
+            public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
 
 
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
