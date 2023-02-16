@@ -34,6 +34,7 @@ public class Grid {
         }
     }
 
+    @Deprecated
     public void putGridToShuffleboard(){
         for (int i = 0; i < locations.length; i++) {
             for (Height height:Height.values()){
