@@ -32,7 +32,6 @@ public class Claw extends GBSubsystem {
     public static Claw getInstance() {
         if (instance == null) {
             init();
-            SmartDashboard.putBoolean("claw initialized via getInstance", true);
         }
         return instance;
     }

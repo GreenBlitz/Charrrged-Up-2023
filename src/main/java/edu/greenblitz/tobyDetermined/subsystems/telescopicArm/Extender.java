@@ -33,7 +33,7 @@ public class Extender extends GBSubsystem {
 	
 	private Extender() {
 		motor = new GBSparkMax(RobotMap.telescopicArm.extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.getEncoder().setPosition(0);
+		motor.getEncoder().setPosition(RobotMap.telescopicArm.extender.STARTING_LENGTH);
 		motor.config(new GBSparkMax.SparkMaxConfObject()
 				.withPID(RobotMap.telescopicArm.extender.PID)
 				.withPositionConversionFactor(RobotMap.telescopicArm.extender.POSITION_CONVERSION_FACTOR)
@@ -51,7 +51,9 @@ public class Extender extends GBSubsystem {
 				RobotMap.telescopicArm.extender.PID.getKi(),
 				RobotMap.telescopicArm.extender.PID.getKd(),
 				RobotMap.telescopicArm.extender.CONSTRAINTS
+
 		);
+		profiledPIDController.setTolerance(RobotMap.telescopicArm.extender.LENGTH_TOLERANCE);
 		lastSwitchReading = getLimitSwitch();
 	}
 	
@@ -151,7 +153,7 @@ public class Extender extends GBSubsystem {
 	}
 	
 	public boolean isAtLength(double wantedLengthInMeters) {
-		return Math.abs(getLength() - wantedLengthInMeters) <= RobotMap.telescopicArm.extender.LENGTH_TOLERANCE;
+		return profiledPIDController.atGoal();
 	}
 	
 	public void setMotorVoltage(double voltage) {

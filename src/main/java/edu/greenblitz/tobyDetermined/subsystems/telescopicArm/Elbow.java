@@ -10,7 +10,6 @@ import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Elbow extends GBSubsystem {
@@ -24,7 +23,6 @@ public class Elbow extends GBSubsystem {
     public static Elbow getInstance() {
         if (instance == null) {
             init();
-            SmartDashboard.putBoolean("elbow initialized via getinstance", true);
         }
         return instance;
     }
