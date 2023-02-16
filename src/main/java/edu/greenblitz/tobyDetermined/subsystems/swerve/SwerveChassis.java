@@ -3,10 +3,12 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.Limelight;
+import edu.greenblitz.tobyDetermined.subsystems.LimeLight;
+import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
 import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,10 +20,6 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 public class SwerveChassis extends GBSubsystem {
 
@@ -74,7 +72,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	@Override
 	public void periodic() {
-		updatePoseEstimation();
+		updatePoseEstimationLimeLight();
 		field.setRobotPose(getRobotPose());
 	}
 	
@@ -257,12 +255,15 @@ public class SwerveChassis extends GBSubsystem {
 		getModule(module).setRotPowerOnlyForCalibrations(power);
 	}
 	
-	public void updatePoseEstimation() {
+	public void updatePoseEstimationPhotonVision() {
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
-		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
+		Photonvision.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 	}
 
-
+	public void updatePoseEstimationLimeLight() {
+		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		LimeLight.getInstance().getUpdatedPoseEstimator().ifPresent((Pair<Pose2d, Double> poseAndTimeStamp) -> poseEstimator.addVisionMeasurement(poseAndTimeStamp.getFirst(), poseAndTimeStamp.getSecond()));
+	}
 
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();

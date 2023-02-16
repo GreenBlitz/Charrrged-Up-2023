@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FullRotateToPlace extends SequentialCommandGroup {
     public FullRotateToPlace (){
-        addCommands(new RotateOutOfDoor().deadlineWith(new WaitCommand()));
+        addCommands(new RotateOutOfDoor().deadlineWith(new WaitCommand(0.2)));
         addCommands(new RotateObjectToDoor());
     }
 }

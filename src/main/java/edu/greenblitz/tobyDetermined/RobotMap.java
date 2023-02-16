@@ -62,7 +62,7 @@ public class RobotMap {
         public static double standardDeviationVisionAngle = 0.1;
         public static final int[] portNumbers = {5800,5801,5802,5803,5804,5805};
         public static final Transform3d RobotToCamera = new Transform3d(new Translation3d(), new Rotation3d());
-
+        public static final String LIMELIGHT_NAME = "limelight-two";
     }
 
     public static class LED {
