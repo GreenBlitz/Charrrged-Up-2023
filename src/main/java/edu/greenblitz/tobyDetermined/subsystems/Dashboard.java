@@ -103,10 +103,10 @@ public class Dashboard extends GBSubsystem {
 		//field
 		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5,2).withSize(3,2);
 
+
 		//console
-		ShuffleboardLayout console = driversTab.getLayout("Console", BuiltInLayouts.kList)
+		ShuffleboardLayout console =Console.getShuffleboardConsole(driversTab)
 				.withPosition(8,0).withSize(2,3).withProperties(Map.of("Label position", "TOP"));
-		//todo write console and update it, maybe as sendable;
 
 		//ready to place
 		driversTab.addBoolean("Ready to place", ()->false).withPosition(3,2).withSize(1,2);
