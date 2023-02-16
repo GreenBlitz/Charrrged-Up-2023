@@ -9,8 +9,7 @@ public class Console {
     private static ShuffleboardLayout shuffleboardConsole;
 
     public static void log(String title, String message) {
-        title = title +" "+DriverStation.getMatchNumber() +":"+ DriverStation.getMatchTime();
-        DriverStation.getMatchNumber();
+        title = title + " : " + DriverStation.getMatchTime();
         shuffleboardConsole.add(title, message);
     }
 

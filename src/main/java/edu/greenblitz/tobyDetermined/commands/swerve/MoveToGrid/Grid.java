@@ -93,15 +93,11 @@ public class Grid {
     public void moveSelectedPosition(int amount){
         updateAlliance();
         int newPositionID = selectedPositionID + amount;
-//        if (!(newPositionID >= locations.length || newPositionID < 0)){
-//            selectedPositionID = newPositionID;
-//        }
         selectedPositionID = (int) GBMath.absoluteModulo(newPositionID,9);
     }
 
     public void moveSelectedPositionRight(){
         moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? 1 : -1);
-        // alternatively, can be "moveSelectedPosition(DriverStation.getAlliance().ordinal()*2 -1);"
     }
 
     public void moveSelectedPositionLeft(){
