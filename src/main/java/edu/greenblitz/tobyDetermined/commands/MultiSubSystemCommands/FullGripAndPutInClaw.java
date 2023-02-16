@@ -10,7 +10,7 @@ public class FullGripAndPutInClaw extends SequentialCommandGroup {
     public FullGripAndPutInClaw() {
         RotatingBelly.getInstance().getGameObject();
 
-        addCommands(new FullGrip().alongWith(new RotateOutDoorDirection()));
+        addCommands(new FullGrip());
         addCommands(new GetObjectToClaw());
 
 
