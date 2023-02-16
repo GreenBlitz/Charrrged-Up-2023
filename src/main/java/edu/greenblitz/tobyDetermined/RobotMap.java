@@ -16,6 +16,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 
+
 public class RobotMap {
 	public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
     public static class General {
@@ -212,11 +213,15 @@ public class RobotMap {
 
     }
 
-
     public static class RotatingBelly {
         public static final int MOTOR_ID = 0;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_PORT = 0;
+
+        public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
+        public static double ROTATE_TO_DOOR_TIME = 3;
+
+
     }
     public static class telescopicArm {
 

@@ -1,8 +1,14 @@
 package edu.greenblitz.tobyDetermined.commands.rotatingBelly;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.wpilibj.Timer;
 
-public class RotateBellyObjectToPosition extends RotatingBellyCommand {
+public class RotateObjectToDoor extends RotatingBellyCommand {
+    public RotateObjectToDoor(double timeToEndSeconds){
+        RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME = timeToEndSeconds;
+    }
+
+    public RotateObjectToDoor(){}
 
     @Override
     public void execute() {
@@ -11,7 +17,8 @@ public class RotateBellyObjectToPosition extends RotatingBellyCommand {
 
     @Override
     public boolean isFinished() {
-        return belly.isMacroSwitchPressed();
+        Timer.delay(RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME);
+        return true;
     }
 
     @Override
