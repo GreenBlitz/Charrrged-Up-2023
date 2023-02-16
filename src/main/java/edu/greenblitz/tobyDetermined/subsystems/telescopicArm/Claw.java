@@ -8,12 +8,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.concurrent.CompletionException;
 
 public class Claw extends GBSubsystem {
     private static Claw instance;
-    private static final double MOTOR_POWER_GRIP = 0.3;
-    private static final double MOTOR_POWER_RELEASE = -0.3;
     private TalonSRX motor;
     private DoubleSolenoid solenoid;
     public ClawState state;
@@ -59,11 +56,11 @@ public class Claw extends GBSubsystem {
     }
 
     public void motorGrip() {
-        motor.set(ControlMode.PercentOutput,MOTOR_POWER_GRIP);
+        motor.set(ControlMode.PercentOutput,RobotMap.telescopicArm.claw.MOTOR_POWER_GRIP);
     }
 
     public void motorEject() {
-        motor.set(ControlMode.PercentOutput,MOTOR_POWER_RELEASE);
+        motor.set(ControlMode.PercentOutput,RobotMap.telescopicArm.claw.MOTOR_POWER_RELEASE);
     }
 
     public void stopMotor (){

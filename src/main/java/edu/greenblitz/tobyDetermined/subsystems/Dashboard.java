@@ -55,7 +55,7 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
     }
 	
-	public void debugArm(){ //no comment
+	public void debugArm(){
 		ShuffleboardTab armDebugTab = Shuffleboard.getTab("arm debug");
 		
 		armDebugTab.addDouble("length",()-> Extender.getInstance().getLength())

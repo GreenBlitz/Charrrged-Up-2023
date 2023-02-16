@@ -83,6 +83,7 @@ public class Elbow extends GBSubsystem {
                 pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
                 Extender.getInstance().getLength(), getAngle()
         );
+        SmartDashboard.putNumber("Elbow FF", feedForward);  //todo - its for debugging, remove when done
         motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
     }
 

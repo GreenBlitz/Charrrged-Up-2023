@@ -272,6 +272,9 @@ public class RobotMap {
             public static final int SOLENOID_OPEN_CLAW_ID = 0;
             public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
+            public static final double MOTOR_POWER_GRIP = 0.3;
+            public static final double MOTOR_POWER_RELEASE = -0.3;
+
             public static final double TIME_OF_GRIP_CONSTANT = 2;
         }
 
