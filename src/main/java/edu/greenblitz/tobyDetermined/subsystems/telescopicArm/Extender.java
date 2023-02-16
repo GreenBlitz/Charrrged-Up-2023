@@ -18,6 +18,9 @@ public class Extender extends GBSubsystem {
 	private ProfiledPIDController profiledPIDController;
 	private static Extender instance;
 	private GBSparkMax motor;
+
+	private boolean debug = false;
+
 	
 	public static Extender getInstance() {
 		if (instance == null) {
@@ -45,7 +48,11 @@ public class Extender extends GBSubsystem {
 		);
 		motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).enableLimitSwitch(true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.extender.FORWARD_LIMIT);
-		
+
+		if (debug){
+			debugSoftLimit();
+		}
+
 		profiledPIDController = new ProfiledPIDController(
 				RobotMap.telescopicArm.extender.PID.getKp(),
 				RobotMap.telescopicArm.extender.PID.getKi(),
@@ -53,6 +60,14 @@ public class Extender extends GBSubsystem {
 				RobotMap.telescopicArm.extender.CONSTRAINTS
 		);
 		lastSwitchReading = getLimitSwitch();
+	}
+
+	private void debugSoftLimit(){
+		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0.3);
+	}
+
+	public void debugSetPower(double power){
+		motor.set(power);
 	}
 	
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
@@ -83,7 +98,7 @@ public class Extender extends GBSubsystem {
 		profiledPIDController.reset(getLength());
 		profiledPIDController.setGoal(lengthInMeters);
 		double feedForward = getFeedForward(
-				profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngle());
+				profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngleRadians());
 		SmartDashboard.putNumber("Extender FF", feedForward);
 		motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
 	}

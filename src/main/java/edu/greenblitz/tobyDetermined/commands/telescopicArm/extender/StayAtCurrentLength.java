@@ -7,6 +7,6 @@ public class StayAtCurrentLength extends ExtenderCommand {
 
     @Override
     public void execute() {
-        extender.setMotorVoltage(Extender.getStaticFeedForward(Elbow.getInstance().getAngle()));
+        extender.setMotorVoltage(Extender.getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
     }
 }

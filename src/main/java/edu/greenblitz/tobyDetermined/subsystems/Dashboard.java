@@ -60,7 +60,7 @@ public class Dashboard extends GBSubsystem {
 		
 		armDebugTab.addDouble("length",()-> Extender.getInstance().getLength())
 				.withSize(3,1).withPosition(0,0);
-		armDebugTab.addDouble("angle",()-> Elbow.getInstance().getAngle())
+		armDebugTab.addDouble("angle",()-> Elbow.getInstance().getAngleRadians())
 				.withSize(3,1).withPosition(0,1);
 		armDebugTab.addString("extender state",()-> Extender.getInstance().getState().toString())
 				.withSize(3,1).withPosition(0, 2);

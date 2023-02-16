@@ -7,6 +7,6 @@ public class StayAtCurrentAngle extends ElbowCommand {
 
     @Override
     public void execute() {
-        elbow.setMotorVoltage(Elbow.getStaticFeedForward(Extender.getInstance().getLength(),elbow.getAngle()));
+        elbow.setMotorVoltage(Elbow.getStaticFeedForward(Extender.getInstance().getLength(),elbow.getAngleRadians()));
     }
 }

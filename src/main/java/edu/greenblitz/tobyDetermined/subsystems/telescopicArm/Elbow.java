@@ -2,14 +2,12 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -20,6 +18,8 @@ public class Elbow extends GBSubsystem {
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double lastSpeed;
+
+    private boolean debug = false;
 
     public static Elbow getInstance() {
         if (instance == null) {
@@ -48,16 +48,28 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
+        if(debug){
+            debugSoftLimit();
+        }
+
         lastSpeed = 0;
     }
 
-    public void moveTowardsAngle(double angleInRads) {
+    private void debugSoftLimit(){
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0.3);
+    }
+
+    public void debugSetPower(double power){
+        motor.set(power);
+    }
+
+    public void moveTowardsAngleRads(double angleInRads) {
         // going out of bounds should not be allowed
         if (Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
             if(angleInRads <= RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT){
-                moveTowardsAngle(RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
+                moveTowardsAngleRads(RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
             }else if(angleInRads >= RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT){
-                moveTowardsAngle(RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
+                moveTowardsAngleRads(RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
             }else{
                 stop();
             }
@@ -69,25 +81,25 @@ public class Elbow extends GBSubsystem {
         // if its not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
-            setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
+            setAngleRadiansByPID(state == ElbowState.IN_BELLY ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
         }else {
-            setAngleByPID(angleInRads);
+            setAngleRadiansByPID(angleInRads);
         }
     }
 
-    public void setAngleByPID(double goalAngle) {
+    public void setAngleRadiansByPID(double goalAngleRads) {
         ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
-        pidController.reset(getAngle());
-        pidController.setGoal(goalAngle);
+        pidController.reset(getAngleRadians());
+        pidController.setGoal(goalAngleRads);
         double feedForward = getFeedForward(
                 pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
-                Extender.getInstance().getLength(), getAngle()
+                Extender.getInstance().getLength(), getAngleRadians()
         );
         SmartDashboard.putNumber("Elbow FF", feedForward);  //todo - its for debugging, remove when done
         motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
     }
 
-    public double getAngle() {
+    public double getAngleRadians() {
         return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
     }
 
@@ -101,7 +113,7 @@ public class Elbow extends GBSubsystem {
 
     @Override
     public void periodic() {
-        state = getHypotheticalState(getAngle());
+        state = getHypotheticalState(getAngleRadians());
         lastSpeed = getVelocity();
 
     }
@@ -122,11 +134,11 @@ public class Elbow extends GBSubsystem {
     }
 
     public boolean isAtAngle(double wantedAngle) {
-        return Math.abs(getAngle() - wantedAngle) <= RobotMap.telescopicArm.elbow.ANGLE_TOLERANCE;
+        return Math.abs(getAngleRadians() - wantedAngle) <= RobotMap.telescopicArm.elbow.ANGLE_TOLERANCE;
     }
 
     public boolean isInTheSameState(double wantedAng) {
-        return getHypotheticalState(getAngle()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) != ElbowState.OUT_OF_BOUNDS;
+        return getHypotheticalState(getAngleRadians()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) != ElbowState.OUT_OF_BOUNDS;
     }
 
     public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
