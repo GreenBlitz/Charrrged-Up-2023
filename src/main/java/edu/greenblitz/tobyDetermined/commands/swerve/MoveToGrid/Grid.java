@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -91,9 +92,10 @@ public class Grid {
     public void moveSelectedPosition(int amount){
         updateAlliance();
         int newPositionID = selectedPositionID + amount;
-        if (!(newPositionID >= locations.length || newPositionID < 0)){
-            selectedPositionID = newPositionID;
-        }
+//        if (!(newPositionID >= locations.length || newPositionID < 0)){
+//            selectedPositionID = newPositionID;
+//        }
+        selectedPositionID = (int) GBMath.absoluteModulo(newPositionID,9);
     }
 
     public void moveSelectedPositionRight(){
@@ -105,11 +107,16 @@ public class Grid {
         moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? -1 : 1);
     }
 
+    public void moveSelectedHeight(int amount){
+        int newPositionID = selectedHeightID + amount;
+        selectedHeightID = (int) GBMath.absoluteModulo(newPositionID,3);
+    }
+
 
 
     public enum Height{
         LOW,
         MEDIUM,
-        HIGH,
+        HIGH;
     }
 }

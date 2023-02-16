@@ -64,32 +64,56 @@ public class Dashboard extends GBSubsystem {
 	public void driversDashboard() {
 		ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
 
-		ShuffleboardLayout robotPoseWidget = driversTab.getLayout("Robot pose", BuiltInLayouts.kList).withPosition(0, 0).withSize(1, 2).withProperties(Map.of("Label position", "TOP"));
-		robotPoseWidget.addDouble("X", () -> SwerveChassis.getInstance().getRobotPose().getX());
-		robotPoseWidget.addDouble("Y", () -> SwerveChassis.getInstance().getRobotPose().getY());
-		robotPoseWidget.addDouble("Rotation", () -> SwerveChassis.getInstance().getRobotPose().getRotation().getDegrees());
-
-		ShuffleboardLayout armStateWidget = driversTab.getLayout("Arm State", BuiltInLayouts.kGrid).withPosition(1, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+		//arm states
+		ShuffleboardLayout armStateWidget = driversTab.getLayout("Arm states", BuiltInLayouts.kGrid)
+				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
 		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
-		armStateWidget.addDouble("length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
+		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
 		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("angle", () -> Elbow.getInstance().getAngle()).withPosition(1, 1);
+		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngle()).withPosition(1, 1);
 
-		driversTab.addDouble("battery", () -> Battery.getInstance().getCurrentVoltage()).withPosition(1, 2);
+		//arm state
+		driversTab.addString("Arm state", ()-> "doesn't exist").withPosition(4,2).withSize(1,2);
 
-//		driversTab.addString("Object inside", ()->RotatingBelly.getInstance().getGameObject().toString())
-//				.withSize(1,1).withPosition(1,0);
-
-		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid).withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
+		//grid todo make it mirror by alliance
+		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid)
+				.withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
 		for (int i = 0; i < 9; i++) {
 			for (Grid.Height height : Grid.Height.values()) {
 				int finalI = i;
 				int finalHeight = height.ordinal();
-				grid.addBoolean(i + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI)).withPosition(finalI,finalHeight);
+				grid.addBoolean(i+1 + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI))
+						.withPosition(finalI,2 - finalHeight);
 			}
 		}
 
-		driversTab.add("field", SwerveChassis.getInstance().getField()).withPosition(4,2).withSize(4,2);
+		//pose
+		ShuffleboardLayout robotPoseWidget = driversTab.getLayout("Robot pose", BuiltInLayouts.kList)
+				.withPosition(0, 2).withSize(1, 2).withProperties(Map.of("Label position", "TOP"));
+		robotPoseWidget.addDouble("X", () -> SwerveChassis.getInstance().getRobotPose().getX());
+		robotPoseWidget.addDouble("Y", () -> SwerveChassis.getInstance().getRobotPose().getY());
+		robotPoseWidget.addDouble("Rotation", () -> SwerveChassis.getInstance().getRobotPose().getRotation().getDegrees());
+
+		//battery
+		driversTab.addDouble("Battery", () -> Battery.getInstance().getCurrentVoltage())
+				.withPosition(9, 3);
+
+		//object inside
+		driversTab.addString("Object inside", /*()->RotatingBelly.getInstance().getGameObject().toString()*/()-> "robot does not exist")
+				.withSize(1,1).withPosition(2,2);
+
+		//field
+		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5,2).withSize(3,2);
+
+		//console
+		ShuffleboardLayout console = driversTab.getLayout("Console", BuiltInLayouts.kList)
+				.withPosition(8,0).withSize(2,3).withProperties(Map.of("Label position", "TOP"));
+		//todo write console and update it, maybe as sendable;
+
+		//ready to place
+		driversTab.addBoolean("Ready to place", ()->false).withPosition(3,2).withSize(1,2);
+		//todo check if at place and arm in pos
+
 
 	}
 

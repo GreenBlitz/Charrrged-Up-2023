@@ -63,8 +63,8 @@ public class OI { //GEVALD
 		mainJoystick.START.onTrue(new ToggleRoller());
 		mainJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
 		mainJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-		mainJoystick.POV_DOWN.onTrue(new InstantCommand(()-> Grid.getInstance().setSelectedHeight(Grid.getInstance().getSelectedHeightID()-1)));
-		mainJoystick.POV_UP.onTrue(new InstantCommand(()-> Grid.getInstance().setSelectedHeight(Grid.getInstance().getSelectedHeightID()+1)));
+		mainJoystick.POV_DOWN.onTrue(new InstantCommand(()-> Grid.getInstance().moveSelectedHeight(-1)));
+		mainJoystick.POV_UP.onTrue(new InstantCommand(()-> Grid.getInstance().moveSelectedHeight(1)));
 	}
 
 	public SmartJoystick getMainJoystick() {
