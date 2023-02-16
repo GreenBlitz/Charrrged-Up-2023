@@ -2,7 +2,11 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard extends GBSubsystem {
@@ -20,11 +24,17 @@ public class Dashboard extends GBSubsystem {
 	}
 	private Dashboard(){
 	}
-
+	
+	
+	
     @Override
     public void periodic() {
+	
 
-        SmartDashboard.putNumber("FR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_RIGHT)), 360));
+	
+	
+	
+		SmartDashboard.putNumber("FR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_RIGHT)), 360));
         SmartDashboard.putNumber("FL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.FRONT_LEFT)), 360));
         SmartDashboard.putNumber("BR-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_RIGHT)), 360));
         SmartDashboard.putNumber("BL-angle-neo", Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(SwerveChassis.Module.BACK_LEFT)), 360));
@@ -44,4 +54,19 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putNumber("grid pos id", Grid.getInstance().getSelectedPositionID());
 		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
     }
+	
+	public void debugArm(){ //no comment
+		ShuffleboardTab armDebugTab = Shuffleboard.getTab("arm debug");
+		
+		armDebugTab.addDouble("length",()-> Extender.getInstance().getLength())
+				.withSize(3,1).withPosition(0,0);
+		armDebugTab.addDouble("angle",()-> Elbow.getInstance().getAngle())
+				.withSize(3,1).withPosition(0,1);
+		armDebugTab.addString("extender state",()-> Extender.getInstance().getState().toString())
+				.withSize(3,1).withPosition(0, 2);
+		armDebugTab.addString("elbow state",()-> Elbow.getInstance().getState().toString())
+				.withSize(3,1).withPosition(0,3);
+		
+		
+	}
 }
