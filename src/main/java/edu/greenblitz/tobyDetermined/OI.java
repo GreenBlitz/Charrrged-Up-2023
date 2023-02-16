@@ -1,10 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveToGrid;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
@@ -56,15 +53,16 @@ public class OI { //GEVALD
 	private void initButtons() {
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
 		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-//		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-//		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
+		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
+		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
 		mainJoystick.A.onTrue(new ExtendRoller());
 		mainJoystick.B.onTrue(new RetractRoller());
 		mainJoystick.START.onTrue(new ToggleRoller());
-		mainJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-		mainJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-		mainJoystick.POV_DOWN.onTrue(new InstantCommand(()-> Grid.getInstance().moveSelectedHeight(-1)));
-		mainJoystick.POV_UP.onTrue(new InstantCommand(()-> Grid.getInstance().moveSelectedHeight(1)));
+
+		secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+		secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+		secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+		secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
 	}
 
 	public SmartJoystick getMainJoystick() {

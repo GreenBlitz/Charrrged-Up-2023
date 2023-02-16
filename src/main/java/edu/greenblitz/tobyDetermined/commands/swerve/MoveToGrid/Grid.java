@@ -113,6 +113,14 @@ public class Grid {
         selectedHeightID = (int) GBMath.absoluteModulo(newPositionID,3);
     }
 
+    public void moveSelectedHeightUp(){
+        moveSelectedHeight(1);
+    }
+
+    public void moveSelectedHeightDown(){
+        moveSelectedHeight(-1);
+    }
+
 
 
     public enum Height{
