@@ -2,11 +2,14 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.MotorFeedbackSensor;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -32,16 +35,16 @@ public class Elbow extends GBSubsystem {
 
     private Elbow() {
         motor = new GBSparkMax(RobotMap.telescopicArm.elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
         motor.config(new GBSparkMax.SparkMaxConfObject()
                 .withPID(RobotMap.telescopicArm.elbow.PID)
-                .withPositionConversionFactor(RobotMap.telescopicArm.elbow.CONVERSION_FACTOR)
                 .withIdleMode(CANSparkMax.IdleMode.kBrake)
                 .withRampRate(RobotMap.telescopicArm.elbow.MOTOR_RAMP_RATE)
                 .withCurrentLimit(RobotMap.telescopicArm.elbow.CURRENT_LIMIT)
                 .withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
         );
-        motor.getEncoder().setPosition(0); //resetPosition
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.POSITION_CONVERSION_FACTOR);
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.VELOCITY_CONVERSION_FACTOR);
+        motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
@@ -51,7 +54,14 @@ public class Elbow extends GBSubsystem {
     public void moveTowardsAngle(double angleInRads) {
         // going out of bounds should not be allowed
         if (Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
-            stop();
+            if(angleInRads <= RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
+            }else if(angleInRads >= RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
+            }else{
+                stop();
+            }
+            System.err.println("arm Elbow is trying to move OUT OF BOUNDS");
             return;
         }
 
@@ -73,11 +83,12 @@ public class Elbow extends GBSubsystem {
                 pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
                 Extender.getInstance().getLength(), getAngle()
         );
+        SmartDashboard.putNumber("Elbow FF", feedForward);  //todo - its for debugging, remove when done
         motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
     }
 
     public double getAngle() {
-        return motor.getEncoder().getPosition();
+        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
     }
 
     public ElbowState getState() {
@@ -96,7 +107,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public double getVelocity (){
-        return motor.getEncoder().getVelocity();
+        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getVelocity();
     }
     public static ElbowState getHypotheticalState(double angleInRads) {
         if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {
