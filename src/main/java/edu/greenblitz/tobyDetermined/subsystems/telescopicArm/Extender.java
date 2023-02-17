@@ -22,7 +22,6 @@ public class Extender extends GBSubsystem {
 	public static Extender getInstance() {
 		if (instance == null) {
 			init();
-			SmartDashboard.putBoolean("extender initialized via getinstance", true);
 		}
 		return instance;
 	}
@@ -33,7 +32,7 @@ public class Extender extends GBSubsystem {
 	
 	private Extender() {
 		motor = new GBSparkMax(RobotMap.telescopicArm.extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.getEncoder().setPosition(0);
+		motor.getEncoder().setPosition(RobotMap.telescopicArm.extender.STARTING_POS);
 		motor.config(new GBSparkMax.SparkMaxConfObject()
 				.withPID(RobotMap.telescopicArm.extender.PID)
 				.withPositionConversionFactor(RobotMap.telescopicArm.extender.POSITION_CONVERSION_FACTOR)
@@ -80,7 +79,7 @@ public class Extender extends GBSubsystem {
 	}
 	
 	private void setLengthByPID(double lengthInMeters) {
-		profiledPIDController.reset(getLength());
+		profiledPIDController.reset(getLength(),getVelocity());
 		profiledPIDController.setGoal(lengthInMeters);
 		double feedForward = getFeedForward(
 				profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngle());
@@ -114,6 +113,8 @@ public class Extender extends GBSubsystem {
 	public ExtenderState getState() {
 		return state;
 	}
+
+	public double getVelocity(){return motor.getEncoder().getVelocity();}
 	
 	/**
 	 * @return the current value of the limit switch
@@ -131,8 +132,12 @@ public class Extender extends GBSubsystem {
 		return lastSwitchReading ^ getLimitSwitch();
 	}
 	
-	public void resetLength() {
-			motor.getEncoder().setPosition(0);
+	public void resetLength(int position) {
+			motor.getEncoder().setPosition(position);
+	}
+
+	public void resetLength(){
+		motor.getEncoder().setPosition(0);
 	}
 	
 	public void stop() {
@@ -151,8 +156,8 @@ public class Extender extends GBSubsystem {
 		OUT_OF_BOUNDS
 	}
 	
-	public boolean isAtLength(double wantedLengthInMeters) {
-		return Math.abs(getLength() - wantedLengthInMeters) <= RobotMap.telescopicArm.extender.LENGTH_TOLERANCE;
+	public boolean isAtLength() {
+		return profiledPIDController.atGoal();
 	}
 	
 	public void setMotorVoltage(double voltage) {

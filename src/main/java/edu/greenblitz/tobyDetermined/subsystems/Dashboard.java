@@ -55,18 +55,5 @@ public class Dashboard extends GBSubsystem {
 		SmartDashboard.putString("grid pos", Grid.getInstance().getSelectedPosition().toString());
     }
 	
-	public void debugArm(){
-		ShuffleboardTab armDebugTab = Shuffleboard.getTab("arm debug");
-		
-		armDebugTab.addDouble("length",()-> Extender.getInstance().getLength())
-				.withSize(3,1).withPosition(0,0);
-		armDebugTab.addDouble("angle",()-> Elbow.getInstance().getAngle())
-				.withSize(3,1).withPosition(0,1);
-		armDebugTab.addString("extender state",()-> Extender.getInstance().getState().toString())
-				.withSize(3,1).withPosition(0, 2);
-		armDebugTab.addString("elbow state",()-> Elbow.getInstance().getState().toString())
-				.withSize(3,1).withPosition(0,3);
-		
-		
-	}
+
 }

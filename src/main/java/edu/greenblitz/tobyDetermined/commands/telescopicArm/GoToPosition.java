@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class GoToPosition extends SequentialCommandGroup {
 
     public GoToPosition(double lengthInMeters, double angleInRads) {
+        //if the extender is inside the robot.
         if(Extender.getHypotheticalState(lengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH || Elbow.getInstance().isInTheSameState(angleInRads)){
             addCommands(new RotateToAngle(angleInRads).alongWith(new ExtendToLength(lengthInMeters)));
         }
