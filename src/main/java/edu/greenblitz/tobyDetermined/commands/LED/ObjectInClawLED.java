@@ -11,13 +11,7 @@ public class ObjectInClawLED extends LEDCommand{
     public void execute() {
         led.setBackgroundColor(Color.kBlue);
 
-        led.setColor(Color.kBlue);
-        Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
-        led.turnOff();
-        Timer.delay(RobotMap.LED.BLINKING_OFF_TIME);
-        led.setColor(Color.kBlue);
-        Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
-        led.setBackgroundColor(Color.kBlue);
+        new LedBlinking(Color.kBlue).schedule();
     }
 
     @Override

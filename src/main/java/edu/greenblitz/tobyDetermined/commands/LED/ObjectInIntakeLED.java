@@ -12,12 +12,7 @@ public class ObjectInIntakeLED extends LEDCommand{
     public void execute() {
         led.setBackgroundColor(Color.kRed);
 
-        led.setColor(Color.kRed);
-        Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
-        led.turnOff();
-        Timer.delay(RobotMap.LED.BLINKING_OFF_TIME);
-        led.setColor(Color.kRed);
-        Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
+        new LedBlinking(Color.kRed).schedule();
     }
 
     @Override

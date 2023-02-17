@@ -27,22 +27,12 @@ public class HumanPlayerObjectIndicator extends LEDCommand{
             case CONE:
                 led.setBackgroundColor(Color.kYellow);
 
-                led.setColor(Color.kYellow);
-                Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
-                led.turnOff();
-                Timer.delay(RobotMap.LED.BLINKING_OFF_TIME);
-                led.setColor(Color.kYellow);
-                Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
+                new LedBlinking(Color.kYellow).schedule();
                 break;
             case CUBE:
                 led.setBackgroundColor(Color.kMagenta);
 
-                led.setColor(Color.kMagenta);
-                Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
-                led.turnOff();
-                Timer.delay(RobotMap.LED.BLINKING_OFF_TIME);
-                led.setColor(Color.kMagenta);
-                Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
+                new LedBlinking(Color.kMagenta).schedule();
                 break;
         }
     }

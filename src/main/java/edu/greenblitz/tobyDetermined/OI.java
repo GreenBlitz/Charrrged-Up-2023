@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.LED.*;
+import edu.greenblitz.tobyDetermined.commands.indicatingCommands.BalanceOnRampWithIndicatorForward;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveToGrid;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
@@ -53,13 +55,14 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
-		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-		mainJoystick.A.onTrue(new ExtendRoller());
-		mainJoystick.B.onTrue(new RetractRoller());
-		mainJoystick.START.onTrue(new ToggleRoller());
+
+		mainJoystick.POV_DOWN.onTrue(new HumanPlayerObjectIndicator(HumanPlayerObjectIndicator.wantedObject.CUBE));
+		mainJoystick.A.onTrue(new HumanPlayerObjectIndicator(HumanPlayerObjectIndicator.wantedObject.CONE));
+		mainJoystick.B.onTrue(new ObjectInIntakeLED());
+		mainJoystick.START.onTrue(new ObjectInClawLED());
+		mainJoystick.Y.onTrue(new BalanceOnRampLED());
+		mainJoystick.POV_LEFT.whileTrue(new BalanceOnRampWithIndicatorForward(true));
+
 	}
 
 	public SmartJoystick getMainJoystick() {
