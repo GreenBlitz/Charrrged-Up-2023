@@ -332,6 +332,7 @@ public class RobotMap {
         public static final double DEFAULT_POWER = 1;
         public static final int CURRENT_LIMIT = 40;
         public static final double ROLL_INSIDE_POWER = 0.5;
+        public static final int BEAM_BREAKER_ID = 0;
 
         public static class Solenoid {
             public static final int FORWARD_PORT = 1;

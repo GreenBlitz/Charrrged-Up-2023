@@ -2,17 +2,10 @@ package edu.greenblitz.tobyDetermined.commands.rotatingBelly;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 
-public class RotateOutDoorDirection extends RotatingBellyCommand {
+public class RotateOutDoorDirection extends RotateByPower {
 
-
-
-    @Override
-    public void execute() {
-        belly.setPower(-RobotMap.RotatingBelly.ROTATING_POWER);
-
+    public RotateOutDoorDirection(){
+        super(-RobotMap.RotatingBelly.ROTATING_POWER);
     }
-    @Override
-    public void end(boolean interrupted) {
-        belly.stop();
-    }
+
 }
