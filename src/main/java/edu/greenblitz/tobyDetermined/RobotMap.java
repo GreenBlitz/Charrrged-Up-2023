@@ -230,11 +230,11 @@ public class RobotMap {
 
         public enum presetPositions {
             //height in meters
-            //input angle degrees out put angle radians
-            CONE_HIGH(0, 0),
-            CONE_MID(0, 0),
-            CUBE_HIGH(0, 0),
-            CUBE_MID(0, 0),
+            //input angle degrees output angle radians
+            CONE_HIGH(0.5, 45),
+            CONE_MID(0.3, 30),
+            CUBE_HIGH(0.5, 45),
+            CUBE_MID(0.3, 30),
             LOW(0, 5),
 
             INTAKE_GRAB_POSITION (0,0),
