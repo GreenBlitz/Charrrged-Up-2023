@@ -18,6 +18,8 @@ public class Elbow extends GBSubsystem {
     public GBSparkMax motor;
     private double lastSpeed;
 
+    private double calculatedFeedForward;
+
     public static Elbow getInstance() {
         if (instance == null) {
             init();
@@ -69,11 +71,11 @@ public class Elbow extends GBSubsystem {
         ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
         pidController.reset(getAngle());
         pidController.setGoal(goalAngle);
-        double feedForward = getFeedForward(
+        calculateFeedForward(
                 pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
                 Extender.getInstance().getLength(), getAngle()
         );
-        motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, getCalculatedFeedForward());
     }
 
     public double getAngle() {
@@ -118,10 +120,15 @@ public class Elbow extends GBSubsystem {
         return getHypotheticalState(getAngle()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) != ElbowState.OUT_OF_BOUNDS;
     }
 
-    public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
+    public void calculateFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength, double elbowAngle) {
         double Kg = getStaticFeedForward(extenderLength,elbowAngle);
-        return Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
+        this.calculatedFeedForward = Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
     }
+
+    public double getCalculatedFeedForward(){
+        return this.calculatedFeedForward;
+    }
+
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
         return (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
                 / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);

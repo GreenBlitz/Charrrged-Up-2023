@@ -18,6 +18,8 @@ public class Extender extends GBSubsystem {
     private static Extender instance;
     private GBSparkMax motor;
 
+    private double calaculatedFeedForword;
+
     public static Extender getInstance() {
         if (instance == null) {
             init();
@@ -53,6 +55,10 @@ public class Extender extends GBSubsystem {
         );
     }
 
+    public void setPID(double kp, double ki, double kd){
+        new ProfiledPIDController(kp, ki, kd, RobotMap.telescopicArm.extender.CONSTRAINTS);
+    }
+
     @Override
     public void periodic() {
         state = getHypotheticalState(getLength());
@@ -73,21 +79,27 @@ public class Extender extends GBSubsystem {
     }
 
 
-    public static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
-        return getStaticFeedForward(elbowAngle) +
+    public void calculateFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
+        this.calaculatedFeedForword = getStaticFeedForward(elbowAngle) +
                 RobotMap.telescopicArm.extender.kS * Math.signum(wantedSpeed) +
                 RobotMap.telescopicArm.extender.kV * wantedSpeed +
                 RobotMap.telescopicArm.extender.kA * wantedAcceleration;
     }
 
+    public double getFeedForward(){
+        return calaculatedFeedForword;
+    }
+
     public static double getStaticFeedForward (double elbowAngle){
         return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG ;
     }
+
     private void setLengthByPID(double lengthInMeters) {;
         profiledPIDController.reset(getLength());
         profiledPIDController.setGoal(lengthInMeters);
-        double feedForward = getFeedForward(
+        calculateFeedForward(
                 profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(),Elbow.getInstance().getAngle());
+        double feedForward = getFeedForward();
         motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
     }
 
