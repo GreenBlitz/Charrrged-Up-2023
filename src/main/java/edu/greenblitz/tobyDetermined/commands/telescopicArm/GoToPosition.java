@@ -11,13 +11,15 @@ public class GoToPosition extends SequentialCommandGroup {
 
     public GoToPosition(double lengthInMeters, double angleInRads) {
         //if the extender is inside the robot.
-        if(Extender.getHypotheticalState(lengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH || Elbow.getInstance().isInTheSameState(angleInRads)){
+        if(Extender.getHypotheticalState(lengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH
+                || Elbow.getInstance().isInTheSameState(angleInRads)){
             addCommands(new RotateToAngle(angleInRads).alongWith(new ExtendToLength(lengthInMeters)));
         }
         //if the desired position needs to pass through the entrance zone and the extension to long the movement is split to multiple parts
         else{
             //if the elbow is outside the robot, and you want it in your belly(yummy yummy)
-            if(Elbow.getInstance().state == Elbow.ElbowState.OUT_ROBOT && Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.IN_BELLY){
+            if(Elbow.getInstance().state == Elbow.ElbowState.OUT_ROBOT &&
+                    Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.IN_BELLY){
                 addCommands(
                         new ExtendToLength(
                                 Math.min(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH,lengthInMeters))
@@ -30,7 +32,8 @@ public class GoToPosition extends SequentialCommandGroup {
                         )
                 );
                 //if the elbow is in your belly(yummy yummy) and you want it outside the robot
-            }else if (Elbow.getInstance().state == Elbow.ElbowState.IN_BELLY && Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.OUT_ROBOT){
+            }else if (Elbow.getInstance().state == Elbow.ElbowState.IN_BELLY
+                    && Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.OUT_ROBOT){
                 addCommands(
                         new ExtendToLength(
                                 Math.min(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH,lengthInMeters))

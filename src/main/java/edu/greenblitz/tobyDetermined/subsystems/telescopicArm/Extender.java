@@ -14,7 +14,7 @@ public class Extender extends GBSubsystem {
 	
 	
 	private static ExtenderState state = ExtenderState.IN_ROBOT_BELLY_LENGTH;
-	
+	private boolean lastSwitchReading;
 	private ProfiledPIDController profiledPIDController;
 	private static Extender instance;
 	private GBSparkMax motor;
@@ -32,7 +32,7 @@ public class Extender extends GBSubsystem {
 	
 	private Extender() {
 		motor = new GBSparkMax(RobotMap.telescopicArm.extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.getEncoder().setPosition(RobotMap.telescopicArm.extender.STARTING_POS);
+		motor.getEncoder().setPosition(RobotMap.telescopicArm.extender.STARTING_POSITION);
 		motor.config(new GBSparkMax.SparkMaxConfObject()
 				.withPID(RobotMap.telescopicArm.extender.PID)
 				.withPositionConversionFactor(RobotMap.telescopicArm.extender.POSITION_CONVERSION_FACTOR)
@@ -122,8 +122,7 @@ public class Extender extends GBSubsystem {
 	public boolean getLimitSwitch() {
 		return motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
 	}
-	
-	private boolean lastSwitchReading;
+
 	
 	/**
 	 * @return whether the switch changed status from last periodic this is useful to reset at
@@ -132,7 +131,7 @@ public class Extender extends GBSubsystem {
 		return lastSwitchReading ^ getLimitSwitch();
 	}
 	
-	public void resetLength(int position) {
+	public void resetLength(double position) {
 			motor.getEncoder().setPosition(position);
 	}
 
