@@ -5,8 +5,6 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngle;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class GoToPosition extends SequentialCommandGroup {
@@ -18,7 +16,7 @@ public class GoToPosition extends SequentialCommandGroup {
         }
         //if the desired position needs to pass through the entrance zone and the extension to long the movement is split to multiple parts
         else{
-            
+            //if the elbow is outside the robot, and you want it in your belly(yummy yummy)
             if(Elbow.getInstance().state == Elbow.ElbowState.OUT_ROBOT && Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.IN_BELLY){
                 addCommands(
                         new ExtendToLength(
@@ -31,6 +29,7 @@ public class GoToPosition extends SequentialCommandGroup {
                                         .andThen(new ExtendToLength(lengthInMeters))
                         )
                 );
+                //if the elbow is in your belly(yummy yummy) and you want it outside the robot
             }else if (Elbow.getInstance().state == Elbow.ElbowState.IN_BELLY && Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.OUT_ROBOT){
                 addCommands(
                         new ExtendToLength(

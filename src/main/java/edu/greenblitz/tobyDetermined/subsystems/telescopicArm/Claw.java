@@ -68,6 +68,8 @@ public class Claw extends GBSubsystem {
 
     public enum ClawState{
         CUBE_MODE,
+        CUBE_IN,
+        CONE_IN,
         CONE_MODE;
     }
 }
