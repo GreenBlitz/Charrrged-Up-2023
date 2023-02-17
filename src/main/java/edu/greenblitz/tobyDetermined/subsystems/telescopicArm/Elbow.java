@@ -17,6 +17,7 @@ public class Elbow extends GBSubsystem {
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double lastSpeed;
+    ProfiledPIDController profiledPIDController;
 
     private double calculatedFeedForward;
 
@@ -47,7 +48,12 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
+        profiledPIDController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
         lastSpeed = 0;
+    }
+
+    public void setPID(double kp, double ki, double kd){
+        profiledPIDController = new ProfiledPIDController(kp, ki, kd, RobotMap.telescopicArm.elbow.CONSTRAINTS);
     }
 
     public void moveTowardsAngle(double angleInRads) {
@@ -58,7 +64,7 @@ public class Elbow extends GBSubsystem {
         }
 
         //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
-        // if its not short enough the arm will approach the start of the zone
+        // if it's not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
@@ -68,14 +74,13 @@ public class Elbow extends GBSubsystem {
     }
 
     public void setAngleByPID(double goalAngle) {
-        ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
-        pidController.reset(getAngle());
-        pidController.setGoal(goalAngle);
+        profiledPIDController.reset(getAngle());
+        profiledPIDController.setGoal(goalAngle);
         calculateFeedForward(
-                pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
+                profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
                 Extender.getInstance().getLength(), getAngle()
         );
-        motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, getCalculatedFeedForward());
+        motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, getCalculatedFeedForward());
     }
 
     public double getAngle() {
