@@ -2,14 +2,12 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 
 public class Elbow extends GBSubsystem {
@@ -32,30 +30,32 @@ public class Elbow extends GBSubsystem {
     }
 
     private Elbow() {
-        motor = new GBSparkMax(RobotMap.telescopicArm.elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(new GBSparkMax.SparkMaxConfObject()
-                .withPID(RobotMap.telescopicArm.elbow.PID)
+                .withPID(RobotMap.TelescopicArm.Elbow.PID)
                 .withIdleMode(CANSparkMax.IdleMode.kBrake)
-                .withRampRate(RobotMap.telescopicArm.elbow.MOTOR_RAMP_RATE)
-                .withCurrentLimit(RobotMap.telescopicArm.elbow.CURRENT_LIMIT)
+                .withRampRate(RobotMap.TelescopicArm.Elbow.MOTOR_RAMP_RATE)
+                .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
                 .withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
         );
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.POSITION_CONVERSION_FACTOR);
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.VELOCITY_CONVERSION_FACTOR);
+
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.POSITION_CONVERSION_FACTOR);
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.VELOCITY_CONVERSION_FACTOR);
+
         motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
 
         lastSpeed = 0;
     }
 
     public void moveTowardsAngle(double angleInRads) {
         // going out of bounds should not be allowed
-        if (Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
-            if(angleInRads <= RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT){
-                moveTowardsAngle(RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
-            }else if(angleInRads >= RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT){
-                moveTowardsAngle(RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
+        if (edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
+            if(angleInRads <= RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
+            }else if(angleInRads >= RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
             }else{
                 stop();
             }
@@ -66,20 +66,20 @@ public class Elbow extends GBSubsystem {
         //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
         // if its not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
-                Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
-            setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
+                edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.getInstance().getState() != edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.ExtenderState.IN_WALL_LENGTH){
+            setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE);
         }else {
             setAngleByPID(angleInRads);
         }
     }
 
     public void setAngleByPID(double goalAngle) {
-        ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
+        ProfiledPIDController pidController = RobotMap.TelescopicArm.Elbow.PID_CONTROLLER;
         pidController.reset(getAngle());
         pidController.setGoal(goalAngle);
         double feedForward = getFeedForward(
                 pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
-                Extender.getInstance().getLength(), getAngle()
+                edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.getInstance().getLength(), getAngle()
         );
         motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
     }
@@ -107,11 +107,11 @@ public class Elbow extends GBSubsystem {
         return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getVelocity();
     }
     public static ElbowState getHypotheticalState(double angleInRads) {
-        if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {
+        if (angleInRads > RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT) {
             return ElbowState.OUT_OF_BOUNDS;
-        } else if (angleInRads > RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE && angleInRads <RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
+        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE && angleInRads < RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
             return ElbowState.WALL_ZONE;
-        } else if (angleInRads > RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
+        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
             return ElbowState.OUT_ROBOT;
         }
         return ElbowState.IN_BELLY;
@@ -119,7 +119,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public boolean isAtAngle(double wantedAngle) {
-        return Math.abs(getAngle() - wantedAngle) <= RobotMap.telescopicArm.elbow.ANGLE_TOLERANCE;
+        return Math.abs(getAngle() - wantedAngle) <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
     }
 
     public boolean isInTheSameState(double wantedAng) {
@@ -128,11 +128,11 @@ public class Elbow extends GBSubsystem {
 
     public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
         double Kg = getStaticFeedForward(extenderLength,elbowAngle);
-        return Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
+        return Kg + RobotMap.TelescopicArm.Elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.TelescopicArm.Elbow.kV * wantedAngularSpeed + RobotMap.TelescopicArm.Elbow.kA * wantedAcc;
     }
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
-        return (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
-                / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
+        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
+                / RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
     }
 
     /*

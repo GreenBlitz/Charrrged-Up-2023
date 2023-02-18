@@ -32,37 +32,37 @@ public class Extender extends GBSubsystem {
 	}
 	
 	private Extender() {
-		motor = new GBSparkMax(RobotMap.telescopicArm.extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.getEncoder().setPosition(RobotMap.telescopicArm.extender.STARTING_LENGTH);
+		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
 		motor.config(new GBSparkMax.SparkMaxConfObject()
-				.withPID(RobotMap.telescopicArm.extender.PID)
-				.withPositionConversionFactor(RobotMap.telescopicArm.extender.POSITION_CONVERSION_FACTOR)
-				.withVelocityConversionFactor(RobotMap.telescopicArm.extender.VELOCITY_CONVERSION_FACTOR)
+				.withPID(RobotMap.TelescopicArm.Extender.PID)
+				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
 				.withIdleMode(CANSparkMax.IdleMode.kBrake)
-				.withRampRate(RobotMap.telescopicArm.extender.RAMP_RATE)
-				.withCurrentLimit(RobotMap.telescopicArm.extender.CURRENT_LIMIT)
+				.withRampRate(RobotMap.TelescopicArm.Extender.RAMP_RATE)
+				.withCurrentLimit(RobotMap.TelescopicArm.Extender.CURRENT_LIMIT)
 				.withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
 		);
 		motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).enableLimitSwitch(true);
-		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.extender.FORWARD_LIMIT);
+		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
 		
 		profiledPIDController = new ProfiledPIDController(
-				RobotMap.telescopicArm.extender.PID.getKp(),
-				RobotMap.telescopicArm.extender.PID.getKi(),
-				RobotMap.telescopicArm.extender.PID.getKd(),
-				RobotMap.telescopicArm.extender.CONSTRAINTS
+				RobotMap.TelescopicArm.Extender.PID.getKp(),
+				RobotMap.TelescopicArm.Extender.PID.getKi(),
+				RobotMap.TelescopicArm.Extender.PID.getKd(),
+				RobotMap.TelescopicArm.Extender.CONSTRAINTS
 
 		);
-		profiledPIDController.setTolerance(RobotMap.telescopicArm.extender.LENGTH_TOLERANCE);
+		profiledPIDController.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 		lastSwitchReading = getLimitSwitch();
 	}
 	
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
-		if (lengthInMeters > RobotMap.telescopicArm.extender.FORWARD_LIMIT || lengthInMeters < RobotMap.telescopicArm.extender.BACKWARDS_LIMIT) {
+		if (lengthInMeters > RobotMap.TelescopicArm.Extender.FORWARD_LIMIT || lengthInMeters < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT) {
 			return ExtenderState.OUT_OF_BOUNDS;
-		} else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH) {
+		} else if (lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH) {
 			return ExtenderState.IN_WALL_LENGTH;
-		} else if (lengthInMeters < RobotMap.telescopicArm.extender.MAX_LENGTH_IN_ROBOT) {
+		} else if (lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT) {
 			return ExtenderState.IN_ROBOT_BELLY_LENGTH;
 		} else {
 			return ExtenderState.OPEN;
@@ -72,20 +72,20 @@ public class Extender extends GBSubsystem {
 	
 	public static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
 		return getStaticFeedForward(elbowAngle) +
-				RobotMap.telescopicArm.extender.kS * Math.signum(wantedSpeed) +
-				RobotMap.telescopicArm.extender.kV * wantedSpeed +
-				RobotMap.telescopicArm.extender.kA * wantedAcceleration;
+				RobotMap.TelescopicArm.Extender.kS * Math.signum(wantedSpeed) +
+				RobotMap.TelescopicArm.Extender.kV * wantedSpeed +
+				RobotMap.TelescopicArm.Extender.kA * wantedAcceleration;
 	}
 	
 	public static double getStaticFeedForward(double elbowAngle) {
-		return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG;
+		return Math.sin(elbowAngle - RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
 	}
 	
 	private void setLengthByPID(double lengthInMeters) {
 		profiledPIDController.reset(getLength());
 		profiledPIDController.setGoal(lengthInMeters);
 		double feedForward = getFeedForward(
-				profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngle());
+				profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(), edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getInstance().getAngle());
 		motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
 	}
 	
@@ -97,9 +97,9 @@ public class Extender extends GBSubsystem {
 			return;
 		}
 		// arm should not extend to open state when inside the belly (would hit chassis)
-		if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
-			setLengthByPID(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH);
-		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(lengthInMeters) != ExtenderState.IN_WALL_LENGTH) {
+		if (edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getInstance().getState() == edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.ElbowState.IN_BELLY && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
+			setLengthByPID(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
+		}else if (edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getInstance().getState() == edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.ElbowState.WALL_ZONE && getHypotheticalState(lengthInMeters) != ExtenderState.IN_WALL_LENGTH) {
 			// arm should not extend too much in front of the wall
 			stop();
 		} else {

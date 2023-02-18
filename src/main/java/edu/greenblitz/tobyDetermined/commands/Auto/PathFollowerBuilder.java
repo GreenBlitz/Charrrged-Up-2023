@@ -5,7 +5,6 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.DelayAndDisplayCommand;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
@@ -55,7 +54,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
     public CommandBase followPath(String pathName) {
 
         PathPlannerTrajectory path;
-        switch (RobotMap.robotName){
+        switch (RobotMap.ROBOT_NAME){
             case pegaSwerve:
                 path = PathPlanner.loadPath(
                         pathName, new PathConstraints(

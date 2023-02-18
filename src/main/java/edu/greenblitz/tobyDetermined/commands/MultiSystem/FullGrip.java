@@ -14,16 +14,18 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class FullGrip extends SequentialCommandGroup {
 
     public FullGrip() {
+        //FIRST -> open the gripper and run it until an object is inside, along with to change the arm position
         addCommands(
                 new ParallelCommandGroup(
                         new ExtendRoller().alongWith(new RunRoller())
                                 .until(() -> RotatingBelly.getInstance().isObjectIn() || IntakeRoller.getInstance().isObjectIn()),
                         new RotateOutDoorDirection())
+                        .alongWith(  new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_DROP_POSITION))
         );
 
+        //throw the object
         addCommands(
-                new GoToPosition(RobotMap.telescopicArm.presetPositions.INTAKE_DROP_POSITION)
-                        .andThen(new RetractRoller())
+            new RetractRoller()
         );
     }
 

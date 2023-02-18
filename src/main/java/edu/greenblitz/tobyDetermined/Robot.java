@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	private static void initPortForwarding() {
-		for (int port:RobotMap.Vision.portNumbers) {
+		for (int port:RobotMap.Vision.PORT_NUMBERS) {
 			PortForwarder.add(port, "photonvision.local", port);
 		}
 	}

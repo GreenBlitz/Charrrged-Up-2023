@@ -7,16 +7,18 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyGameObjectSensor;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class GetObjectToClaw extends SequentialCommandGroup {
 
+    /**
+     * rotates the object to the right place and grip with claw
+     * */
     public GetObjectToClaw() {
+        //move the arm to grabbing position and rotate the belly and grub the object
         addCommands(
-                new GoToPosition(RobotMap.telescopicArm.presetPositions.INTAKE_GRAB_POSITION)
+                new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION)
                         .alongWith(
                                 new ConditionalCommand(
                                         new AlignObject(),new StopBelly(),

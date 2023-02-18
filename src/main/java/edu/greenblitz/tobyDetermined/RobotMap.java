@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class RobotMap {
-    public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
+    public static final Robot.robotName ROBOT_NAME = Robot.robotName.pegaSwerve;
 
     public static class General {
 
-        public final static double minVoltageBattery = 11.97;
+        public final static double MIN_VOLTAGE_BATTERY = 11.97;
         public final static double VOLTAGE_COMP_VAL = 11.5;
         public final static double RAMP_RATE_VAL = 0.4;
 
@@ -58,11 +58,11 @@ public class RobotMap {
     }
 
     public static class Vision {
-        public static double standardDeviationOdometry = 0.001;
-        public static double standardDeviationVision2d = 0.3;
-        public static double standardDeviationVisionAngle = 0.1;
-        public static final int[] portNumbers = {5800, 5801, 5802, 5803, 5804, 5805};
-        public static final Transform3d RobotToCamera = new Transform3d(new Translation3d(), new Rotation3d());
+        public static double STANDARD_DEVIATION_ODOMETRY = 0.001;
+        public static double STANDARD_DEVIATION_VISION2D = 0.3;
+        public static double STANDARD_DEVIATION_VISION_ANGLE = 0.1;
+        public static final int[] PORT_NUMBERS = {5800, 5801, 5802, 5803, 5804, 5805};
+        public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(new Translation3d(), new Rotation3d());
 
     }
 
@@ -216,7 +216,7 @@ public class RobotMap {
 
     public static class RotatingBelly {
         public static final int MOTOR_ID = 0;
-        public static final double ROTATING_POWER = 0.5;
+        public static final double ROTATING_MOTOR_POWER = 0.5;
         public static final int MACRO_SWITCH_PORT = 0;
 
         public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
@@ -225,10 +225,10 @@ public class RobotMap {
 
     }
 
-    public static class telescopicArm {
+    public static class TelescopicArm {
 
 
-        public enum presetPositions {
+        public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
             CONE_HIGH(0.5, 45),
@@ -243,14 +243,14 @@ public class RobotMap {
             public final double distance;
             public final double angleInRadians;
 
-            presetPositions(double distance, double angle) {
+            PresetPositions(double distance, double angle) {
                 this.distance = distance;
                 this.angleInRadians = Units.degreesToRadians(angle);
 
             }
         }
 
-        public static class extender {
+        public static class Extender {
             public static final int MOTOR_ID = -1;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
@@ -282,7 +282,7 @@ public class RobotMap {
             public static final int CURRENT_LIMIT = 30;
         }
 
-        public static class claw {
+        public static class Claw {
             public static final int MOTOR_ID = 0;
             public static final int SOLENOID_OPEN_CLAW_ID = 0;
             public static final int SOLENOID_CLOSED_CLAW_ID = 0;
@@ -290,7 +290,7 @@ public class RobotMap {
             public static final double TIME_OF_GRIP_CONSTANT = 2;
         }
 
-        public static class elbow {
+        public static class Elbow {
             public static final int MOTOR_ID = 1;
             public static final double GEAR_RATIO = 1;
 

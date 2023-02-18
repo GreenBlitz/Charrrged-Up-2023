@@ -19,10 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
 public class SwerveChassis extends GBSubsystem {
 
 	private static SwerveChassis instance;
@@ -53,8 +49,8 @@ public class SwerveChassis extends GBSubsystem {
 				getPigeonAngle(),
 				getSwerveModulePositions(),
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
-				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry),
-				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVisionAngle));
+				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY),
+				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		SmartDashboard.putData("field", getField());
 		field.getObject("apriltag").setPose(Field.Apriltags.redApriltagLocationId1.toPose2d());
 	}

@@ -5,15 +5,18 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class GripCube extends ClawCommand {
 
+    Timer timer;
     @Override
     public void initialize() {
         claw.cubeCatchMode();
         claw.motorGrip();
+        timer = new Timer();
+        timer.start();
     }
 
     @Override
     public boolean isFinished() {
-        Timer.delay(RobotMap.telescopicArm.claw.TIME_OF_GRIP_CONSTANT);
+        Timer.delay(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
         return true;
     }
 
