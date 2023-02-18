@@ -4,9 +4,8 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
 public class RotateObjectToDoor extends RotatingBellyCommand {
-    private static double timeToEnd = 3;
     public RotateObjectToDoor(double timeToEndSeconds){
-        timeToEnd = timeToEndSeconds;
+        RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME = timeToEndSeconds;
     }
 
     public RotateObjectToDoor(){}
@@ -18,7 +17,7 @@ public class RotateObjectToDoor extends RotatingBellyCommand {
 
     @Override
     public boolean isFinished() {
-        Timer.delay(timeToEnd);
+        Timer.delay(RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME);
         return true;
     }
 
