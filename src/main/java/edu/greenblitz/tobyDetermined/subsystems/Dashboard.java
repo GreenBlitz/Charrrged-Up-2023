@@ -1,9 +1,14 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngle;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -31,6 +36,7 @@ public class Dashboard extends GBSubsystem {
 	private Dashboard() {
 		driversDashboard();
 		swerveDashboard();
+		armDashboard();
 	}
 
 	@Override
@@ -51,7 +57,7 @@ public class Dashboard extends GBSubsystem {
 		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngle()).withPosition(1, 1);
 
 		//arm state
-		driversTab.addString("Arm state", ()-> "doesn't exist").withPosition(4,2).withSize(1,2);
+		driversTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
 
 		//grid todo make it mirror by alliance
 		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid)
@@ -60,8 +66,8 @@ public class Dashboard extends GBSubsystem {
 			for (Grid.Height height : Grid.Height.values()) {
 				int finalI = i;
 				int finalHeight = height.ordinal();
-				grid.addBoolean(i+1 + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI))
-						.withPosition(finalI,2 - finalHeight);
+				grid.addBoolean(i + 1 + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI))
+						.withPosition(finalI, 2 - finalHeight);
 			}
 		}
 
@@ -77,22 +83,88 @@ public class Dashboard extends GBSubsystem {
 				.withPosition(9, 3);
 
 		//object inside
-		driversTab.addString("Object inside", /*()->RotatingBelly.getInstance().getGameObject().toString()*/()-> "robot does not exist")
-				.withSize(1,1).withPosition(2,2);
+		driversTab.addString("Object inside", /*()->RotatingBelly.getInstance().getGameObject().toString()*/() -> "robot does not exist")
+				.withSize(1, 1).withPosition(2, 2);
 
 		//field
-		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5,2).withSize(3,2);
+		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5, 2).withSize(3, 2);
 
 
 		//console
 		ShuffleboardLayout console =Console.getShuffleboardConsole(driversTab)
 				.withPosition(8,0).withSize(2,3).withProperties(Map.of("Label position", "TOP"));
 
+
 		//ready to place
-		driversTab.addBoolean("Ready to place", ()->false).withPosition(3,2).withSize(1,2);
+		driversTab.addBoolean("Ready to place", () -> false).withPosition(3, 2).withSize(1, 2);
 		//todo check if at place and arm in pos
 
 
+	}
+
+	public void armDashboard() {
+		ShuffleboardTab armTab = Shuffleboard.getTab("Arm debug");
+
+		//arm states
+		ShuffleboardLayout armStateWidget = armTab.getLayout("Arm states", BuiltInLayouts.kGrid)
+				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
+		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
+		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
+		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngle()).withPosition(1, 1);
+
+		//arm state
+		armTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
+
+
+		//extender length
+		armTab.addDouble("Extender length", () -> Extender.getInstance().getLength());
+
+		//extender state
+		armTab.addString("Extender state", () -> String.valueOf(Extender.getInstance().getState()));
+
+		//extender ff
+		armTab.addDouble("Extender ff", () -> Extender.getInstance().getFeedForward());
+
+		//moves to length from dashboard input
+		GenericEntry length = armTab.add("Desired length", 0).getEntry();
+		new ExtendToLength(length.getDouble(0)).schedule();
+
+		//set extender kp
+		GenericEntry extenderKp = armTab.add("Desired kp extender", RobotMap.telescopicArm.extender.PID.getKp()).getEntry();
+
+		//set extender ki
+		GenericEntry extenderKi = armTab.add("Desired ki extender", RobotMap.telescopicArm.extender.PID.getKi()).getEntry();
+
+		//set extender kd
+		GenericEntry extenderKd = armTab.add("Desired kd extender", RobotMap.telescopicArm.extender.PID.getKd()).getEntry();
+
+		Extender.getInstance().setPID(extenderKp.getDouble(0), extenderKi.getDouble(0), extenderKd.getDouble(0));
+
+
+		//elbow angle
+		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngle());
+
+		//elbow state
+		armTab.addString("Elbow state", ()-> String.valueOf(Elbow.getInstance().getState()));
+
+		//elbow ff
+		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getCalculatedFeedForward());
+
+		//moves to length from dashboard input
+		GenericEntry angle = armTab.add("Desired angle", 0).getEntry();
+		new RotateToAngle(length.getDouble(0));
+
+		//set elbow kp
+		GenericEntry elbowKp = armTab.add("Desired kp elbow", RobotMap.telescopicArm.elbow.PID.getKp()).getEntry();
+
+		//set elbow ki
+		GenericEntry elbowKi = armTab.add("Desired ki elbow", RobotMap.telescopicArm.elbow.PID.getKi()).getEntry();
+
+		//set elbow kd
+		GenericEntry elbowKd = armTab.add("Desired kd elbow", RobotMap.telescopicArm.elbow.PID.getKd()).getEntry();
+
+		Elbow.getInstance().setPID(elbowKp.getDouble(0), elbowKi.getDouble(0), elbowKd.getDouble(0));
 	}
 
 	public void swerveDashboard() {
