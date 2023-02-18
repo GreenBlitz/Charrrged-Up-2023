@@ -9,6 +9,8 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.sql.PreparedStatement;
+
 
 public class Elbow extends GBSubsystem {
 
@@ -16,7 +18,9 @@ public class Elbow extends GBSubsystem {
     private static Elbow instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
+    private ProfiledPIDController profiledPIDController;
     private double lastSpeed;
+    private double debugLastFF;
 
     public static Elbow getInstance() {
         if (instance == null) {
@@ -32,7 +36,6 @@ public class Elbow extends GBSubsystem {
 
     private Elbow() {
         motor = new GBSparkMax(RobotMap.telescopicArm.elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
         motor.config(new GBSparkMax.SparkMaxConfObject()
                 .withPID(RobotMap.telescopicArm.elbow.PID)
                 .withPositionConversionFactor(RobotMap.telescopicArm.elbow.CONVERSION_FACTOR)
@@ -45,7 +48,21 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
+        profiledPIDController = new ProfiledPIDController(
+                RobotMap.telescopicArm.elbow.PID.getKp(),
+                RobotMap.telescopicArm.elbow.PID.getKi(),
+                RobotMap.telescopicArm.elbow.PID.getKd(),
+                RobotMap.telescopicArm.elbow.CONSTRAINTS
+        );
+
         lastSpeed = 0;
+    }
+
+    @Override
+    public void periodic() {
+        state = getHypotheticalState(getAngle());
+        lastSpeed = getVelocity();
+
     }
 
     public void moveTowardsAngle(double angleInRads) {
@@ -74,6 +91,7 @@ public class Elbow extends GBSubsystem {
                 Extender.getInstance().getLength(), getAngle()
         );
         motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        debugLastFF = feedForward;
     }
 
     public double getAngle() {
@@ -88,16 +106,10 @@ public class Elbow extends GBSubsystem {
         motor.set(0);
     }
 
-    @Override
-    public void periodic() {
-        state = getHypotheticalState(getAngle());
-        lastSpeed = getVelocity();
-
-    }
-
     public double getVelocity (){
         return motor.getEncoder().getVelocity();
     }
+
     public static ElbowState getHypotheticalState(double angleInRads) {
         if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {
             return ElbowState.OUT_OF_BOUNDS;
@@ -125,6 +137,14 @@ public class Elbow extends GBSubsystem {
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
         return (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
                 / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
+    }
+
+    public double getDebugLastFF(){
+        return getDebugLastFF();
+    }
+
+    public ProfiledPIDController getPIDController(){
+        return profiledPIDController;
     }
 
     /*

@@ -116,7 +116,6 @@ public class Dashboard extends GBSubsystem {
 		//arm state
 		armTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
 
-
 		//extender length
 		armTab.addDouble("Extender length", () -> Extender.getInstance().getLength());
 
@@ -124,23 +123,10 @@ public class Dashboard extends GBSubsystem {
 		armTab.addString("Extender state", () -> String.valueOf(Extender.getInstance().getState()));
 
 		//extender ff
-		armTab.addDouble("Extender ff", () -> Extender.getInstance().getFeedForward());
+		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
-		//moves to length from dashboard input
-		GenericEntry length = armTab.add("Desired length", 0).getEntry();
-		new ExtendToLength(length.getDouble(0)).schedule();
-
-		//set extender kp
-		GenericEntry extenderKp = armTab.add("Desired kp extender", RobotMap.telescopicArm.extender.PID.getKp()).getEntry();
-
-		//set extender ki
-		GenericEntry extenderKi = armTab.add("Desired ki extender", RobotMap.telescopicArm.extender.PID.getKi()).getEntry();
-
-		//set extender kd
-		GenericEntry extenderKd = armTab.add("Desired kd extender", RobotMap.telescopicArm.extender.PID.getKd()).getEntry();
-
-		Extender.getInstance().setPID(extenderKp.getDouble(0), extenderKi.getDouble(0), extenderKd.getDouble(0));
-
+		//extender PID
+		armTab.add(Extender.getInstance().getPIDOController());
 
 		//elbow angle
 		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngle());
@@ -149,22 +135,10 @@ public class Dashboard extends GBSubsystem {
 		armTab.addString("Elbow state", ()-> String.valueOf(Elbow.getInstance().getState()));
 
 		//elbow ff
-		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getCalculatedFeedForward());
+		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
 
-		//moves to length from dashboard input
-		GenericEntry angle = armTab.add("Desired angle", 0).getEntry();
-		new RotateToAngle(length.getDouble(0));
-
-		//set elbow kp
-		GenericEntry elbowKp = armTab.add("Desired kp elbow", RobotMap.telescopicArm.elbow.PID.getKp()).getEntry();
-
-		//set elbow ki
-		GenericEntry elbowKi = armTab.add("Desired ki elbow", RobotMap.telescopicArm.elbow.PID.getKi()).getEntry();
-
-		//set elbow kd
-		GenericEntry elbowKd = armTab.add("Desired kd elbow", RobotMap.telescopicArm.elbow.PID.getKd()).getEntry();
-
-		Elbow.getInstance().setPID(elbowKp.getDouble(0), elbowKi.getDouble(0), elbowKd.getDouble(0));
+		//elbow PID
+		armTab.add(Elbow.getInstance().getPIDController());
 	}
 
 	public void swerveDashboard() {

@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Extender extends GBSubsystem {
 
 
-    private static ExtenderState state = ExtenderState.IN_ROBOT_BELLY_LENGTH;
 
-    private ProfiledPIDController profiledPIDController;
     private static Extender instance;
+    private static ExtenderState state = ExtenderState.IN_ROBOT_BELLY_LENGTH;
     private GBSparkMax motor;
+    private ProfiledPIDController profiledPIDController;
+    private double lastSpeed;
+    private double debugLastFF;
 
     public static Extender getInstance() {
         if (instance == null) {
@@ -32,7 +34,6 @@ public class Extender extends GBSubsystem {
 
     private Extender() {
         motor = new GBSparkMax(RobotMap.telescopicArm.extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.getEncoder().setPosition(0); //maybe absolute encoder+*
         motor.config(new GBSparkMax.SparkMaxConfObject()
                 .withPID(RobotMap.telescopicArm.extender.PID)
                 .withPositionConversionFactor(RobotMap.telescopicArm.extender.CONVERSION_FACTOR)
@@ -41,9 +42,9 @@ public class Extender extends GBSubsystem {
                 .withCurrentLimit(RobotMap.telescopicArm.extender.CURRENT_LIMIT)
                 .withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
         );
+        motor.getEncoder().setPosition(0); //maybe absolute encoder+*
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.extender.BACKWARDS_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.extender.FORWARD_LIMIT);
-
 
         profiledPIDController = new ProfiledPIDController(
                 RobotMap.telescopicArm.extender.PID.getKp(),
@@ -51,12 +52,14 @@ public class Extender extends GBSubsystem {
                 RobotMap.telescopicArm.extender.PID.getKd(),
                 RobotMap.telescopicArm.extender.CONSTRAINTS
         );
+
+        lastSpeed = 0;
     }
 
     @Override
     public void periodic() {
         state = getHypotheticalState(getLength());
-
+        lastSpeed = getVelocity();
     }
 
     public static ExtenderState getHypotheticalState(double lengthInMeters) {
@@ -89,6 +92,7 @@ public class Extender extends GBSubsystem {
         double feedForward = getFeedForward(
                 profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(),Elbow.getInstance().getAngle());
         motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        debugLastFF = feedForward;
     }
 
     public void moveTowardsLength(double lengthInMeters) {
@@ -122,6 +126,19 @@ public class Extender extends GBSubsystem {
     public void stop() {
         motor.set(0);
     }
+
+    public double getVelocity(){
+        return motor.getEncoder().getVelocity();
+    }
+
+    public double getDebugLastFF(){
+        return debugLastFF;
+    }
+
+    public ProfiledPIDController getPIDOController(){
+        return profiledPIDController;
+    }
+
 
     public enum ExtenderState {
         //see elbow state first
