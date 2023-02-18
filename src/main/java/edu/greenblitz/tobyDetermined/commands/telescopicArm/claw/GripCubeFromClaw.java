@@ -1,22 +1,25 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.wpi.first.wpilibj.Timer;
 
-public class GripFromClaw extends ClawCommand {
-    private static final double timeOfGripConstant = 2;
+public class GripCubeFromClaw extends ClawCommand {
     private double gripTime;
 
-    public GripFromClaw (double gripTime){
+    public GripCubeFromClaw(double gripTime){
         this.gripTime = gripTime;
     }
 
-    public GripFromClaw(){
-        gripTime = timeOfGripConstant;
+    public GripCubeFromClaw(){
+        gripTime = RobotMap.telescopicArm.claw.TIME_OF_GRIP_CONSTANT;
     }
 
     @Override
     public void initialize() {
-        claw.grip();
+        claw.cubeCatchMode();
+        claw.state = Claw.ClawState.CUBE_IN;
+        claw.motorGrip();
     }
 
     @Override

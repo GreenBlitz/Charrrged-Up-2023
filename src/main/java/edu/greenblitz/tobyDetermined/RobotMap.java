@@ -216,7 +216,7 @@ public class RobotMap {
     }
 
     public static class RotatingBelly {
-        public static final int MOTOR_ID = 0;
+        public static final int MOTOR_ID = 22;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_PORT = 0;
 
@@ -244,11 +244,11 @@ public class RobotMap {
         }
 
         public static class extender {
-            public static final int MOTOR_ID = -1;
+            public static final int MOTOR_ID = 20;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
-
+            public static final double STARTING_POSITION = 0;
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
             public static final double DISTANCE_BETWEEN_HOLES = 6.35;
@@ -258,7 +258,8 @@ public class RobotMap {
             public static final PIDObject PID = new PIDObject();
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
-            public static final double CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
+            public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
+            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR/60 ;
             public static final double RAMP_RATE = 2;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
 
@@ -275,12 +276,17 @@ public class RobotMap {
 
         public static class claw {
             public static final int MOTOR_ID = 0;
+            public static final int SOLENOID_OPEN_CLAW_ID = 0;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
+            public static final double MOTOR_POWER_GRIP = 0.3;
+            public static final double MOTOR_POWER_RELEASE = -0.3;
 
+            public static final double TIME_OF_GRIP_CONSTANT = 2;
         }
 
         public static class elbow {
-            public static final int MOTOR_ID = 1;
+            public static final int MOTOR_ID = 21;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;
@@ -298,7 +304,8 @@ public class RobotMap {
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
 
 
-            public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
+            public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
+            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
 
             public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
@@ -309,6 +316,8 @@ public class RobotMap {
 
 
             public static final int CURRENT_LIMIT = 40;
+            
+            public static final int ABSOLUTE_ENCODER_CHANNEL = 1;
         }
     }
 
