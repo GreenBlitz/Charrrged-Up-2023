@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
@@ -64,6 +65,10 @@ public class Extender extends GBSubsystem {
         lastSpeed = getVelocity();
         lastSwitchReading = getLimitSwitch();
 
+    }
+
+    public void updatePIDController(double kp, double ki, double kd){
+        profiledPIDController.setPID(kp,ki,kd);
     }
 
     public static ExtenderState getHypotheticalState(double lengthInMeters) {
@@ -161,8 +166,12 @@ public class Extender extends GBSubsystem {
         return debugLastFF;
     }
 
-    public ProfiledPIDController getPIDOController(){
+    public ProfiledPIDController getPIDController(){
         return profiledPIDController;
+    }
+
+    public void setPID(double kp, double ki, double kd){
+        getPIDController().setPID(kp,ki,kd);
     }
 
 

@@ -5,9 +5,11 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -67,6 +69,10 @@ public class Elbow extends GBSubsystem {
         state = getHypotheticalState(getAngle());
         lastSpeed = getVelocity();
 
+    }
+
+    public void updatePIDController(double kp, double ki, double kd){
+        profiledPIDController.setPID(kp,ki,kd);
     }
 
     public void moveTowardsAngle(double angleInRads) {
@@ -157,6 +163,10 @@ public class Elbow extends GBSubsystem {
 
     public ProfiledPIDController getPIDController(){
         return profiledPIDController;
+    }
+
+    public void setPID(double kp, double ki, double kd){
+        getPIDController().setPID(kp,ki,kd);
     }
 
     /*

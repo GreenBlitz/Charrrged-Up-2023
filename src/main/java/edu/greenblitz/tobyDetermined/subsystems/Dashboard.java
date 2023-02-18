@@ -1,9 +1,17 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.utils.PIDObject;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -37,7 +45,8 @@ public class Dashboard extends GBSubsystem {
 
 	@Override
 	public void periodic() {
-
+		Elbow.getInstance().updatePIDController(elbowController.getP(),elbowController.getI(),elbowController.getD());
+		Extender.getInstance().updatePIDController(extenderController.getP(),extenderController.getI(),extenderController.getD());
 	}
 
 	public void driversDashboard() {
@@ -97,9 +106,11 @@ public class Dashboard extends GBSubsystem {
 
 	}
 
+
+	PIDController extenderController = new PIDController(Extender.getInstance().getPIDController().getP(),Extender.getInstance().getPIDController().getI(),Extender.getInstance().getPIDController().getD());
+	PIDController elbowController = new PIDController(Elbow.getInstance().getPIDController().getP(),Elbow.getInstance().getPIDController().getI(),Elbow.getInstance().getPIDController().getD());
 	public void armDashboard() {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm debug");
-
 		//arm states
 		ShuffleboardLayout armStateWidget = armTab.getLayout("Arm states", BuiltInLayouts.kGrid)
 				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
@@ -120,9 +131,6 @@ public class Dashboard extends GBSubsystem {
 		//extender ff
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
-		//extender PID
-		armTab.add(Extender.getInstance().getPIDOController());
-
 		//elbow angle
 		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngle());
 
@@ -132,8 +140,8 @@ public class Dashboard extends GBSubsystem {
 		//elbow ff
 		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
 
-		//elbow PID
-		armTab.add(Elbow.getInstance().getPIDController());
+		armTab.add("extenderPID" , extenderController);
+		armTab.add("elbowPID", elbowController);
 	}
 
 	public void swerveDashboard() {
