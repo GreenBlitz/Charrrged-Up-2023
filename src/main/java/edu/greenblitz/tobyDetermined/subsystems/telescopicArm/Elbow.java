@@ -152,7 +152,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public double getDebugLastFF(){
-        return getDebugLastFF();
+        return debugLastFF;
     }
 
     public ProfiledPIDController getPIDController(){
