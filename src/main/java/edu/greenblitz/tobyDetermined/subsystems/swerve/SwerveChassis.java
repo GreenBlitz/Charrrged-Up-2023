@@ -23,6 +23,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 public class SwerveChassis extends GBSubsystem {
 
     private static SwerveChassis instance;
@@ -201,7 +205,25 @@ public class SwerveChassis extends GBSubsystem {
 				angSpeed,
 				Rotation2d.fromDegrees(Math.toDegrees(currentAng)));
 		SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
-		setModuleStates(states);
+		SwerveModuleState[] desaturatedStates = desaturateSwerveModuleStates(states);
+		setModuleStates(desaturatedStates);
+	}
+
+	/**
+	 * makes sure no module is requested to move faster than possible by linearly scaling all module velocities to comply with the constraint
+	 * @param states original velocity states computed from the kinematics
+	 * @return states that create the same ratio between speeds but scaled down
+	 */
+	private static SwerveModuleState[] desaturateSwerveModuleStates(SwerveModuleState[] states){
+		double desaturationFactor = 1;
+		for (SwerveModuleState state : states){
+			desaturationFactor = Math.max(desaturationFactor, state.speedMetersPerSecond / RobotMap.Swerve.MAX_VELOCITY);
+		}
+		SwerveModuleState[] desaturatedStates = new SwerveModuleState[states.length];
+		for (int i = 0; i < states.length; i++){
+			desaturatedStates[i] = new SwerveModuleState(states[i].speedMetersPerSecond / desaturationFactor, states[i].angle);
+		}
+		return desaturatedStates;
 	}
 	
 	public ChassisSpeeds getChassisSpeeds() {

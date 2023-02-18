@@ -9,8 +9,6 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -18,8 +16,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class RobotMap {
 	public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
@@ -219,11 +215,15 @@ public class RobotMap {
 
     }
 
-
     public static class RotatingBelly {
         public static final int MOTOR_ID = 0;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_PORT = 0;
+
+        public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
+        public static double ROTATE_TO_DOOR_TIME = 3;
+
+
     }
     public static class telescopicArm {
 
@@ -294,8 +294,8 @@ public class RobotMap {
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
             public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-            public static final double STARTING_WALL_ZONE_ANGLE = 67;
-            public static final double END_WALL_ZONE_ANGLE = 70;
+            public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(67);
+            public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
 
 
             public static final double CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
