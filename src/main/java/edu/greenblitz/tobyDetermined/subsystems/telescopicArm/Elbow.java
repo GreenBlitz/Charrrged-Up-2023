@@ -20,6 +20,9 @@ public class Elbow extends GBSubsystem {
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double lastSpeed;
+    ProfiledPIDController profiledPIDController;
+
+    private double calculatedFeedForward;
 
     public static Elbow getInstance() {
         if (instance == null) {
@@ -48,7 +51,12 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
+        profiledPIDController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
         lastSpeed = 0;
+    }
+
+    public void setPID(double kp, double ki, double kd){
+        profiledPIDController = new ProfiledPIDController(kp, ki, kd, RobotMap.telescopicArm.elbow.CONSTRAINTS);
     }
 
     public void moveTowardsAngle(double angleInRads) {
@@ -66,7 +74,7 @@ public class Elbow extends GBSubsystem {
         }
 
         //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
-        // if its not short enough the arm will approach the start of the zone
+        // if it's not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
@@ -76,15 +84,13 @@ public class Elbow extends GBSubsystem {
     }
 
     public void setAngleByPID(double goalAngle) {
-        ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
-        pidController.reset(getAngle());
-        pidController.setGoal(goalAngle);
-        double feedForward = getFeedForward(
-                pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
+        profiledPIDController.reset(getAngle());
+        profiledPIDController.setGoal(goalAngle);
+        calculateFeedForward(
+                profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
                 Extender.getInstance().getLength(), getAngle()
         );
-        SmartDashboard.putNumber("Elbow FF", feedForward);  //todo - its for debugging, remove when done
-        motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, getCalculatedFeedForward());
     }
 
     public double getAngle() {
@@ -129,10 +135,15 @@ public class Elbow extends GBSubsystem {
         return getHypotheticalState(getAngle()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) != ElbowState.OUT_OF_BOUNDS;
     }
 
-    public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
+    public void calculateFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength, double elbowAngle) {
         double Kg = getStaticFeedForward(extenderLength,elbowAngle);
-        return Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
+        this.calculatedFeedForward = Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
     }
+
+    public double getCalculatedFeedForward(){
+        return this.calculatedFeedForward;
+    }
+
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
         return (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
                 / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);

@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveToGrid;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
@@ -60,6 +61,11 @@ public class OI { //GEVALD
 		mainJoystick.A.onTrue(new ExtendRoller());
 		mainJoystick.B.onTrue(new RetractRoller());
 		mainJoystick.START.onTrue(new ToggleRoller());
+
+		secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+		secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+		secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+		secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
 	}
 
 	public SmartJoystick getMainJoystick() {

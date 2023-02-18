@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Extender extends GBSubsystem {
+
 	
 	
 	private static ExtenderState state = ExtenderState.IN_ROBOT_BELLY_LENGTH;
@@ -169,6 +170,7 @@ public class Extender extends GBSubsystem {
 		lastSwitchReading = getLimitSwitch();
 	}
 	
+
 }
 
 
