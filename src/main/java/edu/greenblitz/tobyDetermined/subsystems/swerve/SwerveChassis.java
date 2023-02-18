@@ -3,7 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.LimeLight;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
 import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.math.MatBuilder;
@@ -262,11 +262,15 @@ public class SwerveChassis extends GBSubsystem {
 
 	public void updatePoseEstimationLimeLight() {
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
-		LimeLight.getInstance().getUpdatedPoseEstimator().ifPresent((Pair<Pose2d, Double> poseAndTimeStamp) -> poseEstimator.addVisionMeasurement(poseAndTimeStamp.getFirst(), poseAndTimeStamp.getSecond()));
+		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((Pair<Pose2d, Double> poseAndTimeStamp) -> poseEstimator.addVisionMeasurement(poseAndTimeStamp.getFirst(), poseAndTimeStamp.getSecond()));
 	}
 
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
+	}
+
+	public void resetVisionStd(){
+		poseEstimator.resetPosition(getPigeonAngle(),getSwerveModulePositions(),Limelight.getInstance().getUpdatedPoseEstimator().get().getFirst());
 	}
 	
 	public Sendable getField() {

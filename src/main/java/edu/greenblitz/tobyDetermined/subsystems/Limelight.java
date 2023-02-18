@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -20,6 +21,8 @@ import java.util.Optional;
 public class Limelight extends GBSubsystem {
     private static Limelight instance;
     private NetworkTableEntry robotPoseEntry, jsonEntry, idEntry;
+
+    private double tollerance = 1;
 
     private Limelight() {
         robotPoseEntry = NetworkTableInstance.getDefault().getTable(RobotMap.Vision.LIMELIGHT_NAME).getEntry("botpose");
@@ -44,6 +47,9 @@ public class Limelight extends GBSubsystem {
         double[] poseArray = robotPoseEntry.getDoubleArray(new double[7]);
         double timestamp = getTimeStamp();
         int id = (int) idEntry.getInteger(-1);
+        if (poseArray[0]  >= SwerveChassis.getInstance().getRobotPose().getX() + tollerance || poseArray[1] >= SwerveChassis.getInstance().getRobotPose().getY() + tollerance){
+            return Optional.empty();
+        }
         if (id == -1){
             return Optional.empty();
         }
