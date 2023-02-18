@@ -55,15 +55,15 @@ public class Field {
     public static class PlacementLocations{
 
         private static final Pose2d[] locationsOnBlueSide = {
-                new Pose2d(new Translation2d(0, 0), new Rotation2d()),
-                new Pose2d(new Translation2d(0, 0), new Rotation2d()),
-                new Pose2d(new Translation2d(0, 1), new Rotation2d()),
-                new Pose2d(new Translation2d(1, 1), new Rotation2d()),
-                new Pose2d(new Translation2d(0.5, 0), new Rotation2d()),
-                new Pose2d(new Translation2d(0, 0.5), new Rotation2d()),
-                new Pose2d(new Translation2d(0.5, 0.5), new Rotation2d()),
-                new Pose2d(new Translation2d(1, 0.5), new Rotation2d()),
-                new Pose2d(new Translation2d(0.5, 1), new Rotation2d())
+                new Pose2d(new Translation2d(1.3, 0.405), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 0.975), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 1.53), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 2.085), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 2.64), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 3.125), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 3.75), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 4.305), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3, 4.958), new Rotation2d())
         };
 
         public static Pose2d[] getLocationsOnBlueSide(){
