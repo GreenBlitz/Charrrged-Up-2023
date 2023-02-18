@@ -92,14 +92,21 @@ public class Extender extends GBSubsystem {
 	public void moveTowardsLength(double lengthInMeters) {
 		// going out of bounds should not be allowed
 		if (getHypotheticalState(lengthInMeters) == ExtenderState.OUT_OF_BOUNDS) {
+			if (lengthInMeters <= RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT){
+				moveTowardsLength(RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT);
+			} else if (lengthInMeters >= RobotMap.TelescopicArm.Extender.FORWARD_LIMIT){
+				moveTowardsLength(RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH);
+			}
+			else {
+				stop();
+			}
 			System.err.println("arm Extender is trying to move OUT OF BOUNDS");
-			stop();
 			return;
 		}
 		// arm should not extend to open state when inside the belly (would hit chassis)
-		if (edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getInstance().getState() == edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.ElbowState.IN_BELLY && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
+		if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
 			setLengthByPID(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
-		}else if (edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getInstance().getState() == edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.ElbowState.WALL_ZONE && getHypotheticalState(lengthInMeters) != ExtenderState.IN_WALL_LENGTH) {
+		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(lengthInMeters) != ExtenderState.IN_WALL_LENGTH) {
 			// arm should not extend too much in front of the wall
 			stop();
 		} else {

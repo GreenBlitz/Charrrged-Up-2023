@@ -6,29 +6,26 @@ import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RunRoller;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateOutDoorDirection;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.GoToPosition;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class FullGrip extends SequentialCommandGroup {
 
-    public FullGrip() {
-        //FIRST -> open the gripper and run it until an object is inside, along with to change the arm position
-        addCommands(
-                new ParallelCommandGroup(
-                        new ExtendRoller()
-                                .alongWith(new RunRoller())
-                                .alongWith(new RotateOutDoorDirection())
-                                .until(() -> RotatingBelly.getInstance().isObjectIn() || IntakeRoller.getInstance().isObjectIn()),
-                        new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_DROP_POSITION))
-        );
+	public FullGrip() {
+		//FIRST -> open the gripper and run it until an object is inside, along with to change the arm position
+		addCommands(
+				new ExtendRoller()
+						.alongWith(new RunRoller())
+						.alongWith(new RotateOutDoorDirection())
+								.until(() -> IntakeRoller.getInstance().isObjectIn())
+						.alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_DROP_POSITION))
+		);
 
-        //throw the object
-        addCommands(
-            new RetractRoller()
-        );
-    }
+		//throw the object
+		addCommands(
+				new RetractRoller()
+		);
+	}
 
 
 }

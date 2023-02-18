@@ -7,11 +7,15 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RotateInToDoor extends ParallelDeadlineGroup {
 
-    public RotateInToDoor(){
+    public RotateInToDoor(double waitTime){
         super(
-                new WaitCommand(RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME),
+                new WaitCommand(waitTime),
                 new RotateInDoorDirection()
         );
+    }
+
+    public RotateInToDoor(){
+        this(RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME);
     }
 
 }

@@ -51,7 +51,7 @@ public class Elbow extends GBSubsystem {
 
     public void moveTowardsAngle(double angleInRads) {
         // going out of bounds should not be allowed
-        if (edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
+        if (getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
             if(angleInRads <= RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
                 moveTowardsAngle(RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
             }else if(angleInRads >= RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT){
@@ -66,7 +66,7 @@ public class Elbow extends GBSubsystem {
         //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
         // if its not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
-                edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.getInstance().getState() != edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.ExtenderState.IN_WALL_LENGTH){
+                Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE);
         }else {
             setAngleByPID(angleInRads);
