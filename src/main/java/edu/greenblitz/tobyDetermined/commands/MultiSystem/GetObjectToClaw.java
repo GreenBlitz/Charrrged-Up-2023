@@ -18,13 +18,15 @@ public class GetObjectToClaw extends SequentialCommandGroup {
     public GetObjectToClaw() {
         //move the arm to grabbing position and rotate the belly and grub the object
         addCommands(
-                new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION)
-                        .alongWith(
-                                new ConditionalCommand(
-                                        new AlignObject(),new StopBelly(),
-                                        ()-> RotatingBelly.getInstance().isConeIn()
-                                )
-                        )
+                new ConditionalCommand(
+                        new AlignObject(),new StopBelly(),
+                        ()-> RotatingBelly.getInstance().isConeIn()
+                ).alongWith(
+                        new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_DROP_POSITION)
+                )
+//                        .alongWith(
+//                new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION)
+//                        )
         );
 
         addCommands(new ConditionalCommand(new GripCone(),new GripCube(),() -> RotatingBelly.getInstance().isConeIn()));

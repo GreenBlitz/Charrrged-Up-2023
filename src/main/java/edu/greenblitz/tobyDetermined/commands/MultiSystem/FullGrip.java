@@ -17,10 +17,11 @@ public class FullGrip extends SequentialCommandGroup {
         //FIRST -> open the gripper and run it until an object is inside, along with to change the arm position
         addCommands(
                 new ParallelCommandGroup(
-                        new ExtendRoller().alongWith(new RunRoller())
+                        new ExtendRoller()
+                                .alongWith(new RunRoller())
+                                .alongWith(new RotateOutDoorDirection())
                                 .until(() -> RotatingBelly.getInstance().isObjectIn() || IntakeRoller.getInstance().isObjectIn()),
-                        new RotateOutDoorDirection())
-                        .alongWith(  new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_DROP_POSITION))
+                        new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_DROP_POSITION))
         );
 
         //throw the object

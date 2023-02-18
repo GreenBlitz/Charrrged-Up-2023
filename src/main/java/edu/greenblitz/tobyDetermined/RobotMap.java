@@ -238,7 +238,8 @@ public class RobotMap {
             LOW(0, 5),
 
             INTAKE_GRAB_POSITION (0,0),
-            INTAKE_DROP_POSITION(0, 0);
+            INTAKE_DROP_POSITION(0, 0),
+            PRE_INTAKE_DROP_POSITION(0,0);
 
             public final double distance;
             public final double angleInRadians;
