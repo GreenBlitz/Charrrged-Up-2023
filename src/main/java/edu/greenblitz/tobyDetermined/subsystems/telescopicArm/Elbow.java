@@ -31,13 +31,7 @@ public class Elbow extends GBSubsystem {
 
     private Elbow() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.config(new GBSparkMax.SparkMaxConfObject()
-                .withPID(RobotMap.TelescopicArm.Elbow.PID)
-                .withIdleMode(CANSparkMax.IdleMode.kBrake)
-                .withRampRate(RobotMap.TelescopicArm.Elbow.MOTOR_RAMP_RATE)
-                .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
-                .withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
-        );
+        motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
 
         motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.POSITION_CONVERSION_FACTOR);
         motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.VELOCITY_CONVERSION_FACTOR);

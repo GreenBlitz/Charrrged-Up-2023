@@ -318,7 +318,13 @@ public class RobotMap {
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 
-            public static final double MOTOR_RAMP_RATE = 1;
+
+            public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT= new GBSparkMax.SparkMaxConfObject()
+                    .withPID(PID)
+                .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                .withRampRate(General.RAMP_RATE_VAL)
+                .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
+                .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
 
             public static final int CURRENT_LIMIT = 40;
@@ -328,12 +334,14 @@ public class RobotMap {
 
     public static class Intake {
         public static final int ROLLER_ID = 0;
-        public static final boolean INVERTED = false;
-        public static final double RAMP_RATE = 0.1;
+
         public static final double DEFAULT_POWER = 1;
-        public static final int CURRENT_LIMIT = 40;
         public static final double ROLL_INSIDE_POWER = 0.5;
         public static final int BEAM_BREAKER_ID = 0;
+        public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
+                .withCurrentLimit(40)
+                .withInverted(false)
+                .withRampRate(0.1);
 
         public static class Solenoid {
             public static final int FORWARD_PORT = 1;

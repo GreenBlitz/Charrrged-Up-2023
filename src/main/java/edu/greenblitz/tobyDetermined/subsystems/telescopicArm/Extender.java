@@ -105,10 +105,10 @@ public class Extender extends GBSubsystem {
 		}
 		// arm should not extend to open state when inside the belly (would hit chassis)
 		if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
-			setLengthByPID(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
+			setLengthByPID(RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT);
 		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(lengthInMeters) != ExtenderState.IN_WALL_LENGTH) {
 			// arm should not extend too much in front of the wall
-			stop();
+			setLengthByPID(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
 		} else {
 			setLengthByPID(lengthInMeters);
 		}

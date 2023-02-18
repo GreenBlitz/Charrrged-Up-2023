@@ -14,12 +14,7 @@ public class IntakeRoller extends GBSubsystem {
 
 	private IntakeRoller() {
 		motor = new GBSparkMax(RobotMap.Intake.ROLLER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.config(
-				new GBSparkMax.SparkMaxConfObject()
-						.withCurrentLimit(RobotMap.Intake.CURRENT_LIMIT)
-						.withInverted(RobotMap.Intake.INVERTED)
-						.withRampRate(RobotMap.Intake.RAMP_RATE)
-		);
+		motor.config(RobotMap.Intake.INTAKE_CONFIG_OBJECT);
 		objectDetector = new DigitalInput(RobotMap.Intake.BEAM_BREAKER_ID);
 	}
 

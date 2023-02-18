@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.MultiSystem;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.AlignObject;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.GoToPosition;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
