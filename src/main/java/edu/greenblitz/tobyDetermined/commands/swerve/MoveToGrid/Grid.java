@@ -34,16 +34,6 @@ public class Grid {
         }
     }
 
-    @Deprecated
-    public void putGridToShuffleboard(){
-        for (int i = 0; i < locations.length; i++) {
-            for (Height height:Height.values()){
-                boolean isSelected = selectedHeightID == height.ordinal() && selectedPositionID == i;
-                SmartDashboard.putBoolean(height.toString()+i, isSelected);
-            }
-        }
-    }
-
     public static void init(){
         if (instance == null) {
             instance = new Grid();

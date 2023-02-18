@@ -6,6 +6,7 @@ import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -15,7 +16,7 @@ public class Extender extends GBSubsystem {
     private static Extender instance;
     private static ExtenderState state = ExtenderState.IN_ROBOT_BELLY_LENGTH;
     private GBSparkMax motor;
-    private ProfiledPIDController profiledPIDController;
+    private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
     private double lastSpeed;
     private boolean lastSwitchReading;
     private double debugLastFF;
@@ -48,10 +49,7 @@ public class Extender extends GBSubsystem {
         motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).enableLimitSwitch(true);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.extender.FORWARD_LIMIT);
 
-        profiledPIDController = new ProfiledPIDController(
-                RobotMap.telescopicArm.extender.PID.getKp(),
-                RobotMap.telescopicArm.extender.PID.getKi(),
-                RobotMap.telescopicArm.extender.PID.getKd(),
+        profileGenerator = new ProfiledPIDController(0,0,0,
                 RobotMap.telescopicArm.extender.CONSTRAINTS
         );
 
@@ -64,11 +62,12 @@ public class Extender extends GBSubsystem {
         state = getHypotheticalState(getLength());
         lastSpeed = getVelocity();
         lastSwitchReading = getLimitSwitch();
+        updatePIDController(Dashboard.getInstance().getExtenderPID());
 
     }
 
-    public void updatePIDController(double kp, double ki, double kd){
-        profiledPIDController.setPID(kp,ki,kd);
+    public void updatePIDController(PIDObject pidObject){
+        motor.configPID(pidObject);
     }
 
     public static ExtenderState getHypotheticalState(double lengthInMeters) {
@@ -96,11 +95,11 @@ public class Extender extends GBSubsystem {
         return Math.sin(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.telescopicArm.extender.kG ;
     }
     private void setLengthByPID(double lengthInMeters) {;
-        profiledPIDController.reset(getLength());
-        profiledPIDController.setGoal(lengthInMeters);
+        profileGenerator.reset(getLength());
+        profileGenerator.setGoal(lengthInMeters);
         double feedForward = getFeedForward(
-                profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),Elbow.getInstance().getAngle());
-        motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+                profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),Elbow.getInstance().getAngle());
+        motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
         debugLastFF = feedForward;
     }
 
@@ -166,15 +165,6 @@ public class Extender extends GBSubsystem {
         return debugLastFF;
     }
 
-    public ProfiledPIDController getPIDController(){
-        return profiledPIDController;
-    }
-
-    public void setPID(double kp, double ki, double kd){
-        getPIDController().setPID(kp,ki,kd);
-    }
-
-
     public enum ExtenderState {
         //see elbow state first
         //the state corresponding to IN_BELLY
@@ -192,11 +182,15 @@ public class Extender extends GBSubsystem {
     }
 
     public boolean isAtLength() {
-        return profiledPIDController.atGoal();
+        return profileGenerator.atGoal();
     }
 
     public void setMotorVoltage (double voltage){
         motor.setVoltage(voltage);
+    }
+
+    public PIDObject getPID(){
+        return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
     }
 
 }

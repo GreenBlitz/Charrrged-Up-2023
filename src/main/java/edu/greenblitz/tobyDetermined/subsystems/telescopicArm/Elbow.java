@@ -2,19 +2,15 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.sql.PreparedStatement;
 
 
 public class Elbow extends GBSubsystem {
@@ -23,7 +19,7 @@ public class Elbow extends GBSubsystem {
     private static Elbow instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
-    private ProfiledPIDController profiledPIDController;
+    private ProfiledPIDController profileGenerator;  // this does not actually use the pid controller only the setpoint
     private double lastSpeed;
     private double debugLastFF;
 
@@ -54,11 +50,8 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
-        profiledPIDController = new ProfiledPIDController(
-                RobotMap.telescopicArm.elbow.PID.getKp(),
-                RobotMap.telescopicArm.elbow.PID.getKi(),
-                RobotMap.telescopicArm.elbow.PID.getKd(),
-                RobotMap.telescopicArm.elbow.CONSTRAINTS
+        profileGenerator = new ProfiledPIDController(
+              0,0,0,RobotMap.telescopicArm.elbow.CONSTRAINTS
         );
 
         lastSpeed = 0;
@@ -68,11 +61,12 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         state = getHypotheticalState(getAngle());
         lastSpeed = getVelocity();
+        updatePIDController(Dashboard.getInstance().getElbowPID());
 
     }
 
-    public void updatePIDController(double kp, double ki, double kd){
-        profiledPIDController.setPID(kp,ki,kd);
+    public void updatePIDController(PIDObject pidObject){
+        motor.configPID(pidObject);
     }
 
     public void moveTowardsAngle(double angleInRads) {
@@ -100,15 +94,14 @@ public class Elbow extends GBSubsystem {
     }
 
     public void setAngleByPID(double goalAngle) {
-        ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
-        pidController.reset(getAngle());
-        pidController.setGoal(goalAngle);
+        profileGenerator.reset(getAngle(), getVelocity());
+        profileGenerator.setGoal(goalAngle);
         double feedForward = getFeedForward(
-                pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
+                profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
                 Extender.getInstance().getLength(), getAngle()
         );
         SmartDashboard.putNumber("Elbow FF", feedForward);  //todo - its for debugging, remove when done
-        motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
         debugLastFF = feedForward;
     }
 
@@ -161,13 +154,6 @@ public class Elbow extends GBSubsystem {
         return debugLastFF;
     }
 
-    public ProfiledPIDController getPIDController(){
-        return profiledPIDController;
-    }
-
-    public void setPID(double kp, double ki, double kd){
-        getPIDController().setPID(kp,ki,kd);
-    }
 
     /*
     each elbow state represents some range of angles with a corresponding max length represented by an extender state
@@ -186,6 +172,10 @@ public class Elbow extends GBSubsystem {
 
     public void setMotorVoltage (double voltage){
         motor.setVoltage(voltage);
+    }
+
+    public PIDObject getPID(){
+        return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
     }
 
 }

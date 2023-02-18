@@ -43,12 +43,6 @@ public class Dashboard extends GBSubsystem {
 		armDashboard();
 	}
 
-	@Override
-	public void periodic() {
-		Elbow.getInstance().updatePIDController(elbowController.getP(),elbowController.getI(),elbowController.getD());
-		Extender.getInstance().updatePIDController(extenderController.getP(),extenderController.getI(),extenderController.getD());
-	}
-
 	public void driversDashboard() {
 		ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
 
@@ -107,8 +101,8 @@ public class Dashboard extends GBSubsystem {
 	}
 
 
-	PIDController extenderController = new PIDController(Extender.getInstance().getPIDController().getP(),Extender.getInstance().getPIDController().getI(),Extender.getInstance().getPIDController().getD());
-	PIDController elbowController = new PIDController(Elbow.getInstance().getPIDController().getP(),Elbow.getInstance().getPIDController().getI(),Elbow.getInstance().getPIDController().getD());
+	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(),Extender.getInstance().getPID().getKi(),Extender.getInstance().getPID().getKd());
+	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(),Elbow.getInstance().getPID().getKi(),Elbow.getInstance().getPID().getKd());
 	public void armDashboard() {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm debug");
 		//arm states
@@ -155,5 +149,13 @@ public class Dashboard extends GBSubsystem {
 		swerveTab.addDouble("pigeon-angle", () -> Math.toDegrees(SwerveChassis.getInstance().getChassisAngle()))
 				.withSize(1, 1).withPosition(0, 2);
 
+	}
+
+	public PIDObject getElbowPID(){
+		return new PIDObject().withKp(elbowController.getP()).withKi(elbowController.getI()).withKd(elbowController.getD());
+	}
+
+	public PIDObject getExtenderPID(){
+		return new PIDObject().withKp(extenderController.getP()).withKi(extenderController.getI()).withKd(extenderController.getD());
 	}
 }
