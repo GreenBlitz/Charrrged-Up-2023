@@ -13,6 +13,7 @@ public class LedBlinking extends LEDCommand{
     }
     @Override
     public void execute() {
+        led.turnOff();
         led.setColor(color);
         Timer.delay(RobotMap.LED.BLINKING_ON_TIME);
         led.turnOff();
