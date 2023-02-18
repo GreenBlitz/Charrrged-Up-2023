@@ -90,7 +90,7 @@ public class Extender extends GBSubsystem {
         profiledPIDController.reset(getLength());
         profiledPIDController.setGoal(lengthInMeters);
         double feedForward = getFeedForward(
-                profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(),Elbow.getInstance().getAngle());
+                profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),Elbow.getInstance().getAngle());
         motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
         debugLastFF = feedForward;
     }
