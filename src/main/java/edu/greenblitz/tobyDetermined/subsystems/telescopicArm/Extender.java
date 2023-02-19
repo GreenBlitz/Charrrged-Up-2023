@@ -36,15 +36,7 @@ public class Extender extends GBSubsystem {
 
 	private Extender() {
 		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.config(new GBSparkMax.SparkMaxConfObject()
-				.withPID(RobotMap.TelescopicArm.Extender.PID)
-				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
-				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
-				.withIdleMode(CANSparkMax.IdleMode.kBrake)
-				.withRampRate(RobotMap.TelescopicArm.Extender.RAMP_RATE)
-				.withCurrentLimit(RobotMap.TelescopicArm.Extender.CURRENT_LIMIT)
-				.withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
-		);
+		motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
 		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
 		motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).enableLimitSwitch(true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);

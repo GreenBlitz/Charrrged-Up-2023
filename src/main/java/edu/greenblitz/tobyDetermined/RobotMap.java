@@ -280,7 +280,15 @@ public class RobotMap {
             public static final double MAX_ACCELERATION = 0;
             public static final double MAX_VELOCITY = 0;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final int CURRENT_LIMIT = 30;
+
+            public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
+                    .withPID(RobotMap.TelescopicArm.Extender.PID)
+				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+				.withIdleMode(CANSparkMax.IdleMode.kBrake)
+				.withRampRate(General.RAMP_RATE_VAL)
+				.withCurrentLimit(30)
+				.withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Claw {
