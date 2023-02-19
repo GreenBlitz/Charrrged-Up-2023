@@ -22,7 +22,6 @@ public class Limelight extends GBSubsystem {
     private static Limelight instance;
     private NetworkTableEntry robotPoseEntry, jsonEntry, idEntry;
 
-    private double tollerance = 1;
 
     private Limelight() {
         robotPoseEntry = NetworkTableInstance.getDefault().getTable(RobotMap.Vision.LIMELIGHT_NAME).getEntry("botpose");
@@ -47,9 +46,6 @@ public class Limelight extends GBSubsystem {
         double[] poseArray = robotPoseEntry.getDoubleArray(new double[7]);
         double timestamp = getTimeStamp();
         int id = (int) idEntry.getInteger(-1);
-        if (poseArray[0]  >= SwerveChassis.getInstance().getRobotPose().getX() + tollerance || poseArray[1] >= SwerveChassis.getInstance().getRobotPose().getY() + tollerance){
-            return Optional.empty();
-        }
         if (id == -1){
             return Optional.empty();
         }
