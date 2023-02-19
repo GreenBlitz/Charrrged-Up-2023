@@ -214,7 +214,7 @@ public class RobotMap {
     }
 
     public static class RotatingBelly {
-        public static final int MOTOR_ID = 0;
+        public static final int MOTOR_ID = 22;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_PORT = 0;
 
@@ -242,7 +242,7 @@ public class RobotMap {
         }
 
         public static class extender {
-            public static final int MOTOR_ID = -1;
+            public static final int MOTOR_ID = 20;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
@@ -284,7 +284,7 @@ public class RobotMap {
         }
 
         public static class elbow {
-            public static final int MOTOR_ID = 1;
+            public static final int MOTOR_ID = 21;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;

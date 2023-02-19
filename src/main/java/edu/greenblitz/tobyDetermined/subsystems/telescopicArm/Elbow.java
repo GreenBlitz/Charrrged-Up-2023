@@ -2,14 +2,14 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -19,7 +19,9 @@ public class Elbow extends GBSubsystem {
     private static Elbow instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
+    private ProfiledPIDController profileGenerator;  // this does not actually use the pid controller only the setpoint
     private double lastSpeed;
+    private double debugLastFF;
 
     public static Elbow getInstance() {
         if (instance == null) {
@@ -48,7 +50,23 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
+        profileGenerator = new ProfiledPIDController(
+              0,0,0,RobotMap.telescopicArm.elbow.CONSTRAINTS
+        );
+
         lastSpeed = 0;
+    }
+
+    @Override
+    public void periodic() {
+        state = getHypotheticalState(getAngle());
+        lastSpeed = getVelocity();
+        updatePIDController(Dashboard.getInstance().getElbowPID());
+
+    }
+
+    public void updatePIDController(PIDObject pidObject){
+        motor.configPID(pidObject);
     }
 
     public void moveTowardsAngle(double angleInRads) {
@@ -76,15 +94,15 @@ public class Elbow extends GBSubsystem {
     }
 
     public void setAngleByPID(double goalAngle) {
-        ProfiledPIDController pidController = RobotMap.telescopicArm.elbow.PID_CONTROLLER;
-        pidController.reset(getAngle());
-        pidController.setGoal(goalAngle);
+        profileGenerator.reset(getAngle(), getVelocity());
+        profileGenerator.setGoal(goalAngle);
         double feedForward = getFeedForward(
-                pidController.getSetpoint().velocity, (pidController.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
+                profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
                 Extender.getInstance().getLength(), getAngle()
         );
         SmartDashboard.putNumber("Elbow FF", feedForward);  //todo - its for debugging, remove when done
-        motor.getPIDController().setReference(pidController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        debugLastFF = feedForward;
     }
 
     public double getAngle() {
@@ -99,16 +117,10 @@ public class Elbow extends GBSubsystem {
         motor.set(0);
     }
 
-    @Override
-    public void periodic() {
-        state = getHypotheticalState(getAngle());
-        lastSpeed = getVelocity();
-
-    }
-
     public double getVelocity (){
         return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getVelocity();
     }
+
     public static ElbowState getHypotheticalState(double angleInRads) {
         if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {
             return ElbowState.OUT_OF_BOUNDS;
@@ -138,6 +150,11 @@ public class Elbow extends GBSubsystem {
                 / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
     }
 
+    public double getDebugLastFF(){
+        return debugLastFF;
+    }
+
+
     /*
     each elbow state represents some range of angles with a corresponding max length represented by an extender state
      */
@@ -155,6 +172,10 @@ public class Elbow extends GBSubsystem {
 
     public void setMotorVoltage (double voltage){
         motor.setVoltage(voltage);
+    }
+
+    public PIDObject getPID(){
+        return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
     }
 
 }
