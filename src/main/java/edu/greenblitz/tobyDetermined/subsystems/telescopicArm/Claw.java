@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class Claw extends GBSubsystem {
     private static Claw instance;
-    private static final double MOTOR_POWER_GRIP = 0.3;
-    private static final double MOTOR_POWER_RELEASE = -0.3;
     private TalonSRX motor;
     private DoubleSolenoid solenoid;
     public ClawState state;
@@ -55,18 +53,21 @@ public class Claw extends GBSubsystem {
     }
 
     public void motorGrip() {
-        motor.set(ControlMode.PercentOutput, MOTOR_POWER_GRIP);
+        motor.set(ControlMode.PercentOutput, RobotMap.TelescopicArm.Claw.MOTOR_POWER_GRIP);
     }
 
     public void motorEject() {
-        motor.set(ControlMode.PercentOutput, MOTOR_POWER_RELEASE);
+        motor.set(ControlMode.PercentOutput, RobotMap.TelescopicArm.Claw.MOTOR_POWER_RELEASE);
     }
 
     public void stopMotor() {
         motor.set(ControlMode.PercentOutput, 0);
     }
 
-    public enum ClawState {
-        CUBE_MODE, CONE_MODE;
+    public enum ClawState{
+        CUBE_MODE,
+        CUBE_IN,
+        CONE_IN,
+        CONE_MODE;
     }
 }

@@ -1,7 +1,5 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-
 public class ExtendToLength extends ExtenderCommand {
 
     private double wantedLength;
@@ -19,7 +17,7 @@ public class ExtendToLength extends ExtenderCommand {
 
     @Override
     public boolean isFinished() {
-        return extender.isAtLength(wantedLength);
+        return extender.isAtLength();
     }
 
     @Override

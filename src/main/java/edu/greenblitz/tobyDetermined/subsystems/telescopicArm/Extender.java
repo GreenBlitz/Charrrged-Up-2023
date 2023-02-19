@@ -4,20 +4,22 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Extender extends GBSubsystem {
-	
-	
-	private static ExtenderState state = ExtenderState.IN_ROBOT_BELLY_LENGTH;
-	
-	private ProfiledPIDController profiledPIDController;
 	private static Extender instance;
+	private static Extender.ExtenderState state = Extender.ExtenderState.IN_ROBOT_BELLY_LENGTH;
 	private GBSparkMax motor;
+	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
+	private double lastSpeed;
+	private boolean lastSwitchReading;
+	private double debugLastFF;
 	
 	public static Extender getInstance() {
 		if (instance == null) {
@@ -30,10 +32,9 @@ public class Extender extends GBSubsystem {
 	public static void init() {
 		instance = new Extender();
 	}
-	
+
 	private Extender() {
 		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
 		motor.config(new GBSparkMax.SparkMaxConfObject()
 				.withPID(RobotMap.TelescopicArm.Extender.PID)
 				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
@@ -43,20 +44,32 @@ public class Extender extends GBSubsystem {
 				.withCurrentLimit(RobotMap.TelescopicArm.Extender.CURRENT_LIMIT)
 				.withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
 		);
+		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
 		motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).enableLimitSwitch(true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
-		
-		profiledPIDController = new ProfiledPIDController(
-				RobotMap.TelescopicArm.Extender.PID.getKp(),
-				RobotMap.TelescopicArm.Extender.PID.getKi(),
-				RobotMap.TelescopicArm.Extender.PID.getKd(),
-				RobotMap.TelescopicArm.Extender.CONSTRAINTS
 
+		profileGenerator = new ProfiledPIDController(
+				0,0,0,
+				RobotMap.TelescopicArm.Extender.CONSTRAINTS
 		);
-		profiledPIDController.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+
+		lastSpeed = 0;
 		lastSwitchReading = getLimitSwitch();
 	}
-	
+
+	@Override
+	public void periodic() {
+		state = getHypotheticalState(getLength());
+		lastSpeed = getVelocity();
+		lastSwitchReading = getLimitSwitch();
+		updatePIDController(Dashboard.getInstance().getExtenderPID());
+	}
+
+	public void updatePIDController(PIDObject pidObject){
+		motor.configPID(pidObject);
+	}
+
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
 		if (lengthInMeters > RobotMap.TelescopicArm.Extender.FORWARD_LIMIT || lengthInMeters < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT) {
 			return ExtenderState.OUT_OF_BOUNDS;
@@ -68,27 +81,28 @@ public class Extender extends GBSubsystem {
 			return ExtenderState.OPEN;
 		}
 	}
-	
-	
+
+
 	public static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
 		return getStaticFeedForward(elbowAngle) +
 				RobotMap.TelescopicArm.Extender.kS * Math.signum(wantedSpeed) +
 				RobotMap.TelescopicArm.Extender.kV * wantedSpeed +
 				RobotMap.TelescopicArm.Extender.kA * wantedAcceleration;
 	}
-	
+
 	public static double getStaticFeedForward(double elbowAngle) {
 		return Math.sin(elbowAngle - RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
 	}
-	
+
 	private void setLengthByPID(double lengthInMeters) {
-		profiledPIDController.reset(getLength());
-		profiledPIDController.setGoal(lengthInMeters);
+		profileGenerator.reset(getLength());
+		profileGenerator.setGoal(lengthInMeters);
 		double feedForward = getFeedForward(
-				profiledPIDController.getSetpoint().velocity, (profiledPIDController.getSetpoint().velocity - motor.getEncoder().getVelocity()) / RoborioUtils.getCurrentRoborioCycle(), edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.getInstance().getAngle());
-		motor.getPIDController().setReference(profiledPIDController.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+				profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngle());
+		motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+		debugLastFF = feedForward;
 	}
-	
+
 	public void moveTowardsLength(double lengthInMeters) {
 		// going out of bounds should not be allowed
 		if (getHypotheticalState(lengthInMeters) == ExtenderState.OUT_OF_BOUNDS) {
@@ -113,40 +127,49 @@ public class Extender extends GBSubsystem {
 			setLengthByPID(lengthInMeters);
 		}
 	}
-	
-	
+
+
 	public double getLength() {
 		return motor.getEncoder().getPosition();
 	}
-	
+
 	public ExtenderState getState() {
 		return state;
 	}
-	
+
+	public double getVelocity(){
+		return motor.getEncoder().getVelocity();
+	}
 	/**
 	 * @return the current value of the limit switch
 	 */
 	public boolean getLimitSwitch() {
 		return motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
 	}
-	
-	private boolean lastSwitchReading;
-	
+
 	/**
 	 * @return whether the switch changed status from last periodic this is useful to reset at
 	 */
 	public boolean didSwitchFlip(){
 		return lastSwitchReading ^ getLimitSwitch();
 	}
-	
+
 	public void resetLength() {
-			motor.getEncoder().setPosition(0);
+			resetLength(0);
 	}
-	
+
+	public void resetLength(double position) {
+		motor.getEncoder().setPosition(position);
+	}
+
 	public void stop() {
 		motor.set(0);
 	}
-	
+
+	public double getDebugLastFF(){
+		return debugLastFF;
+	}
+
 	public enum ExtenderState {
 		//see elbow state first
 		//the state corresponding to IN_BELLY
@@ -158,21 +181,18 @@ public class Extender extends GBSubsystem {
 		// this state should not be possible and is either used to stop dangerous movement or to signal a bug
 		OUT_OF_BOUNDS
 	}
-	
-	public boolean isAtLength(double wantedLengthInMeters) {
-		return profiledPIDController.atGoal();
+
+	public boolean isAtLength() {
+		return profileGenerator.atGoal();
 	}
-	
+
 	public void setMotorVoltage(double voltage) {
 		motor.setVoltage(voltage);
 	}
-	
-	@Override
-	public void periodic() {
-		state = getHypotheticalState(getLength());
-		lastSwitchReading = getLimitSwitch();
+
+	public PIDObject getPID(){
+		return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
 	}
-	
 }
 
 

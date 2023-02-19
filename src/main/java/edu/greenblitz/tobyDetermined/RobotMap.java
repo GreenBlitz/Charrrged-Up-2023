@@ -215,8 +215,8 @@ public class RobotMap {
     }
 
     public static class RotatingBelly {
-        public static final int MOTOR_ID = 0;
-        public static final double ROTATING_MOTOR_POWER = 0.5;
+        public static final int MOTOR_ID = 22;
+        public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_PORT = 0;
 
         public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
@@ -252,7 +252,7 @@ public class RobotMap {
         }
 
         public static class Extender {
-            public static final int MOTOR_ID = -1;
+            public static final int MOTOR_ID = 20;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
@@ -288,11 +288,14 @@ public class RobotMap {
             public static final int SOLENOID_OPEN_CLAW_ID = 0;
             public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
+            public static final double MOTOR_POWER_GRIP = 0.3;
+            public static final double MOTOR_POWER_RELEASE = -0.3;
+
             public static final double TIME_OF_GRIP_CONSTANT = 2;
         }
 
         public static class Elbow {
-            public static final int MOTOR_ID = 1;
+            public static final int MOTOR_ID = 21;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;
@@ -305,7 +308,6 @@ public class RobotMap {
             public static final double MAX_VELOCITY = 0;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
-            public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(67);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
 
