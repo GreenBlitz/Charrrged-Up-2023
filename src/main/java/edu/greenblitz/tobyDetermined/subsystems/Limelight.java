@@ -22,7 +22,7 @@ public class Limelight extends GBSubsystem {
 				Field.Apriltags.aprilTagFieldLayout,
 				PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS,
 				camera,
-				RobotMap.Vision.RobotToCamera
+				RobotMap.Vision.ROBOT_TO_CAMERA
 		);
 	}
 	

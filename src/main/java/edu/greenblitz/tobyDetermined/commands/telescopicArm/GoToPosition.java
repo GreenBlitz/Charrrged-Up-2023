@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm;
 
+
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngle;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
@@ -17,29 +18,29 @@ public class GoToPosition extends SequentialCommandGroup {
         }
         //if the desired position needs to pass through the entrance zone and the extension to long the movement is split to multiple parts
         else{
-            //if the elbow is outside the robot, and you want it in your belly(yummy yummy)
+            //if the Elbow is outside the robot, and you want it in your belly(yummy yummy)
             if(Elbow.getInstance().state == Elbow.ElbowState.OUT_ROBOT &&
                     Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.IN_BELLY){
                 addCommands(
                         new ExtendToLength(
-                                Math.min(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH,lengthInMeters))
-                                .alongWith(new RotateToAngle(RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE))
+                                Math.min(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH,lengthInMeters))
+                                .alongWith(new RotateToAngle(RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE))
                 );
-                addCommands(new RotateToAngle(RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE)
+                addCommands(new RotateToAngle(RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE)
                         .andThen(
                                 new RotateToAngle(angleInRads)
                                         .andThen(new ExtendToLength(lengthInMeters))
                         )
                 );
-                //if the elbow is in your belly(yummy yummy) and you want it outside the robot
+                //if the Elbow is in your belly(yummy yummy) and you want it outside the robot
             }else if (Elbow.getInstance().state == Elbow.ElbowState.IN_BELLY
                     && Elbow.getHypotheticalState(angleInRads) == Elbow.ElbowState.OUT_ROBOT){
                 addCommands(
                         new ExtendToLength(
-                                Math.min(RobotMap.telescopicArm.extender.MAX_ENTRANCE_LENGTH,lengthInMeters))
-                                .alongWith(new RotateToAngle(RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE))
+                                Math.min(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH,lengthInMeters))
+                                .alongWith(new RotateToAngle(RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE))
                 );
-                addCommands(new RotateToAngle(RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE)
+                addCommands(new RotateToAngle(RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE)
                         .andThen(
                                 new RotateToAngle(angleInRads)
                                         .andThen(new ExtendToLength(lengthInMeters))
@@ -51,7 +52,7 @@ public class GoToPosition extends SequentialCommandGroup {
         }
     }
 
-    public GoToPosition(RobotMap.telescopicArm.presetPositions position) {
+    public GoToPosition(RobotMap.TelescopicArm.PresetPositions position) {
         this(position.distance, position.angleInRadians);
     }
 

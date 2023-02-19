@@ -16,22 +16,23 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 
-
 public class RobotMap {
-	public static final Robot.robotName robotName = Robot.robotName.pegaSwerve;
+    public static final Robot.robotName ROBOT_NAME = Robot.robotName.pegaSwerve;
+
     public static class General {
 
-	    public final static double minVoltageBattery = 11.97;
-	    public final static double VOLTAGE_COMP_VAL = 11.5;
-	    public final static double RAMP_RATE_VAL = 0.4;
+        public final static double MIN_VOLTAGE_BATTERY = 11.97;
+        public final static double VOLTAGE_COMP_VAL = 11.5;
+        public final static double RAMP_RATE_VAL = 0.4;
+
         public static class Motors {
 
-	        public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
-	        public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
-	        public static final double NEO_PHYSICAL_TICKS_TO_RADIANS = SPARKMAX_TICKS_PER_RADIAN / 42; //do not use unless you understand the meaning
+            public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
+            public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
+            public static final double NEO_PHYSICAL_TICKS_TO_RADIANS = SPARKMAX_TICKS_PER_RADIAN / 42; //do not use unless you understand the meaning
             public final static double FALCON_TICKS_PER_RADIAN = 2 * Math.PI / 2048.0;
 
-	        public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
+            public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
         }
     }
 
@@ -57,36 +58,36 @@ public class RobotMap {
     }
 
     public static class Vision {
-        public static double standardDeviationOdometry = 0.001;
-        public static double standardDeviationVision2d = 0.3;
-        public static double standardDeviationVisionAngle = 0.1;
-        public static final int[] portNumbers = {5800,5801,5802,5803,5804,5805};
-        public static final Transform3d RobotToCamera = new Transform3d(new Translation3d(), new Rotation3d());
+        public static double STANDARD_DEVIATION_ODOMETRY = 0.001;
+        public static double STANDARD_DEVIATION_VISION2D = 0.3;
+        public static double STANDARD_DEVIATION_VISION_ANGLE = 0.1;
+        public static final int[] PORT_NUMBERS = {5800, 5801, 5802, 5803, 5804, 5805};
+        public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(new Translation3d(), new Rotation3d());
 
     }
 
     public static class LED {
 
-	    public static final int LENGTH = 100;
-	    public static final int PORT = 0;
+        public static final int LENGTH = 100;
+        public static final int PORT = 0;
         public static final double BLINKING_ON_TIME = 0.4;
 
-	    public static final double BLINKING_OFF_TIME = 0.2;
-	    public static final Color DEFAULT_COLOR = Color.kFloralWhite;
+        public static final double BLINKING_OFF_TIME = 0.2;
+        public static final Color DEFAULT_COLOR = Color.kFloralWhite;
     }
 
-	public static class Ultrasonic {
-		public static final int PING_CHANNEL = 0;
-		public static final int ECHO_CHANNEL = 1;
-		public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
-	}
+    public static class Ultrasonic {
+        public static final int PING_CHANNEL = 0;
+        public static final int ECHO_CHANNEL = 1;
+        public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
+    }
 
-	public static class Swerve {
+    public static class Swerve {
 
-	    public static class Pegaswerve {
+        public static class Pegaswerve {
 
-	        public static final double MAX_VELOCITY = 3.4930218;
-	        public static final double MAX_ACCELERATION = 5.824409;
+            public static final double MAX_VELOCITY = 3.4930218;
+            public static final double MAX_ACCELERATION = 5.824409;
             public static final double MAX_ANGULAR_SPEED = 8;
             public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
             public static final int LAMPREY_AVERAGE_BITS = 2;
@@ -223,30 +224,40 @@ public class RobotMap {
 
 
     }
-    public static class telescopicArm {
+
+    public static class TelescopicArm {
 
 
-        public enum presetPositions {
+        public enum PresetPositions {
             //height in meters
-            //input angle degrees out put angle radians
-            CONE_HIGH(0, 0), CONE_MID(0, 0), CUBE_HIGH(0, 0), CUBE_MID(0, 0), LOW(0, 5),
-            ;
+            //input angle degrees output angle radians
+            CONE_HIGH(0.5, 45),
+            CONE_MID(0.3, 30),
+            CUBE_HIGH(0.5, 45),
+            CUBE_MID(0.3, 30),
+            LOW(0, 5),
+
+            INTAKE_GRAB_POSITION (0,0),
+            INTAKE_DROP_POSITION(0, 0),
+            PRE_INTAKE_DROP_POSITION(0,0);
+
             public final double distance;
             public final double angleInRadians;
 
-            presetPositions(double distance, double angle) {
+            PresetPositions(double distance, double angle) {
                 this.distance = distance;
                 this.angleInRadians = Units.degreesToRadians(angle);
 
             }
         }
 
-        public static class extender {
+        public static class Extender {
             public static final int MOTOR_ID = 20;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
-            public static final double STARTING_POSITION = 0;
+            public static final double STARTING_LENGTH =0;
+
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
             public static final double DISTANCE_BETWEEN_HOLES = 6.35;
@@ -257,7 +268,7 @@ public class RobotMap {
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
-            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR/60 ;
+            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double RAMP_RATE = 2;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
 
@@ -269,10 +280,18 @@ public class RobotMap {
             public static final double MAX_ACCELERATION = 0;
             public static final double MAX_VELOCITY = 0;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final int CURRENT_LIMIT = 30;
+
+            public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
+                    .withPID(RobotMap.TelescopicArm.Extender.PID)
+				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+				.withIdleMode(CANSparkMax.IdleMode.kBrake)
+				.withRampRate(General.RAMP_RATE_VAL)
+				.withCurrentLimit(30)
+				.withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
-        public static class claw {
+        public static class Claw {
             public static final int MOTOR_ID = 0;
             public static final int SOLENOID_OPEN_CLAW_ID = 0;
             public static final int SOLENOID_CLOSED_CLAW_ID = 0;
@@ -283,7 +302,7 @@ public class RobotMap {
             public static final double TIME_OF_GRIP_CONSTANT = 2;
         }
 
-        public static class elbow {
+        public static class Elbow {
             public static final int MOTOR_ID = 21;
             public static final double GEAR_RATIO = 1;
 
@@ -297,7 +316,6 @@ public class RobotMap {
             public static final double MAX_VELOCITY = 0;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
-            public static final ProfiledPIDController PID_CONTROLLER = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(67);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
 
@@ -310,26 +328,34 @@ public class RobotMap {
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 
-            public static final double MOTOR_RAMP_RATE = 1;
+
+            public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT= new GBSparkMax.SparkMaxConfObject()
+                    .withPID(PID)
+                .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                .withRampRate(General.RAMP_RATE_VAL)
+                .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
+                .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
 
             public static final int CURRENT_LIMIT = 40;
-            
-            public static final int ABSOLUTE_ENCODER_CHANNEL = 1;
+
         }
     }
 
-    public static class Intake{
-		public static final int ROLLER_ID = 0;
-		public static final boolean INVERTED = false;
-		public static final double RAMP_RATE = 0.1;
-		public static final double DEFAULT_POWER = 1;
-		public static final int CURRENT_LIMIT = 40;
-		public static final double ROLL_INSIDE_POWER = 0.5;
-		
-		public static class Solenoid {
-			public static final int FORWARD_PORT = 1;
-			public static final int REVERSE_PORT = 0;
-		}
-	}
+    public static class Intake {
+        public static final int ROLLER_ID = 0;
+
+        public static final double DEFAULT_POWER = 1;
+        public static final double ROLL_INSIDE_POWER = 0.5;
+        public static final int BEAM_BREAKER_ID = 0;
+        public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
+                .withCurrentLimit(40)
+                .withInverted(false)
+                .withRampRate(0.1);
+
+        public static class Solenoid {
+            public static final int FORWARD_PORT = 1;
+            public static final int REVERSE_PORT = 0;
+        }
+    }
 }

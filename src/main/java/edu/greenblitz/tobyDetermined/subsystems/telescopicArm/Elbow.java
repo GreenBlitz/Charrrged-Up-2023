@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
@@ -11,7 +12,6 @@ import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 public class Elbow extends GBSubsystem {
 
@@ -26,7 +26,6 @@ public class Elbow extends GBSubsystem {
     public static Elbow getInstance() {
         if (instance == null) {
             init();
-            SmartDashboard.putBoolean("elbow initialized via getinstance", true);
         }
         return instance;
     }
@@ -36,24 +35,20 @@ public class Elbow extends GBSubsystem {
     }
 
     private Elbow() {
-        motor = new GBSparkMax(RobotMap.telescopicArm.elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.config(new GBSparkMax.SparkMaxConfObject()
-                .withPID(RobotMap.telescopicArm.elbow.PID)
-                .withIdleMode(CANSparkMax.IdleMode.kBrake)
-                .withRampRate(RobotMap.telescopicArm.elbow.MOTOR_RAMP_RATE)
-                .withCurrentLimit(RobotMap.telescopicArm.elbow.CURRENT_LIMIT)
-                .withVoltageComp(RobotMap.General.VOLTAGE_COMP_VAL)
-        );
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.POSITION_CONVERSION_FACTOR);
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.telescopicArm.elbow.VELOCITY_CONVERSION_FACTOR);
+        motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
+
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.POSITION_CONVERSION_FACTOR);
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.VELOCITY_CONVERSION_FACTOR);
+
         motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
 
         profileGenerator = new ProfiledPIDController(
-              0,0,0,RobotMap.telescopicArm.elbow.CONSTRAINTS
+                0,0,0,RobotMap.TelescopicArm.Elbow.CONSTRAINTS
         );
-
+        profileGenerator.setTolerance(RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
         lastSpeed = 0;
     }
 
@@ -71,15 +66,15 @@ public class Elbow extends GBSubsystem {
 
     public void moveTowardsAngle(double angleInRads) {
         // going out of bounds should not be allowed
-        if (Elbow.getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
-            if(angleInRads <= RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT){
-                moveTowardsAngle(RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT);
-            }else if(angleInRads >= RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT){
-                moveTowardsAngle(RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
+        if (getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
+            if(angleInRads <= RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
+            }else if(angleInRads >= RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT){
+                moveTowardsAngle(RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
             }else{
                 stop();
             }
-            System.err.println("arm Elbow is trying to move OUT OF BOUNDS");
+            Console.log("OUT OF BOUNDS", "arm Elbow is trying to move OUT OF BOUNDS" );
             return;
         }
 
@@ -87,7 +82,7 @@ public class Elbow extends GBSubsystem {
         // if its not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
-            setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE);
+            setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE);
         }else {
             setAngleByPID(angleInRads);
         }
@@ -122,11 +117,11 @@ public class Elbow extends GBSubsystem {
     }
 
     public static ElbowState getHypotheticalState(double angleInRads) {
-        if (angleInRads > RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.telescopicArm.elbow.BACKWARD_ANGLE_LIMIT) {
+        if (angleInRads > RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT) {
             return ElbowState.OUT_OF_BOUNDS;
-        } else if (angleInRads > RobotMap.telescopicArm.elbow.STARTING_WALL_ZONE_ANGLE && angleInRads <RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
+        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE && angleInRads < RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
             return ElbowState.WALL_ZONE;
-        } else if (angleInRads > RobotMap.telescopicArm.elbow.END_WALL_ZONE_ANGLE) {
+        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
             return ElbowState.OUT_ROBOT;
         }
         return ElbowState.IN_BELLY;
@@ -134,7 +129,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public boolean isAtAngle(double wantedAngle) {
-        return Math.abs(getAngle() - wantedAngle) <= RobotMap.telescopicArm.elbow.ANGLE_TOLERANCE;
+        return Math.abs(getAngle() - wantedAngle) <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
     }
 
     public boolean isInTheSameState(double wantedAng) {
@@ -143,11 +138,11 @@ public class Elbow extends GBSubsystem {
 
     public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
         double Kg = getStaticFeedForward(extenderLength,elbowAngle);
-        return Kg + RobotMap.telescopicArm.elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.telescopicArm.elbow.kV * wantedAngularSpeed + RobotMap.telescopicArm.elbow.kA * wantedAcc;
+        return Kg + RobotMap.TelescopicArm.Elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.TelescopicArm.Elbow.kV * wantedAngularSpeed + RobotMap.TelescopicArm.Elbow.kA * wantedAcc;
     }
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
-        return (RobotMap.telescopicArm.elbow.MIN_Kg + (((RobotMap.telescopicArm.elbow.MAX_Kg - RobotMap.telescopicArm.elbow.MIN_Kg) * extenderLength)
-                / RobotMap.telescopicArm.extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.telescopicArm.elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
+        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
+                / RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH)) * Math.cos(elbowAngle - RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
     }
 
     public double getDebugLastFF(){

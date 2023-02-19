@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class EjectFromClaw extends ClawCommand {
 
+    Timer timer;
     private double timeOfEjection;
     public EjectFromClaw(double timeOfEjection){
 
@@ -12,7 +13,7 @@ public class EjectFromClaw extends ClawCommand {
     }
 
     public EjectFromClaw(){
-        timeOfEjection =  RobotMap.telescopicArm.claw.TIME_OF_GRIP_CONSTANT;
+        timeOfEjection =  RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT;
     }
 
 
@@ -20,12 +21,13 @@ public class EjectFromClaw extends ClawCommand {
     public void initialize() {
         claw.cubeCatchMode(); //the wider
         claw.motorEject();
+        timer = new Timer();
+        timer.start();
     }
 
     @Override
     public boolean isFinished() {
-        Timer.delay(timeOfEjection);
-        return true;
+        return timer.hasElapsed(timeOfEjection);
     }
 
     @Override
