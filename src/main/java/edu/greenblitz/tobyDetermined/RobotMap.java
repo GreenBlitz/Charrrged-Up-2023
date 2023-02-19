@@ -108,6 +108,8 @@ public class RobotMap {
         }
 
         public static class TobyDetermined {
+            public static final double ROBOT_LENGTH = 69;
+            public static final double ROBOT_WIDTH = 79;
             //todo calibrate
             public static final double MAX_VELOCITY = 0;
             public static final double MAX_ACCELERATION = 0;
