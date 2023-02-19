@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
@@ -114,7 +115,7 @@ public class Extender extends GBSubsystem {
 			else {
 				stop();
 			}
-			System.err.println("arm Extender is trying to move OUT OF BOUNDS");
+			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
 			return;
 		}
 		// arm should not extend to open state when inside the belly (would hit chassis)

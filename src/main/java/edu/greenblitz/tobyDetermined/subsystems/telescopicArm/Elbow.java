@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
@@ -73,7 +74,7 @@ public class Elbow extends GBSubsystem {
             }else{
                 stop();
             }
-            System.err.println("arm Elbow is trying to move OUT OF BOUNDS");
+            Console.log("OUT OF BOUNDS", "arm Elbow is trying to move OUT OF BOUNDS" );
             return;
         }
 
