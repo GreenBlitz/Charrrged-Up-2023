@@ -1,6 +1,8 @@
 package edu.greenblitz.utils;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -24,7 +26,8 @@ public class AutonomousSelector {
 
 		chooser.setDefaultOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
 
-		SmartDashboard.putData("chooser",chooser);
+		ShuffleboardTab tab =Shuffleboard.getTab("auto");
+		tab.add("chooser",chooser);
 	}
 
 	public AutonomousPaths getChosenValue (){

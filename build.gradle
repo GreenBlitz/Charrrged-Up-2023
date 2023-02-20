@@ -2,7 +2,7 @@ import edu.wpi.first.gradlerio.GradleRIOPlugin
 
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.3.2"
+    id "edu.wpi.first.GradleRIO" version "2023.4.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
