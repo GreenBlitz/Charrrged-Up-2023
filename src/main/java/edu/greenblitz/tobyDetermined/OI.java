@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
+import edu.greenblitz.tobyDetermined.commands.swerve.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
@@ -9,7 +9,6 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
-import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -53,18 +52,20 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
-		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-		mainJoystick.A.onTrue(new ExtendRoller());
-		mainJoystick.B.onTrue(new RetractRoller());
-		mainJoystick.START.onTrue(new ToggleRoller());
+		romyButtons();
+	}
 
-		secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-		secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-		secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-		secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+	public void romyButtons(){
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
+		mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
+		mainJoystick.L1.onTrue(new MoveToGrid()); //move to pose
+		mainJoystick.POV_UP.onTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
+		mainJoystick.POV_DOWN.onTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
+		mainJoystick.POV_LEFT.onTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT,0.1)); //left movement
+		mainJoystick.POV_RIGHT.onTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.1)); //right movement
+		mainJoystick.A.onTrue(new CancelChassisCommands()); //cancel auto command
+		mainJoystick.B.onTrue(new LockWheels()); //lock wheel
+		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 	}
 
 	public SmartJoystick getMainJoystick() {
