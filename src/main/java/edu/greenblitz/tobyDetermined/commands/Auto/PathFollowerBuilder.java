@@ -18,8 +18,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import java.util.HashMap;
 
 public class PathFollowerBuilder extends SwerveAutoBuilder {
-	
-	
+
 	/**
 	 * the use of the event map is to run a marker by its name run a command
 	 */

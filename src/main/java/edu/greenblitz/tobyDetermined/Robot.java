@@ -2,12 +2,13 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
 import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
-import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeGameObjectSensor;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyGameObjectSensor;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.AutonomousSelector;
@@ -25,29 +26,38 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         CommandScheduler.getInstance().enable();
-        Dashboard.init();
+		initSubsystems();
+        LiveWindow.disableAllTelemetry();
+        Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         Limelight.getInstance();
         initPortForwarding();
         LiveWindow.disableAllTelemetry();
-        Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-        AutonomousSelector.getInstance();
-        IntakeGameObjectSensor.getInstance().periodic();
 
         LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
 
         SwerveChassis.getInstance().resetChassisPose();
         SwerveChassis.getInstance().resetAllEncoders();
-        OI.getInstance();
     }
+	
+	private static void initSubsystems(){
+        Dashboard.init();
+		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+		BellyGameObjectSensor.init();
+		Grid.init();
+		//swerve
 
-    private static void initPortForwarding() {
-        for (int port : RobotMap.Vision.portNumbers) {
-            PortForwarder.add(port, "photonvision.local", port);
-        }
-    }
-
-
+		SwerveChassis.getInstance().resetChassisPose();
+		SwerveChassis.getInstance().resetAllEncoders();
+		OI.getInstance();
+	}
+	
+	private static void initPortForwarding() {
+		for (int port:RobotMap.Vision.PORT_NUMBERS) {
+			PortForwarder.add(port, "photonvision.local", port);
+		}
+	}
+	
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
