@@ -16,10 +16,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
+
+import java.sql.Time;
+import java.util.Optional;
 
 public class SwerveChassis extends GBSubsystem {
 
@@ -27,7 +31,7 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
-	private final SwerveDrivePoseEstimator poseEstimator;
+	private final SwerveDrivePoseEstimator poseEstimator, visionPoseEstimator;
 	private final Field2d field = new Field2d();
 
 	private final Ultrasonic ultrasonic;
@@ -54,7 +58,13 @@ public class SwerveChassis extends GBSubsystem {
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVisionAngle));
 		SmartDashboard.putData("field", getField());
-		field.getObject("apriltag").setPose(Field.Apriltags.redApriltagLocationId1.toPose2d());
+		this.visionPoseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
+				getPigeonAngle(),
+				getSwerveModulePositions(),
+				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
+				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry),
+				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0,0,0));
+		SmartDashboard.putData("field", getField());
 	}
 
 
@@ -74,6 +84,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void periodic() {
 		updatePoseEstimationLimeLight();
 		field.setRobotPose(getRobotPose());
+		field.getObject("vision").setPose(visionPoseEstimator.getEstimatedPosition());
 	}
 	
 	public void resetAll(Pose2d pose){
@@ -150,6 +161,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
+		visionPoseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
 	}
 	
 	/**
@@ -262,7 +274,18 @@ public class SwerveChassis extends GBSubsystem {
 
 	public void updatePoseEstimationLimeLight() {
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
-		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((Pair<Pose2d, Double> poseAndTimeStamp) -> poseEstimator.addVisionMeasurement(poseAndTimeStamp.getFirst(), poseAndTimeStamp.getSecond()));
+		Optional<Pair<Pose2d, Double>> visionOutput =  Limelight.getInstance().getUpdatedPoseEstimator();
+		if (visionOutput.isPresent()) {
+			Pair<Pose2d, Double> poseTimestampPair = visionOutput.get();
+			Pose2d visionPose = poseTimestampPair.getFirst();
+			if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > Limelight.MIN_DISTANCE_TO_FILTER_OUT)) {
+				poseEstimator.addVisionMeasurement(visionPose, poseTimestampPair.getSecond());
+			}
+		}
+
+
+		visionPoseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((Pair<Pose2d, Double> poseAndTimeStamp) -> visionPoseEstimator.addVisionMeasurement(poseAndTimeStamp.getFirst(), poseAndTimeStamp.getSecond()));
 	}
 
 	public Pose2d getRobotPose() {
