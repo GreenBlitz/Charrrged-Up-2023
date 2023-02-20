@@ -53,7 +53,7 @@ public class Field {
 
     }
     public static class PlacementLocations{
-
+        // the locations of the grid plus half of the robot length.
         private static final Pose2d[] locationsOnBlueSide = {
                 new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 0.508), new Rotation2d()),
                 new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 1.067), new Rotation2d()),
