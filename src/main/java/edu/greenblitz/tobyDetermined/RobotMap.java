@@ -230,13 +230,14 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.804, Math.toRadians(159.9)),
-            CONE_MID(0.26, Math.toRadians(176.7)),
-            CUBE_HIGH(0.654, Math.toRadians(159.3)),
-            CUBE_MID(0.3, 150),
-            LOW(0, 5),
+            CONE_HIGH(0.804, Math.toRadians(20.1)),
+            CONE_MID(0.26, Math.toRadians(3.3)),
+            CUBE_HIGH(0.654, Math.toRadians(20.7)),
+            CUBE_MID(0., 0),
+            LOW(0, 0),
+            PRE_GRID(0,20.7),
 
-            INTAKE_GRAB_POSITION (0.307,Math.toRadians(95)),
+            INTAKE_GRAB_POSITION (0.307,Math.toRadians(-95)),
             INTAKE_DROP_POSITION(0, 0),
             PRE_INTAKE_GRAB_POSITION(0,0);
 
