@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -106,6 +107,19 @@ public class Grid {
 
     public void moveSelectedHeightDown(){
         moveSelectedHeight(-1);
+    }
+
+    public RobotMap.TelescopicArm.PresetPositions getArmPositionByObject(){
+        boolean isConeIn = Claw.getInstance().state == Claw.ClawState.CONE_IN;
+        switch (getSelectedHeight()){
+            case LOW:
+                return RobotMap.TelescopicArm.PresetPositions.LOW;
+            case MEDIUM:
+                return isConeIn? RobotMap.TelescopicArm.PresetPositions.CONE_MID : RobotMap.TelescopicArm.PresetPositions.CUBE_MID;
+            case HIGH:
+                return isConeIn? RobotMap.TelescopicArm.PresetPositions.CONE_HIGH : RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH;
+        }
+        return RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_DROP_POSITION;
     }
 
 

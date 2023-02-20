@@ -8,7 +8,5 @@ public class FullGripAndPutInClaw extends SequentialCommandGroup {
     public FullGripAndPutInClaw() {
         addCommands(new FullGrip().unless(() -> RotatingBelly.getInstance().isObjectIn()));
         addCommands(new GetObjectToClaw());
-
-
     }
 }
