@@ -8,6 +8,7 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
@@ -18,7 +19,8 @@ public class Limelight extends GBSubsystem {
     private NetworkTableEntry robotPoseEntry, jsonEntry, idEntry;
 
     private Limelight() {
-        robotPoseEntry = NetworkTableInstance.getDefault().getTable(RobotMap.Vision.LIMELIGHT_NAME).getEntry("botpose");
+        String robotPoseQuery = DriverStation.getAlliance() == DriverStation.Alliance.Blue ? "botpose_wpiblue" : "botpose_wpired";
+        robotPoseEntry = NetworkTableInstance.getDefault().getTable(RobotMap.Vision.LIMELIGHT_NAME).getEntry(robotPoseQuery);
         jsonEntry = NetworkTableInstance.getDefault().getTable(RobotMap.Vision.LIMELIGHT_NAME).getEntry("json");
         idEntry = NetworkTableInstance.getDefault().getTable(RobotMap.Vision.LIMELIGHT_NAME).getEntry("tid");
     }
