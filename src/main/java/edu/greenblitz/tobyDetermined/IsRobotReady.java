@@ -7,7 +7,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 
 public class IsRobotReady {
-	public boolean isArmReady(){
+	public static boolean isArmReady(){
 		switch (Grid.getInstance().getSelectedHeight()){
 			case HIGH:
 				return RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
@@ -26,7 +26,7 @@ public class IsRobotReady {
 		return false;
 	}
 
-	public boolean isAtGoal(){
+	public static boolean isAtGoal(){
 		boolean isAtX = Grid.getInstance().getSelectedPosition().getX() - SwerveChassis.getInstance().getRobotPose().getX() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
 		boolean isAtY = Grid.getInstance().getSelectedPosition().getX() - SwerveChassis.getInstance().getRobotPose().getY() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
 		boolean isAtAngle = Grid.getInstance().getSelectedPosition().getRotation().getRadians() - SwerveChassis.getInstance().getRobotPose().getRotation().getRadians() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
@@ -34,7 +34,7 @@ public class IsRobotReady {
 		return isAtX && isAtY && isAtAngle;
 	}
 
-	public boolean isRobotReady(){
+	public static boolean isRobotReady(){
 		return isArmReady() && isAtGoal();
 	}
 }
