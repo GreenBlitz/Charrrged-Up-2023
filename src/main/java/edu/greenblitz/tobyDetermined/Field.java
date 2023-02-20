@@ -55,15 +55,15 @@ public class Field {
     public static class PlacementLocations{
 
         private static final Pose2d[] locationsOnBlueSide = {
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 0.508), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 1.067), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 1.626), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 2.184), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 2.743), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 3.302), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 3.861), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 4.420), new Rotation2d()),
-                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH), 4.978), new Rotation2d())
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 0.508), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 1.067), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 1.626), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 2.184), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 2.743), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 3.302), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 3.861), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 4.420), new Rotation2d()),
+                new Pose2d(new Translation2d(1.3 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 4.978), new Rotation2d())
         };
 
         public static Pose2d[] getLocationsOnBlueSide(){
