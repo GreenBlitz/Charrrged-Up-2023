@@ -11,14 +11,14 @@ public class IsRobotReady {
 		switch (Grid.getInstance().getSelectedHeight()){
 			case HIGH:
 				return RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
-						|| RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
 						&& RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE
-						|| RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+						|| RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
+						&& RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 			case MEDIUM:
 				return RobotMap.TelescopicArm.PresetPositions.CONE_MID.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
-						|| RobotMap.TelescopicArm.PresetPositions.CUBE_MID.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
 						&& RobotMap.TelescopicArm.PresetPositions.CONE_MID.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE
-						|| RobotMap.TelescopicArm.PresetPositions.CUBE_MID.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+						|| RobotMap.TelescopicArm.PresetPositions.CUBE_MID.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
+						&& RobotMap.TelescopicArm.PresetPositions.CUBE_MID.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 			case LOW:
 				return RobotMap.TelescopicArm.PresetPositions.LOW.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
 						&& RobotMap.TelescopicArm.PresetPositions.LOW.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
