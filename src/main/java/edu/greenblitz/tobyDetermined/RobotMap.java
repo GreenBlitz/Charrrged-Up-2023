@@ -342,6 +342,11 @@ public class RobotMap {
         }
     }
 
+    public static class ThirdLeg{
+        public static final int FORWARD_PORT = 2;
+        public static final int REVERSE_PORT = 3;
+    }
+
     public static class Intake {
         public static final int ROLLER_ID = 0;
 
