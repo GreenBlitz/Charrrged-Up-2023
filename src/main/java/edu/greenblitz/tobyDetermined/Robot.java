@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     }
 	
 	private static void initSubsystems(){
-        LimeLight.init();
+        Limelight.init();
         Dashboard.init();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		IntakeGameObjectSensor.init();
