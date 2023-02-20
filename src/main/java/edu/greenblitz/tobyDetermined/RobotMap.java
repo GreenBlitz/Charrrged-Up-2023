@@ -9,7 +9,6 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -231,15 +230,15 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.5, 45),
-            CONE_MID(0.3, 30),
-            CUBE_HIGH(0.5, 45),
-            CUBE_MID(0.3, 30),
+            CONE_HIGH(0.804, Math.toRadians(159.9)),
+            CONE_MID(0.26, Math.toRadians(176.7)),
+            CUBE_HIGH(0.654, Math.toRadians(159.3)),
+            CUBE_MID(0.3, 150),
             LOW(0, 5),
 
-            INTAKE_GRAB_POSITION (0,0),
+            INTAKE_GRAB_POSITION (0.307,Math.toRadians(95)),
             INTAKE_DROP_POSITION(0, 0),
-            PRE_INTAKE_DROP_POSITION(0,0);
+            PRE_INTAKE_GRAB_POSITION(0,0);
 
             public final double distance;
             public final double angleInRadians;
