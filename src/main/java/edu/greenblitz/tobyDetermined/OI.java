@@ -58,14 +58,14 @@ public class OI { //GEVALD
 	public void romyButtons(){
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 		mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
-		mainJoystick.L1.onTrue(new MoveToGrid()); //move to pose
-		mainJoystick.POV_UP.onTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
-		mainJoystick.POV_DOWN.onTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
-		mainJoystick.POV_LEFT.onTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT,0.1)); //left movement
-		mainJoystick.POV_RIGHT.onTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.1)); //right movement
-		mainJoystick.A.onTrue(new CancelChassisCommands()); //cancel auto command
+		mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
+		mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
+		mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
+		mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT,0.5)); //left movement
+		mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
 		mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
+		mainJoystick.Y.onTrue(new InstantCommand(()->SwerveChassis.getInstance().resetChassisPose())).and(()->mainJoystick.R1.getAsBoolean()); //reset pose
 	}
 
 	public SmartJoystick getMainJoystick() {
