@@ -45,6 +45,8 @@ public class Extender extends GBSubsystem {
 				0,0,0,
 				RobotMap.TelescopicArm.Extender.CONSTRAINTS
 		);
+
+
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
@@ -175,8 +177,12 @@ public class Extender extends GBSubsystem {
 		OUT_OF_BOUNDS
 	}
 
+	public boolean isAtLength(double wantedLength){
+		return Math.abs(profileGenerator.getGoal().position - wantedLength) >= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+	}
+
 	public boolean isAtLength() {
-		return profileGenerator.atGoal();
+		return isAtLength(profileGenerator.getGoal().position);
 	}
 
 	public void setMotorVoltage(double voltage) {
