@@ -9,7 +9,6 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -108,6 +107,8 @@ public class RobotMap {
         }
 
         public static class TobyDetermined {
+            public static final double ROBOT_LENGTH_IN_METERS = 0.69;
+            public static final double ROBOT_WIDTH_IN_METERS = 0.79;
             //todo calibrate
             public static final double MAX_VELOCITY = 0;
             public static final double MAX_ACCELERATION = 0;
