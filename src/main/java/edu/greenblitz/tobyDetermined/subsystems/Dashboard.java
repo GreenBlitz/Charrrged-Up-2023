@@ -7,6 +7,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -53,11 +54,14 @@ public class Dashboard extends GBSubsystem {
 		//grid todo make it mirror by alliance
 		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid)
 				.withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
-		for (int i = 0; i < 9; i++) {
+
+		boolean isRedAlliance = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+		int startingGridPositionID =  isRedAlliance? 0:8;
+		for (int gridPositionID = startingGridPositionID;gridPositionID < 9 && gridPositionID > 0; gridPositionID += isRedAlliance? 1:-1) {
 			for (Grid.Height height : Grid.Height.values()) {
-				int finalI = i;
+				int finalI = gridPositionID;
 				int finalHeight = height.ordinal();
-				grid.addBoolean(i + 1 + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI))
+				grid.addBoolean(gridPositionID + 1 + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI))
 						.withPosition(finalI, 2 - finalHeight);
 			}
 		}
