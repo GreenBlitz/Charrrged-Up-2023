@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.IsRobotReady;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -45,7 +46,7 @@ public class Dashboard extends GBSubsystem {
 		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
 		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
 		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngle()).withPosition(1, 1);
+		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
 
 		//arm state
 		driversTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
@@ -87,10 +88,8 @@ public class Dashboard extends GBSubsystem {
 
 
 		//ready to place
-		driversTab.addBoolean("Ready to place", () -> false).withPosition(3, 2).withSize(1, 2);
+		driversTab.addBoolean("Ready to place", IsRobotReady::isRobotReady).withPosition(3, 2).withSize(1, 2);
 		//todo check if at place and arm in pos
-
-
 	}
 
 
@@ -104,7 +103,7 @@ public class Dashboard extends GBSubsystem {
 		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
 		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
 		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngle()).withPosition(1, 1);
+		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
 
 		//arm state
 		armTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
@@ -119,7 +118,7 @@ public class Dashboard extends GBSubsystem {
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
 		//elbow angle
-		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngle());
+		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngleRadians());
 
 		//elbow state
 		armTab.addString("Elbow state", ()-> String.valueOf(Elbow.getInstance().getState()));
@@ -150,5 +149,19 @@ public class Dashboard extends GBSubsystem {
 
 	public PIDObject getExtenderPID(){
 		return new PIDObject().withKp(extenderController.getP()).withKi(extenderController.getI()).withKd(extenderController.getD());
+	}
+	
+	public void debugArm() {
+		ShuffleboardTab armDebugTab = Shuffleboard.getTab("arm debug");
+
+		armDebugTab.addDouble("length", () -> Extender.getInstance().getLength())
+				.withSize(3, 1).withPosition(0, 0);
+		armDebugTab.addDouble("angle", () -> Elbow.getInstance().getAngleRadians())
+				.withSize(3, 1).withPosition(0, 1);
+		armDebugTab.addString("extender state", () -> Extender.getInstance().getState().toString())
+				.withSize(3, 1).withPosition(0, 2);
+		armDebugTab.addString("elbow state", () -> Elbow.getInstance().getState().toString())
+				.withSize(3, 1).withPosition(0, 3);
+
 	}
 }
