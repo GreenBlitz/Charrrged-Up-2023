@@ -10,7 +10,7 @@ public class IsRobotReady {
 	public static boolean isArmAtGoal(){
 		switch (Grid.getInstance().getSelectedHeight()){
 			case HIGH:
-				if (Field.PlacementLocations.indexOfCube(Grid.getInstance().getSelectedPositionID())){
+				if (Field.PlacementLocations.isGridPositionIDofCube(Grid.getInstance().getSelectedPositionID())){
 					return Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.angleInRadians)
 							&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.distance);
 				}
@@ -19,7 +19,7 @@ public class IsRobotReady {
 							&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.distance);
 				}
 			case MEDIUM:
-				if (Field.PlacementLocations.indexOfCube(Grid.getInstance().getSelectedPositionID())){
+				if (Field.PlacementLocations.isGridPositionIDofCube(Grid.getInstance().getSelectedPositionID())){
 					return Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.CUBE_MID.angleInRadians)
 							&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.CUBE_MID.distance);
 				}

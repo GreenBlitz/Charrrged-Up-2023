@@ -79,15 +79,15 @@ public class Field {
 
         private static final HashSet<Integer> CUBE_INDICES= new HashSet(Arrays.asList(1,4,7));
 
-        public static boolean indexOfCube(int index){
+        public static boolean isGridPositionIDofCube(int index){
             if (index >= locationsOnBlueSide.length || index < 0){
                 Console.log("wrong grid index", "index of cube called with illegal index");
             }
             return CUBE_INDICES.contains(index);
         }
 
-        public static boolean indexOfCone(int index){
-            return !indexOfCube(index);
+        public static boolean isGridPositionIDofCone(int index){
+            return !isGridPositionIDofCube(index);
         }
 
 

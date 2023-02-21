@@ -35,16 +35,6 @@ public class Grid {
         }
     }
 
-    @Deprecated
-    public void putGridToShuffleboard(){
-        for (int i = 0; i < locations.length; i++) {
-            for (Height height:Height.values()){
-                boolean isSelected = selectedHeightID == height.ordinal() && selectedPositionID == i;
-                SmartDashboard.putBoolean(height.toString()+i, isSelected);
-            }
-        }
-    }
-
     public static void init(){
         if (instance == null) {
             instance = new Grid();
@@ -92,7 +82,7 @@ public class Grid {
             case HIGH:
                 return RobotMap.TelescopicArm.PresetPositions.CONE_HIGH;
         }
-        return null; //todo make not null </3
+        return RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH; //todo - make return HAIL in merge <3
     }
 
     public RobotMap.TelescopicArm.PresetPositions getSelectedCubePosition(){
