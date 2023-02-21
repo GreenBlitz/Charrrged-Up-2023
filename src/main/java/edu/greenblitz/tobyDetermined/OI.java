@@ -61,6 +61,7 @@ public class OI { //GEVALD
 	}
 
 	private void amirButtons(){
+		//Normal buttons.
 		secondJoystick.X.onTrue(new FullGripAndPutInClaw());
 		secondJoystick.Y.onTrue(new EjectFromClaw());
 		secondJoystick.B.onTrue(new GoToPosition((RobotMap.TelescopicArm.PresetPositions.INTAKE_DROP_POSITION)));//TODO: zig hail
@@ -71,6 +72,8 @@ public class OI { //GEVALD
 		secondJoystick.A.onTrue(new GoToGrid());
 		secondJoystick.BACK.onTrue(new HumanPlayerObjectIndicator(HumanPlayerObjectIndicator.wantedObject.CUBE));
 		secondJoystick.START.onTrue(new HumanPlayerObjectIndicator(HumanPlayerObjectIndicator.wantedObject.CONE));
+		//Override buttons.
+		secondJoystick.X.and(secondJoystick.L1).onTrue(new )
 	}
 
 	public SmartJoystick getMainJoystick() {
