@@ -1,6 +1,5 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ExtendToLength extends ExtenderCommand {
@@ -21,7 +20,7 @@ public class ExtendToLength extends ExtenderCommand {
 
     @Override
     public boolean isFinished() {
-        return extender.isAtLength(wantedLength);
+        return extender.isAtLength();
     }
 
     @Override

@@ -1,28 +1,24 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.wpi.first.wpilibj.Timer;
 
-public class GripConeFromClaw extends ClawCommand {
-    private double gripTime;
+public class GripCube extends ClawCommand {
 
-    public GripConeFromClaw(double gripTime){
-        this.gripTime = gripTime;
-    }
-
-    public GripConeFromClaw(){
-        gripTime =  RobotMap.telescopicArm.claw.TIME_OF_GRIP_CONSTANT;
-    }
-
+    Timer timer;
     @Override
     public void initialize() {
-        claw.coneCatchMode();
+        claw.cubeCatchMode();
+        claw.state = Claw.ClawState.CUBE_IN;
         claw.motorGrip();
+        timer = new Timer();
+        timer.start();
     }
 
     @Override
     public boolean isFinished() {
-        Timer.delay(gripTime);
+        timer.hasElapsed(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
         return true;
     }
 
@@ -30,4 +26,5 @@ public class GripConeFromClaw extends ClawCommand {
     public void end(boolean interrupted) {
         claw.stopMotor();
     }
+
 }

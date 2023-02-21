@@ -25,8 +25,6 @@ public class MoveToPose extends SwerveCommand {
 	public static final double TRANSLATION_KI = 0;
 	public static final double TRANSLATION_KD = 0;
 
-	private final double TOLERANCE = 0.05;
-	private final double ROTATION_TOLERANCE = 4;
 	private final boolean DEBUG = true;
 
 	public MoveToPose(Pose2d pose) {
@@ -35,9 +33,9 @@ public class MoveToPose extends SwerveCommand {
 		yController = new ProfiledPIDController(TRANSLATION_KP, TRANSLATION_KI, TRANSLATION_KD, RobotMap.Swerve.Autonomus.constraints);
 		rotationController = new ProfiledPIDController(ROT_KP, ROT_KI, ROT_KD, RobotMap.Swerve.Autonomus.constraints);
 		rotationController.enableContinuousInput(-Math.PI, Math.PI);
-		xController.setTolerance(TOLERANCE);
-		yController.setTolerance(TOLERANCE);
-		rotationController.setTolerance(Units.degreesToRadians(ROTATION_TOLERANCE));
+		xController.setTolerance(SwerveChassis.TRANSLATION_TOLERANCE);
+		yController.setTolerance(SwerveChassis.TRANSLATION_TOLERANCE);
+		rotationController.setTolerance(Units.degreesToRadians(SwerveChassis.ROTATION_TOLERANCE));
 
 	}
 

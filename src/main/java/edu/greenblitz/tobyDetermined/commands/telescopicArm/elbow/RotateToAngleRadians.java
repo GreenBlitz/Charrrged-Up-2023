@@ -13,7 +13,7 @@ public class RotateToAngleRadians extends ElbowCommand {
 
     @Override
     public void execute() {
-        elbow.moveTowardsAngleRads(wantedAngle);
+        elbow.moveTowardsAngleRadians(wantedAngle);
         SmartDashboard.putBoolean("is at angle?", false);
     }
 

@@ -1,27 +1,19 @@
 package edu.greenblitz.tobyDetermined.commands.rotatingBelly;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.wpi.first.wpilibj.Timer;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class RotateOutOfDoor extends RotatingBellyCommand {
+public class RotateOutOfDoor extends ParallelDeadlineGroup {
 
+    public RotateOutOfDoor() {
+        super(
+                new WaitUntilCommand(() -> RotatingBelly.getInstance().isLimitSwitchPressed()).andThen(new WaitCommand(RobotMap.RotatingBelly.ROTATE_OUT_OF_DOOR_TIME)),
+                new RotateOutDoorDirection()
+        );
 
-    @Override
-    public void execute() {
-        belly.setPower(-RobotMap.RotatingBelly.ROTATING_POWER);
     }
 
-    @Override
-    public boolean isFinished() {
-        if (belly.isLimitSwitchPressed()) {
-            Timer.delay(RobotMap.RotatingBelly.ROTATE_OUT_OF_DOOR_TIME);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        belly.stop();
-    }
 }

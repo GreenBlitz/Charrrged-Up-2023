@@ -4,20 +4,18 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeRoller extends GBSubsystem {
 	private static IntakeRoller instance;
 	private final GBSparkMax motor;
+	private DigitalInput objectDetector;
 
 	private IntakeRoller() {
 		motor = new GBSparkMax(RobotMap.Intake.ROLLER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.config(
-				new GBSparkMax.SparkMaxConfObject()
-						.withCurrentLimit(RobotMap.Intake.CURRENT_LIMIT)
-						.withInverted(RobotMap.Intake.INVERTED)
-						.withRampRate(RobotMap.Intake.RAMP_RATE)
-		);
+		motor.config(RobotMap.Intake.INTAKE_CONFIG_OBJECT);
+		objectDetector = new DigitalInput(RobotMap.Intake.BEAM_BREAKER_ID);
 	}
 
 	public static IntakeRoller getInstance() {
@@ -50,5 +48,9 @@ public class IntakeRoller extends GBSubsystem {
 
 	public void stop() {
 		roll(0);
+	}
+
+	public boolean isObjectIn(){
+		return objectDetector.get();
 	}
 }
