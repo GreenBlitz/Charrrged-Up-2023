@@ -24,14 +24,14 @@ public class Elbow extends GBSubsystem {
     private double debugLastFF;
 
     public static Elbow getInstance() {
-        if (instance == null) {
-            init();
-        }
+        init();
         return instance;
     }
 
     public static void init(){
-        instance = new Elbow();
+        if (instance == null) {
+            instance = new Elbow();
+        }
     }
 
     private Elbow() {

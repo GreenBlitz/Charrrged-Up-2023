@@ -23,15 +23,14 @@ public class Extender extends GBSubsystem {
 	private double debugLastFF;
 	
 	public static Extender getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("extender initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 	
 	public static void init() {
-		instance = new Extender();
+		if (instance == null) {
+			instance = new Extender();
+		}
 	}
 
 	private Extender() {

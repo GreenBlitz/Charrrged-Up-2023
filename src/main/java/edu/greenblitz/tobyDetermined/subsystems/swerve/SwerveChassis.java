@@ -57,15 +57,14 @@ public class SwerveChassis extends GBSubsystem {
 
 
 	public static SwerveChassis getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("chassis initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init(){
-		instance = new SwerveChassis();
+		if (instance == null) {
+			instance = new SwerveChassis();
+		}
 	}
 	
 	@Override

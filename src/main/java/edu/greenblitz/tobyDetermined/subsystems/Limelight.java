@@ -27,15 +27,14 @@ public class Limelight extends GBSubsystem {
 	}
 	
 	public static Limelight getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("limelight initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init(){
-		instance = new Limelight();
+		if (instance == null) {
+			instance = new Limelight();
+		}
 	}
 	
 	

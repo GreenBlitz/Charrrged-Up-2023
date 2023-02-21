@@ -25,10 +25,14 @@ public class RotatingBelly extends GBSubsystem {
     }
 
     public static RotatingBelly getInstance (){
+        init();
+        return instance;
+    }
+
+    public static void init(){
         if(instance == null){
             instance = new RotatingBelly();
         }
-        return instance;
     }
 
     public BellyGameObjectSensor.GameObject getGameObject (){
