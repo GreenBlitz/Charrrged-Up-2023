@@ -15,7 +15,7 @@ class Limelight {
     private NetworkTableEntry robotPoseEntry, idEntry;
 
     Limelight(String limelightName) {
-        String robotPoseQuery = DriverStation.getAlliance() == DriverStation.Alliance.Blue ? "botpose_wpiblue" : "botpose_wpired";
+        String robotPoseQuery = "botpose_wpiblue";
         robotPoseEntry = NetworkTableInstance.getDefault().getTable(limelightName).getEntry(robotPoseQuery);
         idEntry = NetworkTableInstance.getDefault().getTable(limelightName).getEntry("tid");
     }
