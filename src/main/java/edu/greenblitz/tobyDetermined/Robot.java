@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
         Limelight.getInstance();
         initPortForwarding();
         LiveWindow.disableAllTelemetry();
+        AutonomousSelector.getInstance();
 
         LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
@@ -73,7 +74,8 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
-        SwerveChassis.getInstance().setIdleModeBrake();
+//        SwerveChassis.getInstance().setIdleModeBrake();
+        autonomousInit();
     }
 
     @Override
@@ -83,7 +85,7 @@ public class Robot extends TimedRobot {
 
     /*
         TODO: Dear @Orel & @Tal, please for the love of god, use the very useful function: schedule(), this will help the code to actually work
-   :: */
+   */
     @Override
     public void autonomousInit() {
         AutonomousSelector.getInstance().getChosenValue().autonomousCommand.schedule();

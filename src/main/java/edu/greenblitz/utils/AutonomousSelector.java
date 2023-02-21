@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutonomousSelector {
@@ -24,10 +25,15 @@ public class AutonomousSelector {
 
 		chooser.addOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
 
+		chooser.addOption("test1", AutonomousPaths.TEST1);
+		chooser.addOption("test2", AutonomousPaths.TEST2);
+
 		chooser.setDefaultOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
 
-		ShuffleboardTab tab =Shuffleboard.getTab("auto");
-		tab.add("chooser",chooser);
+
+
+		ShuffleboardTab tab = Shuffleboard.getTab("auto");
+		tab.add("autonomous chooser", chooser);
 	}
 
 	public AutonomousPaths getChosenValue (){
@@ -43,22 +49,24 @@ public class AutonomousSelector {
 
 	public enum AutonomousPaths{
 		//top
-		TOP_THREE_OBJECTS(getInstance().getPathTCommand("T93_d_83").andThen(getInstance().getPathTCommand("T83_c_82"))),
-		TOP_2_AND_RAMP(getInstance().getPathTCommand("T93_d_83").andThen(getInstance().getPathTCommand("T83_ramp"))),
-		TOP_ONLY_2(getInstance().getPathTCommand("T93_d_83")),
+		TOP_THREE_OBJECTS(getPathTCommand("T93_d_83").andThen(getPathTCommand("T83_c_82"))),
+		TOP_2_AND_RAMP(getPathTCommand("T93_d_83").andThen(getPathTCommand("T83_ramp"))),
+		TOP_ONLY_2(getPathTCommand("T93_d_83")),
 		//bottom
-		BOTTOM_THREE_OBJECTS(getInstance().getPathTCommand("B13_a_23").andThen(getInstance().getPathTCommand("b23_b_22"))),
-		BOTTOM_TWO_AND_RAMP(getInstance().getPathTCommand("B13_a_23").andThen(getInstance().getPathTCommand("B23_ramp"))),
-		BOTTOM_ONLY_2(getInstance().getPathTCommand("B13_a_23")),
+		BOTTOM_THREE_OBJECTS(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_b_22"))),
+		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
+		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
 		//middle
-		MIDDLE_RAMP(getInstance().getPathTCommand("M_ramp"));
+		MIDDLE_RAMP(getPathTCommand("M_ramp")),
+		TEST2(new InstantCommand(()-> System.out.println("test2"))),
+		TEST1(new InstantCommand(()-> System.out.println("test1")));
 		public CommandBase autonomousCommand;
 		private AutonomousPaths (CommandBase autonomousCommands){
 			autonomousCommand = autonomousCommands;
 		}
 	}
 
-	private CommandBase getPathTCommand (String path){
+	private static CommandBase getPathTCommand (String path){
 		return PathFollowerBuilder.getInstance().followPath(path);
 	}
 }
