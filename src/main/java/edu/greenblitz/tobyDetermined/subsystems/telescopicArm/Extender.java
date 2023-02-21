@@ -17,11 +17,12 @@ public class Extender extends GBSubsystem {
 	private static Extender instance;
 	private static Extender.ExtenderState state = Extender.ExtenderState.IN_ROBOT_BELLY_LENGTH;
 	private GBSparkMax motor;
+	private boolean debug = false;
 	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
 	private double lastSpeed;
 	private boolean lastSwitchReading;
 	private double debugLastFF;
-	
+
 	public static Extender getInstance() {
 		init();
 		return instance;
@@ -44,12 +45,22 @@ public class Extender extends GBSubsystem {
 				0,0,0,
 				RobotMap.TelescopicArm.Extender.CONSTRAINTS
 		);
+
+
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
 		lastSwitchReading = getLimitSwitch();
 	}
 
+	private void debugSoftLimit(){
+		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0.3);
+	}
+
+	public void debugSetPower(double power){
+		motor.set(power);
+	}
+	
 	@Override
 	public void periodic() {
 		state = getHypotheticalState(getLength());
@@ -61,7 +72,6 @@ public class Extender extends GBSubsystem {
 	public void updatePIDController(PIDObject pidObject){
 		motor.configPID(pidObject);
 	}
-
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
 		if (lengthInMeters > RobotMap.TelescopicArm.Extender.FORWARD_LIMIT || lengthInMeters < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT) {
 			return ExtenderState.OUT_OF_BOUNDS;
@@ -90,8 +100,9 @@ public class Extender extends GBSubsystem {
 		profileGenerator.reset(getLength());
 		profileGenerator.setGoal(lengthInMeters);
 		double feedForward = getFeedForward(
-				profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngle());
+				profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngleRadians());
 		motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+		SmartDashboard.putNumber("Extender FF", feedForward);
 		debugLastFF = feedForward;
 	}
 
@@ -174,8 +185,12 @@ public class Extender extends GBSubsystem {
 		OUT_OF_BOUNDS
 	}
 
+	public boolean isAtLength(double wantedLength){
+		return Math.abs(profileGenerator.getGoal().position - wantedLength) >= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+	}
+
 	public boolean isAtLength() {
-		return profileGenerator.atGoal();
+		return isAtLength(profileGenerator.getGoal().position);
 	}
 
 	public void setMotorVoltage(double voltage) {
