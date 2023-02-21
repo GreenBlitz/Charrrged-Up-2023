@@ -26,14 +26,14 @@ public class Claw extends GBSubsystem {
      */
 
     public static Claw getInstance() {
-        if (instance == null) {
-            init();
-        }
+        init();
         return instance;
     }
 
     public static void init() {
-        instance = new Claw();
+        if (instance == null) {
+            instance = new Claw();
+        }
     }
 
     public void cubeCatchMode() {

@@ -18,15 +18,14 @@ public class Battery extends GBSubsystem {
 	}
 	
 	public static Battery getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("battery initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init(){
-		instance = new Battery();
+		if (instance == null) {
+			instance = new Battery();
+		}
 	}
 
 	public double getCurrentUsage (){

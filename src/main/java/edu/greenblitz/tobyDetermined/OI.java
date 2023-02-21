@@ -30,15 +30,14 @@ public class OI { //GEVALD
 	}
 
 	public static OI getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("oi initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init() {
-		instance = new OI();
+		if (instance == null) {
+			instance = new OI();
+		}
 	}
 
 	public static boolean isIsHandled() {

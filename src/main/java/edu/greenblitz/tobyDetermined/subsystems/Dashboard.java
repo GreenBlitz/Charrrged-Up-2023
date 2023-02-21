@@ -20,15 +20,14 @@ public class Dashboard extends GBSubsystem {
 	private static Dashboard instance;
 
 	public static Dashboard getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("dashboard initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init() {
-		instance = new Dashboard();
+		if (instance == null) {
+			instance = new Dashboard();
+		}
 	}
 
 	private Dashboard() {

@@ -23,10 +23,14 @@ public class LED extends GBSubsystem {
 
 
     public static LED getInstance() {
+        init();
+        return instance;
+    }
+
+    public static void init(){
         if (instance == null) {
             instance = new LED();
         }
-        return instance;
     }
 
     public void setColor(Color color) {
