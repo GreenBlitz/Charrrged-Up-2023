@@ -42,9 +42,7 @@ public class Grid {
     }
 
     public static Grid getInstance() {
-        if (instance == null) {
-            SmartDashboard.putBoolean("Grid initialized through getInstance", true);
-        }
+        init();
         return instance;
     }
 

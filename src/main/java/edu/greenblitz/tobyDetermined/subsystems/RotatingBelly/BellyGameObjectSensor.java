@@ -45,15 +45,14 @@ public class BellyGameObjectSensor extends GBSubsystem {
 	}
 
 	protected static BellyGameObjectSensor getInstance() {
-		if(instance == null) {
-			init();
-			SmartDashboard.putBoolean("color sensor initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init(){
-		instance = new BellyGameObjectSensor();
+		if(instance == null) {
+			instance = new BellyGameObjectSensor();
+		}
 	}
 
 	public void CalibrteDashBoard(Color detectedColor, ColorMatchResult match){

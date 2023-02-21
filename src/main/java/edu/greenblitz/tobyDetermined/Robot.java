@@ -10,7 +10,13 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyGameObjectSensor;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -28,10 +34,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         CommandScheduler.getInstance().enable();
 		initSubsystems();
-        LiveWindow.disableAllTelemetry();
-        Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-        Limelight.getInstance();
-        initPortForwarding();
+	    initPortForwarding();
+	    LiveWindow.disableAllTelemetry();
+	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         LiveWindow.disableAllTelemetry();
         AutonomousSelector.getInstance();
 
@@ -44,14 +49,20 @@ public class Robot extends TimedRobot {
 	
 	private static void initSubsystems(){
         Dashboard.init();
-		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		BellyGameObjectSensor.init();
 		Grid.init();
-		//swerve
-
-		SwerveChassis.getInstance().resetChassisPose();
-		SwerveChassis.getInstance().resetAllEncoders();
-		OI.getInstance();
+		Limelight.init();
+		LED.init();
+		Battery.init();
+		Extender.init();
+		Elbow.init();
+		Claw.init();
+		SwerveChassis.init();
+		RotatingBelly.init();
+		BellyGameObjectSensor.init();
+		IntakeExtender.init();
+		IntakeRoller.init();
+		OI.init();
 	}
 	
 	private static void initPortForwarding() {

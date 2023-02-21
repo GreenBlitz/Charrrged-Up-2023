@@ -1,8 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngle;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
