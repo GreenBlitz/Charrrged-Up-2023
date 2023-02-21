@@ -7,9 +7,8 @@ import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
 import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
-import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyGameObjectSensor;
-import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.wpi.first.net.PortForwarder;
@@ -36,7 +35,7 @@ public class Robot extends TimedRobot {
     }
 	
 	private static void initSubsystems(){
-        Limelight.init();
+        MultiLimelight.init();
         Dashboard.init();
 		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		BellyGameObjectSensor.init();
