@@ -1,7 +1,9 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import edu.greenblitz.tobyDetermined.Field;
+import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.utils.PigeonGyro;
@@ -30,6 +32,9 @@ public class SwerveChassis extends GBSubsystem {
 
 	private final Ultrasonic ultrasonic;
     private final int FILTER_BUFFER_SIZE = 15;
+
+	public static final double TRANSLATION_TOLERANCE = 0.05;
+	public static final double ROTATION_TOLERANCE = 4;
 
 	public SwerveChassis() {
 		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
@@ -262,6 +267,21 @@ public class SwerveChassis extends GBSubsystem {
 
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
+	}
+
+	public boolean isAtPose(Pose2d goalPose){
+		Pose2d robotPose = getRobotPose();
+
+		//is translation difference beneath tolerance
+		boolean isAtX = Math.abs(goalPose.getX() - robotPose.getX()) <= TRANSLATION_TOLERANCE;
+		boolean isAtY = Math.abs(goalPose.getY() - robotPose.getY()) <= TRANSLATION_TOLERANCE;
+
+		//is angle difference beneath tolerance from both directions
+		Rotation2d angDifference = (goalPose.getRotation().minus(robotPose.getRotation()));
+		boolean isAtAngle = angDifference.getRadians() <= ROTATION_TOLERANCE
+				|| (Math.PI*2) - angDifference.getRadians() <= ROTATION_TOLERANCE;
+
+		return isAtAngle && isAtX && isAtY;
 	}
 	
 	public Sendable getField() {
