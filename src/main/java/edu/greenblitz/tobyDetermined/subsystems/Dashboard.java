@@ -2,12 +2,6 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.PIDObject;
@@ -35,7 +29,8 @@ public class Dashboard extends GBSubsystem {
 	public static void init() {
 		instance = new Dashboard();
 	}
-private Dashboard() {
+
+	private Dashboard() {
 		driversDashboard();
 		swerveDashboard();
 		armDashboard();
@@ -87,8 +82,8 @@ private Dashboard() {
 
 
 		//console
-		ShuffleboardLayout console =Console.getShuffleboardConsole(driversTab)
-				.withPosition(8,0).withSize(2,3).withProperties(Map.of("Label position", "TOP"));
+		ShuffleboardLayout console = Console.getShuffleboardConsole(driversTab)
+				.withPosition(8, 0).withSize(2, 3).withProperties(Map.of("Label position", "TOP"));
 
 
 		//ready to place
@@ -97,8 +92,10 @@ private Dashboard() {
 
 
 	}
-	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(),Extender.getInstance().getPID().getKi(),Extender.getInstance().getPID().getKd());
-	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(),Elbow.getInstance().getPID().getKi(),Elbow.getInstance().getPID().getKd());
+
+	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(), Extender.getInstance().getPID().getKi(), Extender.getInstance().getPID().getKd());
+	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(), Elbow.getInstance().getPID().getKi(), Elbow.getInstance().getPID().getKd());
+
 	public void armDashboard() {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm debug");
 		//arm states
@@ -122,15 +119,15 @@ private Dashboard() {
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
 		//elbow angle
-		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngle());
+		armTab.addDouble("Elbow angle", () -> Elbow.getInstance().getAngle());
 
 		//elbow state
-		armTab.addString("Elbow state", ()-> String.valueOf(Elbow.getInstance().getState()));
+		armTab.addString("Elbow state", () -> String.valueOf(Elbow.getInstance().getState()));
 
 		//elbow ff
-		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
+		armTab.addDouble("elbow ff", () -> Elbow.getInstance().getDebugLastFF());
 
-		armTab.add("extenderPID" , extenderController);
+		armTab.add("extenderPID", extenderController);
 		armTab.add("elbowPID", elbowController);
 	}
 
@@ -147,11 +144,11 @@ private Dashboard() {
 
 	}
 
-	public PIDObject getElbowPID(){
+	public PIDObject getElbowPID() {
 		return new PIDObject().withKp(elbowController.getP()).withKi(elbowController.getI()).withKd(elbowController.getD());
 	}
 
-	public PIDObject getExtenderPID(){
+	public PIDObject getExtenderPID() {
 		return new PIDObject().withKp(extenderController.getP()).withKi(extenderController.getI()).withKd(extenderController.getD());
 	}
 }

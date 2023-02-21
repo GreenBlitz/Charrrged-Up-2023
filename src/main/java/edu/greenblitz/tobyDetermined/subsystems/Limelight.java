@@ -42,6 +42,7 @@ public class Limelight extends GBSubsystem {
 
 
     public Optional<Pair<Pose2d, Double>> getUpdatedPoseEstimator() {
+        //the botpose array is comprised of {0:x, 1:y, 2:z, 3:Roll, 4:Pitch, 5:Yaw, 6:total latency from capture to send}
         double[] poseArray = robotPoseEntry.getDoubleArray(new double[7]);
         double processingLatency = poseArray[6]/1000;
         double timestamp = Timer.getFPGATimestamp() -  processingLatency;

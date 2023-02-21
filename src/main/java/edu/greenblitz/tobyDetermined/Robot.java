@@ -23,10 +23,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         CommandScheduler.getInstance().enable();
 		initSubsystems();
+		initPortForwarding();
         LiveWindow.disableAllTelemetry();
         Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-        Photonvision.getInstance();
-
         LiveWindow.disableAllTelemetry();
 
         LED.getInstance().setDefaultCommand(new BackgroundColor());
