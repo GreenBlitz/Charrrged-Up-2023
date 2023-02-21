@@ -1,44 +1,73 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class Claw extends GBSubsystem {
     private static Claw instance;
-    private static final double MOTOR_POWER_GRIP = 0.3;
-    private static final double MOTOR_POWER_RELEASE = -0.3;
-    private GBSparkMax motor;
+    private TalonSRX motor;
+    private DoubleSolenoid solenoid;
+    public ClawState state;
 
-    private Claw(){
-        motor = new GBSparkMax(RobotMap.telescopicArm.claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private Claw() {
+        motor = new TalonSRX(RobotMap.TelescopicArm.Claw.MOTOR_ID);
+        solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
     }
+
+    /**
+     * forward -> cone
+     * reverse -> cube
+     */
 
     public static Claw getInstance() {
         if (instance == null) {
             init();
-            SmartDashboard.putBoolean("claw initialized via getinstance", true);
         }
         return instance;
     }
 
-    public static void init(){
+    public static void init() {
         instance = new Claw();
     }
 
-    public void grip() {
-        motor.set(MOTOR_POWER_GRIP);
+    public void cubeCatchMode() {
+        solenoid.set(DoubleSolenoid.Value.kReverse);
+        state = ClawState.CUBE_MODE;
     }
 
-    public void eject() {
-        motor.set(MOTOR_POWER_RELEASE);
+    public void coneCatchMode() {
+        solenoid.set(DoubleSolenoid.Value.kForward);
+        state = ClawState.CONE_MODE;
     }
 
-    public void stopMotor (){
-        motor.set(0);
+    public void toggleSolenoid() {
+        if (solenoid.get() == DoubleSolenoid.Value.kReverse) {
+            coneCatchMode();
+        } else {
+            cubeCatchMode();
+        }
+    }
+
+    public void motorGrip() {
+        motor.set(ControlMode.PercentOutput, RobotMap.TelescopicArm.Claw.MOTOR_POWER_GRIP);
+    }
+
+    public void motorEject() {
+        motor.set(ControlMode.PercentOutput, RobotMap.TelescopicArm.Claw.MOTOR_POWER_RELEASE);
+    }
+
+    public void stopMotor() {
+        motor.set(ControlMode.PercentOutput, 0);
+    }
+
+    public enum ClawState{
+        CUBE_MODE,
+        CUBE_IN,
+        CONE_IN,
+        CONE_MODE;
     }
 }
