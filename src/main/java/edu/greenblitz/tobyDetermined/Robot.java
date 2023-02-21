@@ -18,6 +18,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -75,7 +76,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
 //        SwerveChassis.getInstance().setIdleModeBrake();
-        autonomousInit();
+        AutonomousSelector.getInstance().getChosenValue().autonomousCommand.schedule();
     }
 
     @Override

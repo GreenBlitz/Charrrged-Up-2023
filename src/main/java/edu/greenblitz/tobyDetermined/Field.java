@@ -77,7 +77,7 @@ public class Field {
             return mirrorPositionsToOtherSide(locationsOnBlueSide);
         }
 
-        private static final HashSet<Integer> CUBE_INDICES= new HashSet(Arrays.asList(1,4,7));
+        private static final HashSet<Integer> CUBE_INDICES= new HashSet<>(Arrays.asList(1,4,7));
 
         public static boolean isGridPositionIDofCube(int index){
             if (index >= locationsOnBlueSide.length || index < 0){

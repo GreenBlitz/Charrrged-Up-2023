@@ -25,9 +25,6 @@ public class AutonomousSelector {
 
 		chooser.addOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
 
-		chooser.addOption("test1", AutonomousPaths.TEST1);
-		chooser.addOption("test2", AutonomousPaths.TEST2);
-
 		chooser.setDefaultOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
 
 
@@ -57,9 +54,7 @@ public class AutonomousSelector {
 		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
 		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
 		//middle
-		MIDDLE_RAMP(getPathTCommand("M_ramp")),
-		TEST2(new InstantCommand(()-> System.out.println("test2"))),
-		TEST1(new InstantCommand(()-> System.out.println("test1")));
+		MIDDLE_RAMP(getPathTCommand("M_ramp"));
 		public CommandBase autonomousCommand;
 		private AutonomousPaths (CommandBase autonomousCommands){
 			autonomousCommand = autonomousCommands;
