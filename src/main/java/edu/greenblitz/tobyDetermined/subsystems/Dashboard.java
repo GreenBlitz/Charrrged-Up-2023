@@ -57,7 +57,7 @@ public class Dashboard extends GBSubsystem {
 
 		boolean isRedAlliance = DriverStation.getAlliance() == DriverStation.Alliance.Red;
 		int startingGridPositionID =  isRedAlliance? 0:8;
-		for (int gridPositionID = startingGridPositionID;gridPositionID < 9 && gridPositionID > 0; gridPositionID += isRedAlliance? 1:-1) {
+		for (int gridPositionID = startingGridPositionID;gridPositionID < 9 && gridPositionID >= 0; gridPositionID += isRedAlliance? 1:-1) {
 			for (Grid.Height height : Grid.Height.values()) {
 				int finalI = gridPositionID;
 				int finalHeight = height.ordinal();
