@@ -272,9 +272,11 @@ public class SwerveChassis extends GBSubsystem {
 	public boolean isAtPose(Pose2d goalPose){
 		Pose2d robotPose = getRobotPose();
 
+		//is translation difference beneath tolerance
 		boolean isAtX = Math.abs(goalPose.getX() - robotPose.getX()) <= TRANSLATION_TOLERANCE;
 		boolean isAtY = Math.abs(goalPose.getY() - robotPose.getY()) <= TRANSLATION_TOLERANCE;
 
+		//is angle difference beneath tolerance from both directions
 		Rotation2d angDifference = (goalPose.getRotation().minus(robotPose.getRotation()));
 		boolean isAtAngle = angDifference.getRadians() <= ROTATION_TOLERANCE
 				|| (Math.PI*2) - angDifference.getRadians() <= ROTATION_TOLERANCE;
