@@ -1,10 +1,13 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Field {
@@ -53,17 +56,17 @@ public class Field {
 
     }
     public static class PlacementLocations{
-
+        // the locations of the grid plus half of the robot length.
         private static final Pose2d[] locationsOnBlueSide = {
-                new Pose2d(new Translation2d(0, 0), new Rotation2d()),
-                new Pose2d(new Translation2d(0, 0), new Rotation2d()),
-                new Pose2d(new Translation2d(0, 1), new Rotation2d()),
-                new Pose2d(new Translation2d(1, 1), new Rotation2d()),
-                new Pose2d(new Translation2d(0.5, 0), new Rotation2d()),
-                new Pose2d(new Translation2d(0, 0.5), new Rotation2d()),
-                new Pose2d(new Translation2d(0.5, 0.5), new Rotation2d()),
-                new Pose2d(new Translation2d(1, 0.5), new Rotation2d()),
-                new Pose2d(new Translation2d(0.5, 1), new Rotation2d())
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 0.508), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 1.067), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 1.626), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 2.184), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 2.743), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 3.302), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 3.861), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 4.420), new Rotation2d()),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 4.978), new Rotation2d())
         };
 
         public static Pose2d[] getLocationsOnBlueSide(){
@@ -72,6 +75,19 @@ public class Field {
 
         public static Pose2d[] getLocationsOnRedSide(){
             return mirrorPositionsToOtherSide(locationsOnBlueSide);
+        }
+
+        private static final HashSet<Integer> CUBE_INDICES= new HashSet(Arrays.asList(1,4,7));
+
+        public static boolean isGridPositionIDofCube(int index){
+            if (index >= locationsOnBlueSide.length || index < 0){
+                Console.log("wrong grid index", "index of cube called with illegal index");
+            }
+            return CUBE_INDICES.contains(index);
+        }
+
+        public static boolean isGridPositionIDofCone(int index){
+            return !isGridPositionIDofCube(index);
         }
 
 
