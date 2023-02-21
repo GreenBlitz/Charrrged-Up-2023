@@ -1,10 +1,13 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Field {
@@ -72,6 +75,19 @@ public class Field {
 
         public static Pose2d[] getLocationsOnRedSide(){
             return mirrorPositionsToOtherSide(locationsOnBlueSide);
+        }
+
+        private static final HashSet<Integer> CUBE_INDICES= new HashSet(Arrays.asList(1,4,7));
+
+        public static boolean indexOfCube(int index){
+            if (index >= locationsOnBlueSide.length || index < 0){
+                Console.log("wrong grid index", "index of cube called with illegal index");
+            }
+            return CUBE_INDICES.contains(index);
+        }
+
+        public static boolean indexOfCone(int index){
+            return !indexOfCube(index);
         }
 
 

@@ -7,34 +7,38 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 
 public class IsRobotReady {
-	public static boolean isArmReady(){
+	public static boolean isArmAtGoal(){
 		switch (Grid.getInstance().getSelectedHeight()){
 			case HIGH:
-				return RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
-						&& RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE
-						|| RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
-						&& RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+				if (Field.PlacementLocations.indexOfCube(Grid.getInstance().getSelectedPositionID())){
+					return Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.angleInRadians)
+							&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.distance);
+				}
+				else{
+					return Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.angleInRadians)
+							&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.distance);
+				}
 			case MEDIUM:
-				return RobotMap.TelescopicArm.PresetPositions.CONE_MID.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
-						&& RobotMap.TelescopicArm.PresetPositions.CONE_MID.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE
-						|| RobotMap.TelescopicArm.PresetPositions.CUBE_MID.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
-						&& RobotMap.TelescopicArm.PresetPositions.CUBE_MID.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+				if (Field.PlacementLocations.indexOfCube(Grid.getInstance().getSelectedPositionID())){
+					return Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.CUBE_MID.angleInRadians)
+							&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.CUBE_MID.distance);
+				}
+				else{
+					return Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.CONE_MID.angleInRadians)
+							&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.CONE_MID.distance);
+				}
 			case LOW:
-				return RobotMap.TelescopicArm.PresetPositions.LOW.angleInRadians - Elbow.getInstance().getAngle() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE
-						&& RobotMap.TelescopicArm.PresetPositions.LOW.distance -  Extender.getInstance().getLength() <= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+				return Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.LOW.angleInRadians)
+						&& Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.LOW.distance);
 		}
 		return false;
 	}
 
-	public static boolean isAtGoal(){
-		boolean isAtX = Grid.getInstance().getSelectedPosition().getX() - SwerveChassis.getInstance().getRobotPose().getX() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
-		boolean isAtY = Grid.getInstance().getSelectedPosition().getX() - SwerveChassis.getInstance().getRobotPose().getY() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
-		boolean isAtAngle = Grid.getInstance().getSelectedPosition().getRotation().getRadians() - SwerveChassis.getInstance().getRobotPose().getRotation().getRadians() <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
-
-		return isAtX && isAtY && isAtAngle;
+	public static boolean isChassisAtGoal(){
+		return SwerveChassis.getInstance().isAtPose(Grid.getInstance().getSelectedPosition());
 	}
 
 	public static boolean isRobotReady(){
-		return isArmReady() && isAtGoal();
+		return isArmAtGoal() && isChassisAtGoal();
 	}
 }
