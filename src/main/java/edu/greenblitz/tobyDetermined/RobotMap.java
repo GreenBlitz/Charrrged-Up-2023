@@ -15,6 +15,9 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
+
 public class RobotMap {
     public static final Robot.robotName ROBOT_NAME = Robot.robotName.pegaSwerve;
 
@@ -92,7 +95,7 @@ public class RobotMap {
             public static final int LAMPREY_AVERAGE_BITS = 2;
 
 
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(0, 0, 0);
+            public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
 
             public static final PIDConstants ROTATION_PID = new PIDConstants(2, 0, 0);
 
@@ -218,7 +221,7 @@ public class RobotMap {
     public static class RotatingBelly {
         public static final int MOTOR_ID = 22;
         public static final double ROTATING_POWER = 0.5;
-        public static final int MACRO_SWITCH_PORT = 0;
+        public static final int MACRO_SWITCH_PORT = 4;
 
         public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
         public static double ROTATE_TO_DOOR_TIME = 3;
@@ -232,15 +235,15 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.5, 45),
-            CONE_MID(0.3, 30),
-            CUBE_HIGH(0.5, 45),
-            CUBE_MID(0.3, 30),
-            LOW(0, 5),
+            CONE_HIGH(STARTING_LENGTH + 0.804, STARTING_ANGLE_RELATIVE_TO_GROUND + 20.1),
+            CONE_MID(STARTING_LENGTH + 0.26, STARTING_ANGLE_RELATIVE_TO_GROUND + 3.3),
+            CUBE_HIGH(STARTING_LENGTH + 0.654, STARTING_ANGLE_RELATIVE_TO_GROUND + 20.7),
+            CUBE_MID(STARTING_LENGTH + 0.450, STARTING_ANGLE_RELATIVE_TO_GROUND + 15.46),
+            LOW(STARTING_LENGTH + 0.35, STARTING_LENGTH + 60),
 
-            INTAKE_GRAB_POSITION (0,0),
+            INTAKE_GRAB_POSITION(STARTING_LENGTH + 0.307, STARTING_ANGLE_RELATIVE_TO_GROUND),
             INTAKE_DROP_POSITION(0, 0),
-            PRE_INTAKE_DROP_POSITION(0,0);
+            PRE_INTAKE_GRAB_POSITION(0, 0);
 
             public final double distance;
             public final double angleInRadians;
@@ -257,7 +260,7 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
-            public static final double STARTING_LENGTH =0;
+            public static final double STARTING_LENGTH = 0;
 
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
@@ -284,12 +287,12 @@ public class RobotMap {
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                     .withPID(RobotMap.TelescopicArm.Extender.PID)
-				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
-				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
-				.withIdleMode(CANSparkMax.IdleMode.kBrake)
-				.withRampRate(General.RAMP_RATE_VAL)
-				.withCurrentLimit(30)
-				.withVoltageComp(General.VOLTAGE_COMP_VAL);
+                    .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+                    .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+                    .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                    .withRampRate(General.RAMP_RATE_VAL)
+                    .withCurrentLimit(30)
+                    .withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Claw {
@@ -330,12 +333,12 @@ public class RobotMap {
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 
 
-            public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT= new GBSparkMax.SparkMaxConfObject()
+            public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                     .withPID(PID)
-                .withIdleMode(CANSparkMax.IdleMode.kBrake)
-                .withRampRate(General.RAMP_RATE_VAL)
-                .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
-                .withVoltageComp(General.VOLTAGE_COMP_VAL);
+                    .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                    .withRampRate(General.RAMP_RATE_VAL)
+                    .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
+                    .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
 
             public static final int CURRENT_LIMIT = 40;
@@ -343,14 +346,13 @@ public class RobotMap {
         }
     }
 
-    public static class ThirdLeg{
+    public static class ThirdLeg {
         public static final int FORWARD_PORT = 2;
         public static final int REVERSE_PORT = 3;
     }
 
     public static class Intake {
-        public static final int ROLLER_ID = 13;
-
+        public static final int ROLLER_ID = 24;
         public static final double DEFAULT_POWER = 1;
         public static final double ROLL_INSIDE_POWER = 0.5;
         public static final int BEAM_BREAKER_ID = 29;

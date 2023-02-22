@@ -1,0 +1,96 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.7843766596624102,
+        "y": 0.4827972383217498
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.784376659662408,
+        "y": 0.4827972383217498
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "placeObject"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.5212552243286295,
+        "y": 0.8380631306717172
+      },
+      "prevControl": {
+        "x": 5.646754566236405,
+        "y": 0.8380631306717172
+      },
+      "nextControl": {
+        "x": 5.646754566236405,
+        "y": 0.8380631306717172
+      },
+      "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.8065829298027114,
+        "y": 1.003824547899544
+      },
+      "prevControl": {
+        "x": 4.519146718566643,
+        "y": 0.9400588749136523
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "moveToPos23"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": null,
+  "maxAcceleration": 5.8,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 0.509090909090912,
+      "names": [
+        "startGripper"
+      ]
+    },
+    {
+      "position": 1.2181818181818171,
+      "names": [
+        "foldGripper",
+        "indexObject",
+        "GrabObject"
+      ]
+    }
+  ]
+}
