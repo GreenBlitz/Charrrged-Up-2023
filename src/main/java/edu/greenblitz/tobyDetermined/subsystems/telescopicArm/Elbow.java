@@ -67,9 +67,9 @@ public class Elbow extends GBSubsystem {
     public void moveTowardsAngle(double angleInRads) {
         // going out of bounds should not be allowed
         if (getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
-            if(angleInRads <= RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
+            if(angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
                 moveTowardsAngle(RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
-            }else if(angleInRads >= RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT){
+            }else if(angleInRads > RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT){
                 moveTowardsAngle(RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
             }else{
                 stop();
@@ -77,14 +77,19 @@ public class Elbow extends GBSubsystem {
             Console.log("OUT OF BOUNDS", "arm Elbow is trying to move OUT OF BOUNDS" );
             return;
         }
+        if (getHypotheticalState(angleInRads) == ElbowState.FLOOR_ZONE && Extender.getInstance().getState() == Extender.ExtenderState.IN_FLOOR_LENGTH){
+            //going in floor
+            moveTowardsAngle(RobotMap.TelescopicArm.Elbow.END_FLOOR_ZONE_ANGLE);
+            Console.log("FLOOR ZONE", "arm elbow is trying to move toward floor");
+        }
 
         //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
         // if its not short enough the arm will approach the start of the zone
         if(getState() != getHypotheticalState(angleInRads) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
-            setAngleByPID(state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE);
+            moveTowardsAngle(state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE);
         }else {
-            setAngleByPID(angleInRads);
+            moveTowardsAngle(angleInRads);
         }
     }
 
@@ -119,11 +124,14 @@ public class Elbow extends GBSubsystem {
     public static ElbowState getHypotheticalState(double angleInRads) {
         if (angleInRads > RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT) {
             return ElbowState.OUT_OF_BOUNDS;
-        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE && angleInRads < RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
-            return ElbowState.WALL_ZONE;
-        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
+        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.END_FLOOR_ZONE_ANGLE) {
             return ElbowState.OUT_ROBOT;
+        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
+            return ElbowState.FLOOR_ZONE;
+        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE) {
+            return ElbowState.WALL_ZONE;
         }
+
         return ElbowState.IN_BELLY;
 
     }
@@ -162,7 +170,9 @@ public class Elbow extends GBSubsystem {
         // the state of being in front of the plates wall, this should not be a permanent state on purpose
         WALL_ZONE,
         // this state should not be possible and is either used to stop dangerous movement or to signal a bug
-        OUT_OF_BOUNDS
+        OUT_OF_BOUNDS,
+
+        FLOOR_ZONE
     }
 
     public void setMotorVoltage (double voltage){

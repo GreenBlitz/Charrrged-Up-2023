@@ -66,13 +66,17 @@ public class Extender extends GBSubsystem {
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
 		if (lengthInMeters > RobotMap.TelescopicArm.Extender.FORWARD_LIMIT || lengthInMeters < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT) {
 			return ExtenderState.OUT_OF_BOUNDS;
-		} else if (lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH) {
+		}
+		else if (lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH) {
 			return ExtenderState.IN_WALL_LENGTH;
 		} else if (lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT) {
 			return ExtenderState.IN_ROBOT_BELLY_LENGTH;
-		} else {
-			return ExtenderState.OPEN;
+		} else if(lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_LENGTH_TO_FLOOR){
+			return ExtenderState.IN_FLOOR_LENGTH;
 		}
+
+		return ExtenderState.OPEN;
+
 	}
 
 
@@ -116,7 +120,9 @@ public class Extender extends GBSubsystem {
 		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(lengthInMeters) != ExtenderState.IN_WALL_LENGTH) {
 			// arm should not extend too much in front of the wall
 			setLengthByPID(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
-		} else {
+		} else if(Elbow.getInstance().getState() == Elbow.ElbowState.FLOOR_ZONE && getHypotheticalState(lengthInMeters) == ExtenderState.OPEN) {
+			setLengthByPID(RobotMap.TelescopicArm.Extender.MAX_LENGTH_TO_FLOOR);
+		}else{
 			setLengthByPID(lengthInMeters);
 		}
 	}
@@ -165,12 +171,14 @@ public class Extender extends GBSubsystem {
 
 	public enum ExtenderState {
 		//see elbow state first
-		//the state corresponding to IN_BELLY
-		IN_ROBOT_BELLY_LENGTH,
-		//the state corresponding to OUT_ROBOT
-		OPEN,
 		//the state corresponding to WALL_ZONE
 		IN_WALL_LENGTH,
+		//the state corresponding to IN_BELLY
+		IN_ROBOT_BELLY_LENGTH,
+
+		IN_FLOOR_LENGTH,
+		//the state corresponding to OUT_ROBOT
+		OPEN,
 		// this state should not be possible and is either used to stop dangerous movement or to signal a bug
 		OUT_OF_BOUNDS
 	}
