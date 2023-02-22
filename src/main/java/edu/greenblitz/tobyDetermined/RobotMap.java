@@ -227,7 +227,7 @@ public class RobotMap {
     }
 
     public static class TelescopicArm {
-
+        public static final double debugVoltage = 0.1;
 
         public enum PresetPositions {
             //height in meters

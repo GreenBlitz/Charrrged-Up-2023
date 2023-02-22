@@ -35,6 +35,13 @@ public class RotatingBelly extends GBSubsystem {
         return colorSensor.getCurObject();
     }
 
+    public void setObjectToCone(){
+        colorSensor.changeObjectToCone();
+    }
+
+    public void setObjectToCube(){
+        colorSensor.changeObjectToCube();
+    }
     public boolean isObjectIn(){
         return getGameObject() == BellyGameObjectSensor.GameObject.NONE;
     }

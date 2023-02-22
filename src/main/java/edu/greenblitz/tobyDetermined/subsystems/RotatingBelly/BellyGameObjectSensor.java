@@ -68,6 +68,14 @@ public class BellyGameObjectSensor extends GBSubsystem {
 		return curObject;
 	}
 
+	public void changeObjectToCone(){
+		curObject = GameObject.CONE;
+	}
+
+	public void changeObjectToCube(){
+		curObject = GameObject.CUBE;
+	}
+
 	public boolean isObjectIn(){
 		return getCurObject() == GameObject.NONE;
 	}
