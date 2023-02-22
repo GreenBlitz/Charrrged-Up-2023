@@ -31,8 +31,8 @@ public class Dashboard extends GBSubsystem {
 	}
 
 	private Dashboard() {
-		driversDashboard();
-		swerveDashboard();
+//		driversDashboard();
+//		swerveDashboard();
 		armDashboard();
 	}
 

@@ -5,6 +5,8 @@ import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
@@ -12,6 +14,7 @@ import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
 import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 public class OI { //GEVALD
 
@@ -52,18 +55,15 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
-		mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose()));
-		mainJoystick.POV_UP.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-		mainJoystick.POV_DOWN.onTrue(new ToggleBrakeCoast());
-		mainJoystick.A.onTrue(new ExtendRoller());
-		mainJoystick.B.onTrue(new RetractRoller());
-		mainJoystick.START.onTrue(new ToggleRoller());
-
-		secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-		secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-		secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-		secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+		double debugPower = 0.1;
+		StartEndCommand powerElbow = new StartEndCommand(() -> Elbow.getInstance().debugSetPower(debugPower), () -> Elbow.getInstance().stop());
+		StartEndCommand reversePowerElbow = new StartEndCommand(() -> Elbow.getInstance().debugSetPower(-debugPower), () -> Elbow.getInstance().stop());
+		StartEndCommand powerExtender = new StartEndCommand(() -> Extender.getInstance().debugSetPower(debugPower), () -> Extender.getInstance().stop());
+		StartEndCommand reversePowerExtender = new StartEndCommand(() -> Extender.getInstance().debugSetPower(-debugPower), () -> Extender.getInstance().stop());
+		mainJoystick.A.whileTrue(powerElbow);
+		mainJoystick.B.whileTrue(reversePowerElbow);
+		mainJoystick.X.whileTrue(powerExtender);
+		mainJoystick.Y.whileTrue(reversePowerExtender);
 	}
 
 	public SmartJoystick getMainJoystick() {

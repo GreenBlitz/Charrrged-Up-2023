@@ -33,28 +33,28 @@ public class Robot extends TimedRobot {
 	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         LiveWindow.disableAllTelemetry();
 
-        LED.getInstance().setDefaultCommand(new BackgroundColor());
+//        LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
 
-        SwerveChassis.getInstance().resetChassisPose();
-        SwerveChassis.getInstance().resetAllEncoders();
+//        SwerveChassis.getInstance().resetChassisPose();
+//        SwerveChassis.getInstance().resetAllEncoders();
     }
 	
 	private static void initSubsystems(){
         Dashboard.init();
-		BellyGameObjectSensor.init();
-		Grid.init();
-		Limelight.init();
-		LED.init();
+//		BellyGameObjectSensor.init();
+//		Grid.init();
+//		Limelight.init();
+//		LED.init();
 		Battery.init();
 		Extender.init();
 		Elbow.init();
 		Claw.init();
-		SwerveChassis.init();
-		RotatingBelly.init();
-		BellyGameObjectSensor.init();
-		IntakeExtender.init();
-		IntakeRoller.init();
+//		SwerveChassis.init();
+//		RotatingBelly.init();
+//		BellyGameObjectSensor.init();
+//		IntakeExtender.init();
+//		IntakeRoller.init();
 		OI.init();
 	}
 	
@@ -79,7 +79,7 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
-        SwerveChassis.getInstance().setIdleModeBrake();
+//        SwerveChassis.getInstance().setIdleModeBrake();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
-        PathFollowerBuilder.getInstance().followPath(AutonomousSelector.getInstance().getChosenValue()).schedule();
+//        PathFollowerBuilder.getInstance().followPath(AutonomousSelector.getInstance().getChosenValue()).schedule();
     }
 
     @Override
