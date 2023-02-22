@@ -1,0 +1,97 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.8529496092936095,
+        "y": 5.076484142240355
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.852949609293609,
+        "y": 5.076484142240355
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "placeCone3"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.671307439215952,
+        "y": 4.60325256965362
+      },
+      "prevControl": {
+        "x": 5.9256092036427,
+        "y": 4.717975375118748
+      },
+      "nextControl": {
+        "x": 5.9256092036427,
+        "y": 4.717975375118748
+      },
+      "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 3.272644327037249,
+        "y": 4.760996427186214
+      },
+      "prevControl": {
+        "x": 4.677998694096609,
+        "y": 4.5458911669220265
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "moveToPos8-3"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": null,
+  "maxAcceleration": 5.8,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 0.5818181818181839,
+      "names": [
+        "openGripper",
+        "startGripper"
+      ]
+    },
+    {
+      "position": 1.4545454545454541,
+      "names": [
+        "indexObject",
+        "grabObject",
+        "indexObject"
+      ]
+    }
+  ]
+}

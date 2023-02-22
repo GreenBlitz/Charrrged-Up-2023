@@ -76,23 +76,23 @@ public class RobotMap {
     }
 
     public static class Ultrasonic {
-        public static final int PING_CHANNEL = 0;
-        public static final int ECHO_CHANNEL = 1;
+        public static final int PING_CHANNEL = 5;
+        public static final int ECHO_CHANNEL = 6;
         public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
     }
 
-    public static class Swerve {
+	public static class Swerve {
 
-        public static class Pegaswerve {
+	    public static class Pegaswerve {
 
-            public static final double MAX_VELOCITY = 3.4930218;
-            public static final double MAX_ACCELERATION = 5.824409;
+	        public static final double MAX_VELOCITY = 3.4930218;
+	        public static final double MAX_ACCELERATION = 5.824409;
             public static final double MAX_ANGULAR_SPEED = 8;
             public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
             public static final int LAMPREY_AVERAGE_BITS = 2;
 
 
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(0, 0, 0);
+            public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
 
             public static final PIDConstants ROTATION_PID = new PIDConstants(2, 0, 0);
 
@@ -218,7 +218,7 @@ public class RobotMap {
     public static class RotatingBelly {
         public static final int MOTOR_ID = 22;
         public static final double ROTATING_POWER = 0.5;
-        public static final int MACRO_SWITCH_PORT = 0;
+        public static final int MACRO_SWITCH_PORT = 4;
 
         public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
         public static double ROTATE_TO_DOOR_TIME = 3;
@@ -349,7 +349,7 @@ public class RobotMap {
     }
 
     public static class Intake {
-        public static final int ROLLER_ID = 0;
+        public static final int ROLLER_ID = 24;
 
         public static final double DEFAULT_POWER = 1;
         public static final double ROLL_INSIDE_POWER = 0.5;
