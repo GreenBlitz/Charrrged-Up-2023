@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
     }
 	
 	private static void initSubsystems(){
-//        Dashboard.init();
+        Dashboard.init();
 //        Dashboard.getInstance().armDashboard();
 //        Dashboard.getInstance().swerveDashboard();
 		BellyGameObjectSensor.init();

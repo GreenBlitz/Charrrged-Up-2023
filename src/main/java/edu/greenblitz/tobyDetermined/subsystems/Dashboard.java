@@ -51,17 +51,14 @@ public class Dashboard extends GBSubsystem {
 		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid)
 				.withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
 
-
 		boolean isRedAlliance = DriverStation.getAlliance() == DriverStation.Alliance.Red;
-		driversTab.add("IsRedAlliance", isRedAlliance);
-		int startingGridPositionID =  isRedAlliance? 0:8;
-		for (int gridPositionID = startingGridPositionID;gridPositionID < 9 && gridPositionID >= 0; gridPositionID += isRedAlliance? 1:-1) {
+		for (int i = 0;i < 9 ; i++) {
 			for (Grid.Height height : Grid.Height.values()) {
-				int finalGridPositionID = gridPositionID;
+				int finalGridPositionID = i;
 				int finalHeight = height.ordinal();
-				grid.addBoolean(gridPositionID + 1 + " " + height, () ->
+				grid.addBoolean(i + 1 + " " + height, () ->
 								(Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalGridPositionID))
-						.withPosition(finalGridPositionID, 2 - finalHeight);
+						.withPosition(isRedAlliance? finalGridPositionID: 8-finalGridPositionID , 2 - finalHeight);
 			}
 		}
 
