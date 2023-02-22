@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.IsRobotReady;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
@@ -52,7 +53,7 @@ public class Dashboard extends GBSubsystem {
 				.withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
 
 		boolean isRedAlliance = DriverStation.getAlliance() == DriverStation.Alliance.Red;
-		for (int i = 0;i < 9 ; i++) {
+		for (int i = 0; i < Field.PlacementLocations.getLocationsOnRedSide().length; i++) {
 			for (Grid.Height height : Grid.Height.values()) {
 				int finalGridPositionID = i;
 				int finalHeight = height.ordinal();
