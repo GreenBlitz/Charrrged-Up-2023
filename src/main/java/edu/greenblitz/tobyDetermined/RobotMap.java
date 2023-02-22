@@ -273,6 +273,8 @@ public class RobotMap {
             public static final double OUTPUT_GEAR_AMOUNT_OF_TEETH = 32;
             public static final double MAX_LENGTH_IN_ROBOT = 0.4;
             public static final double MAX_ENTRANCE_LENGTH = 0.3;
+            public static final double IN_FLOOR_MIN = 0;
+            public static final double SAFE_FLOOR_LENGTH = 0;
             public static final PIDObject PID = new PIDObject();
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
@@ -327,6 +329,8 @@ public class RobotMap {
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(67);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
+            public static final double END_FLOOR_ZONE = 0; //when extender is at max
+            public static final double SAFE_ANGLE_FOR_FLOOR = 0;
 
 
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
