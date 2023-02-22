@@ -257,7 +257,7 @@ public class RobotMap {
             public static final int MOTOR_ID = 3;
             public static final double GEAR_RATIO = 1/15.0;
             public static final double EXTENDED_LENGTH = 0.92;
-            public static final double STARTING_LENGTH =0;
+            public static final double STARTING_LENGTH =0.3;
 
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
@@ -285,14 +285,14 @@ public class RobotMap {
                     .withPID(RobotMap.TelescopicArm.Extender.PID)
 				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
 				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
-				.withIdleMode(CANSparkMax.IdleMode.kCoast)
+				.withIdleMode(CANSparkMax.IdleMode.kBrake)
 				.withRampRate(General.RAMP_RATE_VAL)
 				.withCurrentLimit(30)
 				.withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Claw {
-            public static final int MOTOR_ID = 1;
+            public static final int MOTOR_ID = 2;
             public static final int SOLENOID_OPEN_CLAW_ID = 0;
             public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
@@ -303,7 +303,7 @@ public class RobotMap {
         }
 
         public static class Elbow {
-            public static final int MOTOR_ID = 2;
+            public static final int MOTOR_ID = 1;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;
@@ -331,7 +331,7 @@ public class RobotMap {
 
             public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT= new GBSparkMax.SparkMaxConfObject()
                     .withPID(PID)
-                .withIdleMode(CANSparkMax.IdleMode.kCoast)
+                .withIdleMode(CANSparkMax.IdleMode.kBrake)
                 .withRampRate(General.RAMP_RATE_VAL)
                 .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
                 .withVoltageComp(General.VOLTAGE_COMP_VAL);

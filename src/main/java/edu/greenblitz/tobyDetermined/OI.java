@@ -56,7 +56,7 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-		double debugPower = 0.1;
+		double debugPower = 0.15;
 		StartEndCommand powerElbow = new StartEndCommand(() -> Elbow.getInstance().debugSetPower(debugPower), () -> Elbow.getInstance().stop());
 		StartEndCommand reversePowerElbow = new StartEndCommand(() -> Elbow.getInstance().debugSetPower(-debugPower), () -> Elbow.getInstance().stop());
 		StartEndCommand powerExtender = new StartEndCommand(() -> Extender.getInstance().debugSetPower(debugPower), () -> Extender.getInstance().stop());
