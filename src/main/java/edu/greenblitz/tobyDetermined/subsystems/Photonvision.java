@@ -27,10 +27,7 @@ public class Photonvision extends GBSubsystem {
 	}
 	
 	public static Photonvision getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("Photonvision initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 

@@ -19,15 +19,14 @@ public class IntakeRoller extends GBSubsystem {
 	}
 
 	public static IntakeRoller getInstance() {
-		if(instance == null) {
-			init();
-			SmartDashboard.putBoolean("intake roller initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init(){
-		instance = new IntakeRoller();
+		if(instance == null) {
+			instance = new IntakeRoller();
+		}
 	}
 
 	public void roll(double power) {

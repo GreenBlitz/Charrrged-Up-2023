@@ -4,17 +4,31 @@ import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
+import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
 import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyGameObjectSensor;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
+>>>>>>> master
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.AutonomousSelector;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Robot extends TimedRobot {
 
@@ -26,6 +40,11 @@ public class Robot extends TimedRobot {
         LiveWindow.disableAllTelemetry();
         Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         LiveWindow.disableAllTelemetry();
+	    initPortForwarding();
+	    LiveWindow.disableAllTelemetry();
+	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+        LiveWindow.disableAllTelemetry();
+        AutonomousSelector.getInstance();
 
         LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
@@ -37,14 +56,20 @@ public class Robot extends TimedRobot {
 	private static void initSubsystems(){
         MultiLimelight.init();
         Dashboard.init();
-		Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		BellyGameObjectSensor.init();
 		Grid.init();
-		//swerve
-
-		SwerveChassis.getInstance().resetChassisPose();
-		SwerveChassis.getInstance().resetAllEncoders();
-		OI.getInstance();
+		Limelight.init();
+		LED.init();
+		Battery.init();
+		Extender.init();
+		Elbow.init();
+		Claw.init();
+		SwerveChassis.init();
+		RotatingBelly.init();
+		BellyGameObjectSensor.init();
+		IntakeExtender.init();
+		IntakeRoller.init();
+		OI.init();
 	}
 	
 	private static void initPortForwarding() {
@@ -78,10 +103,10 @@ public class Robot extends TimedRobot {
 
     /*
         TODO: Dear @Orel & @Tal, please for the love of god, use the very useful function: schedule(), this will help the code to actually work
-    */
+   */
     @Override
     public void autonomousInit() {
-        PathFollowerBuilder.getInstance().followPath(AutonomousSelector.getInstance().getChosenValue()).schedule();
+        AutonomousSelector.getInstance().getChosenValue().autonomousCommand.schedule();
     }
 
     @Override
