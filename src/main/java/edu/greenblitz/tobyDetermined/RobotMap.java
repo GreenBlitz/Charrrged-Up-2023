@@ -250,8 +250,8 @@ public class RobotMap {
 
             PRE_INTAKE_DROP_POSITION(0,0);
 
-            public final double distance;
-            public final double angleInRadians;
+            public double distance;
+            public double angleInRadians;
 
             PresetPositions(double distance, double angle) {
                 this.distance = distance;
