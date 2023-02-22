@@ -10,11 +10,9 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyGameObjectSensor;
-import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
->>>>>>> master
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -58,7 +56,6 @@ public class Robot extends TimedRobot {
         Dashboard.init();
 		BellyGameObjectSensor.init();
 		Grid.init();
-		Limelight.init();
 		LED.init();
 		Battery.init();
 		Extender.init();

@@ -246,7 +246,9 @@ public class RobotMap {
 
             INTAKE_GRAB_POSITION(STARTING_LENGTH + 0.307, STARTING_ANGLE_RELATIVE_TO_GROUND),
             INTAKE_DROP_POSITION(0, 0),
-            PRE_INTAKE_GRAB_POSITION(0, 0);
+            PRE_INTAKE_GRAB_POSITION(0, 0),
+
+            PRE_INTAKE_DROP_POSITION(0,0);
 
             public final double distance;
             public final double angleInRadians;
