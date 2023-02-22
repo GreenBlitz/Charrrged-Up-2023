@@ -49,11 +49,6 @@ public class OI { //GEVALD
 		isHandled = false;
 	}
 	private void initButtons() {
-		mainJoystick.X.onTrue( new SequentialCommandGroup(
-				PathFollowerBuilder.getInstance()
-						.followPath("2"),
-				new MoveToPose(new Pose2d(1.8,4.4,new Rotation2d(180)), true)
-		));
 		mainJoystick.A.onTrue(new ExtendRoller());
 		mainJoystick.B.onTrue(new RetractRoller());
 		mainJoystick.START.onTrue(new ToggleRoller());

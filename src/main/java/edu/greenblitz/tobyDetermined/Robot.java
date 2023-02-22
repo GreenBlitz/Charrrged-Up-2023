@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
-//        SwerveChassis.getInstance().setIdleModeBrake();
+        SwerveChassis.getInstance().setIdleModeBrake();
     }
 
     @Override
