@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.IsRobotReady;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
@@ -7,11 +8,11 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Map;
 
@@ -31,9 +32,6 @@ public class Dashboard extends GBSubsystem {
 	}
 
 	private Dashboard() {
-		driversDashboard();
-		swerveDashboard();
-		armDashboard();
 	}
 
 	public void driversDashboard() {
@@ -53,12 +51,15 @@ public class Dashboard extends GBSubsystem {
 		//grid todo make it mirror by alliance
 		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid)
 				.withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
-		for (int i = 0; i < 9; i++) {
+
+		boolean isRedAlliance = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+		for (int i = 0; i < Field.PlacementLocations.getLocationsOnRedSide().length; i++) {
 			for (Grid.Height height : Grid.Height.values()) {
-				int finalI = i;
+				int finalGridPositionID = i;
 				int finalHeight = height.ordinal();
-				grid.addBoolean(i + 1 + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI))
-						.withPosition(finalI, 2 - finalHeight);
+				grid.addBoolean(i + 1 + " " + height, () ->
+								(Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalGridPositionID))
+						.withPosition(isRedAlliance? finalGridPositionID: 8-finalGridPositionID , 2 - finalHeight);
 			}
 		}
 
@@ -107,21 +108,8 @@ public class Dashboard extends GBSubsystem {
 		//arm state
 		armTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
 
-		//extender length
-		armTab.addDouble("Extender length", () -> Extender.getInstance().getLength());
-
-		//extender state
-		armTab.addString("Extender state", () -> String.valueOf(Extender.getInstance().getState()));
-
 		//extender ff
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
-
-		//elbow angle
-
-		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngleRadians());
-
-		//elbow state
-		armTab.addString("Elbow state", () -> String.valueOf(Elbow.getInstance().getState()));
 
 		//elbow ff
 		armTab.addDouble("elbow ff", () -> Elbow.getInstance().getDebugLastFF());
@@ -151,17 +139,4 @@ public class Dashboard extends GBSubsystem {
 		return new PIDObject().withKp(extenderController.getP()).withKi(extenderController.getI()).withKd(extenderController.getD());
 	}
 	
-	public void debugArm() {
-		ShuffleboardTab armDebugTab = Shuffleboard.getTab("arm debug");
-
-		armDebugTab.addDouble("length", () -> Extender.getInstance().getLength())
-				.withSize(3, 1).withPosition(0, 0);
-		armDebugTab.addDouble("angle", () -> Elbow.getInstance().getAngleRadians())
-				.withSize(3, 1).withPosition(0, 1);
-		armDebugTab.addString("extender state", () -> Extender.getInstance().getState().toString())
-				.withSize(3, 1).withPosition(0, 2);
-		armDebugTab.addString("elbow state", () -> Elbow.getInstance().getState().toString())
-				.withSize(3, 1).withPosition(0, 3);
-
-	}
 }

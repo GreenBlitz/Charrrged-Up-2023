@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
 	private static void initSubsystems(){
         MultiLimelight.init();
         Dashboard.init();
+        Dashboard.getInstance().armDashboard();
+        Dashboard.getInstance().swerveDashboard();
 		BellyGameObjectSensor.init();
 		Grid.init();
 		LED.init();
@@ -63,7 +65,6 @@ public class Robot extends TimedRobot {
 		Claw.init();
 		SwerveChassis.init();
 		RotatingBelly.init();
-		BellyGameObjectSensor.init();
 		IntakeExtender.init();
 		IntakeRoller.init();
 		OI.init();
@@ -90,6 +91,8 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
+        Grid.init();
+        Dashboard.getInstance().driversDashboard();
         SwerveChassis.getInstance().setIdleModeBrake();
     }
 
