@@ -47,7 +47,7 @@ public class RobotMap {
 
     public static class Pneumatics {
         public static class PCM {
-            public static final int PCM_ID = 22;
+            public static final int PCM_ID = 14;
             public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
         }
 
@@ -76,8 +76,8 @@ public class RobotMap {
     }
 
     public static class Ultrasonic {
-        public static final int PING_CHANNEL = 0;
-        public static final int ECHO_CHANNEL = 1;
+        public static final int PING_CHANNEL = 2;
+        public static final int ECHO_CHANNEL = 3;
         public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
     }
 
@@ -253,7 +253,7 @@ public class RobotMap {
         }
 
         public static class Extender {
-            public static final int MOTOR_ID = 20;
+            public static final int MOTOR_ID = 15;
             public static final double GEAR_RATIO = 1;
             public static final double EXTENDED_LENGTH = 0.6;
             public static final double SHRINKED_LENGTH = 0.6;
@@ -293,9 +293,9 @@ public class RobotMap {
         }
 
         public static class Claw {
-            public static final int MOTOR_ID = 0;
-            public static final int SOLENOID_OPEN_CLAW_ID = 0;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
+            public static final int MOTOR_ID = 19;
+            public static final int SOLENOID_OPEN_CLAW_ID = 7;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 6;
 
             public static final double MOTOR_POWER_GRIP = 0.3;
             public static final double MOTOR_POWER_RELEASE = -0.3;
@@ -304,7 +304,7 @@ public class RobotMap {
         }
 
         public static class Elbow {
-            public static final int MOTOR_ID = 21;
+            public static final int MOTOR_ID = 16;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;
@@ -349,11 +349,11 @@ public class RobotMap {
     }
 
     public static class Intake {
-        public static final int ROLLER_ID = 0;
+        public static final int ROLLER_ID = 13;
 
         public static final double DEFAULT_POWER = 1;
         public static final double ROLL_INSIDE_POWER = 0.5;
-        public static final int BEAM_BREAKER_ID = 0;
+        public static final int BEAM_BREAKER_ID = 29;
         public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                 .withCurrentLimit(40)
                 .withInverted(false)
