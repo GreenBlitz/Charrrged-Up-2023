@@ -37,10 +37,10 @@ public class SwerveChassis extends GBSubsystem {
 	public static final double ROTATION_TOLERANCE = 4;
 
 	public SwerveChassis() {
-		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
-		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontRight);
-		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackLeft);
-		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
+		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
+		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
+		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackLeft);
+		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackRight);
 		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_CHANNEL, RobotMap.Ultrasonic.ECHO_CHANNEL);
 		Ultrasonic.setAutomaticMode(true);
 

@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
@@ -64,6 +65,7 @@ public class OI { //GEVALD
 		mainJoystick.B.whileTrue(reversePowerElbow);
 		mainJoystick.X.whileTrue(powerExtender);
 		mainJoystick.Y.whileTrue(reversePowerExtender);
+		mainJoystick.START.whileTrue(new InstantCommand(() -> Extender.getInstance().resetLength(0)));
 	}
 
 	public SmartJoystick getMainJoystick() {

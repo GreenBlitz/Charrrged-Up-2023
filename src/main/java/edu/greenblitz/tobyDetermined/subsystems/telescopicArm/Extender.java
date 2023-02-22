@@ -20,7 +20,6 @@ public class Extender extends GBSubsystem {
 	private boolean debug = false;
 	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
 	private double lastSpeed;
-	private boolean lastSwitchReading;
 	private double debugLastFF;
 
 	public static Extender getInstance() {
@@ -38,7 +37,8 @@ public class Extender extends GBSubsystem {
 		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
 		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
-		motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).enableLimitSwitch(true);
+		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(true);
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
 
 		profileGenerator = new ProfiledPIDController(
@@ -50,7 +50,6 @@ public class Extender extends GBSubsystem {
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
-		lastSwitchReading = getLimitSwitch();
 	}
 
 	private void debugSoftLimit(){
@@ -65,7 +64,6 @@ public class Extender extends GBSubsystem {
 	public void periodic() {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
-		lastSwitchReading = getLimitSwitch();
 		Dashboard.getInstance().armWidget.setLength(getLength());
 //		updatePIDController(Dashboard.getInstance().getExtenderPID());
 	}
@@ -148,16 +146,8 @@ public class Extender extends GBSubsystem {
 	 * @return the current value of the limit switch
 	 */
 	public boolean getLimitSwitch() {
-		return motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
+		return motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed();
 	}
-
-	/**
-	 * @return whether the switch changed status from last periodic this is useful to reset at
-	 */
-	public boolean didSwitchFlip(){
-		return lastSwitchReading ^ getLimitSwitch();
-	}
-
 	public void resetLength() {
 			resetLength(0);
 	}

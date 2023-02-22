@@ -17,7 +17,7 @@ public class ResetExtender extends ExtenderCommand {
 	
 	@Override
 	public boolean isFinished() {
-		return super.isFinished() || extender.didSwitchFlip();
+		return super.isFinished() || extender.getLimitSwitch();
 	}
 	
 	@Override

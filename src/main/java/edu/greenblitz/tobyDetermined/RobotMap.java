@@ -4,6 +4,7 @@ package edu.greenblitz.tobyDetermined;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -253,21 +254,19 @@ public class RobotMap {
         }
 
         public static class Extender {
-            public static final int MOTOR_ID = 20;
-            public static final double GEAR_RATIO = 1;
-            public static final double EXTENDED_LENGTH = 0.6;
-            public static final double SHRINKED_LENGTH = 0.6;
+            public static final int MOTOR_ID = 3;
+            public static final double GEAR_RATIO = 1/15.0;
+            public static final double EXTENDED_LENGTH = 0.92;
             public static final double STARTING_LENGTH =0;
 
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
-            public static final double DISTANCE_BETWEEN_HOLES = 6.35;
-            public static final double OUTPUT_GEAR_AMOUNT_OF_TEETH = 32;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.4;
-            public static final double MAX_ENTRANCE_LENGTH = 0.3;
+            public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.26;
+            public static final double MAX_ENTRANCE_LENGTH = 0.059;
             public static final PIDObject PID = new PIDObject();
 
-            public static final double EXTENDER_EXTENDING_GEAR_CIRC = 1 * (2 * Math.PI);
+            public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double RAMP_RATE = 2;
@@ -286,14 +285,14 @@ public class RobotMap {
                     .withPID(RobotMap.TelescopicArm.Extender.PID)
 				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
 				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
-				.withIdleMode(CANSparkMax.IdleMode.kBrake)
+				.withIdleMode(CANSparkMax.IdleMode.kCoast)
 				.withRampRate(General.RAMP_RATE_VAL)
 				.withCurrentLimit(30)
 				.withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Claw {
-            public static final int MOTOR_ID = 0;
+            public static final int MOTOR_ID = 1;
             public static final int SOLENOID_OPEN_CLAW_ID = 0;
             public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
@@ -304,7 +303,7 @@ public class RobotMap {
         }
 
         public static class Elbow {
-            public static final int MOTOR_ID = 21;
+            public static final int MOTOR_ID = 2;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;
@@ -312,27 +311,27 @@ public class RobotMap {
             public static final double kV = 0;
             public static final double MIN_Kg = 0;
             public static final double MAX_Kg = 0;
-            public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -Math.toRadians(-90);
+            public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
             public static final double MAX_ACCELERATION = 0;
             public static final double MAX_VELOCITY = 0;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
-            public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(67);
-            public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(70);
+            public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
+            public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
 
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
 
-            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(270);
-            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(0);
+            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(135);
+            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 
 
             public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT= new GBSparkMax.SparkMaxConfObject()
                     .withPID(PID)
-                .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                .withIdleMode(CANSparkMax.IdleMode.kCoast)
                 .withRampRate(General.RAMP_RATE_VAL)
                 .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
                 .withVoltageComp(General.VOLTAGE_COMP_VAL);

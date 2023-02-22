@@ -7,6 +7,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -106,7 +107,7 @@ public class Dashboard extends GBSubsystem {
 		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
 		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
 		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
+		armStateWidget.addDouble("Angle", () -> Units.radiansToDegrees(Elbow.getInstance().getAngleRadians())).withPosition(1, 1);
 
 		//arm state
 		armTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
@@ -116,6 +117,8 @@ public class Dashboard extends GBSubsystem {
 
 		//extender state
 		armTab.addString("Extender state", () -> String.valueOf(Extender.getInstance().getState()));
+
+		armTab.addBoolean("beam broken", () -> Extender.getInstance().getLimitSwitch());
 
 		//extender ff
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
@@ -132,9 +135,9 @@ public class Dashboard extends GBSubsystem {
 		Mechanism2d mech = new Mechanism2d(3, 3);
 
 
-		MechanismRoot2d root = mech.getRoot("arm root", 1.5, 3);
+		MechanismRoot2d root = mech.getRoot("arm root", 1.5, 1.5);
 
-		armWidget = root.append(new MechanismLigament2d("arm", 30, 90));
+		armWidget = root.append(new MechanismLigament2d("arm", 30, 270));
 		armTab.add("arm mechanism", mech);
 
 		armTab.add("extenderPID" , extenderController);
