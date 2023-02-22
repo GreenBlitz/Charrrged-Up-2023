@@ -10,7 +10,7 @@ public class DriveSidewaysUntilEdge extends SwerveCommand {
 	private static final double SLOW_LIN_SPEED_FACTOR = 0.4;
 	private double speed;
 
-	private enum Direction{
+	public enum Direction{
 		RIGHT,
 		LEFT
 	}
