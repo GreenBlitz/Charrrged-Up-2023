@@ -11,6 +11,7 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elbow extends GBSubsystem {
@@ -63,6 +64,7 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         state = getHypotheticalState(getAngleRadians());
         lastSpeed = getVelocity();
+        Dashboard.getInstance().armWidget.setLength(Units.radiansToDegrees(getAngleRadians()));
 //        updatePIDController(Dashboard.getInstance().getElbowPID());
 
     }

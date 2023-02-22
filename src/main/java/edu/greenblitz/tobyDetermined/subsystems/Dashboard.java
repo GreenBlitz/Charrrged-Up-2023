@@ -11,13 +11,17 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 
 import java.util.Map;
 
 public class Dashboard extends GBSubsystem {
 
 	private static Dashboard instance;
+
+	public MechanismLigament2d armWidget;
 
 	public static Dashboard getInstance() {
 		init();
@@ -116,14 +120,22 @@ public class Dashboard extends GBSubsystem {
 		//extender ff
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
-		//elbow angle
+		//arm angle
 		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngleRadians());
 
-		//elbow state
+		//arm state
 		armTab.addString("Elbow state", ()-> String.valueOf(Elbow.getInstance().getState()));
 
-		//elbow ff
-		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
+		//arm ff
+		armTab.addDouble("arm ff", ()-> Elbow.getInstance().getDebugLastFF());
+
+		Mechanism2d mech = new Mechanism2d(3, 3);
+
+
+		MechanismRoot2d root = mech.getRoot("arm root", 1.5, 3);
+
+		armWidget = root.append(new MechanismLigament2d("arm", 30, 90));
+		armTab.add("arm mechanism", mech);
 
 		armTab.add("extenderPID" , extenderController);
 		armTab.add("elbowPID", elbowController);
@@ -159,7 +171,7 @@ public class Dashboard extends GBSubsystem {
 				.withSize(3, 1).withPosition(0, 1);
 		armDebugTab.addString("extender state", () -> Extender.getInstance().getState().toString())
 				.withSize(3, 1).withPosition(0, 2);
-		armDebugTab.addString("elbow state", () -> Elbow.getInstance().getState().toString())
+		armDebugTab.addString("arm state", () -> Elbow.getInstance().getState().toString())
 				.withSize(3, 1).withPosition(0, 3);
 
 	}
