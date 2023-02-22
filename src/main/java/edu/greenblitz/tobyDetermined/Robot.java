@@ -8,8 +8,8 @@ import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
 import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyGameObjectSensor;
-import edu.greenblitz.tobyDetermined.subsystems.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
@@ -34,6 +34,10 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         CommandScheduler.getInstance().enable();
 		initSubsystems();
+		initPortForwarding();
+        LiveWindow.disableAllTelemetry();
+        Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+        LiveWindow.disableAllTelemetry();
 	    initPortForwarding();
 	    LiveWindow.disableAllTelemetry();
 	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
@@ -48,10 +52,10 @@ public class Robot extends TimedRobot {
     }
 	
 	private static void initSubsystems(){
+        MultiLimelight.init();
         Dashboard.init();
 		BellyGameObjectSensor.init();
 		Grid.init();
-		Limelight.init();
 		LED.init();
 		Battery.init();
 		Extender.init();

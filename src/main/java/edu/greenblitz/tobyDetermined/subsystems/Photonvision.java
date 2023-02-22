@@ -11,12 +11,12 @@ import org.photonvision.PhotonPoseEstimator;
 import java.util.Optional;
 
 
-public class Limelight extends GBSubsystem {
-	private static Limelight instance;
+public class Photonvision extends GBSubsystem {
+	private static Photonvision instance;
 	private PhotonCamera camera;
 	private PhotonPoseEstimator poseEstimator;
 	
-	private Limelight() {
+	private Photonvision() {
 		camera = new PhotonCamera("photonvision");
 		poseEstimator = new PhotonPoseEstimator(
 				Field.Apriltags.aprilTagFieldLayout,
@@ -26,15 +26,13 @@ public class Limelight extends GBSubsystem {
 		);
 	}
 	
-	public static Limelight getInstance() {
+	public static Photonvision getInstance() {
 		init();
 		return instance;
 	}
 
 	public static void init(){
-		if (instance == null) {
-			instance = new Limelight();
-		}
+		instance = new Photonvision();
 	}
 	
 	

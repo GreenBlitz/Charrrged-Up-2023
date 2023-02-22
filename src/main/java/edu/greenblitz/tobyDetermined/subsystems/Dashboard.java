@@ -82,8 +82,8 @@ public class Dashboard extends GBSubsystem {
 
 
 		//console
-		ShuffleboardLayout console =Console.getShuffleboardConsole(driversTab)
-				.withPosition(8,0).withSize(2,3).withProperties(Map.of("Label position", "TOP"));
+		ShuffleboardLayout console = Console.getShuffleboardConsole(driversTab)
+				.withPosition(8, 0).withSize(2, 3).withProperties(Map.of("Label position", "TOP"));
 
 
 		//ready to place
@@ -91,9 +91,9 @@ public class Dashboard extends GBSubsystem {
 		//todo check if at place and arm in pos
 	}
 
+	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(), Extender.getInstance().getPID().getKi(), Extender.getInstance().getPID().getKd());
+	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(), Elbow.getInstance().getPID().getKi(), Elbow.getInstance().getPID().getKd());
 
-	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(),Extender.getInstance().getPID().getKi(),Extender.getInstance().getPID().getKd());
-	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(),Elbow.getInstance().getPID().getKi(),Elbow.getInstance().getPID().getKd());
 	public void armDashboard() {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm debug");
 		//arm states
@@ -117,15 +117,16 @@ public class Dashboard extends GBSubsystem {
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
 		//elbow angle
+
 		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngleRadians());
 
 		//elbow state
-		armTab.addString("Elbow state", ()-> String.valueOf(Elbow.getInstance().getState()));
+		armTab.addString("Elbow state", () -> String.valueOf(Elbow.getInstance().getState()));
 
 		//elbow ff
-		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
+		armTab.addDouble("elbow ff", () -> Elbow.getInstance().getDebugLastFF());
 
-		armTab.add("extenderPID" , extenderController);
+		armTab.add("extenderPID", extenderController);
 		armTab.add("elbowPID", elbowController);
 	}
 
@@ -142,11 +143,11 @@ public class Dashboard extends GBSubsystem {
 
 	}
 
-	public PIDObject getElbowPID(){
+	public PIDObject getElbowPID() {
 		return new PIDObject().withKp(elbowController.getP()).withKi(elbowController.getI()).withKd(elbowController.getD());
 	}
 
-	public PIDObject getExtenderPID(){
+	public PIDObject getExtenderPID() {
 		return new PIDObject().withKp(extenderController.getP()).withKi(extenderController.getI()).withKd(extenderController.getD());
 	}
 	
