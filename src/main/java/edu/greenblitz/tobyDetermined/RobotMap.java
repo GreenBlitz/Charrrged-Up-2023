@@ -77,8 +77,8 @@ public class RobotMap {
     }
 
     public static class Ultrasonic {
-        public static final int PING_CHANNEL = 0;
-        public static final int ECHO_CHANNEL = 1;
+        public static final int PING_CHANNEL = 8;
+        public static final int ECHO_CHANNEL = 9;
         public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
     }
 
@@ -305,14 +305,15 @@ public class RobotMap {
             public static final int MOTOR_ID = 1;
             public static final double GEAR_RATIO = 1;
 
-            public static final double kS = 0;
+            public static final double kS = 0.133000000000002;
             public static final double kA = 0;
-            public static final double kV = 0;
-            public static final double MIN_Kg = 0;
-            public static final double MAX_Kg = 0;
+            public static final double kV = 5.1245565417210325;
+            public static final double MIN_Kg = 0.29;
+            public static final double MAX_Kg = 0.647;
+            public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 0;
-            public static final double MAX_VELOCITY = 0;
+            public static final double MAX_ACCELERATION = 5;
+            public static final double MAX_VELOCITY = 2.19;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
@@ -320,9 +321,9 @@ public class RobotMap {
 
 
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
-            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
+            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR;
 
-            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(135);
+            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(90);//135);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
@@ -351,7 +352,7 @@ public class RobotMap {
 
         public static final double DEFAULT_POWER = 1;
         public static final double ROLL_INSIDE_POWER = 0.5;
-        public static final int BEAM_BREAKER_ID = 0;
+        public static final int BEAM_BREAKER_ID = 20;
         public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                 .withCurrentLimit(40)
                 .withInverted(false)

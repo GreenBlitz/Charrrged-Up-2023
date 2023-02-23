@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class QuasiStaticFeedForward extends ElbowCommand {
@@ -8,20 +9,22 @@ public class QuasiStaticFeedForward extends ElbowCommand {
     public QuasiStaticFeedForward(double rampRate){
         velocity = 0;
         this.rampRate = rampRate;
-        SmartDashboard.putNumber("elbow targetVel", 0.002);
+        SmartDashboard.putNumber("elbow targetVel", 0.0005);
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        targetVel = SmartDashboard.getNumber("elbow targetVel", 0.002);
+        targetVel = SmartDashboard.getNumber("elbow targetVel", 0.0005);
 
     }
 
     @Override
     public void execute() {
         super.execute();
-        velocity += rampRate;
+        if(!(elbow.getVelocity()*Math.signum(rampRate) > targetVel)) {
+            velocity += rampRate;
+        }
         elbow.setMotorVoltage(velocity);
 
     }
@@ -29,7 +32,7 @@ public class QuasiStaticFeedForward extends ElbowCommand {
     @Override
     public boolean isFinished() {
         SmartDashboard.putNumber("arm velocity", elbow.getVelocity());
-        return super.isFinished() || Math.abs(elbow.getVelocity()) > targetVel;
+        return super.isFinished() || elbow.getVelocity()*Math.signum(rampRate) > targetVel && elbow.isAtAngle(-RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
     }
 
     @Override

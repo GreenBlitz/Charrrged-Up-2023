@@ -4,6 +4,9 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.DynamicFeedForward;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.QuasiStaticFeedForward;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.StayAtCurrentAngle;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.elbowMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
@@ -58,15 +61,20 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-		//mainJoystick.A.whileTrue(new ExtendToLength(0.20));
-		//mainJoystick.B.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(-0.5), () -> Extender.getInstance().stop()));
-		//mainJoystick.X.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(0.5), () -> Extender.getInstance().stop()));
-		//mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
-		Extender.getInstance().setDefaultCommand(new moveByJoysticks());
-		Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks());
-		mainJoystick.A.onTrue(new InstantCommand(() -> Claw.getInstance().toggleSolenoid()));
-		mainJoystick.B.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorGrip(), () -> Claw.getInstance().stopMotor()));
-		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorEject(), () -> Claw.getInstance().stopMotor()));
+//		Extender.getInstance().setDefaultCommand(new moveByJoysticks());
+//		Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks());
+//		mainJoystick.A.onTrue(new InstantCommand(() -> Claw.getInstance().toggleSolenoid()));
+//		mainJoystick.B.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorGrip(), () -> Claw.getInstance().stopMotor()));
+//		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorEject(), () -> Claw.getInstance().stopMotor()));
+		mainJoystick.POV_UP.onTrue(new DynamicFeedForward(2));
+		mainJoystick.POV_LEFT.onTrue(new DynamicFeedForward(5));
+		mainJoystick.POV_DOWN.onTrue(new DynamicFeedForward(0.5));
+		
+		mainJoystick.A.whileTrue(new StartEndCommand(() -> Elbow.getInstance().debugSetPower(0.3), () -> Elbow.getInstance().stop(), Elbow.getInstance()));
+		mainJoystick.B.whileTrue(new StartEndCommand(() -> Elbow.getInstance().debugSetPower(-0.3), () -> Elbow.getInstance().stop(), Elbow.getInstance()));
+		mainJoystick.X.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(0.5), () -> Extender.getInstance().stop(), Extender.getInstance()));
+		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(-0.5), () -> Extender.getInstance().stop(), Extender.getInstance()));
+		mainJoystick.START.whileTrue(new StayAtCurrentAngle());
 	}
 
 	public SmartJoystick getMainJoystick() {
