@@ -29,7 +29,7 @@ public class Battery extends GBSubsystem {
 	}
 
 	public double getCurrentUsage (){
-		return  pdp.getTotalCurrent() + pcm.getCompressorCurrent();
+		return  pdp.getTotalCurrent();// + pcm.getCompressorCurrent();
 	}
 
 	public double getCurrentVoltage() {

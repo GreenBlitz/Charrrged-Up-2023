@@ -269,30 +269,29 @@ public class RobotMap {
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
-            public static final double RAMP_RATE = 2;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
 
-            public static final double kV = 0;
+            public static final double kV = 60;
             public static final double kA = 0;
-            public static final double kS = 0;
-            public static final double kG = 0;
+            public static final double kS = 0.63;
+            public static final double kG = 0.57;
 
-            public static final double MAX_ACCELERATION = 0;
-            public static final double MAX_VELOCITY = 0;
+            public static final double MAX_ACCELERATION = 1;
+            public static final double MAX_VELOCITY = 0.18;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                     .withPID(RobotMap.TelescopicArm.Extender.PID)
 				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
 				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
-				.withIdleMode(CANSparkMax.IdleMode.kCoast)
+				.withIdleMode(CANSparkMax.IdleMode.kBrake)
 				.withRampRate(General.RAMP_RATE_VAL)
 				.withCurrentLimit(30)
 				.withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Claw {
-            public static final int MOTOR_ID = 1;
+            public static final int MOTOR_ID = 2;
             public static final int SOLENOID_OPEN_CLAW_ID = 0;
             public static final int SOLENOID_CLOSED_CLAW_ID = 0;
 
@@ -303,7 +302,7 @@ public class RobotMap {
         }
 
         public static class Elbow {
-            public static final int MOTOR_ID = 2;
+            public static final int MOTOR_ID = 1;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0;
@@ -331,7 +330,7 @@ public class RobotMap {
 
             public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT= new GBSparkMax.SparkMaxConfObject()
                     .withPID(PID)
-                .withIdleMode(CANSparkMax.IdleMode.kCoast)
+                .withIdleMode(CANSparkMax.IdleMode.kBrake)
                 .withRampRate(General.RAMP_RATE_VAL)
                 .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
                 .withVoltageComp(General.VOLTAGE_COMP_VAL);

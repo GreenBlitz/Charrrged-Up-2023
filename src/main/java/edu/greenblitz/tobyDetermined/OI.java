@@ -4,8 +4,12 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.DynamicFeedForward;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.QuasiStaticFeedForward;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -52,20 +56,14 @@ public class OI { //GEVALD
 		isHandled = false;
 	}
 
-	public double countB = 0;
 
 
 	private void initButtons() {
-		double debugPower = 0.1;
-		StartEndCommand powerElbow = new StartEndCommand(() -> Elbow.getInstance().debugSetPower(debugPower), () -> Elbow.getInstance().stop());
-		StartEndCommand reversePowerElbow = new StartEndCommand(() -> Elbow.getInstance().debugSetPower(-debugPower), () -> Elbow.getInstance().stop());
-		StartEndCommand powerExtender = new StartEndCommand(() -> Extender.getInstance().debugSetPower(debugPower), () -> Extender.getInstance().stop());
-		StartEndCommand reversePowerExtender = new StartEndCommand(() -> Extender.getInstance().debugSetPower(-debugPower), () -> Extender.getInstance().stop());
-		mainJoystick.A.whileTrue(powerElbow);
-		mainJoystick.B.whileTrue(reversePowerElbow);
-		mainJoystick.X.whileTrue(powerExtender);
-		mainJoystick.Y.whileTrue(reversePowerExtender);
-		mainJoystick.START.whileTrue(new InstantCommand(() -> Extender.getInstance().resetLength(0)));
+		mainJoystick.A.whileTrue(new ExtendToLength(0.20));
+		mainJoystick.B.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(-0.5), () -> Extender.getInstance().stop()));
+		mainJoystick.X.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(0.5), () -> Extender.getInstance().stop()));
+		mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
+
 	}
 
 	public SmartJoystick getMainJoystick() {

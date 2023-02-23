@@ -177,7 +177,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public boolean isAtLength(double wantedLength){
-		return Math.abs(profileGenerator.getGoal().position - wantedLength) >= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		return Math.abs(getLength() - wantedLength) >= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 	}
 
 	public boolean isAtLength() {
