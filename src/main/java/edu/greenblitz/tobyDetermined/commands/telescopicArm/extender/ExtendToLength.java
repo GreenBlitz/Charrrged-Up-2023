@@ -11,8 +11,15 @@ public class ExtendToLength extends ExtenderCommand {
      * */
     public ExtendToLength(double length){
         this.wantedLength = length;
-        extender.moveTowardsLength(wantedLength);
     }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        extender.moveTowardsLength(wantedLength);
+
+    }
+
     @Override
     public void execute() {
         extender.moveTowardsLength(wantedLength);

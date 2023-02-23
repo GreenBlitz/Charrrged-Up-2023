@@ -10,6 +10,11 @@ public class RotateToAngleRadians extends ElbowCommand {
         wantedAngle = angle;
     }
 
+    @Override
+    public void initialize() {
+        super.initialize();
+        elbow.moveTowardsAngleRadians(wantedAngle);
+    }
 
     @Override
     public void execute() {
