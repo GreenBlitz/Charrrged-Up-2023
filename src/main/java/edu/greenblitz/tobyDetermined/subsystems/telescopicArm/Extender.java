@@ -109,9 +109,9 @@ public class Extender extends GBSubsystem {
 	public void moveTowardsLength(double lengthInMeters) {
 		// going out of bounds should not be allowed
 		if (getHypotheticalState(lengthInMeters) == ExtenderState.OUT_OF_BOUNDS) {
-			if (lengthInMeters <= RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT){
+			if (lengthInMeters < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT){
 				moveTowardsLength(RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT);
-			} else if (lengthInMeters >= RobotMap.TelescopicArm.Extender.FORWARD_LIMIT){
+			} else if (lengthInMeters > RobotMap.TelescopicArm.Extender.FORWARD_LIMIT){
 				moveTowardsLength(RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH);
 			}
 			else {
