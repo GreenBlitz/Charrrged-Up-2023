@@ -11,7 +11,7 @@ public class RewritePresetPosition extends InstantCommand {
 
 	@Override
 	public void initialize() {
-		double angleInDeg = Math.toDegrees(Elbow.getInstance().getAngleRadians());
-		Grid.getInstance().rewriteArmPositionInSelectedPose(angleInDeg, Extender.getInstance().getLength());
+		double angleInRads = Elbow.getInstance().getAngleRadians();
+		Grid.getInstance().rewriteArmPositionInSelectedPose(angleInRads, Extender.getInstance().getLength());
 	}
 }

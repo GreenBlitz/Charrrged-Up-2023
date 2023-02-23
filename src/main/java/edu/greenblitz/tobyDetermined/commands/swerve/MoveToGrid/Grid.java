@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
@@ -98,6 +99,7 @@ public class Grid {
     }
 
     public void rewriteArmPositionInSelectedPose(double angleInDeg, double length){
+        Console.log("reWrite" + getSelectedHeight()+" "+(Field.PlacementLocations.isGridPositionIDofCube(getSelectedPositionID())? "cube": "cone"),"angle:" +angleInDeg+ "|length:"+ length);
         switch (getSelectedHeight()){
             case LOW:
                     RobotMap.TelescopicArm.PresetPositions.LOW.angleInRadians = angleInDeg;
