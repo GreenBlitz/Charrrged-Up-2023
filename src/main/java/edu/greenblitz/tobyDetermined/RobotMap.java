@@ -249,8 +249,8 @@ public class RobotMap {
 
             PRE_GRID(0,20.7 -STARTING_ANGLE_RELATIVE_TO_GROUND);
 
-            public final double distance;
-            public final double angleInRadians;
+            public double distance;
+            public double angleInRadians;
 
             PresetPositions(double distance, double angle) {
                 this.distance = distance;

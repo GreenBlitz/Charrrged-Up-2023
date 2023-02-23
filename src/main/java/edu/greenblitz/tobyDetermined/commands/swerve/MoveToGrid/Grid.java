@@ -3,7 +3,10 @@ package edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -93,6 +96,34 @@ public class Grid {
                 return RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH;
         }
         return null; //todo make not null </3
+    }
+
+    public void rewriteArmPositionInSelectedPose(double angleInDeg, double length){
+        Console.log("reWrite" + getSelectedHeight()+" "+(Field.PlacementLocations.isGridPositionIDofCube(getSelectedPositionID())? "cube": "cone"),"angle:" +angleInDeg+ "|length:"+ length);
+        switch (getSelectedHeight()){
+            case LOW:
+                    RobotMap.TelescopicArm.PresetPositions.LOW.angleInRadians = angleInDeg;
+                    RobotMap.TelescopicArm.PresetPositions.LOW.distance = length;
+                    break;
+            case MEDIUM:
+                if(Field.PlacementLocations.isGridPositionIDofCube(getSelectedPositionID())){
+                    RobotMap.TelescopicArm.PresetPositions.CUBE_MID.angleInRadians = angleInDeg;
+                    RobotMap.TelescopicArm.PresetPositions.CUBE_MID.distance = length;
+                } else {
+                    RobotMap.TelescopicArm.PresetPositions.CONE_MID.angleInRadians = angleInDeg;
+                    RobotMap.TelescopicArm.PresetPositions.CONE_MID.distance = length;
+                }
+                break;
+            case HIGH:
+                if(Field.PlacementLocations.isGridPositionIDofCube(getSelectedPositionID())){
+                    RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.angleInRadians = angleInDeg;
+                    RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH.distance = length;
+                }else {
+                    RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.angleInRadians = angleInDeg;
+                    RobotMap.TelescopicArm.PresetPositions.CONE_HIGH.distance = length;
+                }
+                break;
+        }
     }
 
 
