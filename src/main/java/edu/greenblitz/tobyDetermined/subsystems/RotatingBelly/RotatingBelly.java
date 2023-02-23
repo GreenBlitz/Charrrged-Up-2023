@@ -15,7 +15,7 @@ public class RotatingBelly extends GBSubsystem {
     private BellyGameObjectSensor colorSensor;
 
     private RotatingBelly (){
-        limitSwitch = new DigitalInput(RobotMap.RotatingBelly.MACRO_SWITCH_PORT);
+        limitSwitch = new DigitalInput(RobotMap.RotatingBelly.MACRO_SWITCH_DIO_PORT);
         colorSensor = BellyGameObjectSensor.getInstance();
         motor = new TalonSRX(RobotMap.RotatingBelly.MOTOR_ID);
     }

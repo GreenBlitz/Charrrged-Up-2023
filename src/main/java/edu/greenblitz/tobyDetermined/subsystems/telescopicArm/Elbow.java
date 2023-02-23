@@ -63,7 +63,7 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         state = getHypotheticalState(getAngleRadians());
         lastSpeed = getVelocity();
-        updatePIDController(Dashboard.getInstance().getElbowPID());
+//        updatePIDController(Dashboard.getInstance().getElbowPID());
 
     }
 

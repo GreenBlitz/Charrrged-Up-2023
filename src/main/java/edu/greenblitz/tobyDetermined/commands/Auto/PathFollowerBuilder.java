@@ -77,7 +77,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 								RobotMap.Swerve.Pegaswerve.MAX_ACCELERATION
 						));
 				break;
-			case TobyDetermined:
+			case Frankenstein:
 				path = PathPlanner.loadPath(
 						pathName, new PathConstraints(
 								RobotMap.Swerve.TobyDetermined.MAX_VELOCITY,

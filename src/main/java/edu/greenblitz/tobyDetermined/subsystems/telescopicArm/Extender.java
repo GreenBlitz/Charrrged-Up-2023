@@ -66,7 +66,7 @@ public class Extender extends GBSubsystem {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
 		lastSwitchReading = getLimitSwitch();
-		updatePIDController(Dashboard.getInstance().getExtenderPID());
+//		updatePIDController(Dashboard.getInstance().getExtenderPID());
 	}
 
 	public void updatePIDController(PIDObject pidObject){

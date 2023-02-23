@@ -53,7 +53,7 @@ public class OI { //GEVALD
     }
 
     public void romyButtons() {
-        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
+        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
         mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
         mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
         mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
