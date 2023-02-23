@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.intake;
+package edu.greenblitz.tobyDetermined.subsystems.RotatingBelly;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
-public class IntakeGameObjectSensor extends GBSubsystem {
+public class BellyGameObjectSensor extends GBSubsystem {
 	/**
 	 * it senses the object inside (cone/cube) using the color sensor,
 	 * and displays it on the dashboard
@@ -23,12 +23,12 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 	private static Color PURPLE_TARGET;
 	public final ColorMatch colorMatcher;
 
-	private static IntakeGameObjectSensor instance;
+	private static BellyGameObjectSensor instance;
 
 	private GameObject curObject = null;
 	private static final double confidenceThreshold  = 0.9;;
 	private static boolean shouldLogCalibration = false;
-	private IntakeGameObjectSensor(){
+	private BellyGameObjectSensor(){
 		cs = new ColorSensorV3(I2C.Port.kOnboard);
 
 
@@ -44,16 +44,15 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 
 	}
 
-	public static IntakeGameObjectSensor getInstance() {
-		if(instance == null) {
-			init();
-			SmartDashboard.putBoolean("color sensor initialized via getinstance", true);
-		}
+	protected static BellyGameObjectSensor getInstance() {
+		init();
 		return instance;
 	}
 
 	public static void init(){
-		instance = new IntakeGameObjectSensor();
+		if(instance == null) {
+			instance = new BellyGameObjectSensor();
+		}
 	}
 
 	public void CalibrteDashBoard(Color detectedColor, ColorMatchResult match){
@@ -67,6 +66,11 @@ public class IntakeGameObjectSensor extends GBSubsystem {
 	public GameObject getCurObject (){
 		return curObject;
 	}
+
+	public boolean isObjectIn(){
+		return getCurObject() == GameObject.NONE;
+	}
+
 	@Override
 	public void periodic() {
 		/**

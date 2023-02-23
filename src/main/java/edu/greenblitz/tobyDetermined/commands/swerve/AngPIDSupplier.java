@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.swerve;
 
-import edu.greenblitz.tobyDetermined.subsystems.Limelight;
+import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
@@ -37,8 +37,8 @@ public class AngPIDSupplier implements DoubleSupplier {
 	private double getAngVelDiffByVision() {
 		double vy = SwerveChassis.getInstance().getChassisSpeeds().vyMetersPerSecond;
 		double vx = SwerveChassis.getInstance().getChassisSpeeds().vxMetersPerSecond;
-		double dx = Limelight.getInstance().targetPos().getX();
-		double dy = Limelight.getInstance().targetPos().getY();
+		double dx = Photonvision.getInstance().targetPos().getX();
+		double dy = Photonvision.getInstance().targetPos().getY();
 		if (dx == 0 || dy == 0) {
 			return 0;
 		}

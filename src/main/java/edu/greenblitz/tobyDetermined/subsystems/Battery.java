@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Battery extends GBSubsystem {
 	
-	private static final double minVoltage = RobotMap.General.minVoltageBattery;
+	private static final double minVoltage = RobotMap.General.MIN_VOLTAGE_BATTERY;
 	private static Battery instance;
 
 	private static PowerDistribution pdp = new PowerDistribution();
@@ -29,15 +29,14 @@ public class Battery extends GBSubsystem {
 	}
 	
 	public static Battery getInstance() {
-		if (instance == null) {
-			init();
-			SmartDashboard.putBoolean("battery initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
 	public static void init(){
-		instance = new Battery();
+		if (instance == null) {
+			instance = new Battery();
+		}
 	}
 
 	public double getCurrentUsage (){

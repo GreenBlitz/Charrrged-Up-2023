@@ -12,7 +12,7 @@ public class ResetExtender extends ExtenderCommand {
 	public void initialize() {
 		super.initialize();
 		double velocity = extender.getLimitSwitch() ? FORWARDS_RESET_VELOCITY : BACKWARDS_RESET_VELOCITY;
-		extender.setMotorVoltage(Extender.getFeedForward(velocity, 0, Elbow.getInstance().getAngle()));
+		extender.setMotorVoltage(Extender.getFeedForward(velocity, 0, Elbow.getInstance().getAngleRadians()));
 	}
 	
 	@Override

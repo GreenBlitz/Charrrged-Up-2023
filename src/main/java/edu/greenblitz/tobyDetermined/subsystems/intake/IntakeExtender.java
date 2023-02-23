@@ -14,15 +14,14 @@ public class IntakeExtender extends GBSubsystem {
 	}
 	
 	public static IntakeExtender getInstance() {
-		if(instance == null) {
-			init();
-			SmartDashboard.putBoolean("intake extender initialized via getinstance", true);
-		}
+		init();
 		return instance;
 	}
 
-	public static void init(){
-		instance = new IntakeExtender();
+	public static void init() {
+		if(instance == null) {
+			instance = new IntakeExtender();
+		}
 	}
 
 	private void setValue(DoubleSolenoid.Value value) {
