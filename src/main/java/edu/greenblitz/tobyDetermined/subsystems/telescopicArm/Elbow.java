@@ -4,9 +4,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.logger;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -17,6 +21,16 @@ public class Elbow extends GBSubsystem {
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double lastSpeed;
+    
+    private Boolean log_flag = true;
+	private DataLog log;
+	private StringLogEntry commandloger;
+    private StringLogEntry stateloger;
+    private DoubleLogEntry speedloger;
+    private DoubleLogEntry angleloger;
+
+
+
 
     public static Elbow getInstance() {
         if (instance == null) {
@@ -46,6 +60,14 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.telescopicArm.elbow.FORWARD_ANGLE_LIMIT);
 
         lastSpeed = 0;
+
+        log = logger.getInstance().get_log();
+		this.commandloger = new StringLogEntry(this.log, "/Arm/Elbow/HighLevel/CommandLogger");
+        this.angleloger = new DoubleLogEntry(this.log, "/Arm/Elbow/HighLevel/Angle");
+        this.speedloger = new DoubleLogEntry(this.log, "/Arm/Elbow/HighLevel/Speed");
+		this.stateloger = new StringLogEntry(this.log, "/Arm/Elbow/HighLevel/Elbow_State");
+
+
     }
 
     public void moveTowardsAngle(double angleInRads) {
@@ -146,4 +168,19 @@ public class Elbow extends GBSubsystem {
         motor.setVoltage(voltage);
     }
 
+    public void hightLevelLog(){
+		if (log_flag){
+            if (log_flag){stateloger.append(state.name());}
+            if (log_flag){angleloger.append(getAngle());}
+
+		}
+
+	}
+
+	public void lowLevelLog(){
+		if (log_flag){
+        if (log_flag){speedloger.append(getVelocity());}
+		}
+
+	}
 }

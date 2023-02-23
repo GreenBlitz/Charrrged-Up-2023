@@ -278,13 +278,14 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void updatePoseEstimation() {
-		SmartDashboard.putNumberArray("pose_array", arr);	  
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
 		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 		double xr = field.getRobotObject().getPose().getX();
 		double yr = field.getRobotObject().getPose().getY();
 		double rr = field.getRobotObject().getPose().getRotation().getDegrees();
 		double[] arr = {xr,yr,rr};
+		SmartDashboard.putNumberArray("pose_array", arr);	  
+
 	}
 
 

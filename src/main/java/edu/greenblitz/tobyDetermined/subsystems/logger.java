@@ -6,7 +6,9 @@ import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;;
 
 
 public class logger extends GBSubsystem {
@@ -37,5 +39,9 @@ public class logger extends GBSubsystem {
         SwerveChassis.getInstance().hightLevelLog();
         SwerveChassis.getInstance().lowLevelLog();
         Battery.getInstance().lowLevelLog();
+        Extender.getInstance().hightLevelLog();
+        Elbow.getInstance().lowLevelLog();
+        Elbow.getInstance().hightLevelLog();;
+
     }
 }

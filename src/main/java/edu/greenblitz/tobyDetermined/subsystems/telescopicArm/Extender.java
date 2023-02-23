@@ -4,9 +4,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.logger;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Extender extends GBSubsystem {
@@ -17,6 +21,12 @@ public class Extender extends GBSubsystem {
     private ProfiledPIDController profiledPIDController;
     private static Extender instance;
     private GBSparkMax motor;
+
+    private Boolean log_flag = true;
+	private DataLog log;
+	private StringLogEntry commandloger;
+    private StringLogEntry stateloger;
+    private DoubleLogEntry lengthloger;
 
     public static Extender getInstance() {
         if (instance == null) {
@@ -51,6 +61,12 @@ public class Extender extends GBSubsystem {
                 RobotMap.telescopicArm.extender.PID.getKd(),
                 RobotMap.telescopicArm.extender.CONSTRAINTS
         );
+
+
+        log = logger.getInstance().get_log();
+		this.commandloger = new StringLogEntry(this.log, "/Arm/Extender/HighLevel/CommandLogger");
+        this.lengthloger = new DoubleLogEntry(this.log, "/Arm/Extender/HighLevel/Length");
+		this.stateloger = new StringLogEntry(this.log, "/Arm/Extender/HighLevel/Extender_State");
     }
 
     @Override
@@ -142,7 +158,15 @@ public class Extender extends GBSubsystem {
     public void setMotorVoltage (double voltage){
         motor.setVoltage(voltage);
     }
+    
+    public void hightLevelLog(){
+		if (log_flag){
+            if (log_flag){stateloger.append(state.name());}
+            if (log_flag){lengthloger.append(getLength());}
 
+		}
+
+	}
 
 }
 
