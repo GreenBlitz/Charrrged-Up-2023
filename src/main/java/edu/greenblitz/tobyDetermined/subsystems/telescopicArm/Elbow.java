@@ -149,7 +149,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public boolean isAtAngle(double wantedAngle) {
-        return Math.abs(getAngleRadians() - wantedAngle) <= RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
+        return Math.abs(getAngleRadians() - wantedAngle) < RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
     }
 
     public boolean isAtAngle(){
