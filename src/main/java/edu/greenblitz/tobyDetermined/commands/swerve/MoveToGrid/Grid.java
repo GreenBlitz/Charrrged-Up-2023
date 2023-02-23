@@ -20,7 +20,7 @@ public class Grid {
     private int selectedHeightID;
     private static Pose2d[] locations;
 
-    public Grid() {
+    private Grid() {
         this.selectedPositionID = 0;
         this.selectedHeightID = 0;
 
