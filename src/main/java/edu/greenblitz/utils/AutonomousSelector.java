@@ -1,6 +1,7 @@
 package edu.greenblitz.utils;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
+import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,15 +16,18 @@ public class AutonomousSelector {
 	
 	private AutonomousSelector(){
 		//         m_chooser.addOption(auto name, path name );
-		chooser.addOption("bottom three objects", AutonomousPaths.BOTTOM_THREE_OBJECTS);
+
+	/*	chooser.addOption("bottom three objects", AutonomousPaths.BOTTOM_THREE_OBJECTS);
 		chooser.addOption("bottom only 2", AutonomousPaths.BOTTOM_ONLY_2);
 		chooser.addOption("bottom two & ramp", AutonomousPaths.BOTTOM_TWO_AND_RAMP);
 
 		chooser.addOption("top three objects",AutonomousPaths.TOP_THREE_OBJECTS);
 		chooser.addOption("top two & ramp", AutonomousPaths.TOP_2_AND_RAMP);
-		chooser.addOption("top only 2", AutonomousPaths.TOP_ONLY_2);
+		chooser.addOption("top only 2", AutonomousPaths.TOP_ONLY_2);*/
 
 		chooser.addOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
+
+		chooser.addOption("preginal 2 obj", AutonomousPaths.PREGINAL_2_OBJ);
 
 		chooser.setDefaultOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
 
@@ -54,7 +58,8 @@ public class AutonomousSelector {
 		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
 		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
 		//middle
-		MIDDLE_RAMP(getPathTCommand("M_ramp"));
+		MIDDLE_RAMP(getPathTCommand("M_ramp").andThen(new AdvancedBalanceOnRamp(true))),
+		PREGINAL_2_OBJ(getPathTCommand("preginal, 2 obj and ramp").andThen(new AdvancedBalanceOnRamp(false)));
 		public CommandBase autonomousCommand;
 		private AutonomousPaths (CommandBase autonomousCommands){
 			autonomousCommand = autonomousCommands;
