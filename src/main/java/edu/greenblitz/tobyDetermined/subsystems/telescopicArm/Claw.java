@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.logger;
@@ -9,7 +9,10 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Claw extends GBSubsystem {
     private static Claw instance;
@@ -27,11 +30,16 @@ public class Claw extends GBSubsystem {
 		this.commandloger = new StringLogEntry(this.log, "/Arm/Claw/HighLevel/CommandLogger");
 
     }
+    /**
+     *
+     * forward -> cone
+     * reverse -> cube
+     *
+     * */
 
     public static Claw getInstance() {
         if (instance == null) {
             init();
-            SmartDashboard.putBoolean("claw initialized via getinstance", true);
         }
         return instance;
     }
@@ -51,6 +59,13 @@ public class Claw extends GBSubsystem {
     }
 
     public void stopMotor (){
-        motor.set(0);
+        motor.set(ControlMode.PercentOutput,0);
+    }
+
+    public enum ClawState{
+        CUBE_MODE,
+        CUBE_IN,
+        CONE_IN,
+        CONE_MODE;
     }
 }

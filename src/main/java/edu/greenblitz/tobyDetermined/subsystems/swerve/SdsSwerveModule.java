@@ -45,9 +45,7 @@ public class SdsSwerveModule implements SwerveModule {
 		magEncoder = new DutyCycleEncoder(AbsoluteEncoderID);
 		this.magEncoder.setPositionOffset(magEncoderOffset);
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
-		
-		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
-		
+				
 		log = logger.getInstance().get_log();
 		this.linearMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/LinearMotorVoltage");
 		this.angleMotorVoltagelog = new DoubleLogEntry(this.log, "/SwerveModule/LowLevel/AngleMotorVoltage");

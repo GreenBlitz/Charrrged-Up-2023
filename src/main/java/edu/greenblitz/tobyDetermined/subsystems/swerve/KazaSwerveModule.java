@@ -54,7 +54,6 @@ public class KazaSwerveModule implements SwerveModule {
 		linearMotor.config(RobotMap.Swerve.KazaSwerve.baseLinConfObj.withInverted(linInverted));
 
 		lamprey = new AnalogInput(lampreyID);
-		lamprey.setAverageBits(2);
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.ks, RobotMap.Swerve.kv, RobotMap.Swerve.ka);
 
 		log = logger.getInstance().get_log();

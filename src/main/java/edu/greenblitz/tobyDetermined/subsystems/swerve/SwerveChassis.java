@@ -285,7 +285,6 @@ public class SwerveChassis extends GBSubsystem {
 		double rr = field.getRobotObject().getPose().getRotation().getDegrees();
 		double[] arr = {xr,yr,rr};
 		SmartDashboard.putNumberArray("pose_array", arr);	  
-
 	}
 
 
