@@ -11,6 +11,7 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Extender extends GBSubsystem {
@@ -85,19 +86,27 @@ public class Extender extends GBSubsystem {
 
 
 	public static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
-		return getStaticFeedForward(elbowAngle) +
-				RobotMap.TelescopicArm.Extender.kS * Math.signum(wantedSpeed) +
-				RobotMap.TelescopicArm.Extender.kV * wantedSpeed +
-				RobotMap.TelescopicArm.Extender.kA * wantedAcceleration;
+		
+		double gravPart = getStaticFeedForward(elbowAngle);
+		double statPart = RobotMap.TelescopicArm.Extender.kS * Math.signum(wantedSpeed);
+		double velPart = RobotMap.TelescopicArm.Extender.kV * wantedSpeed;
+		double accPart =RobotMap.TelescopicArm.Extender.kA * wantedAcceleration;
+		SmartDashboard.putNumber("grav", gravPart);
+		SmartDashboard.putNumber("stat", statPart);
+		SmartDashboard.putNumber("vel", velPart);
+		SmartDashboard.putNumber("accel", accPart);
+		return  gravPart+statPart+velPart+accPart;
+		
 	}
 
 	public static double getStaticFeedForward(double elbowAngle) {
-		return Math.sin(elbowAngle - RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
+		return Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
 	}
 
 	private void setLengthByPID(double lengthInMeters) {
 		profileGenerator.reset(getLength());
 		profileGenerator.setGoal(lengthInMeters);
+		profileGenerator.calculate(0);//nonsense call cause i belive this updates the setpoint
 		double feedForward = getFeedForward(
 				profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngleRadians());
 		motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
@@ -177,10 +186,11 @@ public class Extender extends GBSubsystem {
 	}
 
 	public boolean isAtLength(double wantedLength){
-		return Math.abs(profileGenerator.getGoal().position - wantedLength) >= RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		return Math.abs(getLength() - wantedLength) < RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 	}
 
 	public boolean isAtLength() {
+		SmartDashboard.putNumber("extender goal", profileGenerator.getGoal().position);
 		return isAtLength(profileGenerator.getGoal().position);
 	}
 
