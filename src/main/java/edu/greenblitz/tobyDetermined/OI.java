@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -67,9 +68,13 @@ public class OI { //GEVALD
 		mainJoystick.B.whileTrue(new StartEndCommand(() -> Elbow.getInstance().debugSetPower(-0.3), () -> Elbow.getInstance().stop(), Elbow.getInstance()));
 		mainJoystick.X.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(0.5), () -> Extender.getInstance().stop(), Extender.getInstance()));
 		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(-0.5), () -> Extender.getInstance().stop(), Extender.getInstance()));
-		mainJoystick.POV_UP.toggleOnTrue(new ExtendToLength(0.20));
-		mainJoystick.POV_LEFT.toggleOnTrue(new RotateToAngleRadians(Units.degreesToRadians(30)));
-		mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
+		mainJoystick.POV_UP.toggleOnTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
+		mainJoystick.POV_LEFT.toggleOnTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CONE_MID));
+		mainJoystick.POV_RIGHT.toggleOnTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH));
+		mainJoystick.POV_DOWN.toggleOnTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.LOW));
+        mainJoystick.BACK.toggleOnTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
+
+        mainJoystick.START.onTrue(new ResetExtender());
 	
 	}
 

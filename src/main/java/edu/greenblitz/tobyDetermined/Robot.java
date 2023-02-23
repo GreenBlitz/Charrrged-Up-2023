@@ -83,7 +83,6 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
         Grid.init();
-        Dashboard.getInstance().driversDashboard();
         SwerveChassis.getInstance().setIdleModeBrake();
     }
 

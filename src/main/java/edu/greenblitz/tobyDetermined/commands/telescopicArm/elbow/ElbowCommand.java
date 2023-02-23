@@ -12,4 +12,15 @@ public abstract class ElbowCommand extends GBCommand {
         require(elbow);
     }
 
+    @Override
+    public void initialize() {
+        super.initialize();
+        elbow.isUsed = true;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        elbow.isUsed = false;
+    }
 }
