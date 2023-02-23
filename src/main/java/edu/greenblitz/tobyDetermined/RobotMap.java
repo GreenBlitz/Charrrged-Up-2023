@@ -16,10 +16,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
 
 public class RobotMap {
-    public static final Robot.robotName ROBOT_NAME = Robot.robotName.pegaSwerve;
+    public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
 
     public static class General {
 
@@ -82,8 +81,8 @@ public class RobotMap {
     }
 
     public static class Ultrasonic {
-        public static final int PING_CHANNEL = 2;
-        public static final int ECHO_CHANNEL = 3;
+        public static final int PING_DIO_PORT =5;
+        public static final int ECHO_DIO_PORT = 6;
         public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
     }
 
@@ -165,13 +164,13 @@ public class RobotMap {
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 3, false, 3.4635 / (2 * Math.PI)); //front left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.857 ); //front left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 4.55 / (2 * Math.PI)); //front right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 0.3 ); //front right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 3.947 / (2 * Math.PI)); //back left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 0.727 ); //back left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 0, true, 5.386 / (2 * Math.PI)); //back right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 3, true, 0.87 ); //back right
 
 
         public static class KazaSwerve {
@@ -224,7 +223,7 @@ public class RobotMap {
     public static class RotatingBelly {
         public static final int MOTOR_ID = 22;
         public static final double ROTATING_POWER = 0.5;
-        public static final int MACRO_SWITCH_PORT = 4;
+        public static final int MACRO_SWITCH_DIO_PORT = 4;
 
         public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
         public static double ROTATE_TO_DOOR_TIME = 3;
