@@ -1,13 +1,14 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
-import edu.greenblitz.tobyDetermined.OI;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
-public class moveByJoysticks extends ExtenderCommand {
-	public moveByJoysticks() {
+public class ExtenderMoveByJoysticks extends ExtenderCommand {
+	private SmartJoystick joystick;
+	public ExtenderMoveByJoysticks(SmartJoystick joystick) {
 		super();
+		this.joystick = joystick;
 	}
+
 	@Override
 	public void initialize() {
 		super.initialize();
@@ -15,7 +16,7 @@ public class moveByJoysticks extends ExtenderCommand {
 
 	@Override
 	public void execute() {
-		double power = -OI.getInstance().getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_Y) * 0.5;
+		double power = -joystick.getAxisValue(SmartJoystick.Axis.RIGHT_Y) * 0.4;
 		extender.debugSetPower(power);
 	}
 

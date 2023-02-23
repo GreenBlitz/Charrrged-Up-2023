@@ -4,8 +4,10 @@ import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class elbowMoveByJoysticks extends ElbowCommand {
-	public elbowMoveByJoysticks() {
+	private SmartJoystick joystick;
+	public elbowMoveByJoysticks(SmartJoystick joystick) {
 		super();
+		this.joystick = joystick;
 	}
 	@Override
 	public void initialize() {
@@ -14,7 +16,7 @@ public class elbowMoveByJoysticks extends ElbowCommand {
 
 	@Override
 	public void execute() {
-		double power = -OI.getInstance().getMainJoystick().getAxisValue(SmartJoystick.Axis.LEFT_Y) * 0.5;
+		double power = -joystick.getAxisValue(SmartJoystick.Axis.LEFT_Y) * 0.5;
 		elbow.debugSetPower(power);
 	}
 

@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -8,17 +10,11 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.math.util.Units;
 import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetLeft;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveSelectedTargetRight;
-import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.MoveToGrid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 public class OI { //GEVALD
 
@@ -58,15 +54,15 @@ public class OI { //GEVALD
 
 
 	private void initButtons() {
-//		Extender.getInstance().setDefaultCommand(new moveByJoysticks());
-//		Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks());
+        romyButtons();
+        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+        Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
+        
 //		mainJoystick.A.onTrue(new InstantCommand(() -> Claw.getInstance().toggleSolenoid()));
 //		mainJoystick.B.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorGrip(), () -> Claw.getInstance().stopMotor()));
 //		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorEject(), () -> Claw.getInstance().stopMotor()));
-		mainJoystick.A.whileTrue(new StartEndCommand(() -> Elbow.getInstance().debugSetPower(0.3), () -> Elbow.getInstance().stop(), Elbow.getInstance()));
-		mainJoystick.B.whileTrue(new StartEndCommand(() -> Elbow.getInstance().debugSetPower(-0.3), () -> Elbow.getInstance().stop(), Elbow.getInstance()));
-		mainJoystick.X.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(0.5), () -> Extender.getInstance().stop(), Extender.getInstance()));
-		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Extender.getInstance().debugSetPower(-0.5), () -> Extender.getInstance().stop(), Extender.getInstance()));
+        mainJoystick.A.onTrue(new GripCone());
+        mainJoystick.B.onTrue(new GripCube());
 		mainJoystick.POV_UP.toggleOnTrue(new ExtendToLength(0.20));
 		mainJoystick.POV_LEFT.toggleOnTrue(new RotateToAngleRadians(Units.degreesToRadians(30)));
 		mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
@@ -82,7 +78,7 @@ public class OI { //GEVALD
         mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
         mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
         mainJoystick.B.onTrue(new LockWheels()); //lock wheel
-		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
+//		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
         mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
     }
 
