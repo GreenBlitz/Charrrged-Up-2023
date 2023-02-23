@@ -3,6 +3,8 @@ package edu.greenblitz.tobyDetermined;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowCommand;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.*;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -16,6 +18,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.AutonomousSelector;
+import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -82,8 +85,10 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
+
         Grid.init();
         SwerveChassis.getInstance().setIdleModeBrake();
+		new ResetExtender().raceWith(new GBCommand(Elbow.getInstance()) {}).schedule();
     }
 
     @Override

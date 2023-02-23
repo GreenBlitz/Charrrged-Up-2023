@@ -1,6 +1,9 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
 import edu.greenblitz.tobyDetermined.OI;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class elbowMoveByJoysticks extends ElbowCommand {
@@ -16,8 +19,8 @@ public class elbowMoveByJoysticks extends ElbowCommand {
 
 	@Override
 	public void execute() {
-		double power = -joystick.getAxisValue(SmartJoystick.Axis.LEFT_Y) * 0.5;
-		elbow.debugSetPower(power);
+		double power = joystick.getAxisValue(SmartJoystick.Axis.RIGHT_Y) * 0.5;
+		elbow.setMotorVoltage(power * Battery.getInstance().getCurrentVoltage() + Elbow.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
 	}
 
 	@Override

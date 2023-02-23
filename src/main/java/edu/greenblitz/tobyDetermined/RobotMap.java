@@ -285,7 +285,7 @@ public class RobotMap {
             public static final double kS = 0.63;
             public static final double kG = 0.57;
 
-            public static final double MAX_ACCELERATION = 1;
+            public static final double MAX_ACCELERATION = 30;
             public static final double MAX_VELOCITY = 0.18;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 

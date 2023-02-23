@@ -2,6 +2,7 @@ package edu.greenblitz.utils;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
+import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -58,8 +59,8 @@ public class AutonomousSelector {
 		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
 		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
 		//middle
-		MIDDLE_RAMP(getPathTCommand("M_ramp").andThen(new AdvancedBalanceOnRamp(true))),
-		PREGINAL_2_OBJ(getPathTCommand("preginal, 2 obj and ramp").andThen(new AdvancedBalanceOnRamp(false)));
+		MIDDLE_RAMP(getPathTCommand("M_ramp").andThen(new AdvancedBalanceOnRamp(true)).andThen(new LockWheels())),
+		PREGINAL_2_OBJ(getPathTCommand("preginal, 2 obj and ramp").andThen(new AdvancedBalanceOnRamp(false)).andThen(new LockWheels()));
 		public CommandBase autonomousCommand;
 		private AutonomousPaths (CommandBase autonomousCommands){
 			autonomousCommand = autonomousCommands;

@@ -16,7 +16,7 @@ public class ExtenderMoveByJoysticks extends ExtenderCommand {
 
 	@Override
 	public void execute() {
-		double power = -joystick.getAxisValue(SmartJoystick.Axis.RIGHT_Y) * 0.4;
+		double power = joystick.getAxisValue(SmartJoystick.Axis.LEFT_Y) * 0.4;
 		extender.debugSetPower(power);
 	}
 
