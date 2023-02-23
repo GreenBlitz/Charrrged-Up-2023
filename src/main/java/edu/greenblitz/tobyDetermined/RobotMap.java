@@ -249,7 +249,9 @@ public class RobotMap {
             PRE_INTAKE_GRAB_POSITION(0.1,
                     Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
 
-            PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND);
+            PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            FEEDER(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND);
+
 
             public double distance;
             public double angleInRadians;

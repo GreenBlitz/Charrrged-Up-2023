@@ -13,7 +13,7 @@ public class EjectFromClaw extends ClawCommand {
     }
 
     public EjectFromClaw(){
-        timeOfEjection =  RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT;
+        this(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
     }
 
 
