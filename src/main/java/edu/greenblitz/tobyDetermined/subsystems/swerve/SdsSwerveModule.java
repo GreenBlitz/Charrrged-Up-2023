@@ -26,8 +26,7 @@ public class SdsSwerveModule implements SwerveModule {
 		//SET ANGLE MOTO
 		angleMotor = new GBFalcon(angleMotorID);
 		angleMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
-		
-		
+
 		linearMotor = new GBFalcon(linearMotorID);
 		linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj).withInverted(linInverted));
 		

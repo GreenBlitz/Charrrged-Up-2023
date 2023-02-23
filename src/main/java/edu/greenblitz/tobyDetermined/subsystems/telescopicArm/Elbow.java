@@ -86,9 +86,9 @@ public class Elbow extends GBSubsystem {
     public void moveTowardsAngleRadians(double angleInRads) {
         // going out of bounds should not be allowed
         if (getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
-            if(angleInRads <= RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
+            if(angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
                 moveTowardsAngleRadians(RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
-            }else if(angleInRads >= RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT){
+            }else if(angleInRads > RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT){
                 moveTowardsAngleRadians(RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
             }else{
                 stop();

@@ -16,8 +16,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
+
 public class RobotMap {
-    public static final Robot.robotName ROBOT_NAME = Robot.robotName.pegaSwerve;
+    public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
 
     public static class General {
 
@@ -58,11 +60,14 @@ public class RobotMap {
     }
 
     public static class Vision {
+        public static final String[] LIMELIGHT_NAMES = new String[]{"limelight-front"};
         public static double STANDARD_DEVIATION_ODOMETRY = 0.001;
         public static double STANDARD_DEVIATION_VISION2D = 0.3;
         public static double STANDARD_DEVIATION_VISION_ANGLE = 0.1;
         public static final int[] PORT_NUMBERS = {5800, 5801, 5802, 5803, 5804, 5805};
         public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(new Translation3d(), new Rotation3d());
+        public final static double MIN_DISTANCE_TO_FILTER_OUT = 1;
+
 
     }
 
@@ -77,8 +82,8 @@ public class RobotMap {
     }
 
     public static class Ultrasonic {
-        public static final int PING_CHANNEL = 8;
-        public static final int ECHO_CHANNEL = 9;
+        public static final int PING_DIO_PORT =5;
+        public static final int ECHO_DIO_PORT = 6;
         public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
     }
 
@@ -93,7 +98,7 @@ public class RobotMap {
             public static final int LAMPREY_AVERAGE_BITS = 2;
 
 
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(0, 0, 0);
+            public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
 
             public static final PIDConstants ROTATION_PID = new PIDConstants(2, 0, 0);
 
@@ -160,13 +165,13 @@ public class RobotMap {
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 3, false, 3.4635 / (2 * Math.PI)); //front left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.857 ); //front left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 4.55 / (2 * Math.PI)); //front right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 0.3 ); //front right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 3.947 / (2 * Math.PI)); //back left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 0.727 ); //back left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 0, true, 5.386 / (2 * Math.PI)); //back right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 3, true, 0.87 ); //back right
 
 
         public static class KazaSwerve {
@@ -219,7 +224,7 @@ public class RobotMap {
     public static class RotatingBelly {
         public static final int MOTOR_ID = 21;
         public static final double ROTATING_POWER = 0.5;
-        public static final int MACRO_SWITCH_PORT = 0;
+        public static final int MACRO_SWITCH_DIO_PORT = 4;
 
         public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
         public static double ROTATE_TO_DOOR_TIME = 3;
@@ -233,15 +238,17 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.5, 45),
-            CONE_MID(0.3, 30),
-            CUBE_HIGH(0.5, 45),
-            CUBE_MID(0.3, 30),
-            LOW(0, 5),
+            CONE_HIGH(0.804,  20.1 - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_MID(0.26,  3.3 - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_HIGH(0.654,   20.7 -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_MID( 0.450,  15.46 - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            LOW(0.35,  60),
 
-            INTAKE_GRAB_POSITION (0,0),
-            INTAKE_DROP_POSITION(0, 0),
-            PRE_INTAKE_DROP_POSITION(0,0);
+            INTAKE_GRAB_POSITION(0.307, -90 -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            INTAKE_DROP_POSITION(0, -90 -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            PRE_INTAKE_GRAB_POSITION(0.1, -90 -STARTING_ANGLE_RELATIVE_TO_GROUND),
+
+            PRE_GRID(0,20.7 -STARTING_ANGLE_RELATIVE_TO_GROUND);
 
             public final double distance;
             public final double angleInRadians;
@@ -258,7 +265,6 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1/15.0;
             public static final double STARTING_LENGTH =0.3;
             public static final double EXTENDED_LENGTH = /*0.92*/ 0.87; //uncomment me please
-
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
@@ -282,20 +288,18 @@ public class RobotMap {
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                     .withPID(RobotMap.TelescopicArm.Extender.PID)
-				.withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
-				.withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
-				.withIdleMode(CANSparkMax.IdleMode.kBrake)
-				.withRampRate(General.RAMP_RATE_VAL)
-				.withCurrentLimit(30)
-				.withVoltageComp(General.VOLTAGE_COMP_VAL);
+                    .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+                    .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+                    .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                    .withRampRate(General.RAMP_RATE_VAL)
+                    .withCurrentLimit(30)
+                    .withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Claw {
             public static final int MOTOR_ID = 2;
-
             public static final int SOLENOID_OPEN_CLAW_ID = 4;
             public static final int SOLENOID_CLOSED_CLAW_ID = 3;
-
             public static final double MOTOR_POWER_GRIP = 0.3;
             public static final double MOTOR_POWER_RELEASE = -0.3;
 
@@ -330,12 +334,12 @@ public class RobotMap {
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
 
 
-            public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT= new GBSparkMax.SparkMaxConfObject()
+            public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                     .withPID(PID)
-                .withIdleMode(CANSparkMax.IdleMode.kBrake)
-                .withRampRate(General.RAMP_RATE_VAL)
-                .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
-                .withVoltageComp(General.VOLTAGE_COMP_VAL);
+                    .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                    .withRampRate(General.RAMP_RATE_VAL)
+                    .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT)
+                    .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
 
             public static final int CURRENT_LIMIT = 40;
@@ -343,14 +347,13 @@ public class RobotMap {
         }
     }
 
-    public static class ThirdLeg{
+    public static class ThirdLeg {
         public static final int FORWARD_PORT = 2;
         public static final int REVERSE_PORT = 3;
     }
 
     public static class Intake {
-        public static final int ROLLER_ID = 0;
-
+        public static final int ROLLER_ID = 24;
         public static final double DEFAULT_POWER = 1;
         public static final double ROLL_INSIDE_POWER = 0.5;
         public static final int BEAM_BREAKER_ID = 20;

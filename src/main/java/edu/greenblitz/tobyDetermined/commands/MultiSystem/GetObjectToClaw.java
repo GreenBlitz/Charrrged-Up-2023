@@ -18,7 +18,7 @@ public class GetObjectToClaw extends SequentialCommandGroup {
 		//move the arm to grabbing position and rotate the belly and grub the object
 		addCommands(
 				new AlignObject().unless(() -> !RotatingBelly.getInstance().isConeIn())
-						.alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_DROP_POSITION))
+						.alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION))
 		);
 
 		addCommands(new ConditionalCommand(new GripCone(), new GripCube(), () -> RotatingBelly.getInstance().isConeIn()));

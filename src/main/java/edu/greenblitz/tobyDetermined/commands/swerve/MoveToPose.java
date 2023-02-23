@@ -25,7 +25,9 @@ public class MoveToPose extends SwerveCommand {
 	public static final double TRANSLATION_KI = 0;
 	public static final double TRANSLATION_KD = 0;
 
-	private final boolean DEBUG = true;
+	private final double TOLERANCE = 0.05;
+	private final double ROTATION_TOLERANCE = 4;
+	private boolean DEBUG = false;
 
 	public MoveToPose(Pose2d pose) {
 		this.pose = pose;
@@ -37,6 +39,11 @@ public class MoveToPose extends SwerveCommand {
 		yController.setTolerance(SwerveChassis.TRANSLATION_TOLERANCE);
 		rotationController.setTolerance(Units.degreesToRadians(SwerveChassis.ROTATION_TOLERANCE));
 
+	}
+	
+	public MoveToPose(Pose2d pose, boolean debug){
+		this(pose);
+		this.DEBUG = debug;
 	}
 
 	@Override
@@ -53,6 +60,7 @@ public class MoveToPose extends SwerveCommand {
 	public void debugDashboard(double xCalc, double yCalc, double rotationCalc) {
 		SmartDashboard.putBoolean("at goal x", xController.atGoal());
 		SmartDashboard.putBoolean("at goal y", yController.atGoal());
+		SmartDashboard.putBoolean("at goal angle", rotationController.atGoal());
 		SmartDashboard.putNumber("x cal", xCalc);
 		SmartDashboard.putNumber("y cal", yCalc);
 		SmartDashboard.putNumber("rot cal", rotationCalc);

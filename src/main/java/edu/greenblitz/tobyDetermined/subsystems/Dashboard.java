@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.IsRobotReady;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
@@ -8,6 +9,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -15,7 +17,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-
 import java.util.Map;
 
 public class Dashboard extends GBSubsystem {
@@ -58,12 +59,15 @@ public class Dashboard extends GBSubsystem {
 		//grid todo make it mirror by alliance
 		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid)
 				.withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
-		for (int i = 0; i < 9; i++) {
+
+		boolean isRedAlliance = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+		for (int i = 0; i < Field.PlacementLocations.getLocationsOnRedSide().length; i++) {
 			for (Grid.Height height : Grid.Height.values()) {
-				int finalI = i;
+				int finalGridPositionID = i;
 				int finalHeight = height.ordinal();
-				grid.addBoolean(i + 1 + " " + height, () -> (Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalI))
-						.withPosition(finalI, 2 - finalHeight);
+				grid.addBoolean(i + 1 + " " + height, () ->
+								(Grid.getInstance().getSelectedHeightID() == finalHeight && Grid.getInstance().getSelectedPositionID() == finalGridPositionID))
+						.withPosition(isRedAlliance? finalGridPositionID: 8-finalGridPositionID , 2 - finalHeight);
 			}
 		}
 
@@ -87,8 +91,8 @@ public class Dashboard extends GBSubsystem {
 
 
 		//console
-		ShuffleboardLayout console =Console.getShuffleboardConsole(driversTab)
-				.withPosition(8,0).withSize(2,3).withProperties(Map.of("Label position", "TOP"));
+		ShuffleboardLayout console = Console.getShuffleboardConsole(driversTab)
+				.withPosition(8, 0).withSize(2, 3).withProperties(Map.of("Label position", "TOP"));
 
 
 		//ready to place
@@ -96,9 +100,9 @@ public class Dashboard extends GBSubsystem {
 		//todo check if at place and arm in pos
 	}
 
+	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(), Extender.getInstance().getPID().getKi(), Extender.getInstance().getPID().getKd());
+	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(), Elbow.getInstance().getPID().getKi(), Elbow.getInstance().getPID().getKd());
 
-	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(),Extender.getInstance().getPID().getKi(),Extender.getInstance().getPID().getKd());
-	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(),Elbow.getInstance().getPID().getKi(),Elbow.getInstance().getPID().getKd());
 	public void armDashboard() {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm debug");
 		//arm states
@@ -110,27 +114,15 @@ public class Dashboard extends GBSubsystem {
 		armStateWidget.addDouble("Angle", () -> Units.radiansToDegrees(Elbow.getInstance().getAngleRadians())).withPosition(1, 1);
 
 		//arm state
-		armTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
-
-		//extender length
-		armTab.addDouble("Extender length", () -> Extender.getInstance().getLength());
-
-		//extender state
-		armTab.addString("Extender state", () -> String.valueOf(Extender.getInstance().getState()));
+		armTab.addString("Arm state", () -> "exists").withPosition(4, 2).withSize(1, 2);
 
 		armTab.addBoolean("beam broken", () -> Extender.getInstance().getLimitSwitch());
 
 		//extender ff
 		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
-		//arm angle
-		armTab.addDouble("Elbow angle", ()-> Elbow.getInstance().getAngleRadians());
-
-		//arm state
-		armTab.addString("Elbow state", ()-> String.valueOf(Elbow.getInstance().getState()));
-
 		//arm ff
-		armTab.addDouble("arm ff", ()-> Elbow.getInstance().getDebugLastFF());
+		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
 
 		Mechanism2d mech = new Mechanism2d(3, 3);
 
@@ -139,8 +131,7 @@ public class Dashboard extends GBSubsystem {
 
 		armWidget = root.append(new MechanismLigament2d("arm", 30, 270));
 		armTab.add("arm mechanism", mech);
-
-		armTab.add("extenderPID" , extenderController);
+		armTab.add("extenderPID", extenderController);
 		armTab.add("elbowPID", elbowController);
 	}
 
@@ -151,17 +142,19 @@ public class Dashboard extends GBSubsystem {
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 0);
 			swerveTab.addDouble(module + "-absolute-angle", () -> SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(module))
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 1);
+			swerveTab.addDouble(module + "-lin-dist", () -> SwerveChassis.getInstance().getSwerveModulePositions()[module.ordinal()].distanceMeters)
+					.withSize(2, 1).withPosition(module.ordinal() * 2, 2);
 		}
 		swerveTab.addDouble("pigeon-angle", () -> Math.toDegrees(SwerveChassis.getInstance().getChassisAngle()))
-				.withSize(1, 1).withPosition(0, 2);
+				.withSize(1, 1).withPosition(0, 3);
 
 	}
 
-	public PIDObject getElbowPID(){
+	public PIDObject getElbowPID() {
 		return new PIDObject().withKp(elbowController.getP()).withKi(elbowController.getI()).withKd(elbowController.getD());
 	}
 
-	public PIDObject getExtenderPID(){
+	public PIDObject getExtenderPID() {
 		return new PIDObject().withKp(extenderController.getP()).withKi(extenderController.getI()).withKd(extenderController.getD());
 	}
 	
