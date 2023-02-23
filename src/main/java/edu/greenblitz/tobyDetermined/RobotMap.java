@@ -238,24 +238,25 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.804,  20.1 - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CONE_MID(0.26,  3.3 - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_HIGH(0.654,   20.7 -STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_MID( 0.450,  15.46 - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            LOW(0.35,  60),
+            CONE_HIGH(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_MID(0.26,  Math.toRadians(3.3) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_HIGH(0.654,   Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            LOW(0.35,  Math.toRadians(60)),
 
-            INTAKE_GRAB_POSITION(0.307, -90 -STARTING_ANGLE_RELATIVE_TO_GROUND),
-            INTAKE_DROP_POSITION(0, -90 -STARTING_ANGLE_RELATIVE_TO_GROUND),
-            PRE_INTAKE_GRAB_POSITION(0.1, -90 -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            INTAKE_GRAB_POSITION(0.307, 0.092),
+            INTAKE_DROP_POSITION(0, Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            PRE_INTAKE_GRAB_POSITION(0.1,
+                    Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
 
-            PRE_GRID(0,20.7 -STARTING_ANGLE_RELATIVE_TO_GROUND);
+            PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND);
 
             public double distance;
             public double angleInRadians;
 
-            PresetPositions(double distance, double angle) {
+            PresetPositions(double distance, double angleInRads) {
                 this.distance = distance;
-                this.angleInRadians = Units.degreesToRadians(angle);
+                this.angleInRadians = angleInRads;
 
             }
         }
@@ -266,7 +267,7 @@ public class RobotMap {
             public static final double STARTING_LENGTH =0.3;
             public static final double EXTENDED_LENGTH = /*0.92*/ 0.87; //uncomment me please
             public static final int BACKWARDS_LIMIT = 0;
-            public static final double FORWARD_LIMIT = EXTENDED_LENGTH;
+            public static final double FORWARD_LIMIT = 0.82;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.26;
             public static final double MAX_ENTRANCE_LENGTH = 0.059;
@@ -328,7 +329,7 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR;
 
-            public static final double FORWARD_ANGLE_LIMIT = Units.degreesToRadians(90);//135);
+            public static final double FORWARD_ANGLE_LIMIT = 2.13;
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);

@@ -5,6 +5,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -63,11 +64,6 @@ public class OI { //GEVALD
 //		mainJoystick.B.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorGrip(), () -> Claw.getInstance().stopMotor()));
 //		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorEject(), () -> Claw.getInstance().stopMotor()));
 
-//        mainJoystick.A.onTrue(new GripCone());
-//        mainJoystick.B.onTrue(new GripCube());
-//		mainJoystick.POV_UP.toggleOnTrue(new ExtendToLength(0.20));
-//		mainJoystick.POV_LEFT.toggleOnTrue(new RotateToAngleRadians(Units.degreesToRadians(30)));
-//		mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
 	
 	}
 

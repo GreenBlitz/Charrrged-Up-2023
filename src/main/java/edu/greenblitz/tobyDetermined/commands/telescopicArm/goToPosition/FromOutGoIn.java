@@ -3,7 +3,9 @@ package edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngleRadians;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
@@ -17,9 +19,11 @@ public class FromOutGoIn extends SequentialCommandGroup {
         );
         addCommands(
                 new RotateToAngleRadians(angleInRads)
-                        .alongWith(new ExtendToLength(lengthInMeters))
-                        .beforeStarting(new WaitUntilCommand(() -> Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE)
-                        )
+                        .alongWith((new ExtendToLength(lengthInMeters).alongWith(new InstantCommand(()-> Console.log("passed wall zone", "yay")))
+                                .beforeStarting(new WaitUntilCommand(() -> Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE).andThen(
+                                        new WaitUntilCommand(() -> !(Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE))
+                                )
+                                )))
         );
     }
 }

@@ -7,9 +7,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class Console {
     private static ShuffleboardLayout shuffleboardConsole;
+    private static int messageCounter = 0;
 
     public static void log(String title, String message) {
-        title = title + " : " + DriverStation.getMatchTime();
+        title =messageCounter + " " + title + " : " + DriverStation.getMatchTime();
+        messageCounter++;
         shuffleboardConsole.add(title, message);
     }
 

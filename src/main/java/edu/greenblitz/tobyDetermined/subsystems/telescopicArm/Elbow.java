@@ -23,6 +23,7 @@ public class Elbow extends GBSubsystem {
     private ProfiledPIDController profileGenerator;  // this does not actually use the pid controller only the setpoint
     private double lastSpeed;
     private double debugLastFF;
+    public boolean isUsed = false;
 
     private boolean debug = false;
 
@@ -67,6 +68,9 @@ public class Elbow extends GBSubsystem {
         state = getHypotheticalState(getAngleRadians());
         lastSpeed = getVelocity();
         Dashboard.getInstance().armWidget.setLength(Units.radiansToDegrees(getAngleRadians()));
+        if (!isUsed){
+            setMotorVoltage(Elbow.getStaticFeedForward(Extender.getInstance().getLength(),getAngleRadians()));
+        }
 //        updatePIDController(Dashboard.getInstance().getElbowPID());
 
     }
@@ -84,6 +88,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public void moveTowardsAngleRadians(double angleInRads) {
+        SmartDashboard.putString("hypothetical state", getHypotheticalState(angleInRads).toString());
         // going out of bounds should not be allowed
         if (getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
             if(angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
@@ -109,13 +114,11 @@ public class Elbow extends GBSubsystem {
 
 
     public void setAngleRadiansByPID(double goalAngle) {
-        profileGenerator.reset(getAngleRadians(), getVelocity());
+        profileGenerator.reset(getAngleRadians());
         profileGenerator.setGoal(goalAngle);
+        profileGenerator.calculate(0);//nonsense call because I believe this updates the setpoint
         double feedForward = getFeedForward(
-                profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(),
-                Extender.getInstance().getLength(), getAngleRadians()
-        );
-        SmartDashboard.putNumber("Elbow FF", feedForward);  //todo - its for debugging, remove when done
+                profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
         motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
         debugLastFF = feedForward;
     }

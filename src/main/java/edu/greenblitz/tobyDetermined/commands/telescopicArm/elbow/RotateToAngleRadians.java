@@ -24,11 +24,12 @@ public class RotateToAngleRadians extends ElbowCommand {
 
     @Override
     public boolean isFinished() {
-        return elbow.isAtAngle(wantedAngle);
+        return elbow.isAtAngle();
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         elbow.stop();
         SmartDashboard.putBoolean("is at angle?", true);
     }

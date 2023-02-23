@@ -37,7 +37,7 @@ public class Dashboard extends GBSubsystem {
 	}
 
 	private Dashboard() {
-//		driversDashboard();
+		driversDashboard();
 		swerveDashboard();
 		armDashboard();
 	}
@@ -46,13 +46,12 @@ public class Dashboard extends GBSubsystem {
 		ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
 
 		//arm states
-		ShuffleboardLayout armStateWidget = driversTab.getLayout("Arm states", BuiltInLayouts.kGrid)
+		ShuffleboardLayout armStateWidget = driversTab.getLayout("Arm states drivers", BuiltInLayouts.kGrid)
 				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
-		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
-		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
-		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
-
+		armStateWidget.addString("Extender State drivers", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
+		armStateWidget.addDouble("Length drivers", () -> Extender.getInstance().getLength()).withPosition(1, 0);
+		armStateWidget.addString("Elbow State drivers", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
+		armStateWidget.addDouble("Angle drivers", () -> (Elbow.getInstance().getAngleRadians())).withPosition(1, 1);
 		//arm state
 		driversTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
 
@@ -108,10 +107,13 @@ public class Dashboard extends GBSubsystem {
 		//arm states
 		ShuffleboardLayout armStateWidget = armTab.getLayout("Arm states", BuiltInLayouts.kGrid)
 				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+
+
 		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
 		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
 		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("Angle", () -> Units.radiansToDegrees(Elbow.getInstance().getAngleRadians())).withPosition(1, 1);
+		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
+
 
 		//arm state
 		armTab.addString("Arm state", () -> "exists").withPosition(4, 2).withSize(1, 2);
@@ -157,18 +159,5 @@ public class Dashboard extends GBSubsystem {
 	public PIDObject getExtenderPID() {
 		return new PIDObject().withKp(extenderController.getP()).withKi(extenderController.getI()).withKd(extenderController.getD());
 	}
-	
-	public void debugArm() {
-		ShuffleboardTab armDebugTab = Shuffleboard.getTab("arm debug");
 
-		armDebugTab.addDouble("length", () -> Extender.getInstance().getLength())
-				.withSize(3, 1).withPosition(0, 0);
-		armDebugTab.addDouble("angle", () -> Elbow.getInstance().getAngleRadians())
-				.withSize(3, 1).withPosition(0, 1);
-		armDebugTab.addString("extender state", () -> Extender.getInstance().getState().toString())
-				.withSize(3, 1).withPosition(0, 2);
-		armDebugTab.addString("arm state", () -> Elbow.getInstance().getState().toString())
-				.withSize(3, 1).withPosition(0, 3);
-
-	}
 }
