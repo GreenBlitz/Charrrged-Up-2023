@@ -54,6 +54,8 @@ public class SdsSwerveModule implements SwerveModule {
 		this.anglelog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Angle");
 		this.velocitylog = new DoubleLogEntry(this.log, "/SwerveModule/HighLevel/Velocity");
 		
+		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
+		;
 	}
 	
 	public SdsSwerveModule(SdsSwerveModuleConfigObject SdsModuleConfigObject) {
@@ -121,7 +123,7 @@ public class SdsSwerveModule implements SwerveModule {
 
 	@Override
 	public double getCurrentMeters() {
-		return convertTicksToMeters(linearMotor.getSelectedSensorPosition()); //TODO make sure its true
+		return convertTicksToMeters(linearMotor.getSelectedSensorPosition());
 	}
 
 	@Override
@@ -206,6 +208,17 @@ public class SdsSwerveModule implements SwerveModule {
 				getCurrentVelocity(),
 				new Rotation2d(getModuleAngle())
 		);
+	}
+	
+	@Override
+	public boolean isAtAngle(double targetAngleInRads, double tolerance) {
+		double currentAngleInRads = getModuleAngle();
+		return (currentAngleInRads - targetAngleInRads) %(2*Math.PI) < tolerance
+				|| (targetAngleInRads - currentAngleInRads) % (2*Math.PI) < tolerance;
+	}
+	@Override
+	public boolean isAtAngle(double tolerance) {
+		return isAtAngle(targetAngle, tolerance);
 	}
 	
 	/**

@@ -2,7 +2,7 @@ import edu.wpi.first.gradlerio.GradleRIOPlugin
 
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.1.1"
+    id "edu.wpi.first.GradleRIO" version "2023.3.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -65,6 +65,8 @@ repositories {
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
+    implementation 'com.netflix.nebula:gradle-override-plugin:4.0.0'
+    implementation 'com.thoughtworks.feature:override_2.12:1.1.0'
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)

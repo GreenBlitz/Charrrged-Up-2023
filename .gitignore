@@ -9,6 +9,7 @@
 *.ctxt
 
 # Duplicate of project file, see http://www.hs-owl.de/fb5/labor/it/de/if1/vl/IF1JavaOhneBluej.pdf, page 4
+.idea/
 bluej.pkh
 
 ### Eclipse ###
@@ -128,7 +129,7 @@ local.properties
 # auto-import.
 # .idea/artifacts
 # .idea/compiler.xml
-# .idea/jarRepositories.xml
+ .idea/jarRepositories.xml
 # .idea/modules.xml
 # .idea/*.iml
 # .idea/modules
@@ -927,4 +928,6 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/java,python,intellij,vim,visualstudiocode,windows,macos,linux,gradle,git,eclipse,sublimetext,bluej,visualstudio
+# End of https://www.toptal.com/developers/gitignore/api/java,python,intellij,vim,visualstudiocode,windows,macos,linux,gradle,git,eclipse,sublimetext,bluej,visualstudio.
+
+.idea/misc.xml

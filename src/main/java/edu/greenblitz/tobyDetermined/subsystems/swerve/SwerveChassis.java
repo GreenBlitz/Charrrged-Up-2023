@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight;
@@ -7,6 +8,7 @@ import edu.greenblitz.utils.PigeonGyro;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,15 +19,22 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.DoubleArrayEntry;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.photonvision.EstimatedRobotPose;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import edu.greenblitz.tobyDetermined.subsystems.logger;
 
 
 public class SwerveChassis extends GBSubsystem {
-	
+
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
@@ -38,11 +47,18 @@ public class SwerveChassis extends GBSubsystem {
 	private StringLogEntry commandloger;
 
 	
+	private final Ultrasonic ultrasonic;
+    private final int FILTER_BUFFER_SIZE = 15;
+
 	public SwerveChassis() {
 		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
 		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontRight);
 		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackLeft);
 		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
+		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_CHANNEL, RobotMap.Ultrasonic.ECHO_CHANNEL);
+		Ultrasonic.setAutomaticMode(true);
+
+		
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
@@ -54,30 +70,33 @@ public class SwerveChassis extends GBSubsystem {
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry, RobotMap.Vision.standardDeviationOdometry),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVision2d, RobotMap.Vision.standardDeviationVisionAngle));
-		
 		SmartDashboard.putData("field", getField());
-		field.getObject("apriltag").setPose(RobotMap.Vision.apriltagLocation.toPose2d());
-			
 		log = logger.getInstance().get_log();
 		this.commandloger = new StringLogEntry(this.log, "/SwerveChassis/HighLevel/CommandLogger");
-
-
-		
-
-
+		field.getObject("apriltag").setPose(Field.Apriltags.redApriltagLocationId1.toPose2d());
 	}
-	
+
+
 	public static SwerveChassis getInstance() {
 		if (instance == null) {
-			instance = new SwerveChassis();
+			init();
+			SmartDashboard.putBoolean("chassis initialized via getinstance", true);
 		}
 		return instance;
+	}
+
+	public static void init(){
+		instance = new SwerveChassis();
 	}
 	
 	@Override
 	public void periodic() {
 		updatePoseEstimation();
 		field.setRobotPose(getRobotPose());
+	}
+	
+	public void resetAll(Pose2d pose){
+		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
 	}
 	
 	/**
@@ -145,6 +164,10 @@ public class SwerveChassis extends GBSubsystem {
 		return getModule(module).getModuleAngle();
 	}
 	
+	public boolean moduleIsAtAngle(Module module,double targetAngleInRads, double errorInRads){
+		return getModule(module).isAtAngle(targetAngleInRads,errorInRads);
+	}
+	
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
@@ -175,8 +198,6 @@ public class SwerveChassis extends GBSubsystem {
 				SwerveModuleState.optimize(states[2], new Rotation2d(getModuleAngle(Module.BACK_LEFT))));
 		setModuleStateForModule(Module.BACK_RIGHT,
 				SwerveModuleState.optimize(states[3], new Rotation2d(getModuleAngle(Module.BACK_RIGHT))));
-		
-		
 	}
 	
 	public void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed, double currentAng) {
@@ -186,7 +207,25 @@ public class SwerveChassis extends GBSubsystem {
 				angSpeed,
 				Rotation2d.fromDegrees(Math.toDegrees(currentAng)));
 		SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
-		setModuleStates(states);
+		SwerveModuleState[] desaturatedStates = desaturateSwerveModuleStates(states);
+		setModuleStates(desaturatedStates);
+	}
+
+	/**
+	 * makes sure no module is requested to move faster than possible by linearly scaling all module velocities to comply with the constraint
+	 * @param states original velocity states computed from the kinematics
+	 * @return states that create the same ratio between speeds but scaled down
+	 */
+	private static SwerveModuleState[] desaturateSwerveModuleStates(SwerveModuleState[] states){
+		double desaturationFactor = 1;
+		for (SwerveModuleState state : states){
+			desaturationFactor = Math.max(desaturationFactor, state.speedMetersPerSecond / RobotMap.Swerve.MAX_VELOCITY);
+		}
+		SwerveModuleState[] desaturatedStates = new SwerveModuleState[states.length];
+		for (int i = 0; i < states.length; i++){
+			desaturatedStates[i] = new SwerveModuleState(states[i].speedMetersPerSecond / desaturationFactor, states[i].angle);
+		}
+		return desaturatedStates;
 	}
 	
 	public ChassisSpeeds getChassisSpeeds() {
@@ -239,19 +278,17 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void updatePoseEstimation() {
-		poseEstimator.update(getPigeonAngle(),
-				getSwerveModulePositions());
-		if (Limelight.getInstance().hasTarget() && Limelight.getInstance().findTagId() == RobotMap.Vision.selectedTagId) {
-			poseEstimator.addVisionMeasurement(Limelight.getInstance().visionPoseEstimator().getFirst(), Limelight.getInstance().visionPoseEstimator().getSecond());
-		}
-
+		SmartDashboard.putNumberArray("pose_array", arr);	  
+		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		Limelight.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 		double xr = field.getRobotObject().getPose().getX();
 		double yr = field.getRobotObject().getPose().getY();
 		double rr = field.getRobotObject().getPose().getRotation().getDegrees();
 		double[] arr = {xr,yr,rr};
-		SmartDashboard.putNumberArray("pose_array", arr);	  
 	}
-	
+
+
+
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
 	}
@@ -291,16 +328,40 @@ public class SwerveChassis extends GBSubsystem {
 
 	}
 	
+    public boolean moduleIsAtAngle(Module module, double errorInRads) {
+        return getModule(module).isAtAngle(errorInRads);
+    }
 
-	/** set the idle mode of the linear motor to brake */
-	public void setIdleModeBrake (){
-		for (Module module: Module.values()) {
-			getModule(module).setLinIdleModeBrake();
-		}
-	}
-	public void setIdleModeCoast (){
-		for (Module module: Module.values()) {
+    public void resetChassisPose(Pose2d pose) {
+        poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+    }
+
+    public void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        moveByChassisSpeeds(chassisSpeeds.vxMetersPerSecond,
+                chassisSpeeds.vyMetersPerSecond,
+                chassisSpeeds.omegaRadiansPerSecond,
+                getChassisAngle()
+        );
+        SmartDashboard.putNumber("omega", chassisSpeeds.omegaRadiansPerSecond);
+    }
+
+    public double getUltrasonicDistance(){
+        MedianFilter filter = new MedianFilter(FILTER_BUFFER_SIZE);
+        return filter.calculate(ultrasonic.getRangeMM());
+    }
+    /**
+     * set the idle mode of the linear motor to brake
+     */
+    public void setIdleModeBrake() {
+        for (Module module : Module.values()) {
+            getModule(module).setLinIdleModeBrake();
+        }
+    }
+
+	public void setIdleModeCoast(){
+		for (Module module : Module.values()){
 			getModule(module).setLinIdleModeCoast();
 		}
 	}
+
 }
