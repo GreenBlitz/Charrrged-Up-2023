@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
@@ -57,15 +58,16 @@ public class OI { //GEVALD
         romyButtons();
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
-        
+        secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
 //		mainJoystick.A.onTrue(new InstantCommand(() -> Claw.getInstance().toggleSolenoid()));
 //		mainJoystick.B.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorGrip(), () -> Claw.getInstance().stopMotor()));
 //		mainJoystick.Y.whileTrue(new StartEndCommand(() -> Claw.getInstance().motorEject(), () -> Claw.getInstance().stopMotor()));
-        mainJoystick.A.onTrue(new GripCone());
-        mainJoystick.B.onTrue(new GripCube());
-		mainJoystick.POV_UP.toggleOnTrue(new ExtendToLength(0.20));
-		mainJoystick.POV_LEFT.toggleOnTrue(new RotateToAngleRadians(Units.degreesToRadians(30)));
-		mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
+
+//        mainJoystick.A.onTrue(new GripCone());
+//        mainJoystick.B.onTrue(new GripCube());
+//		mainJoystick.POV_UP.toggleOnTrue(new ExtendToLength(0.20));
+//		mainJoystick.POV_LEFT.toggleOnTrue(new RotateToAngleRadians(Units.degreesToRadians(30)));
+//		mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
 	
 	}
 
