@@ -68,7 +68,7 @@ public class OI { //GEVALD
         secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
         secondJoystick.A.onTrue(new GoToGrid());
-        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.FEEDER));
+        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
         secondJoystick.X.whileTrue(new Grip());
         secondJoystick.Y.whileTrue(new EjectFromClaw());
 
@@ -87,7 +87,9 @@ public class OI { //GEVALD
         mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
         mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
+        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
     }
+
 
 
 

@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -207,6 +208,10 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public double getAbsoluteEncoderValue() {
+		if (Double.isNaN(magEncoder.get())){
+			Console.log("mag Nan", "one of the mag encoders isn't conected");
+			return 0;
+		}
 		return magEncoder.get();
 	}
 	
@@ -248,5 +253,5 @@ public class SdsSwerveModule implements SwerveModule {
 			this.magEncoderOffset = magEncoderOffset;
 		}
 	}
-	
+
 }

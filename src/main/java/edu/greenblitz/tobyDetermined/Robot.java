@@ -37,12 +37,11 @@ public class Robot extends TimedRobot {
 	    initPortForwarding();
 	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         AutonomousSelector.getInstance();
-
 //        LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
 
-//        SwerveChassis.getInstance().resetChassisPose();
-//        SwerveChassis.getInstance().resetAllEncoders();
+        SwerveChassis.getInstance().resetChassisPose();
+        SwerveChassis.getInstance().resetAllEncoders();
     }
 	
 	private static void initSubsystems(){
@@ -55,7 +54,7 @@ public class Robot extends TimedRobot {
 		Extender.init();
 		Elbow.init();
 		Claw.init();
-//		SwerveChassis.init();
+		SwerveChassis.init();
 //		RotatingBelly.init();
 //		BellyGameObjectSensor.init();
 //		IntakeExtender.init();
