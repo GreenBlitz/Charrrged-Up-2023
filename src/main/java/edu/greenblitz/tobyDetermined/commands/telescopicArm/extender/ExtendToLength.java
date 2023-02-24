@@ -5,12 +5,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ExtendToLength extends ExtenderCommand {
 
     private double wantedLength;
-
+    private boolean stop;
     /**
      * @param length length in meters
      * */
     public ExtendToLength(double length){
         this.wantedLength = length;
+    }
+
+    public ExtendToLength(double length, boolean stop){
+        this(length);
+        this.stop = stop;
     }
 
     @Override
@@ -28,6 +33,9 @@ public class ExtendToLength extends ExtenderCommand {
 
     @Override
     public boolean isFinished() {
+        if (stop) {
+            return extender.isAtLength() && extender.isNotMoving();
+        }
         return extender.isAtLength();
     }
 

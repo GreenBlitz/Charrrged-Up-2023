@@ -37,7 +37,6 @@ public class SdsSwerveModule implements SwerveModule {
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
 		
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
-		;
 	}
 	
 	public SdsSwerveModule(SdsSwerveModuleConfigObject SdsModuleConfigObject) {

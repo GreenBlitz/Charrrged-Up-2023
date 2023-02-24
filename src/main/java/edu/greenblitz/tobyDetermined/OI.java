@@ -67,7 +67,7 @@ public class OI { //GEVALD
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
         secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-        secondJoystick.A.onTrue(new GoToGrid().andThen(new StayAtCurrentAngle()));
+        secondJoystick.A.whileTrue(new GoToGrid());
         secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
         secondJoystick.X.whileTrue(new Grip());
         secondJoystick.Y.whileTrue(new EjectFromClaw());

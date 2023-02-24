@@ -267,7 +267,7 @@ public class RobotMap {
             public static final int MOTOR_ID = 3;
             public static final double GEAR_RATIO = 1/15.0;
             public static final double STARTING_LENGTH =0.3;
-            public static final double EXTENDED_LENGTH = /*0.92*/ 0.87; //uncomment me please
+            public static final double EXTENDED_LENGTH = /*0.92*/ 0.8; //uncomment me please
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = 0.82;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
@@ -279,13 +279,14 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
+            public static final double VELOCITY_TOLERANCE = 0.02;
 
             public static final double kV = 60;
             public static final double kA = 0;
             public static final double kS = 0.63;
             public static final double kG = 0.57;
 
-            public static final double MAX_ACCELERATION = 30;
+            public static final double MAX_ACCELERATION = 7.5;
             public static final double MAX_VELOCITY = 0.18;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 
@@ -320,10 +321,10 @@ public class RobotMap {
             public static final double MAX_Kg = 0.647;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 5;
+            public static final double MAX_ACCELERATION = 3;
             public static final double MAX_VELOCITY = 2.19;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0);
+            public static final PIDObject PID = new PIDObject();
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
@@ -335,6 +336,7 @@ public class RobotMap {
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);
+            public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);
 
 
             public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()

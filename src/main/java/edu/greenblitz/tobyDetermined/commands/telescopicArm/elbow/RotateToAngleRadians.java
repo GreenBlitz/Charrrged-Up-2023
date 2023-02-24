@@ -5,9 +5,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RotateToAngleRadians extends ElbowCommand {
 
     private double wantedAngle;
+    private boolean stop;
 
     public RotateToAngleRadians(double angle){
         wantedAngle = angle;
+    }
+
+    public RotateToAngleRadians(double angle, boolean stop){
+        this(angle);
+        this.stop = stop;
     }
 
     @Override
@@ -24,6 +30,9 @@ public class RotateToAngleRadians extends ElbowCommand {
 
     @Override
     public boolean isFinished() {
+        if(stop){
+            return elbow.isAtAngle() && elbow.isNotMoving();
+        }
         return elbow.isAtAngle();
     }
 

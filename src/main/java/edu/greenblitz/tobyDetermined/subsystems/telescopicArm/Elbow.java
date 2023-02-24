@@ -160,6 +160,10 @@ public class Elbow extends GBSubsystem {
         return isAtAngle(profileGenerator.getGoal().position);
     }
 
+    public boolean isNotMoving(){
+        return Math.abs(getVelocity()) < RobotMap.TelescopicArm.Elbow.ANGULAR_VELOCITY_TOLERANCE;
+    }
+
     public boolean isInTheSameState(double wantedAng) {
         return getHypotheticalState(getAngleRadians()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) != ElbowState.OUT_OF_BOUNDS;
     }

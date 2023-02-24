@@ -2,7 +2,6 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -11,7 +10,6 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Extender extends GBSubsystem {
@@ -187,12 +185,18 @@ public class Extender extends GBSubsystem {
 	}
 
 	public boolean isAtLength(double wantedLength){
-		return Math.abs(getLength() - wantedLength) < RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		double angleError = wantedLength - getLength();
+		return angleError < 0  && angleError > -RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		//makes it so the arm can only be too short, so it can always pass the state line
 	}
 
 	public boolean isAtLength() {
 		SmartDashboard.putNumber("extender goal", profileGenerator.getGoal().position);
 		return isAtLength(profileGenerator.getGoal().position);
+	}
+
+	public boolean isNotMoving(){
+		return Math.abs(getVelocity()) < RobotMap.TelescopicArm.Extender.VELOCITY_TOLERANCE;
 	}
 
 	public void setMotorVoltage(double voltage) {
