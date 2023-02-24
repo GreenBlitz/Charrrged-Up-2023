@@ -301,8 +301,8 @@ public class RobotMap {
 
         public static class Claw {
             public static final int MOTOR_ID = 2;
-            public static final int SOLENOID_OPEN_CLAW_ID = 4;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 3;
+            public static final int SOLENOID_OPEN_CLAW_ID = 3;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 5;
             public static final double MOTOR_POWER_GRIP = 0.3;
             public static final double MOTOR_POWER_RELEASE = -0.3;
 

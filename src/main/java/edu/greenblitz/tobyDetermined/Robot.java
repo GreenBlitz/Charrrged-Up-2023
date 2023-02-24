@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
         //swerve
 
         SwerveChassis.getInstance().resetChassisPose();
-        SwerveChassis.getInstance().resetAllEncoders();
+        SwerveChassis.getInstance().resetEncodersByCalibrationRod();
     }
 	
 	private static void initSubsystems(){

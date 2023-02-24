@@ -18,8 +18,7 @@ public class GripCube extends ClawCommand {
 
     @Override
     public boolean isFinished() {
-        timer.hasElapsed(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
-        return true;
+        return timer.hasElapsed(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
     }
 
     @Override

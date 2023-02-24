@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
@@ -144,7 +145,7 @@ public class SdsSwerveModule implements SwerveModule {
 				TalonFXControlMode.Velocity,
 				speed / RobotMap.Swerve.SdsSwerve.linTicksToMetersPerSecond,
 				DemandType.ArbitraryFeedForward,
-				feedforward.calculate(speed));
+				feedforward.calculate(speed) / Battery.getInstance().getCurrentVoltage());
 	}
 	
 	/**

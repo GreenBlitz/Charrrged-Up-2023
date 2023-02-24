@@ -9,6 +9,8 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.Pneumatics.PCM.PCM_ID;
+
 public class Claw extends GBSubsystem {
     private static Claw instance;
     private GBSparkMax motor;
@@ -17,7 +19,8 @@ public class Claw extends GBSubsystem {
 
     private Claw() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
+        motor.setInverted(true);
+        solenoid = new DoubleSolenoid(PCM_ID, PneumaticsModuleType.CTREPCM, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
     }
 
     /**

@@ -41,6 +41,7 @@ public class Extender extends GBSubsystem {
 		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(true);
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
+		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
 		profileGenerator = new ProfiledPIDController(
 				0,0,0,
