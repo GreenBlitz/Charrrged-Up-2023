@@ -1,7 +1,9 @@
 package edu.greenblitz.tobyDetermined.commands.swerve;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AdvancedBalanceOnRamp extends SwerveCommand {
@@ -10,10 +12,12 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
     private final double highPoint = Math.toRadians(16);
     private final double minAngleChangeToStop = Math.toRadians(0.1);
     private double speed = 0.25;
+    private double timeToMoveBack = 0.5;
     private double currentAngle = 0;
     private double lastAngle = 0;
     private boolean hasPassedHighPoint;
     private boolean forward;
+    private Timer timer;
 
     public AdvancedBalanceOnRamp(boolean forward) {
         this.gyro = swerve.getPigeonGyro();
@@ -21,6 +25,8 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
         if (!forward){
             speed *= -1;
         }
+        timer = new Timer();
+        
     }
 
     @Override
@@ -37,7 +43,7 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
 
     @Override
     public boolean isFinished() {
-        if (currentAngle - lastAngle <= -1 * minAngleChangeToStop && hasPassedHighPoint) {
+        if (currentAngle - lastAngle <= -minAngleChangeToStop && hasPassedHighPoint) {
             SmartDashboard.putBoolean("on", false);
             return true;
         }
@@ -46,7 +52,11 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
 
     @Override
     public void end(boolean interrupted) {
-        swerve.stop();
-        hasPassedHighPoint = false;
+        if (interrupted){
+            swerve.stop();
+            hasPassedHighPoint = false;
+            return;
+        }
+        new MoveDuration(timeToMoveBack, speed).schedule();
     }
 }
