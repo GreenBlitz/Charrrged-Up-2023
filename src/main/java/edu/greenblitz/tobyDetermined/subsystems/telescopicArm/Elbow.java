@@ -121,6 +121,8 @@ public class Elbow extends GBSubsystem {
         double feedForward = getFeedForward(
                 profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
         motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+        SmartDashboard.putNumber("powah", feedForward);
+        SmartDashboard.putNumber("velocity", profileGenerator.getSetpoint().velocity);
         debugLastFF = feedForward;
     }
 

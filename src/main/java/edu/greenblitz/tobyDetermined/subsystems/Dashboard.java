@@ -42,6 +42,7 @@ public class Dashboard extends GBSubsystem {
 		driversDashboard();
 		swerveDashboard();
 		armDashboard();
+		pigeonDashboard();
 	}
 
 	public void driversDashboard() {
@@ -139,13 +140,6 @@ public class Dashboard extends GBSubsystem {
 		armTab.add("elbowPID", elbowController);
 	}
 
-	public void pigeonDashboard(){
-		ShuffleboardTab armTab = Shuffleboard.getTab("pigeon debug");
-
-//		armTab.addDouble("pitch roll add", () -> PitchRollAdder.add(SwerveChassis)).withPosition(4, 2).withSize(1, 2);
-
-	}
-
 	public void swerveDashboard() {
 		ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve");
 		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
@@ -159,6 +153,16 @@ public class Dashboard extends GBSubsystem {
 		swerveTab.addDouble("pigeon-angle", () -> Math.toDegrees(SwerveChassis.getInstance().getChassisAngle()))
 				.withSize(1, 1).withPosition(0, 3);
 
+	}
+
+	public void pigeonDashboard(){
+		ShuffleboardTab pigeonTab = Shuffleboard.getTab("pigeon debug");
+		ShuffleboardLayout pigeonWidget = pigeonTab.getLayout("pigeon angles", BuiltInLayouts.kGrid)
+				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+
+		pigeonWidget.addDouble("pitch (irl roll)", () -> SwerveChassis.getInstance().getPigeonGyro().getPitch());
+		pigeonWidget.addDouble("roll (irl pitch)", () -> SwerveChassis.getInstance().getPigeonGyro().getRoll());
+		pigeonWidget.addDouble("pitch roll add ", () -> PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getPitch(),SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 	}
 
 	public PIDObject getElbowPID() {

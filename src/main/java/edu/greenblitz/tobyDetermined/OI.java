@@ -73,6 +73,7 @@ public class OI { //GEVALD
         secondJoystick.Y.whileTrue(new EjectFromClaw());
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
+        secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
 
 
 

@@ -26,7 +26,7 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
     @Override
     public void execute() {
         lastAngle = currentAngle;
-        currentAngle = Math.abs(PitchRollAdder.add(gyro.getPitch(),gyro.getRoll()));
+        currentAngle = Math.abs(PitchRollAdder.add(gyro.getRoll(),gyro.getPitch()));
 
         swerve.moveByChassisSpeeds(speed , 0, 0, gyro.getYaw());
 

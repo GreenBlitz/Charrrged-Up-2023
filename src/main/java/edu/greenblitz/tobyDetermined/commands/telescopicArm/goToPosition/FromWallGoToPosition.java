@@ -6,8 +6,8 @@ public class FromWallGoToPosition extends SequentialCommandGroup {
 
 	public FromWallGoToPosition(double targetLengthInMeters, double targetAngleInRads){
 		addCommands( //goes to the edge of the wall and then to the position
-				new GoToPosition(targetLengthInMeters,targetAngleInRads),
-				new GoToPosition(targetLengthInMeters,targetAngleInRads)
+				new SimpleGoToPosition(targetLengthInMeters,targetAngleInRads),
+				new SimpleGoToPosition(targetLengthInMeters,targetAngleInRads)
 		);
 	}
 }
