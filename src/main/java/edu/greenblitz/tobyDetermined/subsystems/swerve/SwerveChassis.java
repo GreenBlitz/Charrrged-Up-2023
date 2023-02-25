@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
+import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
@@ -355,6 +356,18 @@ public class SwerveChassis extends GBSubsystem {
 	public void setIdleModeCoast() {
 		for (Module module : Module.values()) {
 			getModule(module).setLinIdleModeCoast();
+		}
+	}
+
+	public void setAngleMotorsIdleMode(CANSparkMax.IdleMode idleMode){
+		if (idleMode == CANSparkMax.IdleMode.kBrake){
+			for (Module module : Module.values()) {
+				getModule(module).setRotIdleModeBrake();
+			}
+		} else {
+			for (Module module : Module.values()) {
+				getModule(module).setRotIdleModeCoast();
+			}
 		}
 	}
 
