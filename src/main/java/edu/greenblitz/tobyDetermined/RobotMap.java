@@ -209,7 +209,7 @@ public class RobotMap {
             public static final double magEncoderTicksToFalconTicks = 2 * Math.PI / angleTicksToRadians;
 
             public static final PIDObject angPID = new PIDObject().withKp(0.05).withMaxPower(1.0).withFF(0);//.withKd(10).withMaxPower(0.8);
-            public static final GBFalcon.FalconConfObject baseAngConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageCompSaturation(RobotMap.General.VOLTAGE_COMP_VAL).withInverted(true).withPID(angPID);
+            public static final GBFalcon.FalconConfObject baseAngConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Coast).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageCompSaturation(RobotMap.General.VOLTAGE_COMP_VAL).withInverted(true).withPID(angPID);
 
             public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
             public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withVoltageCompSaturation(RobotMap.General.VOLTAGE_COMP_VAL).withPID(linPID);
@@ -267,9 +267,9 @@ public class RobotMap {
             public static final int MOTOR_ID = 3;
             public static final double GEAR_RATIO = 1/15.0;
             public static final double STARTING_LENGTH =0.3;
-            public static final double EXTENDED_LENGTH = /*0.92*/ 0.8; //uncomment me please
             public static final int BACKWARDS_LIMIT = 0;
-            public static final double FORWARD_LIMIT = 0.82;
+            public static final double FORWARD_LIMIT = 0.87;
+            public static final double EXTENDED_LENGTH = FORWARD_LIMIT- 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.26;
             public static final double MAX_ENTRANCE_LENGTH = 0.059;

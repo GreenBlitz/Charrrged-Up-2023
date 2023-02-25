@@ -8,7 +8,7 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
 
     private final PigeonGyro gyro;
     private final double highPoint = Math.toRadians(16);
-    private final double minAngleChangeToStop = Math.toRadians(0.25);
+    private final double minAngleChangeToStop = Math.toRadians(0.1);
     private double speed = 0.25;
     private double currentAngle = 0;
     private double lastAngle = 0;

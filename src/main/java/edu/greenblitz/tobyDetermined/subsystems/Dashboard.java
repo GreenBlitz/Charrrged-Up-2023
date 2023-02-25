@@ -2,11 +2,13 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.IsRobotReady;
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.PIDObject;
+import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -135,6 +137,13 @@ public class Dashboard extends GBSubsystem {
 		armTab.add("arm mechanism", mech);
 		armTab.add("extenderPID", extenderController);
 		armTab.add("elbowPID", elbowController);
+	}
+
+	public void pigeonDashboard(){
+		ShuffleboardTab armTab = Shuffleboard.getTab("pigeon debug");
+
+//		armTab.addDouble("pitch roll add", () -> PitchRollAdder.add(SwerveChassis)).withPosition(4, 2).withSize(1, 2);
+
 	}
 
 	public void swerveDashboard() {
