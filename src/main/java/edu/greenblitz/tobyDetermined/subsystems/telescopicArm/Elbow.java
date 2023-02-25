@@ -115,7 +115,7 @@ public class Elbow extends GBSubsystem {
 
 
     public void setAngleRadiansByPID(double goalAngle) {
-        profileGenerator.reset(getAngleRadians());
+        profileGenerator.reset(getAngleRadians(),getVelocity());
         profileGenerator.setGoal(goalAngle);
         profileGenerator.calculate(0);//nonsense call because I believe this updates the setpoint
         double feedForward = getFeedForward(

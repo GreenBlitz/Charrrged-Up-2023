@@ -103,7 +103,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	private void setLengthByPID(double lengthInMeters) {
-		profileGenerator.reset(getLength());
+		profileGenerator.reset(getLength(),getVelocity());
 		profileGenerator.setGoal(lengthInMeters);
 		profileGenerator.calculate(0);//nonsense call cause i belive this updates the setpoint
 		double feedForward = getFeedForward(
@@ -185,8 +185,8 @@ public class Extender extends GBSubsystem {
 	}
 
 	public boolean isAtLength(double wantedLength){
-		double angleError = wantedLength - getLength();
-		return angleError < 0  && angleError > -RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		double lengthError = wantedLength - getLength();
+		return lengthError < 0  && lengthError > -RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 		//makes it so the arm can only be too short, so it can always pass the state line
 	}
 
