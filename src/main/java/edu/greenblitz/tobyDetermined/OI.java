@@ -19,6 +19,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
@@ -82,16 +83,21 @@ public class OI { //GEVALD
 
     public void romyButtons() {
         SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
-        mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
-        mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
-        mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
-        mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
-        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
-        mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
-        mainJoystick.B.onTrue(new LockWheels()); //lock wheel
-//		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
-        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
-        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
+        mainJoystick.X.onTrue(new RotateToAngleRadians(Math.toRadians(30)));
+        mainJoystick.B.onTrue(new RotateToAngleRadians(Math.toRadians(45)));
+        mainJoystick.A.onTrue(new RotateToAngleRadians(Math.toRadians(60)));
+        mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
+        
+//        mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
+//        mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
+//        mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
+//        mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
+//        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
+//        mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
+//        mainJoystick.B.onTrue(new LockWheels()); //lock wheel
+////		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
+//        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
+//        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
     }
 
 

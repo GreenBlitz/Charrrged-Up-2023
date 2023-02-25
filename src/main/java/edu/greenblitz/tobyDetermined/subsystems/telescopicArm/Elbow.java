@@ -11,8 +11,11 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.CONSTRAINTS;
 
 public class Elbow extends GBSubsystem {
 
@@ -20,10 +23,10 @@ public class Elbow extends GBSubsystem {
     private static Elbow instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
-    private ProfiledPIDController profileGenerator;  // this does not actually use the pid controller only the setpoint
-    private double lastSpeed;
     private double debugLastFF;
     public boolean isUsed = false;
+    
+    public double goalAngle;
 
     private boolean debug = false;
 
@@ -51,12 +54,8 @@ public class Elbow extends GBSubsystem {
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
         motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
 
-        profileGenerator = new ProfiledPIDController(
-                0,0,0,RobotMap.TelescopicArm.Elbow.CONSTRAINTS
-        );
-        profileGenerator.setTolerance(RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
-        lastSpeed = 0;
 
+        goalAngle = getAngleRadians();
         if(debug){
             debugSoftLimit();
         }
@@ -67,7 +66,6 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         super.periodic();
         state = getHypotheticalState(getAngleRadians());
-        lastSpeed = getVelocity();
         Dashboard.getInstance().armWidget.setLength(Units.radiansToDegrees(getAngleRadians()));
         if (!isUsed){
 //            setMotorVoltage(Elbow.getStaticFeedForward(Extender.getInstance().getLength(),getAngleRadians()));
@@ -115,14 +113,14 @@ public class Elbow extends GBSubsystem {
 
 
     public void setAngleRadiansByPID(double goalAngle) {
-        profileGenerator.reset(getAngleRadians(),getVelocity());
-        profileGenerator.setGoal(goalAngle);
-        profileGenerator.calculate(0);//nonsense call because I believe this updates the setpoint
+        this.goalAngle = goalAngle;
+        TrapezoidProfile trapezoidProfile = new TrapezoidProfile(CONSTRAINTS,new TrapezoidProfile.State(goalAngle, 0), new TrapezoidProfile.State(getAngleRadians(), getVelocity()));
+        double velocity = trapezoidProfile.calculate(RoborioUtils.getCurrentRoborioCycle()).velocity;
         double feedForward = getFeedForward(
-                profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
-        motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
+                velocity, (trapezoidProfile.calculate(RoborioUtils.getCurrentRoborioCycle()*2).velocity - velocity) / RoborioUtils.getCurrentRoborioCycle(), Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
+        motor.getPIDController().setReference(velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
         SmartDashboard.putNumber("powah", feedForward);
-        SmartDashboard.putNumber("velocity", profileGenerator.getSetpoint().velocity);
+        SmartDashboard.putNumber("velocity", velocity);
         debugLastFF = feedForward;
     }
 
@@ -159,7 +157,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public boolean isAtAngle(){
-        return isAtAngle(profileGenerator.getGoal().position);
+        return isAtAngle(goalAngle);
     }
 
     public boolean isNotMoving(){
@@ -171,9 +169,15 @@ public class Elbow extends GBSubsystem {
     }
 
     public static double getFeedForward(double wantedAngularSpeed, double wantedAcc, double extenderLength,double elbowAngle) {
-        double Kg = getStaticFeedForward(extenderLength,elbowAngle);
-        return Kg + RobotMap.TelescopicArm.Elbow.kS * Math.signum(wantedAngularSpeed) + RobotMap.TelescopicArm.Elbow.kV * wantedAngularSpeed + RobotMap.TelescopicArm.Elbow.kA * wantedAcc;
-    }
+        double gravPart = getStaticFeedForward(extenderLength,elbowAngle);
+        double statPart = RobotMap.TelescopicArm.Elbow.kS * Math.signum(wantedAngularSpeed);
+        double velPart = RobotMap.TelescopicArm.Elbow.kV * wantedAngularSpeed;
+        double accPart =RobotMap.TelescopicArm.Elbow.kA * wantedAcc;
+        SmartDashboard.putNumber("grav", gravPart);
+        SmartDashboard.putNumber("stat", statPart);
+        SmartDashboard.putNumber("vel", velPart);
+        SmartDashboard.putNumber("accel", accPart);
+        return  gravPart+statPart+velPart+accPart;}
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
         return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);

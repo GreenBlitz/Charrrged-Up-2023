@@ -321,7 +321,7 @@ public class RobotMap {
             public static final double MAX_Kg = 0.647;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 2.472;
+            public static final double MAX_ACCELERATION = 0.8;//actual max accel is 2.472 but this limits speed
             public static final double MAX_VELOCITY = 2.19;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject();
