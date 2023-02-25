@@ -315,13 +315,13 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
-            public static final double kA = 0;
+            public static final double kA = 4.8;
             public static final double kV = 5.1245565417210325;
             public static final double MIN_Kg = 0.29;
             public static final double MAX_Kg = 0.647;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 3;
+            public static final double MAX_ACCELERATION = 2.472;
             public static final double MAX_VELOCITY = 2.19;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject();

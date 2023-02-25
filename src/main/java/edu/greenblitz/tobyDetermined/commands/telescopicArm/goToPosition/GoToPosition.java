@@ -16,15 +16,24 @@ public class GoToPosition extends SequentialCommandGroup {
            rotate arm
            extend to wanted length
          */
-		addCommands(new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads).alongWith(new ConsoleLog("GoToPos","simple"))
-				.unless(() -> !(Extender.getHypotheticalState(targetLengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH
-								|| Elbow.getInstance().isInTheSameState(targetAngleInRads))));
-		addCommands(new FromOutGoIn(targetLengthInMeters, targetAngleInRads).alongWith(new ConsoleLog("GoToPos","out in"))
-				.unless(() -> !(Elbow.getInstance().state == Elbow.ElbowState.OUT_ROBOT && Elbow.getHypotheticalState(targetAngleInRads) != Elbow.ElbowState.OUT_ROBOT)));
-		addCommands(new FromInGoOut(targetLengthInMeters, targetAngleInRads).alongWith(new ConsoleLog("GoToPos","in out"))
-				.unless(() -> !(Elbow.getInstance().state == Elbow.ElbowState.IN_BELLY && Elbow.getHypotheticalState(targetAngleInRads) != Elbow.ElbowState.IN_BELLY)));
-		addCommands(new FromWallGoToPosition(targetLengthInMeters,targetAngleInRads).alongWith(new ConsoleLog("GoToPos", "wall to somewhere"))
-				.unless(() -> !(Elbow.getInstance().state == Elbow.ElbowState.WALL_ZONE)));
+		addCommands(new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads).alongWith(new ConsoleLog("GoToPos", "simple"))
+				.unless(() -> !
+						(Extender.getHypotheticalState(targetLengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH
+								|| Elbow.getInstance().isInTheSameState(targetAngleInRads)
+								|| (Elbow.getInstance().state == Elbow.ElbowState.WALL_ZONE)
+								|| (Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.WALL_ZONE)
+						)
+				)
+		);
+
+
+		addCommands(new GoToWallZone().andThen(new PassWallAndExtend(targetLengthInMeters, targetAngleInRads)).alongWith(new ConsoleLog("GoToPos", "out in or in out"))
+				.unless(() -> !
+						((Elbow.getInstance().state == Elbow.ElbowState.OUT_ROBOT && Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.IN_BELLY)
+								|| (Elbow.getInstance().state == Elbow.ElbowState.IN_BELLY && Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.OUT_ROBOT)
+						)
+				)
+		);
 	}
 
 	public GoToPosition(RobotMap.TelescopicArm.PresetPositions position) {
