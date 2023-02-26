@@ -27,20 +27,20 @@ import org.photonvision.EstimatedRobotPose;
 import java.util.Optional;
 
 public class SwerveChassis extends GBSubsystem {
-
+	
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
-
+	
 	private final Ultrasonic ultrasonic;
 	private final int FILTER_BUFFER_SIZE = 15;
-
+	
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 4;
-
+	
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
 		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
@@ -48,10 +48,10 @@ public class SwerveChassis extends GBSubsystem {
 		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackRight);
 		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_DIO_PORT, RobotMap.Ultrasonic.ECHO_DIO_PORT);
 		Ultrasonic.setAutomaticMode(true);
-
-
+		
+		
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
-
+		
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
@@ -64,30 +64,30 @@ public class SwerveChassis extends GBSubsystem {
 		SmartDashboard.putData("field", getField());
 		SmartDashboard.putData("field", getField());
 	}
-
-
+	
+	
 	public static SwerveChassis getInstance() {
 		init();
 		return instance;
 	}
-
-
-	public static void init(){
+	
+	
+	public static void init() {
 		if (instance == null) {
 			instance = new SwerveChassis();
 		}
 	}
-
+	
 	@Override
 	public void periodic() {
 		updatePoseEstimationLimeLight();
 		field.setRobotPose(getRobotPose());
 	}
-
+	
 	public void resetAll(Pose2d pose) {
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
 	}
-
+	
 	/**
 	 * @return returns the swerve module based on its name
 	 */
@@ -104,7 +104,7 @@ public class SwerveChassis extends GBSubsystem {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * stops all the modules (power(0))
 	 */
@@ -114,7 +114,7 @@ public class SwerveChassis extends GBSubsystem {
 		backRight.stop();
 		backLeft.stop();
 	}
-
+	
 	/**
 	 * resetting all the angle motor's encoders to 0
 	 */
@@ -124,54 +124,54 @@ public class SwerveChassis extends GBSubsystem {
 		getModule(Module.BACK_LEFT).resetEncoderToValue(0);
 		getModule(Module.BACK_RIGHT).resetEncoderToValue(0);
 	}
-
+	
 	public void resetAllEncoders() {
 		getModule(Module.FRONT_LEFT).resetEncoderByAbsoluteEncoder(Module.FRONT_LEFT);
 		getModule(Module.FRONT_RIGHT).resetEncoderByAbsoluteEncoder(Module.FRONT_RIGHT);
 		getModule(Module.BACK_LEFT).resetEncoderByAbsoluteEncoder(Module.BACK_LEFT);
 		getModule(Module.BACK_RIGHT).resetEncoderByAbsoluteEncoder(Module.BACK_RIGHT);
-
+		
 	}
-
+	
 	/**
 	 * get the absolute encoder value of a specific module
 	 */
 	public double getModuleAbsoluteEncoderValue(Module module) {
 		return getModule(module).getAbsoluteEncoderValue();
 	}
-
-
+	
+	
 	/**
 	 * all code below is self-explanatory - well, after a long time It's maybe not self-explanatory
 	 * <p>
 	 * ALL IN RADIANS, NOT DEGREES
 	 */
-
+	
 	public double getModuleAngle(Module module) {
 		return getModule(module).getModuleAngle();
 	}
-
+	
 	public boolean moduleIsAtAngle(Module module, double targetAngleInRads, double errorInRads) {
 		return getModule(module).isAtAngle(targetAngleInRads, errorInRads);
 	}
-
+	
 	public void resetChassisPose() {
 		pigeonGyro.setYaw(0);
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
 	}
-
+	
 	/**
 	 * returns chassis angle in radians
 	 */
 	private Rotation2d getPigeonAngle() {
 		return new Rotation2d(pigeonGyro.getYaw());
 	}
-
+	
 	public double getChassisAngle() {
 		return getRobotPose().getRotation().getRadians();
-
+		
 	}
-
+	
 	/**
 	 * setting module states to all 4 modules
 	 */
@@ -185,7 +185,7 @@ public class SwerveChassis extends GBSubsystem {
 		setModuleStateForModule(Module.BACK_RIGHT,
 				SwerveModuleState.optimize(states[3], new Rotation2d(getModuleAngle(Module.BACK_RIGHT))));
 	}
-
+	
 	public void moveByChassisSpeeds(double forwardSpeed, double leftwardSpeed, double angSpeed, double currentAng) {
 		ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
 				forwardSpeed,
@@ -196,7 +196,7 @@ public class SwerveChassis extends GBSubsystem {
 		SwerveModuleState[] desaturatedStates = desaturateSwerveModuleStates(states);
 		setModuleStates(desaturatedStates);
 	}
-
+	
 	/**
 	 * makes sure no module is requested to move faster than possible by linearly scaling all module velocities to comply with the constraint
 	 *
@@ -214,14 +214,14 @@ public class SwerveChassis extends GBSubsystem {
 		}
 		return desaturatedStates;
 	}
-
+	
 	public ChassisSpeeds getChassisSpeeds() {
 		return kinematics.toChassisSpeeds(getModuleState(Module.FRONT_LEFT),
 				getModuleState(Module.FRONT_RIGHT),
 				getModuleState(Module.BACK_LEFT),
 				getModuleState(Module.BACK_RIGHT));
 	}
-
+	
 	public SwerveModulePosition[] getSwerveModulePositions() {
 		return new SwerveModulePosition[]{
 				frontLeft.getCurrentPosition(),
@@ -230,22 +230,22 @@ public class SwerveChassis extends GBSubsystem {
 				backRight.getCurrentPosition()
 		};
 	}
-
+	
 	public SwerveDriveKinematics getKinematics() {
 		return this.kinematics;
 	}
-
+	
 	public PigeonGyro getPigeonGyro() {
 		return pigeonGyro;
 	}
-
+	
 	/**
 	 * moving a single module by module state
 	 */
 	private void setModuleStateForModule(Module module, SwerveModuleState state) {
 		getModule(module).setModuleState(state);
 	}
-
+	
 	/**
 	 * rotates chassis by percentOutput [-1, 1]
 	 */
@@ -256,80 +256,80 @@ public class SwerveChassis extends GBSubsystem {
 			getModule(Module.values()[i]).setLinPowerOnlyForCalibrations(percentOutput);
 		}
 	}
-
+	
 	/**
 	 * for calibration purposes
 	 */
 	public void rotateModuleByPower(Module module, double power) {
 		getModule(module).setRotPowerOnlyForCalibrations(power);
 	}
-
+	
 	public void updatePoseEstimationPhotonVision() {
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
 		Photonvision.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 	}
-
+	
 	public void updatePoseEstimationLimeLight() {
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
 		for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 			target.ifPresent(this::addVisionMeasurement);
 		}
 	}
-
+	
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
 		if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > RobotMap.Vision.MIN_DISTANCE_TO_FILTER_OUT)) {
 			poseEstimator.addVisionMeasurement(visionPose, poseTimestampPair.getSecond());
 		}
 	}
-
+	
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
 	}
-
+	
 	public void resetToVision() {
 		Optional<Pair<Pose2d, Double>> visionOutput = MultiLimelight.getInstance().getFirstAvailableTarget();
 		visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
 	}
-
-	public boolean isAtPose(Pose2d goalPose){
+	
+	public boolean isAtPose(Pose2d goalPose) {
 		Pose2d robotPose = getRobotPose();
-
+		
 		//is translation difference beneath tolerance
 		boolean isAtX = Math.abs(goalPose.getX() - robotPose.getX()) <= TRANSLATION_TOLERANCE;
 		boolean isAtY = Math.abs(goalPose.getY() - robotPose.getY()) <= TRANSLATION_TOLERANCE;
-
+		
 		//is angle difference beneath tolerance from both directions
 		Rotation2d angDifference = (goalPose.getRotation().minus(robotPose.getRotation()));
 		boolean isAtAngle = angDifference.getRadians() <= ROTATION_TOLERANCE
-				|| (Math.PI*2) - angDifference.getRadians() <= ROTATION_TOLERANCE;
-
+				|| (Math.PI * 2) - angDifference.getRadians() <= ROTATION_TOLERANCE;
+		
 		return isAtAngle && isAtX && isAtY;
 	}
 	
 	public Sendable getField() {
 		return field;
 	}
-
+	
 	public SwerveModuleState getModuleState(Module module) {
 		return getModule(module).getModuleState();
 	}
-
+	
 	public enum Module {
 		FRONT_LEFT,
 		FRONT_RIGHT,
 		BACK_LEFT,
 		BACK_RIGHT
 	}
-
+	
 	public boolean moduleIsAtAngle(Module module, double errorInRads) {
 		return getModule(module).isAtAngle(errorInRads);
 	}
-
+	
 	public void resetChassisPose(Pose2d pose) {
 		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
 	}
-
+	
 	public void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
 		moveByChassisSpeeds(chassisSpeeds.vxMetersPerSecond,
 				chassisSpeeds.vyMetersPerSecond,
@@ -338,12 +338,12 @@ public class SwerveChassis extends GBSubsystem {
 		);
 		SmartDashboard.putNumber("omega", chassisSpeeds.omegaRadiansPerSecond);
 	}
-
+	
 	public double getUltrasonicDistance() {
 		MedianFilter filter = new MedianFilter(FILTER_BUFFER_SIZE);
 		return filter.calculate(ultrasonic.getRangeMM());
 	}
-
+	
 	/**
 	 * set the idle mode of the linear motor to brake
 	 */
@@ -352,15 +352,15 @@ public class SwerveChassis extends GBSubsystem {
 			getModule(module).setLinIdleModeBrake();
 		}
 	}
-
+	
 	public void setIdleModeCoast() {
 		for (Module module : Module.values()) {
 			getModule(module).setLinIdleModeCoast();
 		}
 	}
-
-	public void setAngleMotorsIdleMode(CANSparkMax.IdleMode idleMode){
-		if (idleMode == CANSparkMax.IdleMode.kBrake){
+	
+	public void setAngleMotorsIdleMode(CANSparkMax.IdleMode idleMode) {
+		if (idleMode == CANSparkMax.IdleMode.kBrake) {
 			for (Module module : Module.values()) {
 				getModule(module).setRotIdleModeBrake();
 			}
@@ -370,5 +370,5 @@ public class SwerveChassis extends GBSubsystem {
 			}
 		}
 	}
-
+	
 }

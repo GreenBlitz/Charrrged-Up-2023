@@ -66,10 +66,10 @@ public class OI { //GEVALD
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
         secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-        secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-        secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
-        secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+        mainJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+        mainJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+        mainJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+        mainJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
         secondJoystick.A.whileTrue(new GoToGrid());
         secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
 //        secondJoystick.X.whileTrue(new Grip());
@@ -87,12 +87,13 @@ public class OI { //GEVALD
     public void romyButtons() {
         SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
         mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
+        mainJoystick.B.onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetToVision()));
         mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
-        mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
-        mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
-        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
-        mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
-        mainJoystick.B.onTrue(new LockWheels()); //lock wheel
+//        mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
+//        mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
+//        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
+//        mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
+//        mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 
         // reset chassis pose (Y)

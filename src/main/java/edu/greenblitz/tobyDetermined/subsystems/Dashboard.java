@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.IsRobotReady;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
@@ -91,6 +92,11 @@ public class Dashboard extends GBSubsystem {
 
 		//field
 		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5, 2).withSize(3, 2);
+		
+		driversTab.add("limelight NT", MultiLimelight.getInstance().isConnected());
+		
+		driversTab.add("the final countdown",Grid.getInstance().getSelectedPosition().toString());
+		
 
 
 		//console

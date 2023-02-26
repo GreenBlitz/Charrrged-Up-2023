@@ -50,7 +50,7 @@ public class RobotMap {
 
     public static class Pneumatics {
         public static class PCM {
-            public static final int PCM_ID = 21;
+            public static final int PCM_ID = 22;
             public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
         }
 
