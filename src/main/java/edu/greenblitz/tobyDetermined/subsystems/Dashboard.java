@@ -2,7 +2,6 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.IsRobotReady;
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -10,7 +9,6 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -39,13 +37,27 @@ public class Dashboard extends GBSubsystem {
 	}
 
 	private Dashboard() {
-//		driversDashboard();
+		openDriversDashboard();
 		swerveDashboard();
 		armDashboard();
 		pigeonDashboard();
 	}
 
-	public void driversDashboard() {
+	private boolean driverDashboardInitiated = false;
+	/**
+	 *  activate on robot-init
+	 * */
+	public void openDriversDashboard(){
+		Shuffleboard.getTab("Drivers");
+	}
+
+	/**
+	 *  activate not on robot-init, has to be activated in auto-init or teleop-init
+	 * */
+	public void activateDriversDashboard() {
+		if (driverDashboardInitiated) return;
+
+		driverDashboardInitiated = true;
 		ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
 
 		//arm states
