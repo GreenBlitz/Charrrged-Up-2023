@@ -22,6 +22,12 @@ public class MultiLimelight extends GBSubsystem {
 			limelights.add(new Limelight(limelightName));
 		}
 	}
+	
+	public void updateRobotPoseAlliance(){
+		for(Limelight limelight : limelights){
+			limelight.updateRobotPoseEntry();
+		}
+	}
 
 	public static MultiLimelight getInstance() {
 		if (instance == null) {

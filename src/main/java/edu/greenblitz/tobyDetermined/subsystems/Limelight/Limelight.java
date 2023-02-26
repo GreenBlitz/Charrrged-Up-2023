@@ -13,16 +13,24 @@ import java.util.Optional;
 
 class Limelight {
     private NetworkTableEntry robotPoseEntry, idEntry;
+    private String name;
 
     Limelight(String limelightName) {
+        this.name = limelightName;
+        String robotPoseQuery = "botpose_wpiblue";
+        robotPoseEntry = NetworkTableInstance.getDefault().getTable(name).getEntry(robotPoseQuery);
+        idEntry = NetworkTableInstance.getDefault().getTable(name).getEntry("tid");
+    }
+    
+    public void updateRobotPoseEntry(){
         String robotPoseQuery = DriverStation.getAlliance() == DriverStation.Alliance.Red ? "botpose_wpired" : "botpose_wpiblue";
-        robotPoseEntry = NetworkTableInstance.getDefault().getTable(limelightName).getEntry(robotPoseQuery);
-        idEntry = NetworkTableInstance.getDefault().getTable(limelightName).getEntry("tid");
+        robotPoseEntry = NetworkTableInstance.getDefault().getTable(name).getEntry(robotPoseQuery);
     }
 
 
 
     public Optional<Pair<Pose2d, Double>> getUpdatedPoseEstimation() {
+        SmartDashboard.putString("query", robotPoseEntry.getName());
         //the botpose array is comprised of {0:x, 1:y, 2:z, 3:Roll, 4:Pitch, 5:Yaw, 6:total latency from capture to send}
         double[] poseArray = robotPoseEntry.getDoubleArray(new double[7]);
         double processingLatency = poseArray[6]/1000;

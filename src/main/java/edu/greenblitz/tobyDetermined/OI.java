@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
+import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
@@ -89,6 +90,7 @@ public class OI { //GEVALD
         mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
         mainJoystick.B.onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetToVision()));
         mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
+        mainJoystick.START.onTrue(new ConsoleLog("grid target", Grid.getInstance().getSelectedPosition().toString()));
 //        mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
 //        mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
 //        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
