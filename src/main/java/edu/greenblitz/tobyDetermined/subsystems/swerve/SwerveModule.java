@@ -49,4 +49,6 @@ public interface SwerveModule {
 
 	void setLinIdleModeBrake ();
 	void setLinIdleModeCoast ();
+	void setRotIdleModeBrake();
+	void setRotIdleModeCoast ();
 }

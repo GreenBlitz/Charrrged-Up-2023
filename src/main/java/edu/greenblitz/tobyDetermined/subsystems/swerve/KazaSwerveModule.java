@@ -191,6 +191,16 @@ public class KazaSwerveModule implements SwerveModule {
 		linearMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
 	}
 
+	@Override
+	public void setRotIdleModeBrake() {
+		angleMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+	}
+
+	@Override
+	public void setRotIdleModeCoast() {
+		angleMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+	}
+
 	public static class KazaSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;

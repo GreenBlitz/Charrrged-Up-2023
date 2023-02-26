@@ -1,10 +1,11 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
 public class EjectFromClaw extends ClawCommand {
 
-    public static final double timeOfEjectionConstant = 2;
+    Timer timer;
     private double timeOfEjection;
     public EjectFromClaw(double timeOfEjection){
 
@@ -12,19 +13,21 @@ public class EjectFromClaw extends ClawCommand {
     }
 
     public EjectFromClaw(){
-        timeOfEjection = timeOfEjectionConstant;
+        this(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
     }
 
 
     @Override
     public void initialize() {
-        claw.eject();
+        claw.cubeCatchMode(); //the wider
+        claw.motorEject();
+        timer = new Timer();
+        timer.start();
     }
 
     @Override
     public boolean isFinished() {
-        Timer.delay(timeOfEjection);
-        return true;
+        return timer.hasElapsed(timeOfEjection);
     }
 
     @Override

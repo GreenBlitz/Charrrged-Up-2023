@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -26,8 +28,7 @@ public class SdsSwerveModule implements SwerveModule {
 		//SET ANGLE MOTO
 		angleMotor = new GBFalcon(angleMotorID);
 		angleMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
-		
-		
+
 		linearMotor = new GBFalcon(linearMotorID);
 		linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj).withInverted(linInverted));
 		
@@ -36,7 +37,6 @@ public class SdsSwerveModule implements SwerveModule {
 		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
 		
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
-		;
 	}
 	
 	public SdsSwerveModule(SdsSwerveModuleConfigObject SdsModuleConfigObject) {
@@ -144,7 +144,7 @@ public class SdsSwerveModule implements SwerveModule {
 				TalonFXControlMode.Velocity,
 				speed / RobotMap.Swerve.SdsSwerve.linTicksToMetersPerSecond,
 				DemandType.ArbitraryFeedForward,
-				feedforward.calculate(speed));
+				feedforward.calculate(speed) / Battery.getInstance().getCurrentVoltage());
 	}
 	
 	/**
@@ -208,6 +208,10 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public double getAbsoluteEncoderValue() {
+		if (Double.isNaN(magEncoder.get())){
+			Console.log("mag Nan", "one of the mag encoders isn't conected");
+			return 0;
+		}
 		return magEncoder.get();
 	}
 	
@@ -234,6 +238,16 @@ public class SdsSwerveModule implements SwerveModule {
 		linearMotor.setNeutralMode(NeutralMode.Coast);
 	}
 
+	@Override
+	public void setRotIdleModeBrake() {
+		angleMotor.setNeutralMode(NeutralMode.Brake);
+	}
+
+	@Override
+	public void setRotIdleModeCoast() {
+		angleMotor.setNeutralMode(NeutralMode.Coast);
+	}
+
 	public static class SdsSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;
@@ -249,5 +263,5 @@ public class SdsSwerveModule implements SwerveModule {
 			this.magEncoderOffset = magEncoderOffset;
 		}
 	}
-	
+
 }
