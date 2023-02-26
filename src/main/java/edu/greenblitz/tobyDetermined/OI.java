@@ -97,7 +97,7 @@ public class OI { //GEVALD
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 
         // reset chassis pose (Y)
-        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
+        mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
         // reset encoders by stick (X and R1)
         mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
         // while held rot motors on coast (X and L1)
