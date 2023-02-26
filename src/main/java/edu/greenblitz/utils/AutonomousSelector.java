@@ -1,15 +1,13 @@
 package edu.greenblitz.utils;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
-import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
-import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.AdvancedBalanceOnRamp;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.FullAdvancedBalance;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutonomousSelector {
 	static private AutonomousSelector instance; //i did some shenanigan with the static private hehe
@@ -59,8 +57,8 @@ public class AutonomousSelector {
 		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
 		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
 		//middle
-		MIDDLE_RAMP(getPathTCommand("M_ramp").andThen(new AdvancedBalanceOnRamp(true)).andThen(new LockWheels())),
-		PREGINAL_2_OBJ(getPathTCommand("preginal, 2 obj and ramp").andThen(new AdvancedBalanceOnRamp(false)).andThen(new LockWheels()));
+		MIDDLE_RAMP(getPathTCommand("M_ramp").andThen(new FullAdvancedBalance(true)).andThen(new LockWheels())),
+		PREGINAL_2_OBJ(getPathTCommand("preginal, 2 obj and ramp").andThen(new FullAdvancedBalance(false)).andThen(new LockWheels()));
 		public CommandBase autonomousCommand;
 		private AutonomousPaths (CommandBase autonomousCommands){
 			autonomousCommand = autonomousCommands;

@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.FullAdvancedBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.Grip;
@@ -13,11 +14,10 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPos
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.math.util.Units;
-import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.AdvancedBalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
-import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -84,8 +84,8 @@ public class OI { //GEVALD
         SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
         mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
         mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
-        mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
-        mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
+        mainJoystick.POV_UP.whileTrue(new FullAdvancedBalance(true)); //ramp from community
+        mainJoystick.POV_DOWN.whileTrue(new FullAdvancedBalance(false)); //ramp form not community
         mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
         mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
         mainJoystick.B.onTrue(new LockWheels()); //lock wheel

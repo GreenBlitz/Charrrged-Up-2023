@@ -1,14 +1,15 @@
-package edu.greenblitz.tobyDetermined.commands.swerve;
+package edu.greenblitz.tobyDetermined.commands.swerve.balance;
 
+import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.wpi.first.wpilibj.Timer;
 
-public class MoveDuration extends SwerveCommand {
+public class MoveForDuration extends SwerveCommand {
 	
 	double duration;
 	double speed;
 	Timer timer;
 	
-	public MoveDuration(double duration, double speed){
+	public MoveForDuration(double duration, double speed){
 		this.duration = duration;
 		this.speed = speed;
 		timer = new Timer();
