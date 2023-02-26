@@ -7,6 +7,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.controller.PIDController;
@@ -84,8 +85,8 @@ public class Dashboard extends GBSubsystem {
 		driversTab.addDouble("Battery", () -> Battery.getInstance().getCurrentVoltage())
 				.withPosition(9, 3);
 
-		//object inside
-		driversTab.addString("Object inside", /*()->RotatingBelly.getInstance().getGameObject().toString()*/() -> "robot does not exist")
+		//selected object
+		driversTab.addBoolean("cone???", ObjectSelector::IsCone)
 				.withSize(1, 1).withPosition(2, 2);
 
 		//field

@@ -13,6 +13,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGri
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.math.util.Units;
 import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
@@ -71,7 +72,8 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
         secondJoystick.A.whileTrue(new GoToGrid());
         secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-        secondJoystick.X.whileTrue(new Grip());
+//        secondJoystick.X.whileTrue(new Grip());
+        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.Y.whileTrue(new EjectFromClaw());
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
