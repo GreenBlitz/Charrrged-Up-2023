@@ -86,6 +86,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         Grid.init();
+        Dashboard.getInstance().driversDashboard();
         SwerveChassis.getInstance().setIdleModeBrake();
 		new ResetExtender().raceWith(new GBCommand(Elbow.getInstance()) {}).schedule();
     }
