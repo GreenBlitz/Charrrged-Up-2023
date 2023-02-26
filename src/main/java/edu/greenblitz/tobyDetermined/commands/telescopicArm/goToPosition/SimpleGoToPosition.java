@@ -7,27 +7,35 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-public class SimpleGoToPosition extends GBCommand {
-    private double lengthInMeters;
-    private double angleInRads;
+import java.util.function.BooleanSupplier;
+
+public class SimpleGoToPosition extends ParallelCommandGroup {
+
+    private double lengthInMeters, angleInRads;
+
+    private final BooleanSupplier isFinished;
 
     protected SimpleGoToPosition(double lengthInMeters, double angleInRads) {
-        require(Extender.getInstance());
-        require(Elbow.getInstance());
         this.lengthInMeters = lengthInMeters;
         this.angleInRads = angleInRads;
+        isFinished = () -> Extender.getInstance().isAtLength(this.lengthInMeters)
+                && Extender.getInstance().isNotMoving()
+                && Elbow.getInstance().isAtAngle(this.angleInRads)
+                && Elbow.getInstance().isNotMoving();
+        addCommands(
+                new ExtendToLength(lengthInMeters){
+                        @Override
+                        public boolean isFinished() {
+                            return isFinished.getAsBoolean();
+                        }
+                    },
+                new RotateToAngleRadians(angleInRads){
+                    @Override
+                    public boolean isFinished() {
+                        return isFinished.getAsBoolean();
+                    }
+                });
     }
 
-    @Override
-    public void execute() {
-        Extender.getInstance().moveTowardsLength(lengthInMeters);
-        Elbow.getInstance().moveTowardsAngleRadians(angleInRads);
-    }
 
-    @Override
-    public boolean isFinished() {
-        boolean isExtenderReady = Extender.getInstance().isAtLength(lengthInMeters) && Extender.getInstance().isNotMoving();
-        boolean isElbowReady = Elbow.getInstance().isAtAngle(angleInRads) && Elbow.getInstance().isNotMoving();
-        return isElbowReady && isExtenderReady;
-    }
 }
