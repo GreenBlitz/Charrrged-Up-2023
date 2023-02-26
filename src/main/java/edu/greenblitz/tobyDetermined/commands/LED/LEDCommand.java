@@ -12,8 +12,4 @@ public abstract class LEDCommand extends GBCommand {
         require(led);
     }
 
-    @Override
-    public void end(boolean interrupted) {
-        this.cancel();
-    }
 }

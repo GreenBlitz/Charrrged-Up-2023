@@ -11,7 +11,6 @@ import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.Grip;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
@@ -22,12 +21,9 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.math.util.Units;
 import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
-import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
@@ -75,7 +71,7 @@ public class OI { //GEVALD
 		mainJoystick.START.onTrue(new ObjectInClawLED());
 		mainJoystick.Y.onTrue(new BalanceOnRampLED());
 		mainJoystick.POV_LEFT.whileTrue(new BalanceOnRampWithIndicatorForward(true));
-        
+
         //romyButtons();
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
@@ -86,16 +82,11 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
         secondJoystick.A.whileTrue(new GoToGrid());
         secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-//        secondJoystick.X.whileTrue(new Grip());
         secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.Y.whileTrue(new EjectFromClaw());
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
         secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
-
-
-
-
     }
 
     public void romyButtons() {

@@ -10,8 +10,6 @@ public class ObjectInIntakeLED extends LEDCommand{
 
     @Override
     public void execute() {
-        led.setBackgroundColor(Color.kRed);
-
         new LedBlinking(Color.kRed).schedule();
     }
 

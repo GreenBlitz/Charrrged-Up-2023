@@ -24,15 +24,13 @@ public class HumanPlayerObjectIndicator extends LEDCommand{
     @Override
     public void execute() {
         switch (this.wantedGameObject){
+
             case CONE:
-                led.setBackgroundColor(Color.kYellow);
-
-                new LedBlinking(Color.kYellow).schedule();
+                new LedBlinking(Color.kYellow).repeatedly();
                 break;
-            case CUBE:
-                led.setBackgroundColor(Color.kMagenta);
 
-                new LedBlinking(Color.kMagenta).schedule();
+            case CUBE:
+                new LedBlinking(Color.kMagenta).repeatedly();
                 break;
         }
     }

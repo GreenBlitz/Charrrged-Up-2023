@@ -1,7 +1,11 @@
 package edu.greenblitz.tobyDetermined.commands.LED;
 
-public class DrivingSidewaysLED {
+import edu.wpi.first.wpilibj.util.Color;
 
+public class DrivingSidewaysLED extends SetLEDColor{
 
+    public DrivingSidewaysLED(){
+        super(Color.kHotPink);
+    }
 
 }

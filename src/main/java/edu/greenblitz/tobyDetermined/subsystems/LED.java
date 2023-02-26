@@ -11,10 +11,8 @@ public class LED extends GBSubsystem {
     private static LED instance;
     private AddressableLED addressableLED;
     private AddressableLEDBuffer ledBuffer;
-    private Color backgroundColor;
 
     private LED() {
-        this.backgroundColor = RobotMap.LED.DEFAULT_COLOR;
         this.addressableLED = new AddressableLED(RobotMap.LED.PORT);
         this.ledBuffer = new AddressableLEDBuffer(RobotMap.LED.LENGTH);
         this.addressableLED.setLength(RobotMap.LED.LENGTH);
@@ -47,7 +45,7 @@ public class LED extends GBSubsystem {
 
 
     public void turnOff (){
-            setColor(new Color(0,0,0));
+        setColor(new Color(0,0,0));
     }
 
     public void turnOff (int index){
@@ -74,11 +72,4 @@ public class LED extends GBSubsystem {
         this.addressableLED.setData(ledBuffer);
     }
 
-
-    public void setBackgroundColor(Color color){
-        this.backgroundColor = color;
-    }
-    public Color getBackgroundColor(){
-        return backgroundColor;
-    }
 }

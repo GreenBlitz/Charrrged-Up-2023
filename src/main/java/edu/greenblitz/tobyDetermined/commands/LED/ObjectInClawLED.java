@@ -9,8 +9,6 @@ public class ObjectInClawLED extends LEDCommand{
 
     @Override
     public void execute() {
-        led.setBackgroundColor(Color.kBlue);
-
         new LedBlinking(Color.kBlue).schedule();
     }
 
