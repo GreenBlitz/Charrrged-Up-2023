@@ -35,6 +35,8 @@ public class RotatingBelly extends GBSubsystem {
         }
     }
 
+    /*
+    commented code since the color sensor doesn't exist yet
     public BellyGameObjectSensor.GameObject getGameObject (){
         return colorSensor.getCurObject();
     }
@@ -46,7 +48,7 @@ public class RotatingBelly extends GBSubsystem {
     public boolean isConeIn(){
         return getGameObject() == BellyGameObjectSensor.GameObject.CONE;
     }
-
+*/
     public boolean isLimitSwitchPressed(){
         return limitSwitch.get();
     }
