@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.FullAdvancedBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.Grip;
@@ -16,11 +17,10 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.math.util.Units;
-import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.AdvancedBalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
-import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -96,6 +96,7 @@ public class OI { //GEVALD
 //        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
 //        mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
 //        mainJoystick.B.onTrue(new LockWheels()); //lock wheel
+
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 
         // reset chassis pose (Y)

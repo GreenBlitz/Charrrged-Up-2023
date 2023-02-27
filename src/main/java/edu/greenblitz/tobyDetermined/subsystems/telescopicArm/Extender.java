@@ -105,7 +105,7 @@ public class Extender extends GBSubsystem {
 	private void setLengthByPID(double lengthInMeters) {
 		profileGenerator.reset(getLength());
 		profileGenerator.setGoal(lengthInMeters);
-		profileGenerator.calculate(0);//nonsense call cause i belive this updates the setpoint
+		profileGenerator.calculate(0); //nonsense call cause i belive this updates the setpoint
 		double feedForward = getFeedForward(
 				profileGenerator.getSetpoint().velocity, (profileGenerator.getSetpoint().velocity - lastSpeed) / RoborioUtils.getCurrentRoborioCycle(), Elbow.getInstance().getAngleRadians());
 		motor.getPIDController().setReference(profileGenerator.getSetpoint().velocity, CANSparkMax.ControlType.kVelocity, 0, feedForward);
@@ -119,7 +119,7 @@ public class Extender extends GBSubsystem {
 			if (lengthInMeters < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT){
 				moveTowardsLength(RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT);
 			} else if (lengthInMeters > RobotMap.TelescopicArm.Extender.FORWARD_LIMIT){
-				moveTowardsLength(RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH);
+				moveTowardsLength(RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
 			}
 			else {
 				stop();

@@ -8,6 +8,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import static edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis.TRANSLATION_TOLERANCE;
+
 public class MoveToPose extends SwerveCommand {
 	/**
 	 * get to a given pose with 3 pidControllers - x, y, rotational<3
@@ -35,8 +37,8 @@ public class MoveToPose extends SwerveCommand {
 		yController = new ProfiledPIDController(TRANSLATION_KP, TRANSLATION_KI, TRANSLATION_KD, RobotMap.Swerve.Autonomus.constraints);
 		rotationController = new ProfiledPIDController(ROT_KP, ROT_KI, ROT_KD, RobotMap.Swerve.Autonomus.constraints);
 		rotationController.enableContinuousInput(-Math.PI, Math.PI);
-		xController.setTolerance(SwerveChassis.TRANSLATION_TOLERANCE);
-		yController.setTolerance(SwerveChassis.TRANSLATION_TOLERANCE);
+		xController.setTolerance(TRANSLATION_TOLERANCE);
+		yController.setTolerance(TRANSLATION_TOLERANCE);
 		rotationController.setTolerance(Units.degreesToRadians(SwerveChassis.ROTATION_TOLERANCE));
 
 	}
