@@ -50,7 +50,7 @@ public class RobotMap {
 
     public static class Pneumatics {
         public static class PCM {
-            public static final int PCM_ID = 21;
+            public static final int PCM_ID = 22;
             public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
         }
 
@@ -165,13 +165,13 @@ public class RobotMap {
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.857 ); //front left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.863 ); //front left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 0.3 ); //front right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 3, true, 0.303 ); //front right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 0.727 ); //back left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 1, false, 0.726); //back left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 3, true, 0.87 ); //back right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 2, true, 0.885); //back right
 
 
         public static class KazaSwerve {
@@ -302,8 +302,8 @@ public class RobotMap {
 
         public static class Claw {
             public static final int MOTOR_ID = 2;
-            public static final int SOLENOID_OPEN_CLAW_ID = 3;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 5;
+            public static final int SOLENOID_OPEN_CLAW_ID = 4;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
             public static final double MOTOR_POWER_GRIP = 0.3;
             public static final double MOTOR_POWER_RELEASE = -0.3;
 

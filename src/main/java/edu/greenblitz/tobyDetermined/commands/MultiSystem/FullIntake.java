@@ -9,9 +9,9 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPos
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class FullGrip extends SequentialCommandGroup {
+public class FullIntake extends SequentialCommandGroup {
 
-	public FullGrip() {
+	public FullIntake() {
 		//FIRST -> open the gripper and run it until an object is inside, along with to change the arm position
 		addCommands(
 				new ExtendRoller()

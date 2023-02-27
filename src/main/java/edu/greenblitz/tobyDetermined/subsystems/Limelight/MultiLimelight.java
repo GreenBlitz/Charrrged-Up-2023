@@ -42,6 +42,10 @@ public class MultiLimelight extends GBSubsystem {
 		}
 		return estimates;
 	}
+	
+	public boolean isConnected(){
+		return limelights.get(0).hasTarget();
+	}
 
 	public Optional<Pair<Pose2d, Double>> getFirstAvailableTarget(){
 		for(Optional<Pair<Pose2d, Double>> output : getAllEstimates()){
