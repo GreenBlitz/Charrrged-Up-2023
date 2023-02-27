@@ -90,7 +90,7 @@ public class Field {
             return !isGridPositionIDofCube(index);
         }
 
-
+        public static final Pose2d TOP_OUT_PRE_BALANCE_BLUE = new Pose2d(5.57, 4.68, new Rotation2d(Math.PI));
     }
     public static class FieldConstants{
         public final static double fieldLength = 16.54175;

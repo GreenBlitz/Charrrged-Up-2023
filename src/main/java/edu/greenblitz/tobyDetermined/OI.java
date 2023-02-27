@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
@@ -78,6 +79,7 @@ public class OI { //GEVALD
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
         secondJoystick.B.and(secondJoystick.A).whileTrue(new ZigHail());
+        secondJoystick.L1.whileTrue(new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
 
 
 

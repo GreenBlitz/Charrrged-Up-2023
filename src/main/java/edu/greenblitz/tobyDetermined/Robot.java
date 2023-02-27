@@ -41,7 +41,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledExit() {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
-		new ResetExtender().raceWith(new GBCommand(Elbow.getInstance()) {}).schedule();
 		Grid.init();
 		Dashboard.getInstance().activateDriversDashboard();
 	}
@@ -86,16 +85,11 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
-<<<<<<< HEAD
-		SwerveChassis.getInstance().setIdleModeBrake();
-	
-=======
 
         Grid.init();
         Dashboard.getInstance().activateDriversDashboard();
         SwerveChassis.getInstance().setIdleModeBrake();
 		new ResetExtender().schedule();
->>>>>>> arm-fixes
     }
 
 	
@@ -110,7 +104,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
-		AutonomousSelector.AutonomousPaths.TOP_ONE_OBJECT.autonomousCommand.schedule();
+		new ResetExtender().schedule();
+		PathFollowerBuilder.getInstance().followPath("T93_d_ramp").schedule();
 	}
 
     @Override
