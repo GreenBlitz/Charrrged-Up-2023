@@ -80,10 +80,6 @@ public class OI { //GEVALD
         secondJoystick.BACK.whileTrue(new GripCube());
         secondJoystick.B.and(secondJoystick.A).whileTrue(new ZigHail());
         secondJoystick.L1.whileTrue(new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
-
-
-
-
     }
 
     public void romyButtons() {
@@ -96,15 +92,9 @@ public class OI { //GEVALD
         mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
         mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
-        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
-        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 
         // reset chassis pose (Y)
         mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
-        // reset encoders by stick (X and R1)
-        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
-        // while held rot motors on coast (X and L1)
-        mainJoystick.X.and(mainJoystick.L1).whileTrue(new StartEndCommand(()->SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast), ()->SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake)));
     }
 
 
