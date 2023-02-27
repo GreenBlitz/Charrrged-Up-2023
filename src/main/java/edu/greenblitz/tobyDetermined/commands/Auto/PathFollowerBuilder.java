@@ -5,6 +5,7 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.DelayAndDisplayCommand;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
@@ -33,7 +34,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 //        eventMap.put("intake", new DelayAndDisplayCommand("intake", 0));
 //        eventMap.put("stopIntake", new DelayAndDisplayCommand("stop intake", 0));
 //        eventMap.put("processIntake", new DelayAndDisplayCommand("process intake", 0));
-		eventMap.put("moveToPose8", new MoveToPose(new Pose2d(3.35, 4.4, new Rotation2d())));
+		eventMap.put("moveToPos8-3", new MoveToPose(Field.PlacementLocations.getLocationsOnRedSide()[7]));
 		eventMap.put("place", new DelayAndDisplayCommand("placing", 1.5));
 		eventMap.put("openGripper", new DelayAndDisplayCommand("openGripper", 0.3));
 		
@@ -50,6 +51,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 				RobotMap.Swerve.Pegaswerve.ROTATION_PID,
 				SwerveChassis.getInstance()::setModuleStates,
 				eventMap,
+				true,
 				SwerveChassis.getInstance());
 	}
 	

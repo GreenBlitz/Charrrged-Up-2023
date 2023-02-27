@@ -16,19 +16,16 @@ public class AutonomousSelector {
 	private AutonomousSelector(){
 		//         m_chooser.addOption(auto name, path name );
 
-	/*	chooser.addOption("bottom three objects", AutonomousPaths.BOTTOM_THREE_OBJECTS);
+		chooser.addOption("bottom three objects", AutonomousPaths.BOTTOM_THREE_OBJECTS);
 		chooser.addOption("bottom only 2", AutonomousPaths.BOTTOM_ONLY_2);
-		chooser.addOption("bottom two & ramp", AutonomousPaths.BOTTOM_TWO_AND_RAMP);
-
+//		chooser.addOption("bottom two & ramp", AutonomousPaths.BOTTOM_TWO_AND_RAMP);
+//
 		chooser.addOption("top three objects",AutonomousPaths.TOP_THREE_OBJECTS);
-		chooser.addOption("top two & ramp", AutonomousPaths.TOP_2_AND_RAMP);
-		chooser.addOption("top only 2", AutonomousPaths.TOP_ONLY_2);*/
+//		chooser.addOption("top two & ramp", AutonomousPaths.TOP_2_AND_RAMP);
+//		chooser.addOption("top only 2", AutonomousPaths.TOP_ONLY_2);
 
-		chooser.addOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
-
-		chooser.addOption("preginal 2 obj", AutonomousPaths.PREGINAL_2_OBJ);
-
-		chooser.setDefaultOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
+//		chooser.addOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
+//		chooser.setDefaultOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
 
 
 
@@ -57,8 +54,9 @@ public class AutonomousSelector {
 		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
 		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
 		//middle
-		MIDDLE_RAMP(getPathTCommand("M_ramp").andThen(new FullAdvancedBalance(true)).andThen(new LockWheels())),
-		PREGINAL_2_OBJ(getPathTCommand("preginal, 2 obj and ramp").andThen(new FullAdvancedBalance(false)).andThen(new LockWheels()));
+
+		MIDDLE_RAMP(getPathTCommand("M_ramp"))/*.andThen(new AdvancedBalanceOnRamp(true)).andThen(new LockWheels()))*/;
+
 		public CommandBase autonomousCommand;
 		private AutonomousPaths (CommandBase autonomousCommands){
 			autonomousCommand = autonomousCommands;

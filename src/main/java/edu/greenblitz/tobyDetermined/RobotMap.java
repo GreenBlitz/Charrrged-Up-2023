@@ -116,8 +116,8 @@ public class RobotMap {
             public static final double ROBOT_LENGTH_IN_METERS = 0.69;
             public static final double ROBOT_WIDTH_IN_METERS = 0.79;
             //todo calibrate
-            public static final double MAX_VELOCITY = 0;
-            public static final double MAX_ACCELERATION = 0;
+            public static final double MAX_VELOCITY = 4;
+            public static final double MAX_ACCELERATION = 6.5;
             public static final double MAX_ANGULAR_SPEED = 0;
             public static final double MAX_ANGULAR_ACCELERATION = 0;
             public static final int LAMPREY_AVERAGE_BITS = 0;
@@ -168,6 +168,7 @@ public class RobotMap {
         public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.863 ); //front left
 
         public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 3, true, 0.303 ); //front right
+
 
         public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 1, false, 0.726); //back left
 

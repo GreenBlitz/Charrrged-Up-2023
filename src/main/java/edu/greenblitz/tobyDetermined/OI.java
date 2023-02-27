@@ -64,22 +64,22 @@ public class OI { //GEVALD
 
 	private void initButtons() {
         romyButtons();
-        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-        Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
-        secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-        mainJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-        mainJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-        mainJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
-        mainJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-        secondJoystick.A.whileTrue(new GoToGrid());
-        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-//        secondJoystick.X.whileTrue(new Grip());
-        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
-        secondJoystick.Y.whileTrue(new EjectFromClaw());
-        secondJoystick.START.whileTrue(new GripCone());
-        secondJoystick.BACK.whileTrue(new GripCube());
-        secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
-
+//        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+//        Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
+//        secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
+//        mainJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+//        mainJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+//        mainJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+//        mainJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+//        secondJoystick.A.whileTrue(new GoToGrid());
+//        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
+////        secondJoystick.X.whileTrue(new Grip());
+//        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
+//        secondJoystick.Y.whileTrue(new EjectFromClaw());
+//        secondJoystick.START.whileTrue(new GripCone());
+//        secondJoystick.BACK.whileTrue(new GripCube());
+//        secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
+//
 
 
 

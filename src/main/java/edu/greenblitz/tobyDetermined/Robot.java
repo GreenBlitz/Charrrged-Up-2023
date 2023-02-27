@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
 import edu.greenblitz.tobyDetermined.commands.BatteryDisabler;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
@@ -16,6 +17,8 @@ import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
@@ -98,7 +101,9 @@ public class Robot extends TimedRobot {
    */
     @Override
     public void autonomousInit() {
-        AutonomousSelector.getInstance().getChosenValue().autonomousCommand.schedule();
+        Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
+	    SmartDashboard.putString("scheduled", command.getName());
+		PathFollowerBuilder.getInstance().followPath("T93_d_83").schedule();
     }
 
     @Override
