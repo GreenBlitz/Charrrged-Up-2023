@@ -102,9 +102,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
-	    SmartDashboard.putString("scheduled", command.getName());
-		PathFollowerBuilder.getInstance().followPath("T93_d_83").schedule();
-    }
+		AutonomousSelector.AutonomousPaths.TOP_ONE_OBJECT.autonomousCommand.schedule();
+	}
 
     @Override
     public void testInit() {

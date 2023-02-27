@@ -244,6 +244,8 @@ public class RobotMap {
             CUBE_HIGH(0.654,   Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35,  Math.toRadians(60)),
+            
+            COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH, CONE_HIGH.angleInRadians),
 
             INTAKE_GRAB_POSITION(0.307, 0.092),
             INTAKE_DROP_POSITION(0, Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
