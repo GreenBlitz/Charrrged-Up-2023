@@ -238,6 +238,16 @@ public class SdsSwerveModule implements SwerveModule {
 		linearMotor.setNeutralMode(NeutralMode.Coast);
 	}
 
+	@Override
+	public void setRotIdleModeBrake() {
+		angleMotor.setNeutralMode(NeutralMode.Brake);
+	}
+
+	@Override
+	public void setRotIdleModeCoast() {
+		angleMotor.setNeutralMode(NeutralMode.Coast);
+	}
+
 	public static class SdsSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;

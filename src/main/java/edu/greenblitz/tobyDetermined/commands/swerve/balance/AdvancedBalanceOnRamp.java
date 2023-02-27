@@ -1,9 +1,11 @@
-package edu.greenblitz.tobyDetermined.commands.swerve;
+package edu.greenblitz.tobyDetermined.commands.swerve.balance;
 
+import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.greenblitz.utils.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+// advance until ramp starts falling forwards, then move backwards fixed duration
 public class AdvancedBalanceOnRamp extends SwerveCommand {
 
     private final PigeonGyro gyro;
@@ -13,11 +15,9 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
     private double currentAngle = 0;
     private double lastAngle = 0;
     private boolean hasPassedHighPoint;
-    private boolean forward;
 
     public AdvancedBalanceOnRamp(boolean forward) {
         this.gyro = swerve.getPigeonGyro();
-        this.forward=forward;
         if (!forward){
             speed *= -1;
         }
@@ -37,7 +37,7 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
 
     @Override
     public boolean isFinished() {
-        if (currentAngle - lastAngle <= -1 * minAngleChangeToStop && hasPassedHighPoint) {
+        if (currentAngle - lastAngle <= -minAngleChangeToStop && hasPassedHighPoint) {
             SmartDashboard.putBoolean("on", false);
             return true;
         }
@@ -46,7 +46,6 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
 
     @Override
     public void end(boolean interrupted) {
-        swerve.stop();
-        hasPassedHighPoint = false;
+            swerve.stop();
     }
 }

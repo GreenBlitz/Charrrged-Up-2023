@@ -105,7 +105,6 @@ public class Extender extends GBSubsystem {
 		return Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
 	}
 
-
 	private void setLengthByPID(double lengthInMeters, double feedForward) {
 		goalLength = lengthInMeters;
 		motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition, 0, feedForward);

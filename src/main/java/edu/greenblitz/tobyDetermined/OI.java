@@ -1,25 +1,22 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
+import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.Grip;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.InterruptCommand;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.math.util.Units;
-import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
-import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -71,11 +68,15 @@ public class OI { //GEVALD
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
         secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-//        secondJoystick.A.whileTrue(new RotateToAngleRadians(Math.toRadians(90), true));
-        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
         secondJoystick.X.whileTrue(new GoToGrid());
         secondJoystick.A.whileTrue(new RotateByPower(0.9));
-//        secondJoystick.B.whileTrue(new RotateByPower(-0.5));
+        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+        secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+        secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+        secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+        secondJoystick.A.whileTrue(new GoToGrid());
+        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
+        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.Y.whileTrue(new EjectFromClaw());
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
@@ -102,6 +103,13 @@ public class OI { //GEVALD
 ////		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 //        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
 //        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
+
+        // reset chassis pose (Y)
+        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
+        // reset encoders by stick (X and R1)
+        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
+        // while held rot motors on coast (X and L1)
+        mainJoystick.X.and(mainJoystick.L1).whileTrue(new StartEndCommand(()->SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast), ()->SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake)));
     }
 
 

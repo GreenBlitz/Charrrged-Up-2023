@@ -123,4 +123,14 @@ public class DecoyModule implements SwerveModule {
 	public void setLinIdleModeCoast() {
 
 	}
+
+	@Override
+	public void setRotIdleModeBrake() {
+
+	}
+
+	@Override
+	public void setRotIdleModeCoast() {
+
+	}
 }
