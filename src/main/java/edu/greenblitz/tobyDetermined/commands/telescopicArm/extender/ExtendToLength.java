@@ -45,7 +45,7 @@ public class ExtendToLength extends ExtenderCommand {
         }
         TrapezoidProfile.State setpoint = trapezoidProfile.calculate(timer.get());
         double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians());
-        extender.moveTowardsLength(setpoint.position, feedForward);
+        extender.moveTowardsLength(legalGoalLength, feedForward);//setpoint.position, feedForward);
     }
 
     @Override

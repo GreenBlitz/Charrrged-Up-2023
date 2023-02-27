@@ -11,6 +11,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.InterruptCommand;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -22,6 +23,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 public class OI { //GEVALD
 
@@ -72,6 +74,7 @@ public class OI { //GEVALD
 //        secondJoystick.A.whileTrue(new RotateToAngleRadians(Math.toRadians(90), true));
         secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
         secondJoystick.X.whileTrue(new GoToGrid());
+        secondJoystick.X.onFalse(new InterruptCommand(Extender.getInstance(), Elbow.getInstance()));
         secondJoystick.A.whileTrue(new RotateByPower(0.9));
 //        secondJoystick.B.whileTrue(new RotateByPower(-0.5));
         secondJoystick.Y.whileTrue(new EjectFromClaw());
