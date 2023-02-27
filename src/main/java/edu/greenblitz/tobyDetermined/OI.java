@@ -77,7 +77,7 @@ public class OI { //GEVALD
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
         secondJoystick.B.and(secondJoystick.A).whileTrue(new ZigHail());
-
+        secondJoystick.L1.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.FEEDER));
 
 
 
@@ -97,7 +97,7 @@ public class OI { //GEVALD
         mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 
         // reset chassis pose (Y)
-        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
+        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.L1.getAsBoolean()); //reset pose
         // reset encoders by stick (X and R1)
         mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
         // while held rot motors on coast (X and L1)

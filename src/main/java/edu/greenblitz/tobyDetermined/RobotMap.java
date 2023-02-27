@@ -250,7 +250,7 @@ public class RobotMap {
                     Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
 
             PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
-            FEEDER(0.804,  Math.toRadians(30.1) - STARTING_ANGLE_RELATIVE_TO_GROUND);
+            FEEDER(0.671,1.949);
 
 
             public double distance;
