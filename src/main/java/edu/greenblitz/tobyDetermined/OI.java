@@ -1,27 +1,27 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.FullAdvancedBalance;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.Grip;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.AdvancedBalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
@@ -64,40 +64,38 @@ public class OI { //GEVALD
 
 	private void initButtons() {
         romyButtons();
-//        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-//        Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
-//        secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-//        mainJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-//        mainJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-//        mainJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
-//        mainJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-//        secondJoystick.A.whileTrue(new GoToGrid());
-//        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-////        secondJoystick.X.whileTrue(new Grip());
-//        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
-//        secondJoystick.Y.whileTrue(new EjectFromClaw());
-//        secondJoystick.START.whileTrue(new GripCone());
-//        secondJoystick.BACK.whileTrue(new GripCube());
-//        secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
-//
+        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+        Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
+        secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
+        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+        secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+        secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+        secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+        secondJoystick.A.whileTrue(new GoToGrid());
+        secondJoystick.B.and(secondJoystick.A.negate()).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
+        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
+        secondJoystick.Y.whileTrue(new EjectFromClaw());
+        secondJoystick.START.whileTrue(new GripCone());
+        secondJoystick.BACK.whileTrue(new GripCube());
+        secondJoystick.B.and(secondJoystick.A).whileTrue(new ZigHail());
+
 
 
 
     }
 
     public void romyButtons() {
-        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
+        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
+        mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
+        
         mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
-        mainJoystick.B.onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetToVision()));
         mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
-        mainJoystick.START.onTrue(new ConsoleLog("grid target", Grid.getInstance().getSelectedPosition().toString()));
-//        mainJoystick.POV_UP.whileTrue(new AdvancedBalanceOnRamp(true)); //ramp from community
-//        mainJoystick.POV_DOWN.whileTrue(new AdvancedBalanceOnRamp(false)); //ramp form not community
-//        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
-//        mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
-//        mainJoystick.B.onTrue(new LockWheels()); //lock wheel
-
+        mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
+        mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
+        mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
+        mainJoystick.Y.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())).and(() -> mainJoystick.R1.getAsBoolean()); //reset pose
+        mainJoystick.X.and(mainJoystick.R1).onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetEncodersByCalibrationRod()));
 
         // reset chassis pose (Y)
         mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose

@@ -223,7 +223,7 @@ public class RobotMap {
     }
 
     public static class RotatingBelly {
-        public static final int MOTOR_ID = 21;
+        public static final int MOTOR_ID = 15;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_DIO_PORT = 4;
 
@@ -239,21 +239,21 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CONE_MID(0.26,  Math.toRadians(3.3) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_HIGH(0.804,  Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_MID(0.32,  1.94),
             CUBE_HIGH(0.654,   Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35,  Math.toRadians(60)),
             
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.307, 0.092),
+            INTAKE_GRAB_POSITION(0.25, 0.092),
             INTAKE_DROP_POSITION(0, Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             PRE_INTAKE_GRAB_POSITION(0.1,
                     Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
 
             PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
-            FEEDER(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND);
+            FEEDER(0.804,  Math.toRadians(30.1) - STARTING_ANGLE_RELATIVE_TO_GROUND);
 
 
             public double distance;
@@ -276,12 +276,14 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.26;
             public static final double MAX_ENTRANCE_LENGTH = 0.059;
-            public static final PIDObject PID = new PIDObject();
+            public static final PIDObject PID = new PIDObject().withKp(5).withMaxPower(5);
+            
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
+            public static final double FORWARDS_LENGTH_TOLERANCE = 0.005; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
             public static final double kV = 60;
@@ -318,16 +320,14 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
-            public static final double kA = 0;
-            public static final double kV = 5.1245565417210325;
             public static final double MIN_Kg = 0.29;
             public static final double MAX_Kg = 0.647;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 3;
-            public static final double MAX_VELOCITY = 2.19;
+            public static final double MAX_ACCELERATION = 1.5;//actual max accel is 2.472 but this limits speed
+            public static final double MAX_VELOCITY = 1.5;//2.19;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject();
+            public static final PIDObject PID = new PIDObject().withKp(1.5).withMaxPower(0.4);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
@@ -335,7 +335,7 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR;
 
-            public static final double FORWARD_ANGLE_LIMIT = 2.13;
+            public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);

@@ -27,8 +27,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         CommandScheduler.getInstance().enable();
 		initSubsystems();
-		initPortForwarding();
         LiveWindow.disableAllTelemetry();
+	    initPortForwarding();
 //	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         AutonomousSelector.getInstance();
 //        LED.getInstance().setDefaultCommand(new BackgroundColor());
@@ -86,8 +86,16 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
+<<<<<<< HEAD
 		SwerveChassis.getInstance().setIdleModeBrake();
 	
+=======
+
+        Grid.init();
+        Dashboard.getInstance().activateDriversDashboard();
+        SwerveChassis.getInstance().setIdleModeBrake();
+		new ResetExtender().schedule();
+>>>>>>> arm-fixes
     }
 
 	

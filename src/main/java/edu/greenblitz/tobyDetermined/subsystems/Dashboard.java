@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.Map;
 
 public class Dashboard extends GBSubsystem {
@@ -105,9 +107,9 @@ public class Dashboard extends GBSubsystem {
 		//field
 		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5, 2).withSize(3, 2);
 		
-		driversTab.add("limelight NT", MultiLimelight.getInstance().isConnected());
+		driversTab.add("elbow ang", Elbow.getInstance().getAngleRadians());
 		
-		driversTab.add("the final countdown",Grid.getInstance().getSelectedPosition().toString());
+		driversTab.add("limelight NT", MultiLimelight.getInstance().isConnected());
 		
 
 
@@ -136,7 +138,8 @@ public class Dashboard extends GBSubsystem {
 		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
 		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
 
-
+		armTab.addDouble("elbow error", () -> Elbow.getInstance().getGoalAngle() - Elbow.getInstance().getAngleRadians());
+		armTab.addDouble("extender error", () -> Extender.getInstance().getGoalLength() - Extender.getInstance().getLength());
 		//arm state
 		armTab.addString("Arm state", () -> "exists").withPosition(4, 2).withSize(1, 2);
 
