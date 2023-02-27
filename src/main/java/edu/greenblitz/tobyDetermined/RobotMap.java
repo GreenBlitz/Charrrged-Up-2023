@@ -238,8 +238,8 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CONE_MID(0.26,  Math.toRadians(3.3) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_HIGH(0.804,  Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_MID(0.32,  1.94),
             CUBE_HIGH(0.654,   Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35,  Math.toRadians(60)),
@@ -250,7 +250,7 @@ public class RobotMap {
                     Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
 
             PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
-            FEEDER(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND);
+            FEEDER(0.804,  Math.toRadians(30.1) - STARTING_ANGLE_RELATIVE_TO_GROUND);
 
 
             public double distance;
@@ -332,7 +332,7 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR;
 
-            public static final double FORWARD_ANGLE_LIMIT = 2.13;
+            public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);

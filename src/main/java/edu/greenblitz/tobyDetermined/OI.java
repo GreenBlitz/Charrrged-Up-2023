@@ -84,7 +84,7 @@ public class OI { //GEVALD
     }
 
     public void romyButtons() {
-        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
+        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
         mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
         
         mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
