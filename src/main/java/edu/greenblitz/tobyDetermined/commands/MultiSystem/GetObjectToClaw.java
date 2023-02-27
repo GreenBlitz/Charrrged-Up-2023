@@ -22,7 +22,7 @@ public class GetObjectToClaw extends SequentialCommandGroup {
 						.alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION))
 		);
 
-		addCommands(new ConditionalCommand(new GripCone(), new GripCube(), ObjectSelector::IsCone));
+		addCommands(new ConditionalCommand(new GripCone(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT), new GripCube(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT), ObjectSelector::IsCone));
 
 	}
 

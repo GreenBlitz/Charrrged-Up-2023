@@ -5,7 +5,12 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.wpi.first.wpilibj.Timer;
 
 public class GripCone extends ClawCommand {
+double time;
+    public GripCone(double time){
+        this.time = time;
+    }
 
+    public GripCone(){}
 
     Timer timer;
     @Override
@@ -20,7 +25,10 @@ public class GripCone extends ClawCommand {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
+        if (time > 0) {
+            return timer.hasElapsed(time);
+        }
+        return false;
     }
 
     @Override
