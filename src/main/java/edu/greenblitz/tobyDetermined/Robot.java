@@ -24,11 +24,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         CommandScheduler.getInstance().enable();
 		initSubsystems();
-		initPortForwarding();
         LiveWindow.disableAllTelemetry();
-        Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 	    initPortForwarding();
-	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
+//	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         AutonomousSelector.getInstance();
 //        LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve

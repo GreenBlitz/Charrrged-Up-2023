@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
 import edu.greenblitz.utils.PigeonGyro;
+import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Pair;
@@ -369,6 +370,10 @@ public class SwerveChassis extends GBSubsystem {
 				getModule(module).setRotIdleModeCoast();
 			}
 		}
+	}
+	
+	public double getAngleToGround(){
+		return PitchRollAdder.add(pigeonGyro.getRoll(), pigeonGyro.getPitch());
 	}
 	
 }
