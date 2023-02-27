@@ -50,7 +50,7 @@ public class RobotMap {
 
     public static class Pneumatics {
         public static class PCM {
-            public static final int PCM_ID = 21;
+            public static final int PCM_ID = 22;
             public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
         }
 
@@ -222,7 +222,7 @@ public class RobotMap {
     }
 
     public static class RotatingBelly {
-        public static final int MOTOR_ID = 21;
+        public static final int MOTOR_ID = 15;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_DIO_PORT = 4;
 
@@ -244,7 +244,7 @@ public class RobotMap {
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35,  Math.toRadians(60)),
 
-            INTAKE_GRAB_POSITION(0.307, 0.092),
+            INTAKE_GRAB_POSITION(0.25, 0.092),
             INTAKE_DROP_POSITION(0, Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             PRE_INTAKE_GRAB_POSITION(0.1,
                     Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
@@ -273,12 +273,14 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.26;
             public static final double MAX_ENTRANCE_LENGTH = 0.059;
-            public static final PIDObject PID = new PIDObject();
+            public static final PIDObject PID = new PIDObject().withKp(5).withMaxPower(5);
+            
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
+            public static final double FORWARDS_LENGTH_TOLERANCE = 0.005; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
             public static final double kV = 60;
@@ -302,8 +304,8 @@ public class RobotMap {
 
         public static class Claw {
             public static final int MOTOR_ID = 2;
-            public static final int SOLENOID_OPEN_CLAW_ID = 3;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 5;
+            public static final int SOLENOID_OPEN_CLAW_ID = 4;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
             public static final double MOTOR_POWER_GRIP = 0.3;
             public static final double MOTOR_POWER_RELEASE = -0.3;
 
@@ -322,7 +324,7 @@ public class RobotMap {
             public static final double MAX_ACCELERATION = 1.5;//actual max accel is 2.472 but this limits speed
             public static final double MAX_VELOCITY = 1.5;//2.19;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(2.5).withMaxPower(0.4);
+            public static final PIDObject PID = new PIDObject().withKp(1.5).withMaxPower(0.4);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 

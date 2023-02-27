@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.RoborioUtils;
@@ -31,12 +32,19 @@ public class RotateToAngleRadians extends ElbowCommand {
     public void initialize() {
         super.initialize();
         legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
+        SmartDashboard.putNumber("legal goal ang", legalGoalAngle);
         trapezoidProfile = new TrapezoidProfile(CONSTRAINTS,new TrapezoidProfile.State(legalGoalAngle, 0), new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
         timer.restart();
     }
 
     @Override
     public void execute() {
+        if (legalGoalAngle != elbow.getLegalGoalAngle(wantedAngle)){
+            Console.log("swapped profile", "swapped profile");
+            legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
+            trapezoidProfile = new TrapezoidProfile(CONSTRAINTS,new TrapezoidProfile.State(legalGoalAngle, 0), new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
+            timer.restart();
+        }
         TrapezoidProfile.State setpoint = trapezoidProfile.calculate(timer.get());
         double feedForward = Elbow.getStaticFeedForward(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
         elbow.moveTowardsAngleRadians(setpoint.position, feedForward);
@@ -46,9 +54,9 @@ public class RotateToAngleRadians extends ElbowCommand {
     @Override
     public boolean isFinished() {
         if(stop){
-            return elbow.isAtAngle(wantedAngle) && elbow.isNotMoving();
+            return elbow.isAtAngle(legalGoalAngle) && elbow.isNotMoving();
         }
-        return elbow.isAtAngle(wantedAngle);
+        return elbow.isAtAngle(legalGoalAngle);
     }
 
     @Override

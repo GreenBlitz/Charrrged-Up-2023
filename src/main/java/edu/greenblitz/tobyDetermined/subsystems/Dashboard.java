@@ -120,7 +120,8 @@ public class Dashboard extends GBSubsystem {
 		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
 		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
 
-
+		armTab.addDouble("elbow error", () -> Elbow.getInstance().getGoalAngle() - Elbow.getInstance().getAngleRadians());
+		armTab.addDouble("extender error", () -> Extender.getInstance().getGoalLength() - Extender.getInstance().getLength());
 		//arm state
 		armTab.addString("Arm state", () -> "exists").withPosition(4, 2).withSize(1, 2);
 

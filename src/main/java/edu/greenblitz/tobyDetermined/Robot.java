@@ -33,9 +33,6 @@ public class Robot extends TimedRobot {
 		initSubsystems();
 		initPortForwarding();
         LiveWindow.disableAllTelemetry();
-        Battery.getInstance().setDefaultCommand(new BatteryDisabler());
-	    initPortForwarding();
-	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
         AutonomousSelector.getInstance();
 //        LED.getInstance().setDefaultCommand(new BackgroundColor());
         //swerve
@@ -87,7 +84,7 @@ public class Robot extends TimedRobot {
 
         Grid.init();
         SwerveChassis.getInstance().setIdleModeBrake();
-		new ResetExtender().raceWith(new GBCommand(Elbow.getInstance()) {}).schedule();
+		new ResetExtender().schedule();
     }
 
     @Override

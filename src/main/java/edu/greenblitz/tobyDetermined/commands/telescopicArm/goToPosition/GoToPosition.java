@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
@@ -16,24 +17,17 @@ public class GoToPosition extends SequentialCommandGroup {
            rotate arm
            extend to wanted length
          */
-		addCommands(new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads).alongWith(new ConsoleLog("GoToPos", "simple"))
-				.unless(() -> !
-						(Extender.getHypotheticalState(targetLengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH
-								|| Elbow.getInstance().isInTheSameState(targetAngleInRads)
-								|| (Elbow.getInstance().state == Elbow.ElbowState.WALL_ZONE)
-								|| (Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.WALL_ZONE)
-						)
-				)
-		);
+		addCommands(new ConditionalCommand(
+				new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads).alongWith(new ConsoleLog("GoToPos", "simple")) ,
+				new GoToWallZone().alongWith(new ConsoleLog("go to wall zone", "go to wall zone"))
+						.andThen(new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads)).alongWith(new ConsoleLog("GoToPos", "simple")),
+				() -> ((Extender.getHypotheticalState(targetLengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH
+				|| (Elbow.getInstance().isInTheSameState(targetAngleInRads) && Elbow.getInstance().state != Elbow.ElbowState.WALL_ZONE)
+				|| (Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.WALL_ZONE)
+				|| (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && Extender.getInstance().getState() == Extender.ExtenderState.IN_WALL_LENGTH)
+		))));
 
 
-		addCommands(new GoToWallZone().andThen(new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads)).alongWith(new ConsoleLog("GoToPos", "out in or in out"))
-				.unless(() -> !
-						((Elbow.getInstance().state == Elbow.ElbowState.OUT_ROBOT && Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.IN_BELLY)
-								|| (Elbow.getInstance().state == Elbow.ElbowState.IN_BELLY && Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.OUT_ROBOT)
-						)
-				)
-		);
 	}
 
 	public GoToPosition(RobotMap.TelescopicArm.PresetPositions position) {

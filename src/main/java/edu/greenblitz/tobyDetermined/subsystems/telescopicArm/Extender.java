@@ -12,13 +12,16 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.FORWARDS_LENGTH_TOLERANCE;
+
 public class Extender extends GBSubsystem {
 	private static Extender instance;
 	private static Extender.ExtenderState state = Extender.ExtenderState.IN_ROBOT_BELLY_LENGTH;
-	private GBSparkMax motor;
+	public GBSparkMax motor;
 	private boolean debug = false;
 	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
 	private double lastSpeed;
+	private double goalLength;
 	private double debugLastFF;
 
 	public static Extender getInstance() {
@@ -104,6 +107,7 @@ public class Extender extends GBSubsystem {
 
 
 	private void setLengthByPID(double lengthInMeters, double feedForward) {
+		goalLength = lengthInMeters;
 		motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition, 0, feedForward);
 		SmartDashboard.putNumber("powah", feedForward);
 		SmartDashboard.putNumber("current velocity", getVelocity());
@@ -120,6 +124,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public double getLegalGoalLength(double wantedLength){
+		SmartDashboard.putString("hypothetical extender state", getHypotheticalState(wantedLength).toString());
 		// going out of bounds should not be allowed
 		if (getHypotheticalState(wantedLength) == ExtenderState.OUT_OF_BOUNDS) {
 			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
@@ -129,6 +134,7 @@ public class Extender extends GBSubsystem {
 				return (RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH);
 			}
 		}
+		
 		// arm should not extend to open state when inside the belly (would hit chassis)
 		else if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(wantedLength) == ExtenderState.OPEN) {
 			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT);
@@ -188,7 +194,7 @@ public class Extender extends GBSubsystem {
 
 	public boolean isAtLength(double wantedLength){
 		double lengthError = wantedLength - getLength();
-		return lengthError < 0  && lengthError > -RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		return lengthError < FORWARDS_LENGTH_TOLERANCE  && lengthError > -RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 		//makes it so the arm can only be too short, so it can always pass the state line
 	}
 
@@ -207,6 +213,10 @@ public class Extender extends GBSubsystem {
 
 	public PIDObject getPID(){
 		return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
+	}
+	
+	public double getGoalLength() {
+		return goalLength;
 	}
 }
 

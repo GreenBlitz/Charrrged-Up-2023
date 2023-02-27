@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderCommand;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -37,6 +38,11 @@ public class ExtendToLength extends ExtenderCommand {
 
     @Override
     public void execute() {
+        if (legalGoalLength != extender.getLegalGoalLength(wantedLength)){
+            legalGoalLength = extender.getLegalGoalLength(wantedLength);
+            trapezoidProfile = new TrapezoidProfile(CONSTRAINTS,new TrapezoidProfile.State(legalGoalLength, 0), new TrapezoidProfile.State(extender.getLength(), extender.getVelocity()));
+            timer.restart();
+        }
         TrapezoidProfile.State setpoint = trapezoidProfile.calculate(timer.get());
         double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians());
         extender.moveTowardsLength(setpoint.position, feedForward);
@@ -45,9 +51,9 @@ public class ExtendToLength extends ExtenderCommand {
     @Override
     public boolean isFinished() {
         if(stop){
-            return extender.isAtLength(wantedLength) && extender.isNotMoving();
+            return extender.isAtLength(legalGoalLength) && extender.isNotMoving();
         }
-        return extender.isAtLength(wantedLength);
+        return extender.isAtLength(legalGoalLength);
     }
 
     @Override

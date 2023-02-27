@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
@@ -68,13 +69,14 @@ public class OI { //GEVALD
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
         secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-        secondJoystick.A.whileTrue(new RotateToAngleRadians(Math.toRadians(90), true));
+//        secondJoystick.A.whileTrue(new RotateToAngleRadians(Math.toRadians(90), true));
         secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-        secondJoystick.X.whileTrue(new Grip());
+        secondJoystick.X.whileTrue(new GoToGrid());
+        secondJoystick.A.whileTrue(new RotateByPower(0.9));
+//        secondJoystick.B.whileTrue(new RotateByPower(-0.5));
         secondJoystick.Y.whileTrue(new EjectFromClaw());
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
-        secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
 
 
 
