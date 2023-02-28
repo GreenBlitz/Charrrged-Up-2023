@@ -10,23 +10,28 @@ public class GripCube extends ClawCommand {
         this.time = time;
     }
 
-    public GripCube(){}
+    public GripCube(){
+        this(0);
+    }
 
     Timer timer;
     @Override
     public void initialize() {
         claw.cubeCatchMode();
-        claw.state = Claw.ClawState.CUBE_IN;
-        claw.motorGrip();
         timer = new Timer();
         timer.start();
     }
 
     @Override
+    public void execute() {
+        claw.motorGrip();
+    }
+
+    @Override
     public boolean isFinished() {
-        if(time > 0){
-                return timer.hasElapsed(time);
-        }
+//        if(time > 0){
+//                return timer.hasElapsed(time);
+//        }
         return false;
     }
 

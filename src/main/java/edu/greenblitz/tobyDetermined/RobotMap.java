@@ -313,6 +313,16 @@ public class RobotMap {
             public static final double MOTOR_POWER_RELEASE = -0.3;
 
             public static final double TIME_OF_GRIP_CONSTANT = 2;
+
+            public static final GBSparkMax.SparkMaxConfObject CLAW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
+                    .withPID(RobotMap.TelescopicArm.Extender.PID)
+                    .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+                    .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+                    .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                    .withRampRate(General.RAMP_RATE_VAL)
+                    .withCurrentLimit(30)
+                    .withInverted(true)
+                    .withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Elbow {
