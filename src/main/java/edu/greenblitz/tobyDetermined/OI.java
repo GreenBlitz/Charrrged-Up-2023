@@ -1,30 +1,16 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
-import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
-import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
-import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
-import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
-import edu.greenblitz.tobyDetermined.commands.intake.roller.RunRoller;
-import edu.greenblitz.tobyDetermined.commands.intake.roller.StopRoller;
-import edu.greenblitz.tobyDetermined.commands.rotatingBelly.ManualAlignObject;
-import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
-import com.revrobotics.CANSparkMax;
-import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
-import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateInDoorDirection;
-import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateOutDoorDirection;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
@@ -33,7 +19,6 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class OI { //GEVALD
 
@@ -106,20 +91,22 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
 
         //score
-        secondJoystick.Y.whileTrue(new GoToGrid());
+
+        secondJoystick.Y.whileTrue(new GripAir());
         secondJoystick.B.whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
 
         //grab
+
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
-        secondJoystick.R1.onTrue(new GripFromBelly());
-
+        secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
         //intake and belly
-////        secondJoystick.L1.whileTrue(while true, open and roll intake, on false, close)
-//        secondJoystick.L1.whileTrue(new ExtendRoller().alongWith(new RunRoller()).alongWith(new RotateInDoorDirection())).onFalse(new RetractRoller());
-//        secondJoystick.R1.onTrue(new ManualAlignObject());
+
+        RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
+//        secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
+//        secondJoystick.L1.and(secondJoystick.R1.negate()).onFalse(new CloseIntakeAndAlign());
     }
 
 

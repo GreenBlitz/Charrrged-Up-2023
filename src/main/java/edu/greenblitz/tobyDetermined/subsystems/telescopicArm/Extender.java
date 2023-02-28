@@ -193,7 +193,7 @@ public class Extender extends GBSubsystem {
 
 	public boolean isAtLength(double wantedLength){
 		double lengthError = wantedLength - getLength();
-		return lengthError < FORWARDS_LENGTH_TOLERANCE  && lengthError > -RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		return lengthError > -FORWARDS_LENGTH_TOLERANCE  && lengthError < RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 		//makes it so the arm can only be too short, so it can always pass the state line
 	}
 

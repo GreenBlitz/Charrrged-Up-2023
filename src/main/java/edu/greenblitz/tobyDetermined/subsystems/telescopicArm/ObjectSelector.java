@@ -13,7 +13,7 @@ public class ObjectSelector {
 	
 	public static void selectCube(){
 		isCone = false;
-		LED.getInstance().setColor(Color.kMediumPurple);
+		LED.getInstance().setColor(Color.kMagenta);
 	}
 	
 	public static boolean IsCone(){
@@ -26,9 +26,9 @@ public class ObjectSelector {
 	
 	public static void flipSelection(){
 		if (isCone){
-			selectCone();
-		} else {
 			selectCube();
+		} else {
+			selectCone();
 		}
 	}
 	

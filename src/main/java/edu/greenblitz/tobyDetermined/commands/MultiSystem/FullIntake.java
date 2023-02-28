@@ -18,7 +18,7 @@ public class FullIntake extends SequentialCommandGroup {
 						.alongWith(new RunRoller())
 						.alongWith(new RotateOutDoorDirection())
 								.until(() -> IntakeRoller.getInstance().isObjectIn())
-						.alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_DROP_POSITION))
+						.alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION))
 		);
 
 		//throw the object
