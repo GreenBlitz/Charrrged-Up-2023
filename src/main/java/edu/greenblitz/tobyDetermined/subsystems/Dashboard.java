@@ -42,9 +42,9 @@ public class Dashboard extends GBSubsystem {
 
 	private Dashboard() {
 		openDriversDashboard();
-		swerveDashboard();
-		armDashboard();
-		pigeonDashboard();
+//		swerveDashboard();
+//		armDashboard();
+//		pigeonDashboard();
 	}
 
 	private boolean driverDashboardInitiated = false;

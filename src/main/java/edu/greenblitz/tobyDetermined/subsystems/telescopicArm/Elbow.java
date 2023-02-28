@@ -24,8 +24,7 @@ public class Elbow extends GBSubsystem {
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double debugLastFF;
-    public boolean isUsed = false;
-    
+
     public double goalAngle;
 
     private boolean debug = false;
@@ -67,9 +66,6 @@ public class Elbow extends GBSubsystem {
         super.periodic();
         state = getHypotheticalState(getAngleRadians());
         Dashboard.getInstance().armWidget.setLength(Units.radiansToDegrees(getAngleRadians()));
-        if (!isUsed){
-//            setMotorVoltage(Elbow.getStaticFeedForward(Extender.getInstance().getLength(),getAngleRadians()));
-        }
 //        updatePIDController(Dashboard.getInstance().getElbowPID());
 
     }
