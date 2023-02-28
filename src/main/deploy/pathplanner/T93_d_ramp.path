@@ -43,7 +43,8 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "MoveToTopOutRamp"
+          "MoveToOutRamp",
+          "BalanceFromOut"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

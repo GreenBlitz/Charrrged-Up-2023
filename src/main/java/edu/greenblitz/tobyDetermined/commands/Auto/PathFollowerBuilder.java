@@ -7,14 +7,12 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.DelayAndDisplayCommand;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance.FullBalance;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectFromClaw;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -32,19 +30,17 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	
 	//todo add commands to event map
 	static {
-		// the event name, the command()
-//        eventMap.put("place", new DelayAndDisplayCommand("place", 2));
-//        eventMap.put("intake", new DelayAndDisplayCommand("intake", 0));
-//        eventMap.put("stopIntake", new DelayAndDisplayCommand("stop intake", 0));
-//        eventMap.put("processIntake", new DelayAndDisplayCommand("process intake", 0));
+		eventMap.put("FullConeHighAndReturn", new FullConeHighAndReturn());
 		eventMap.put("PlaceFromAdjacentConeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
-		eventMap.put("MoveToTopOutRamp", new MoveToPose(Field.PlacementLocations.TOP_OUT_PRE_BALANCE_BLUE, true));
+		eventMap.put("PlaceFromAdjacentCubeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH));
 		eventMap.put("DropCone", new GripCone());
+		eventMap.put("DropCube", new EjectFromClaw());
 		eventMap.put("ArmToBelly", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-		eventMap.put("moveToPos8-3", new MoveToPose(Field.PlacementLocations.getLocationsOnRedSide()[7]));
-		eventMap.put("place", new DelayAndDisplayCommand("placing", 1.5));
-		eventMap.put("openGripper", new DelayAndDisplayCommand("openGripper", 0.3));
-		
+		eventMap.put("MoveToPose8", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[7], true));
+		eventMap.put("MoveToPose2", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[1], true));
+		eventMap.put("MoveToOutRamp", new MoveToPose(Field.PlacementLocations.OUT_PRE_BALANCE_BLUE, true));
+		eventMap.put("BalanceFromOut", new FullBalance(true));
+		eventMap.put("BalanceFromIn", new FullBalance(false));
 	}
 	
 	private static PathFollowerBuilder instance;
@@ -107,7 +103,6 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 		}
 		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
         return fullAuto(path).beforeStarting(new SetToFirstTrajectoryState(path).raceWith(new WaitCommand(DEADLINE_TIME_FOR_PRE_AUTO_COMMAND)));
-//        return fullAuto(path);
 	}
 	
 	public static PathPlannerTrajectory getPathPlannerTrajectory(String path) {

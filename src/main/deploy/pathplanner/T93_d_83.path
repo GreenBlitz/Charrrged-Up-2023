@@ -17,9 +17,11 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "placeCone3"
+          "PlaceFromAdjacentConeHigh",
+          "DropCone",
+          "ArmToBelly"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -66,9 +68,12 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToPos8-3"
+          "MoveToPose8",
+          "PlaceFromAdjacentCubeHigh",
+          "DropCube",
+          "ArmToBelly"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
