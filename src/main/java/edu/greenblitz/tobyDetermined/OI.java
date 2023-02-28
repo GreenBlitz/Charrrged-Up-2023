@@ -24,6 +24,7 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.tobyDetermined.commands.swerve.AdvancedBalanceOnRamp;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.commands.swerve.LockWheels;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
@@ -75,18 +76,22 @@ public class OI { //GEVALD
         //romyButtons();
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
-        secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-        secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-        secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
-        secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-        secondJoystick.A.whileTrue(new GoToGrid());
-        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
-        secondJoystick.Y.whileTrue(new EjectFromClaw());
-        secondJoystick.START.whileTrue(new GripCone());
-        secondJoystick.BACK.whileTrue(new GripCube());
-        secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
+//        secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
+//        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+//        secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+//        secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+//        secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+//        secondJoystick.A.whileTrue(new GoToGrid());
+//        secondJoystick.B.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
+//        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
+//        secondJoystick.Y.whileTrue(new EjectFromClaw());
+//        secondJoystick.START.whileTrue(new GripCone());
+//        secondJoystick.BACK.whileTrue(new GripCube());
+//        secondJoystick.X.and(secondJoystick.R1).onTrue(new ResetExtender());
+        secondJoystick.X.onTrue(new SetLEDColor(Color.kAqua));
+        secondJoystick.Y.onTrue(new SetLEDColor(Color.kMagenta));
+        secondJoystick.POV_UP.onTrue(new SetLEDColor(Color.kYellow));
+        secondJoystick.POV_LEFT.onTrue(new SetLEDColor(Color.kMaroon));
     }
 
     public void romyButtons() {
