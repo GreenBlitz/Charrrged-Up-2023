@@ -224,6 +224,7 @@ public class RobotMap {
 
     public static class RotatingBelly {
         public static final int MOTOR_ID = 15;
+        public static final double ROTATING_TIME = 0.8;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_DIO_PORT = 4;
 
