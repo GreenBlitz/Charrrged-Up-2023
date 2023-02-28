@@ -22,6 +22,12 @@ public class MultiLimelight extends GBSubsystem {
 			limelights.add(new Limelight(limelightName));
 		}
 	}
+	
+	public void updateRobotPoseAlliance(){
+		for(Limelight limelight : limelights){
+			limelight.updateRobotPoseEntry();
+		}
+	}
 
 	public static MultiLimelight getInstance() {
 		if (instance == null) {
@@ -41,6 +47,10 @@ public class MultiLimelight extends GBSubsystem {
 			estimates.add(limelight.getUpdatedPoseEstimation());
 		}
 		return estimates;
+	}
+	
+	public boolean isConnected(){
+		return limelights.get(0).hasTarget();
 	}
 
 	public Optional<Pair<Pose2d, Double>> getFirstAvailableTarget(){

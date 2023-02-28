@@ -1,10 +1,10 @@
-package edu.greenblitz.tobyDetermined.commands.swerve;
+package edu.greenblitz.tobyDetermined.commands.swerve.balance;
 
+import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.greenblitz.utils.PigeonGyro;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class BalanceOnRamp extends SwerveCommand {
+public class StraightBalanceOnRamp extends SwerveCommand {
 	
 	private final PigeonGyro gyro;
 	private double currentAngle =0;
@@ -14,7 +14,7 @@ public class BalanceOnRamp extends SwerveCommand {
 	private final double minAngleChangeToStop = Math.toRadians(0.25);
 	private final double speed = 0.25;
 	
-	public BalanceOnRamp(){
+	public StraightBalanceOnRamp(){
 		this.gyro = swerve.getPigeonGyro();
 	}
 	

@@ -1,12 +1,16 @@
 package edu.greenblitz.tobyDetermined.commands.swerve;
 
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import static edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis.TRANSLATION_TOLERANCE;
 
 public class MoveToPose extends SwerveCommand {
 	/**
@@ -28,26 +32,31 @@ public class MoveToPose extends SwerveCommand {
 	private final double TOLERANCE = 0.05;
 	private final double ROTATION_TOLERANCE = 4;
 	private boolean DEBUG = false;
+	
+	private boolean useAlliance = false;
 
-	public MoveToPose(Pose2d pose) {
+	public MoveToPose(Pose2d pose, boolean useAlliance) {
 		this.pose = pose;
+		this.useAlliance = useAlliance;
 		xController = new ProfiledPIDController(TRANSLATION_KP, TRANSLATION_KI, TRANSLATION_KD, RobotMap.Swerve.Autonomus.constraints);
 		yController = new ProfiledPIDController(TRANSLATION_KP, TRANSLATION_KI, TRANSLATION_KD, RobotMap.Swerve.Autonomus.constraints);
 		rotationController = new ProfiledPIDController(ROT_KP, ROT_KI, ROT_KD, RobotMap.Swerve.Autonomus.constraints);
 		rotationController.enableContinuousInput(-Math.PI, Math.PI);
-		xController.setTolerance(SwerveChassis.TRANSLATION_TOLERANCE);
-		yController.setTolerance(SwerveChassis.TRANSLATION_TOLERANCE);
+		xController.setTolerance(TRANSLATION_TOLERANCE);
+		yController.setTolerance(TRANSLATION_TOLERANCE);
 		rotationController.setTolerance(Units.degreesToRadians(SwerveChassis.ROTATION_TOLERANCE));
 
 	}
 	
-	public MoveToPose(Pose2d pose, boolean debug){
-		this(pose);
-		this.DEBUG = debug;
+	public  MoveToPose(Pose2d pose){
+		this(pose, false);
 	}
 
 	@Override
 	public void initialize() {
+		if (useAlliance && DriverStation.getAlliance() == DriverStation.Alliance.Red){
+			pose = Field.mirrorPositionToOtherSide(pose);
+		}
 		xController.reset(swerve.getRobotPose().getX(), swerve.getChassisSpeeds().vxMetersPerSecond);
 		yController.reset(swerve.getRobotPose().getY(), swerve.getChassisSpeeds().vyMetersPerSecond);
 		rotationController.reset(swerve.getRobotPose().getRotation().getRadians(), swerve.getChassisSpeeds().omegaRadiansPerSecond);

@@ -50,7 +50,7 @@ public class RobotMap {
 
     public static class Pneumatics {
         public static class PCM {
-            public static final int PCM_ID = 21;
+            public static final int PCM_ID = 22;
             public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
         }
 
@@ -113,8 +113,8 @@ public class RobotMap {
             public static final double ROBOT_LENGTH_IN_METERS = 0.69;
             public static final double ROBOT_WIDTH_IN_METERS = 0.79;
             //todo calibrate
-            public static final double MAX_VELOCITY = 0;
-            public static final double MAX_ACCELERATION = 0;
+            public static final double MAX_VELOCITY = 4;
+            public static final double MAX_ACCELERATION = 4;
             public static final double MAX_ANGULAR_SPEED = 0;
             public static final double MAX_ANGULAR_ACCELERATION = 0;
             public static final int LAMPREY_AVERAGE_BITS = 0;
@@ -162,13 +162,14 @@ public class RobotMap {
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.857 ); //front left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.863 ); //front left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 0.3 ); //front right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 3, true, 0.303 ); //front right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 0.727 ); //back left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 3, true, 0.87 ); //back right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 1, false, 0.726); //back left
+
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 2, true, 0.885); //back right
 
 
         public static class KazaSwerve {
@@ -219,7 +220,7 @@ public class RobotMap {
     }
 
     public static class RotatingBelly {
-        public static final int MOTOR_ID = 21;
+        public static final int MOTOR_ID = 15;
         public static final double ROTATING_POWER = 0.5;
         public static final int MACRO_SWITCH_DIO_PORT = 4;
 
@@ -235,19 +236,21 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CONE_MID(0.26,  Math.toRadians(3.3) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_HIGH(0.795,  Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_MID(0.29,  1.94),
             CUBE_HIGH(0.654,   Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35,  Math.toRadians(60)),
+            
+            COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.307, 0.092),
+            INTAKE_GRAB_POSITION(0.31, 0.092),
             INTAKE_DROP_POSITION(0, Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             PRE_INTAKE_GRAB_POSITION(0.1,
                     Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
 
-            PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
-            FEEDER(0.804,  Math.toRadians(20.1) - STARTING_ANGLE_RELATIVE_TO_GROUND);
+            ZIG_HAIL(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            FEEDER(0.663,1.949);
 
 
             public double distance;
@@ -265,17 +268,20 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1/15.0;
             public static final double STARTING_LENGTH =0.3;
             public static final int BACKWARDS_LIMIT = 0;
-            public static final double FORWARD_LIMIT = 0.87;
+            public static final double FORWARD_LIMIT = 0.8;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT- 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.26;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.32;
             public static final double MAX_ENTRANCE_LENGTH = 0.059;
-            public static final PIDObject PID = new PIDObject();
+            public static final PIDObject PID = new PIDObject().withKp(5).withMaxPower(5);
+            public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
+            
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
+            public static final double FORWARDS_LENGTH_TOLERANCE = 0.005; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
             public static final double kV = 60;
@@ -299,12 +305,22 @@ public class RobotMap {
 
         public static class Claw {
             public static final int MOTOR_ID = 2;
-            public static final int SOLENOID_OPEN_CLAW_ID = 3;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 5;
+            public static final int SOLENOID_OPEN_CLAW_ID = 4;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
             public static final double MOTOR_POWER_GRIP = 0.3;
             public static final double MOTOR_POWER_RELEASE = -0.3;
 
             public static final double TIME_OF_GRIP_CONSTANT = 2;
+
+            public static final GBSparkMax.SparkMaxConfObject CLAW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
+                    .withPID(RobotMap.TelescopicArm.Extender.PID)
+                    .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+                    .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+                    .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                    .withRampRate(General.RAMP_RATE_VAL)
+                    .withCurrentLimit(30)
+                    .withInverted(true)
+                    .withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
         public static class Elbow {
@@ -312,16 +328,14 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
-            public static final double kA = 0;
-            public static final double kV = 5.1245565417210325;
             public static final double MIN_Kg = 0.29;
             public static final double MAX_Kg = 0.647;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 3;
-            public static final double MAX_VELOCITY = 2.19;
+            public static final double MAX_ACCELERATION = 1.5;//actual max accel is 2.472 but this limits speed
+            public static final double MAX_VELOCITY = 1.5;//2.19;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject();
+            public static final PIDObject PID = new PIDObject().withKp(1.5).withMaxPower(0.4);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
@@ -329,7 +343,7 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR;
 
-            public static final double FORWARD_ANGLE_LIMIT = 2.13;
+            public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3);

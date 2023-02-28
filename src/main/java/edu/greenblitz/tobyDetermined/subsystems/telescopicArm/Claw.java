@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
@@ -19,7 +20,7 @@ public class Claw extends GBSubsystem {
 
     private Claw() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.setInverted(true);
+        motor.config(RobotMap.TelescopicArm.Claw.CLAW_CONFIG_OBJECT);
         solenoid = new DoubleSolenoid(PCM_ID, PneumaticsModuleType.CTREPCM, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
     }
 
@@ -37,6 +38,11 @@ public class Claw extends GBSubsystem {
         if (instance == null) {
             instance = new Claw();
         }
+    }
+
+    @Override
+    public void periodic() {
+        state = solenoid.get() == DoubleSolenoid.Value.kForward ? ClawState.CONE_MODE : ClawState.CUBE_MODE;
     }
 
     public void cubeCatchMode() {
@@ -71,8 +77,6 @@ public class Claw extends GBSubsystem {
 
     public enum ClawState{
         CUBE_MODE,
-        CUBE_IN,
-        CONE_IN,
         CONE_MODE
     }
 }

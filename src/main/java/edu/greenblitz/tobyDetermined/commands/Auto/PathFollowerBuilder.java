@@ -5,12 +5,14 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.DelayAndDisplayCommand;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance.FullBalance;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -19,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import java.util.HashMap;
 
 public class PathFollowerBuilder extends SwerveAutoBuilder {
-
+	
 	/**
 	 * the use of the event map is to run a marker by its name run a command
 	 */
@@ -28,15 +30,17 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	
 	//todo add commands to event map
 	static {
-		// the event name, the command()
-//        eventMap.put("place", new DelayAndDisplayCommand("place", 2));
-//        eventMap.put("intake", new DelayAndDisplayCommand("intake", 0));
-//        eventMap.put("stopIntake", new DelayAndDisplayCommand("stop intake", 0));
-//        eventMap.put("processIntake", new DelayAndDisplayCommand("process intake", 0));
-		eventMap.put("moveToPose8", new MoveToPose(new Pose2d(3.35, 4.4, new Rotation2d())));
-		eventMap.put("place", new DelayAndDisplayCommand("placing", 1.5));
-		eventMap.put("openGripper", new DelayAndDisplayCommand("openGripper", 0.3));
-		
+		eventMap.put("FullConeHighAndReturn", new FullConeHighAndReturn());
+		eventMap.put("PlaceFromAdjacentConeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
+		eventMap.put("PlaceFromAdjacentCubeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH));
+		eventMap.put("DropCone", new GripCone());
+		eventMap.put("DropCube", new EjectCube());
+		eventMap.put("ArmToBelly", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
+		eventMap.put("MoveToPose8", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[7], true));
+		eventMap.put("MoveToPose2", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[1], true));
+		eventMap.put("MoveToOutRamp", new MoveToPose(Field.PlacementLocations.OUT_PRE_BALANCE_BLUE, true));
+		eventMap.put("BalanceFromOut", new FullBalance(true));
+		eventMap.put("BalanceFromIn", new FullBalance(false));
 	}
 	
 	private static PathFollowerBuilder instance;
@@ -50,6 +54,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 				RobotMap.Swerve.Pegaswerve.ROTATION_PID,
 				SwerveChassis.getInstance()::setModuleStates,
 				eventMap,
+				true,
 				SwerveChassis.getInstance());
 	}
 	
@@ -68,7 +73,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	public CommandBase followPath(String pathName) {
 		
 		PathPlannerTrajectory path;
-
+		
 		switch (RobotMap.ROBOT_NAME) {
 			case pegaSwerve:
 				path = PathPlanner.loadPath(
@@ -85,20 +90,19 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 						));
 				break;
 			default:
-                path = PathPlanner.loadPath(
-                        pathName, new PathConstraints(
-                                RobotMap.Swerve.Pegaswerve.MAX_VELOCITY,
-                                RobotMap.Swerve.Pegaswerve.MAX_ACCELERATION
-                        ));
+				path = PathPlanner.loadPath(
+						pathName, new PathConstraints(
+								RobotMap.Swerve.Pegaswerve.MAX_VELOCITY,
+								RobotMap.Swerve.Pegaswerve.MAX_ACCELERATION
+						));
 				break;
 		}
 		
-		if (path == null){
+		if (path == null) {
 			SmartDashboard.putString("wrong pth", pathName);
 		}
 		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
-        return fullAuto(path).beforeStarting(new SetToFirstTrajectoryState(path).raceWith(new WaitCommand(DEADLINE_TIME_FOR_PRE_AUTO_COMMAND)));
-//        return fullAuto(path);
+		return fullAuto(path).beforeStarting(new SetToFirstTrajectoryState(path).raceWith(new WaitCommand(DEADLINE_TIME_FOR_PRE_AUTO_COMMAND)));
 	}
 	
 	public static PathPlannerTrajectory getPathPlannerTrajectory(String path) {

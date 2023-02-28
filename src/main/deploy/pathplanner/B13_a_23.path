@@ -2,24 +2,26 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.7843766596624102,
+        "x": 1.85,
         "y": 0.4827972383217498
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.784376659662408,
+        "x": 2.849999999999998,
         "y": 0.4827972383217498
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "placeObject"
+          "PlaceFromAdjacentConeHigh",
+          "DropCone",
+          "ArmToBelly"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -37,7 +39,7 @@
         "x": 5.646754566236405,
         "y": 0.8380631306717172
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
@@ -59,16 +61,19 @@
         "y": 0.9400588749136523
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToPos23"
+          "MoveToPose2",
+          "PlaceFromAdjacentCubeHigh",
+          "DropCube",
+          "ArmToBelly"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
