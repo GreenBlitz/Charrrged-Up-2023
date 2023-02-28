@@ -76,10 +76,8 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
         secondJoystick.A.whileTrue(new GoToGrid());
         secondJoystick.B.and(secondJoystick.A.negate()).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-//        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
-//        secondJoystick.Y.whileTrue(new EjectFromClaw());
-        secondJoystick.X.whileTrue(new RotateOutDoorDirection());
-        secondJoystick.Y.whileTrue(new RotateInDoorDirection());
+        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
+        secondJoystick.Y.whileTrue(new EjectFromClaw());
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
         secondJoystick.B.and(secondJoystick.A).whileTrue(new ZigHail());
