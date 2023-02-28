@@ -1,6 +1,10 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
+import edu.greenblitz.tobyDetermined.commands.intake.roller.RunRoller;
+import edu.greenblitz.tobyDetermined.commands.intake.roller.StopRoller;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
@@ -87,21 +91,31 @@ public class OI { //GEVALD
     public void amireeeButtons(){
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
+
+        //screenshot
         secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
+
+        //grid
         secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
         secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
-        secondJoystick.A.whileTrue(new GoToGrid());
+
+        //score
+        secondJoystick.Y.whileTrue(new GoToGrid());
+        secondJoystick.B.whileTrue(new ZigHail());
+        secondJoystick.X.whileTrue(new ReleaseObject());
+        secondJoystick.A.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.FEEDER));
+        //grab
         secondJoystick.B.and(secondJoystick.A.negate()).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-//        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
-//        secondJoystick.Y.whileTrue(new ReleaseObject());
-        secondJoystick.Y.whileTrue(new RotateByPower(0.5));
-        secondJoystick.X.whileTrue(new RotateByPower(-0.5));
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
-        secondJoystick.B.and(secondJoystick.A).whileTrue(new ZigHail());
-        secondJoystick.L1.whileTrue(new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
+        secondJoystick.R1.onTrue(new InstantCommand(ObjectSelector::flipSelection));
+
+        //intake and belly
+//        secondJoystick.L1.whileTrue(while true, open and roll intake, on false, close)
+        secondJoystick.L1.whileTrue(new ExtendRoller().alongWith(new RunRoller())).onFalse(new RetractRoller());
+        secondJoystick.R1.whileTrue(alignBelly)
     }
 
 
