@@ -18,9 +18,13 @@ public class GripCube extends ClawCommand {
     @Override
     public void initialize() {
         claw.cubeCatchMode();
-        claw.motorGrip();
         timer = new Timer();
         timer.start();
+    }
+
+    @Override
+    public void execute() {
+        claw.motorGrip();
     }
 
     @Override

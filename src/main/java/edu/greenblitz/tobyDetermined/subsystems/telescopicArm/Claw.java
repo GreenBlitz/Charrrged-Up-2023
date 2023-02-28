@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
@@ -19,7 +20,7 @@ public class Claw extends GBSubsystem {
 
     private Claw() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.setInverted(true);
+        motor.config(new GBSparkMax.SparkMaxConfObject().withCurrentLimit(30).withIdleMode(CANSparkMax.IdleMode.kBrake).withInverted(true).withRampRate(RobotMap.General.RAMP_RATE_VAL));
         solenoid = new DoubleSolenoid(PCM_ID, PneumaticsModuleType.CTREPCM, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
     }
 

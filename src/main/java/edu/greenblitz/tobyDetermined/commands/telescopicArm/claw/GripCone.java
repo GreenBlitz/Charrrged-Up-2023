@@ -18,10 +18,14 @@ double time;
     @Override
     public void initialize() {
         claw.coneCatchMode();
-        claw.motorGrip();
         timer = new Timer();
         timer.start();
 
+    }
+
+    @Override
+    public void execute() {
+        claw.motorGrip();
     }
 
     @Override
