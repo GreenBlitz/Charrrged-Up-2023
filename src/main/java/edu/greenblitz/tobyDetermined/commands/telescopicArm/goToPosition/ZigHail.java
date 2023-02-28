@@ -4,6 +4,6 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 
 public class ZigHail extends GoToPosition{
     public ZigHail() {
-        super(RobotMap.TelescopicArm.PresetPositions.PRE_GRID);
+        super(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL);
     }
 }

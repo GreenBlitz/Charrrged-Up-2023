@@ -2,6 +2,10 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
+import com.revrobotics.CANSparkMax;
+import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateInDoorDirection;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateOutDoorDirection;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
@@ -66,7 +70,7 @@ public class OI { //GEVALD
     }
 
     public void romyButtons() {
-        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
+        SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
         mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
         
         mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode

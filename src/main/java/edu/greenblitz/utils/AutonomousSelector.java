@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutonomousSelector {
@@ -40,7 +41,10 @@ public class AutonomousSelector {
 	}
 
 	public AutonomousPaths getChosenValue (){
-		return chooser.getSelected();
+		if(chooser.getSelected() == null){return AutonomousPaths.NONE;}
+		else {
+			return chooser.getSelected();
+		}
 	}
 
 	public static AutonomousSelector getInstance () {
@@ -59,8 +63,9 @@ public class AutonomousSelector {
 		BOTTOM_THREE_OBJECTS(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_b_22"))),
 		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
 		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
+		
+		NONE(new InstantCommand()),
 		//middle
-
 		MIDDLE_RAMP(getPathTCommand("M_ramp"))/*.andThen(new AdvancedBalanceOnRamp(true)).andThen(new LockWheels()))*/;
 		
 
