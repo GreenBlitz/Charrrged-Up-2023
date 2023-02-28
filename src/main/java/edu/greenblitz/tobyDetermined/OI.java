@@ -103,7 +103,7 @@ public class OI { //GEVALD
 
         //score
 
-        secondJoystick.Y.whileTrue(new GripAir());
+        secondJoystick.Y.whileTrue(new GoToGrid());
         secondJoystick.B.whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
