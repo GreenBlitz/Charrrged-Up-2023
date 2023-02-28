@@ -10,13 +10,14 @@ double time;
         this.time = time;
     }
 
-    public GripCone(){}
+    public GripCone(){
+        this(0);
+    }
 
     Timer timer;
     @Override
     public void initialize() {
         claw.coneCatchMode();
-        claw.state = Claw.ClawState.CONE_IN;
         claw.motorGrip();
         timer = new Timer();
         timer.start();

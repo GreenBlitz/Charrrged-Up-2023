@@ -39,6 +39,11 @@ public class Claw extends GBSubsystem {
         }
     }
 
+    @Override
+    public void periodic() {
+        state = solenoid.get() == DoubleSolenoid.Value.kForward ? ClawState.CONE_MODE : ClawState.CUBE_MODE;
+    }
+
     public void cubeCatchMode() {
         solenoid.set(DoubleSolenoid.Value.kReverse);
         state = ClawState.CUBE_MODE;
@@ -71,8 +76,6 @@ public class Claw extends GBSubsystem {
 
     public enum ClawState{
         CUBE_MODE,
-        CUBE_IN,
-        CONE_IN,
         CONE_MODE
     }
 }
