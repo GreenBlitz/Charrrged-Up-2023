@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 public class GripFromBelly extends ParallelCommandGroup {
     public GripFromBelly(){
         addCommands(
-                new GripCube().raceWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION)).andThen(new ConsoleLog("stuff", "stuff")).andThen(new GripBelly())
+                new GripCube().raceWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION)).andThen(new GripBelly())
         );
     }
 }

@@ -65,7 +65,7 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         super.periodic();
         state = getHypotheticalState(getAngleRadians());
-        Dashboard.getInstance().armWidget.setLength(Units.radiansToDegrees(getAngleRadians()));
+//        Dashboard.getInstance().armWidget.setLength(Units.radiansToDegrees(getAngleRadians()));
 //        updatePIDController(Dashboard.getInstance().getElbowPID());
 
     }

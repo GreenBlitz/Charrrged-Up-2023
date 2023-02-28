@@ -10,8 +10,8 @@ public class RotateByTrigger extends RotatingBellyCommand{
 
     @Override
     public void execute() {
-        double power = joystick.getAxisValue(SmartJoystick.Axis.LEFT_TRIGGER) * 0.5;
-        double minusPower = joystick.getAxisValue(SmartJoystick.Axis.RIGHT_TRIGGER) * 0.5;
+        double power = joystick.getAxisValue(SmartJoystick.Axis.LEFT_TRIGGER) * 1;
+        double minusPower = joystick.getAxisValue(SmartJoystick.Axis.RIGHT_TRIGGER) * 1;
         belly.setPower(power - minusPower);
     }
 }

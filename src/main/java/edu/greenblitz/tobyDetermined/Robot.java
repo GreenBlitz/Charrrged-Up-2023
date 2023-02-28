@@ -31,7 +31,6 @@ public class Robot extends TimedRobot {
 		initPortForwarding();
 //	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		AutonomousSelector.getInstance();
-		LED.getInstance().setDefaultCommand(new BackgroundColor());
 		//swerve
 		
 		SwerveChassis.getInstance().resetChassisPose();
