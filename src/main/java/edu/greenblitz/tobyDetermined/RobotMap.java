@@ -239,7 +239,7 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.804,  Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_HIGH(0.795,  Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             CONE_MID(0.29,  1.94),
             CUBE_HIGH(0.654,   Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
@@ -247,12 +247,12 @@ public class RobotMap {
             
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.25, 0.092),
+            INTAKE_GRAB_POSITION(0.31, 0.092),
             INTAKE_DROP_POSITION(0, Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             PRE_INTAKE_GRAB_POSITION(0.1,
                     Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
 
-            PRE_GRID(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            ZIG_HAIL(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663,1.949);
 
 
@@ -271,10 +271,10 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1/15.0;
             public static final double STARTING_LENGTH =0.3;
             public static final int BACKWARDS_LIMIT = 0;
-            public static final double FORWARD_LIMIT = 0.87;
+            public static final double FORWARD_LIMIT = 0.8;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT- 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.26;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.32;
             public static final double MAX_ENTRANCE_LENGTH = 0.059;
             public static final PIDObject PID = new PIDObject().withKp(5).withMaxPower(5);
             
