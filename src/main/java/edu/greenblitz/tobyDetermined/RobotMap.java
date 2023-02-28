@@ -73,12 +73,9 @@ public class RobotMap {
 
     public static class LED {
 
-        public static final int LENGTH = 100;
-        public static final int PORT = 0;
-        public static final double BLINKING_ON_TIME = 0.4;
-
-        public static final double BLINKING_OFF_TIME = 0.2;
-        public static final Color DEFAULT_COLOR = Color.kFloralWhite;
+	    public static final int LENGTH = 100;
+	    public static final int PORT = 0;
+        public static final double BLINKING_TIME = 0.2;
     }
 
     public static class Ultrasonic {
