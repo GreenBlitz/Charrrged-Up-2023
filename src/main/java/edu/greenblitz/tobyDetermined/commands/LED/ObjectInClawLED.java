@@ -5,15 +5,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 
 
-public class ObjectInClawLED extends LEDCommand{
-
-    @Override
-    public void execute() {
-        new LedBlinking(Color.kBlue).schedule();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
+public class ObjectInClawLED extends LedBlinking{
+    
+    public ObjectInClawLED() {
+        super(Color.kOrange);
     }
 }

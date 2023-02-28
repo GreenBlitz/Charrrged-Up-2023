@@ -72,7 +72,6 @@ public class OI { //GEVALD
 		mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 		
-		// reset chassis pose (Y)
 		mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
 	}
 	

@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 public class BalanceOnRampLED extends SetLEDColor {
 
     public BalanceOnRampLED(){
-        super(Color.kAqua);
+        super(Color.kRed);
     }
 }

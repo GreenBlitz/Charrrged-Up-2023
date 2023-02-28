@@ -5,16 +5,10 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 
-public class ObjectInIntakeLED extends LEDCommand{
-
-
-    @Override
-    public void execute() {
-        new LedBlinking(Color.kRed).schedule();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
+public class ObjectInIntakeLED extends LedBlinking{
+    
+    
+    public ObjectInIntakeLED() {
+        super(Color.kAqua);
     }
 }
