@@ -16,7 +16,6 @@ public abstract class ElbowCommand extends GBCommand {
     @Override
     public void initialize() {
         super.initialize();
-        elbow.isUsed = true;
         SmartDashboard.putBoolean("ended", false);
 
     }
@@ -24,7 +23,6 @@ public abstract class ElbowCommand extends GBCommand {
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        elbow.isUsed = false;
         SmartDashboard.putBoolean("ended", true);
     }
 }
