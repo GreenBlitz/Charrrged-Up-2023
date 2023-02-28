@@ -37,7 +37,7 @@ public class KazaSwerveModule implements SwerveModule {
 		linearMotor.config(RobotMap.Swerve.KazaSwerve.baseLinConfObj.withInverted(linInverted));
 
 		lamprey = new AnalogInput(lampreyID);
-		lamprey.setAverageBits(RobotMap.Swerve.Pegaswerve.LAMPREY_AVERAGE_BITS);
+		lamprey.setAverageBits(RobotMap.Swerve.Frankenstein.LAMPREY_AVERAGE_BITS);
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.KazaSwerve.ks, RobotMap.Swerve.KazaSwerve.kv, RobotMap.Swerve.KazaSwerve.ka);
 
 	}

@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.util.Color;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
 
@@ -86,10 +85,14 @@ public class RobotMap {
 
     public static class Swerve {
 
-        public static class Pegaswerve {
+        public static class Frankenstein {
 
-            public static final double MAX_VELOCITY = 3.4930218;
-            public static final double MAX_ACCELERATION = 5.824409;
+
+            public static final double ROBOT_LENGTH_IN_METERS = 0.69;
+            public static final double ROBOT_WIDTH_IN_METERS = 0.79;
+
+            public static final double MAX_VELOCITY = 4;
+            public static final double MAX_ACCELERATION = 4;
             public static final double MAX_ANGULAR_SPEED = 8;
             public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
             public static final int LAMPREY_AVERAGE_BITS = 2;
@@ -109,30 +112,6 @@ public class RobotMap {
             };
         }
 
-        public static class TobyDetermined {
-            public static final double ROBOT_LENGTH_IN_METERS = 0.69;
-            public static final double ROBOT_WIDTH_IN_METERS = 0.79;
-            //todo calibrate
-            public static final double MAX_VELOCITY = 4;
-            public static final double MAX_ACCELERATION = 4;
-            public static final double MAX_ANGULAR_SPEED = 0;
-            public static final double MAX_ANGULAR_ACCELERATION = 0;
-            public static final int LAMPREY_AVERAGE_BITS = 0;
-
-
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(0, 0, 0);
-
-            public static final PIDConstants ROTATION_PID = new PIDConstants(0, 0, 0);
-
-            public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
-                    //the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
-                    //the translations are given rotated by 90 degrees clockwise to avoid coordinates system conversion at output
-                    new Translation2d(0, 0), /*fl*/
-                    new Translation2d(0, -0),/*fr*/
-                    new Translation2d(-0, 0),/*bl*/
-                    new Translation2d(-0, -0)/*br*/
-            };
-        }
 
         static final Pose2d initialRobotPosition = new Pose2d(0, 0, new Rotation2d(0));
         public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{

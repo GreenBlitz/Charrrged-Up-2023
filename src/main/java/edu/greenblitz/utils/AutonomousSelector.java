@@ -22,17 +22,17 @@ public class AutonomousSelector {
 	
 	private AutonomousSelector(){
 		//         m_chooser.addOption(auto name, path name );
-
-		chooser.addOption("bottom three objects", AutonomousPaths.BOTTOM_THREE_OBJECTS);
-		chooser.addOption("bottom only 2", AutonomousPaths.BOTTOM_ONLY_2);
-//		chooser.addOption("bottom two & ramp", AutonomousPaths.BOTTOM_TWO_AND_RAMP);
-//
-		chooser.addOption("top three objects",AutonomousPaths.TOP_THREE_OBJECTS);
-//		chooser.addOption("top two & ramp", AutonomousPaths.TOP_2_AND_RAMP);
-//		chooser.addOption("top only 2", AutonomousPaths.TOP_ONLY_2);
-
-//		chooser.addOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
-//		chooser.setDefaultOption("middle ramp",AutonomousPaths.MIDDLE_RAMP);
+		chooser.addOption("Bjust_place", AutonomousPaths.BOTTOM_JUST_PLACE);
+		chooser.addOption("Bplace_exit", AutonomousPaths.BOTTOM_PLACE_EXIT);
+		chooser.addOption("B13_a_ramp", AutonomousPaths.BOTTOM_PICK_RAMP);
+		chooser.addOption("B13_a_23", AutonomousPaths.BOTTOM_TWO_OBJ);
+		chooser.addOption("Mjust_place", AutonomousPaths.MIDDLE_JUST_PLACE);
+		chooser.addOption("M_ramp", AutonomousPaths.MIDDLE_PLACE_RAMP);
+		chooser.addOption("M_out_ramp", AutonomousPaths.MIDDLE_OUT_RAMP);
+		chooser.addOption("Tjust_place", AutonomousPaths.TOP_JUST_PLACE);
+		chooser.addOption("Tplace_exit", AutonomousPaths.TOP_PLACE_EXIT);
+		chooser.addOption("T93_d_ramp", AutonomousPaths.TOP_PICK_RAMP);
+		chooser.addOption("T93_d_83", AutonomousPaths.TOP_TWO_OBJ);
 
 
 
@@ -55,19 +55,20 @@ public class AutonomousSelector {
 	}
 
 	public enum AutonomousPaths{
-		//top
-		TOP_THREE_OBJECTS(getPathTCommand("T93_d_83").andThen(getPathTCommand("T83_c_82"))),
-		TOP_2_AND_RAMP(getPathTCommand("T93_d_83").andThen(getPathTCommand("T83_ramp"))),
-		TOP_ONLY_2(getPathTCommand("T93_d_83")),
-		//bottom
-		BOTTOM_THREE_OBJECTS(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_b_22"))),
-		BOTTOM_TWO_AND_RAMP(getPathTCommand("B13_a_23").andThen(getPathTCommand("B23_ramp"))),
-		BOTTOM_ONLY_2(getPathTCommand("B13_a_23")),
-		
-		NONE(new InstantCommand()),
-		//middle
-		MIDDLE_RAMP(getPathTCommand("M_ramp"))/*.andThen(new AdvancedBalanceOnRamp(true)).andThen(new LockWheels()))*/;
-		
+		MIDDLE_JUST_PLACE(PathFollowerBuilder.getInstance().followPath("Mjust_place")),
+		TOP_JUST_PLACE(PathFollowerBuilder.getInstance().followPath("Tjust_place")),
+		BOTTOM_JUST_PLACE(PathFollowerBuilder.getInstance().followPath("Bjust_place")),
+		MIDDLE_PLACE_RAMP(PathFollowerBuilder.getInstance().followPath("M_ramp")),
+		BOTTOM_PLACE_EXIT(PathFollowerBuilder.getInstance().followPath("Bplace_exit")),
+		TOP_PLACE_EXIT(PathFollowerBuilder.getInstance().followPath("Tplace_exit")),
+		BOTTOM_TWO_OBJ(PathFollowerBuilder.getInstance().followPath("B13_a_23")),
+		TOP_TWO_OBJ(PathFollowerBuilder.getInstance().followPath("T93_d_83")),
+		TOP_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("T93_d_ramp")),
+		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_a_ramp")),
+		MIDDLE_OUT_RAMP(PathFollowerBuilder.getInstance().followPath("M_out_ramp")),
+
+		NONE(new InstantCommand());
+
 
 		public CommandBase autonomousCommand;
 		private AutonomousPaths (CommandBase autonomousCommands){

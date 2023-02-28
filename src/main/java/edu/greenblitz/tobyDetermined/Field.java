@@ -58,15 +58,15 @@ public class Field {
     public static class PlacementLocations{
         // the locations of the grid plus half of the robot length.
         private static final Pose2d[] locationsOnBlueSide = {
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 0.508), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 1.067), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 1.626), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 2.184), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 2.743), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 3.302), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 3.861), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 4.420), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.TobyDetermined.ROBOT_LENGTH_IN_METERS), 4.978), new Rotation2d(Math.PI))
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 0.508), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 1.067), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 1.626), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 2.184), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 2.743), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 3.302), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 3.861), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 4.420), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS), 4.978), new Rotation2d(Math.PI))
         };
 
         public static Pose2d[] getLocationsOnBlueSide(){
@@ -90,7 +90,7 @@ public class Field {
             return !isGridPositionIDofCube(index);
         }
 
-        public static final Pose2d OUT_PRE_BALANCE_BLUE = new Pose2d(5.57, 4.68, new Rotation2d(Math.PI));
+        public static final Pose2d OUT_PRE_BALANCE_BLUE = new Pose2d(5.40, 2.67, new Rotation2d(Math.PI));
     }
     public static class FieldConstants{
         public final static double fieldLength = 16.54175;
