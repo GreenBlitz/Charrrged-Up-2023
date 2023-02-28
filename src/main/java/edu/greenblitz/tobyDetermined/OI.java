@@ -1,10 +1,13 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RunRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.StopRoller;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.ManualAlignObject;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
@@ -30,6 +33,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class OI { //GEVALD
 
@@ -105,17 +109,17 @@ public class OI { //GEVALD
         secondJoystick.Y.whileTrue(new GoToGrid());
         secondJoystick.B.whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
-        secondJoystick.A.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.FEEDER));
+        secondJoystick.A.whileTrue(new GripFromFeeder());
+
         //grab
-        secondJoystick.B.and(secondJoystick.A.negate()).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-        secondJoystick.START.whileTrue(new GripCone());
-        secondJoystick.BACK.whileTrue(new GripCube());
-        secondJoystick.R1.onTrue(new InstantCommand(ObjectSelector::flipSelection));
+        secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
+        secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
+        secondJoystick.R1.onTrue(new GripFromBelly());
 
         //intake and belly
-//        secondJoystick.L1.whileTrue(while true, open and roll intake, on false, close)
-        secondJoystick.L1.whileTrue(new ExtendRoller().alongWith(new RunRoller())).onFalse(new RetractRoller());
-        secondJoystick.R1.whileTrue(alignBelly)
+////        secondJoystick.L1.whileTrue(while true, open and roll intake, on false, close)
+//        secondJoystick.L1.whileTrue(new ExtendRoller().alongWith(new RunRoller()).alongWith(new RotateInDoorDirection())).onFalse(new RetractRoller());
+//        secondJoystick.R1.onTrue(new ManualAlignObject());
     }
 
 

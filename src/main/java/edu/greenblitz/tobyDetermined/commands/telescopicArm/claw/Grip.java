@@ -1,14 +1,13 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
-public class Grip extends ClawCommand{
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
-	@Override
-	public void execute() {
-		claw.motorGrip();
+public class Grip extends ConditionalCommand {
+
+	public Grip(){
+		super(new GripCube(),new GripCone(),ObjectSelector::IsCube);
 	}
 
-	@Override
-	public void end(boolean interrupted) {
-		claw.stopMotor();
-	}
 }
