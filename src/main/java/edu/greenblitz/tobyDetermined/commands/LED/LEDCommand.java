@@ -11,4 +11,5 @@ public abstract class LEDCommand extends GBCommand {
         led = LED.getInstance();
         require(led);
     }
+
 }

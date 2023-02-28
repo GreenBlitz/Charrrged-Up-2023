@@ -10,6 +10,7 @@ import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.FORWARDS_LENGTH_TOLERANCE;
@@ -22,6 +23,7 @@ public class Extender extends GBSubsystem {
 	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
 	private double lastSpeed;
 	private double goalLength;
+	private Debouncer debouncer;
 	private double debugLastFF;
 
 	public static Extender getInstance() {
@@ -53,6 +55,8 @@ public class Extender extends GBSubsystem {
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
+		
+		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
 	}
 
 	private void debugSoftLimit(){
@@ -161,7 +165,7 @@ public class Extender extends GBSubsystem {
 	 * @return the current value of the limit switch
 	 */
 	public boolean getLimitSwitch() {
-		return motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed();
+		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
 	}
 	public void resetLength() {
 			resetLength(0);
