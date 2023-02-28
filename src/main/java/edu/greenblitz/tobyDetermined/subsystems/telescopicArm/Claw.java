@@ -20,7 +20,7 @@ public class Claw extends GBSubsystem {
 
     private Claw() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.config(new GBSparkMax.SparkMaxConfObject().withCurrentLimit(30).withIdleMode(CANSparkMax.IdleMode.kBrake).withInverted(true).withRampRate(RobotMap.General.RAMP_RATE_VAL));
+        motor.config(RobotMap.TelescopicArm.Claw.CLAW_CONFIG_OBJECT);
         solenoid = new DoubleSolenoid(PCM_ID, PneumaticsModuleType.CTREPCM, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
     }
 

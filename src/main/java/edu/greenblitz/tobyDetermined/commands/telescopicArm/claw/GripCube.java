@@ -29,9 +29,9 @@ public class GripCube extends ClawCommand {
 
     @Override
     public boolean isFinished() {
-        if(time > 0){
-                return timer.hasElapsed(time);
-        }
+//        if(time > 0){
+//                return timer.hasElapsed(time);
+//        }
         return false;
     }
 

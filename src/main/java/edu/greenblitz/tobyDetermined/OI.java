@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
@@ -89,8 +90,10 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
         secondJoystick.A.whileTrue(new GoToGrid());
         secondJoystick.B.and(secondJoystick.A.negate()).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
-        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
-        secondJoystick.Y.whileTrue(new ReleaseObject());
+//        secondJoystick.X.onTrue(new InstantCommand(ObjectSelector::flipSelection));
+//        secondJoystick.Y.whileTrue(new ReleaseObject());
+        secondJoystick.Y.whileTrue(new RotateByPower(0.5));
+        secondJoystick.X.whileTrue(new RotateByPower(-0.5));
         secondJoystick.START.whileTrue(new GripCone());
         secondJoystick.BACK.whileTrue(new GripCube());
         secondJoystick.B.and(secondJoystick.A).whileTrue(new ZigHail());
