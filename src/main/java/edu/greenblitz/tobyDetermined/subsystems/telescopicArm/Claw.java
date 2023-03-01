@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -65,6 +66,10 @@ public class Claw extends GBSubsystem {
 
     public void motorGrip() {
         motor.set( RobotMap.TelescopicArm.Claw.MOTOR_POWER_CONE);
+    }
+
+    public void motorGrip(double power){
+        motor.set(power);
     }
 
     public void motorEject() {
