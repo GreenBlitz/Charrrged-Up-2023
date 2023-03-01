@@ -41,10 +41,6 @@ public class IntakeRoller extends GBSubsystem {
 		roll(-RobotMap.Intake.DEFAULT_POWER);
 	}
 
-	public void rollInside() {
-		roll(RobotMap.Intake.ROLL_INSIDE_POWER);
-	} //into the robot
-
 	public void stop() {
 		roll(0);
 	}

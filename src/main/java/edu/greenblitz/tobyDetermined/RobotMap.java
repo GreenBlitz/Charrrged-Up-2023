@@ -350,18 +350,22 @@ public class RobotMap {
     }
 
     public static class Intake {
-        public static final int ROLLER_ID = 24;
+        public static final int ROLLER_ID = 4;
         public static final double DEFAULT_POWER = 1;
-        public static final double ROLL_INSIDE_POWER = 0.5;
         public static final int BEAM_BREAKER_ID = 20;
         public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
-                .withCurrentLimit(40)
+                .withPID(RobotMap.TelescopicArm.Extender.PID)
+                .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+                .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+                .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                .withRampRate(General.RAMP_RATE_VAL)
+                .withCurrentLimit(30)
                 .withInverted(false)
-                .withRampRate(0.1);
+                .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
         public static class Solenoid {
-            public static final int FORWARD_PORT = 1;
-            public static final int REVERSE_PORT = 0;
+            public static final int FORWARD_PORT = 5;
+            public static final int REVERSE_PORT = 3;
         }
     }
 }

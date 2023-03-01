@@ -1,6 +1,8 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
@@ -31,6 +33,8 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+import java.lang.annotation.Retention;
 
 public class OI { //GEVALD
 	
@@ -116,6 +120,8 @@ public class OI { //GEVALD
         RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
         secondJoystick.L1.and(secondJoystick.R1.negate()).onFalse(new CloseIntakeAndAlign());
+//		secondJoystick.L1.onTrue(new ExtendRoller());
+//		secondJoystick.L1.onFalse(new RetractRoller());
     }
 
 

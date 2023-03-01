@@ -9,6 +9,8 @@ import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -51,8 +53,8 @@ public class Robot extends TimedRobot {
 		Claw.init();
 		SwerveChassis.init();
 		RotatingBelly.init();
-//		IntakeExtender.init();
-//		IntakeRoller.init();
+		IntakeExtender.init();
+		IntakeRoller.init();
 		OI.init();
 	}
 	
@@ -78,7 +80,6 @@ public class Robot extends TimedRobot {
 	
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
-//        SwerveChassis.getInstance().setIdleModeBrake();
 		
 		Grid.init();
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
