@@ -3,18 +3,17 @@ package edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance;
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.wpi.first.math.filter.Debouncer;
 
-public class GetOnRamp extends SwerveCommand {
+public class GetToRamp extends SwerveCommand {
 	
 	private double speed;
-	private  double usedSpeed;
 	private boolean forwards;
-	private static final double TOLERANCE = Math.toRadians(8);
+	private static final double TOLERANCE = BangBangBalance.TOLERANCE;
 	
 	private Debouncer debouncer;
 	
 	
 	double pitchAngle;
-	public GetOnRamp(double speed){
+	public GetToRamp(double speed){
 		this.speed =speed;
 		forwards = speed > 0;
 	}
@@ -24,7 +23,6 @@ public class GetOnRamp extends SwerveCommand {
 		super.initialize();
 		pitchAngle =0;
 		debouncer = new Debouncer(0.1);
-		usedSpeed = speed;
 		
 	}
 	
@@ -32,8 +30,7 @@ public class GetOnRamp extends SwerveCommand {
 	public void execute() {
 		super.execute();
 		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? 1:-1);//gyro is flipped
-		swerve.moveByChassisSpeeds(usedSpeed,0,0,0);
-		usedSpeed+=0.005;
+		swerve.moveByChassisSpeeds(speed,0,0,0);
 	}
 	
 	@Override

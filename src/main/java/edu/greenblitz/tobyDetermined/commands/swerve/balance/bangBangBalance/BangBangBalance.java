@@ -1,6 +1,8 @@
 package edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance;
 
+import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
+import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.MedianFilter;
 
@@ -23,6 +25,7 @@ public class BangBangBalance extends SwerveCommand {
 	@Override
 	public void initialize() {
 		super.initialize();
+		Console.log("stuff", " nkl");
 		pitchAngle =0;
 		debouncer = new Debouncer(0.3);
 		usedSpeed = originalSpeed;
@@ -31,10 +34,10 @@ public class BangBangBalance extends SwerveCommand {
 	@Override
 	public void execute() {
 		super.execute();
-		if (pitchAngle * swerve.getPigeonGyro().getRoll() * (forwards ? 1:-1) < 0){
+		if (pitchAngle * swerve.getPigeonGyro().getRoll() * (forwards ? -1:1) < 0){
 			usedSpeed = 0.5 * usedSpeed;
 		}
-		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? 1:-1);//gyro is flipped
+		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? -1:1);//gyro is flipped
 		if (Math.abs(pitchAngle) > TOLERANCE){
 			swerve.moveByChassisSpeeds(usedSpeed * Math.signum(pitchAngle), 0.0, 0.0, 0);
 		}
