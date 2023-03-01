@@ -1,7 +1,5 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
-import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
@@ -24,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+
 public class Robot extends TimedRobot {
 	
 	@Override
@@ -32,7 +31,6 @@ public class Robot extends TimedRobot {
 		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		initPortForwarding();
-//	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		AutonomousSelector.getInstance();
 		//swerve
 		
@@ -86,7 +84,10 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-//		new ResetExtender().schedule();
+		if (Extender.getInstance().DoesSensorExist){
+			new ResetExtender().schedule();
+		}
+//		new SensorlessReset().schedule();
 	}
 	
 	
@@ -107,8 +108,9 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		/*new ResetExtender().andThen*/(command).schedule();
-		
+		if (Extender.getInstance().DoesSensorExist) {
+			new ResetExtender().andThen(command).schedule();
+		} else command.schedule();
 	}
 	
 	@Override
