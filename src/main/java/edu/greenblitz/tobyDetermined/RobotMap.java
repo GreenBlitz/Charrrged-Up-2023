@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
 public class RobotMap {
     public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
@@ -226,7 +226,7 @@ public class RobotMap {
 
             INTAKE_GRAB_POSITION(0.31, 0.092+ Math.toRadians(2.5)),
             PRE_INTAKE_GRAB_POSITION(0.1,
-                    Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+                    (STARTING_WALL_ZONE_ANGLE + END_WALL_ZONE_ANGLE)/2),
 
             ZIG_HAIL(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663,1.949);
