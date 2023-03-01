@@ -74,9 +74,7 @@ public class OI { //GEVALD
 	}
 	
 	public void romyButtons() {
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
-		mainJoystick.START.onTrue(new InstantCommand(() -> Extender.getInstance().resetLength()));
-		
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 		mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
 		mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
 		mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
@@ -85,7 +83,7 @@ public class OI { //GEVALD
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 
         // reset chassis pose (Y)
-        mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
+        mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetToVision())); //reset pose
     }
 
     public void amireeeButtons(){
@@ -116,8 +114,8 @@ public class OI { //GEVALD
         //intake and belly
 
         RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
-        secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
-        secondJoystick.L1.and(secondJoystick.R1.negate()).onFalse(new CloseIntakeAndAlign());
+//        secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
+//        secondJoystick.L1.and(secondJoystick.R1.negate()).onFalse(new CloseIntakeAndAlign());
     }
 
 

@@ -7,7 +7,7 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import java.util.function.DoubleSupplier;
 
 public class CombineJoystickMovement extends SwerveCommand {
-	static double ANG_SPEED_FACTOR = RobotMap.Swerve.MAX_ANGULAR_SPEED;
+	static double ANG_SPEED_FACTOR = 5;
 	static double LIN_SPEED_FACTOR = RobotMap.Swerve.MAX_VELOCITY;
 	static double SLOW_ANG_SPEED_FACTOR = 0.25 * Math.PI;
 	static double SLOW_LIN_SPEED_FACTOR = 0.5;
@@ -26,6 +26,8 @@ public class CombineJoystickMovement extends SwerveCommand {
 	
 	@Override
 	public void initialize() {
+		ANG_SPEED_FACTOR = 5;
+		LIN_SPEED_FACTOR = RobotMap.Swerve.MAX_VELOCITY;
 		if (isSlow) {
 			ANG_SPEED_FACTOR = SLOW_ANG_SPEED_FACTOR;
 			LIN_SPEED_FACTOR = SLOW_LIN_SPEED_FACTOR;

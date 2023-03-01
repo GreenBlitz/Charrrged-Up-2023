@@ -5,4 +5,9 @@ public class DropCone extends ClawCommand{
     public void initialize() {
         claw.cubeCatchMode();
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

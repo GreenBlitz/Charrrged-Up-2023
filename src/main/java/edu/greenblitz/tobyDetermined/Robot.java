@@ -99,6 +99,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
+		Grid.init();
+		MultiLimelight.getInstance().updateRobotPoseAlliance();
+		Dashboard.getInstance().activateDriversDashboard();
+		SwerveChassis.getInstance().setIdleModeBrake();
 		new ResetExtender().schedule();
 		command.schedule();
 	}
