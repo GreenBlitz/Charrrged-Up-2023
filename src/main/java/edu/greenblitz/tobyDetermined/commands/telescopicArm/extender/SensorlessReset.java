@@ -11,7 +11,7 @@ public class SensorlessReset extends SequentialCommandGroup {
 	
 	public SensorlessReset(){
 		super(
-				new GBCommand() {
+				new GBCommand(Extender.getInstance()) {
 					@Override
 					public void execute() {
 						Extender.getInstance().setMotorVoltage(-3);
@@ -22,7 +22,7 @@ public class SensorlessReset extends SequentialCommandGroup {
 						return false;
 					}
 				}.raceWith(new WaitCommand(0.2)),
-				new GBCommand() {
+				new GBCommand(Extender.getInstance()) {
 					@Override
 					public void execute() {
 						Extender.getInstance().setMotorVoltage(-2.5);
