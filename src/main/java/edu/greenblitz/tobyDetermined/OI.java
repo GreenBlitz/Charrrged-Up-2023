@@ -120,8 +120,6 @@ public class OI { //GEVALD
         RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
         secondJoystick.L1.onFalse(new CloseIntakeAndAlign());
-//		secondJoystick.L1.onTrue(new ExtendRoller());
-//		secondJoystick.L1.onFalse(new RetractRoller());
     }
 
 
