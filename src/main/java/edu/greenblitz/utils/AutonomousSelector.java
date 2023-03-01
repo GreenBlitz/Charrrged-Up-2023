@@ -27,6 +27,7 @@ public class AutonomousSelector {
 		chooser.addOption("B13_a_ramp", AutonomousPaths.BOTTOM_PICK_RAMP);
 		chooser.addOption("B13_a_23", AutonomousPaths.BOTTOM_TWO_OBJ);
 		chooser.addOption("Mjust_place", AutonomousPaths.MIDDLE_JUST_PLACE);
+		chooser.addOption("Mjust_ramp", AutonomousPaths.MIDDLE_JUST_RAMP);
 		chooser.addOption("M_ramp", AutonomousPaths.MIDDLE_PLACE_RAMP);
 		chooser.addOption("M_out_ramp", AutonomousPaths.MIDDLE_OUT_RAMP);
 		chooser.addOption("Tjust_place", AutonomousPaths.TOP_JUST_PLACE);
@@ -66,6 +67,9 @@ public class AutonomousSelector {
 		TOP_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("T93_d_ramp")),
 		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_a_ramp")),
 		MIDDLE_OUT_RAMP(PathFollowerBuilder.getInstance().followPath("M_out_ramp")),
+		MIDDLE_JUST_RAMP(PathFollowerBuilder.getInstance().followPath("Mjust_ramp")),
+		
+		
 
 		NONE(new InstantCommand());
 
