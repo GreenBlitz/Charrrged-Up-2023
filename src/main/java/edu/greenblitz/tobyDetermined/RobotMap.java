@@ -224,9 +224,9 @@ public class RobotMap {
             
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.34, 0.092+ Math.toRadians(2.5)),
-            PRE_INTAKE_GRAB_POSITION(0.1,
-                    (STARTING_WALL_ZONE_ANGLE + END_WALL_ZONE_ANGLE)/2),
+            INTAKE_GRAB_POSITION(0.36, 0.092+ Math.toRadians(2.5)),
+            PRE_INTAKE_GRAB_POSITION(0,
+                    0.28),
 
             ZIG_HAIL(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663,1.949);
@@ -250,7 +250,7 @@ public class RobotMap {
             public static final double FORWARD_LIMIT = 0.8;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT- 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.35;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static final double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(5).withMaxPower(5);
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
