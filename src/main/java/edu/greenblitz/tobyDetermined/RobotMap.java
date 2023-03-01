@@ -360,12 +360,12 @@ public class RobotMap {
                 .withIdleMode(CANSparkMax.IdleMode.kBrake)
                 .withRampRate(General.RAMP_RATE_VAL)
                 .withCurrentLimit(30)
-                .withInverted(false)
+                .withInverted(true)
                 .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
         public static class Solenoid {
             public static final int FORWARD_PORT = 5;
-            public static final int REVERSE_PORT = 3;
+            public static final int REVERSE_PORT = 2;
         }
     }
 }
