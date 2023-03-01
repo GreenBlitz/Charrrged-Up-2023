@@ -41,7 +41,7 @@ public class Extender extends GBSubsystem {
 		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
 		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
-		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(true);
+		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(false);
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
 		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -166,7 +166,8 @@ public class Extender extends GBSubsystem {
 	 * @return the current value of the limit switch
 	 */
 	public boolean getLimitSwitch() {
-		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
+//		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
+		return motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed();
 	}
 	public void resetLength() {
 			resetLength(0);

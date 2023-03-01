@@ -97,9 +97,10 @@ public class OI { //GEVALD
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
 
+		
         //screenshot
         secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-
+		secondJoystick.B.and(secondJoystick.X).onTrue(new InstantCommand(()->Extender.getInstance().resetLength()));
         //grid
         secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
@@ -109,7 +110,7 @@ public class OI { //GEVALD
         //score
 
         secondJoystick.Y.whileTrue(new GoToGrid());
-        secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).whileTrue(new ZigHail());
+        secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
 		secondJoystick.A.and(secondJoystick.B).whileTrue(new GripBelly());

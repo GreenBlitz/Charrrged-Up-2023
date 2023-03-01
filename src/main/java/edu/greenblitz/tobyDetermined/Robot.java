@@ -20,6 +20,7 @@ import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -85,12 +86,13 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		new ResetExtender().schedule();
+//		new ResetExtender().schedule();
 	}
 	
 	
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putBoolean("beamBraker", Extender.getInstance().getLimitSwitch());
 	}
 	
 	
@@ -105,7 +107,7 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		new ResetExtender().andThen(command).schedule();
+		/*new ResetExtender().andThen*/(command).schedule();
 		
 	}
 	
