@@ -260,7 +260,7 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
-            public static final double FORWARDS_LENGTH_TOLERANCE = 0.005; //in meters
+            public static final double FORWARDS_LENGTH_TOLERANCE = 0.03; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
             public static final double kV = 60;

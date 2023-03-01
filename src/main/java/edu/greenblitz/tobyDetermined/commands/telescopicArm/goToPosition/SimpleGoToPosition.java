@@ -21,15 +21,15 @@ public class SimpleGoToPosition extends ParallelCommandGroup {
         this.angleInRads = angleInRads;
         isFinished = () -> {
             SmartDashboard.putBoolean("ext at len", Extender.getInstance().isAtLength(this.lengthInMeters));
-            SmartDashboard.putBoolean("ext at vel", Extender.getInstance().isNotMoving());
+//            SmartDashboard.putBoolean("ext at vel", Extender.getInstance().isNotMoving());
             SmartDashboard.putBoolean("elb at ang", Elbow.getInstance().isAtAngle(this.angleInRads));
-            SmartDashboard.putBoolean("elb at vel", Elbow.getInstance().isNotMoving());
+//            SmartDashboard.putBoolean("elb at vel", Elbow.getInstance().isNotMoving());
     
     
             return Extender.getInstance().isAtLength(this.lengthInMeters)
-                && Extender.getInstance().isNotMoving()
-                && Elbow.getInstance().isAtAngle(this.angleInRads)
-                && Elbow.getInstance().isNotMoving();};
+//                && Extender.getInstance().isNotMoving()
+                && Elbow.getInstance().isAtAngle(this.angleInRads);};
+//                && Elbow.getInstance().isNotMoving();};
         addCommands(
                 new ExtendToLength(lengthInMeters){
                         @Override

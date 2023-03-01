@@ -123,6 +123,7 @@ public class Extender extends GBSubsystem {
 
 
 	public void moveTowardsLength(double lengthInMeters, double feedforward) {
+		lengthInMeters -= 0.02;
         setLengthByPID(getLegalGoalLength(lengthInMeters), feedforward);
 	}
 
