@@ -289,7 +289,7 @@ public class RobotMap {
             public static final double MOTOR_POWER_GRIP = 0.3;
 
             public static final double MOTOR_POWER_CONE = 0.6;
-            public static final double MOTOR_POWER_RELEASE = -0.3;
+            public static final double MOTOR_POWER_RELEASE = -0.15;
 
             public static final double TIME_OF_GRIP_CONSTANT = 2;
 
