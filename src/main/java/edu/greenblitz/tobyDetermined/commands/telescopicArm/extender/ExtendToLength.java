@@ -36,6 +36,11 @@ public class ExtendToLength extends ExtenderCommand {
         pidController.setGoal(legalGoalLength);
         double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians());
         double pidGain = pidController.calculate(extender.getLength());
+        SmartDashboard.putNumber("pid gain", pidGain);
+        SmartDashboard.putNumber("ff", feedForward);
+        SmartDashboard.putNumber("ks", Math.signum(pidGain) * kS);
+        SmartDashboard.putNumber("output", feedForward + pidGain + Math.signum(pidGain) * kS);
+
         extender.setMotorVoltage(feedForward + pidGain + Math.signum(pidGain) * kS);
     }
 
