@@ -78,7 +78,7 @@ public class OI { //GEVALD
 		romyButtons();
 		amireeeButtons();
 	}
-	
+
 	public void romyButtons() {
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 		mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
@@ -90,7 +90,7 @@ public class OI { //GEVALD
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 
         // reset chassis pose (Y)
-        mainJoystick.Y.and(mainJoystick.L1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetToVision())); //reset pose
+        mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
     }
 
     public void amireeeButtons(){
