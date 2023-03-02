@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderCommand;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
@@ -34,14 +35,15 @@ public class ExtendToLength extends ExtenderCommand {
     public void execute() {
         legalGoalLength = extender.getLegalGoalLength(wantedLength);
         pidController.setGoal(legalGoalLength);
-        double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians());
         double pidGain = pidController.calculate(extender.getLength());
+        double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians()) + Math.signum(pidGain) * kS;
+
         SmartDashboard.putNumber("pid gain", pidGain);
         SmartDashboard.putNumber("ff", feedForward);
         SmartDashboard.putNumber("ks", Math.signum(pidGain) * kS);
-        SmartDashboard.putNumber("output", feedForward + pidGain + Math.signum(pidGain) * kS);
+        SmartDashboard.putNumber("output", feedForward + pidGain);
 
-        extender.setMotorVoltage(feedForward + pidGain + Math.signum(pidGain) * kS);
+        extender.debugSetPower(feedForward / Battery.getInstance().getCurrentVoltage() + pidGain);
     }
 
     @Override

@@ -35,6 +35,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.lang.annotation.Retention;
 
@@ -120,7 +121,9 @@ public class OI { //GEVALD
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
-        //intake and belly
+		secondJoystick.R1.negate().and(secondJoystick.L1.negate()).onTrue(new GripBelly().raceWith(new WaitCommand(0.3)));
+
+		//intake and belly
 
         RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());

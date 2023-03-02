@@ -143,7 +143,7 @@ public class Extender extends GBSubsystem {
 			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT);
 		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(wantedLength) != ExtenderState.IN_WALL_LENGTH) {
 			// arm should not extend too much in front of the wall
-			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
+			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 		} else {
 			return (wantedLength);
 		}

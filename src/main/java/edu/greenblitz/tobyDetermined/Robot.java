@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		if (Extender.getInstance().DoesSensorExist) {
-			new ResetExtender().raceWith(new WaitCommand(1.5).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
+			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
 		} else command.schedule();
 	}
 	

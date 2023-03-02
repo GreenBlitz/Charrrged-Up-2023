@@ -21,7 +21,7 @@ public class PassWallAndExtend extends ParallelCommandGroup {
 						return elbow.isAtAngle(angleInRads);
 					}
 				}.andThen(new StayAtCurrentAngle()),
-				new ExtendToLength(0).until(() -> Extender.getInstance().isAtLength(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE))
+				new ExtendToLength(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE).until(() -> Extender.getInstance().isAtLength(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE))
 						.andThen(new WaitUntilCommand(() -> Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE))
 						.andThen(new ExtendToLength(lengthInMeters){
 							@Override

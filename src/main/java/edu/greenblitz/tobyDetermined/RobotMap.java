@@ -224,7 +224,7 @@ public class RobotMap {
             
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.36, 0.092+ Math.toRadians(2.5)),
+            INTAKE_GRAB_POSITION(0.31, 0.092+ Math.toRadians(2.5)),
             PRE_INTAKE_GRAB_POSITION(0,
                     0.28),
 
@@ -252,7 +252,7 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static final double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final PIDObject PID = new PIDObject().withKp(800).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(25).withMaxPower(1);
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
             
 
@@ -269,7 +269,7 @@ public class RobotMap {
             public static final double kG = 0.57;
 
             public static final double MAX_ACCELERATION = 7.5;
-            public static final double MAX_VELOCITY = 0.18;
+            public static final double MAX_VELOCITY = 0.4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
