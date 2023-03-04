@@ -19,8 +19,7 @@ public class GoToPosition extends SequentialCommandGroup {
          */
 		addCommands(new ConditionalCommand(
 				new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads).alongWith(new ConsoleLog("GoToPos", "simple")) ,
-				new GoToWallZone().alongWith(new ConsoleLog("go to wall zone", "go to wall zone"))
-						.andThen(new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads)).alongWith(new ConsoleLog("GoToPos", "simple")),
+				new PassWallAndExtend(targetLengthInMeters, targetAngleInRads),
 				() -> ((Extender.getHypotheticalState(targetLengthInMeters) == Extender.ExtenderState.IN_WALL_LENGTH
 				|| (Elbow.getInstance().isInTheSameState(targetAngleInRads) && Elbow.getInstance().state != Elbow.ElbowState.WALL_ZONE)
 				|| (Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.WALL_ZONE)

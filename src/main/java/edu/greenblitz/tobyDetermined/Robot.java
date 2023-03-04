@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.LED.EncoderBrokenLED;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -90,7 +91,9 @@ public class Robot extends TimedRobot {
 		if (Extender.getInstance().DoesSensorExist) {
 			new ResetExtender().raceWith(new WaitCommand(2.5).andThen(new ConsoleLog("time out", "arm reset time out"))).schedule();
 		}
+
 //		new SensorlessReset().schedule();
+		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
 	
@@ -111,7 +114,7 @@ public class Robot extends TimedRobot {
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		if (Extender.getInstance().DoesSensorExist) {
-			new ResetExtender().raceWith(new WaitCommand(1.5).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
+			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
 		} else command.schedule();
 	}
 	

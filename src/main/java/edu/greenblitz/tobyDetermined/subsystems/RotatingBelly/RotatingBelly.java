@@ -18,6 +18,8 @@ public class RotatingBelly extends GBSubsystem {
         limitSwitch = new DigitalInput(RobotMap.RotatingBelly.MACRO_SWITCH_DIO_PORT);
 //        colorSensor = BellyGameObjectSensor.getInstance();
         motor = new TalonSRX(RobotMap.RotatingBelly.MOTOR_ID);
+
+        motor.setInverted(true);
     }
 
     public void setPower(double power){
