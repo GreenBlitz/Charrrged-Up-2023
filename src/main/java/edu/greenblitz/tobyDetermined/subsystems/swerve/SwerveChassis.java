@@ -381,7 +381,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public boolean isEncoderBroken(Module module){
-		return encoderBrokenDebouncer.calculate(getModule(module).getEncoderValueNoOffset() == 0);
+		return getModule(module).getEncoderValueNoOffset() == 0;
 	}
 	
 	public boolean isEncoderBroken(){
