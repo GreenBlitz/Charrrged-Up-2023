@@ -146,7 +146,6 @@ public class Dashboard extends GBSubsystem {
 		armTab.addBoolean("beam broken", () -> Extender.getInstance().getLimitSwitch());
 
 		//extender ff
-		armTab.addDouble("Extender ff", () -> Extender.getInstance().getDebugLastFF());
 
 		//arm ff
 		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
