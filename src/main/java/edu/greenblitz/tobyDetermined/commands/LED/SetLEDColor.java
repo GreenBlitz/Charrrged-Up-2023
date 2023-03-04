@@ -14,5 +14,9 @@ public class SetLEDColor extends LEDCommand{
     public void execute(){
         led.setColor(color);
     }
-
+    
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }
