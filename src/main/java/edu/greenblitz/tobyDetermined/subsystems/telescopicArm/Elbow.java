@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.CONSTRAINTS;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
 public class Elbow extends GBSubsystem {
 
@@ -65,9 +65,6 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         super.periodic();
         state = getHypotheticalState(getAngleRadians());
-//        Dashboard.getInstance().armWidget.setLength(Units.radiansToDegrees(getAngleRadians()));
-//        updatePIDController(Dashboard.getInstance().getElbowPID());
-
     }
 
     public void updatePIDController(PIDObject pidObject){
@@ -94,12 +91,12 @@ public class Elbow extends GBSubsystem {
     public double getLegalGoalAngle(double angleInRads){
         SmartDashboard.putString("hypothetical state", getHypotheticalState(angleInRads).toString());
         // going out of bounds should not be allowed
-        if (getHypotheticalState(angleInRads) == ElbowState.OUT_OF_BOUNDS){
+        if (getHypotheticalState(angleInRads) == ElbowState.FORWARD_OUT_OF_BOUNDS || getHypotheticalState(angleInRads) == ElbowState.BACKWARD_OUT_OF_BOUNDS){
             Console.log("OUT OF BOUNDS", "arm Elbow is trying to move OUT OF BOUNDS" );
             if(angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
-                return (RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
+                return (RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT + RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
             }else {
-                return (RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
+                return (RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT - RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
             }
         }
 
@@ -140,15 +137,17 @@ public class Elbow extends GBSubsystem {
     }
 
     public static ElbowState getHypotheticalState(double angleInRads) {
-        if (angleInRads > RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT || angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT) {
-            return ElbowState.OUT_OF_BOUNDS;
-        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE && angleInRads < RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
+        if (angleInRads < ElbowState.BACKWARD_OUT_OF_BOUNDS.maxAngle){
+            return ElbowState.BACKWARD_OUT_OF_BOUNDS;
+        }
+        else if (angleInRads < ElbowState.IN_BELLY.maxAngle){
+            return ElbowState.IN_BELLY;
+        }else if (angleInRads < ElbowState.WALL_ZONE.maxAngle){
             return ElbowState.WALL_ZONE;
-        } else if (angleInRads > RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE) {
+        }else if(angleInRads < ElbowState.OUT_ROBOT.maxAngle){
             return ElbowState.OUT_ROBOT;
         }
-        return ElbowState.IN_BELLY;
-
+        return ElbowState.FORWARD_OUT_OF_BOUNDS;
     }
 
     public boolean isAtAngle(double wantedAngle) {
@@ -164,7 +163,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public boolean isInTheSameState(double wantedAng) {
-        return getHypotheticalState(getAngleRadians()) == getHypotheticalState(wantedAng) && getHypotheticalState(wantedAng) != ElbowState.OUT_OF_BOUNDS;
+        return getHypotheticalState(getAngleRadians()) == getHypotheticalState(wantedAng) && (getHypotheticalState(wantedAng) != ElbowState.FORWARD_OUT_OF_BOUNDS || getHypotheticalState(wantedAng) != ElbowState.BACKWARD_OUT_OF_BOUNDS);
     }
 
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
@@ -184,13 +183,27 @@ public class Elbow extends GBSubsystem {
 
     public enum ElbowState {
         // the state of being inside the robot in front of the rotating plate
-        IN_BELLY,
+        IN_BELLY(STARTING_WALL_ZONE_ANGLE),
         // the state of being outside the robot for placement
-        OUT_ROBOT,
+        OUT_ROBOT(FORWARD_ANGLE_LIMIT),
         // the state of being in front of the plates wall, this should not be a permanent state on purpose
-        WALL_ZONE,
+        WALL_ZONE(END_WALL_ZONE_ANGLE),
         // this state should not be possible and is either used to stop dangerous movement or to signal a bug
-        OUT_OF_BOUNDS
+        FORWARD_OUT_OF_BOUNDS(Double.POSITIVE_INFINITY),
+
+        BACKWARD_OUT_OF_BOUNDS(BACKWARD_ANGLE_LIMIT);
+        private double maxAngle;
+        private ElbowState(double maxAngle){
+            this.maxAngle = maxAngle;
+        }
+
+        public boolean largerThen(ElbowState checkState){
+            return maxAngle > checkState.maxAngle;
+        }
+
+        public boolean smallerThen(ElbowState checkState){
+            return maxAngle < checkState.maxAngle;
+        }
     }
 
     public void setMotorVoltage (double voltage){

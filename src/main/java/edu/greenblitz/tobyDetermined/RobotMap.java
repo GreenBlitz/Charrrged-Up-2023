@@ -218,17 +218,17 @@ public class RobotMap {
             //input angle degrees output angle radians
             CONE_HIGH(0.795,  Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             CONE_MID(0.29,  1.94),
-            CUBE_HIGH(0.654,   Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_HIGH(0.654,   Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35,  Math.toRadians(60)),
             
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.31, 0.092+ Math.toRadians(2.5)),
+            INTAKE_GRAB_POSITION(0.31, 0.092 + Math.toRadians(2.5)),
             PRE_INTAKE_GRAB_POSITION(0,
                     0.28),
 
-            ZIG_HAIL(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            ZIG_HAIL(0,Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663,1.949);
 
 
