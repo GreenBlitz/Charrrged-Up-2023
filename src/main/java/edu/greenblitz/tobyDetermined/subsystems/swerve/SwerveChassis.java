@@ -290,6 +290,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public void resetToVision() {
 		Optional<Pair<Pose2d, Double>> visionOutput = MultiLimelight.getInstance().getFirstAvailableTarget();
+		visionOutput.ifPresent(pose2dDoublePair -> SmartDashboard.putString("vision pose", pose2dDoublePair.toString()));
 		visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
 	}
 	

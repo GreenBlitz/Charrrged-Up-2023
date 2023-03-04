@@ -1,8 +1,8 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
-import edu.greenblitz.tobyDetermined.commands.LED.BackgroundColor;
+import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -20,8 +20,11 @@ import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 
 public class Robot extends TimedRobot {
 	
@@ -31,7 +34,6 @@ public class Robot extends TimedRobot {
 		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		initPortForwarding();
-//	    Battery.getInstance().setDefaultCommand(new BatteryDisabler());
 		AutonomousSelector.getInstance();
 		//swerve
 		
@@ -85,12 +87,18 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		new ResetExtender().schedule();
+		if (Extender.getInstance().DoesSensorExist){
+			new ResetExtender().raceWith(new WaitCommand(2.5).andThen(new ConsoleLog("time out", "arm reset time out"))).schedule();
+		}
+
+//		new SensorlessReset().schedule();
+		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
 	
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putBoolean("beamBraker", Extender.getInstance().getLimitSwitch());
 	}
 	
 	
@@ -100,12 +108,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
+		Claw.getInstance().coneCatchMode();
 		Grid.init();
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		new ResetExtender().schedule();
-		command.schedule();
+		if (Extender.getInstance().DoesSensorExist) {
+			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
+		} else command.schedule();
 	}
 	
 	@Override

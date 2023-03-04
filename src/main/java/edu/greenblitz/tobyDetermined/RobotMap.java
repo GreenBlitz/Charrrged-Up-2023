@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
 public class RobotMap {
     public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
@@ -222,11 +222,11 @@ public class RobotMap {
             CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35,  Math.toRadians(60)),
             
-            COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH, CONE_HIGH.angleInRadians),
+            COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
             INTAKE_GRAB_POSITION(0.31, 0.092+ Math.toRadians(2.5)),
-            PRE_INTAKE_GRAB_POSITION(0.1,
-                    Math.toRadians(-90) -STARTING_ANGLE_RELATIVE_TO_GROUND),
+            PRE_INTAKE_GRAB_POSITION(0,
+                    0.28),
 
             ZIG_HAIL(0,Math.toRadians(20.7) -STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663,1.949);
@@ -250,9 +250,9 @@ public class RobotMap {
             public static final double FORWARD_LIMIT = 0.8;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT- 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.32;
-            public static final double MAX_ENTRANCE_LENGTH = 0.059;
-            public static final PIDObject PID = new PIDObject().withKp(5).withMaxPower(5);
+            public static final double MAX_LENGTH_IN_ROBOT = 0.37;
+            public static final double MAX_ENTRANCE_LENGTH = 0.054;
+            public static final PIDObject PID = new PIDObject().withKp(25).withMaxPower(1);
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
             
 
@@ -269,7 +269,7 @@ public class RobotMap {
             public static final double kG = 0.57;
 
             public static final double MAX_ACCELERATION = 7.5;
-            public static final double MAX_VELOCITY = 0.18;
+            public static final double MAX_VELOCITY = 0.4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
@@ -289,7 +289,7 @@ public class RobotMap {
             public static final double MOTOR_POWER_GRIP = 0.3;
 
             public static final double MOTOR_POWER_CONE = 0.6;
-            public static final double MOTOR_POWER_RELEASE = -0.3;
+            public static final double MOTOR_POWER_RELEASE = -0.15;
 
             public static final double TIME_OF_GRIP_CONSTANT = 2;
 
@@ -360,12 +360,12 @@ public class RobotMap {
                 .withIdleMode(CANSparkMax.IdleMode.kBrake)
                 .withRampRate(General.RAMP_RATE_VAL)
                 .withCurrentLimit(30)
-                .withInverted(false)
+                .withInverted(true)
                 .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
         public static class Solenoid {
             public static final int FORWARD_PORT = 5;
-            public static final int REVERSE_PORT = 3;
+            public static final int REVERSE_PORT = 2;
         }
     }
 }

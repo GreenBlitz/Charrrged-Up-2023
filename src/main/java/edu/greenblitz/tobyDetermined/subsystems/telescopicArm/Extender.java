@@ -4,10 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
-import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
-import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
@@ -37,11 +35,12 @@ public class Extender extends GBSubsystem {
 		}
 	}
 
+	public boolean DoesSensorExist = true;
 	private Extender() {
 		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
 		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
-		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(true);
+		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(DoesSensorExist);
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
 		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -144,7 +143,7 @@ public class Extender extends GBSubsystem {
 			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT);
 		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(wantedLength) != ExtenderState.IN_WALL_LENGTH) {
 			// arm should not extend too much in front of the wall
-			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
+			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 		} else {
 			return (wantedLength);
 		}
@@ -167,6 +166,7 @@ public class Extender extends GBSubsystem {
 	 */
 	public boolean getLimitSwitch() {
 		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
+//		return motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed();
 	}
 	public void resetLength() {
 			resetLength(0);

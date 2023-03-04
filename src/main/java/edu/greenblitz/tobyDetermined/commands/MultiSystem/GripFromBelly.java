@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripAir;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 

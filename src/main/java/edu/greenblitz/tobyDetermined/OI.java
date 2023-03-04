@@ -3,9 +3,11 @@ package edu.greenblitz.tobyDetermined;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
+import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
+import edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
@@ -33,6 +35,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.lang.annotation.Retention;
 
@@ -76,27 +79,29 @@ public class OI { //GEVALD
 		romyButtons();
 		amireeeButtons();
 	}
-	
+
 	public void romyButtons() {
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 		mainJoystick.R1.whileTrue(new CombineJoystickMovement(true)); //slow mode
-		mainJoystick.L1.whileTrue(new MoveToGrid()); //move to pose
+		mainJoystick.L1.and(mainJoystick.Y.negate()).whileTrue(new MoveToGrid()); //move to pose
 		mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
 		mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
+		mainJoystick.POV_UP.whileTrue(new FullBalance(true));
 		mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 
         // reset chassis pose (Y)
-        mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetToVision())); //reset pose
+        mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
     }
 
     public void amireeeButtons(){
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
 
+		
         //screenshot
         secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-
+		secondJoystick.B.and(secondJoystick.X).onTrue(new InstantCommand(()->Extender.getInstance().resetLength()));
         //grid
         secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
@@ -106,22 +111,24 @@ public class OI { //GEVALD
         //score
 
         secondJoystick.Y.whileTrue(new GoToGrid());
-        secondJoystick.B.whileTrue(new ZigHail());
+        secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
+		secondJoystick.A.and(secondJoystick.B).whileTrue(new GripBelly());
 
         //grab
 
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
-        //intake and belly
+		secondJoystick.R1.negate().and(secondJoystick.L1.negate()).onTrue(new GripBelly().raceWith(new WaitCommand(0.3)));
+
+		//intake and belly
 
         RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
         secondJoystick.L1.onFalse(new CloseIntakeAndAlign());
-//		secondJoystick.L1.onTrue(new ExtendRoller());
-//		secondJoystick.L1.onFalse(new RetractRoller());
+		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
     }
 
 

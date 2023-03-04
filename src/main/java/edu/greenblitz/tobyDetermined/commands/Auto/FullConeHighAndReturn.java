@@ -12,7 +12,7 @@ public class FullConeHighAndReturn extends SequentialCommandGroup {
 	public FullConeHighAndReturn(){
 		super(
 				new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH).raceWith(new WaitCommand(5)),
-				new DropCone().deadlineWith(new StayAtCurrentAngle()),
+				new DropCone().alongWith(new WaitCommand(0.2)).deadlineWith(new StayAtCurrentAngle()),
 				new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION).raceWith(new WaitCommand(5))
 		);
 	}
