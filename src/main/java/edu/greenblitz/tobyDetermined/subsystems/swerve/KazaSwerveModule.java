@@ -200,7 +200,12 @@ public class KazaSwerveModule implements SwerveModule {
 	public void setRotIdleModeCoast() {
 		angleMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
 	}
-
+	
+	@Override
+	public double getEncoderValueNoOffset() {
+		return getAbsoluteEncoderValue();
+	}
+	
 	public static class KazaSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;

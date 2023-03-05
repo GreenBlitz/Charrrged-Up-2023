@@ -11,6 +11,7 @@ import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -38,6 +39,8 @@ public class SwerveChassis extends GBSubsystem {
 	
 	private final Ultrasonic ultrasonic;
 	private final int FILTER_BUFFER_SIZE = 15;
+	Debouncer encoderBrokenDebouncer = new Debouncer(0.2);
+	
 	
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 4;
@@ -92,7 +95,7 @@ public class SwerveChassis extends GBSubsystem {
 	/**
 	 * @return returns the swerve module based on its name
 	 */
-	private SwerveModule getModule(Module module) {
+	public SwerveModule getModule(Module module) { //TODO make private
 		switch (module) {
 			case BACK_LEFT:
 				return backLeft;
@@ -377,4 +380,15 @@ public class SwerveChassis extends GBSubsystem {
 		return PitchRollAdder.add(pigeonGyro.getRoll(), pigeonGyro.getPitch());
 	}
 	
+	public boolean isEncoderBroken(Module module){
+		return getModule(module).getEncoderValueNoOffset() == 0;
+	}
+	
+	public boolean isEncoderBroken(){
+		boolean broken = false;
+		for (Module module: Module.values()) {
+			broken |= isEncoderBroken(module);
+		}
+		return broken;
+	}
 }

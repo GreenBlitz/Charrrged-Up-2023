@@ -133,4 +133,9 @@ public class DecoyModule implements SwerveModule {
 	public void setRotIdleModeCoast() {
 
 	}
+	
+	@Override
+	public double getEncoderValueNoOffset() {
+		return 0;
+	}
 }

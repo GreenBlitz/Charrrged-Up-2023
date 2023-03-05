@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
+import edu.greenblitz.tobyDetermined.commands.LED.EncoderBrokenLED;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
@@ -21,6 +22,7 @@ import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -87,7 +89,7 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		if (Extender.getInstance().DoesSensorExist){
+		if (Extender.getInstance().DoesSensorExist) {
 			new ResetExtender().raceWith(new WaitCommand(2.5).andThen(new ConsoleLog("time out", "arm reset time out"))).schedule();
 		}
 
@@ -98,7 +100,6 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putBoolean("beamBraker", Extender.getInstance().getLimitSwitch());
 	}
 	
 	
@@ -125,6 +126,16 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testPeriodic() {
+	}
+	
+	@Override
+	public void disabledPeriodic() {
+		if (SwerveChassis.getInstance().isEncoderBroken()) /*new EncoderBrokenLED().schedule()*/ {
+			LED.getInstance().setColor(Color.kRed);
+		}else {
+			SwerveChassis.getInstance().resetAllEncoders();
+			LED.getInstance().setColor(Color.kGreen);
+		}
 	}
 	
 	public enum robotName {

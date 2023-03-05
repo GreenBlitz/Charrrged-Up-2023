@@ -11,8 +11,8 @@ public class LedBlinking extends SequentialCommandGroup {
 
     public LedBlinking(Color firstColor, Color secondColor){
         super(
-               new SetLEDColor(firstColor).raceWith(new WaitCommand(RobotMap.LED.BLINKING_TIME)),
-                new SetLEDColor(secondColor).raceWith(new WaitCommand(RobotMap.LED.BLINKING_TIME))
+               new SetLEDColor(firstColor),new WaitCommand(RobotMap.LED.BLINKING_TIME),
+                new SetLEDColor(secondColor),new WaitCommand(RobotMap.LED.BLINKING_TIME)
         );
     }
 

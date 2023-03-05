@@ -253,7 +253,7 @@ public class SdsSwerveModule implements SwerveModule {
 		private int linearMotorID;
 		private int AbsoluteEncoderID;
 		private boolean linInverted;
-		private double magEncoderOffset;
+		public double magEncoderOffset;
 		
 		public SdsSwerveModuleConfigObject(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
 			this.angleMotorID = angleMotorID;
@@ -263,5 +263,8 @@ public class SdsSwerveModule implements SwerveModule {
 			this.magEncoderOffset = magEncoderOffset;
 		}
 	}
-
+	
+	public double getEncoderValueNoOffset(){
+		return (getAbsoluteEncoderValue()+magEncoder.getPositionOffset())%1;
+	}
 }
