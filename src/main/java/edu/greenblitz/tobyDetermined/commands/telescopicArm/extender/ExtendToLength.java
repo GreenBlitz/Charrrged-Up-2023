@@ -29,13 +29,19 @@ public class ExtendToLength extends ExtenderCommand {
         super.initialize();
         pidController = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
         legalGoalLength = extender.getLegalGoalLength(wantedLength);
+        pidController.reset(new TrapezoidProfile.State(extender.getLength(), extender.getVelocity()));
+        Console.log("legal length", Double.toString(legalGoalLength));
+
     }
 
     @Override
     public void execute() {
         legalGoalLength = extender.getLegalGoalLength(wantedLength);
         pidController.setGoal(legalGoalLength);
-        double pidGain = pidController.calculate(extender.getLength());
+        SmartDashboard.putNumber("length", extender.getLength());
+        SmartDashboard.putNumber("goal", pidController.getSetpoint().position);
+
+        double pidGain = pidController.calculate(extender.getLength(), legalGoalLength);
         double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians()) + Math.signum(pidGain) * kS;
 
         SmartDashboard.putNumber("pid gain", pidGain);

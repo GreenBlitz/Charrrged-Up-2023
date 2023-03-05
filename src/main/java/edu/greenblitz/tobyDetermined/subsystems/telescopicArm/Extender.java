@@ -11,13 +11,12 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.FORWARDS_LENGTH_TOLERANCE;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
 
 public class Extender extends GBSubsystem {
 	private static Extender instance;
 	private static Extender.ExtenderState state = Extender.ExtenderState.IN_ROBOT_BELLY_LENGTH;
 	public GBSparkMax motor;
-	private boolean debug = false;
 	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
 	private double lastSpeed;
 	private double goalLength;
@@ -58,10 +57,6 @@ public class Extender extends GBSubsystem {
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
 	}
 
-	private void debugSoftLimit(){
-		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0.3);
-	}
-
 	public void debugSetPower(double power){
 		motor.set(power);
 	}
@@ -70,78 +65,44 @@ public class Extender extends GBSubsystem {
 	public void periodic() {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
-//		Dashboard.getInstance().armWidget.setLength(getLength());
-//		updatePIDController(Dashboard.getInstance().getExtenderPID());
 	}
 
 	public void updatePIDController(PIDObject pidObject){
 		motor.configPID(pidObject);
 	}
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
-		if (lengthInMeters > RobotMap.TelescopicArm.Extender.FORWARD_LIMIT || lengthInMeters < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT) {
-			return ExtenderState.OUT_OF_BOUNDS;
-		} else if (lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH) {
+		if (lengthInMeters < ExtenderState.REVERSE_OUT_OF_BOUNDS.maxLength) {
+			return ExtenderState.REVERSE_OUT_OF_BOUNDS;
+		} else if (lengthInMeters < ExtenderState.IN_WALL_LENGTH.maxLength) {
 			return ExtenderState.IN_WALL_LENGTH;
-		} else if (lengthInMeters < RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT) {
+		} else if (lengthInMeters < ExtenderState.IN_ROBOT_BELLY_LENGTH.maxLength) {
 			return ExtenderState.IN_ROBOT_BELLY_LENGTH;
-		} else {
+		} else if(lengthInMeters < ExtenderState.OPEN.maxLength){
 			return ExtenderState.OPEN;
+		} else{
+			return ExtenderState.FORWARD_OUT_OF_BOUNDS;
 		}
-	}
-
-
-	public static double getFeedForward(double wantedSpeed, double wantedAcceleration, double elbowAngle) {
-		
-		double gravPart = getStaticFeedForward(elbowAngle);
-		double statPart = RobotMap.TelescopicArm.Extender.kS * Math.signum(wantedSpeed);
-		double velPart = RobotMap.TelescopicArm.Extender.kV * wantedSpeed;
-		double accPart =RobotMap.TelescopicArm.Extender.kA * wantedAcceleration;
-		SmartDashboard.putNumber("grav", gravPart);
-		SmartDashboard.putNumber("stat", statPart);
-		SmartDashboard.putNumber("vel", velPart);
-		SmartDashboard.putNumber("accel", accPart);
-		return  gravPart+statPart+velPart+accPart;
-		
 	}
 
 	public static double getStaticFeedForward(double elbowAngle) {
 		return Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
 	}
 
-	private void setLengthByPID(double lengthInMeters, double feedForward) {
-		goalLength = lengthInMeters;
-		motor.getPIDController().setReference(lengthInMeters, CANSparkMax.ControlType.kPosition, 0, feedForward);
-		SmartDashboard.putNumber("powah", feedForward);
-		SmartDashboard.putNumber("current velocity", getVelocity());
-		debugLastFF = feedForward;
-	}
-
-	public void moveTowardsLength(double lengthInMeters) {
-		moveTowardsLength(lengthInMeters, 0);
-	}
-
-
-	public void moveTowardsLength(double lengthInMeters, double feedforward) {
-		lengthInMeters -= 0.02;
-        setLengthByPID(getLegalGoalLength(lengthInMeters), feedforward);
-	}
-
 	public double getLegalGoalLength(double wantedLength){
 		SmartDashboard.putString("hypothetical extender state", getHypotheticalState(wantedLength).toString());
 		// going out of bounds should not be allowed
-		if (getHypotheticalState(wantedLength) == ExtenderState.OUT_OF_BOUNDS) {
+		if (getHypotheticalState(wantedLength) == ExtenderState.FORWARD_OUT_OF_BOUNDS) {
 			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
-			if (wantedLength < RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT){
-				return (RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT);
-			} else {
-				return (RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH);
-			}
+			return (RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+		} else if (getHypotheticalState(wantedLength) == ExtenderState.REVERSE_OUT_OF_BOUNDS) {
+			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
+			return (RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 		}
-		
+
 		// arm should not extend to open state when inside the belly (would hit chassis)
-		else if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(wantedLength) == ExtenderState.OPEN) {
-			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT);
-		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(wantedLength) != ExtenderState.IN_WALL_LENGTH) {
+		else if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(wantedLength).longerThan( ExtenderState.IN_ROBOT_BELLY_LENGTH)) {
+			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(wantedLength).longerThan(ExtenderState.IN_WALL_LENGTH)) {
 			// arm should not extend too much in front of the wall
 			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 		} else {
@@ -166,7 +127,6 @@ public class Extender extends GBSubsystem {
 	 */
 	public boolean getLimitSwitch() {
 		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
-//		return motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed();
 	}
 	public void resetLength() {
 			resetLength(0);
@@ -180,27 +140,41 @@ public class Extender extends GBSubsystem {
 		motor.set(0);
 	}
 
-	public double getDebugLastFF(){
-		return debugLastFF;
-	}
-
-	public enum ExtenderState {
-		//see elbow state first
-		//the state corresponding to IN_BELLY
-		IN_ROBOT_BELLY_LENGTH,
-		//the state corresponding to OUT_ROBOT
-		OPEN,
-		//the state corresponding to WALL_ZONE
-		IN_WALL_LENGTH,
-		// this state should not be possible and is either used to stop dangerous movement or to signal a bug
-		OUT_OF_BOUNDS
-	}
 
 	public boolean isAtLength(double wantedLength){
 		double lengthError = wantedLength - getLength();
 		return lengthError > -FORWARDS_LENGTH_TOLERANCE  && lengthError < RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 		//makes it so the arm can only be too short, so it can always pass the state line
 	}
+
+	public enum ExtenderState{
+		//see elbow state first
+		//the state corresponding to WALL_ZONE
+		IN_WALL_LENGTH(MAX_ENTRANCE_LENGTH),
+		//the state corresponding to IN_BELLY
+		IN_ROBOT_BELLY_LENGTH(MAX_LENGTH_IN_ROBOT),
+		//the state corresponding to OUT_ROBOT
+		OPEN(FORWARD_LIMIT),
+		// this state should not be possible and is either used to stop dangerous movement or to signal a bug
+		REVERSE_OUT_OF_BOUNDS(BACKWARDS_LIMIT),
+		FORWARD_OUT_OF_BOUNDS(Double.POSITIVE_INFINITY);
+
+		private double maxLength;
+		ExtenderState(double maxLength){
+			this.maxLength = maxLength;
+		}
+
+		public boolean longerThan(ExtenderState other){
+			return this.maxLength > other.maxLength;
+		}
+
+		public boolean shorterOrEqualTo(ExtenderState other){
+			return !longerThan(other);
+		}
+
+
+
+		}
 
 	public boolean isAtLength() {
 		SmartDashboard.putNumber("extender goal", profileGenerator.getGoal().position);

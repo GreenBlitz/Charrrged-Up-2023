@@ -25,7 +25,6 @@ public class BangBangBalance extends SwerveCommand {
 	@Override
 	public void initialize() {
 		super.initialize();
-		Console.log("stuff", " nkl");
 		pitchAngle =0;
 		debouncer = new Debouncer(0.3);
 		usedSpeed = originalSpeed;

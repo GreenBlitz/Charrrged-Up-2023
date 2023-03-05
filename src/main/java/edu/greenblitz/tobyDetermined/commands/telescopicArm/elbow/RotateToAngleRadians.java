@@ -1,20 +1,25 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.RoborioUtils;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.CONSTRAINTS;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.PID;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.kS;
 
 public class RotateToAngleRadians extends ElbowCommand {
 
     private double legalGoalAngle;
     private double wantedAngle;
-    private TrapezoidProfile trapezoidProfile;
+    private ProfiledPIDController pidController;
     private Timer timer;
 
     public RotateToAngleRadians(double angle){
@@ -26,24 +31,19 @@ public class RotateToAngleRadians extends ElbowCommand {
     @Override
     public void initialize() {
         super.initialize();
+        pidController = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
         legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
-        SmartDashboard.putNumber("legal goal ang", legalGoalAngle);
-        trapezoidProfile = new TrapezoidProfile(CONSTRAINTS,new TrapezoidProfile.State(legalGoalAngle, 0), new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
-        timer.restart();
+        pidController.reset(new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
     }
 
     @Override
     public void execute() {
-        if (legalGoalAngle != elbow.getLegalGoalAngle(wantedAngle)){
-            Console.log("swapped profile", "swapped profile");
-            legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
-            trapezoidProfile = new TrapezoidProfile(CONSTRAINTS,new TrapezoidProfile.State(legalGoalAngle, 0), new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
-            timer.restart();
-        }
-        TrapezoidProfile.State setpoint = trapezoidProfile.calculate(timer.get());
-        double feedForward = Elbow.getStaticFeedForward(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
-        elbow.moveTowardsAngleRadians(setpoint.position, feedForward);
-        SmartDashboard.putBoolean("is at angle?", false);
+        legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
+        pidController.setGoal(legalGoalAngle);
+        double pidGain = pidController.calculate(elbow.getAngleRadians(), legalGoalAngle);
+        double feedForward = Elbow.getStaticFeedForward( Extender.getInstance().getLength(), elbow.getAngleRadians()) + Math.signum(pidGain) * kS;
+        elbow.debugSetPower(feedForward / Battery.getInstance().getCurrentVoltage() + pidGain);
+
     }
 
     @Override
@@ -55,6 +55,5 @@ public class RotateToAngleRadians extends ElbowCommand {
     public void end(boolean interrupted) {
         super.end(interrupted);
         elbow.stop();
-        SmartDashboard.putBoolean("is at angle?", true);
     }
 }
