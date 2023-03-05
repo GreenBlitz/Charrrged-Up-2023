@@ -224,7 +224,7 @@ public class RobotMap {
             
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.28, 0.092 + Math.toRadians(2.5)),
+            INTAKE_GRAB_POSITION(0.28, 0.10),
             PRE_INTAKE_GRAB_POSITION(0,
                     0.28),
 
