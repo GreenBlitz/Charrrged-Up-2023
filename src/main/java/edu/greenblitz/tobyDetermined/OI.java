@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
+import edu.greenblitz.tobyDetermined.commands.SystemCheck.SystemCheck;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
@@ -129,6 +130,8 @@ public class OI { //GEVALD
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
         secondJoystick.L1.onFalse(new CloseIntakeAndAlign());
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
+
+		secondJoystick.L3.whileTrue(new SystemCheck());
     }
 
 
