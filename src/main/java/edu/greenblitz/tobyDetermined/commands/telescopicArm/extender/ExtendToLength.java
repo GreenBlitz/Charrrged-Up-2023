@@ -49,7 +49,8 @@ public class ExtendToLength extends ExtenderCommand {
         SmartDashboard.putNumber("ks", Math.signum(pidGain) * kS);
         SmartDashboard.putNumber("output", feedForward + pidGain);
 
-        extender.debugSetPower(feedForward / Battery.getInstance().getCurrentVoltage() + pidGain);
+//        extender.debugSetPower(feedForward / Battery.getInstance().getCurrentVoltage() + pidGain);
+        extender.setGoalLengthByPid(legalGoalLength);
     }
 
     @Override

@@ -2,11 +2,13 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxPIDController;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,12 +51,16 @@ public class Extender extends GBSubsystem {
 				RobotMap.TelescopicArm.Extender.CONSTRAINTS
 		);
 
-
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
 		
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
+	}
+
+	public void setGoalLengthByPid(double length){
+		goalLength = length;
+		motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition,0,getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 	}
 
 	public void debugSetPower(double power){
@@ -65,6 +71,8 @@ public class Extender extends GBSubsystem {
 	public void periodic() {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
+		motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition,0,getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
+
 	}
 
 	public void updatePIDController(PIDObject pidObject){
