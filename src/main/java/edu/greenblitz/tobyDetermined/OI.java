@@ -130,8 +130,6 @@ public class OI { //GEVALD
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
         secondJoystick.L1.onFalse(new CloseIntakeAndAlign());
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
-
-		secondJoystick.L3.whileTrue(new SystemCheck());
     }
 
 
