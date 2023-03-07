@@ -225,7 +225,7 @@ public class RobotMap {
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
             INTAKE_GRAB_POSITION(0.28, 0.18),
-            PRE_INTAKE_GRAB_POSITION(0,
+            PRE_INTAKE_GRAB_POSITION(0.02,
                     0.28),
 
             ZIG_HAIL(0,Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
@@ -260,7 +260,7 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.03; //in meters
-            public static final double FORWARDS_LENGTH_TOLERANCE = 0.03; //in meters
+            public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
             public static final double kS = 0.1;

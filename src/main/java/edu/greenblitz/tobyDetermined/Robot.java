@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		CommandScheduler.getInstance().cancelAll();
+		SwerveChassis.getInstance().setIdleModeCoast();
 	}
 	
 	@Override
@@ -114,6 +115,9 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
+		if (SwerveChassis.getInstance().isEncoderBroken()){
+			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		}
 		if (Extender.getInstance().DoesSensorExist) {
 			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
 		} else command.schedule();
@@ -130,7 +134,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void disabledPeriodic() {
-		if (SwerveChassis.getInstance().isEncoderBroken()) /*new EncoderBrokenLED().schedule()*/ {
+		if (SwerveChassis.getInstance().isEncoderBroken()) {
 			LED.getInstance().setColor(Color.kRed);
 		}else {
 			SwerveChassis.getInstance().resetAllEncoders();
@@ -141,4 +145,5 @@ public class Robot extends TimedRobot {
 	public enum robotName {
 		pegaSwerve, Frankenstein
 	}
+
 }
