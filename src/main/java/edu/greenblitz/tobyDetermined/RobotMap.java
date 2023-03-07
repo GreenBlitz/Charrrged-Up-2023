@@ -225,10 +225,9 @@ public class RobotMap {
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
             INTAKE_GRAB_POSITION(0.28, 0.18),
-            PRE_INTAKE_GRAB_POSITION(0.02,
-                    0.28),
+            PRE_INTAKE_GRAB_POSITION(0.02, 0.28),
 
-            ZIG_HAIL(0,Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            ZIG_HAIL(0.02,Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663,1.949);
 
 

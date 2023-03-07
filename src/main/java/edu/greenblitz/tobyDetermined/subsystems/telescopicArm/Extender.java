@@ -2,13 +2,11 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.SparkMaxPIDController;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +22,7 @@ public class Extender extends GBSubsystem {
 	private double goalLength;
 	private Debouncer debouncer;
 	private double debugLastFF;
+	private boolean reset =false;
 
 	public static Extender getInstance() {
 		init();
@@ -58,9 +57,8 @@ public class Extender extends GBSubsystem {
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
 	}
 
-	public void setGoalLengthByPid(double length){
+	public void unsafeSetGoalLengthByPid(double length){
 		goalLength = length;
-		motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition,0,getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 	}
 
 	public void debugSetPower(double power){
@@ -71,8 +69,9 @@ public class Extender extends GBSubsystem {
 	public void periodic() {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
-		motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition,0,getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
-
+		if (reset) {
+			motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition, 0, getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
+		}
 	}
 
 	public void updatePIDController(PIDObject pidObject){
@@ -137,11 +136,13 @@ public class Extender extends GBSubsystem {
 		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
 	}
 	public void resetLength() {
+			reset = true;
 			resetLength(0);
 	}
 
 	public void resetLength(double position) {
 		motor.getEncoder().setPosition(position);
+		reset = true;
 	}
 
 	public void stop() {
