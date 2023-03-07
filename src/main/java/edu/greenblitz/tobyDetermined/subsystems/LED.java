@@ -3,8 +3,11 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+
 
 public class LED extends GBSubsystem {
 
@@ -12,11 +15,17 @@ public class LED extends GBSubsystem {
     private AddressableLED addressableLED;
     private AddressableLEDBuffer ledBuffer;
 
+    private static int hue = 0;
+    private static int index = 0;
+    private Timer timer;
+
     private LED() {
         this.addressableLED = new AddressableLED(RobotMap.LED.PORT);
         this.ledBuffer = new AddressableLEDBuffer(RobotMap.LED.LENGTH);
         this.addressableLED.setLength(RobotMap.LED.LENGTH);
         this.addressableLED.start();
+        this.timer = new Timer();
+        timer.start();
     }
 
 
@@ -41,6 +50,22 @@ public class LED extends GBSubsystem {
     public void setColor(int i, Color color) {
         this.ledBuffer.setLED(i, color);
         this.addressableLED.setData(ledBuffer);
+    }
+
+
+    public void RainbowLED(){
+        if (timer.hasElapsed(RobotMap.LED.RAINBOW_TIME)){
+            setHSV(index, hue, 255, 255);
+
+
+            index += 1;
+            index %= RobotMap.LED.LENGTH;
+
+            hue += 3;
+            hue %= 180;
+
+            timer.restart();
+        }
     }
 
 

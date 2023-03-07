@@ -13,15 +13,11 @@ public class RainbowLED extends SequentialCommandGroup {
 		super(new SetLEDColor(index, Color.fromHSV(Hue, 100, 100)),
 				new WaitCommand(RobotMap.LED.RAINBOW_TIME));
 
-		Hue =+ 5;
-		if (Hue >= 360) {
-			Hue =- 360;
-		}
+		Hue += 5;
+		Hue %= 360;
 
-		index =+ 1;
-		if (index >= RobotMap.LED.LENGTH){
-			index =- RobotMap.LED.LENGTH;
-		}
+		index += 1;
+		index %= RobotMap.LED.LENGTH;
 	}
 
 }
