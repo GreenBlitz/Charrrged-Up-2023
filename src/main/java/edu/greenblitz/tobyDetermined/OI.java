@@ -94,6 +94,9 @@ public class OI { //GEVALD
 
         // reset chassis pose (Y)
         mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
+
+		//reset by vision(for move to pose shit)
+		mainJoystick.A.onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetToVision()));
     }
 
     public void amireeeButtons(){
