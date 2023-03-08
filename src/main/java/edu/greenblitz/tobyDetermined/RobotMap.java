@@ -207,6 +207,8 @@ public class RobotMap {
         public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
         public static double ROTATE_TO_DOOR_TIME = 3;
 
+        public static final int CLOSE_PISTON_ID = 0;
+        public static final int OPEN_PISTON_ID = 0;
 
     }
 
