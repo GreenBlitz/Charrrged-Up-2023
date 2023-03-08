@@ -145,6 +145,10 @@ public class Extender extends GBSubsystem {
 		reset = true;
 	}
 
+	public void setResetFalse(){
+		reset = false;
+	}
+
 	public void stop() {
 		motor.set(0);
 	}
