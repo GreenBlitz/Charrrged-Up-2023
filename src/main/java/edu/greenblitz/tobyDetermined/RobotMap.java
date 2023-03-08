@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
 
 public class RobotMap {
     public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
@@ -72,13 +72,13 @@ public class RobotMap {
 
     public static class LED {
 
-	    public static final int LENGTH = 100;
-	    public static final int PORT = 0;
+        public static final int LENGTH = 100;
+        public static final int PORT = 0;
         public static final double BLINKING_TIME = 0.2;
     }
 
     public static class Ultrasonic {
-        public static final int PING_DIO_PORT =5;
+        public static final int PING_DIO_PORT = 5;
         public static final int ECHO_DIO_PORT = 6;
         public static final double DISTANCE_FROM_FLOOR_TO_STOP_IN_MM = 120;
     }
@@ -141,9 +141,9 @@ public class RobotMap {
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.863 ); //front left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 0, false, 0.863); //front left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 0.303 ); //front right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 1, true, 0.303); //front right
 
 
         public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 2, false, 0.726); //back left
@@ -196,6 +196,10 @@ public class RobotMap {
             public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
         }
 
+        public static class Balance {
+            public static final double GET_ON_SPEED_FACTOR = 0.7;
+            public static final double BANG_BANG_SPEED_FACTOR = 0.4;
+        }
     }
 
     public static class RotatingBelly {
@@ -216,20 +220,20 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.795,  Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CONE_MID(0.29,  1.94),
-            CUBE_HIGH(0.654,   Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_MID( 0.450,  Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            LOW(0.35,  Math.toRadians(60)),
-            
+            CONE_HIGH(0.795, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_MID(0.29, 1.94),
+            CUBE_HIGH(0.654, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_MID(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            LOW(0.35, Math.toRadians(60)),
+
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
             INTAKE_GRAB_POSITION(0.28, 0.18),
             PRE_INTAKE_GRAB_POSITION(0.02,
                     0.28),
 
-            ZIG_HAIL(0,Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            FEEDER(0.663,1.949);
+            ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            FEEDER(0.663, 1.949);
 
 
             public double distance;
@@ -244,17 +248,17 @@ public class RobotMap {
 
         public static class Extender {
             public static final int MOTOR_ID = 3;
-            public static final double GEAR_RATIO = 1/5.0;
-            public static final double STARTING_LENGTH =0.3;
+            public static final double GEAR_RATIO = 1 / 5.0;
+            public static final double STARTING_LENGTH = 0.3;
             public static final int BACKWARDS_LIMIT = 0;
             public static final double FORWARD_LIMIT = 0.8;
-            public static final double EXTENDED_LENGTH = FORWARD_LIMIT- 0.05;
+            public static final double EXTENDED_LENGTH = FORWARD_LIMIT - 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static final double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(10).withKi(0.05).withMaxPower(1);
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
-            
+
 
             public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
