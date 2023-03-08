@@ -224,8 +224,8 @@ public class RobotMap {
             
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.28, 0.18),
-            PRE_INTAKE_GRAB_POSITION(0.02, 0.28),
+            INTAKE_GRAB_POSITION(0.28, 0.12),
+            PRE_INTAKE_GRAB_POSITION(0.02, 0.25),
 
             ZIG_HAIL(0.02,Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663,1.949);
@@ -245,7 +245,7 @@ public class RobotMap {
             public static final int MOTOR_ID = 3;
             public static final double GEAR_RATIO = 1/5.0;
             public static final double STARTING_LENGTH =0.3;
-            public static final int BACKWARDS_LIMIT = 0;
+            public static final double BACKWARDS_LIMIT = -0.02;
             public static final double FORWARD_LIMIT = 0.8;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT- 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;

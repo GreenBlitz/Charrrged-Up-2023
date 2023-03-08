@@ -97,7 +97,7 @@ public class OI { //GEVALD
     }
 
     public void amireeeButtons(){
-//        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
 
 		
@@ -128,8 +128,7 @@ public class OI { //GEVALD
 		//intake and belly
 
         RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
-        secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
-        secondJoystick.L1.onFalse(new CloseIntakeAndAlign());
+        secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake().alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION))).onFalse(new FullIntake());
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
 
 		secondJoystick.L3.whileTrue(new SystemCheck());

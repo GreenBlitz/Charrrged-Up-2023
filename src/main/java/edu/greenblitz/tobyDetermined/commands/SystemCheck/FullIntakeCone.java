@@ -16,16 +16,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class FullIntakeCone extends SequentialCommandGroup {
 	public FullIntakeCone(){
 		super(
-				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION),
-				new FullOpenIntake().raceWith(new WaitCommand(2)),
 				new CloseIntakeAndAlign(),
 				new RotateOutDoorDirection().raceWith(new WaitCommand(1)),
-				new GripFromBelly().raceWith(new WaitCommand(5)),
-				new ZigHail(),
-				new MoveSelectedTargetUp(),
-				new MoveSelectedTargetUp(),
-				new GoToGrid(),
-				new ReleaseObject()
+				new GripFromBelly()
 		);
 	}
 }
