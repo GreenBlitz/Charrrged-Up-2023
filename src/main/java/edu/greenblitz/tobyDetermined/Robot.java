@@ -72,6 +72,7 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
 		RoborioUtils.updateCurrentCycleTime();
+		SmartDashboard.putBoolean("switch", RotatingBelly.getInstance().isLimitSwitchPressed());
 	}
 	
 	
