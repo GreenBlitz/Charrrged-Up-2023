@@ -208,9 +208,12 @@ public class RobotMap {
         public static final double ROTATING_POWER = 0.8;
         public static final int MACRO_SWITCH_DIO_PORT = 7;
 
-        public static final double ROTATE_OUT_OF_DOOR_TIME = 0.5;
+        public static final double ROTATE_FROM_SWITCH_TO_STOP_TIME = 1;
+        public static final double ROTATE_FROM_STOP_TO_SWITCH_TIME = 1;
         public static double ROTATE_TO_DOOR_TIME = 3;
 
+        public static final int CLOSE_PISTON_ID = 3;
+        public static final int OPEN_PISTON_ID = 7;
 
     }
 
@@ -228,7 +231,7 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.28, 0),
+            INTAKE_GRAB_POSITION(0.28, 0.16),
             PRE_INTAKE_GRAB_POSITION(0.02, 0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),

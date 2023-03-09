@@ -7,6 +7,8 @@ import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.PushCone;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.RetractPusher;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance.FullBalance;
@@ -115,7 +117,8 @@ public class OI { //GEVALD
 
         //score
 
-        secondJoystick.Y.whileTrue(new GoToGrid());
+        //secondJoystick.Y.whileTrue(new GoToGrid());
+		secondJoystick.Y.onTrue(new AlignObject());
         secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
@@ -124,16 +127,16 @@ public class OI { //GEVALD
         //grab
 
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
-        secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
+//        secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
+	    secondJoystick.BACK.onTrue(new PushCone()).onFalse(new RetractPusher());
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
-		secondJoystick.R1.negate().and(secondJoystick.L1.negate()).onTrue(new GripBelly().raceWith(new WaitCommand(0.3)));
 
 		//intake and belly
 
         RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake().alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION))).onFalse(new FullIntake());
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
-		
+
     }
 
 

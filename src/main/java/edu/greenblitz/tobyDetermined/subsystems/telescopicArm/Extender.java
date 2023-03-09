@@ -71,6 +71,7 @@ public class Extender extends GBSubsystem {
 		lastSpeed = getVelocity();
 		if (reset) {
 			motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition, 0, getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
+//
 		}
 	}
 
