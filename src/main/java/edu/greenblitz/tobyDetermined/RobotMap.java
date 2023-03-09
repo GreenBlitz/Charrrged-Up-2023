@@ -228,9 +228,8 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.28, 0.18),
-            PRE_INTAKE_GRAB_POSITION(0.02,
-                    0.28),
+            INTAKE_GRAB_POSITION(0.28, 0),
+            PRE_INTAKE_GRAB_POSITION(0.02, 0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663, 1.949);
@@ -286,8 +285,8 @@ public class RobotMap {
 
         public static class Claw {
             public static final int MOTOR_ID = 2;
-            public static final int SOLENOID_OPEN_CLAW_ID = 4;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 0;
+            public static final int SOLENOID_OPEN_CLAW_ID = 6;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 2;
             public static final double MOTOR_POWER_GRIP = 0.3;
 
             public static final double MOTOR_POWER_CONE = 0.6;
@@ -366,8 +365,8 @@ public class RobotMap {
                 .withVoltageComp(General.VOLTAGE_COMP_VAL);
 
         public static class Solenoid {
-            public static final int FORWARD_PORT = 5;
-            public static final int REVERSE_PORT = 2;
+            public static final int FORWARD_PORT = 4;
+            public static final int REVERSE_PORT = 0;
         }
     }
 }
