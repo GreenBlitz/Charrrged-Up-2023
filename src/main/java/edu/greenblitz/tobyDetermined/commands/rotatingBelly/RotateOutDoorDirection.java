@@ -5,7 +5,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 public class RotateOutDoorDirection extends RotateByPower {
 
     public RotateOutDoorDirection() {
-        super(-RobotMap.RotatingBelly.ROTATING_POWER);
+        super(RobotMap.RotatingBelly.ROTATING_POWER);
     }
 
 }

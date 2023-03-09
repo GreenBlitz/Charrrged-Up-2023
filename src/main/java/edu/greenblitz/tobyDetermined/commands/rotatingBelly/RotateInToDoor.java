@@ -15,7 +15,7 @@ public class RotateInToDoor extends ParallelDeadlineGroup {
     }
 
     public RotateInToDoor(){
-        this(RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME);
+        this(-RobotMap.RotatingBelly.ROTATE_TO_DOOR_TIME);
     }
 
 }
