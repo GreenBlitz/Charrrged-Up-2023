@@ -22,6 +22,7 @@ public class Extender extends GBSubsystem {
 	private double goalLength;
 	private Debouncer debouncer;
 	private double debugLastFF;
+	private boolean reset =false;
 
 	public static Extender getInstance() {
 		init();
@@ -49,12 +50,15 @@ public class Extender extends GBSubsystem {
 				RobotMap.TelescopicArm.Extender.CONSTRAINTS
 		);
 
-
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
 		
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
+	}
+
+	public void unsafeSetGoalLengthByPid(double length){
+		goalLength = length;
 	}
 
 	public void debugSetPower(double power){
@@ -65,6 +69,9 @@ public class Extender extends GBSubsystem {
 	public void periodic() {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
+		if (reset) {
+			motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition, 0, getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
+		}
 	}
 
 	public void updatePIDController(PIDObject pidObject){
@@ -129,11 +136,17 @@ public class Extender extends GBSubsystem {
 		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
 	}
 	public void resetLength() {
+			reset = true;
 			resetLength(0);
 	}
 
 	public void resetLength(double position) {
 		motor.getEncoder().setPosition(position);
+		reset = true;
+	}
+
+	public void setResetFalse(){
+		reset = false;
 	}
 
 	public void stop() {
