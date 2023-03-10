@@ -90,6 +90,7 @@ public class RobotMap {
 
             public static final double ROBOT_LENGTH_IN_METERS = 0.69;
             public static final double ROBOT_WIDTH_IN_METERS = 0.79;
+            public static final double BUMPER_WIDTH = 0.08;
 
             public static final double MAX_VELOCITY = 4;
             public static final double MAX_ACCELERATION = 4;
@@ -257,7 +258,7 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static final double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final PIDObject PID = new PIDObject().withKp(10).withKi(0.05).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(5).withKi(0.05).withMaxPower(1);
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
 
