@@ -259,7 +259,7 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static final double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final PIDObject PID = new PIDObject().withKp(5).withKi(0.05).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(60).withKi(0.6).withMaxPower(1);
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
 
@@ -274,7 +274,7 @@ public class RobotMap {
             public static final double kG = 0.85;
 
             public static final double MAX_ACCELERATION = 2.5;
-            public static final double MAX_VELOCITY = 0.6;
+            public static final double MAX_VELOCITY = 0.5;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
@@ -314,14 +314,14 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
-            public static final double MIN_Kg = 0.29;
-            public static final double MAX_Kg = 0.647;
+            public static final double MIN_Kg = 0.17;
+            public static final double MAX_Kg = 0.635;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 3;//actual max accel is 2.472 but this limits speed
-            public static final double MAX_VELOCITY = 2.19;
+            public static final double MAX_ACCELERATION = 2.472;
+            public static final double MAX_VELOCITY = 2.3;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(1.0).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(0.5).withKd(0.3).withMaxPower(1);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 

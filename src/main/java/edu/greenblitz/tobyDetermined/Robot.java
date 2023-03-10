@@ -87,16 +87,16 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
 
-//		Grid.init();
-//		MultiLimelight.getInstance().updateRobotPoseAlliance();
+		Grid.init();
+		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
-//		SwerveChassis.getInstance().setIdleModeBrake();
-//		if (Extender.getInstance().DoesSensorExist) {
-//			new ResetExtender().raceWith(new WaitCommand(2.5).andThen(new ConsoleLog("time out", "arm reset time out"))).schedule();
-//		}
-//
-////		new SensorlessReset().schedule();
-//		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
+		SwerveChassis.getInstance().setIdleModeBrake();
+		if (Extender.getInstance().DoesSensorExist) {
+			new ResetExtender().raceWith(new WaitCommand(2.5).andThen(new ConsoleLog("time out", "arm reset time out"))).schedule();
+		}
+
+//		new SensorlessReset().schedule();
+		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
 	

@@ -12,7 +12,6 @@ public class ResetExtender extends ExtenderCommand {
 	@Override
 	public void initialize() {
 		super.initialize();
-		extender.setResetFalse();
 		double voltage = extender.getLimitSwitch() ? FORWARDS_RESET_VELOCITY : BACKWARDS_RESET_VELOCITY;
 		extender.setMotorVoltage(Extender.getStaticFeedForward(Elbow.getInstance().getAngleRadians()) + voltage + Math.signum(voltage) * RobotMap.TelescopicArm.Elbow.kS);
 	}

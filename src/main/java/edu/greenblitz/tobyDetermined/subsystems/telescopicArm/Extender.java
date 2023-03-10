@@ -21,8 +21,7 @@ public class Extender extends GBSubsystem {
 	private double lastSpeed;
 	private double goalLength;
 	private Debouncer debouncer;
-	private double debugLastFF;
-	private boolean reset =false;
+	private boolean holdPosition =false;
 
 	public static Extender getInstance() {
 		init();
@@ -63,15 +62,15 @@ public class Extender extends GBSubsystem {
 
 	public void debugSetPower(double power){
 		motor.set(power);
+		holdPosition = true;
 	}
 	
 	@Override
 	public void periodic() {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
-		if (reset) {
-			motor.getPIDController().setReference(goalLength, CANSparkMax.ControlType.kPosition, 0, getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
-//
+		if (holdPosition) {
+			motor.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 		}
 	}
 
@@ -137,21 +136,17 @@ public class Extender extends GBSubsystem {
 		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
 	}
 	public void resetLength() {
-			reset = true;
 			resetLength(0);
 	}
 
 	public void resetLength(double position) {
 		motor.getEncoder().setPosition(position);
-		reset = true;
 	}
 
-	public void setResetFalse(){
-		reset = false;
-	}
 
 	public void stop() {
 		motor.set(0);
+		holdPosition = true;
 	}
 
 
@@ -200,6 +195,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public void setMotorVoltage(double voltage) {
+		holdPosition = false;
 		motor.setVoltage(voltage);
 	}
 
