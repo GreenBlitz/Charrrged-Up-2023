@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.sensors.CANCoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
@@ -13,15 +14,15 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.util.Units;
+import scala.Unit;
 
 public class SdsSwerveModule implements SwerveModule {
 	public double targetAngle;
 	public double targetVel;
 	private GBFalcon angleMotor;
 	private GBFalcon linearMotor;
-	private DutyCycleEncoder magEncoder;
+	private CANCoder canCoder;
 	private SimpleMotorFeedforward feedforward;
 	
 	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
@@ -32,10 +33,11 @@ public class SdsSwerveModule implements SwerveModule {
 		linearMotor = new GBFalcon(linearMotorID);
 		linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj).withInverted(linInverted));
 		
-		magEncoder = new DutyCycleEncoder(AbsoluteEncoderID);
-		this.magEncoder.setPositionOffset(magEncoderOffset);
-		SmartDashboard.putNumber("lol", magEncoder.getPositionOffset());
-		
+		canCoder = new CANCoder(AbsoluteEncoderID);
+
+		canCoder.configMagnetOffset(magEncoderOffset);
+//		this.canCoder.setPositionOffset(magEncoderOffset);
+
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
 	}
 	
@@ -208,11 +210,11 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public double getAbsoluteEncoderValue() {
-		if (Double.isNaN(magEncoder.get())){
+		if (Double.isNaN(Units.degreesToRotations(canCoder.getPosition()))){
 			Console.log("mag Nan", "one of the mag encoders isn't conected");
 			return 0;
 		}
-		return magEncoder.get();
+		return Units.degreesToRotations(canCoder.getPosition());
 	}
 	
 	/**
@@ -265,6 +267,6 @@ public class SdsSwerveModule implements SwerveModule {
 	}
 	
 	public double getEncoderValueNoOffset(){
-		return (getAbsoluteEncoderValue()+magEncoder.getPositionOffset())%1;
+		return (getAbsoluteEncoderValue()+ canCoder.configGetMagnetOffset())%1;
 	}
 }
