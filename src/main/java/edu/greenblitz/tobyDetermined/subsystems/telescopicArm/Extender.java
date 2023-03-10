@@ -62,13 +62,14 @@ public class Extender extends GBSubsystem {
 
 	public void debugSetPower(double power){
 		motor.set(power);
-		holdPosition = true;
+		holdPosition = false;
 	}
 	
 	@Override
 	public void periodic() {
 		state = getHypotheticalState(getLength());
 		lastSpeed = getVelocity();
+		SmartDashboard.putBoolean("holdPosition", holdPosition);
 		if (holdPosition) {
 			motor.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 		}

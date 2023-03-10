@@ -224,15 +224,15 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.795, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CONE_MID(0.29, 1.94),
+            CONE_HIGH(0.775, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_MID(0.31, 1.94),
             CUBE_HIGH(0.654, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             LOW(0.35, Math.toRadians(60)),
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.28, 0.16),
+            INTAKE_GRAB_POSITION(0.31, 0.16),
             PRE_INTAKE_GRAB_POSITION(0.02, 0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
@@ -271,7 +271,7 @@ public class RobotMap {
             public static final double VELOCITY_TOLERANCE = 0.02;
 
             public static final double kS = 0.1;
-            public static final double kG = 0.85;
+            public static final double kG = 0.99;
 
             public static final double MAX_ACCELERATION = 2.5;
             public static final double MAX_VELOCITY = 0.5;
@@ -283,7 +283,7 @@ public class RobotMap {
                     .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
-                    .withCurrentLimit(30)
+                    .withCurrentLimit(40)
                     .withVoltageComp(General.VOLTAGE_COMP_VAL);
         }
 
@@ -314,8 +314,8 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
-            public static final double MIN_Kg = 0.17;
-            public static final double MAX_Kg = 0.635;
+            public static final double MIN_Kg = 0.155;
+            public static final double MAX_Kg = 0.62;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
             public static final double MAX_ACCELERATION = 2.472;

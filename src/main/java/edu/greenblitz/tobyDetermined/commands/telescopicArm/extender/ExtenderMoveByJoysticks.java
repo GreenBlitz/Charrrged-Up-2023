@@ -21,11 +21,11 @@ public class ExtenderMoveByJoysticks extends ExtenderCommand {
 	@Override
 	public void execute() {
 		double power = joystick.getAxisValue(SmartJoystick.Axis.LEFT_Y) * 1;
-		double ff = Extender.getStaticFeedForward(Elbow.getInstance().getAngleRadians());
-		SmartDashboard.putNumber("joystick + ff volt",power * Battery.getInstance().getCurrentVoltage() + ff);
-		SmartDashboard.putNumber("ext velocity", extender.getVelocity());
+//		double ff = Extender.getStaticFeedForward(Elbow.getInstance().getAngleRadians());
+//		SmartDashboard.putNumber("joystick + ff volt",power * Battery.getInstance().getCurrentVoltage() + ff);
+//		SmartDashboard.putNumber("ext velocity", extender.getVelocity());
 
-		extender.setMotorVoltage(power * Battery.getInstance().getCurrentVoltage() + ff);
+		extender.debugSetPower((power * Battery.getInstance().getCurrentVoltage() /*+ ff*/) / Battery.getInstance().getCurrentVoltage());
 	}
 
 	@Override
