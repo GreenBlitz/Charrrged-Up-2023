@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance;
+package edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.wpi.first.math.filter.Debouncer;

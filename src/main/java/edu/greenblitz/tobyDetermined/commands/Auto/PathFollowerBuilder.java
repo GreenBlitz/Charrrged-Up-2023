@@ -8,7 +8,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance.FullBalance;
+import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DropCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;

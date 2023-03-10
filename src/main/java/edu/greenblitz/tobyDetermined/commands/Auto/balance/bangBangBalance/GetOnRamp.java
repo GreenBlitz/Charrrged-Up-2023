@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance;
+package edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.wpi.first.math.filter.Debouncer;
@@ -33,7 +33,7 @@ public class GetOnRamp extends SwerveCommand {
 		super.execute();
 		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? 1:-1);//gyro is flipped
 		swerve.moveByChassisSpeeds(usedSpeed,0,0,0);
-		usedSpeed+=0.005;
+		usedSpeed+= Math.signum(speed)* 0.005;
 	}
 	
 	@Override

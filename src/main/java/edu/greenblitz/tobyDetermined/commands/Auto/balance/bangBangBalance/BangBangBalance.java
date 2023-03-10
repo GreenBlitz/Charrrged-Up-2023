@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance;
+package edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.wpi.first.math.filter.Debouncer;
@@ -8,7 +8,7 @@ public class BangBangBalance extends SwerveCommand {
     private double originalSpeed;
     private double usedSpeed;
     private final double USEDSPEED_FACTOR = 0.5;
-    public static final double TOLERANCE = Math.toRadians(5);
+    public static final double TOLERANCE = Math.toRadians(2);
 
     private Debouncer debouncer;
     private final double DEBOUNCE_TIME = 0.3;
@@ -45,5 +45,12 @@ public class BangBangBalance extends SwerveCommand {
     public boolean isFinished() {
         boolean debounced = debouncer.calculate(Math.abs(pitchAngle) < TOLERANCE);
         return super.isFinished() || debounced;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        swerve.stop();
+
     }
 }

@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.swerve.balance;
+package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.greenblitz.utils.PigeonGyro;

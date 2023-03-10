@@ -1,20 +1,11 @@
 package edu.greenblitz.utils;
 
-import edu.greenblitz.tobyDetermined.Field;
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.AdvancedBalanceOnRamp;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.FullAdvancedBalance;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutonomousSelector {
 	static private AutonomousSelector instance; //i did some shenanigan with the static private hehe

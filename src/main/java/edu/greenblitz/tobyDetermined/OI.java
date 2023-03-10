@@ -2,46 +2,29 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
-import edu.greenblitz.tobyDetermined.commands.SystemCheck.SystemCheck;
-import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
-import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.PushCone;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.RetractPusher;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance.FullBalance;
+import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
+import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.*;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
-import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
-import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByPower;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
-import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
-import edu.greenblitz.tobyDetermined.commands.swerve.balance.LockWheels;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCone;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.elbowMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-
-import java.lang.annotation.Retention;
 
 public class OI { //GEVALD
 	
@@ -91,6 +74,7 @@ public class OI { //GEVALD
 		mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
 		mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
 		mainJoystick.POV_UP.whileTrue(new FullBalance(true));
+		mainJoystick.POV_DOWN.whileTrue(new FullBalance(false));
 		mainJoystick.B.onTrue(new LockWheels()); //lock wheel
 //		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 

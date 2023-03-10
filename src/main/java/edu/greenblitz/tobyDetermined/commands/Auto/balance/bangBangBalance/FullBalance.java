@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.swerve.balance.bangBangBalance;
+package edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
