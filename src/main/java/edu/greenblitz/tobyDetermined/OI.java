@@ -92,7 +92,10 @@ public class OI { //GEVALD
 		
         //screenshot
         secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-		secondJoystick.B.and(secondJoystick.X).onTrue(new InstantCommand(()->Extender.getInstance().resetLength()));
+		secondJoystick.B.and(secondJoystick.X).onTrue(new InstantCommand(()-> {
+			Extender.getInstance().resetLength();
+			Extender.getInstance().disableReverseLimit();
+		}));
         //grid
         secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());

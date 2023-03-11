@@ -42,6 +42,8 @@ public class Extender extends GBSubsystem {
 		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(DoesSensorExist);
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
 		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
 		profileGenerator = new ProfiledPIDController(
@@ -181,9 +183,7 @@ public class Extender extends GBSubsystem {
 		public boolean shorterOrEqualTo(ExtenderState other){
 			return !longerThan(other);
 		}
-
-
-
+		
 		}
 
 	public boolean isAtLength() {
@@ -206,6 +206,14 @@ public class Extender extends GBSubsystem {
 	
 	public double getGoalLength() {
 		return goalLength;
+	}
+	
+	public void enableReverseLimit(){
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+	}
+	
+	public void disableReverseLimit(){
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
 	}
 }
 
