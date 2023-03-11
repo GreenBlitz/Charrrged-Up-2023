@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		if (Extender.getInstance().DoesSensorExist && Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(2.5)).andThen(new ConsoleLog("time out", "arm reset time out")).schedule();
 		}
 
@@ -121,7 +121,7 @@ public class Robot extends TimedRobot {
 		if (SwerveChassis.getInstance().isEncoderBroken()){
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
-		if (Extender.getInstance().DoesSensorExist && Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
 		} else command.schedule();
 	}
