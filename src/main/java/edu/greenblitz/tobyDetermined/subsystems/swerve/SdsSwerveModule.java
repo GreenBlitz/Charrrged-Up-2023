@@ -25,7 +25,7 @@ public class SdsSwerveModule implements SwerveModule {
 	private CANCoder canCoder;
 	private SimpleMotorFeedforward feedforward;
 	
-	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
+	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted) {
 		//SET ANGLE MOTO
 		angleMotor = new GBFalcon(angleMotorID);
 		angleMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
@@ -35,8 +35,7 @@ public class SdsSwerveModule implements SwerveModule {
 		
 		canCoder = new CANCoder(AbsoluteEncoderID);
 
-		canCoder.configMagnetOffset(magEncoderOffset);
-//		this.canCoder.setPositionOffset(magEncoderOffset);
+//		canCoder.setPosition(0); for first time calibration purposes, do nt uncomment or delete
 
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
 	}
@@ -45,8 +44,7 @@ public class SdsSwerveModule implements SwerveModule {
 		this(SdsModuleConfigObject.angleMotorID,
 				SdsModuleConfigObject.linearMotorID,
 				SdsModuleConfigObject.AbsoluteEncoderID,
-				SdsModuleConfigObject.linInverted,
-				SdsModuleConfigObject.magEncoderOffset);
+				SdsModuleConfigObject.linInverted);
 	}
 	
 	public static double convertRadsToTicks(double angInRads) {
@@ -255,14 +253,12 @@ public class SdsSwerveModule implements SwerveModule {
 		private int linearMotorID;
 		private int AbsoluteEncoderID;
 		private boolean linInverted;
-		public double magEncoderOffset;
-		
-		public SdsSwerveModuleConfigObject(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted, double magEncoderOffset) {
+
+		public SdsSwerveModuleConfigObject(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted) {
 			this.angleMotorID = angleMotorID;
 			this.linearMotorID = linearMotorID;
 			this.AbsoluteEncoderID = AbsoluteEncoderID;
 			this.linInverted = linInverted;
-			this.magEncoderOffset = magEncoderOffset;
 		}
 	}
 	

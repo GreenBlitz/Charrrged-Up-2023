@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.LED.EncoderBrokenLED;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
@@ -141,6 +142,7 @@ public class Robot extends TimedRobot {
 			SwerveChassis.getInstance().resetAllEncoders();
 			LED.getInstance().setColor(Color.kGreen);
 		}
+		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast);
 	}
 	
 	public enum robotName {
