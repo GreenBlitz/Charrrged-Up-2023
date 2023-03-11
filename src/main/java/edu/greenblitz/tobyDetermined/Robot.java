@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.LED.EncoderBrokenLED;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
@@ -91,6 +92,7 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
+		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
 		if (Extender.getInstance().DoesSensorExist) {
 			new ResetExtender().raceWith(new WaitCommand(2.5)).andThen(new ConsoleLog("time out", "arm reset time out")).schedule();
 		}
@@ -116,6 +118,7 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
+		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
 		if (SwerveChassis.getInstance().isEncoderBroken()){
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
