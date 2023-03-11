@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.commands.LED.EncoderBrokenLED;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.TwoStagedReset;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
@@ -123,7 +124,7 @@ public class Robot extends TimedRobot {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
 		if (Extender.getInstance().DoesSensorExist) {
-			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
+			new TwoStagedReset().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
 		} else command.schedule();
 	}
 	

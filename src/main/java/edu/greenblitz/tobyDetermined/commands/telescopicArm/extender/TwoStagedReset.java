@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TwoStagedReset extends SequentialCommandGroup {
 	
-	public static final double FORWARD_RESET_VELOCITY = 1;
+	public static final double FORWARD_RESET_VELOCITY = 3;
 	
 	public TwoStagedReset(){
 		super(new ResetExtender(),
