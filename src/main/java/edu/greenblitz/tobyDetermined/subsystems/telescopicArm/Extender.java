@@ -22,6 +22,7 @@ public class Extender extends GBSubsystem {
 	private double goalLength;
 	private Debouncer debouncer;
 	private boolean holdPosition =false;
+	private boolean didReset;
 
 	public static Extender getInstance() {
 		init();
@@ -54,7 +55,7 @@ public class Extender extends GBSubsystem {
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
-		
+		didReset = false;
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
 	}
 
@@ -132,6 +133,10 @@ public class Extender extends GBSubsystem {
 	public double getVelocity(){
 		return motor.getEncoder().getVelocity();
 	}
+
+	public boolean DidReset(){
+		return didReset;
+	}
 	/**
 	 * @return the current value of the limit switch
 	 */
@@ -140,6 +145,7 @@ public class Extender extends GBSubsystem {
 	}
 	public void resetLength() {
 			resetLength(0);
+			didReset = true;
 	}
 
 	public void resetLength(double position) {
@@ -214,6 +220,10 @@ public class Extender extends GBSubsystem {
 	
 	public void disableReverseLimit(){
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+	}
+
+	public void setIdleMode(CANSparkMax.IdleMode idleMode){
+		motor.setIdleMode(idleMode);
 	}
 }
 

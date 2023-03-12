@@ -18,6 +18,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot {
 		initPortForwarding();
 		AutonomousSelector.getInstance();
 		//swerve
-		
+		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 	}
@@ -83,6 +84,8 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().cancelAll();
 		SwerveChassis.getInstance().setIdleModeCoast();
 	}
+
+
 	
 	@Override
 	
@@ -93,8 +96,8 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
-		if (Extender.getInstance().DoesSensorExist) {
+		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
+		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(2.5)).andThen(new ConsoleLog("time out", "arm reset time out")).schedule();
 		}
 
@@ -116,15 +119,18 @@ public class Robot extends TimedRobot {
 		Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
 		Claw.getInstance().coneCatchMode();
 		Grid.init();
+		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
+		ObjectSelector.selectCone();
 		if (SwerveChassis.getInstance().isEncoderBroken()){
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
-		if (Extender.getInstance().DoesSensorExist) {
-			new TwoStagedReset().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
+
+		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
+			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
 		} else command.schedule();
 	}
 	
@@ -144,6 +150,11 @@ public class Robot extends TimedRobot {
 		}else {
 			SwerveChassis.getInstance().resetAllEncoders();
 			LED.getInstance().setColor(Color.kGreen);
+		}
+		if(Extender.getInstance().getLimitSwitch()){
+			if (Extender.getInstance().getLength() > 0 || !Extender.getInstance().DidReset()) {
+				Extender.getInstance().resetLength();
+			}
 		}
 	}
 	

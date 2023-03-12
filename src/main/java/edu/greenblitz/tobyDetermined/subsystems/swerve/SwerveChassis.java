@@ -43,7 +43,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	
 	public static final double TRANSLATION_TOLERANCE = 0.05;
-	public static final double ROTATION_TOLERANCE = 2;
+	public static final double ROTATION_TOLERANCE = 3;
 	
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);

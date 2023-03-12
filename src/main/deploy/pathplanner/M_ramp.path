@@ -41,13 +41,21 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "CloseArm",
           "BalanceFromIn"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.0,
+      "names": [
+        "CloseArm"
+      ]
+    }
+  ]
 }
