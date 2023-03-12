@@ -7,16 +7,21 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
+import edu.greenblitz.tobyDetermined.commands.intake.ExtendAndRoll;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DropCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 
 import java.util.HashMap;
 
@@ -37,10 +42,16 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
         eventMap.put("DropCube", new EjectCube());
         eventMap.put("ArmToBelly", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
         eventMap.put("MoveToPose8", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[7], true));
-        eventMap.put("MoveToPose2", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[1], true));
+        eventMap.put("MoveToPose2AndGrab", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[1], true).alongWith(new InstantCommand(ObjectSelector::selectCube).andThen(new GripFromBelly())));
         eventMap.put("MoveToOutRamp", new MoveToPose(Field.PlacementLocations.OUT_PRE_BALANCE_BLUE, true));
         eventMap.put("BalanceFromOut", new FullBalance(true));
         eventMap.put("BalanceFromIn", new FullBalance(false));
+        eventMap.put("CloseArm", new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
+        eventMap.put("WaitTillClosedArm", new WaitUntilCommand(() -> Elbow.getInstance().getState().smallerOrEqualTo(Elbow.ElbowState.WALL_ZONE)));
+        eventMap.put("StartGripper", new ExtendAndRoll());
+        eventMap.put("FoldGripper", new RetractRoller());
+        eventMap.put("GrabCube", new InstantCommand(ObjectSelector::selectCube).andThen(new GripFromBelly()));
+
     }
 
     private static PathFollowerBuilder instance;

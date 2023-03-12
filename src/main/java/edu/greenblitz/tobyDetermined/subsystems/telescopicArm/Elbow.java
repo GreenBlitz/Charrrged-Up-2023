@@ -204,6 +204,9 @@ public class Elbow extends GBSubsystem {
         public boolean smallerThen(ElbowState checkState){
             return maxAngle < checkState.maxAngle;
         }
+        public boolean smallerOrEqualTo(ElbowState checkState){
+            return maxAngle <= checkState.maxAngle;
+        }
     }
 
     public void setMotorVoltage (double voltage){

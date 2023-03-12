@@ -7,12 +7,20 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 public class ResetExtender extends ExtenderCommand {
 	
 	public static final double BACKWARDS_RESET_VELOCITY = -7;
-	public static final double FORWARDS_RESET_VELOCITY = 3;
+	private double voltage;
+	
+	public ResetExtender(double voltage){
+		this.voltage = voltage;
+	}
+	
+	public ResetExtender(){
+		this(BACKWARDS_RESET_VELOCITY);
+	}
+	
 	
 	@Override
 	public void initialize() {
 		super.initialize();
-		double voltage = extender.getLimitSwitch() ? FORWARDS_RESET_VELOCITY : BACKWARDS_RESET_VELOCITY;
 		extender.setMotorVoltage(Extender.getStaticFeedForward(Elbow.getInstance().getAngleRadians()) + voltage + Math.signum(voltage) * RobotMap.TelescopicArm.Elbow.kS);
 	}
 	
@@ -25,6 +33,7 @@ public class ResetExtender extends ExtenderCommand {
 	public void end(boolean interrupted) {
 		super.end(interrupted);
 		extender.resetLength();
+		extender.enableReverseLimit();
 		extender.stop();
 	}
 }

@@ -17,9 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "PlaceFromAdjacentConeHigh",
-          "DropCone",
-          "ArmToBelly"
+          "FullConeHighAndReturn"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -53,12 +51,12 @@
     },
     {
       "anchorPoint": {
-        "x": 2.8065829298027114,
-        "y": 1.003824547899544
+        "x": 1.8493035852927244,
+        "y": 1.1922193816059026
       },
       "prevControl": {
-        "x": 4.519146718566643,
-        "y": 0.9400588749136523
+        "x": 3.5618673740566558,
+        "y": 1.1284537086200108
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -68,10 +66,8 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "MoveToPose2",
-          "PlaceFromAdjacentCubeHigh",
-          "DropCube",
-          "ArmToBelly"
+          "GrabCube",
+          "FullConeHighAndReturn"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -84,17 +80,21 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.509090909090912,
+      "position": 0.15999999999997466,
       "names": [
-        "startGripper"
+        "StartGripper"
       ]
     },
     {
       "position": 1.2181818181818171,
       "names": [
-        "foldGripper",
-        "indexObject",
-        "GrabObject"
+        "FoldGripper"
+      ]
+    },
+    {
+      "position": 0.058181818181827286,
+      "names": [
+        "CloseArm"
       ]
     }
   ]

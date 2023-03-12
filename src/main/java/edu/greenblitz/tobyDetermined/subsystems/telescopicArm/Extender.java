@@ -22,6 +22,7 @@ public class Extender extends GBSubsystem {
 	private double goalLength;
 	private Debouncer debouncer;
 	private boolean holdPosition =false;
+	private boolean didReset;
 
 	public static Extender getInstance() {
 		init();
@@ -42,6 +43,8 @@ public class Extender extends GBSubsystem {
 		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(DoesSensorExist);
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
 		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
 		profileGenerator = new ProfiledPIDController(
@@ -52,7 +55,7 @@ public class Extender extends GBSubsystem {
 		profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
-		
+		didReset = false;
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
 	}
 
@@ -130,6 +133,10 @@ public class Extender extends GBSubsystem {
 	public double getVelocity(){
 		return motor.getEncoder().getVelocity();
 	}
+
+	public boolean DidReset(){
+		return didReset;
+	}
 	/**
 	 * @return the current value of the limit switch
 	 */
@@ -138,6 +145,7 @@ public class Extender extends GBSubsystem {
 	}
 	public void resetLength() {
 			resetLength(0);
+			didReset = true;
 	}
 
 	public void resetLength(double position) {
@@ -181,9 +189,7 @@ public class Extender extends GBSubsystem {
 		public boolean shorterOrEqualTo(ExtenderState other){
 			return !longerThan(other);
 		}
-
-
-
+		
 		}
 
 	public boolean isAtLength() {
@@ -206,6 +212,18 @@ public class Extender extends GBSubsystem {
 	
 	public double getGoalLength() {
 		return goalLength;
+	}
+	
+	public void enableReverseLimit(){
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+	}
+	
+	public void disableReverseLimit(){
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+	}
+
+	public void setIdleMode(CANSparkMax.IdleMode idleMode){
+		motor.setIdleMode(idleMode);
 	}
 }
 

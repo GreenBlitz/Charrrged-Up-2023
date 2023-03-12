@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
+import com.ctre.phoenix.sensors.CANCoder;
+import edu.greenblitz.tobyDetermined.commands.Auto.FullConeHighAndReturn;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
@@ -92,7 +94,10 @@ public class OI { //GEVALD
 		
         //screenshot
         secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
-		secondJoystick.B.and(secondJoystick.X).onTrue(new InstantCommand(()->Extender.getInstance().resetLength()));
+		secondJoystick.B.and(secondJoystick.X).onTrue(new InstantCommand(()-> {
+			Extender.getInstance().resetLength();
+			Extender.getInstance().disableReverseLimit();
+		}));
         //grid
         secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
@@ -103,11 +108,10 @@ public class OI { //GEVALD
 		secondJoystick.Y.onTrue(new GoToGrid());
         secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
-        secondJoystick.A.whileTrue(new GripFromFeeder());
+        secondJoystick.A.whileTrue(new FullConeHighAndReturn());//new GripFromFeeder());
 		secondJoystick.A.and(secondJoystick.B).whileTrue(new GripBelly());
 
         //grab
-
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
 //        secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 	    secondJoystick.BACK.onTrue(new PushCone()).onFalse(new RetractPusher());

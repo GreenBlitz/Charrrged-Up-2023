@@ -24,18 +24,20 @@ public class SdsSwerveModule implements SwerveModule {
 	private GBFalcon linearMotor;
 	private CANCoder canCoder;
 	private SimpleMotorFeedforward feedforward;
-	
-	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted) {
+	private double encoderOffset;
+
+	public SdsSwerveModule(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, double encoderOffset, boolean linInverted) {
 		//SET ANGLE MOTO
 		angleMotor = new GBFalcon(angleMotorID);
 		angleMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
 
 		linearMotor = new GBFalcon(linearMotorID);
 		linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj).withInverted(linInverted));
-		
-		canCoder = new CANCoder(AbsoluteEncoderID);
 
-//		canCoder.setPosition(0); for first time calibration purposes, do nt uncomment or delete
+		canCoder = new CANCoder(AbsoluteEncoderID);
+		this.encoderOffset = encoderOffset;
+//		canCoder.setPositionToAbsolute();
+//		canCoder.setPosition(canCoder.getPosition() - Units.rotationsToDegrees(encoderOffset));
 
 		this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
 	}
@@ -44,7 +46,9 @@ public class SdsSwerveModule implements SwerveModule {
 		this(SdsModuleConfigObject.angleMotorID,
 				SdsModuleConfigObject.linearMotorID,
 				SdsModuleConfigObject.AbsoluteEncoderID,
-				SdsModuleConfigObject.linInverted);
+				SdsModuleConfigObject.encoderOffset,
+				SdsModuleConfigObject.linInverted
+				);
 	}
 	
 	public static double convertRadsToTicks(double angInRads) {
@@ -212,7 +216,7 @@ public class SdsSwerveModule implements SwerveModule {
 			Console.log("mag Nan", "one of the mag encoders isn't conected");
 			return 0;
 		}
-		return Units.degreesToRotations(canCoder.getPosition());
+		return Units.degreesToRotations(canCoder.getAbsolutePosition()) - encoderOffset;
 	}
 	
 	/**
@@ -253,12 +257,14 @@ public class SdsSwerveModule implements SwerveModule {
 		private int linearMotorID;
 		private int AbsoluteEncoderID;
 		private boolean linInverted;
+		private double encoderOffset;
 
-		public SdsSwerveModuleConfigObject(int angleMotorID, int linearMotorID, int AbsoluteEncoderID, boolean linInverted) {
+		public SdsSwerveModuleConfigObject(int angleMotorID, int linearMotorID, int AbsoluteEncoderID,double encoderOffset, boolean linInverted) {
 			this.angleMotorID = angleMotorID;
 			this.linearMotorID = linearMotorID;
 			this.AbsoluteEncoderID = AbsoluteEncoderID;
 			this.linInverted = linInverted;
+			this.encoderOffset = encoderOffset;
 		}
 	}
 	
