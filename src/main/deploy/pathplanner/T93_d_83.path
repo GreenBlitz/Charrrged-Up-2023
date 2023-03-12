@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.8529496092936095,
-        "y": 5.076484142240355
+        "x": 1.85,
+        "y": 5.08
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.852949609293609,
-        "y": 5.076484142240355
+        "x": 2.849999999999998,
+        "y": 5.08
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -17,9 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "PlaceFromAdjacentConeHigh",
-          "DropCone",
-          "ArmToBelly"
+          "FullConeHighAndReturn"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -28,16 +26,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.671307439215952,
-        "y": 4.60325256965362
+        "x": 6.623858346866836,
+        "y": 4.649655588263018
       },
       "prevControl": {
-        "x": 5.942590128806322,
-        "y": 4.536110885252932
+        "x": 5.749357688774611,
+        "y": 4.649655588263018
       },
       "nextControl": {
-        "x": 5.942590128806322,
-        "y": 4.536110885252932
+        "x": 5.749357688774611,
+        "y": 4.649655588263018
       },
       "holonomicAngle": 180.0,
       "isReversal": true,
@@ -53,12 +51,12 @@
     },
     {
       "anchorPoint": {
-        "x": 3.2386550365112146,
-        "y": 4.768585970838132
+        "x": 1.8493035852927244,
+        "y": 4.411211711941838
       },
       "prevControl": {
-        "x": 4.550096356277708,
-        "y": 4.768585970838132
+        "x": 3.5618673740566558,
+        "y": 4.347446038955946
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -68,10 +66,8 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "MoveToPose8",
-          "PlaceFromAdjacentCubeHigh",
-          "DropCube",
-          "ArmToBelly"
+          "GrabCube",
+          "FullConeHighAndReturn"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -79,24 +75,23 @@
       }
     }
   ],
-  "maxVelocity": null,
-  "maxAcceleration": 5.8,
-  "isReversed": null,
-  "markers": [
-    {
-      "position": 0.5818181818181839,
-      "names": [
-        "openGripper",
-        "startGripper"
-      ]
-    },
-    {
-      "position": 1.4545454545454541,
-      "names": [
-        "indexObject",
-        "grabObject",
-        "indexObject"
-      ]
-    }
-  ]
+  "markers": [{
+                    "position": 0.15999999999997466,
+                    "names": [
+                      "StartGripper"
+                    ]
+                  },
+                  {
+                    "position": 1.2181818181818171,
+                    "names": [
+                      "FoldGripper"
+                    ]
+                  },
+                  {
+                    "position": 0.058181818181827286,
+                    "names": [
+                      "CloseArm"
+                    ]
+                  }
+                ]
 }
