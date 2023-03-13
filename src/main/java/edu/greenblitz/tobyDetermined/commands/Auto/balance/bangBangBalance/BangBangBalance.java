@@ -7,7 +7,7 @@ public class BangBangBalance extends SwerveCommand {
 
     private double originalSpeed;
     private double usedSpeed;
-    private final double USEDSPEED_FACTOR = 0.32;
+    private final double USEDSPEED_FACTOR = 0.36;
     public static final double TOLERANCE = Math.toRadians(13);
     
     public static final double FINISH_TOLERANCE = Math.toRadians(7);
@@ -36,7 +36,6 @@ public class BangBangBalance extends SwerveCommand {
     @Override
     public void execute() {
         if ((pitchAngle * swerve.getPigeonGyro().getRoll() * (forwards ? -1 : 1)) < 0) {
-            usedTolerance = FINISH_TOLERANCE;
             usedSpeed = originalSpeed * USEDSPEED_FACTOR;
         }
         pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? -1 : 1);//gyro is flipped
@@ -45,12 +44,10 @@ public class BangBangBalance extends SwerveCommand {
         } else {
             swerve.stop();
         }
-    }
-
-    @Override
-    public boolean isFinished() {
-        boolean debounced = debouncer.calculate(Math.abs(pitchAngle) < usedTolerance);
-        return super.isFinished() || debounced;
+        
+        if (Math.abs(pitchAngle) < FINISH_TOLERANCE){
+            usedTolerance = FINISH_TOLERANCE;
+        }
     }
 
     @Override
