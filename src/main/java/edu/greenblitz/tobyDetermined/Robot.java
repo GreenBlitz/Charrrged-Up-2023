@@ -145,9 +145,9 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void disabledPeriodic() {
-		if (SwerveChassis.getInstance().isEncoderBroken()) {
+		if (SwerveChassis.getInstance().isEncoderBroken() || !Extender.getInstance().DidReset()) {
 			LED.getInstance().setColor(Color.kRed);
-		}else {
+		}else{
 			SwerveChassis.getInstance().resetAllEncoders();
 			LED.getInstance().setColor(Color.kGreen);
 		}
