@@ -108,7 +108,7 @@ public class OI { //GEVALD
 		secondJoystick.Y.onTrue(new GoToGrid());
         secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
-        secondJoystick.A.whileTrue(new FullConeHighAndReturn());//new GripFromFeeder());
+        secondJoystick.A.whileTrue(new GripFromFeeder());
 		secondJoystick.A.and(secondJoystick.B).whileTrue(new GripBelly());
 
         //grab
