@@ -55,8 +55,8 @@ public class AutonomousSelector {
 		TOP_PLACE_EXIT(PathFollowerBuilder.getInstance().followPath("Tplace_exit")),
 		BOTTOM_TWO_OBJ(PathFollowerBuilder.getInstance().followPath("B13_a_23")),
 		TOP_TWO_OBJ(PathFollowerBuilder.getInstance().followPath("T93_d_83")),
-		TOP_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("T93_d_ramp")),
-		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_a_ramp")),
+		TOP_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("T93_ramp")),
+		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_ramp")),
 		MIDDLE_OUT_RAMP(PathFollowerBuilder.getInstance().followPath("M_out_ramp")),
 		MIDDLE_JUST_RAMP(PathFollowerBuilder.getInstance().followPath("Mjust_ramp")),
 		
