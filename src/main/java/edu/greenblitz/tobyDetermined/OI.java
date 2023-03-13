@@ -106,14 +106,14 @@ public class OI { //GEVALD
 
         //score
 		secondJoystick.Y.onTrue(new GoToGrid());
-        secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).whileTrue(new ZigHail());
+        secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new FullConeHighAndReturn());//new GripFromFeeder());
 		secondJoystick.A.and(secondJoystick.B).whileTrue(new GripBelly());
 
         //grab
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
-//        secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
+        secondJoystick.BACK.and(secondJoystick.B).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 	    secondJoystick.BACK.onTrue(new PushCone()).onFalse(new RetractPusher());
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
