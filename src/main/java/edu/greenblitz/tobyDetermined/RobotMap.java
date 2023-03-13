@@ -198,7 +198,7 @@ public class RobotMap {
 
         public static class Balance {
             public static final double GET_ON_SPEED_FACTOR = 0.9;
-            public static final double BANG_BANG_SPEED_FACTOR = 0.65;
+            public static final double BANG_BANG_SPEED_FACTOR = 0.5;
         }
     }
 
@@ -223,7 +223,7 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.775, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CONE_HIGH(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
             CONE_MID(0.31, 1.94),
             CUBE_HIGH(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             CUBE_MID(0.31, 1.94),
