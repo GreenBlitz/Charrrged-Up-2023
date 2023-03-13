@@ -198,7 +198,7 @@ public class RobotMap {
 
         public static class Balance {
             public static final double GET_ON_SPEED_FACTOR = 0.9;
-            public static final double BANG_BANG_SPEED_FACTOR = 0.4;
+            public static final double BANG_BANG_SPEED_FACTOR = 0.28;
         }
     }
 

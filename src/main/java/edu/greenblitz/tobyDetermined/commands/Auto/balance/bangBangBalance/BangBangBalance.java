@@ -7,11 +7,11 @@ public class BangBangBalance extends SwerveCommand {
 
     private double originalSpeed;
     private double usedSpeed;
-    private final double USEDSPEED_FACTOR = 0.5;
-    public static final double TOLERANCE = Math.toRadians(2);
+    private final double USEDSPEED_FACTOR = 0.65;
+    public static final double TOLERANCE = Math.toRadians(7);
 
     private Debouncer debouncer;
-    private final double DEBOUNCE_TIME = 0.3;
+    private final double DEBOUNCE_TIME = 2;
 
     double pitchAngle;
     private boolean forwards;

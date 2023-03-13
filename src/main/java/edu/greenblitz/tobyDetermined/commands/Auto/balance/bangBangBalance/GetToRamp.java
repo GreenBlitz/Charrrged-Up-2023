@@ -7,7 +7,7 @@ public class GetToRamp extends SwerveCommand {
 
     private double speed;
     private boolean forwards;
-    private static final double TOLERANCE = BangBangBalance.TOLERANCE;
+    private static final double TOLERANCE = Math.toRadians(5);
 
     private Debouncer debouncer;
     private final double DEBOUNCE_TIME = 0.1;
