@@ -26,22 +26,22 @@
     },
     {
       "anchorPoint": {
-        "x": 6.623858346866836,
-        "y": 4.649655588263018
+        "x": 6.924357007680321,
+        "y": 4.585437835241217
       },
       "prevControl": {
-        "x": 5.749357688774611,
-        "y": 4.649655588263018
+        "x": 5.823068536293992,
+        "y": 4.631360475274445
       },
       "nextControl": {
-        "x": 5.749357688774611,
-        "y": 4.649655588263018
+        "x": 5.823068536293992,
+        "y": 4.631360475274445
       },
       "holonomicAngle": 180.0,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -55,8 +55,8 @@
         "y": 4.411211711941838
       },
       "prevControl": {
-        "x": 3.5618673740566558,
-        "y": 4.347446038955946
+        "x": 3.9819598041478534,
+        "y": 5.008730588074586
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -75,23 +75,24 @@
       }
     }
   ],
-  "markers": [{
-                    "position": 0.15999999999997466,
-                    "names": [
-                      "StartGripper"
-                    ]
-                  },
-                  {
-                    "position": 1.2181818181818171,
-                    "names": [
-                      "FoldGripper"
-                    ]
-                  },
-                  {
-                    "position": 0.058181818181827286,
-                    "names": [
-                      "CloseArm"
-                    ]
-                  }
-                ]
+  "markers": [
+    {
+      "position": 0.15999999999997466,
+      "names": [
+        "StartGripper"
+      ]
+    },
+    {
+      "position": 1.2181818181818171,
+      "names": [
+        "FoldGripper"
+      ]
+    },
+    {
+      "position": 0.058181818181827286,
+      "names": [
+        "CloseArm"
+      ]
+    }
+  ]
 }
