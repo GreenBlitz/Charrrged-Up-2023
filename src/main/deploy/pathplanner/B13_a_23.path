@@ -26,16 +26,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.5212552243286295,
-        "y": 0.8380631306717172
+        "x": 7.103839828221739,
+        "y": 0.9034011791276062
       },
       "prevControl": {
-        "x": 5.646754566236405,
-        "y": 0.8380631306717172
+        "x": 6.229339170129514,
+        "y": 0.9034011791276062
       },
       "nextControl": {
-        "x": 5.646754566236405,
-        "y": 0.8380631306717172
+        "x": 6.229339170129514,
+        "y": 0.9034011791276062
       },
       "holonomicAngle": 180.0,
       "isReversal": true,
@@ -55,8 +55,8 @@
         "y": 1.1922193816059026
       },
       "prevControl": {
-        "x": 3.5618673740566558,
-        "y": 1.1284537086200108
+        "x": 3.54741240152951,
+        "y": 0.32019282298193635
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -67,7 +67,7 @@
       "stopEvent": {
         "names": [
           "GrabCube",
-          "FullConeHighAndReturn"
+          "FullCubeHighAndReturn"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
