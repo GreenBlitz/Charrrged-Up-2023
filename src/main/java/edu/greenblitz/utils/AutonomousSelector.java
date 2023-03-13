@@ -23,8 +23,8 @@ public class AutonomousSelector {
 		chooser.addOption("M_out_ramp", AutonomousPaths.MIDDLE_OUT_RAMP);
 		chooser.addOption("Tjust_place", AutonomousPaths.TOP_JUST_PLACE);
 		chooser.addOption("Tplace_exit", AutonomousPaths.TOP_PLACE_EXIT);
-		chooser.addOption("T93_ramp", AutonomousPaths.TOP_PICK_RAMP);
-		chooser.addOption("T93_d_83", AutonomousPaths.TOP_TWO_OBJ);
+		chooser.addOption("T_place_exit_ramp", AutonomousPaths.TOP_PICK_RAMP);
+		chooser.addOption("T_two_obj", AutonomousPaths.TOP_TWO_OBJ); //_93_d_83
 
 
 
