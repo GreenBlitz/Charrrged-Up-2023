@@ -267,8 +267,9 @@ public class SdsSwerveModule implements SwerveModule {
 			this.encoderOffset = encoderOffset;
 		}
 	}
-	
-	public double getEncoderValueNoOffset(){
-		return (getAbsoluteEncoderValue()+ canCoder.configGetMagnetOffset())%1;
+
+	@Override
+	public boolean isEncoderBroken() {
+		return canCoder.getFirmwareVersion() == 0;
 	}
 }

@@ -202,8 +202,8 @@ public class KazaSwerveModule implements SwerveModule {
 	}
 	
 	@Override
-	public double getEncoderValueNoOffset() {
-		return getAbsoluteEncoderValue();
+	public boolean isEncoderBroken() {
+		return false;
 	}
 	
 	public static class KazaSwerveModuleConfigObject {

@@ -51,5 +51,5 @@ public interface SwerveModule {
 	void setLinIdleModeCoast ();
 	void setRotIdleModeBrake();
 	void setRotIdleModeCoast ();
-	double getEncoderValueNoOffset();
+	boolean isEncoderBroken();
 }
