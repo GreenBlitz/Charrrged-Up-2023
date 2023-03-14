@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
 		RoborioUtils.updateCurrentCycleTime();
-		SmartDashboard.putBoolean("switch", RotatingBelly.getInstance().isLimitSwitchPressed());
+		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 	}
 	
 	
@@ -145,16 +145,30 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void disabledPeriodic() {
-		if (SwerveChassis.getInstance().isEncoderBroken() || !Extender.getInstance().DidReset()) {
-			LED.getInstance().setColor(Color.kRed);
-		}else{
+//		if (SwerveChassis.getInstance().isEncoderBroken() || !Extender.getInstance().DidReset()) {
+//			LED.getInstance().setColor(Color.kRed);
+//		}else{
+//			LED.getInstance().setColor(Color.kGreen);
+//		}
+		if (SwerveChassis.getInstance().isEncoderBroken()){
+			if (Extender.getInstance().DidReset()){
+				LED.getInstance().setColor(new Color(136, 8 ,90)); //dark red
+			} else {
+				LED.getInstance().setColor(Color.kRed);
+			}
+			
+		} else if (!Extender.getInstance().DidReset()){
+			LED.getInstance().setColor(Color.kOrangeRed);
+		} else {
 			LED.getInstance().setColor(Color.kGreen);
 		}
+	
 		if(Extender.getInstance().getLimitSwitch()){
 			if (Extender.getInstance().getLength() > 0 || !Extender.getInstance().DidReset()) {
 				Extender.getInstance().resetLength();
 			}
 		}
+		SwerveChassis.getInstance().isEncoderBroken();
 	}
 	
 	public enum robotName {

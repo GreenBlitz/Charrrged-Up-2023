@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import scala.Unit;
 
 public class SdsSwerveModule implements SwerveModule {
@@ -270,6 +271,7 @@ public class SdsSwerveModule implements SwerveModule {
 
 	@Override
 	public boolean isEncoderBroken() {
-		return canCoder.getFirmwareVersion() == 0;
+		SmartDashboard.putNumber("firmware" + angleMotor.getDeviceID(), canCoder.getFirmwareVersion());
+		return canCoder.getFirmwareVersion() == -1;
 	}
 }
