@@ -11,7 +11,7 @@ public class FullIntakeCube extends SequentialCommandGroup {
 	public FullIntakeCube(){
 		super(
 				new RetractRoller(),
-				new WaitCommand(0.9),
+				new WaitCommand(1.3),
 				new GripFromBelly()
 		);
 	}
