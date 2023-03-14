@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 		//swerve
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
 		SwerveChassis.getInstance().resetChassisPose();
-		SwerveChassis.getInstance().resetAllEncoders(); //todo uncomment
+		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		
 	}
@@ -122,8 +122,10 @@ public class Robot extends TimedRobot {
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
-//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		ObjectSelector.selectCone();
+		if (!SwerveChassis.getInstance().isEncoderBroken()) {
+			SwerveChassis.getInstance().resetAllEncoders();
+		}
 //		if (SwerveChassis.getInstance().isEncoderBroken()){
 //			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 //		} todo uncomment
@@ -147,7 +149,6 @@ public class Robot extends TimedRobot {
 		if (SwerveChassis.getInstance().isEncoderBroken() || !Extender.getInstance().DidReset()) {
 			LED.getInstance().setColor(Color.kRed);
 		}else{
-//			SwerveChassis.getInstance().resetAllEncoders(); todo uncomment
 			LED.getInstance().setColor(Color.kGreen);
 		}
 		if(Extender.getInstance().getLimitSwitch()){
