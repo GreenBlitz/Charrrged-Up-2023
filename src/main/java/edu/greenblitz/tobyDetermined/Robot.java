@@ -125,10 +125,9 @@ public class Robot extends TimedRobot {
 		ObjectSelector.selectCone();
 		if (!SwerveChassis.getInstance().isEncoderBroken()) {
 			SwerveChassis.getInstance().resetAllEncoders();
+		} else {
+			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
-//		if (SwerveChassis.getInstance().isEncoderBroken()){
-//			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-//		} todo uncomment
 
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
