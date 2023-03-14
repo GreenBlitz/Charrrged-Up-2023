@@ -41,7 +41,9 @@ public class Robot extends TimedRobot {
 		//swerve
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
 		SwerveChassis.getInstance().resetChassisPose();
-		SwerveChassis.getInstance().resetAllEncoders();
+		SwerveChassis.getInstance().resetAllEncoders(); //todo uncomment
+//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		
 	}
 	
 	@Override
@@ -98,7 +100,6 @@ public class Robot extends TimedRobot {
 			new ResetExtender().raceWith(new WaitCommand(2.5)).andThen(new ConsoleLog("time out", "arm reset time out")).schedule();
 		}
 
-//		new SensorlessReset().schedule();
 		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
@@ -121,10 +122,11 @@ public class Robot extends TimedRobot {
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
+//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		ObjectSelector.selectCone();
-		if (SwerveChassis.getInstance().isEncoderBroken()){
-			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-		}
+//		if (SwerveChassis.getInstance().isEncoderBroken()){
+//			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+//		} todo uncomment
 
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
@@ -145,7 +147,7 @@ public class Robot extends TimedRobot {
 		if (SwerveChassis.getInstance().isEncoderBroken() || !Extender.getInstance().DidReset()) {
 			LED.getInstance().setColor(Color.kRed);
 		}else{
-			SwerveChassis.getInstance().resetAllEncoders();
+//			SwerveChassis.getInstance().resetAllEncoders(); todo uncomment
 			LED.getInstance().setColor(Color.kGreen);
 		}
 		if(Extender.getInstance().getLimitSwitch()){

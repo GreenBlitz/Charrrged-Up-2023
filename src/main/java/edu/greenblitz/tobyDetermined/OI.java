@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import edu.greenblitz.tobyDetermined.commands.Auto.FullConeHighAndReturn;
+import edu.greenblitz.tobyDetermined.commands.Auto.FullCubeHighAndReturn;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.PassAndBalance;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;

@@ -1,8 +1,10 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.wpi.first.wpilibj.util.Color;
 
 public class ResetExtender extends ExtenderCommand {
 	
@@ -35,5 +37,6 @@ public class ResetExtender extends ExtenderCommand {
 		extender.resetLength();
 		extender.enableReverseLimit();
 		extender.stop();
+		LED.getInstance().setColor(Color.kGreen);
 	}
 }
