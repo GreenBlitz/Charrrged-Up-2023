@@ -67,7 +67,7 @@
       "stopEvent": {
         "names": [
           "GrabCube",
-          "FullCubeHighAndReturn"
+          "HalfCubeHigh"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
