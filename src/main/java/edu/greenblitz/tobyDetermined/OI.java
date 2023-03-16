@@ -15,6 +15,7 @@ import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.QuasiStaticFeedForward;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
@@ -67,8 +68,19 @@ public class OI { //GEVALD
 	
 	
 	private void initButtons() {
-		romyButtons();
+		
+//		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+//		Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
+//
+//
+//		secondJoystick.A.whileTrue(new QuasiStaticFeedForward(0.001));
 		amireeeButtons();
+		
+		
+		
+		
+//		romyButtons();
+//		amireeeButtons();
 	}
 
 	public void romyButtons() {

@@ -251,15 +251,15 @@ public class RobotMap {
 
         public static class Extender {
             public static final int MOTOR_ID = 3;
-            public static final double GEAR_RATIO = 1 / 5.0;
+            public static final double GEAR_RATIO = 1 / 3.0;
             public static final double STARTING_LENGTH = 0.3;
             public static final int BACKWARDS_LIMIT = 0;
-            public static final double FORWARD_LIMIT = 0.8;
+            public static final double FORWARD_LIMIT = 0.78;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT - 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static final double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final PIDObject PID = new PIDObject().withKp(150).withKi(0.8).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(40).withKi(0.8).withMaxPower(1);
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
 
@@ -270,11 +270,11 @@ public class RobotMap {
             public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
-            public static final double kS = 0.1;
-            public static final double kG = 0.99;
+            public static final double kS = 3;
+            public static final double kG = 1;
 
-            public static final double MAX_ACCELERATION = 10;
-            public static final double MAX_VELOCITY = 0.8;
+            public static final double MAX_ACCELERATION = 40;
+            public static final double MAX_VELOCITY = 2;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()

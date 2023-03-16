@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
+import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
@@ -71,8 +72,24 @@ public class Extender extends GBSubsystem {
 	@Override
 	public void periodic() {
 		state = getHypotheticalState(getLength());
-		lastSpeed = getVelocity();
 		SmartDashboard.putBoolean("holdPosition", holdPosition);
+		SmartDashboard.putNumber("voltage",getVolt());
+		SmartDashboard.putNumber("velocity",getVelocity());
+//		SmartDashboard.putNumber("curr acc",
+//				(getVelocity() - lastSpeed) / RoborioUtils.getCurrentRoborioCycle()
+//		);
+		
+		
+		
+		System.out.println("roborio cycle time"+RoborioUtils.getCurrentRoborioCycle());
+		System.out.println("d v" + (getVelocity() - lastSpeed));
+		System.out.println(getVelocity());
+		System.out.println((getVelocity() - lastSpeed) / RoborioUtils.getCurrentRoborioCycle());
+		System.out.println("================================");
+		
+		lastSpeed = getVelocity();
+		
+		
 		if (holdPosition) {
 			motor.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 		}
@@ -97,6 +114,10 @@ public class Extender extends GBSubsystem {
 
 	public static double getStaticFeedForward(double elbowAngle) {
 		return Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
+	}
+	
+	public double getVolt(){
+		return motor.getAppliedOutput();
 	}
 
 	public double getLegalGoalLength(double wantedLength){
