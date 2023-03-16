@@ -2,11 +2,9 @@ package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
-import edu.greenblitz.tobyDetermined.commands.LED.EncoderBrokenLED;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.TwoStagedReset;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
@@ -44,6 +42,8 @@ public class Robot extends TimedRobot {
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
+//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		
 	}
 	
 	@Override
@@ -75,14 +75,13 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
 		RoborioUtils.updateCurrentCycleTime();
-		SmartDashboard.putBoolean("switch", RotatingBelly.getInstance().isLimitSwitchPressed());
+		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 	}
 	
 	
 	@Override
 	public void disabledInit() {
 		CommandScheduler.getInstance().cancelAll();
-		SwerveChassis.getInstance().setIdleModeCoast();
 	}
 
 
@@ -101,7 +100,6 @@ public class Robot extends TimedRobot {
 			new ResetExtender().raceWith(new WaitCommand(2.5)).andThen(new ConsoleLog("time out", "arm reset time out")).schedule();
 		}
 
-//		new SensorlessReset().schedule();
 		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
@@ -125,7 +123,9 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
 		ObjectSelector.selectCone();
-		if (SwerveChassis.getInstance().isEncoderBroken()){
+		if (!SwerveChassis.getInstance().isEncoderBroken()) {
+			SwerveChassis.getInstance().resetAllEncoders();
+		} else {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
 
@@ -145,17 +145,30 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void disabledPeriodic() {
-		if (SwerveChassis.getInstance().isEncoderBroken()) {
-			LED.getInstance().setColor(Color.kRed);
-		}else {
-			SwerveChassis.getInstance().resetAllEncoders();
+//		if (SwerveChassis.getInstance().isEncoderBroken() || !Extender.getInstance().DidReset()) {
+//			LED.getInstance().setColor(Color.kRed);
+//		}else{
+//			LED.getInstance().setColor(Color.kGreen);
+//		}
+		if (SwerveChassis.getInstance().isEncoderBroken()){
+			if (Extender.getInstance().DidReset()){
+				LED.getInstance().setColor(new Color(136, 8 ,90)); //dark red
+			} else {
+				LED.getInstance().setColor(Color.kRed);
+			}
+			
+		} else if (!Extender.getInstance().DidReset()){
+			LED.getInstance().setColor(Color.kOrangeRed);
+		} else {
 			LED.getInstance().setColor(Color.kGreen);
 		}
+	
 		if(Extender.getInstance().getLimitSwitch()){
 			if (Extender.getInstance().getLength() > 0 || !Extender.getInstance().DidReset()) {
 				Extender.getInstance().resetLength();
 			}
 		}
+		SwerveChassis.getInstance().isEncoderBroken();
 	}
 	
 	public enum robotName {

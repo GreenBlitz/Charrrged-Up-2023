@@ -135,7 +135,7 @@ public class DecoyModule implements SwerveModule {
 	}
 	
 	@Override
-	public double getEncoderValueNoOffset() {
-		return 0;
+	public boolean isEncoderBroken() {
+		return false;
 	}
 }

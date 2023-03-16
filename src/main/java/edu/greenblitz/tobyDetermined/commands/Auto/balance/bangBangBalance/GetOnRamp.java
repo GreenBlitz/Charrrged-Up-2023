@@ -9,6 +9,7 @@ public class GetOnRamp extends SwerveCommand {
 	private double speed;
 	private  double usedSpeed;
 	private boolean forwards;
+	//ramp is 0.26 rads
 	private static final double TOLERANCE = Math.toRadians(17);
 	
 	private Debouncer debouncer;
@@ -27,7 +28,7 @@ public class GetOnRamp extends SwerveCommand {
 		pitchAngle =0;
 		debouncer = new Debouncer(0.1);
 		usedSpeed = speed;
-		IntakeExtender.getInstance().extend();
+//		IntakeExtender.getInstance().extend();
 		
 	}
 	

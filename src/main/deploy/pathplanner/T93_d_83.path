@@ -26,16 +26,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.623858346866836,
-        "y": 4.649655588263018
+        "x": 7.172452576003582,
+        "y": 4.585618643419883
       },
       "prevControl": {
-        "x": 5.749357688774611,
-        "y": 4.649655588263018
+        "x": 6.071164104617253,
+        "y": 4.63154128345311
       },
       "nextControl": {
-        "x": 5.749357688774611,
-        "y": 4.649655588263018
+        "x": 6.071164104617253,
+        "y": 4.63154128345311
       },
       "holonomicAngle": 180.0,
       "isReversal": true,
@@ -55,8 +55,8 @@
         "y": 4.411211711941838
       },
       "prevControl": {
-        "x": 3.5618673740566558,
-        "y": 4.347446038955946
+        "x": 2.6668821383291834,
+        "y": 5.3517943269838035
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -67,7 +67,7 @@
       "stopEvent": {
         "names": [
           "GrabCube",
-          "FullConeHighAndReturn"
+          "FullCubeHighAndReturn"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -75,23 +75,24 @@
       }
     }
   ],
-  "markers": [{
-                    "position": 0.15999999999997466,
-                    "names": [
-                      "StartGripper"
-                    ]
-                  },
-                  {
-                    "position": 1.2181818181818171,
-                    "names": [
-                      "FoldGripper"
-                    ]
-                  },
-                  {
-                    "position": 0.058181818181827286,
-                    "names": [
-                      "CloseArm"
-                    ]
-                  }
-                ]
+  "markers": [
+    {
+      "position": 0.15999999999997466,
+      "names": [
+        "StartGripper"
+      ]
+    },
+    {
+      "position": 1.2181818181818171,
+      "names": [
+        "FoldGripper"
+      ]
+    },
+    {
+      "position": 0.058181818181827286,
+      "names": [
+        "CloseArm"
+      ]
+    }
+  ]
 }

@@ -11,8 +11,7 @@ public class FullOpenIntake extends ParallelCommandGroup {
     public FullOpenIntake() {
         super(
                 new ExtendRoller(),
-                new RunRoller(),
-                new RotateOutDoorDirection()
+                new RunRoller()
         );
     }
 

@@ -26,73 +26,60 @@
     },
     {
       "anchorPoint": {
-        "x": 7.103839828221739,
-        "y": 0.9034011791276062
+        "x": 5.829045425796236,
+        "y": 0.9424210349837138
       },
       "prevControl": {
-        "x": 6.229339170129514,
-        "y": 0.9034011791276062
+        "x": 5.380752771085679,
+        "y": 0.20940196444347792
       },
       "nextControl": {
-        "x": 6.229339170129514,
-        "y": 0.9034011791276062
+        "x": 6.249160826933554,
+        "y": 1.6293664881947336
       },
-      "holonomicAngle": 180.0,
-      "isReversal": true,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 1.8493035852927244,
-        "y": 1.1922193816059026
-      },
-      "prevControl": {
-        "x": 2.79267217592923,
-        "y": 0.22870915927281152
-      },
-      "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "GrabCube",
-          "FullCubeHighAndReturn"
+          "MoveToOutRamp",
+          "BalanceFromOut"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.4373162004114395,
+        "y": 2.248185119599701
+      },
+      "prevControl": {
+        "x": 5.596278784625559,
+        "y": 1.8564558942149045
+      },
+      "nextControl": null,
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "BalanceFromIn"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
     }
   ],
-  "maxVelocity": null,
-  "maxAcceleration": 5.8,
-  "isReversed": null,
   "markers": [
     {
-      "position": 0.15999999999997466,
-      "names": [
-        "StartGripper"
-      ]
-    },
-    {
-      "position": 1.2181818181818171,
-      "names": [
-        "FoldGripper"
-      ]
-    },
-    {
-      "position": 0.058181818181827286,
+      "position": 0.0,
       "names": [
         "CloseArm"
       ]

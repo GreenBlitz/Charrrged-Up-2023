@@ -23,8 +23,8 @@ public class AutonomousSelector {
 		chooser.addOption("M_out_ramp", AutonomousPaths.MIDDLE_OUT_RAMP);
 		chooser.addOption("Tjust_place", AutonomousPaths.TOP_JUST_PLACE);
 		chooser.addOption("Tplace_exit", AutonomousPaths.TOP_PLACE_EXIT);
-		chooser.addOption("T93_ramp", AutonomousPaths.TOP_PICK_RAMP);
-		chooser.addOption("T93_d_83", AutonomousPaths.TOP_TWO_OBJ);
+		chooser.addOption("T_place_exit_ramp", AutonomousPaths.TOP_PICK_RAMP);
+		chooser.addOption("T_two_obj", AutonomousPaths.TOP_TWO_OBJ); //_93_d_83
 
 
 
@@ -55,8 +55,8 @@ public class AutonomousSelector {
 		TOP_PLACE_EXIT(PathFollowerBuilder.getInstance().followPath("Tplace_exit")),
 		BOTTOM_TWO_OBJ(PathFollowerBuilder.getInstance().followPath("B13_a_23")),
 		TOP_TWO_OBJ(PathFollowerBuilder.getInstance().followPath("T93_d_83")),
-		TOP_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("T93_d_ramp")),
-		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_a_ramp")),
+		TOP_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("T93_ramp")),
+		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_ramp")),
 		MIDDLE_OUT_RAMP(PathFollowerBuilder.getInstance().followPath("M_out_ramp")),
 		MIDDLE_JUST_RAMP(PathFollowerBuilder.getInstance().followPath("Mjust_ramp")),
 		
