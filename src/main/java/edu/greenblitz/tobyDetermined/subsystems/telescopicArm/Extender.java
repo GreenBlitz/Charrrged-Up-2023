@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
@@ -117,7 +118,7 @@ public class Extender extends GBSubsystem {
 	}
 	
 	public double getVolt(){
-		return motor.getAppliedOutput();
+		return motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage();
 	}
 
 	public double getLegalGoalLength(double wantedLength){
