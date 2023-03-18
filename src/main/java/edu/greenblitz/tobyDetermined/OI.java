@@ -65,18 +65,8 @@ public class OI { //GEVALD
 	
 	private void initButtons() {
 		
-//		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-//		Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
-//
-//
-//		secondJoystick.A.whileTrue(new QuasiStaticFeedForward(0.001));
 		amireeeButtons();
-		
-		
-		
-		
 		romyButtons();
-//		amireeeButtons();
 	}
 
 	public void romyButtons() {
