@@ -48,7 +48,6 @@ public class Extender extends GBSubsystem {
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
 		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
 		profileGenerator = new ProfiledPIDController(
 				0,0,0,
 				RobotMap.TelescopicArm.Extender.CONSTRAINTS
@@ -76,17 +75,12 @@ public class Extender extends GBSubsystem {
 		SmartDashboard.putBoolean("holdPosition", holdPosition);
 		SmartDashboard.putNumber("voltage",getVolt());
 		SmartDashboard.putNumber("velocity",getVelocity());
+		SmartDashboard.putNumber("position",getLength());
+		SmartDashboard.putNumber("current", motor.getOutputCurrent());
 //		SmartDashboard.putNumber("curr acc",
 //				(getVelocity() - lastSpeed) / RoborioUtils.getCurrentRoborioCycle()
 //		);
 		
-		
-		
-		System.out.println("roborio cycle time"+RoborioUtils.getCurrentRoborioCycle());
-		System.out.println("d v" + (getVelocity() - lastSpeed));
-		System.out.println(getVelocity());
-		System.out.println((getVelocity() - lastSpeed) / RoborioUtils.getCurrentRoborioCycle());
-		System.out.println("================================");
 		
 		lastSpeed = getVelocity();
 		
@@ -166,8 +160,9 @@ public class Extender extends GBSubsystem {
 		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
 	}
 	public void resetLength() {
-			resetLength(0);
-			didReset = true;
+		resetLength(0);
+		didReset = true;
+		enableReverseLimit();
 	}
 
 	public void resetLength(double position) {
@@ -246,6 +241,12 @@ public class Extender extends GBSubsystem {
 
 	public void setIdleMode(CANSparkMax.IdleMode idleMode){
 		motor.setIdleMode(idleMode);
+	}
+	
+	public void disableAllLimits(){
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
+		motor.getReverseLimitSwitch(SWITCH_TYPE).enableLimitSwitch(false);
 	}
 }
 

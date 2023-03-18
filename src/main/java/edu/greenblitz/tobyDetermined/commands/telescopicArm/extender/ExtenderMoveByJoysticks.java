@@ -26,6 +26,7 @@ public class ExtenderMoveByJoysticks extends ExtenderCommand {
 
 		SmartDashboard.putNumber("ext velocity", extender.getVelocity());
 
+		
 		extender.debugSetPower((power * Battery.getInstance().getCurrentVoltage() + ff) / Battery.getInstance().getCurrentVoltage());
 	}
 

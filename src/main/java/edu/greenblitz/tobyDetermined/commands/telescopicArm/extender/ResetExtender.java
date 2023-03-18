@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class ResetExtender extends ExtenderCommand {
 	
-	public static final double BACKWARDS_RESET_VELOCITY = -7;
+	public static final double BACKWARDS_RESET_VELOCITY = -3.5;
 	private double voltage;
 	
 	public ResetExtender(double voltage){
@@ -35,7 +35,6 @@ public class ResetExtender extends ExtenderCommand {
 	public void end(boolean interrupted) {
 		super.end(interrupted);
 		extender.resetLength();
-		extender.enableReverseLimit();
 		extender.stop();
 		LED.getInstance().setColor(Color.kGreen);
 	}

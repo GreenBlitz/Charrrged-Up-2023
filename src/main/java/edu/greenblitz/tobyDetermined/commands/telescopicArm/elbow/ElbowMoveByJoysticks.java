@@ -1,15 +1,14 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
-import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class elbowMoveByJoysticks extends ElbowCommand {
+public class ElbowMoveByJoysticks extends ElbowCommand {
 	private SmartJoystick joystick;
-	public elbowMoveByJoysticks(SmartJoystick joystick) {
+	public ElbowMoveByJoysticks(SmartJoystick joystick) {
 		super();
 		this.joystick = joystick;
 	}
