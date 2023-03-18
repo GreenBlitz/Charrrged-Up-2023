@@ -30,11 +30,9 @@ public class Grid {
     public void updateAlliance(){
         if (DriverStation.getAlliance() == DriverStation.Alliance.Red){
             locations = Field.PlacementLocations.getLocationsOnRedSide();
-            SmartDashboard.putString("alliance", "red");
         }
         if (DriverStation.getAlliance() == DriverStation.Alliance.Blue){
             locations = Field.PlacementLocations.getLocationsOnBlueSide();
-            SmartDashboard.putString("alliance", "blue");
         }
     }
 

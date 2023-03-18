@@ -11,6 +11,7 @@ import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
@@ -58,7 +59,11 @@ public class Extender extends GBSubsystem {
 		lastSpeed = 0;
 		didReset = false;
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
+		accTimer = new Timer();
+		accTimer.start();
 	}
+
+	private Timer accTimer;
 
 	public void unsafeSetGoalLengthByPid(double length){
 		goalLength = length;
@@ -77,13 +82,16 @@ public class Extender extends GBSubsystem {
 		SmartDashboard.putNumber("velocity",getVelocity());
 		SmartDashboard.putNumber("position",getLength());
 		SmartDashboard.putNumber("current", motor.getOutputCurrent());
-//		SmartDashboard.putNumber("curr acc",
-//				(getVelocity() - lastSpeed) / RoborioUtils.getCurrentRoborioCycle()
-//		);
-		
-		
-		lastSpeed = getVelocity();
-		
+
+		if (accTimer.advanceIfElapsed(0.15)) {
+			SmartDashboard.putNumber("curr acc",
+					(getVelocity() - lastSpeed) / (0.15 + accTimer.get())
+			);
+			lastSpeed = getVelocity();
+		}
+
+
+
 		
 		if (holdPosition) {
 			motor.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
@@ -116,7 +124,6 @@ public class Extender extends GBSubsystem {
 	}
 
 	public double getLegalGoalLength(double wantedLength){
-		SmartDashboard.putString("hypothetical extender state", getHypotheticalState(wantedLength).toString());
 		// going out of bounds should not be allowed
 		if (getHypotheticalState(wantedLength) == ExtenderState.FORWARD_OUT_OF_BOUNDS) {
 			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
@@ -220,7 +227,7 @@ public class Extender extends GBSubsystem {
 
 	public void setMotorVoltage(double voltage) {
 		holdPosition = false;
-		motor.setVoltage(voltage);
+		motor.set(voltage / Battery.getInstance().getCurrentVoltage());
 	}
 
 	public PIDObject getPID(){
