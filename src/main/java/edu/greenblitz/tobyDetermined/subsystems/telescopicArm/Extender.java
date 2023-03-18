@@ -3,12 +3,15 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
+import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
@@ -46,7 +49,6 @@ public class Extender extends GBSubsystem {
 		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
 		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
 		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
 		profileGenerator = new ProfiledPIDController(
 				0,0,0,
 				RobotMap.TelescopicArm.Extender.CONSTRAINTS
@@ -57,7 +59,11 @@ public class Extender extends GBSubsystem {
 		lastSpeed = 0;
 		didReset = false;
 		debouncer = new Debouncer(RobotMap.TelescopicArm.Extender.DEBOUNCE_TIME_FOR_LIMIT_SWITCH, Debouncer.DebounceType.kBoth);
+		accTimer = new Timer();
+		accTimer.start();
 	}
+
+	private Timer accTimer;
 
 	public void unsafeSetGoalLengthByPid(double length){
 		goalLength = length;
@@ -71,8 +77,22 @@ public class Extender extends GBSubsystem {
 	@Override
 	public void periodic() {
 		state = getHypotheticalState(getLength());
-		lastSpeed = getVelocity();
 		SmartDashboard.putBoolean("holdPosition", holdPosition);
+		SmartDashboard.putNumber("voltage",getVolt());
+		SmartDashboard.putNumber("velocity",getVelocity());
+		SmartDashboard.putNumber("position",getLength());
+		SmartDashboard.putNumber("current", motor.getOutputCurrent());
+
+		if (accTimer.advanceIfElapsed(0.15)) {
+			SmartDashboard.putNumber("curr acc",
+					(getVelocity() - lastSpeed) / (0.15 + accTimer.get())
+			);
+			lastSpeed = getVelocity();
+		}
+
+
+
+		
 		if (holdPosition) {
 			motor.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 		}
@@ -98,9 +118,12 @@ public class Extender extends GBSubsystem {
 	public static double getStaticFeedForward(double elbowAngle) {
 		return Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
 	}
+	
+	public double getVolt(){
+		return motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage();
+	}
 
 	public double getLegalGoalLength(double wantedLength){
-		SmartDashboard.putString("hypothetical extender state", getHypotheticalState(wantedLength).toString());
 		// going out of bounds should not be allowed
 		if (getHypotheticalState(wantedLength) == ExtenderState.FORWARD_OUT_OF_BOUNDS) {
 			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
@@ -144,8 +167,9 @@ public class Extender extends GBSubsystem {
 		return debouncer.calculate(motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed());
 	}
 	public void resetLength() {
-			resetLength(0);
-			didReset = true;
+		resetLength(0);
+		didReset = true;
+		enableReverseLimit();
 	}
 
 	public void resetLength(double position) {
@@ -203,7 +227,7 @@ public class Extender extends GBSubsystem {
 
 	public void setMotorVoltage(double voltage) {
 		holdPosition = false;
-		motor.setVoltage(voltage);
+		motor.set(voltage / Battery.getInstance().getCurrentVoltage());
 	}
 
 	public PIDObject getPID(){
@@ -224,6 +248,12 @@ public class Extender extends GBSubsystem {
 
 	public void setIdleMode(CANSparkMax.IdleMode idleMode){
 		motor.setIdleMode(idleMode);
+	}
+	
+	public void disableAllLimits(){
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
+		motor.getReverseLimitSwitch(SWITCH_TYPE).enableLimitSwitch(false);
 	}
 }
 

@@ -271,7 +271,6 @@ public class SdsSwerveModule implements SwerveModule {
 
 	@Override
 	public boolean isEncoderBroken() {
-		SmartDashboard.putNumber("firmware" + angleMotor.getDeviceID(), canCoder.getFirmwareVersion());
 		return canCoder.getFirmwareVersion() == -1;
 	}
 }

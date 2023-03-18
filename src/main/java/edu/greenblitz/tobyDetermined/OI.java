@@ -1,9 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
-import com.ctre.phoenix.sensors.CANCoder;
-import edu.greenblitz.tobyDetermined.commands.Auto.FullConeHighAndReturn;
-import edu.greenblitz.tobyDetermined.commands.Auto.FullCubeHighAndReturn;
-import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.PassAndBalance;
+import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
@@ -15,13 +12,13 @@ import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.elbowMoveByJoysticks;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -67,8 +64,9 @@ public class OI { //GEVALD
 	
 	
 	private void initButtons() {
-		romyButtons();
+		
 		amireeeButtons();
+		romyButtons();
 	}
 
 	public void romyButtons() {
@@ -91,7 +89,7 @@ public class OI { //GEVALD
 
     public void amireeeButtons(){
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-        Elbow.getInstance().setDefaultCommand(new elbowMoveByJoysticks(getSecondJoystick()));
+        Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
 
 		
         //screenshot

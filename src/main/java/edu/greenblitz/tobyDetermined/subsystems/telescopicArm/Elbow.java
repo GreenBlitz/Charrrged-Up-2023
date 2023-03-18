@@ -89,7 +89,6 @@ public class Elbow extends GBSubsystem {
     }
 
     public double getLegalGoalAngle(double angleInRads){
-        SmartDashboard.putString("hypothetical state", getHypotheticalState(angleInRads).toString());
         // going out of bounds should not be allowed
         if (getHypotheticalState(angleInRads) == ElbowState.FORWARD_OUT_OF_BOUNDS || getHypotheticalState(angleInRads) == ElbowState.BACKWARD_OUT_OF_BOUNDS){
             Console.log("OUT OF BOUNDS", "arm Elbow is trying to move OUT OF BOUNDS" );

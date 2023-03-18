@@ -13,6 +13,7 @@ public class FullCubeHighAndReturn extends SequentialCommandGroup {
 	public FullCubeHighAndReturn(){
 		super(
 				new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH).raceWith(new WaitCommand(5)).deadlineWith(new DefaultRotateWhenCube()),
+
 				new EjectCube().alongWith(new WaitCommand(0.2)).deadlineWith(new StayAtCurrentAngle()),
 				new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.COMMUNITY_PRE_GRID).raceWith(new WaitCommand(5))
 		);
