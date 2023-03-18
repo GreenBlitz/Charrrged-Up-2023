@@ -27,7 +27,8 @@ public class SimpleGoToPosition extends ParallelCommandGroup {
     
     
             return Extender.getInstance().isAtLength(this.lengthInMeters)
-//                && Extender.getInstance().isNotMoving()
+//                && Extender.getInstance().\[]
+//                isNotMoving()
                 && Elbow.getInstance().isAtAngle(this.angleInRads);};
 //                && Elbow.getInstance().isNotMoving();};
         addCommands(
