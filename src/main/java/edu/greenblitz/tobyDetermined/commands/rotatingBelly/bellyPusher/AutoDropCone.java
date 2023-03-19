@@ -38,12 +38,6 @@ public class AutoDropCone extends ProxyCommand {
 		BellyPusher.getInstance().closePiston();
 		RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH = 0.054;
 		Extender.ExtenderState.IN_WALL_LENGTH.setMaxLength(RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
-		SmartDashboard.putNumber("valINeedNow", RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
 	}
 
-	@Override
-	public void execute() {
-		super.execute();
-		SmartDashboard.putNumber("valINeedNow", RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
-	}
 }
