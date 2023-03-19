@@ -1,13 +1,11 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.PushCone;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.RetractPusher;
-import edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation.FullAlign;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
@@ -65,9 +63,8 @@ public class OI { //GEVALD
 	
 	
 	private void initButtons() {
-		mainJoystick.A.whileTrue(new FullAlign());
-//		amireeeButtons();
-//		romyButtons();
+		amireeeButtons();
+		romyButtons();
 	}
 
 	public void romyButtons() {
