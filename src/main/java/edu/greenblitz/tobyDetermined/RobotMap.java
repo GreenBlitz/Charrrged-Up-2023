@@ -230,8 +230,8 @@ public class RobotMap {
             CUBE_MID(0.31, 1.94),
             LOW(0.35, Math.toRadians(60)),
 
-            POST_CONE_DROP(0.089,0.072),
-            PRE_CONE_DROP(0.089,0.367),
+            POST_CONE_DROP(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE,0.072),
+            PRE_CONE_DROP(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE,0.367),
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
