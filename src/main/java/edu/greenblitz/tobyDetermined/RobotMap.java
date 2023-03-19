@@ -260,7 +260,7 @@ public class RobotMap {
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static final double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
-            public static final double SETPOINT_D = 0;
+            public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
 
@@ -310,6 +310,7 @@ public class RobotMap {
 
         public static class Elbow {
             public static final int MOTOR_ID = 1;
+            public static final int RESET_MEDIAN_SIZE = 7;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
@@ -318,9 +319,9 @@ public class RobotMap {
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
             public static final double MAX_ACCELERATION = 10;
-            public static final double MAX_VELOCITY = 3.2;
+            public static final double MAX_VELOCITY = 4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(2).withKd(0.275).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(4).withKd(0.4).withMaxPower(1);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
