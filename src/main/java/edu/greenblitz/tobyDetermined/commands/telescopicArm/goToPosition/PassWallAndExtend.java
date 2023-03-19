@@ -10,18 +10,40 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class PassWallAndExtend extends ParallelCommandGroup {
+public class PassWallAndExtend extends SequentialCommandGroup {
 
 	public PassWallAndExtend(double lengthInMeters, double angleInRads) {
 		addCommands(
+				new ExtendToLength(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE).deadlineWith(new StayAtCurrentAngle()),
+				new RotateToAngleRadians(angleInRads).deadlineWith(new ExtendToLength(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE){
+					@Override
+					public boolean isFinished() {
+						return false;
+					}
+				}),
+				new ExtendToLength(lengthInMeters){
+					@Override
+					public boolean isFinished() {
+						return extender.isAtLength(lengthInMeters);
+					}
+				}.deadlineWith(new RotateToAngleRadians(angleInRads){
+					@Override
+					public boolean isFinished() {
+						return false;
+					}
+				})
+				
+
+/*
 				new RotateToAngleRadians(angleInRads) {
 					@Override
 					public boolean isFinished() {
-						return elbow.isAtAngle(angleInRads);
+						return elbow.isAtAngle(angleInRads) && Extender.getInstance().isAtLength(lengthInMeters);
 					}
-				}.andThen(new StayAtCurrentAngle().until(() -> Extender.getInstance().isAtLength(lengthInMeters))),
+				}.beforeStarting(new WaitUntilCommand(() -> Extender.getInstance().getState() == Extender.ExtenderState.IN_WALL_LENGTH)),
 				new ExtendToLength(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE){
 					@Override
 					public boolean isFinished() {
@@ -34,6 +56,7 @@ public class PassWallAndExtend extends ParallelCommandGroup {
 								return extender.isAtLength(lengthInMeters);
 							}
 						}).andThen(new StayAtCurrentLength().until(() -> Elbow.getInstance().isAtAngle(angleInRads)))
+*/
 
 		);
 	}

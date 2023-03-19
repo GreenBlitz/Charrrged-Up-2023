@@ -28,12 +28,12 @@ public class ExtendToLength extends ExtenderCommand {
     public void initialize() {
         super.initialize();
         pidController = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-        legalGoalLength = extender.getLegalGoalLength(wantedLength);
-        pidController.reset(new TrapezoidProfile.State(extender.getLength(), extender.getVelocity()));
         SmartDashboard.putNumber("kp", SmartDashboard.getNumber("kp", pidController.getP()));
         SmartDashboard.putNumber("ki", SmartDashboard.getNumber("ki", pidController.getI()));
         SmartDashboard.putNumber("kd", SmartDashboard.getNumber("kd", pidController.getD()));
-        SmartDashboard.putNumber("setpoint d", SmartDashboard.getNumber("setpoint d", SETPOINT_D));
+        SmartDashboard.putNumber("setpoint d", SmartDashboard.getNumber("setpoint d", 0));
+        legalGoalLength = extender.getLegalGoalLength(wantedLength);
+        pidController.reset(new TrapezoidProfile.State(extender.getLength(), extender.getVelocity()));
         lastSetpoint = 0;
     }
     private double lastSetpoint;
@@ -42,20 +42,16 @@ public class ExtendToLength extends ExtenderCommand {
         pidController.setP(SmartDashboard.getNumber("kp", pidController.getP()));
         pidController.setI(SmartDashboard.getNumber("ki", pidController.getI()));
         pidController.setD(SmartDashboard.getNumber("kd", pidController.getD()));
-        double setpointD = SmartDashboard.getNumber("setpoint d", SETPOINT_D);
+        double setpointD = SETPOINT_D;
         legalGoalLength = extender.getLegalGoalLength(wantedLength);
         pidController.setGoal(legalGoalLength);
-        SmartDashboard.putNumber("vel target", pidController.getSetpoint().velocity);
-        SmartDashboard.putNumber("pos target", pidController.getSetpoint().position);
 
         double setpointGain = (pidController.getSetpoint().velocity - lastSetpoint) * setpointD;
         lastSetpoint = pidController.getSetpoint().velocity;
         double pidGain = pidController.calculate(extender.getLength(), legalGoalLength) + setpointGain;
         double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians()) + Math.signum(pidGain) * kS;
-        SmartDashboard.putNumber("pid gain", pidGain);
-        SmartDashboard.putNumber("setpoint gain", setpointGain);
-        SmartDashboard.putNumber("ff", feedForward);
-
+        SmartDashboard.putNumber("vel target", pidController.getSetpoint().velocity);
+        SmartDashboard.putNumber("pos target", pidController.getSetpoint().position);
         extender.setMotorVoltage(feedForward + pidGain);
     }
 

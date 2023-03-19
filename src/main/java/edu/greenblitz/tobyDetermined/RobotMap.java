@@ -263,7 +263,7 @@ public class RobotMap {
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
-            public static final double SETPOINT_D = 300;
+            public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
 
@@ -313,6 +313,7 @@ public class RobotMap {
 
         public static class Elbow {
             public static final int MOTOR_ID = 1;
+            public static final int RESET_MEDIAN_SIZE = 7;
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
@@ -320,21 +321,22 @@ public class RobotMap {
             public static final double MAX_Kg = 0.62;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
-            public static final double MAX_ACCELERATION = 2.472;
-            public static final double MAX_VELOCITY = 2.3;
+            public static final double MAX_ACCELERATION = 10;
+            public static final double MAX_VELOCITY = 4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(0.5).withKd(0.275).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(4).withKd(0.4).withMaxPower(1);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
 
-            public static final double POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
-            public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR;
-
+            public static final double ABSOLUTE_POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
+            public static final double ABSOLUTE_VELOCITY_CONVERSION_FACTOR = ABSOLUTE_POSITION_CONVERSION_FACTOR;
+            public static final double RELATIVE_POSITION_CONVERSION_FACTOR = 0.0328; //you know of calibrating pid but have you heard of calibrating the gear ratio
+            public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328/ 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
-            public static final double ANGLE_TOLERANCE = Units.degreesToRadians(5);
+            public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);
 
 
