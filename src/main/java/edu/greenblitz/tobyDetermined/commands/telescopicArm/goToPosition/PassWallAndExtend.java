@@ -19,9 +19,9 @@ public class PassWallAndExtend extends ParallelCommandGroup {
 				new RotateToAngleRadians(angleInRads) {
 					@Override
 					public boolean isFinished() {
-						return elbow.isAtAngle(angleInRads);
+						return elbow.isAtAngle(angleInRads) && Extender.getInstance().isAtLength(lengthInMeters);
 					}
-				}.andThen(new StayAtCurrentAngle().until(() -> Extender.getInstance().isAtLength(lengthInMeters))),
+				},
 				new ExtendToLength(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE){
 					@Override
 					public boolean isFinished() {

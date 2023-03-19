@@ -4,15 +4,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
-import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
-import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
@@ -26,6 +23,10 @@ public class Elbow extends GBSubsystem {
     private double debugLastFF;
 
     public double goalAngle;
+    
+    /*double sprocketRatio = 16.0/60;
+    double gearRatio = 1.0/30;
+    double combinedGearRatio = sprocketRatio * gearRatio;*/
 
     private boolean debug = false;
 
@@ -40,13 +41,20 @@ public class Elbow extends GBSubsystem {
         }
     }
 
+    public double startingValue;
+    
     private Elbow() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
 
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.POSITION_CONVERSION_FACTOR);
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.VELOCITY_CONVERSION_FACTOR);
-
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_POSITION_CONVERSION_FACTOR);
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_VELOCITY_CONVERSION_FACTOR);
+        
+        motor.getEncoder().setPositionConversionFactor(RELATIVE_POSITION_CONVERSION_FACTOR);//not the actual gear ratio, weird estimation
+        motor.getEncoder().setVelocityConversionFactor(RELATIVE_VELOCITY_CONVERSION_FACTOR);
+    
+        motor.getEncoder().setPosition(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition());
+        startingValue = motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
         motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
         motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
         motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
@@ -58,13 +66,31 @@ public class Elbow extends GBSubsystem {
         if(debug){
             debugSoftLimit();
         }
+        accTimer = new Timer();
+        accTimer.start();
     }
-
+    
+    private Timer accTimer;
+    private double lastSpeed;
 
     @Override
     public void periodic() {
         super.periodic();
         state = getHypotheticalState(getAngleRadians());
+        SmartDashboard.putNumber("voltage", motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage());
+        SmartDashboard.putNumber("velocity",getVelocity());
+        SmartDashboard.putNumber("position",getAngleRadians());
+        SmartDashboard.putNumber("current", motor.getOutputCurrent());
+        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue)
+        / (motor.getEncoder().getPosition() - startingValue));
+    
+        if (accTimer.advanceIfElapsed(0.15)) {
+            SmartDashboard.putNumber("curr acc",
+                    (getVelocity() - lastSpeed) / (0.15 + accTimer.get())
+            );
+            lastSpeed = getVelocity();
+        }
+    
     }
 
     public void updatePIDController(PIDObject pidObject){
@@ -114,13 +140,12 @@ public class Elbow extends GBSubsystem {
 
     public void setAngleRadiansByPID(double goalAngle, double feedForward) {
         motor.getPIDController().setReference(goalAngle, CANSparkMax.ControlType.kPosition, 0, feedForward);
-        SmartDashboard.putNumber("powah", feedForward);
-        SmartDashboard.putNumber("current velocity", getVelocity());
-        debugLastFF = feedForward;
+         debugLastFF = feedForward;
     }
 
     public double getAngleRadians() {
-        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
+//        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
+        return (((motor.getEncoder().getPosition())));
     }
 
     public ElbowState getState() {

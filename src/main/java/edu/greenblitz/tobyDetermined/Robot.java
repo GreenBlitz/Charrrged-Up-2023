@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().setIdleModeBrake();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
-			new ResetExtender().raceWith(new WaitCommand(2.5)).andThen(new ConsoleLog("time out", "arm reset time out")).schedule();
+			new ResetExtender().schedule();
 		}
 
 		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
 		}
 
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
-			new ResetExtender().raceWith(new WaitCommand(3).andThen(new ConsoleLog("time out", "arm reset time out"))).andThen(command).schedule();
+			new ResetExtender().andThen(command).schedule();
 		} else command.schedule();
 	}
 	

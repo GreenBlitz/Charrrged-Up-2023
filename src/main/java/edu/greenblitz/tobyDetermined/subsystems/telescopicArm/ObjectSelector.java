@@ -9,11 +9,13 @@ public class ObjectSelector {
 	public static void selectCone(){
 		isCone = true;
 		LED.getInstance().setColor(Color.kYellow);
+		Claw.getInstance().coneCatchMode();
 	}
 	
 	public static void selectCube(){
 		isCone = false;
 		LED.getInstance().setColor(Color.kMagenta);
+		Claw.getInstance().cubeCatchMode();
 	}
 	
 	public static boolean IsCone(){
