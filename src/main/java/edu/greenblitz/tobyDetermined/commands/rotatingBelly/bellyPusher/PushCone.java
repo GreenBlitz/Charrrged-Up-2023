@@ -8,4 +8,9 @@ public class PushCone extends PusherCommand {
     public void initialize() {
         pusher.openPiston();
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

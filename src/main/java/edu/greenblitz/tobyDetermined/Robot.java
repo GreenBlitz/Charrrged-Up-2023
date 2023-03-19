@@ -104,6 +104,8 @@ public class Robot extends TimedRobot {
 		} else {
 			LED.getInstance().setColor(Color.kGreen);
 		}
+
+		SmartDashboard.putNumber("maxEntranceLen", RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH);
 		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	

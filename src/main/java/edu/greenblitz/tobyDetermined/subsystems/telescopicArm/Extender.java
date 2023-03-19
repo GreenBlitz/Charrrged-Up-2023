@@ -206,6 +206,10 @@ public class Extender extends GBSubsystem {
 			this.maxLength = maxLength;
 		}
 
+		public void setMaxLength(double maxLength){
+			this.maxLength = maxLength;
+		}
+
 		public boolean longerThan(ExtenderState other){
 			return this.maxLength > other.maxLength;
 		}
