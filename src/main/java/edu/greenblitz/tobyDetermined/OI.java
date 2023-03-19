@@ -116,7 +116,7 @@ public class OI { //GEVALD
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.BACK.and(secondJoystick.B).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 //	    secondJoystick.BACK.onTrue(new PushCone()).onFalse(new RetractPusher());
-		secondJoystick.BACK.whileTrue(new AutoDropCone());
+		secondJoystick.BACK.whileTrue(new AutoDropCone().andThen(new ManualAlignObject()));
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
 		//intake and belly
