@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class ResetExtender extends ExtenderCommand {
 	
-	public static final double BACKWARDS_RESET_VELOCITY = -1;
+	public static final double BACKWARDS_RESET_VELOCITY = -3.5;
 	private double voltage;
 	
 	public ResetExtender(double voltage){

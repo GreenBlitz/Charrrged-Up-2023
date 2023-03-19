@@ -23,10 +23,6 @@ public class Elbow extends GBSubsystem {
     private double debugLastFF;
 
     public double goalAngle;
-    
-    /*double sprocketRatio = 16.0/60;
-    double gearRatio = 1.0/30;
-    double combinedGearRatio = sprocketRatio * gearRatio;*/
 
     private boolean debug = false;
 
@@ -77,12 +73,12 @@ public class Elbow extends GBSubsystem {
     public void periodic() {
         super.periodic();
         state = getHypotheticalState(getAngleRadians());
-        SmartDashboard.putNumber("voltage", motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage());
-        SmartDashboard.putNumber("velocity",getVelocity());
-        SmartDashboard.putNumber("position",getAngleRadians());
-        SmartDashboard.putNumber("current", motor.getOutputCurrent());
-        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue)
-        / (motor.getEncoder().getPosition() - startingValue));
+//        SmartDashboard.putNumber("voltage", motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage());
+//        SmartDashboard.putNumber("velocity",getVelocity());
+//        SmartDashboard.putNumber("position",getAngleRadians());
+//        SmartDashboard.putNumber("current", motor.getOutputCurrent());
+//        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue)
+//        / (motor.getEncoder().getPosition() - startingValue));
     
         if (accTimer.advanceIfElapsed(0.15)) {
             SmartDashboard.putNumber("curr acc",

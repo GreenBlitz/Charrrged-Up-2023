@@ -77,11 +77,11 @@ public class Extender extends GBSubsystem {
 	@Override
 	public void periodic() {
 		state = getHypotheticalState(getLength());
-		SmartDashboard.putBoolean("holdPosition", holdPosition);
-		SmartDashboard.putNumber("voltage",getVolt());
-		SmartDashboard.putNumber("velocity",getVelocity());
-		SmartDashboard.putNumber("position",getLength());
-		SmartDashboard.putNumber("current", motor.getOutputCurrent());
+//		SmartDashboard.putBoolean("holdPosition", holdPosition);
+//		SmartDashboard.putNumber("voltage",getVolt());
+//		SmartDashboard.putNumber("velocity",getVelocity());
+//		SmartDashboard.putNumber("position",getLength());
+//		SmartDashboard.putNumber("current", motor.getOutputCurrent());
 
 		if (accTimer.advanceIfElapsed(0.15)) {
 			SmartDashboard.putNumber("curr acc",
