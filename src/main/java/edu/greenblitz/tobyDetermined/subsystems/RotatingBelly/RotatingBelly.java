@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotatingBelly extends GBSubsystem {
 
@@ -52,11 +53,16 @@ public class RotatingBelly extends GBSubsystem {
     }
 */
     public boolean isLimitSwitchPressed(){
-        return limitSwitch.get();
+        return !limitSwitch.get();
     }
 
     public void stop (){
         setPower(0);
     }
 
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putBoolean("is",RotatingBelly.getInstance().isLimitSwitchPressed());
+    }
 }
