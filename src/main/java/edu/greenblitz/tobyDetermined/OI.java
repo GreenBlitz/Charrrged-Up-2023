@@ -7,18 +7,19 @@ import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.PushCone;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.RetractPusher;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation.FullAlign;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -64,9 +65,9 @@ public class OI { //GEVALD
 	
 	
 	private void initButtons() {
-		
-		amireeeButtons();
-		romyButtons();
+		mainJoystick.A.whileTrue(new FullAlign());
+//		amireeeButtons();
+//		romyButtons();
 	}
 
 	public void romyButtons() {

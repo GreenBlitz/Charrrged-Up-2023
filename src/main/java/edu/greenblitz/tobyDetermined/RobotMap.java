@@ -209,8 +209,8 @@ public class RobotMap {
         public static final double ROTATING_POWER = 0.8;
         public static final int MACRO_SWITCH_DIO_PORT = 7;
 
-        public static final double ROTATE_FROM_SWITCH_TO_STOP_TIME = 1;
-        public static final double ROTATE_FROM_STOP_TO_SWITCH_TIME = 1;
+        public static final double ROTATE_FROM_SWITCH_TO_STOP_TIME = 0.5;
+        public static final double ROTATE_FROM_STOP_TO_SWITCH_TIME = 0.5;
         public static double ROTATE_TO_DOOR_TIME = 3;
 
         public static final int CLOSE_PISTON_ID = 3;
