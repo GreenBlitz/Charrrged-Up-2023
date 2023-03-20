@@ -58,15 +58,15 @@ public class Field {
     public static class PlacementLocations{
         // the locations of the grid plus half of the robot length.
         private static final Pose2d[] locationsOnBlueSide = {
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 0.508 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 1.067 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 1.626 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 2.184 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 2.743 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 3.302 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 3.861 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 4.420 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH, 4.978 + 0.30), new Rotation2d(Math.PI))
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 0.508 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 1.067 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 1.626 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 2.184 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 2.743 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 3.302 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 3.861 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 4.420 + 0.30), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 4.978 + 0.30), new Rotation2d(Math.PI))
         };
 
         public static Pose2d[] getLocationsOnBlueSide(){
