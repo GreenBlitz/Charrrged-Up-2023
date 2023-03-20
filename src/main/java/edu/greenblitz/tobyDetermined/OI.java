@@ -65,9 +65,8 @@ public class OI { //GEVALD
 	
 	
 	private void initButtons() {
-		mainJoystick.A.whileTrue(new FullAlign());
-//		amireeeButtons();
-//		romyButtons();
+		amireeeButtons();
+		romyButtons();
 	}
 
 	public void romyButtons() {
@@ -116,7 +115,7 @@ public class OI { //GEVALD
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 	    secondJoystick.L3.onTrue(new PushCone()).onFalse(new RetractPusher());
-		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new FullAlign()));
+		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new ManualAlignObject()));
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
 		//intake and belly
