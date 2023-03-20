@@ -10,4 +10,11 @@ public class RetractPusher extends PusherCommand {
     public void initialize() {
         pusher.closePiston();
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }
+
+

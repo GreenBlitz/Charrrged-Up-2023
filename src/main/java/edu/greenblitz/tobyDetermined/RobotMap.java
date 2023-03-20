@@ -210,8 +210,8 @@ public class RobotMap {
         public static final double ROTATING_POWER = 0.8;
         public static final int MACRO_SWITCH_DIO_PORT = 7;
 
-        public static final double ROTATE_FROM_SWITCH_TO_STOP_TIME = 1;
-        public static final double ROTATE_FROM_STOP_TO_SWITCH_TIME = 1;
+        public static final double ROTATE_FROM_SWITCH_TO_STOP_TIME = 0.2;
+        public static final double ROTATE_FROM_STOP_TO_SWITCH_TIME = 0.4;
         public static double ROTATE_TO_DOOR_TIME = 3;
 
         public static final int CLOSE_PISTON_ID = 3;
@@ -231,10 +231,13 @@ public class RobotMap {
             CUBE_MID(0.31, 1.94),
             LOW(0.35, Math.toRadians(60)),
 
+            POST_CONE_DROP(0.089,0.1),
+            PRE_CONE_DROP(0.089,0.667),
+
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
             INTAKE_GRAB_POSITION(0.31, 0.16),
-            PRE_INTAKE_GRAB_POSITION(0.02, 0.28),
+            PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663, 1.949);
@@ -259,7 +262,7 @@ public class RobotMap {
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT - 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
-            public static final double MAX_ENTRANCE_LENGTH = 0.054;
+            public static double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
