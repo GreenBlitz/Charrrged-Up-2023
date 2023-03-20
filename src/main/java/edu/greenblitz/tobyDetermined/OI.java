@@ -1,6 +1,5 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.PlaceFromAdjacent;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
@@ -65,7 +64,6 @@ public class OI { //GEVALD
 	
 	
 	private void initButtons() {
-		
 		amireeeButtons();
 		romyButtons();
 	}

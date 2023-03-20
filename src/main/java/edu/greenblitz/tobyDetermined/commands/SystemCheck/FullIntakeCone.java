@@ -10,7 +10,6 @@ public class FullIntakeCone extends SequentialCommandGroup {
 	public FullIntakeCone(){
 		super(
 				new CloseIntakeAndAlign(),
-				new RotateOutDoorDirection().raceWith(new WaitCommand(1)),
 				new GripFromBelly()
 		);
 	}
