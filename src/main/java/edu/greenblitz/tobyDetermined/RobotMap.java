@@ -98,9 +98,9 @@ public class RobotMap {
             public static final int LAMPREY_AVERAGE_BITS = 2;
 
 
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
+            public static final PIDConstants TRANSLATION_PID = new PIDConstants(4, 0, 0);
 
-            public static final PIDConstants ROTATION_PID = new PIDConstants(2, 0, 0);
+            public static final PIDConstants ROTATION_PID = new PIDConstants(4, 0, 0);
 
             public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
                     //the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
@@ -235,7 +235,8 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_POSITION(0.31, 0.16),
+            INTAKE_GRAB_CONE_POSITION(0.31, 0.12),
+            INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
             PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),

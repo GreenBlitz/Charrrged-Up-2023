@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.Auto.FullConeHigh;
+import edu.greenblitz.tobyDetermined.commands.Auto.FullCubeHigh;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
@@ -67,6 +69,7 @@ public class OI { //GEVALD
 	private void initButtons() {
 		amireeeButtons();
 		romyButtons();
+		mainJoystick.X.onTrue(new FullCubeHigh());
 	}
 
 	public void romyButtons() {

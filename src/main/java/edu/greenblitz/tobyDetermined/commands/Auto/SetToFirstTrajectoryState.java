@@ -7,6 +7,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.List;
+
 public class SetToFirstTrajectoryState extends SwerveCommand {
 
     private final static double EPSILON = 0.00001;
@@ -16,6 +18,10 @@ public class SetToFirstTrajectoryState extends SwerveCommand {
 
     public SetToFirstTrajectoryState(PathPlannerTrajectory trajectory) {
         this.path = trajectory;
+    }
+    
+    public SetToFirstTrajectoryState(List<PathPlannerTrajectory> trajectory) {
+        this(trajectory.get(0));
     }
 
     @Override
