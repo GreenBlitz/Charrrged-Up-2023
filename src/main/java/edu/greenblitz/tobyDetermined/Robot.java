@@ -104,6 +104,7 @@ public class Robot extends TimedRobot {
 		} else {
 			LED.getInstance().setColor(Color.kGreen);
 		}
+
 		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	

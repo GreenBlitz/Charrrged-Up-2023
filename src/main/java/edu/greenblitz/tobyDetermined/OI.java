@@ -4,8 +4,10 @@ import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.PushCone;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.RetractPusher;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation.FullAlign;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
@@ -111,8 +113,9 @@ public class OI { //GEVALD
 
         //grab
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
-        secondJoystick.BACK.and(secondJoystick.B).whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
-	    secondJoystick.BACK.onTrue(new PushCone()).onFalse(new RetractPusher());
+        secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
+	    secondJoystick.L3.onTrue(new PushCone()).onFalse(new RetractPusher());
+		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new FullAlign()));
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
 		//intake and belly
