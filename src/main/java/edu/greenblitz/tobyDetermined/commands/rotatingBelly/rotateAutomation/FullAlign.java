@@ -13,7 +13,7 @@ public class FullAlign extends SequentialCommandGroup {
 
 
     public static final double FINAL_TIME = 3;
-    public static final double EXTRA_TIME = 1; //seconds
+    public static final double EXTRA_TIME = 0.2; //seconds
     public static final double POWER = 0.7; //seconds
 
     public FullAlign(){
@@ -21,14 +21,12 @@ public class FullAlign extends SequentialCommandGroup {
                 new SequentialCommandGroup(
                         new RotateInDoorDirection().until(()-> RotatingBelly.getInstance().isLimitSwitchPressed()),
                         new RotateInDoorDirection().raceWith(new WaitCommand(RobotMap.RotatingBelly.ROTATE_FROM_SWITCH_TO_STOP_TIME)),
-
-
+                        new RotateInDoorDirection().raceWith(new WaitCommand(EXTRA_TIME)),
 
                         new RotateOutDoorDirection().until(()-> RotatingBelly.getInstance().isLimitSwitchPressed()),
                         new RotateOutDoorDirection().raceWith(new WaitCommand(RobotMap.RotatingBelly.ROTATE_FROM_STOP_TO_SWITCH_TIME)),
 
                         new InstantCommand(()-> LED.getInstance().setColor(Color.kOrchid))
-                ).raceWith(new WaitCommand(FINAL_TIME))
-        );
+                ).raceWith(new WaitCommand(FINAL_TIME)));
     }
 }
