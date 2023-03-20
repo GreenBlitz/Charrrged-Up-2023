@@ -260,7 +260,7 @@ public class RobotMap {
             public static final double FORWARD_LIMIT = 0.78;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT - 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
-            public static double MAX_LENGTH_IN_ROBOT = 0.37;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
             public static final double SETPOINT_D = 10;
