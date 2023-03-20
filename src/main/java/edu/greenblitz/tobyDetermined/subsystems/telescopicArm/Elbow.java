@@ -9,6 +9,7 @@ import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +24,8 @@ public class Elbow extends GBSubsystem {
     private double debugLastFF;
 
     public double goalAngle;
+
+    private MedianFilter absolutAngFilter;
     
     /*double sprocketRatio = 16.0/60;
     double gearRatio = 1.0/30;
@@ -53,7 +56,6 @@ public class Elbow extends GBSubsystem {
         motor.getEncoder().setPositionConversionFactor(RELATIVE_POSITION_CONVERSION_FACTOR);//not the actual gear ratio, weird estimation
         motor.getEncoder().setVelocityConversionFactor(RELATIVE_VELOCITY_CONVERSION_FACTOR);
     
-        motor.getEncoder().setPosition(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition());
         startingValue = motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
         motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
         motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
@@ -68,6 +70,8 @@ public class Elbow extends GBSubsystem {
         }
         accTimer = new Timer();
         accTimer.start();
+
+        absolutAngFilter = new MedianFilter(RESET_MEDIAN_SIZE);
     }
     
     private Timer accTimer;
@@ -91,6 +95,10 @@ public class Elbow extends GBSubsystem {
             lastSpeed = getVelocity();
         }
     
+    }
+
+    public void resetEncoder(){
+        motor.getEncoder().setPosition(absolutAngFilter.calculate(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition()));
     }
 
     public void updatePIDController(PIDObject pidObject){

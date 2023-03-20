@@ -173,6 +173,7 @@ public class Robot extends TimedRobot {
 			}
 		}
 		SwerveChassis.getInstance().isEncoderBroken();
+		Elbow.getInstance().resetEncoder();
 	}
 	
 	public enum robotName {
