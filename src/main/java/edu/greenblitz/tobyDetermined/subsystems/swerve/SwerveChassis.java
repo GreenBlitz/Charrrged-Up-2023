@@ -42,8 +42,8 @@ public class SwerveChassis extends GBSubsystem {
 	Debouncer encoderBrokenDebouncer = new Debouncer(0.2);
 	
 	
-	public static final double TRANSLATION_TOLERANCE = 0.03;
-	public static final double ROTATION_TOLERANCE = 0.1;
+	public static final double TRANSLATION_TOLERANCE = 0.05;
+	public static final double ROTATION_TOLERANCE = 2;
 	
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
@@ -282,7 +282,11 @@ public class SwerveChassis extends GBSubsystem {
 	
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
+		double limelightXSpeed = SwerveChassis.getInstance().getChassisSpeeds().vxMetersPerSecond * RobotMap.Vision.VISION_CONSTANT;
+		double limelightYSpeed = SwerveChassis.getInstance().getChassisSpeeds().vyMetersPerSecond * RobotMap.Vision.VISION_CONSTANT;
+		double limelightRotationSpeed = SwerveChassis.getInstance().getChassisSpeeds().omegaRadiansPerSecond * RobotMap.Vision.VISION_CONSTANT;
 		if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > RobotMap.Vision.MIN_DISTANCE_TO_FILTER_OUT)) {
+			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(limelightXSpeed, limelightYSpeed, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 			poseEstimator.addVisionMeasurement(visionPose, poseTimestampPair.getSecond());
 		}
 	}

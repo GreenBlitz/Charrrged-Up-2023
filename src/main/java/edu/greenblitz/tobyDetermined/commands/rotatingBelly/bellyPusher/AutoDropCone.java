@@ -24,8 +24,8 @@ public class AutoDropCone extends ProxyCommand {
 							Claw.getInstance().coneCatchMode();
 							ObjectSelector.selectCone();
 						})),
-				new PushCone(),
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.POST_CONE_DROP),
+				new PushCone(),
 				new WaitCommand(0.5)
 				)
 		);

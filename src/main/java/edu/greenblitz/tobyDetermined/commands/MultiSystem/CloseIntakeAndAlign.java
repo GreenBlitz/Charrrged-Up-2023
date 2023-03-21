@@ -15,7 +15,6 @@ public class CloseIntakeAndAlign extends ParallelCommandGroup {
         super(
                 new RetractRoller(),
                 new WaitCommand(2).deadlineWith(new RotateOutDoorDirection())
-                        .andThen(new AutoDropCone())
                         .andThen(new FullAlign())
         );
     }
