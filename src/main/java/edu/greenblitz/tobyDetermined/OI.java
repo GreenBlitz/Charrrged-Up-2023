@@ -29,6 +29,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class OI { //GEVALD
 	
@@ -69,6 +70,9 @@ public class OI { //GEVALD
 	private void initButtons() {
 		amireeeButtons();
 		romyButtons();
+
+
+
 	}
 
 	public void romyButtons() {
@@ -101,7 +105,8 @@ public class OI { //GEVALD
 			Extender.getInstance().disableReverseLimit();
 		}));
         //grid
-        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+//        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+		secondJoystick.POV_LEFT.onTrue(new FullAlign());
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
         secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
@@ -117,7 +122,7 @@ public class OI { //GEVALD
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 	    secondJoystick.L3.onTrue(new PushCone()).onFalse(new RetractPusher());
-		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new ManualAlignObject()));
+		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new RotateOutDoorDirection().raceWith(new WaitCommand(0.45))).andThen(new FullAlign()));
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
 		//intake and belly
