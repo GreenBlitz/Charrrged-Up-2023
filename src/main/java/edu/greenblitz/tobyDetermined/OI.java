@@ -105,8 +105,7 @@ public class OI { //GEVALD
 			Extender.getInstance().disableReverseLimit();
 		}));
         //grid
-//        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-		secondJoystick.POV_LEFT.onTrue(new FullAlign());
+        secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
         secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
         secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
