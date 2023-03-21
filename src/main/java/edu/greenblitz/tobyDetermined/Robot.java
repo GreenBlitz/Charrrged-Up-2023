@@ -101,11 +101,6 @@ public class Robot extends TimedRobot {
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().schedule();
 		}
-		if (Battery.getInstance().getCurrentVoltage() < 10){
-			LED.getInstance().setColor(Color.kBlue);
-		} else {
-			LED.getInstance().setColor(Color.kGreen);
-		}
 
 		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}

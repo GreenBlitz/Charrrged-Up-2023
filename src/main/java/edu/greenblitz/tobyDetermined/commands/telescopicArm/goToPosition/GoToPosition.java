@@ -24,7 +24,7 @@ public class GoToPosition extends SequentialCommandGroup {
 						/*Extender.getHypotheticalState(targetLengthInMeters).shorterOrEqualTo(Extender.ExtenderState.IN_WALL_LENGTH)
 				||*/
 						(Elbow.getInstance().isInTheSameState(targetAngleInRads) && Elbow.getInstance().state != Elbow.ElbowState.WALL_ZONE)
-				|| (Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.WALL_ZONE)
+//				|| (Elbow.getHypotheticalState(targetAngleInRads) == Elbow.ElbowState.WALL_ZONE)
 				|| (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && Extender.getInstance().getState().shorterOrEqualTo(Extender.ExtenderState.IN_WALL_LENGTH))
 		))));
 
