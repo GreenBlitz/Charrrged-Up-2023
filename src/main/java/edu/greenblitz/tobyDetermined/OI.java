@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.Auto.FullConeHigh;
+import edu.greenblitz.tobyDetermined.commands.Auto.FullCubeHigh;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;

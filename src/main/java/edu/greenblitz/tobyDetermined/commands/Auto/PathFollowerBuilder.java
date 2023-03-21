@@ -17,13 +17,13 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class PathFollowerBuilder extends SwerveAutoBuilder {
 
@@ -36,13 +36,16 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
     //todo add commands to event map
     static {
         eventMap.put("FullConeHighAndReturn", new FullConeHighAndReturn());
+        eventMap.put("FullConeHigh", new FullConeHigh());
         eventMap.put("FullCubeHighAndReturn", new FullCubeHighAndReturn());
+        eventMap.put("FullCubeHigh", new FullCubeHigh());
+        eventMap.put("FullCubeMid", new FullCubeMid());
         eventMap.put("HalfCubeHigh", new HalfCubeHigh());
         eventMap.put("PlaceFromAdjacentConeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
         eventMap.put("PlaceFromAdjacentCubeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH));
         eventMap.put("DropCone", new DropCone());
         eventMap.put("DropCube", new EjectCube());
-        eventMap.put("ArmToBelly", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_POSITION));
+        eventMap.put("ArmToBelly", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CONE_POSITION));
         eventMap.put("MoveToPose8", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[7], true));
         eventMap.put("MoveToPose2AndGrab", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[1], true).alongWith(new InstantCommand(ObjectSelector::selectCube).andThen(new GripFromBelly())));
         eventMap.put("MoveToOutRamp", new MoveToPose(Field.PlacementLocations.OUT_PRE_BALANCE_BLUE, true));
@@ -53,6 +56,8 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
         eventMap.put("StartGripper", new ExtendAndRoll());
         eventMap.put("FoldGripper", new RetractRoller());
         eventMap.put("GrabCube", new InstantCommand(ObjectSelector::selectCube).andThen(new GripFromBelly()));
+        eventMap.put("DelayedGrabCube", new InstantCommand(ObjectSelector::selectCube).andThen(new WaitCommand(1.5)).andThen(new GripFromBelly()));
+        eventMap.put("Wait15", new WaitCommand(15));
         
     }
 
@@ -84,9 +89,9 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
      * @return returns the command for the full auto (commands and trajectory included)
      */
     public CommandBase followPath(String pathName) {
-
-        PathPlannerTrajectory path;
-        path = PathPlanner.loadPath(
+    
+        List<PathPlannerTrajectory> path;
+        path = PathPlanner.loadPathGroup(
                 pathName, new PathConstraints(
                         RobotMap.Swerve.Frankenstein.MAX_VELOCITY,
                         RobotMap.Swerve.Frankenstein.MAX_ACCELERATION
@@ -103,5 +108,6 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
     public static PathPlannerTrajectory getPathPlannerTrajectory(String path) {
         return PathPlanner.loadPath(path, new PathConstraints(RobotMap.Swerve.Frankenstein.MAX_VELOCITY, RobotMap.Swerve.Frankenstein.MAX_ACCELERATION));
     }
+    
 
 }

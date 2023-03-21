@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripConeFromBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -21,6 +22,7 @@ import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -120,7 +122,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
-		Claw.getInstance().coneCatchMode();
 		Grid.init();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
@@ -133,7 +134,6 @@ public class Robot extends TimedRobot {
 		} else {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
-
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().andThen(command).schedule();
 		} else command.schedule();
