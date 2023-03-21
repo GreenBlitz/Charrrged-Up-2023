@@ -69,7 +69,6 @@ public class OI { //GEVALD
 	private void initButtons() {
 		amireeeButtons();
 		romyButtons();
-		mainJoystick.X.onTrue(new FullCubeHigh());
 	}
 
 	public void romyButtons() {
