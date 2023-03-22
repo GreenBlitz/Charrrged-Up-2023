@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class TimedAlignAfterDropCone extends SequentialCommandGroup {
 
 	public TimedAlignAfterDropCone(){
-		addCommands(new RotateInDoorDirection().raceWith(new WaitCommand(0.75)), new RotateOutDoorDirection().raceWith(new WaitCommand(1.0)));
+		addCommands(new RotateInDoorDirection().raceWith(new WaitCommand(1.25)), new RotateOutDoorDirection().raceWith(new WaitCommand(1.0)));
 	}
 
 }
