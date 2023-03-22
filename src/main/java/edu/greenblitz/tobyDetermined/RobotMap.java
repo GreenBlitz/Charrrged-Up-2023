@@ -228,7 +228,7 @@ public class RobotMap {
             CONE_HIGH(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
             CONE_MID(0.31, /*1.94*/ Math.toRadians(107)),
             CUBE_HIGH(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_MID(0.29, 1.89),
+            CUBE_MID(0.29, 1.85),
             LOW(0.35, Math.toRadians(60)),
 
             POST_CONE_DROP(0.089,0.1),

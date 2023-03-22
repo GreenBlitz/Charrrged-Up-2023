@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
-			new ResetExtender().andThen(command).schedule();
+			new ResetExtender().raceWith(new WaitCommand(4)).andThen(command).schedule();
 		} else command.schedule();
 	}
 	
