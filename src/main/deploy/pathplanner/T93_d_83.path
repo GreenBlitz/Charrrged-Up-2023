@@ -1,0 +1,99 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.85,
+        "y": 4.978
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.918462213529277,
+        "y": 4.872424214183663
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "FullConeHigh"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.9,
+        "y": 4.597054101383524
+      },
+      "prevControl": {
+        "x": 5.916550615126909,
+        "y": 4.768585970838132
+      },
+      "nextControl": {
+        "x": 5.916550615126909,
+        "y": 4.768585970838132
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.1,
+        "y": 4.433920652543855
+      },
+      "prevControl": {
+        "x": 2.968231988480594,
+        "y": 4.433920652543855
+      },
+      "nextControl": null,
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "GrabCube",
+          "HalfCubeHigh"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "before",
+        "waitTime": 0
+      }
+    }
+  ],
+  "markers": [
+    {
+      "position": 0.06,
+      "names": [
+        "CloseArm"
+      ]
+    },
+    {
+      "position": 0.16,
+      "names": [
+        "StartGripper"
+      ]
+    },
+    {
+      "position": 1.09,
+      "names": [
+        "FoldGripper",
+        "DelayedGrabCube"
+      ]
+    }
+  ]
+}
