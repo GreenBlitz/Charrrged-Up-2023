@@ -106,7 +106,7 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
 
         //score
-		secondJoystick.Y.onTrue(new GoToGrid());
+		secondJoystick.Y.whileTrue(new GoToGrid());
         secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
