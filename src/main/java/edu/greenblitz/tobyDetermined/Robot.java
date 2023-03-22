@@ -108,7 +108,6 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("extender current", Extender.getInstance().motor.getOutputCurrent());
 	}
 	
 	

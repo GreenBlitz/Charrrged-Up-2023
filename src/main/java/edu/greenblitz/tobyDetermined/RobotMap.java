@@ -99,9 +99,9 @@ public class RobotMap {
             public static final int LAMPREY_AVERAGE_BITS = 2;
 
 
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(4, 0, 0);
+            public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
 
-            public static final PIDConstants ROTATION_PID = new PIDConstants(4, 0, 0);
+            public static final PIDConstants ROTATION_PID = new PIDConstants(2, 0, 0);
 
             public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
                     //the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
