@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "FullConeHighAndReturn"
+          "FullConeHigh"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -51,12 +51,12 @@
     },
     {
       "anchorPoint": {
-        "x": 1.8493035852927244,
-        "y": 1.1922193816059026
+        "x": 1.9693192025471065,
+        "y": 1.086368506545857
       },
       "prevControl": {
-        "x": 2.79267217592923,
-        "y": 0.22870915927281152
+        "x": 3.084219662638221,
+        "y": 0.05424553643092206
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -75,12 +75,12 @@
       }
     }
   ],
-  "maxVelocity": null,
-  "maxAcceleration": 5.8,
+  "maxVelocity": 2.0,
+  "maxAcceleration": 1.75,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.15999999999997466,
+      "position": 0.4072727272727248,
       "names": [
         "StartGripper"
       ]
@@ -88,7 +88,8 @@
     {
       "position": 1.2181818181818171,
       "names": [
-        "FoldGripper"
+        "FoldGripper",
+        "DelayedGrabCube"
       ]
     },
     {
