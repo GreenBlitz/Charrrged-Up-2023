@@ -93,7 +93,7 @@ public class RobotMap {
             public static final double BUMPER_WIDTH = 0.08;
 
             public static final double MAX_VELOCITY = 4;
-            public static final double MAX_ACCELERATION = 4;
+            public static final double MAX_ACCELERATION = 3.5;
             public static final double MAX_ANGULAR_SPEED = 8;
             public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
             public static final int LAMPREY_AVERAGE_BITS = 2;
