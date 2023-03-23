@@ -66,8 +66,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "GrabCube",
-          "HalfCubeHigh"
+          "GrabCube"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "before",
