@@ -7,6 +7,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.PassAndBalance;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.commands.intake.ExtendAndRoll;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
@@ -50,6 +51,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
         eventMap.put("MoveToPose2AndGrab", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[1], true).alongWith(new InstantCommand(ObjectSelector::selectCube).andThen(new GripFromBelly())));
         eventMap.put("MoveToOutRamp", new MoveToPose(Field.PlacementLocations.OUT_PRE_BALANCE_BLUE, true));
         eventMap.put("BalanceFromOut", new FullBalance(true));
+        eventMap.put("ExitAndBalance", new PassAndBalance(false));
         eventMap.put("BalanceFromIn", new FullBalance(false));
         eventMap.put("CloseArm", new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
         eventMap.put("WaitTillClosedArm", new WaitUntilCommand(() -> Elbow.getInstance().getState().smallerOrEqualTo(Elbow.ElbowState.WALL_ZONE)));

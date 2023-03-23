@@ -16,7 +16,9 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "FullConeHighAndReturn"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -24,12 +26,12 @@
     },
     {
       "anchorPoint": {
-        "x": 5.559930261184315,
-        "y": 3.255259605331376
+        "x": 2.449608437020012,
+        "y": 3.247670061673931
       },
       "prevControl": {
-        "x": 5.410830131061996,
-        "y": 3.255259605331376
+        "x": 2.300508306897693,
+        "y": 3.247670061673931
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -39,8 +41,8 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "MoveToOutRamp",
-          "BalanceFromOut"
+          "CloseArm",
+          "ExitAndBalance"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
