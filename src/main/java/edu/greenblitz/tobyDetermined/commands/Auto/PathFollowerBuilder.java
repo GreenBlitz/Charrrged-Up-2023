@@ -44,7 +44,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
         eventMap.put("HalfCubeHigh", new HalfCubeHigh());
         eventMap.put("PlaceFromAdjacentConeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
         eventMap.put("PlaceFromAdjacentCubeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH));
-        eventMap.put("DropCone", new DropCone());8
+        eventMap.put("DropCone", new DropCone());
         eventMap.put("DropCube", new EjectCube());
         eventMap.put("ArmToBelly", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CONE_POSITION));
         eventMap.put("MoveToPose8", new MoveToPose(Field.PlacementLocations.getLocationsOnBlueSide()[7], true));
