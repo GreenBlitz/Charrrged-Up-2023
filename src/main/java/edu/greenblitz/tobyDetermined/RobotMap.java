@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -71,6 +72,23 @@ public class RobotMap {
     }
 
     public static class LED {
+
+
+        public enum Sections{
+
+
+
+            normal(1,10),
+            errors(11,100),
+            all(0, LENGTH);
+
+            public int start;
+            public int end;
+            Sections(int startIndex, int endIndex) {
+                end = endIndex;
+                start = startIndex;
+            }
+        }
 
         public static final int LENGTH = 100;
         public static final int PORT = 0;
