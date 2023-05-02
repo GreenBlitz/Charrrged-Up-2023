@@ -47,9 +47,9 @@ public class RobotMap {
     }
 
     public static class Pneumatics {
-        public static class PCM {
-            public static final int PCM_ID = 22;
-            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
+        public static class PneumaticsController {
+            public static final int ID = 1;
+            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.REVPH;
         }
 
         public static class PressureSensor {

@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -10,7 +9,7 @@ public class ThirdLeg extends GBSubsystem {
     private final DoubleSolenoid solenoid;
 
     private ThirdLeg() {
-        solenoid = new DoubleSolenoid(RobotMap.Pneumatics.PCM.PCM_ID, RobotMap.Pneumatics.PCM.PCM_TYPE, RobotMap.ThirdLeg.FORWARD_PORT, RobotMap.ThirdLeg.REVERSE_PORT);
+        solenoid = new DoubleSolenoid(RobotMap.Pneumatics.PneumaticsController.ID, RobotMap.Pneumatics.PneumaticsController.PCM_TYPE, RobotMap.ThirdLeg.FORWARD_PORT, RobotMap.ThirdLeg.REVERSE_PORT);
     }
 
     public static ThirdLeg getInstance() {

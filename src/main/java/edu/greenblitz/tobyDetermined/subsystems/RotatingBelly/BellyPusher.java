@@ -12,7 +12,7 @@ public class BellyPusher extends GBSubsystem {
     private PusherState state;
 
     private BellyPusher() {
-        solenoid = new DoubleSolenoid(RobotMap.Pneumatics.PCM.PCM_ID, PneumaticsModuleType.CTREPCM, RobotMap.RotatingBelly.OPEN_PISTON_ID, RobotMap.RotatingBelly.CLOSE_PISTON_ID);
+        solenoid = new DoubleSolenoid(RobotMap.Pneumatics.PneumaticsController.ID, RobotMap.Pneumatics.PneumaticsController.PCM_TYPE, RobotMap.RotatingBelly.OPEN_PISTON_ID, RobotMap.RotatingBelly.CLOSE_PISTON_ID);
         updateState();
     }
 

@@ -3,14 +3,13 @@ package edu.greenblitz.tobyDetermined.subsystems.intake;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeExtender extends GBSubsystem {
 	private static IntakeExtender instance;
 	private final DoubleSolenoid solenoid;
 
 	private IntakeExtender() {
-		solenoid = new DoubleSolenoid(RobotMap.Pneumatics.PCM.PCM_ID, RobotMap.Pneumatics.PCM.PCM_TYPE, RobotMap.Intake.Solenoid.FORWARD_PORT, RobotMap.Intake.Solenoid.REVERSE_PORT);
+		solenoid = new DoubleSolenoid(RobotMap.Pneumatics.PneumaticsController.ID, RobotMap.Pneumatics.PneumaticsController.PCM_TYPE, RobotMap.Intake.Solenoid.FORWARD_PORT, RobotMap.Intake.Solenoid.REVERSE_PORT);
 	}
 	
 	public static IntakeExtender getInstance() {
