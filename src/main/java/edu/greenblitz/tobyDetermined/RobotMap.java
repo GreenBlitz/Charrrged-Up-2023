@@ -214,8 +214,8 @@ public class RobotMap {
         public static final double ROTATE_FROM_STOP_TO_SWITCH_TIME = 0.4;
         public static double ROTATE_TO_DOOR_TIME = 3;
 
-        public static final int CLOSE_PISTON_ID = 3;
-        public static final int OPEN_PISTON_ID = 7;
+        public static final int CLOSE_PISTON_ID = 7;
+        public static final int OPEN_PISTON_ID = 9;
 
     }
 
@@ -294,8 +294,8 @@ public class RobotMap {
 
         public static class Claw {
             public static final int MOTOR_ID = 3;
-            public static final int SOLENOID_OPEN_CLAW_ID = 6;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 2;
+            public static final int SOLENOID_OPEN_CLAW_ID = 8;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 5;
             public static final double MOTOR_POWER_GRIP = 0.3;
 
             public static final double MOTOR_POWER_CONE = 0.6;
@@ -371,8 +371,8 @@ public class RobotMap {
                 .withCurrentLimit(30)
                 .withInverted(true);
         public static class Solenoid {
-            public static final int FORWARD_PORT = 4;
-            public static final int REVERSE_PORT = 0;
+            public static final int FORWARD_PORT = 10;
+            public static final int REVERSE_PORT = 6;
         }
     }
 }
