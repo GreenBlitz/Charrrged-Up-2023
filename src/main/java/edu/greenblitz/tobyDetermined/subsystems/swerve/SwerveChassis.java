@@ -44,7 +44,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
-//	private boolean doVision;
+	private boolean doVision;
 	
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
@@ -53,7 +53,7 @@ public class SwerveChassis extends GBSubsystem {
 		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackRight);
 		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_DIO_PORT, RobotMap.Ultrasonic.ECHO_DIO_PORT);
 		Ultrasonic.setAutomaticMode(true);
-//		doVision = true;
+		doVision = true;
 		
 		
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
@@ -278,10 +278,10 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public void updatePoseEstimationLimeLight() {
 		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
-//		if (doVision) {
+		if (doVision) {
 			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 				target.ifPresent(this::addVisionMeasurement);
-//			}
+			}
 		}
 	}
 	
@@ -403,13 +403,13 @@ public class SwerveChassis extends GBSubsystem {
 		}
 		return broken;
 	}
-//
-//	public void disableVision(){
-//		doVision = false;
-//	}
-//
-//	public void enableVision(){
-//		doVision = true;
-//	}
-//
+
+	public void disableVision(){
+		doVision = false;
+	}
+
+	public void enableVision(){
+		doVision = true;
+	}
+
 }

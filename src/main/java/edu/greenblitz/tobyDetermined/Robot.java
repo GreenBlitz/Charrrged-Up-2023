@@ -21,6 +21,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -33,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class Robot extends TimedRobot {
 	
+	AnalogInput pressureSwitch;
 	@Override
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
@@ -45,7 +47,7 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-		
+		pressureSwitch = new AnalogInput(0);
 	}
 	
 	@Override
@@ -78,6 +80,7 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 		RoborioUtils.updateCurrentCycleTime();
 		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
+		SmartDashboard.putNumber("pressure",pressureSwitch.getValue());// 421 is 0 psi
 	}
 	
 	
@@ -97,7 +100,7 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
-//		SwerveChassis.getInstance().enableVision();
+		SwerveChassis.getInstance().enableVision();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().schedule();
@@ -124,7 +127,7 @@ public class Robot extends TimedRobot {
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
-//		SwerveChassis.getInstance().disableVision();
+		SwerveChassis.getInstance().disableVision();
 		ObjectSelector.selectCone();
 		if (!SwerveChassis.getInstance().isEncoderBroken()) {
 			SwerveChassis.getInstance().resetAllEncoders();
