@@ -96,8 +96,8 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 		List<PathPlannerTrajectory> path;
 		path = PathPlanner.loadPathGroup(
 				pathName, new PathConstraints(
-						RobotMap.Swerve.Frankenstein.MAX_VELOCITY,
-						RobotMap.Swerve.Frankenstein.MAX_ACCELERATION
+						RobotMap.Swerve.Frankenstein.CAPPED_MAX_VELOCITY,
+						RobotMap.Swerve.Frankenstein.CAPPED_MAX_ACCELERATION
 				)
 		);
 
@@ -111,7 +111,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	}
 
 	public static PathPlannerTrajectory getPathPlannerTrajectory(String path) {
-		return PathPlanner.loadPath(path, new PathConstraints(RobotMap.Swerve.Frankenstein.MAX_VELOCITY, RobotMap.Swerve.Frankenstein.MAX_ACCELERATION));
+		return PathPlanner.loadPath(path, new PathConstraints(RobotMap.Swerve.Frankenstein.CAPPED_MAX_VELOCITY, RobotMap.Swerve.Frankenstein.CAPPED_MAX_ACCELERATION));
 	}
 
 
