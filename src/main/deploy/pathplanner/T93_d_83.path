@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.85,
-        "y": 0.4827972383217498
+        "x": 1.93,
+        "y": 4.978
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.849999999999998,
-        "y": 0.4827972383217498
+        "x": 2.998462213529277,
+        "y": 4.872424214183663
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -26,16 +26,16 @@
     },
     {
       "anchorPoint": {
-        "x": 7.103839828221739,
-        "y": 0.9034011791276062
+        "x": 6.98,
+        "y": 4.597054101383524
       },
       "prevControl": {
-        "x": 2.7354948861110273,
-        "y": 0.7890465994912005
+        "x": 3.0328167931656824,
+        "y": 4.722844138983571
       },
       "nextControl": {
-        "x": 2.7354948861110273,
-        "y": 0.7890465994912005
+        "x": 3.0328167931656824,
+        "y": 4.722844138983571
       },
       "holonomicAngle": 180.0,
       "isReversal": true,
@@ -51,12 +51,12 @@
     },
     {
       "anchorPoint": {
-        "x": 1.9693192025471065,
-        "y": 1.086368506545857
+        "x": 2.18,
+        "y": 4.433920652543855
       },
       "prevControl": {
-        "x": 2.1751574458926375,
-        "y": 0.6175147300365919
+        "x": 2.5982693905473404,
+        "y": 4.734279596947211
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -66,36 +66,35 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "GrabCube",
-          "HalfCubeHigh"
+          "GrabCube"
         ],
         "executionBehavior": "sequential",
-        "waitBehavior": "none",
+        "waitBehavior": "before",
         "waitTime": 0
       }
     }
   ],
-  "maxVelocity": 0.5,
-  "maxAcceleration": 1.75,
+  "maxVelocity": 1.5,
+  "maxAcceleration": null,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.4072727272727248,
+      "position": 0.06,
+      "names": [
+        "CloseArm"
+      ]
+    },
+    {
+      "position": 0.16,
       "names": [
         "StartGripper"
       ]
     },
     {
-      "position": 1.2181818181818171,
+      "position": 1.09,
       "names": [
         "FoldGripper",
         "DelayedGrabCube"
-      ]
-    },
-    {
-      "position": 0.058181818181827286,
-      "names": [
-        "CloseArm"
       ]
     }
   ]

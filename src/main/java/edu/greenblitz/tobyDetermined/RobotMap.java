@@ -47,9 +47,9 @@ public class RobotMap {
     }
 
     public static class Pneumatics {
-        public static class PCM {
-            public static final int PCM_ID = 22;
-            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
+        public static class PneumaticsController {
+            public static final int ID = 1;
+            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.REVPH;
         }
 
         public static class PressureSensor {
@@ -92,16 +92,16 @@ public class RobotMap {
             public static final double ROBOT_WIDTH_IN_METERS = 0.79;
             public static final double BUMPER_WIDTH = 0.08;
 
-            public static final double MAX_VELOCITY = 4;
-            public static final double MAX_ACCELERATION = 4;
+            public static final double CAPPED_MAX_VELOCITY = 2;
+            public static final double CAPPED_MAX_ACCELERATION = 1.75;
             public static final double MAX_ANGULAR_SPEED = 8;
             public static final double MAX_ANGULAR_ACCELERATION = 20; //todo calibrate
             public static final int LAMPREY_AVERAGE_BITS = 2;
 
 
-            public static final PIDConstants TRANSLATION_PID = new PIDConstants(4, 0, 0);
+            public static final PIDConstants TRANSLATION_PID = new PIDConstants(2, 0, 0);
 
-            public static final PIDConstants ROTATION_PID = new PIDConstants(4, 0, 0);
+            public static final PIDConstants ROTATION_PID = new PIDConstants(2, 0, 0);
 
             public static final Translation2d[] SwerveLocationsInSwerveKinematicsCoordinates = new Translation2d[]{
                     //the WPILib coordinate system is stupid. (x is forwards, y is leftwards)
@@ -214,8 +214,8 @@ public class RobotMap {
         public static final double ROTATE_FROM_STOP_TO_SWITCH_TIME = 0.4;
         public static double ROTATE_TO_DOOR_TIME = 3;
 
-        public static final int CLOSE_PISTON_ID = 3;
-        public static final int OPEN_PISTON_ID = 7;
+        public static final int CLOSE_PISTON_ID = 7;
+        public static final int OPEN_PISTON_ID = 9;
 
     }
 
@@ -228,7 +228,7 @@ public class RobotMap {
             CONE_HIGH(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
             CONE_MID(0.31, /*1.94*/ Math.toRadians(107)),
             CUBE_HIGH(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_MID(0.31, 1.94),
+            CUBE_MID(0.29, 1.85),
             LOW(0.35, Math.toRadians(60)),
 
             POST_CONE_DROP(0.089,0.1),
@@ -236,7 +236,7 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_CONE_POSITION(0.31, 0.12),
+            INTAKE_GRAB_CONE_POSITION(0.34, 0.123),
             INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
             PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
 
@@ -255,7 +255,7 @@ public class RobotMap {
         }
 
         public static class Extender {
-            public static final int MOTOR_ID = 3;
+            public static final int MOTOR_ID = 2;
             public static final double GEAR_RATIO = 1 / 5.0;
             public static final double STARTING_LENGTH = 0.3;
             public static final int BACKWARDS_LIMIT = 0;
@@ -293,9 +293,9 @@ public class RobotMap {
         }
 
         public static class Claw {
-            public static final int MOTOR_ID = 2;
-            public static final int SOLENOID_OPEN_CLAW_ID = 6;
-            public static final int SOLENOID_CLOSED_CLAW_ID = 2;
+            public static final int MOTOR_ID = 3;
+            public static final int SOLENOID_OPEN_CLAW_ID = 8;
+            public static final int SOLENOID_CLOSED_CLAW_ID = 5;
             public static final double MOTOR_POWER_GRIP = 0.3;
 
             public static final double MOTOR_POWER_CONE = 0.6;
@@ -371,8 +371,8 @@ public class RobotMap {
                 .withCurrentLimit(30)
                 .withInverted(true);
         public static class Solenoid {
-            public static final int FORWARD_PORT = 4;
-            public static final int REVERSE_PORT = 0;
+            public static final int FORWARD_PORT = 10;
+            public static final int REVERSE_PORT = 6;
         }
     }
 }

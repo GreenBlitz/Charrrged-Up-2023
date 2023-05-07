@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.SystemCheck;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.CloseIntakeAndAlign;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateOutDoorDirection;
@@ -20,32 +21,23 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class SystemCheck extends SequentialCommandGroup {
     public SystemCheck() {
         super(
-                new InstantCommand(ObjectSelector::flipSelection),
-                new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION),
-                new FullOpenIntake().raceWith(new WaitCommand(2)),
-                new CloseIntakeAndAlign(),
-                new RotateOutDoorDirection().raceWith(new WaitCommand(1)),
-                new GripFromBelly().raceWith(new WaitCommand(5)),
-                new ZigHail(),
-                new MoveSelectedTargetUp(),
-                new MoveSelectedTargetUp(),
-                new GoToGrid(),
-                new ReleaseObject(),
-
-                new WaitCommand(2),
-
-                new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION),
-                new InstantCommand(ObjectSelector::flipSelection),
-                new FullOpenIntake().raceWith(new WaitCommand(2)),
-                new CloseIntakeAndAlign().alongWith(new DefaultRotateWhenCube()),
-                new RotateOutDoorDirection().raceWith(new WaitCommand(1)),
-                new GripFromBelly().raceWith(new WaitCommand(5)),
-                new MoveSelectedTargetDown(),
-                new ZigHail(),
-                new GoToGrid(),
-                new ReleaseObject()
-
-
+                new InstantCommand(ObjectSelector::selectCone),
+                new WaitCommand(3).deadlineWith(
+                        new FullOpenIntake(),
+                        new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION)
+                ),
+                new FullIntake(),
+                new GripFromBelly(),
+                new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH),
+                
+                new InstantCommand(ObjectSelector::selectCube),
+                new WaitCommand(3).deadlineWith(
+                        new FullOpenIntake(),
+                        new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION)
+                ),
+                new FullIntake(),
+                new GripFromBelly(),
+                new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH)
         );
     }
 }

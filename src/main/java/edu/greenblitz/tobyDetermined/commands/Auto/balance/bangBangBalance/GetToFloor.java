@@ -5,35 +5,34 @@ import edu.wpi.first.math.filter.Debouncer;
 
 public class GetToFloor extends SwerveCommand {
 
-    private double speed;
-    private boolean forwards;
-    private static final double TOLERANCE = Math.toRadians(3);
+	private double speed;
+	private boolean forwards;
+	private static final double TOLERANCE = Math.toRadians(3);
 
-    private Debouncer debouncer;
-    private final double DEBOUNCE_TIME = 1;
+	private Debouncer debouncer;
+	private final double DEBOUNCE_TIME = 1;
 
+	double pitchAngle;
 
-    double pitchAngle;
+	public GetToFloor(double speed) {
+		this.speed = speed;
+		forwards = speed > 0;
+	}
 
-    public GetToFloor(double speed) {
-        this.speed = speed;
-        forwards = speed > 0;
-    }
+	@Override
+	public void initialize() {
+		pitchAngle = 0;
+		debouncer = new Debouncer(DEBOUNCE_TIME);
+	}
 
-    @Override
-    public void initialize() {
-        pitchAngle = 0;
-        debouncer = new Debouncer(DEBOUNCE_TIME);
-    }
+	@Override
+	public void execute() {
+		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? 1 : -1);//gyro is flipped
+		swerve.moveByChassisSpeeds(speed, 0, 0, 0);
+	}
 
-    @Override
-    public void execute() {
-        pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? 1 : -1);//gyro is flipped
-        swerve.moveByChassisSpeeds(speed, 0, 0, 0);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return super.isFinished() || debouncer.calculate(Math.abs(pitchAngle) < TOLERANCE);
-    }
+	@Override
+	public boolean isFinished() {
+		return super.isFinished() || debouncer.calculate(Math.abs(pitchAngle) < TOLERANCE);
+	}
 }

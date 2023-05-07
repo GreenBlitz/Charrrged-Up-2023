@@ -1,15 +1,14 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.FullConeHigh;
-import edu.greenblitz.tobyDetermined.commands.Auto.FullCubeHigh;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
-import edu.greenblitz.tobyDetermined.commands.SystemCheck.FullIntake;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
+import edu.greenblitz.tobyDetermined.commands.SystemCheck.SystemCheck;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.PushCone;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.RetractPusher;
-import edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation.FullAlign;
+import edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation.TimedAlignAfterDropCone;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
@@ -70,9 +69,6 @@ public class OI { //GEVALD
 	private void initButtons() {
 		amireeeButtons();
 		romyButtons();
-
-
-
 	}
 
 	public void romyButtons() {
@@ -84,7 +80,6 @@ public class OI { //GEVALD
 		mainJoystick.POV_UP.whileTrue(new FullBalance(true));
 		mainJoystick.POV_DOWN.whileTrue(new FullBalance(false));
 		mainJoystick.B.onTrue(new LockWheels()); //lock wheel
-//		mainJoystick.START.toggleOnTrue(new InstantCommand()); //todo - toggle leg
 
         // reset chassis pose (Y)
         mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
@@ -111,7 +106,7 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
 
         //score
-		secondJoystick.Y.onTrue(new GoToGrid());
+		secondJoystick.Y.whileTrue(new GoToGrid());
         secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
@@ -121,7 +116,7 @@ public class OI { //GEVALD
         secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
         secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 	    secondJoystick.L3.onTrue(new PushCone()).onFalse(new RetractPusher());
-		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new RotateOutDoorDirection().raceWith(new WaitCommand(0.45))).andThen(new FullAlign()));
+		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new TimedAlignAfterDropCone()));
         secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
 		//intake and belly

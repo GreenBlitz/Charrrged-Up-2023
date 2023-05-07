@@ -21,6 +21,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -45,7 +46,6 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-		
 	}
 	
 	@Override
@@ -97,14 +97,10 @@ public class Robot extends TimedRobot {
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
+		SwerveChassis.getInstance().enableVision();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().schedule();
-		}
-		if (Battery.getInstance().getCurrentVoltage() < 10){
-			LED.getInstance().setColor(Color.kBlue);
-		} else {
-			LED.getInstance().setColor(Color.kGreen);
 		}
 
 		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
@@ -128,6 +124,7 @@ public class Robot extends TimedRobot {
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
+		SwerveChassis.getInstance().disableVision();
 		ObjectSelector.selectCone();
 		if (!SwerveChassis.getInstance().isEncoderBroken()) {
 			SwerveChassis.getInstance().resetAllEncoders();
@@ -135,7 +132,7 @@ public class Robot extends TimedRobot {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
-			new ResetExtender().andThen(command).schedule();
+			new ResetExtender().raceWith(new WaitCommand(4)).andThen(command).schedule();
 		} else command.schedule();
 	}
 	
