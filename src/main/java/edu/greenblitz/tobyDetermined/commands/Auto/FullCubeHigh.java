@@ -9,11 +9,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class FullCubeHigh extends SequentialCommandGroup {
-	public FullCubeHigh(){
+	public FullCubeHigh() {
 		super(
-				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH).raceWith(new WaitCommand(5)).deadlineWith(new DefaultRotateWhenCube()),
-
-				new EjectCube().raceWith(new WaitCommand(0.2)).deadlineWith(new StayAtCurrentAngle())
+				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH)
+						.raceWith(new WaitCommand(5))
+						.deadlineWith(new DefaultRotateWhenCube()),
+				new EjectCube()
+						.raceWith(new WaitCommand(0.2))
+						.deadlineWith(new StayAtCurrentAngle())
 		);
 	}
 }

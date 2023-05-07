@@ -8,6 +8,7 @@ public class ExtendAndRoll extends SequentialCommandGroup {
 
 	public ExtendAndRoll(){
 		super(new ExtendRoller(),
-				new RunRoller());
+				new RunRoller()
+		);
 	}
 }
