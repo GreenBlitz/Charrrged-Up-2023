@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
-import edu.greenblitz.tobyDetermined.commands.SystemCheck.SystemCheck;
+import edu.greenblitz.tobyDetermined.commands.SystemCheckCommand;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -28,7 +28,6 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class OI { //GEVALD
 	
@@ -106,7 +105,8 @@ public class OI { //GEVALD
         secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
 
         //score
-		secondJoystick.Y.whileTrue(new GoToGrid());
+//		secondJoystick.Y.whileTrue(new GoToGrid());
+		secondJoystick.Y.whileTrue(new SystemCheckCommand());
         secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
