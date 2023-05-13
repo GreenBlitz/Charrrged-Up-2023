@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.RobotController;
 
 public class Battery extends GBSubsystem {
 	
-	private static final double minVoltage = RobotMap.General.MIN_VOLTAGE_BATTERY;
+	private static final double minVoltage = RobotMap.General.SystemCheckConstants.MIN_VOLTAGE_BATTERY;
 	private static Battery instance;
 
 	private static PowerDistribution pdp = new PowerDistribution();

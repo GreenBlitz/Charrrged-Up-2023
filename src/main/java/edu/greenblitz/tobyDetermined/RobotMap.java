@@ -22,9 +22,16 @@ public class RobotMap {
 
     public static class General {
 
-        public final static double MIN_VOLTAGE_BATTERY = 11.97;
-        public final static double MAX_INNER_BATTERY_RESISTANCE = 0.002;
-        public final static double MAX_BATTERY_VOLTAGE_DROP_UNDER_LOAD =  0.5;
+        public static class SystemCheckConstants{
+
+            public final static double MIN_VOLTAGE_BATTERY = 11.97;
+            public final static double MAX_INNER_BATTERY_RESISTANCE = 0.002;
+            public final static double MAX_BATTERY_VOLTAGE_DROP_UNDER_LOAD =  0.5;
+
+            public static final double DEFAULT_TIMEOUT_FOR_CHECK_COMMAND = 5;
+
+        }
+
         public final static double RAMP_RATE_VAL = 0.4;
 
         public static class Motors {
