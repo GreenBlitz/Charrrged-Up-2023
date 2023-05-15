@@ -10,8 +10,7 @@ public class Battery extends GBSubsystem {
 	private static final double minVoltage = RobotMap.General.SystemCheckConstants.MIN_VOLTAGE_BATTERY;
 	private static Battery instance;
 
-	private static PowerDistribution pdp = new PowerDistribution();
-	private static PneumaticsControlModule pcm = new PneumaticsControlModule(RobotMap.Pneumatics.PneumaticsController.ID);
+	private static PowerDistribution pdp = new PowerDistribution(20,PowerDistribution.ModuleType.kRev);
 
 	private Battery() {
 	}
@@ -28,7 +27,11 @@ public class Battery extends GBSubsystem {
 	}
 
 	public double getCurrentUsage (){
-		return  pdp.getTotalCurrent() ;
+		double totalCurrent = 0;
+		for (int i = 0; i < pdp.getNumChannels(); i++) {
+			totalCurrent += pdp.getCurrent(i);
+		}
+		return totalCurrent;
 	}
 
 	public double getCurrentVoltage() {

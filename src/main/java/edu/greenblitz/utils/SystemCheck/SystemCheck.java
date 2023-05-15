@@ -10,6 +10,7 @@ import scala.collection.parallel.immutable.ParRange;
 
 import javax.swing.plaf.PanelUI;
 import java.util.HashMap;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class SystemCheck extends GBSubsystem{
@@ -30,34 +31,28 @@ public class SystemCheck extends GBSubsystem{
 
     public SystemCheck(){
 
-        this.innerBatteryResistance = (this.startingVoltage - Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage();
+        this.innerBatteryResistance = (this.startingVoltage * (Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage());
 
-        this.startingVoltage = 13.1;
+        this.startingVoltage = 13.73;
 
         subsystemsAndCommands = new HashMap<>();
 
         this.tab = Shuffleboard.getTab("System check");
-    }
-
-    @Override
-    public void periodic() {
-
+        
+        
         for (CheckCommand checkCommand : this.subsystemsAndCommands.values()){
             tab.addBoolean(checkCommand.getRunCommand().getRequirements().getClass().getName(),checkCommand.getBooleanSupplier());
         }
-
-        tab.addDouble("battery inner resistance:", this::getInnerBatteryResistance);
-        tab.addDouble("battery voltage drop:", new DoubleSupplier() {
-            @Override
-            public double getAsDouble() {
-                return SystemCheck.getInstance().getStartingVoltage() - Battery.getInstance().getCurrentVoltage();
-            }
-        });
-
-
+        
+        tab.addDouble("current voltage", ()-> Battery.getInstance().getCurrentVoltage());
+        tab.addDouble("current current", ()-> Battery.getInstance().getCurrentUsage());
+        tab.addDouble("battery inner resistance:", () -> getInnerBatteryResistance());
+        tab.addDouble("battery voltage drop:", () ->  SystemCheck.getInstance().getStartingVoltage() - Battery.getInstance().getCurrentVoltage());
+        
     }
-
+    
     public double getInnerBatteryResistance() {
+        this.innerBatteryResistance  = (this.startingVoltage * (Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage());
         return innerBatteryResistance;
     }
 
