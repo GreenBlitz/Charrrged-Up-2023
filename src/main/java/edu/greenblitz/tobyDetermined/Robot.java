@@ -58,7 +58,6 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-		SystemCheck.getInstance().add(SwerveChassis.getInstance(),new InstantCommand(() -> SmartDashboard.putBoolean("azaka",false)));
 	}
 	
 	@Override
