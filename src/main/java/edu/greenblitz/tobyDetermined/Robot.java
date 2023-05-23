@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
+import edu.greenblitz.tobyDetermined.commands.swerve.ToggleBrakeCoast;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripConeFromBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
@@ -19,6 +20,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
+import edu.greenblitz.utils.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -46,6 +48,15 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+
+		BreakCoastSwitch.getInstance().addSubsystem(SwerveChassis.getInstance(),
+				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake),
+				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast)
+				);
+		BreakCoastSwitch.getInstance().addSubsystem(Elbow.getInstance(),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
+		);
 	}
 	
 	@Override
@@ -78,6 +89,7 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 		RoborioUtils.updateCurrentCycleTime();
 		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
+		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
 	}
 	
 	
@@ -152,6 +164,9 @@ public class Robot extends TimedRobot {
 //		}else{
 //			LED.getInstance().setColor(Color.kGreen);
 //		}
+
+		BreakCoastSwitch.getInstance().toggleCoastBreak();
+
 		if (SwerveChassis.getInstance().isEncoderBroken()){
 			if (Extender.getInstance().DidReset()){
 				LED.getInstance().setColor(new Color(136, 8 ,90)); //dark red
