@@ -3,6 +3,7 @@ package edu.greenblitz.utils;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.HashMap;
 
@@ -45,13 +46,16 @@ public class BreakCoastSwitch {
     }
 
 
-    public void updateCoastBreak() { //run in disabled periodic
-        if (isSwitchPressed()) {
+	private static boolean lastState = false;
+	public void updateCoastBreak() { //run in disabled periodic
+        if (isSwitchPressed() != lastState) {
+			lastState = !lastState;
             switchPressCount++;
         }
+	    SmartDashboard.putNumber("press count",switchPressCount);
         if (this.switchPressCount % 4 == 0) {
             setBreak();
-        } else if (this.switchPressCount % 4 == 2) {
+        } else if (this.switchPressCount % 4 == 1) {
             setCoast();
         }
     }
