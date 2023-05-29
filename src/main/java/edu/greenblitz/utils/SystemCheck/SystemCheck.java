@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.jetbrains.annotations.NotNull;
 import scala.collection.parallel.immutable.ParRange;
@@ -109,6 +110,15 @@ public class SystemCheck extends GBSubsystem{
     }
     public GBSubsystem[] getSubsystems (){
         return subsystemsAndCommands.keySet().toArray(new GBSubsystem[0]);
+    }
+
+
+    public void runCommands (){
+        SequentialCommandGroup group = new SequentialCommandGroup();
+        for (GBSubsystem subsystem : getSubsystems()){
+            group.addCommands(getCheckCommandForSubsystem(subsystem).getRunCommand());
+        }
+        group.schedule();
     }
 
 }

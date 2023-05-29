@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.CloseIntakeAndAlign;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
-import edu.greenblitz.tobyDetermined.commands.SystemCheck.SwerveCheck;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripConeFromBelly;
@@ -190,9 +189,6 @@ public class Robot extends TimedRobot {
 				Extender.getInstance(),
 				Elbow.getInstance()
 		);
-
-
-
 
 
 	}

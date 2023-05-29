@@ -26,6 +26,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
+import edu.greenblitz.utils.SystemCheck.SystemCheck;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -125,6 +126,8 @@ public class OI { //GEVALD
         secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake().alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION))).onFalse(new FullIntake());
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
 
+
+		secondJoystick.A.and(secondJoystick.B).onTrue(new InstantCommand(() -> SystemCheck.getInstance().runCommands()));
     }
 
 
