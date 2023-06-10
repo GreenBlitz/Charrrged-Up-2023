@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		LED.getInstance();
 		
 	}
 	
@@ -84,6 +85,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		CommandScheduler.getInstance().cancelAll();
+		LED.getInstance().turnOff();
 	}
 
 
@@ -150,24 +152,26 @@ public class Robot extends TimedRobot {
 //		}else{
 //			LED.getInstance().setColor(Color.kGreen);
 //		}
-		if (SwerveChassis.getInstance().isEncoderBroken()){
-			if (Extender.getInstance().DidReset()){
-				LED.getInstance().setColor(new Color(136, 8 ,90)); //dark red
-			} else {
-				LED.getInstance().setColor(Color.kRed);
-			}
-			
-		} else if (!Extender.getInstance().DidReset()){
-			LED.getInstance().setColor(Color.kOrangeRed);
-		} else {
-			LED.getInstance().setColor(Color.kGreen);
+
+		if(Extender.getInstance().DidReset()){
+			LED.getInstance().setColor(RobotMap.LED.Sections.ARM_ENCODER_BROKEN,Color.kGreen);
+		}else{
+			LED.getInstance().setColor(RobotMap.LED.Sections.ARM_ENCODER_BROKEN,Color.kRed);
 		}
+
+		if(SwerveChassis.getInstance().isEncoderBroken()){
+			LED.getInstance().setColor(RobotMap.LED.Sections.SWERVE_ENCODER_BROKEN,Color.kRed);
+		}else{
+			LED.getInstance().setColor(RobotMap.LED.Sections.ARM_ENCODER_BROKEN,Color.kGreen);
+		}
+
 	
 		if(Extender.getInstance().getLimitSwitch()){
 			if (Extender.getInstance().getLength() > 0 || !Extender.getInstance().DidReset()) {
 				Extender.getInstance().resetLength();
 			}
 		}
+
 		SwerveChassis.getInstance().isEncoderBroken();
 		Elbow.getInstance().resetEncoder();
 	}

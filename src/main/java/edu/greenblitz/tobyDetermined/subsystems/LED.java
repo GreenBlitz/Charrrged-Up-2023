@@ -31,10 +31,9 @@ public class LED extends GBSubsystem {
         }
     }
 
-    public void setColor(Color color) {
+    public void setColor(Color color) { //to all
         for (int i = 0; i < this.ledBuffer.getLength(); i++) {
-            this.ledBuffer.setLED(i, color);
-            SmartDashboard.putNumber("led num", i);
+            setColor(i,color);
         }
         this.addressableLED.setData(ledBuffer);
     }
@@ -49,6 +48,10 @@ public class LED extends GBSubsystem {
         }
     }
 
+    public void setColor (RobotMap.LED.Sections section, Color color){
+        setColor(section.start,section.end,color);
+    }
+
     public void turnOff (){
         setColor(new Color(0,0,0));
     }
@@ -56,10 +59,13 @@ public class LED extends GBSubsystem {
     public void turnOff (int index){
         setColor(index,new Color(0,0,0));
     }
-    public void turnoff (int startIndex,int endIndex){
+    public void turnOff (int startIndex,int endIndex){
         for (int i = startIndex; i < endIndex; i++) {
-            setColor(i,new Color(0,0,0));
+            turnOff(i);
         }
+    }
+    public void turnOff (RobotMap.LED.Sections section){
+        turnOff(section.start,section.end);
     }
 
 

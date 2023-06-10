@@ -77,9 +77,13 @@ public class RobotMap {
         public enum Sections{
 
 
+            //sections
+            ARM_ENCODER_BROKEN (0,9),
+            SWERVE_ENCODER_BROKEN (11,20),
 
-            normal(1,10),
-            errors(11,100),
+
+
+
             all(0, LENGTH);
 
             public int start;
