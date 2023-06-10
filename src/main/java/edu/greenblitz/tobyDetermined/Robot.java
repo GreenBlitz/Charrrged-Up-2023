@@ -150,47 +150,6 @@ public class Robot extends TimedRobot {
 
 
 
-		SystemCheck.getInstance().add(
-				"open intake check",
-				new CheckCommand(
-						new FullOpenIntake(),
-						() -> IntakeExtender.getInstance().isExtended()
-				),
-				IntakeExtender.getInstance()
-		);
-
-		SystemCheck.getInstance().add(
-
-
-				"close intake and align check",
-				new CheckCommand(
-						new CloseIntakeAndAlign(),
-						() -> !IntakeExtender.getInstance().isExtended()
-				),
-				IntakeExtender.getInstance(),
-				RotatingBelly.getInstance()
-		);
-
-
-
-		SystemCheck.getInstance().add(
-				"grip cone",
-				new CheckCommand(
-						new GripConeFromBelly(),
-						() -> (Claw.getInstance().state == Claw.ClawState.CONE_MODE)
-				),
-				Claw.getInstance()
-		);
-		SystemCheck.getInstance().add(
-				new CheckCommand(
-				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
-				() -> (Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle())
-				),
-				Extender.getInstance(),
-				Elbow.getInstance()
-		);
-
-
 	}
 	
 	@Override

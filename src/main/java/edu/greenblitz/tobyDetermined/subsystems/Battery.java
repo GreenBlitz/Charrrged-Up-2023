@@ -28,8 +28,8 @@ public class Battery extends GBSubsystem {
 		}
 	}
 
-	public double getCurrentUsage (){
-		return pdp.getTotalCurrent() + pcm.getCompressorCurrent(); //the pdh don't count the compressor
+	public double getCurrentUsage (){//todo check if robotCNTRLR used good
+		return pdp.getTotalCurrent() + pcm.getCompressorCurrent() + RobotController.getInputCurrent(); //the pdh don't count the compressor
 	}
 
 	public double getCurrentVoltage() {

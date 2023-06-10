@@ -3,8 +3,10 @@ package edu.greenblitz.utils.SystemCheck;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.greenblitz.utils.GBCommand;
+import edu.greenblitz.utils.RoborioUtils;
+import edu.greenblitz.utils.motors.GBFalcon;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,12 +17,14 @@ import scala.collection.parallel.immutable.ParRange;
 import javax.annotation.Nonnull;
 import javax.swing.plaf.PanelUI;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class SystemCheck extends GBSubsystem{
 
-    private HashMap<GBSubsystem, CheckCommand> subsystemsAndCommands;
+    private HashMap<String, CheckCommand> subsystemsAndCommands;
     private static SystemCheck instance;
 
 
@@ -35,7 +39,6 @@ public class SystemCheck extends GBSubsystem{
     }
 
     public SystemCheck(){
-        this.tab = Shuffleboard.getTab("System check");
 
 
         this.innerBatteryResistance = calculateInnerBatteryResistance();
@@ -44,11 +47,24 @@ public class SystemCheck extends GBSubsystem{
         subsystemsAndCommands = new HashMap<>();
 
 
-        tab.addDouble("current voltage", ()-> Battery.getInstance().getCurrentVoltage());
-        tab.addDouble("current current", ()-> Battery.getInstance().getCurrentUsage());
-        tab.addDouble("battery inner resistance:", () -> getInnerBatteryResistance());
-        tab.addDouble("battery voltage drop:", () ->  SystemCheck.getInstance().getStartingVoltage() - Battery.getInstance().getCurrentVoltage());
+        initDashBoard();
 
+    }
+
+    public void initDashBoard (){
+        this.tab = Shuffleboard.getTab("System check");
+
+        ShuffleboardLayout batteryDataList = tab.getLayout("System check", BuiltInLayouts.kList)
+                .withPosition(0,0).withSize(1, 4).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));;
+
+        batteryDataList.addDouble("current voltage", ()-> Battery.getInstance().getCurrentVoltage())
+                .withPosition(0,0);
+        batteryDataList.addDouble("current current", ()-> Battery.getInstance().getCurrentUsage())
+                .withPosition(0,1);
+        batteryDataList.addDouble("battery inner resistance:", () -> getInnerBatteryResistance())
+                .withPosition(0,2);
+        batteryDataList.addDouble("battery voltage drop:", () ->  SystemCheck.getInstance()
+                .getStartingVoltage() - Battery.getInstance().getCurrentVoltage()).withPosition(0,3);
     }
 
     
@@ -66,59 +82,34 @@ public class SystemCheck extends GBSubsystem{
         return ((this.startingVoltage - Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage());
     }
 
-    public void add (CheckCommand checkCommand, GBSubsystem subsystem){
-        subsystemsAndCommands.putIfAbsent(subsystem, checkCommand);
-        this.tab.addBoolean(subsystem.getClass().getName(),checkCommand.getBooleanSupplier());
-    }
-    public void add (CheckCommand checkCommand, @NotNull GBSubsystem... subsystems){
-        //in the multi subsystem case the first inserted subsystem is the keyholder.
-        String multiSystemName = "";
-        GBSubsystem keyHolder = null;
-        for (GBSubsystem subs : subsystems){
-
-            if(keyHolder == null){
-                keyHolder = subs;
-            }
-
-            multiSystemName += subs.getClass().getSimpleName() + ", ";
-        }
-
-        subsystemsAndCommands.putIfAbsent(keyHolder, checkCommand);
-        this.tab.addBoolean(multiSystemName.getClass().getName(),checkCommand.getBooleanSupplier());
+    public void add (CheckCommand checkCommand, String subsystems){
+        subsystemsAndCommands.putIfAbsent(subsystems , checkCommand);
+        this.tab.addBoolean(subsystems,  checkCommand.getBooleanSupplier());
     }
 
-    public void add (String overrideName,CheckCommand checkCommand, @NotNull GBSubsystem... subsystems){
-        //in the multi subsystem case the first inserted subsystem is the keyholder.
-        String multiSystemName = "";
-        GBSubsystem keyHolder = null;
-        for (GBSubsystem subs : subsystems){
-            if(keyHolder == null){
-                keyHolder = subs;
-            }
-        }
-
-        subsystemsAndCommands.putIfAbsent(keyHolder, checkCommand);
-        this.tab.addBoolean(overrideName,checkCommand.getBooleanSupplier());
+    private CheckCommand getCommandForSubsystem (String key){
+        return subsystemsAndCommands.get(key);
     }
 
-    public void remove (GBSubsystem subsystem,Command command){
+    public void remove (String subsystem,Command command){
         subsystemsAndCommands.remove(subsystem,command);
     }
 
-    public CheckCommand getCheckCommandForSubsystem(GBSubsystem subsystem){
-        return subsystemsAndCommands.get(subsystem);
-    }
-    public GBSubsystem[] getSubsystems (){
-        return subsystemsAndCommands.keySet().toArray(new GBSubsystem[0]);
-    }
+    public Command getRunCommands (){
 
-
-    public void runCommands (){
         SequentialCommandGroup group = new SequentialCommandGroup();
-        for (GBSubsystem subsystem : getSubsystems()){
-            group.addCommands(getCheckCommandForSubsystem(subsystem).getRunCommand());
+
+        for (String s : subsystemsAndCommands.keySet()){
+            group.addCommands(getCommandForSubsystem(s).getRunCommand());
         }
-        group.schedule();
+
+        return group;
     }
+
+    public boolean isCANBusConnected(){
+        return RoborioUtils.isCANConnectedToRoborio();
+    }
+
+
 
 }
