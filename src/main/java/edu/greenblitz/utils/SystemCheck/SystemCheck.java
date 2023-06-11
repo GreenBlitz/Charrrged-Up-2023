@@ -3,6 +3,8 @@ package edu.greenblitz.utils.SystemCheck;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBFalcon;
@@ -55,7 +57,7 @@ public class SystemCheck extends GBSubsystem{
         this.tab = Shuffleboard.getTab("System check");
 
         ShuffleboardLayout batteryDataList = tab.getLayout("System check", BuiltInLayouts.kList)
-                .withPosition(0,0).withSize(1, 4).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));;
+                .withPosition(0,0).withSize(1, 4).withProperties(Map.of("Label position", "TOP", "Number of columns", 1, "Number of rows", 4));;
 
         batteryDataList.addDouble("current voltage", ()-> Battery.getInstance().getCurrentVoltage())
                 .withPosition(0,0);
@@ -65,6 +67,8 @@ public class SystemCheck extends GBSubsystem{
                 .withPosition(0,2);
         batteryDataList.addDouble("battery voltage drop:", () ->  SystemCheck.getInstance()
                 .getStartingVoltage() - Battery.getInstance().getCurrentVoltage()).withPosition(0,3);
+
+
     }
 
     

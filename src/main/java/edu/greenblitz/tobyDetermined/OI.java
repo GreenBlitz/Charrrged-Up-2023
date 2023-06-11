@@ -2,7 +2,6 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
-import edu.greenblitz.tobyDetermined.commands.SystemCheckCommand;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -107,7 +106,6 @@ public class OI { //GEVALD
 
         //score
 //		secondJoystick.Y.whileTrue(new GoToGrid());
-		secondJoystick.Y.whileTrue(new SystemCheckCommand());
         secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
         secondJoystick.X.whileTrue(new ReleaseObject());
         secondJoystick.A.whileTrue(new GripFromFeeder());
@@ -127,7 +125,6 @@ public class OI { //GEVALD
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
 
 
-		secondJoystick.A.and(secondJoystick.B).onTrue(new InstantCommand(() -> SystemCheck.getInstance().runCommands()));
     }
 
 

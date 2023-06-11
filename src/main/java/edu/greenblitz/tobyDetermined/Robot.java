@@ -73,6 +73,8 @@ public class Robot extends TimedRobot {
 		IntakeExtender.init();
 		IntakeRoller.init();
 		OI.init();
+
+		SystemCheck.getInstance();
 	}
 	
 	private static void initPortForwarding() {
