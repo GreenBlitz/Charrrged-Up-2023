@@ -1,6 +1,5 @@
 package edu.greenblitz.utils.SystemCheck;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -29,13 +28,6 @@ public class SystemCheck extends GBSubsystem{
     private static SystemCheck instance;
     private SequentialCommandGroup commandGroup;
 
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putBoolean("aaa",Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle()
-                );
-    }
-
     private ShuffleboardTab tab;
     private double innerBatteryResistance;
     private double startingVoltage;
@@ -59,9 +51,29 @@ public class SystemCheck extends GBSubsystem{
 
     }
 
-    public void initDashBoard (){
+    private void initDashBoard (){
         this.tab = Shuffleboard.getTab("System check");
 
+        initBatteryWidget();
+        initCANWidget();
+    }
+
+
+    private void initCANWidget (){
+        ShuffleboardLayout CANDataList = tab.getLayout("System check", BuiltInLayouts.kList)
+                .withPosition(1,0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+        CANDataList.addBoolean("is CAN Connected", RoborioUtils::isCANConnectedToRoborio)
+                .withPosition(0,0);
+
+        CANDataList.addBoolean("is CAN utilization high:", this::isCANUtilizationHigh)
+                .withPosition(0,1);
+
+        CANDataList.addDouble("CAN utilization %", RoborioUtils::getCANUtilization)
+                .withPosition(1,0);
+
+    }
+
+    private void initBatteryWidget (){
         ShuffleboardLayout batteryDataList = tab.getLayout("System check", BuiltInLayouts.kList)
                 .withPosition(0,0).withSize(1, 4).withProperties(Map.of("Label position", "TOP", "Number of columns", 1, "Number of rows", 4));;
 
@@ -73,6 +85,7 @@ public class SystemCheck extends GBSubsystem{
                 .withPosition(0,2);
         batteryDataList.addDouble("battery voltage drop:", () ->  SystemCheck.getInstance()
                 .getStartingVoltage() - Battery.getInstance().getCurrentVoltage()).withPosition(0,3);
+
 
 
     }
@@ -102,13 +115,18 @@ public class SystemCheck extends GBSubsystem{
         return this.commandGroup;
     }
 
-    public boolean isCANBusConnected(){
-        return RoborioUtils.isCANConnectedToRoborio();
+    public boolean isCANUtilizationHigh (){
+        return RoborioUtils.getCANUtilization() > constants.MAX_CAN_UTILIZATION_IN_TESTS;
     }
+
 
     private void addToSeqCommand (Command command){
         this.commandGroup.addCommands(command);
     }
 
+    public static class constants{
+        public static final double MAX_CAN_UTILIZATION_IN_TESTS = 70;
+
+    }
 
 }

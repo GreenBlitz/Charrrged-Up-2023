@@ -156,7 +156,12 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().cancelAll();
 
 
-
+		SystemCheck.getInstance().add(
+				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
+				() -> Extender.getInstance().isAtLength(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.distance)
+						&& Elbow.getInstance().isAtAngle(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.angleInRadians),
+				"arm test"
+		);
 	}
 	
 	@Override
