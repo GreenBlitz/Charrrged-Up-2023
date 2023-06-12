@@ -30,6 +30,12 @@ public class SystemCheck extends GBSubsystem{
     private SequentialCommandGroup commandGroup;
 
 
+    @Override
+    public void periodic() {
+        SmartDashboard.putBoolean("aaa",Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle()
+                );
+    }
+
     private ShuffleboardTab tab;
     private double innerBatteryResistance;
     private double startingVoltage;

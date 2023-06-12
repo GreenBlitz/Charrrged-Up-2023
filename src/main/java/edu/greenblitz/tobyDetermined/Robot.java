@@ -5,6 +5,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
@@ -28,6 +29,8 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+
+import java.util.function.BooleanSupplier;
 
 
 public class Robot extends TimedRobot {
@@ -70,8 +73,11 @@ public class Robot extends TimedRobot {
 		SystemCheck.getInstance().add(
 
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
-//				() -> Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle(),
-				() -> true,
+				() -> Extender.getInstance().isAtLength(
+						RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.distance
+				) && Elbow.getInstance().isAtAngle(
+						RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.angleInRadians
+				),
 				"elbow and extender"
 		);
 	}
