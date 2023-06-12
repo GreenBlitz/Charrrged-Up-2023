@@ -26,8 +26,8 @@ import java.util.function.DoubleSupplier;
 
 public class SystemCheck extends GBSubsystem{
 
-    private HashMap<String, CheckCommand> subsystemsAndCommands;
     private static SystemCheck instance;
+    private SequentialCommandGroup commandGroup;
 
 
     private ShuffleboardTab tab;
@@ -46,8 +46,8 @@ public class SystemCheck extends GBSubsystem{
         this.innerBatteryResistance = calculateInnerBatteryResistance();
         this.startingVoltage = 13.73;
 
-        subsystemsAndCommands = new HashMap<>();
 
+        this.commandGroup = new SequentialCommandGroup();
 
         initDashBoard();
 
@@ -86,34 +86,23 @@ public class SystemCheck extends GBSubsystem{
         return ((this.startingVoltage - Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage());
     }
 
-    public void add (CheckCommand checkCommand, String subsystems){
-        subsystemsAndCommands.putIfAbsent(subsystems , checkCommand);
-        this.tab.addBoolean(subsystems,  checkCommand.getBooleanSupplier());
-    }
-
-    private CheckCommand getCommandForSubsystem (String key){
-        return subsystemsAndCommands.get(key);
-    }
-
-    public void remove (String subsystem,Command command){
-        subsystemsAndCommands.remove(subsystem,command);
+    public void add (Command command, BooleanSupplier isAtTargetSupplier , String subsystems){
+        addToSeqCommand(command);
+        this.tab.addBoolean(subsystems,  isAtTargetSupplier);
     }
 
     public Command getRunCommands (){
 
-        SequentialCommandGroup group = new SequentialCommandGroup();
-
-        for (String s : subsystemsAndCommands.keySet()){
-            group.addCommands(getCommandForSubsystem(s).getRunCommand());
-        }
-
-        return group;
+        return this.commandGroup;
     }
 
     public boolean isCANBusConnected(){
         return RoborioUtils.isCANConnectedToRoborio();
     }
 
+    private void addToSeqCommand (Command command){
+        this.commandGroup.addCommands(command);
+    }
 
 
 }
