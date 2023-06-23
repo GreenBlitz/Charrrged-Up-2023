@@ -45,8 +45,8 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-		LED.getInstance();
-		
+		LED.getInstance(); //todo might make error
+
 	}
 	
 	@Override
@@ -162,7 +162,7 @@ public class Robot extends TimedRobot {
 		if(SwerveChassis.getInstance().isEncoderBroken()){
 			LED.getInstance().setColor(RobotMap.LED.Sections.SWERVE_ENCODER_BROKEN,Color.kRed);
 		}else{
-			LED.getInstance().setColor(RobotMap.LED.Sections.ARM_ENCODER_BROKEN,Color.kGreen);
+			LED.getInstance().setColor(RobotMap.LED.Sections.SWERVE_ENCODER_BROKEN,Color.kGreen);
 		}
 
 	

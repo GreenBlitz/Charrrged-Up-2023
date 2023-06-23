@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class LED extends GBSubsystem {
 
@@ -35,11 +36,9 @@ public class LED extends GBSubsystem {
         for (int i = 0; i < this.ledBuffer.getLength(); i++) {
             setColor(i,color);
         }
-        this.addressableLED.setData(ledBuffer);
     }
     public void setColor(int i, Color color) {
         this.ledBuffer.setLED(i, color);
-        this.addressableLED.setData(ledBuffer);
     }
 
     public void setColor (int startIndex,int endIndex, Color color){
@@ -74,13 +73,15 @@ public class LED extends GBSubsystem {
         for (int i = 0; i < this.ledBuffer.getLength(); i++) {
             this.ledBuffer.setHSV(i, h, s, v);
         }
-        this.addressableLED.setData(ledBuffer);
     }
 
 
     public void setHSV(int index, int h, int s, int v) {
         this.ledBuffer.setHSV(index, h, s, v);
-        this.addressableLED.setData(ledBuffer);
     }
 
+    @Override
+    public void periodic() {
+        this.addressableLED.setData(ledBuffer);
+    }
 }
