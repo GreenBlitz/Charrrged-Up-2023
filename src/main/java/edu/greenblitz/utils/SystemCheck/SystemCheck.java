@@ -7,6 +7,8 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBFalcon;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -51,14 +53,25 @@ public class SystemCheck extends GBSubsystem{
 
     }
 
+    
+    private GenericEntry batteryStartingVoltageEntry;
     private void initDashBoard (){
         this.tab = Shuffleboard.getTab("System check");
-
+        batteryStartingVoltageEntry = tab.add("battery starting voltage",13/*default value*/)
+                .withWidget(BuiltInWidgets.kTextView)
+                .getEntry();
+        
+        
         initBatteryWidget();
         initCANWidget();
+
     }
-
-
+    
+    @Override
+    public void periodic() {
+        setStartingVoltage(batteryStartingVoltageEntry.getDouble(13));
+    }
+    
     private void initCANWidget (){
         ShuffleboardLayout CANDataList = tab.getLayout("CANBus", BuiltInLayouts.kGrid)
                 .withPosition(1, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
@@ -71,8 +84,8 @@ public class SystemCheck extends GBSubsystem{
 
         CANDataList.addDouble("CAN utilization %", RoborioUtils::getCANUtilization)
                 .withPosition(1,0);
-
     }
+    
 
     private void initBatteryWidget (){
         ShuffleboardLayout batteryDataList = tab.getLayout("System check", BuiltInLayouts.kList)
@@ -85,7 +98,8 @@ public class SystemCheck extends GBSubsystem{
         batteryDataList.addDouble("battery inner resistance:", () -> getInnerBatteryResistance())
                 .withPosition(0,2);
         batteryDataList.addDouble("battery voltage drop:", () ->  SystemCheck.getInstance()
-                .getStartingVoltage() - Battery.getInstance().getCurrentVoltage()).withPosition(0,3);
+                .getStartingVoltage() - Battery.getInstance().getCurrentVoltage())
+                .withPosition(0,3);
 
 
 
@@ -124,8 +138,12 @@ public class SystemCheck extends GBSubsystem{
     private void addToSeqCommand (Command command){
         this.commandGroup.addCommands(command);
     }
+    
+    
 
-    public static class constants{
+    private void setStartingVoltage(double startingVoltage){
+        this.startingVoltage = startingVoltage;
+    }    public static class constants{
         public static final double MAX_CAN_UTILIZATION_IN_TESTS = 70;
 
     }
