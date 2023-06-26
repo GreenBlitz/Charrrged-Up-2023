@@ -5,6 +5,7 @@ import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
+import edu.greenblitz.utils.PressureSensor;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.networktables.GenericEntry;
@@ -29,6 +30,7 @@ public class SystemCheck extends GBSubsystem{
 
     private static SystemCheck instance;
     private SequentialCommandGroup commandGroup;
+    private PressureSensor pressureSensor;
 
     private ShuffleboardTab tab;
     private double innerBatteryResistance;
@@ -47,6 +49,7 @@ public class SystemCheck extends GBSubsystem{
         this.startingVoltage = 13.73;
 
 
+        this.pressureSensor = new PressureSensor(3);
         this.commandGroup = new SequentialCommandGroup();
 
         initDashBoard();
@@ -57,7 +60,9 @@ public class SystemCheck extends GBSubsystem{
     private GenericEntry batteryStartingVoltageEntry;
     private void initDashBoard (){
         this.tab = Shuffleboard.getTab("System check");
-        
+
+        this.tab.addNumber("pressure", ()-> pressureSensor.getPressure()).withPosition(1,5);
+
         initBatteryWidget();
         initCANWidget();
 
