@@ -5,8 +5,6 @@ import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateInDoorDirectio
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateOutDoorDirection;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.*;
 
@@ -26,7 +24,7 @@ public class FullAlign extends SequentialCommandGroup {
                         new RotateOutDoorDirection().until(()-> RotatingBelly.getInstance().isLimitSwitchPressed()),
                         new RotateOutDoorDirection().raceWith(new WaitCommand(EXTRA_TIME)),
 
-                        new InstantCommand(()-> LED.getInstance().setColor(Color.kOrchid))
+                        new InstantCommand(()-> LED.getInstance().setColor(RobotMap.LED.Sections.ALL,Color.kOrchid))
                 ).raceWith(new WaitCommand(FINAL_TIME)));
     }
 

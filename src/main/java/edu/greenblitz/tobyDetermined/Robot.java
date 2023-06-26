@@ -45,7 +45,6 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-		LED.getInstance(); //todo might make error
 
 	}
 	
@@ -66,6 +65,9 @@ public class Robot extends TimedRobot {
 		IntakeExtender.init();
 		IntakeRoller.init();
 		OI.init();
+
+//		LED.getInstance(); //todo might make error
+		LED.init(); //todo might make error
 	}
 	
 	private static void initPortForwarding() {

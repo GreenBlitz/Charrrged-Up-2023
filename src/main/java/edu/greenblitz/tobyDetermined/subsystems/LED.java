@@ -3,9 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class LED extends GBSubsystem {
 
@@ -32,11 +30,6 @@ public class LED extends GBSubsystem {
         }
     }
 
-    public void setColor(Color color) { //to all
-        for (int i = 0; i < this.ledBuffer.getLength(); i++) {
-            setColor(i,color);
-        }
-    }
     public void setColor(int i, Color color) {
         this.ledBuffer.setLED(i, color);
     }
@@ -52,7 +45,7 @@ public class LED extends GBSubsystem {
     }
 
     public void turnOff (){
-        setColor(new Color(0,0,0));
+        setColor(RobotMap.LED.Sections.ALL,new Color(0,0,0));
     }
 
     public void turnOff (int index){

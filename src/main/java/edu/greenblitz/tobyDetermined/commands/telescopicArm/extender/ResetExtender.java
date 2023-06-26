@@ -36,6 +36,6 @@ public class ResetExtender extends ExtenderCommand {
 		super.end(interrupted);
 		extender.resetLength();
 		extender.stop();
-		LED.getInstance().setColor(Color.kGreen);
+		LED.getInstance().setColor(RobotMap.LED.Sections.ALL,Color.kGreen);
 	}
 }
