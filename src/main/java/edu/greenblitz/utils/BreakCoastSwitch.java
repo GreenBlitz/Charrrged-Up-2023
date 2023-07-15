@@ -16,7 +16,7 @@ public class BreakCoastSwitch {
 
     public static BreakCoastSwitch getInstance() {
         if (instance == null) {
-            instance = new BreakCoastSwitch(RobotMap.BREAK_COAST_SWITCH_DIO_PORT);
+            instance = new BreakCoastSwitch(RobotMap.BreakCoastSwitch.BREAK_COAST_SWITCH_DIO_PORT);
         }
         return instance;
     }
@@ -46,19 +46,21 @@ public class BreakCoastSwitch {
     }
 
 
-	private static boolean lastState = false;
-	public void updateCoastBreak() { //run in disabled periodic
+    private static boolean lastState = false;
+
+    public void updateCoastBreak() { //run in disabled periodic
         if (isSwitchPressed() != lastState) {
-			lastState = !lastState;
+            lastState = !lastState;
             switchPressCount++;
         }
-	    SmartDashboard.putNumber("press count",switchPressCount);
+        SmartDashboard.putNumber("press count", switchPressCount);
         if (this.switchPressCount % 4 == 0) {
             setBreak();
         } else if (this.switchPressCount % 4 == 1) {
             setCoast();
         }
     }
+
 
     public boolean isSwitchPressed() {
         return !switchInput.get();
