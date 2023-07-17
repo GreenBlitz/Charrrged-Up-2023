@@ -9,13 +9,13 @@ public class ObjectSelector {
 	
 	public static void selectCone(){
 		isCone = true;
-		LED.getInstance().setColor(RobotMap.LED.Sections.ALL,Color.kYellow);
+		LED.getInstance().setColor(Color.kYellow, RobotMap.LED.Sections.ALL);
 		Claw.getInstance().coneCatchMode();
 	}
 	
 	public static void selectCube(){
 		isCone = false;
-		LED.getInstance().setColor(RobotMap.LED.Sections.ALL,Color.kMagenta);
+		LED.getInstance().setColor(Color.kYellow, RobotMap.LED.Sections.ALL);
 		Claw.getInstance().cubeCatchMode();
 	}
 	

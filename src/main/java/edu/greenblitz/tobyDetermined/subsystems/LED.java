@@ -30,26 +30,30 @@ public class LED extends GBSubsystem {
         }
     }
 
-    public void setColor(int i, Color color) {
-        this.ledBuffer.setLED(i, color);
+
+    public void setColor (Color color){
+        setColor(color, RobotMap.LED.Sections.ALL);
+    }
+    public void setColor(Color color, int index) {
+        this.ledBuffer.setLED(index, color);
     }
 
-    public void setColor (int startIndex,int endIndex, Color color){
+    public void setColor ( Color color,int startIndex,int endIndex){
         for (int i = startIndex; i < endIndex; i++) {
-            setColor(i,color);
+            setColor(color,i);
         }
     }
 
-    public void setColor (RobotMap.LED.Sections section, Color color){
-        setColor(section.start,section.end,color);
+    public void setColor (Color color, RobotMap.LED.Sections section){
+        setColor(color,section.start,section.end);
     }
 
     public void turnOff (){
-        setColor(RobotMap.LED.Sections.ALL,new Color(0,0,0));
+        setColor(new Color(0,0,0),RobotMap.LED.Sections.ALL);
     }
 
     public void turnOff (int index){
-        setColor(index,new Color(0,0,0));
+        setColor(new Color(0,0,0),index);
     }
     public void turnOff (int startIndex,int endIndex){
         for (int i = startIndex; i < endIndex; i++) {

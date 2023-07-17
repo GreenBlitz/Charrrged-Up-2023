@@ -65,9 +65,8 @@ public class Robot extends TimedRobot {
 		IntakeExtender.init();
 		IntakeRoller.init();
 		OI.init();
+		LED.init();
 
-//		LED.getInstance(); //todo might make error
-		LED.init(); //todo might make error
 	}
 	
 	private static void initPortForwarding() {
@@ -156,15 +155,15 @@ public class Robot extends TimedRobot {
 //		}
 
 		if(Extender.getInstance().DidReset()){
-			LED.getInstance().setColor(RobotMap.LED.Sections.ARM_ENCODER_BROKEN,Color.kGreen);
+			LED.getInstance().setColor(Color.kGreen, RobotMap.LED.Sections.ARM_ENCODER_BROKEN);
 		}else{
-			LED.getInstance().setColor(RobotMap.LED.Sections.ARM_ENCODER_BROKEN,Color.kRed);
+			LED.getInstance().setColor(Color.kRed, RobotMap.LED.Sections.ARM_ENCODER_BROKEN);
 		}
 
 		if(SwerveChassis.getInstance().isEncoderBroken()){
-			LED.getInstance().setColor(RobotMap.LED.Sections.SWERVE_ENCODER_BROKEN,Color.kRed);
+			LED.getInstance().setColor(Color.kRed, RobotMap.LED.Sections.SWERVE_ENCODER_BROKEN);
 		}else{
-			LED.getInstance().setColor(RobotMap.LED.Sections.SWERVE_ENCODER_BROKEN,Color.kGreen);
+			LED.getInstance().setColor(Color.kGreen, RobotMap.LED.Sections.SWERVE_ENCODER_BROKEN);
 		}
 
 	

@@ -24,7 +24,7 @@ public class FullAlign extends SequentialCommandGroup {
                         new RotateOutDoorDirection().until(()-> RotatingBelly.getInstance().isLimitSwitchPressed()),
                         new RotateOutDoorDirection().raceWith(new WaitCommand(EXTRA_TIME)),
 
-                        new InstantCommand(()-> LED.getInstance().setColor(RobotMap.LED.Sections.ALL,Color.kOrchid))
+                        new InstantCommand(()-> LED.getInstance().setColor(Color.kOrchid, RobotMap.LED.Sections.ALL))
                 ).raceWith(new WaitCommand(FINAL_TIME)));
     }
 
