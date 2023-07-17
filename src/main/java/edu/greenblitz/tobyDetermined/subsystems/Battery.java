@@ -4,7 +4,6 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Battery extends GBSubsystem {
 	
@@ -12,7 +11,7 @@ public class Battery extends GBSubsystem {
 	private static Battery instance;
 
 	private static PowerDistribution pdp = new PowerDistribution();
-	private static PneumaticsControlModule pcm = new PneumaticsControlModule(RobotMap.Pneumatics.PCM.PCM_ID);
+	private static PneumaticsControlModule pcm = new PneumaticsControlModule(RobotMap.Pneumatics.PneumaticsController.ID);
 
 	private Battery() {
 	}

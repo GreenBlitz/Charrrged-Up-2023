@@ -1,17 +1,13 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.Pneumatics.PCM.PCM_ID;
+import static edu.greenblitz.tobyDetermined.RobotMap.Pneumatics.PneumaticsController.ID;
 
 public class Claw extends GBSubsystem {
     private static Claw instance;
@@ -22,7 +18,7 @@ public class Claw extends GBSubsystem {
     private Claw() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(RobotMap.TelescopicArm.Claw.CLAW_CONFIG_OBJECT);
-        solenoid = new DoubleSolenoid(PCM_ID, PneumaticsModuleType.CTREPCM, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
+        solenoid = new DoubleSolenoid(ID, RobotMap.Pneumatics.PneumaticsController.PCM_TYPE, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
     }
 
     /**

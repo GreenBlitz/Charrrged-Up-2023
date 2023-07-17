@@ -5,7 +5,8 @@ import edu.greenblitz.utils.GBCommand;
 
 public abstract class RollerCommand extends GBCommand {
 	IntakeRoller roller;
-	RollerCommand(){
+
+	RollerCommand() {
 		roller = IntakeRoller.getInstance();
 		require(roller);
 	}

@@ -1,10 +1,8 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
-import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripConeFromBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -19,10 +17,10 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
+import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -66,7 +64,20 @@ public class Robot extends TimedRobot {
 		IntakeRoller.init();
 		OI.init();
 		LED.init();
+		initToggleAbleSubsystems();
+	}
 
+	public static void initToggleAbleSubsystems (){
+
+		BreakCoastSwitch.getInstance().addSubsystem(SwerveChassis.getInstance(),
+				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake),
+				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast)
+		);
+
+		BreakCoastSwitch.getInstance().addSubsystem(Elbow.getInstance(),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
+		);
 	}
 	
 	private static void initPortForwarding() {
@@ -80,6 +91,8 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 		RoborioUtils.updateCurrentCycleTime();
 		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
+
+		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
 	}
 	
 	
@@ -92,14 +105,16 @@ public class Robot extends TimedRobot {
 
 	
 	@Override
-	
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
+
+		BreakCoastSwitch.getInstance().setBreak(); //return the motors that we might have changed to break.
 
 		Grid.init();
 		MultiLimelight.getInstance().updateRobotPoseAlliance();
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
+		SwerveChassis.getInstance().enableVision();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
 			new ResetExtender().schedule();
@@ -126,6 +141,7 @@ public class Robot extends TimedRobot {
 		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake);
+		SwerveChassis.getInstance().disableVision();
 		ObjectSelector.selectCone();
 		if (!SwerveChassis.getInstance().isEncoderBroken()) {
 			SwerveChassis.getInstance().resetAllEncoders();

@@ -252,4 +252,8 @@ public class Elbow extends GBSubsystem {
     public double getGoalAngle() {
         return goalAngle;
     }
+
+    public void setIdleMode (CANSparkMax.IdleMode idleMode){
+        motor.setIdleMode(idleMode);
+    }
 }
