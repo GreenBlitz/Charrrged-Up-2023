@@ -1,4 +1,4 @@
-package edu.greenblitz.utils;
+package edu.greenblitz.utils.breakCoastToggle;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
@@ -10,9 +10,11 @@ import java.util.HashMap;
 public class BreakCoastSwitch {
 
     private static BreakCoastSwitch instance;
+
+    private static boolean lastState = false;
     private DigitalInput switchInput;
     private int switchPressCount;
-    private HashMap<GBSubsystem, Runnable[]> subsystems;
+    private HashMap<GBSubsystem, BreakCoastRunnables> subsystems;
 
     public static BreakCoastSwitch getInstance() {
         if (instance == null) {
@@ -28,41 +30,40 @@ public class BreakCoastSwitch {
     }
 
     public void addSubsystem(GBSubsystem subsystem, Runnable setBrakeMode, Runnable setCoastMode) {
-        subsystems.putIfAbsent(subsystem, new Runnable[]{setBrakeMode, setCoastMode});
-        subsystems.get(subsystem)[0].run(); //set the motors to break
+        subsystems.putIfAbsent(subsystem, new BreakCoastRunnables(setBrakeMode, setCoastMode));
+        setBrakeMode.run(); //set the motors to break
     }
 
 
     public void setCoast() {
-        for (Runnable[] subsystemToggle : subsystems.values()) {
-            subsystemToggle[1].run();
+        for (BreakCoastRunnables subsystemToggle : subsystems.values()) {
+            subsystemToggle.getCoastRunnable().run();
         }
     }
 
     public void setBreak() {
-        for (Runnable[] subsystemToggle : subsystems.values()) {
-            subsystemToggle[0].run();
+        for (BreakCoastRunnables subsystemToggle : subsystems.values()) {
+            subsystemToggle.getBreakRunnable().run();
         }
     }
 
-
-    private static boolean lastState = false;
-
-    public void updateCoastBreak() { //run in disabled periodic
-        if (isSwitchPressed() != lastState) {
+    public void toggleBreakCoast() {
+        if (getSwitchState() != lastState) {
+            switchPressCount += lastState ? 1 : 0;
             lastState = !lastState;
-            switchPressCount++;
         }
-        SmartDashboard.putNumber("press count", switchPressCount);
-        if (this.switchPressCount % 4 == 0) {
+
+        if (this.switchPressCount % 2 == 1) {
             setBreak();
-        } else if (this.switchPressCount % 4 == 1) {
+        } else if (this.switchPressCount % 2 == 0) {
             setCoast();
         }
+
+        SmartDashboard.putNumber("press count", switchPressCount);
     }
 
 
-    public boolean isSwitchPressed() {
+    public boolean getSwitchState() {
         return !switchInput.get();
     }
 

@@ -17,7 +17,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
-import edu.greenblitz.utils.BreakCoastSwitch;
+import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -69,12 +69,12 @@ public class Robot extends TimedRobot {
 	}
 
 	public static void initToggleAbleSubsystems (){
-		//swerve chassis
+
 		BreakCoastSwitch.getInstance().addSubsystem(SwerveChassis.getInstance(),
 				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake),
 				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast)
 		);
-		//elbow
+
 		BreakCoastSwitch.getInstance().addSubsystem(Elbow.getInstance(),
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
 		RoborioUtils.updateCurrentCycleTime();
 		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 
-		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().isSwitchPressed());
+		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
 	}
 	
 	
@@ -170,7 +170,7 @@ public class Robot extends TimedRobot {
 //			LED.getInstance().setColor(Color.kGreen);
 //		}
 
-		BreakCoastSwitch.getInstance().updateCoastBreak();
+		BreakCoastSwitch.getInstance().toggleBreakCoast();
 
 		if (SwerveChassis.getInstance().isEncoderBroken()){
 			if (Extender.getInstance().DidReset()){
