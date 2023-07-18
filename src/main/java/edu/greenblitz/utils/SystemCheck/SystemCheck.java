@@ -2,32 +2,18 @@ package edu.greenblitz.utils.SystemCheck;
 
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-import edu.greenblitz.utils.GBCommand;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.utils.PressureSensor;
 import edu.greenblitz.utils.RoborioUtils;
-import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.shuffleboard.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
-import org.jetbrains.annotations.NotNull;
-import scala.collection.parallel.immutable.ParRange;
 
-import javax.annotation.Nonnull;
-import javax.swing.plaf.PanelUI;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 public class SystemCheck extends GBSubsystem {
 
@@ -41,6 +27,9 @@ public class SystemCheck extends GBSubsystem {
     private double startingPressure;
 
     private GenericEntry batteryStartingVoltageEntry;
+
+    private boolean isLimeLightConnected;
+
 
 
     public static SystemCheck getInstance() {
@@ -61,11 +50,14 @@ public class SystemCheck extends GBSubsystem {
 
         this.commandGroup = new SequentialCommandGroup();
 
-
-        addPressureCheck();
+        addSpecialChecks();
         initDashBoard();
 
 
+    }
+    public void addSpecialChecks(){
+        addPressureCheck();
+        this.isLimeLightConnected = MultiLimelight.getInstance().isConnected();
     }
 
     public void addPressureCheck() {
@@ -73,7 +65,7 @@ public class SystemCheck extends GBSubsystem {
                 new InstantCommand(
                         () -> startingPressure = pressureSensor.getPressure()
                 ),
-                new WaitCommand(3),
+                new WaitCommand(Constants.AIR_LEAK_MEASUREMENT_TIME),
                 new InstantCommand(
                         new Runnable() {
                             @Override
@@ -90,9 +82,7 @@ public class SystemCheck extends GBSubsystem {
 
     @Override
     public void periodic() {
-        setStartingVoltage(batteryStartingVoltageEntry.getDouble(13));
-
-
+        updateStartingVoltage(batteryStartingVoltageEntry.getDouble(13)); //by shuffle-board input
     }
 
 
@@ -100,11 +90,11 @@ public class SystemCheck extends GBSubsystem {
         this.tab = Shuffleboard.getTab("System check");
 
         this.tab.addNumber("pressure", () -> pressureSensor.getPressure()).withPosition(1, 5);
+        this.tab.addBoolean("is LL connected", () -> this.isLimeLightConnected);
         initBatteryWidget();
         initCANWidget();
 
     }
-
 
     private void initCANWidget() {
         ShuffleboardLayout CANDataList = tab.getLayout("CANBus", BuiltInLayouts.kGrid)
@@ -130,7 +120,7 @@ public class SystemCheck extends GBSubsystem {
 
         ShuffleboardLayout batteryDataList = tab.getLayout("System check", BuiltInLayouts.kList)
                 .withPosition(0, 0).withSize(1, 4).withProperties(Map.of("Label position", "TOP", "Number of columns", 1, "Number of rows", 4));
-        ;
+
 
         batteryDataList.addDouble("current voltage", () -> Battery.getInstance().getCurrentVoltage())
                 .withPosition(0, 0);
@@ -180,7 +170,7 @@ public class SystemCheck extends GBSubsystem {
     }
 
 
-    private void setStartingVoltage(double startingVoltage) {
+    private void updateStartingVoltage(double startingVoltage) {
         this.startingVoltage = startingVoltage;
 
     }
@@ -188,6 +178,7 @@ public class SystemCheck extends GBSubsystem {
     public static class Constants {
         public static final double MAX_CAN_UTILIZATION_IN_TESTS = 70;
         public static final double MAX_AIR_PRESSURE_DROP_IN_TESTS = 70;
+        public static final double AIR_LEAK_MEASUREMENT_TIME = 3;
 
     }
 
