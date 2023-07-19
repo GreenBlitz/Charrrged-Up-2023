@@ -1,5 +1,8 @@
 package edu.greenblitz.tobyDetermined.subsystems.Limelight;
 
+import edu.greenblitz.utils.SystemCheck.IPingable;
+import edu.greenblitz.utils.SystemCheck.PingableManager;
+import edu.greenblitz.utils.SystemCheck.SystemCheck;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -11,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Optional;
 
 
-class Limelight {
+class Limelight implements IPingable {
     private NetworkTableEntry robotPoseEntry, idEntry;
     private String name;
 
@@ -20,6 +23,8 @@ class Limelight {
         String robotPoseQuery = "botpose_wpiblue";
         robotPoseEntry = NetworkTableInstance.getDefault().getTable(name).getEntry(robotPoseQuery);
         idEntry = NetworkTableInstance.getDefault().getTable(name).getEntry("tid");
+
+        PingableManager.getInstance().add(this);
     }
     
     public void updateRobotPoseEntry(){
@@ -49,7 +54,15 @@ class Limelight {
     }
 
 
+    @Override
+    public boolean isConnected() {
+        return this.hasTarget();
+    }
 
+    @Override
+    public String deviceName() {
+        return "LimeLight - " + name;
+    }
 }
 
 
