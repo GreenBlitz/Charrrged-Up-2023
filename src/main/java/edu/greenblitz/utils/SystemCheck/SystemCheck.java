@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
@@ -29,7 +30,6 @@ public class SystemCheck extends GBSubsystem {
     private GenericEntry batteryStartingVoltageEntry;
 
     private boolean isLimeLightConnected;
-
 
 
     public static SystemCheck getInstance() {
@@ -135,6 +135,22 @@ public class SystemCheck extends GBSubsystem {
 
     }
 
+    public void initPingableDashboard (){
+
+        ShuffleboardLayout pingableDataList = tab.getLayout("pingables", BuiltInLayouts.kList)
+                .withPosition(0, 6).withSize(1, PingableManager.getInstance().getPingableList().toArray().length)
+                .withProperties(Map.of("Label position", "TOP", "Number of columns", 1,
+                        "Number of rows", PingableManager.getInstance().getPingableList().toArray().length));
+
+        int cnt = 0;
+        for(IPingable pingable : PingableManager.getInstance().getPingableList()){
+            pingableDataList.addBoolean(pingable.deviceName(), () -> pingable.isConnected()).withPosition(0,cnt);
+            cnt++;
+        }
+
+
+    }
+
 
     public double getInnerBatteryResistance() {
         this.innerBatteryResistance = calculateInnerBatteryResistance();
@@ -174,6 +190,9 @@ public class SystemCheck extends GBSubsystem {
         this.startingVoltage = startingVoltage;
 
     }
+
+
+
 
     public static class Constants {
         public static final double MAX_CAN_UTILIZATION_IN_TESTS = 70;
