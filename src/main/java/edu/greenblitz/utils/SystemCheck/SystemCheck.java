@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+import java.lang.instrument.UnmodifiableClassException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -119,7 +120,7 @@ public class SystemCheck extends GBSubsystem {
 
 
         ShuffleboardLayout batteryDataList = tab.getLayout("System check", BuiltInLayouts.kList)
-                .withPosition(0, 0).withSize(1, 4).withProperties(Map.of("Label position", "TOP", "Number of columns", 1, "Number of rows", 4));
+                .withPosition(0, 0).withSize(1, 5).withProperties(Map.of("Label position", "TOP", "Number of columns", 1, "Number of rows", 5));
 
 
         batteryDataList.addDouble("current voltage", () -> Battery.getInstance().getCurrentVoltage())
@@ -128,9 +129,12 @@ public class SystemCheck extends GBSubsystem {
                 .withPosition(0, 1);
         batteryDataList.addDouble("battery inner resistance:", () -> getInnerBatteryResistance())
                 .withPosition(0, 2);
-        batteryDataList.addDouble("battery voltage drop:", () -> SystemCheck.getInstance()
-                        .getStartingVoltage() - Battery.getInstance().getCurrentVoltage())
+        batteryDataList.addDouble("battery voltage drop:", () -> getVoltageDrop())
                 .withPosition(0, 3);
+        batteryDataList.addBoolean("battery overall good?",
+                () -> getInnerBatteryResistance() < Constants.BatteryConstants.MAX_INNER_BATTERY_RESISTANCE &&
+                         getVoltageDrop() < Constants.BatteryConstants.MAX_VOLTAGE_DROP
+                ).withPosition(0,4);
 
 
     }
@@ -192,12 +196,23 @@ public class SystemCheck extends GBSubsystem {
     }
 
 
+    public double getVoltageDrop (){
+        return SystemCheck.getInstance().getStartingVoltage() - Battery.getInstance().getCurrentVoltage();
+    }
+
 
 
     public static class Constants {
         public static final double MAX_CAN_UTILIZATION_IN_TESTS = 70;
         public static final double MAX_AIR_PRESSURE_DROP_IN_TESTS = 70;
         public static final double AIR_LEAK_MEASUREMENT_TIME = 3;
+
+
+        public static final class BatteryConstants{
+            public static final double MAX_INNER_BATTERY_RESISTANCE = 0;
+            public static final double MAX_VOLTAGE_DROP = 0;
+
+        }
 
     }
 
