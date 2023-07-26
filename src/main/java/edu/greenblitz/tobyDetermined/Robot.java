@@ -27,8 +27,8 @@ public class Robot extends TimedRobot {
 		AutonomousSelector.getInstance();
 		//swerve
 		SwerveChassis.getInstance().resetChassisPose();
-		SwerveChassis.getInstance().resetAllEncoders();
-//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+//		SwerveChassis.getInstance().resetAllEncoders();
+		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 
 
 	}
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
 		BreakCoastSwitch.getInstance().setBreak(); //return the motors that we might have changed to break.
 
 		Grid.init();
-		Dashboard.getInstance().activateDriversDashboard();
+//		Dashboard.getInstance().activateDriversDashboard();
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().enableVision();
 	}

@@ -48,19 +48,18 @@ public class OI { //GEVALD
 	
 	private void initButtons() {
 		//todo fill buttons
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 
 		//shooter
-		secondJoystick.X.whileTrue(new RunShooterByPower(0.8));
-
+		mainJoystick.X.whileTrue(new RunShooterByPower(-0.3));
 		//intake
-		secondJoystick.START.whileTrue(new ToggleRoller());
-		secondJoystick.R1.whileTrue(new RollByConst(0.5));
-		secondJoystick.L1.whileTrue(new RollByConst(-0.5));
+		mainJoystick.START.whileTrue(new ToggleRoller());
+		mainJoystick.R1.whileTrue(new RollByConst(0.6));
+		mainJoystick.L1.whileTrue(new RollByConst(-0.6));
 
 		//funnel
-		secondJoystick.POV_UP.whileTrue(new RunFunnel());
-		secondJoystick.POV_DOWN.whileTrue(new ReverseRUnFunnel());
+		mainJoystick.POV_UP.whileTrue(new RunFunnel());
+		mainJoystick.POV_DOWN.whileTrue(new ReverseRUnFunnel());
 
 
 	}
