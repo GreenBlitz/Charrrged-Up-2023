@@ -1,5 +1,7 @@
-package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
+package edu.greenblitz.tobyDetermined.commands;
 
+import edu.greenblitz.tobyDetermined.subsystems.Colors;
+import edu.greenblitz.tobyDetermined.subsystems.Indexinggggg;
 import edu.greenblitz.tobyDetermined.subsystems.handFlip;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.utils.GBCommand;
@@ -7,8 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HandFlipCommand extends GBCommand {
 
-    protected handFlip handFlip1;
-
+    protected Indexinggggg handFlip1;
     public HandFlipCommand (){
         handFlip1 = handFlip1.getInstance();
         require(handFlip1);
@@ -16,15 +17,24 @@ public class HandFlipCommand extends GBCommand {
 
     @Override
     public void execute() {
-        handFlip1 = handFlip1.getInstance();
-        handFlip1.setSpeed(0.5);
+        switch (handFlip1.getBallColor()){
+            case Red:
+                handFlip1.setSpeed(0.5);
+                break;
+            case Blue:
+                handFlip1.setSpeed(-0.5);
+                break;
+            case Other:
+                handFlip1.setSpeed(0);
+                break;
+        }
 
     }
 
 
     @Override
     public void end(boolean interrupted){
-        handFlip1.getInstance().setSpeed(0);
+        handFlip1.setSpeed(0);
     }
 
 
