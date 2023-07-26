@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
 import edu.greenblitz.utils.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
@@ -47,13 +46,13 @@ public class SwerveChassis extends GBSubsystem {
 	private boolean doVision;
 	
 	public SwerveChassis() {
-		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
-		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
-		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackLeft);
-		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackRight);
+		this.frontLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontLeft);
+		this.frontRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleFrontRight);
+		this.backLeft = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackLeft);
+		this.backRight = new KazaSwerveModule(RobotMap.Swerve.KazaModuleBackRight);
 		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_DIO_PORT, RobotMap.Ultrasonic.ECHO_DIO_PORT);
 		Ultrasonic.setAutomaticMode(true);
-		doVision = true;
+		doVision = false;
 		
 		
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
@@ -87,8 +86,8 @@ public class SwerveChassis extends GBSubsystem {
 	@Override
 	public void periodic() {
 		
-		updatePoseEstimationLimeLight();
-		field.setRobotPose(getRobotPose());
+//		updatePoseEstimationLimeLight();
+//		field.setRobotPose(getRobotPose());
 	}
 	
 	public void resetAll(Pose2d pose) {
@@ -276,15 +275,15 @@ public class SwerveChassis extends GBSubsystem {
 		Photonvision.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 	}
 	
-	public void updatePoseEstimationLimeLight() {
-		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
-		if (doVision) {
-			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
-				target.ifPresent(this::addVisionMeasurement);
-			}
-		}
-	}
-	
+//	public void updatePoseEstimationLimeLight() {
+//		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+//		if (doVision) {
+//			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
+//				target.ifPresent(this::addVisionMeasurement);
+//			}
+//		}
+//	}
+//
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
 		double limelightXSpeed = SwerveChassis.getInstance().getChassisSpeeds().vxMetersPerSecond * RobotMap.Vision.VISION_CONSTANT;
@@ -300,14 +299,14 @@ public class SwerveChassis extends GBSubsystem {
 		return poseEstimator.getEstimatedPosition();
 	}
 	
-	public void resetToVision() {
-		Optional<Pair<Pose2d, Double>> visionOutput = MultiLimelight.getInstance().getFirstAvailableTarget();
-		if(visionOutput.isPresent()) {
-			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0));
-			visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
-			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
-		}
-		}
+//	public void resetToVision() {
+//		Optional<Pair<Pose2d, Double>> visionOutput = MultiLimelight.getInstance().getFirstAvailableTarget();
+//		if(visionOutput.isPresent()) {
+//			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0));
+//			visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
+//			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
+//		}
+//		}
 	
 	public boolean isAtPose(Pose2d goalPose) {
 		Pose2d robotPose = getRobotPose();

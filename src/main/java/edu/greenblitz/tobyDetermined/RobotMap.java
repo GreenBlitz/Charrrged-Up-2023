@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
 
 public class RobotMap {
-    public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
+    public static final Robot.robotName ROBOT_NAME = Robot.robotName.pegaSwerve;
 
 
 
@@ -55,8 +55,8 @@ public class RobotMap {
 
     public static class Pneumatics {
         public static class PneumaticsController {
-            public static final int ID = 1;
-            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.REVPH;
+            public static final int ID = 1; //TODO FIND REAL ID
+            public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
         }
 
         public static class PressureSensor {

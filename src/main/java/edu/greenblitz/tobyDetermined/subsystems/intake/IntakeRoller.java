@@ -13,7 +13,7 @@ public class IntakeRoller extends GBSubsystem {
 	private DigitalInput objectDetector;
 
 	private IntakeRoller() {
-		motor = new GBSparkMax(RobotMap.Intake.ROLLER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+		motor = new GBSparkMax(RobotMap.Intake.ROLLER_ID, CANSparkMaxLowLevel.MotorType.kBrushless); //todo find real id
 		motor.config(RobotMap.Intake.INTAKE_CONFIG_OBJECT);
 		objectDetector = new DigitalInput(RobotMap.Intake.BEAM_BREAKER_ID);
 	}
