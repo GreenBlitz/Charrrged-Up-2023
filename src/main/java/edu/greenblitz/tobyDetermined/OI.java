@@ -1,8 +1,8 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.rotateToXRotations;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
-import edu.greenblitz.tobyDetermined.commands.SystemCheck.SystemCheck;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -28,7 +28,6 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class OI { //GEVALD
 	
@@ -65,10 +64,16 @@ public class OI { //GEVALD
 		isHandled = false;
 	}
 	
+	public void butt(){
+		System.out.println("Created OI");
+		mainJoystick.A.onTrue(new rotateToXRotations(100,0.01));
+	}
 	
 	private void initButtons() {
-		amireeeButtons();
-		romyButtons();
+//		amireeeButtons();
+//		romyButtons();
+		butt();
+		
 	}
 
 	public void romyButtons() {

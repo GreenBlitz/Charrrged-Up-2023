@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
@@ -21,9 +22,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -37,15 +36,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
-		initSubsystems();
-		LiveWindow.disableAllTelemetry();
-		initPortForwarding();
-		AutonomousSelector.getInstance();
-		//swerve
-		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
-		SwerveChassis.getInstance().resetChassisPose();
-		SwerveChassis.getInstance().resetAllEncoders();
-//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		OI.init();
+//		initSubsystems();
+//		LiveWindow.disableAllTelemetry();
+//		initPortForwarding();
+//		AutonomousSelector.getInstance();
+//		//swerve
+//		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
+//		SwerveChassis.getInstance().resetChassisPose();
+//		SwerveChassis.getInstance().resetAllEncoders();
+////		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 	}
 	
 	@Override
@@ -73,11 +73,23 @@ public class Robot extends TimedRobot {
 		}
 	}
 	
+	static DigitalInput sw = new DigitalInput(0);
+	static ColorSensorV3 cs = new ColorSensorV3(I2C.Port.kOnboard);
+	
 	@Override
 	public void robotPeriodic() {
+		
+		SmartDashboard.putBoolean("is clicked", sw.get());
+		SmartDashboard.putNumber("red",cs.getRed());
+		SmartDashboard.putNumber("green",cs.getGreen());
+		SmartDashboard.putNumber("blue",cs.getBlue());
+		SmartDashboard.putString("color", cs.getColor().toString());
+		
+		
+		
 		CommandScheduler.getInstance().run();
-		RoborioUtils.updateCurrentCycleTime();
-		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
+//		RoborioUtils.updateCurrentCycleTime();
+//		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 	}
 	
 	
@@ -92,18 +104,18 @@ public class Robot extends TimedRobot {
 	
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
-
-		Grid.init();
-		MultiLimelight.getInstance().updateRobotPoseAlliance();
-		Dashboard.getInstance().activateDriversDashboard();
-		SwerveChassis.getInstance().setIdleModeBrake();
-		SwerveChassis.getInstance().enableVision();
-		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
-		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
-			new ResetExtender().schedule();
-		}
-
-		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
+//
+//		Grid.init();
+//		MultiLimelight.getInstance().updateRobotPoseAlliance();
+//		Dashboard.getInstance().activateDriversDashboard();
+//		SwerveChassis.getInstance().setIdleModeBrake();
+//		SwerveChassis.getInstance().enableVision();
+//		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
+//		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
+//			new ResetExtender().schedule();
+//		}
+//
+//		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
 	
@@ -152,26 +164,26 @@ public class Robot extends TimedRobot {
 //		}else{
 //			LED.getInstance().setColor(Color.kGreen);
 //		}
-		if (SwerveChassis.getInstance().isEncoderBroken()){
-			if (Extender.getInstance().DidReset()){
-				LED.getInstance().setColor(new Color(136, 8 ,90)); //dark red
-			} else {
-				LED.getInstance().setColor(Color.kRed);
-			}
-			
-		} else if (!Extender.getInstance().DidReset()){
-			LED.getInstance().setColor(Color.kOrangeRed);
-		} else {
-			LED.getInstance().setColor(Color.kGreen);
-		}
-	
-		if(Extender.getInstance().getLimitSwitch()){
-			if (Extender.getInstance().getLength() > 0 || !Extender.getInstance().DidReset()) {
-				Extender.getInstance().resetLength();
-			}
-		}
-		SwerveChassis.getInstance().isEncoderBroken();
-		Elbow.getInstance().resetEncoder();
+//		if (SwerveChassis.getInstance().isEncoderBroken()){
+//			if (Extender.getInstance().DidReset()){
+//				LED.getInstance().setColor(new Color(136, 8 ,90)); //dark red
+//			} else {
+//				LED.getInstance().setColor(Color.kRed);
+//			}
+//
+//		} else if (!Extender.getInstance().DidReset()){
+//			LED.getInstance().setColor(Color.kOrangeRed);
+//		} else {
+//			LED.getInstance().setColor(Color.kGreen);
+//		}
+//
+//		if(Extender.getInstance().getLimitSwitch()){
+//			if (Extender.getInstance().getLength() > 0 || !Extender.getInstance().DidReset()) {
+//				Extender.getInstance().resetLength();
+//			}
+//		}
+//		SwerveChassis.getInstance().isEncoderBroken();
+//		Elbow.getInstance().resetEncoder();
 	}
 	
 	public enum robotName {
