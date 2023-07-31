@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
 	
 	private static void addChecks(){
 		SystemCheck.getInstance().add(
-				
+				//elbow and extender
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
 				() -> Extender.getInstance().isAtLength(
 						RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.distance)
@@ -82,13 +82,6 @@ public class Robot extends TimedRobot {
 						RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.angleInRadians
 				),
 				"elbow and extender"
-		);
-		
-		
-		SystemCheck.getInstance().add(
-				new ExtendRoller().andThen(new WaitCommand(5)),
-				() -> IntakeExtender.getInstance().isExtended(),
-				"extend gripper"
 		);
 		
 		

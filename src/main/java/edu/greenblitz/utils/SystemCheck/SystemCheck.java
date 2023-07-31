@@ -53,10 +53,11 @@ public class SystemCheck extends GBSubsystem {
 
         addSpecialChecks();
         initDashBoard();
-
+        initPingableDashboard();
 
     }
-    public void addSpecialChecks(){
+
+    public void addSpecialChecks() {
         addPressureCheck();
         this.isLimeLightConnected = MultiLimelight.getInstance().isConnected();
     }
@@ -133,22 +134,21 @@ public class SystemCheck extends GBSubsystem {
                 .withPosition(0, 3);
         batteryDataList.addBoolean("battery overall good?",
                 () -> getInnerBatteryResistance() < Constants.BatteryConstants.MAX_INNER_BATTERY_RESISTANCE &&
-                         getVoltageDrop() < Constants.BatteryConstants.MAX_VOLTAGE_DROP
-                ).withPosition(0,4);
+                        getVoltageDrop() < Constants.BatteryConstants.MAX_VOLTAGE_DROP
+        ).withPosition(0, 4);
 
 
     }
 
-    public void initPingableDashboard (){
-
+    public void initPingableDashboard() {
         ShuffleboardLayout pingableDataList = tab.getLayout("pingables", BuiltInLayouts.kList)
                 .withPosition(0, 6).withSize(1, PingableManager.getInstance().getPingableList().toArray().length)
                 .withProperties(Map.of("Label position", "TOP", "Number of columns", 1,
                         "Number of rows", PingableManager.getInstance().getPingableList().toArray().length));
 
         int cnt = 0;
-        for(IPingable pingable : PingableManager.getInstance().getPingableList()){
-            pingableDataList.addBoolean(pingable.deviceName(), () -> pingable.isConnected()).withPosition(0,cnt);
+        for (IPingable pingable : PingableManager.getInstance().getPingableList()) {
+            pingableDataList.addBoolean(pingable.deviceName(), () -> pingable.isConnected()).withPosition(0, cnt);
             cnt++;
         }
 
@@ -196,10 +196,9 @@ public class SystemCheck extends GBSubsystem {
     }
 
 
-    public double getVoltageDrop (){
+    public double getVoltageDrop() {
         return SystemCheck.getInstance().getStartingVoltage() - Battery.getInstance().getCurrentVoltage();
     }
-
 
 
     public static class Constants {
@@ -208,7 +207,7 @@ public class SystemCheck extends GBSubsystem {
         public static final double AIR_LEAK_MEASUREMENT_TIME = 3;
 
 
-        public static final class BatteryConstants{
+        public static final class BatteryConstants {
             public static final double MAX_INNER_BATTERY_RESISTANCE = 0;
             public static final double MAX_VOLTAGE_DROP = 0;
 
