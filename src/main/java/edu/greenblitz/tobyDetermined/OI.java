@@ -1,10 +1,5 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.commands.Funnel.ReverseRUnFunnel;
-import edu.greenblitz.tobyDetermined.commands.Funnel.RunFunnel;
-import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
-import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
-import edu.greenblitz.tobyDetermined.commands.shooter.RunShooterByPower;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -45,9 +40,11 @@ public class OI { //GEVALD
 		isHandled = false;
 	}
 	
-	
+	public void butt(){
+		mainJoystick.X.onTrue(new ShootingBalls());
+	}
 	private void initButtons() {
-		//todo fill buttons
+		butt();
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
 
 
