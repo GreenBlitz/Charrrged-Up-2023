@@ -10,6 +10,8 @@ public class Shooterr extends GBSubsystem {
 	
 	private Shooterr(){
 		motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
+		motor.setSmartCurrentLimit(24);
+		motor.setInverted(true);
 	}
 	
 	public static Shooterr getInstance() {

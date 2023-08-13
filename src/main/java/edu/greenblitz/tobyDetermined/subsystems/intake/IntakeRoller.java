@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.intake;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
@@ -9,12 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeRoller extends GBSubsystem {
 	private static IntakeRoller instance;
-	private final GBSparkMax motor;
+	private final TalonSRX motor;
 	private DigitalInput objectDetector;
 
 	private IntakeRoller() {
-		motor = new GBSparkMax(RobotMap.Intake.ROLLER_ID, CANSparkMaxLowLevel.MotorType.kBrushless); //todo find real id
-		motor.config(RobotMap.Intake.INTAKE_CONFIG_OBJECT);
+		motor = new TalonSRX(RobotMap.Intake.ROLLER_ID); //todo find real id
 		objectDetector = new DigitalInput(RobotMap.Intake.BEAM_BREAKER_ID);
 	}
 
@@ -30,7 +31,7 @@ public class IntakeRoller extends GBSubsystem {
 	}
 
 	public void roll(double power) {
-		motor.set(power);
+		motor.set(TalonSRXControlMode.PercentOutput,power);
 	}
 
 	public void rollIn() {

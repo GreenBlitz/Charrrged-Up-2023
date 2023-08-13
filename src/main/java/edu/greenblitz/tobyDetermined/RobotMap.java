@@ -366,8 +366,8 @@ public class RobotMap {
     }
 
     public static class Intake {
-        public static final int ROLLER_ID = 4;
-        public static final double DEFAULT_POWER = 1;
+        public static final int ROLLER_ID = 6;
+        public static final double DEFAULT_POWER = 0.5;
         public static final int BEAM_BREAKER_ID = 20;
         public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                 .withPID(RobotMap.TelescopicArm.Extender.PID)

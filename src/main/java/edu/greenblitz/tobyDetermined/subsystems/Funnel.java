@@ -14,7 +14,9 @@ public class Funnel extends GBSubsystem{
 
 
     public Funnel(){
-        motor = new TalonSRX(3); //todo find/calibrate
+        motor = new TalonSRX(5);//todo find/calibrate
+        motor.setInverted(true);
+        
     }
     public static Funnel getInstance(){
         if(instance == null){

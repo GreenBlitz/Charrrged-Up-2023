@@ -4,10 +4,8 @@ import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 
-import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
@@ -25,7 +23,6 @@ public class Robot extends TimedRobot {
 		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		initPortForwarding();
-		AutonomousSelector.getInstance();
 	
 		//swerve
 		SwerveChassis.getInstance().resetChassisPose();
@@ -43,7 +40,6 @@ public class Robot extends TimedRobot {
 		Dashboard.init();
 		Battery.init();
 		SwerveChassis.init();
-		IntakeExtender.init();
 		IntakeRoller.init();
 		OI.init();
 

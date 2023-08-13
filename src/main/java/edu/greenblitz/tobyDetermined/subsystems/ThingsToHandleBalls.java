@@ -19,7 +19,7 @@ public class ThingsToHandleBalls extends GBSubsystem {
 	private ThingsToHandleBalls() {
 		cs = new ColorSensorV3(I2C.Port.kOnboard);
 		alliance = DriverStation.getAlliance();
-		switchCensor = new DigitalInput(0);
+		switchCensor = new DigitalInput(8);
 	}
 	
 	public static ThingsToHandleBalls getInstance() {
