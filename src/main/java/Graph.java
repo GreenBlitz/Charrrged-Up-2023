@@ -1,26 +1,10 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 public class Graph {
     public static void main(String[] args){
-        Node A = new Node("A");
-        Node B = new Node("B");
-        Node C = new Node("C");
-        Node D = new Node("D");
-        Node E = new Node("E");
-        Node F = new Node("F");
 
-        A.setNeighbors(new Node[] {B,C,D});
-        B.setNeighbors(new Node[] {A,F});
-        C.setNeighbors(new Node[] {A,D,E});
-        D.setNeighbors(new Node[] {A,C,F});
-        E.setNeighbors(new Node[] {C});
-        F.setNeighbors(new Node[] {B,D});
-
-        DFS(B);
-        DFS(D);
     }
+    private static Linked linked;
     public static void DFS(Node start){
         LinkedList<Node> visited = new LinkedList<>();
         Stack<Node> stack = new Stack<>();
@@ -39,4 +23,20 @@ public class Graph {
         }
         System.out.println();
     }
+    public static void BFS(int start) {
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[linked.getNodes().size()];
+
+        queue.offer(start);
+        visited[start] = true;
+
+        while(queue.size() != 0){
+
+            start = queue.poll();
+            System.out.println(linked.getNodes(start)+"visited");
+        }
+    }
 }
+
+
+

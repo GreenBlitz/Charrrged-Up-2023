@@ -2,17 +2,17 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.subsystems.NodeArm;
 
-public class NodeMap {
+//public class NodeMap {
 
 
-    //לשחרר קובייה/קונוס
+    //             release cube/cone
     //                       ^
     //                       |
-    // גובה שיתקבל כפרמטר
+    //              reach height parameter
     //       ^                              ^
     //       |                              |
-    //הייל              לעלות לגובה יציאה מהבטן
+    //      Hail                   up to out of belly height
     //                         ^
     //                         |
-    //         לתפוס מהבטן - אם קובייה להסתובב
-}
+    //         catch from belly - if cube spin
+//}
