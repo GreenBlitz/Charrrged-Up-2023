@@ -1,30 +1,27 @@
-public class Node<T> {
-    public static void main (String args[]){
-        Node<String> x = new Node<String>("Hello",null);
-        Node<String> y = new Node<String>("World", x);
-        System.out.println(y.getNext().getData());
-        System.out.println(y.getData());
-    }
-    private T data;
-    private Node<T>  next;
-    public Node(T d, Node<T>  n){
+import  java.util.ArrayList;
+import java.util.Collections;
+
+public class Node {
+    private String data;
+    private ArrayList<Node> neighbors;
+    public Node(String d){
         data = d;
-        next = n;
+        neighbors = new ArrayList<Node>();
     }
 
-    public Node<T> getNext() {
-        return next;
-    }
 
-    public T getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(String data) {
         this.data = data;
     }
 
-    public void setNext(Node<T>   next) {
-        this.next = next;
+    public Node[] getNeighbors(){
+        return neighbors.toArray(new Node[0]);
+    }
+    public void setNeighbors(Node[] d){
+        Collections.addAll(neighbors, d);
     }
 }
