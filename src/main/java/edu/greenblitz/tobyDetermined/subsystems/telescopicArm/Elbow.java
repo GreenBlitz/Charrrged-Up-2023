@@ -77,15 +77,12 @@ public class Elbow extends GBSubsystem {
 
     @Override
     public void periodic() {
-        super.periodic();
         state = getHypotheticalState(getAngleRadians());
         SmartDashboard.putNumber("voltage", motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage());
         SmartDashboard.putNumber("velocity",getVelocity());
         SmartDashboard.putNumber("position",getAngleRadians());
         SmartDashboard.putNumber("current", motor.getOutputCurrent());
-        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue)
-        / (motor.getEncoder().getPosition() - startingValue));
-    
+        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue) / (motor.getEncoder().getPosition() - startingValue));
         if (accTimer.advanceIfElapsed(0.15)) {
             SmartDashboard.putNumber("curr acc",
                     (getVelocity() - lastSpeed) / (0.15 + accTimer.get())
