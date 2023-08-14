@@ -1,12 +1,16 @@
-import  java.util.ArrayList;
-import java.util.Collections;
+import edu.greenblitz.utils.GBCommand;
 
-public class Node {
+import java.util.Collections;
+import java.util.LinkedList;
+
+public class Node extends GBCommand {
     private String data;
-    private ArrayList<Node> neighbors;
+    private LinkedList<Node> neighbors;
+
+
     public Node(String d){
         data = d;
-        neighbors = new ArrayList<Node>();
+        neighbors = new LinkedList<>();
     }
 
 
@@ -18,8 +22,8 @@ public class Node {
         this.data = data;
     }
 
-    public Node[] getNeighbors(){
-        return neighbors.toArray(new Node[0]);
+    public LinkedList<Node> getNeighbors(){
+        return neighbors;
     }
     public void setNeighbors(Node[] d){
         Collections.addAll(neighbors, d);

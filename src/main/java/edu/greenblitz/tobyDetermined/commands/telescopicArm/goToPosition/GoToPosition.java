@@ -17,11 +17,10 @@ public class GoToPosition extends SequentialCommandGroup {
            extend to wanted length
          */
 		addCommands(new ConditionalCommand(
-				new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads) ,
+				new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads),
 				new PassWallAndExtend(targetLengthInMeters, targetAngleInRads),
-				() -> ((
-						(Elbow.getInstance().isInTheSameState(targetAngleInRads) && Elbow.getInstance().state != Elbow.ElbowState.WALL_ZONE)
-				|| (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && Extender.getInstance().getState().shorterOrEqualTo(Extender.ExtenderState.IN_WALL_LENGTH))
+				() ->
+				(((Elbow.getInstance().isInTheSameState(targetAngleInRads) && Elbow.getInstance().state != Elbow.ElbowState.WALL_ZONE) || (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && Extender.getInstance().getState().shorterOrEqualTo(Extender.ExtenderState.IN_WALL_LENGTH))
 		))));
 
 

@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class GripBelly extends ConditionalCommand {
 
     public GripBelly(){
-        super(new GripCube().raceWith(new WaitCommand(0.3)),new GripConeFromBelly().raceWith(new WaitCommand(0.3)), ObjectSelector::IsCube);
+        super(new GripCube().raceWith(new WaitCommand(0.3)),new GripCone().raceWith(new WaitCommand(0.3)), ObjectSelector::IsCube);
     }
 }

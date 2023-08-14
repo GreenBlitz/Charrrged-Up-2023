@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class Graph {
@@ -21,18 +22,18 @@ public class Graph {
         DFS(D);
     }
     public static void DFS(Node start){
-        ArrayList<Node> visited = new ArrayList<>();
+        LinkedList<Node> visited = new LinkedList<>();
         Stack<Node> stack = new Stack<>();
         stack.push(start);
 
         while(!stack.empty()){
             Node current = stack.pop();
+            System.out.print(current.getData() + ", ");
             if(!visited.contains(current)){
-                System.out.print(current.getData() + ", ");
                 visited.add(current);
-                Node[] neighbors = current.getNeighbors();
-                for (int i = neighbors.length-1;i>=0 ; i--){
-                    stack.push( neighbors[i] );
+                LinkedList<Node> neighbors = current.getNeighbors();
+                for (int i = neighbors.size()-1;i>=0 ; i--){
+                    stack.push( neighbors.get(i) );
                 }
             }
         }
