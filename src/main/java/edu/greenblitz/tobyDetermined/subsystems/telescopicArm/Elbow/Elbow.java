@@ -21,7 +21,6 @@ public class Elbow extends GBSubsystem {
     public ElbowState state = ElbowState.IN_BELLY;
     private double debugLastFF;
     public double goalAngle;
-
     private MedianFilter absolutAngFilter;
     
     /*double sprocketRatio = 16.0/60;
@@ -124,8 +123,8 @@ public class Elbow extends GBSubsystem {
         else if (getState() == ElbowState.WALL_ZONE && Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH) {
             return getAngleRadians();
             //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
-            // if its not short enough the arm will approach the start of the zone
-        } else if((getState() != getHypotheticalState(angleInRads)) &&
+            // if it's not short enough the arm will approach the start of the zone
+        }else if((getState() != getHypotheticalState(angleInRads)) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             return (state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE - (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : Simulation.SIM_ANGLE_TOLERANCE ) : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE+ (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : Simulation.SIM_ANGLE_TOLERANCE ));
         }else {
