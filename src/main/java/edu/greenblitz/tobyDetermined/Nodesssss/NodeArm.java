@@ -1,21 +1,18 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
-
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
     //private GBCommand command;
-    // private String name;
-    private int index;
+    private int id;
     private LinkedList<NodeArm> neighbors;
 
     private Double replaceCommand;
 
 
     public NodeArm(double command, int index){
-        this.index = index;
+        this.id = index;
         replaceCommand = command;
         neighbors = new LinkedList<>();
     }
@@ -33,12 +30,12 @@ public class NodeArm {
     public LinkedList<NodeArm> getNeighbors(){
         return neighbors;
     }
-    public int getIndex() {
-        return index;
+    public int getId() {
+        return id;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setId(int id) {
+        this.id = id;
     }
     //public void runCommand(){
         //command.schedule();
