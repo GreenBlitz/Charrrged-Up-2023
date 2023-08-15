@@ -24,11 +24,9 @@ public class NodeAlgorithm  {
 //            linkedList.get(nodeBase.getNode(7).getIndex()).addAll(nodeBase.getNode(7).getNeighbors());
 //            linkedList.get(nodeBase.getNode(8).getIndex()).addAll(nodeBase.getNode(8).getNeighbors());
 //            linkedList.get(nodeBase.getNode(9).getIndex()).addAll(nodeBase.getNode(9).getNeighbors());
-            for(int i = 0; i<nodeBase.getList().size(); i++){
+            for(int i = 1; i<nodeBase.getList().size(); i++){
                 linkedList.get(i).addAll(nodeBase.getNode(i).getNeighbors());
             }
-
-
         }
 
         // A function to print the path between
@@ -48,8 +46,8 @@ public class NodeAlgorithm  {
         // from a given vertex x.
         static void DFS(boolean[] visited, NodeArm x, NodeArm y, LinkedList<Integer> stack)
         {
-            stack.add(x.getIndex());
-            if (x.getIndex() == y.getIndex())
+            stack.add(x.getId());
+            if (x.getId() == y.getId())
             {
 
                 // print the path and return on
@@ -57,18 +55,23 @@ public class NodeAlgorithm  {
                 printPath(stack);
                 return;
             }
-            visited[x.getIndex()] = true;
+            visited[x.getId()] = true;
 
             // if backtracking is taking place
-            if (!linkedList.get(x.getIndex()).isEmpty())
+            if (!linkedList.get(x.getId()).isEmpty())
             {
-                for(int j = 0; j < linkedList.get(x.getIndex()).size(); j++)
-                {
+                if(linkedList.get(x.getId()).contains(y)){
+                    stack.add(y.getId());
+                    printPath(stack);
+                    return;
+                }
+                else {
+                    for (int j = 0; j < linkedList.get(x.getId()).size(); j++) {
 
-                    // if the node is not visited
-                    if (!visited[linkedList.get(x.getIndex()).get(j).getIndex()])
-                    {
-                        DFS(visited, linkedList.get(x.getIndex()).get(j), y, stack);
+                        // if the node is not visited
+                        if (!visited[linkedList.get(x.getId()).get(j).getId()]) {
+                            DFS(visited, linkedList.get(x.getId()).get(j), y, stack);
+                        }
                     }
                 }
             }
@@ -105,7 +108,7 @@ public class NodeAlgorithm  {
 
             addEdge();
 
-            DFSCall(nodeBase.getNode(4), nodeBase.getNode(8), n, stack);
+            DFSCall(nodeBase.getNode(6), nodeBase.getNode(7), n, stack);
 
 //            NodeArm n1 = new NodeArm(1);
 //            NodeArm n2 = new NodeArm(2);
