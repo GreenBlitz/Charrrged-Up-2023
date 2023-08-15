@@ -32,7 +32,8 @@ public class Linked {
     public LinkedList<Node> getNodes(){
         return Nodes;
     }
-    public String getNodes(int i){
-        return Nodes.get(i).getData();
+    public Node getNodes(int i){
+        return Nodes.get(i);
     }
+
 }

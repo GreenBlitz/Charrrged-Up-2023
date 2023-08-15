@@ -3,22 +3,28 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import edu.greenblitz.utils.GBCommand;
 import org.w3c.dom.Node;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
-    private GBCommand command;
+    //private GBCommand command;
+    private int num;
     private LinkedList<NodeArm> neighbors;
-    private final int  difficulte = 1;
 
-    public NodeArm(GBCommand command, NodeArm[] neighbors){
-        this.command = command;
-        Collections.addAll(this.neighbors, neighbors);
+    public NodeArm(int command){
+        //this.command = command;
+        num = command;
     }
-    public void runCommand(){
-        command.schedule();
+
+    public void addNeighbors(NodeArm neighbor){
+        this.neighbors.add(neighbor);
     }
-    public int getDifficulte() {
-        return difficulte;
+    public int getNum() {
+        return num;
     }
+    //public void runCommand(){
+        //command.schedule();
+    //}
+
 }
