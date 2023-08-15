@@ -1,21 +1,31 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.subsystems.NodeArm;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class NodeAlgorithm {
+public class NodeAlgorithm  {
     // Java implementation of the above approach
         static LinkedList<LinkedList<NodeArm>> linkedList= new LinkedList<>();
+        static NodeBase nodeBase = new NodeBase();
 
         // An utility function to add an edge in an
         // undirected graph.
-        static void addEdge(NodeArm x, NodeArm y){
-            linkedList.get(x.getNum()).add(y);
-           // x.addNeighbors(y);
-            linkedList.get(y.getNum()).add(x);
-           // y.addNeighbors(x);
+        static void addEdge(){
+//            linkedList.get(x.getNum()).add(y);
+//            x.addNeighbors(y);
+//            linkedList.get(y.getNum()).add(x);
+//            y.addNeighbors(x);
+            linkedList.get(nodeBase.getNode(1).getNum()).addAll(nodeBase.getNode(1).getNeighbors());
+            linkedList.get(nodeBase.getNode(2).getNum()).addAll(nodeBase.getNode(2).getNeighbors());
+            linkedList.get(nodeBase.getNode(3).getNum()).addAll(nodeBase.getNode(3).getNeighbors());
+            linkedList.get(nodeBase.getNode(4).getNum()).addAll(nodeBase.getNode(4).getNeighbors());
+            linkedList.get(nodeBase.getNode(5).getNum()).addAll(nodeBase.getNode(5).getNeighbors());
+            linkedList.get(nodeBase.getNode(6).getNum()).addAll(nodeBase.getNode(6).getNeighbors());
+            linkedList.get(nodeBase.getNode(7).getNum()).addAll(nodeBase.getNode(7).getNeighbors());
+            linkedList.get(nodeBase.getNode(8).getNum()).addAll(nodeBase.getNode(8).getNeighbors());
+            linkedList.get(nodeBase.getNode(9).getNum()).addAll(nodeBase.getNode(9).getNeighbors());
+
+
         }
 
         // A function to print the path between
@@ -82,7 +92,6 @@ public class NodeAlgorithm {
         // Driver code
         public static void main(String[] args)
         {
-
             for(int i = 0; i < 100; i++)
             {
                 linkedList.add(new LinkedList<>());
@@ -91,29 +100,33 @@ public class NodeAlgorithm {
             int n = 10;
             LinkedList<Integer> stack = new LinkedList<>();
 
-            NodeArm n1 = new NodeArm(1);
-            NodeArm n2 = new NodeArm(2);
-            NodeArm n3 = new NodeArm(3);
-            NodeArm n4 = new NodeArm(4);
-            NodeArm n5 = new NodeArm(5);
-            NodeArm n6 = new NodeArm(6);
-            NodeArm n7 = new NodeArm(7);
-            NodeArm n8 = new NodeArm(8);
-            NodeArm n9 = new NodeArm(9);
+            addEdge();
+
+            DFSCall(nodeBase.getNode(3), nodeBase.getNode(8), n, stack);
+
+//            NodeArm n1 = new NodeArm(1);
+//            NodeArm n2 = new NodeArm(2);
+//            NodeArm n3 = new NodeArm(3);
+//            NodeArm n4 = new NodeArm(4);
+//            NodeArm n5 = new NodeArm(5);
+//            NodeArm n6 = new NodeArm(6);
+//            NodeArm n7 = new NodeArm(7);
+//            NodeArm n8 = new NodeArm(8);
+//            NodeArm n9 = new NodeArm(9);
 
 
             // Vertex numbers should be from 1 to 9.
-            addEdge(n1, n2);
-            addEdge(n1, n3);
-            addEdge(n2, n4);
-            addEdge(n2, n5);
-            addEdge(n2, n6);
-            addEdge(n3, n7);
-            addEdge(n3, n8);
-            addEdge(n3, n9);
+//            addEdge(n1, n2);
+//            addEdge(n1, n3);
+//            addEdge(n2, n4);
+//            addEdge(n2, n5);
+//            addEdge(n2, n6);
+//            addEdge(n3, n7);
+//            addEdge(n3, n8);
+//            addEdge(n3, n9);
 
             // Function Call
-           DFSCall(n4, n8, n, stack);
+
         }
     }
 
