@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined;
+package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -15,15 +15,18 @@ public class NodeAlgorithm  {
 //            x.addNeighbors(y);
 //            linkedList.get(y.getNum()).add(x);
 //            y.addNeighbors(x);
-            linkedList.get(nodeBase.getNode(1).getNum()).addAll(nodeBase.getNode(1).getNeighbors());
-            linkedList.get(nodeBase.getNode(2).getNum()).addAll(nodeBase.getNode(2).getNeighbors());
-            linkedList.get(nodeBase.getNode(3).getNum()).addAll(nodeBase.getNode(3).getNeighbors());
-            linkedList.get(nodeBase.getNode(4).getNum()).addAll(nodeBase.getNode(4).getNeighbors());
-            linkedList.get(nodeBase.getNode(5).getNum()).addAll(nodeBase.getNode(5).getNeighbors());
-            linkedList.get(nodeBase.getNode(6).getNum()).addAll(nodeBase.getNode(6).getNeighbors());
-            linkedList.get(nodeBase.getNode(7).getNum()).addAll(nodeBase.getNode(7).getNeighbors());
-            linkedList.get(nodeBase.getNode(8).getNum()).addAll(nodeBase.getNode(8).getNeighbors());
-            linkedList.get(nodeBase.getNode(9).getNum()).addAll(nodeBase.getNode(9).getNeighbors());
+//            linkedList.get(nodeBase.getNode(1).getIndex()).addAll(nodeBase.getNode(1).getNeighbors());
+//            linkedList.get(nodeBase.getNode(2).getIndex()).addAll(nodeBase.getNode(2).getNeighbors());
+//            linkedList.get(nodeBase.getNode(3).getIndex()).addAll(nodeBase.getNode(3).getNeighbors());
+//            linkedList.get(nodeBase.getNode(4).getIndex()).addAll(nodeBase.getNode(4).getNeighbors());
+//            linkedList.get(nodeBase.getNode(5).getIndex()).addAll(nodeBase.getNode(5).getNeighbors());
+//            linkedList.get(nodeBase.getNode(6).getIndex()).addAll(nodeBase.getNode(6).getNeighbors());
+//            linkedList.get(nodeBase.getNode(7).getIndex()).addAll(nodeBase.getNode(7).getNeighbors());
+//            linkedList.get(nodeBase.getNode(8).getIndex()).addAll(nodeBase.getNode(8).getNeighbors());
+//            linkedList.get(nodeBase.getNode(9).getIndex()).addAll(nodeBase.getNode(9).getNeighbors());
+            for(int i = 0; i<nodeBase.getList().size(); i++){
+                linkedList.get(i).addAll(nodeBase.getNode(i).getNeighbors());
+            }
 
 
         }
@@ -35,7 +38,7 @@ public class NodeAlgorithm  {
             for(int i = 0; i < stack.size() - 1; i++)
             {
                 System.out.print(stack.get(i) + " -> ");
-                //here need to add run command
+                //here need to add run command!!!!!!!!!!!!!!!!!!!
             }
             System.out.println(stack.get(stack.size() - 1));
         }
@@ -45,8 +48,8 @@ public class NodeAlgorithm  {
         // from a given vertex x.
         static void DFS(boolean[] visited, NodeArm x, NodeArm y, LinkedList<Integer> stack)
         {
-            stack.add(x.getNum());
-            if (x.getNum() == y.getNum())
+            stack.add(x.getIndex());
+            if (x.getIndex() == y.getIndex())
             {
 
                 // print the path and return on
@@ -54,18 +57,18 @@ public class NodeAlgorithm  {
                 printPath(stack);
                 return;
             }
-            visited[x.getNum()] = true;
+            visited[x.getIndex()] = true;
 
             // if backtracking is taking place
-            if (!linkedList.get(x.getNum()).isEmpty())
+            if (!linkedList.get(x.getIndex()).isEmpty())
             {
-                for(int j = 0; j < linkedList.get(x.getNum()).size(); j++)
+                for(int j = 0; j < linkedList.get(x.getIndex()).size(); j++)
                 {
 
                     // if the node is not visited
-                    if (!visited[linkedList.get(x.getNum()).get(j).getNum()])
+                    if (!visited[linkedList.get(x.getIndex()).get(j).getIndex()])
                     {
-                        DFS(visited, linkedList.get(x.getNum()).get(j), y, stack);
+                        DFS(visited, linkedList.get(x.getIndex()).get(j), y, stack);
                     }
                 }
             }
@@ -102,7 +105,7 @@ public class NodeAlgorithm  {
 
             addEdge();
 
-            DFSCall(nodeBase.getNode(3), nodeBase.getNode(8), n, stack);
+            DFSCall(nodeBase.getNode(4), nodeBase.getNode(8), n, stack);
 
 //            NodeArm n1 = new NodeArm(1);
 //            NodeArm n2 = new NodeArm(2);
