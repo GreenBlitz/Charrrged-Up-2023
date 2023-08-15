@@ -9,9 +9,9 @@ import edu.greenblitz.tobyDetermined.subsystems.NodeArm;
     //                       ^
     //                       |
     //              reach height parameter
-    //       ^                              ^
-    //       |                              |
-    //      Hail                   up to out of belly height
+    //                       ^
+    //                       |
+    //                      Hail
     //                         ^
     //                         |
     //         catch from belly - if cube spin
