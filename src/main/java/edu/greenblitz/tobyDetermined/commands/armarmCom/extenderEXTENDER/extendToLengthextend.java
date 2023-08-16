@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
+package edu.greenblitz.tobyDetermined.commands.armarmCom.extenderEXTENDER;
 
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
@@ -7,14 +7,14 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.kS;
 
-public class ExtendToLength extends ExtenderCommand {
-
+public class extendToLengthextend extends ExtenderCommand123{
     private double legalGoalLength;
     private double wantedLength;
     private ProfiledPIDController pidController;
 
-    public ExtendToLength(double length){
+    public extendToLengthextend(double length){
         wantedLength = length;
     }
 

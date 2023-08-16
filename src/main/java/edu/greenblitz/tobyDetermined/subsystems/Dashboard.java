@@ -6,7 +6,7 @@ import edu.greenblitz.tobyDetermined.IsRobotReady;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.PIDObject;
@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Map;
 
@@ -70,8 +69,8 @@ public class Dashboard extends GBSubsystem {
 				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
 		armStateWidget.addString("Extender State drivers", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
 		armStateWidget.addDouble("Length drivers", () -> Extender.getInstance().getLength()).withPosition(1, 0);
-		armStateWidget.addString("Elbow State drivers", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("Angle drivers", () -> (Elbow.getInstance().getAngleRadians())).withPosition(1, 1);
+		armStateWidget.addString("Elbow State drivers", () -> ElbowSub.getInstance().getState().toString()).withPosition(0, 1);
+		armStateWidget.addDouble("Angle drivers", () -> (ElbowSub.getInstance().getAngleRadians())).withPosition(1, 1);
 		//arm state
 		driversTab.addString("Arm state", () -> "doesn't exist").withPosition(4, 2).withSize(1, 2);
 
@@ -108,7 +107,7 @@ public class Dashboard extends GBSubsystem {
 		//field
 		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5, 2).withSize(3, 2);
 		
-		driversTab.add("elbow ang", Elbow.getInstance().getAngleRadians());
+		driversTab.add("elbow ang", ElbowSub.getInstance().getAngleRadians());
 		
 		
 		driversTab.add("limelight NT", MultiLimelight.getInstance().isConnected());
@@ -127,7 +126,7 @@ public class Dashboard extends GBSubsystem {
 	}
 
 	PIDController extenderController = new PIDController(Extender.getInstance().getPID().getKp(), Extender.getInstance().getPID().getKi(), Extender.getInstance().getPID().getKd());
-	PIDController elbowController = new PIDController(Elbow.getInstance().getPID().getKp(), Elbow.getInstance().getPID().getKi(), Elbow.getInstance().getPID().getKd());
+	PIDController elbowController = new PIDController(ElbowSub.getInstance().getPID().getKp(), ElbowSub.getInstance().getPID().getKi(), ElbowSub.getInstance().getPID().getKd());
 
 	public void armDashboard() {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm debug");
@@ -138,10 +137,10 @@ public class Dashboard extends GBSubsystem {
 
 		armStateWidget.addString("Extender State", () -> Extender.getInstance().getState().toString()).withPosition(0, 0);
 		armStateWidget.addDouble("Length", () -> Extender.getInstance().getLength()).withPosition(1, 0);
-		armStateWidget.addString("Elbow State", () -> Elbow.getInstance().getState().toString()).withPosition(0, 1);
-		armStateWidget.addDouble("Angle", () -> Elbow.getInstance().getAngleRadians()).withPosition(1, 1);
+		armStateWidget.addString("Elbow State", () -> ElbowSub.getInstance().getState().toString()).withPosition(0, 1);
+		armStateWidget.addDouble("Angle", () -> ElbowSub.getInstance().getAngleRadians()).withPosition(1, 1);
 
-		armTab.addDouble("elbow error", () -> Elbow.getInstance().getGoalAngle() - Elbow.getInstance().getAngleRadians());
+		armTab.addDouble("elbow error", () -> ElbowSub.getInstance().getGoalAngle() - ElbowSub.getInstance().getAngleRadians());
 		armTab.addDouble("extender error", () -> Extender.getInstance().getGoalLength() - Extender.getInstance().getLength());
 		//arm state
 		armTab.addString("Arm state", () -> "exists").withPosition(4, 2).withSize(1, 2);
@@ -149,8 +148,8 @@ public class Dashboard extends GBSubsystem {
 		armTab.addBoolean("beam passes", () -> Extender.getInstance().getLimitSwitch());
 
 		//arm ff
-		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
-		armTab.addDouble("encoder value", ()-> Elbow.getInstance().motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition()).withPosition(0, 0).withSize(2, 2);
+		armTab.addDouble("elbow ff", ()-> ElbowSub.getInstance().getDebugLastFF());
+		armTab.addDouble("encoder value", ()-> ElbowSub.getInstance().motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition()).withPosition(0, 0).withSize(2, 2);
 		Mechanism2d mech = new Mechanism2d(3, 3);
 
 

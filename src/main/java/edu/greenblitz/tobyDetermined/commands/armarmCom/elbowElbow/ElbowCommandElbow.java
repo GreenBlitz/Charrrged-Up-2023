@@ -1,13 +1,13 @@
-package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
+package edu.greenblitz.tobyDetermined.commands.armarmCom.elbowElbow;
 
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
 import edu.greenblitz.utils.GBCommand;
 
-public abstract class ElbowCommand extends GBCommand {
+public class ElbowCommandElbow extends GBCommand {
 
     protected ElbowSub elbow;
 
-    public ElbowCommand() {
+    public ElbowCommandElbow (){
         elbow = ElbowSub.getInstance();
         require(elbow);
     }
