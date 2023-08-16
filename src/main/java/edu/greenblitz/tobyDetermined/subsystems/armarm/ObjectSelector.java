@@ -1,6 +1,7 @@
-package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
+package edu.greenblitz.tobyDetermined.subsystems.armarm;
 
 import edu.greenblitz.tobyDetermined.subsystems.LED;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class ObjectSelector {
