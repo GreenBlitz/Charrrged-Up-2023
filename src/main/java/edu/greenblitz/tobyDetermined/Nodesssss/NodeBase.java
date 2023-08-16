@@ -41,21 +41,23 @@ public class NodeBase  {
         return list;
     }
 
-    public NodeArm getNode(int index){ // generi more search list
-        if(index == A.getId())
-            return A;
-        else if (index == B.getId())
-            return B;
-        else if(index == C.getId())
-            return C;
-        else if(index == D.getId())
-            return D;
-        else if(index == E.getId())
-            return E;
-        else if(index == F.getId())
-            return F;
-        return S;
+    public NodeArm getNode(int index) {
+        for (int j = 1; j < list.size(); j++) {
+            NodeArm node = list.get(j);
+            if (index == node.getId()) {
+                return node;
+            }
+        }
+        return null;
     }
 
+    public LinkedList<NodeArm> getNodeNeighbors(int index){
+        for (int j = 1; i<list.size(); j++){
+            if (index == list.get(j).getId()) {
+                return list.get(j).getNeighbors();
+            }
+        }
+        return null;
+    }
 
 }
