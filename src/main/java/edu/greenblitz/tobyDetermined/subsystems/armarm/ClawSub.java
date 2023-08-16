@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined.subsystems.armarm;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
