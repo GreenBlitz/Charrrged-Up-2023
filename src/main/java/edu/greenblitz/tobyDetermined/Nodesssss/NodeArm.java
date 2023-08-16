@@ -11,8 +11,8 @@ public class NodeArm {
     private Double replaceCommand;
 
 
-    public NodeArm(double command, int index){
-        this.id = index;
+    public NodeArm(double command, int id){
+        this.id = id;
         replaceCommand = command;
         neighbors = new LinkedList<>();
     }
