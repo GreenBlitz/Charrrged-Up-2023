@@ -13,10 +13,17 @@ public class IntakeRoller extends GBSubsystem {
 	private static IntakeRoller instance;
 	private final TalonSRX motor;
 	private DigitalInput objectDetector;
+	private boolean inverted = true;
 
 	private IntakeRoller() {
 		motor = new TalonSRX(RobotMap.Intake.ROLLER_ID); //todo find real id
 		objectDetector = new DigitalInput(RobotMap.Intake.BEAM_BREAKER_ID);
+	}
+	public void setInverted(boolean inverted) {
+		this.inverted = inverted;
+	}
+	public boolean isInverted() {
+		return inverted;
 	}
 
 	public static IntakeRoller getInstance() {

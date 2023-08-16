@@ -11,7 +11,10 @@ public class RunFunnel extends GBCommand {
 
     @Override
     public void execute() {
-        Funnel.getInstance().setPower(0.6);
+        if(Funnel.getInstance().isInverted()) {
+            Funnel.getInstance().setPower(0.6);
+        }
+
     }
 
     @Override

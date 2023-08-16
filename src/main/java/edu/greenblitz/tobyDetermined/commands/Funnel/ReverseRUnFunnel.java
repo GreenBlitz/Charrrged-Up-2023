@@ -12,11 +12,14 @@ public class ReverseRUnFunnel extends GBCommand {
 
     @Override
     public void execute() {
+        Funnel.getInstance().setInverted(false);
         Funnel.getInstance().setPower(-0.6);
+        System.out.println("reversed funnel");
     }
 
     @Override
     public void end(boolean interrupted) {
         Funnel.getInstance().setPower(0);
+        Funnel.getInstance().setInverted(true);
     }
 }
