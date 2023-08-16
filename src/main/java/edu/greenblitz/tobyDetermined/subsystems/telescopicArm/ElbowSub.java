@@ -148,7 +148,7 @@ public class ElbowSub extends GBSubsystem {
 
     public double getAngleRadians() {
 //        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
-        return (((motor.getEncoder().getPosition())));
+        return (motor.getEncoder().getPosition());
     }
 
     public ElbowState getState() {

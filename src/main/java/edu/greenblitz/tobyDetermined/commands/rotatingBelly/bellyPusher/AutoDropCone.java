@@ -5,7 +5,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPos
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyPusher;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-import edu.greenblitz.tobyDetermined.subsystems.armarm.ObjectSelector;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.wpi.first.wpilibj2.command.*;
 
 public class AutoDropCone extends ProxyCommand {
