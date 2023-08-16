@@ -2,8 +2,8 @@ package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class ResetExtender extends ExtenderCommand {
@@ -23,7 +23,7 @@ public class ResetExtender extends ExtenderCommand {
 	@Override
 	public void initialize() {
 		super.initialize();
-		extender.setMotorVoltage(Extender.getStaticFeedForward(Elbow.getInstance().getAngleRadians()) + voltage + Math.signum(voltage) * RobotMap.TelescopicArm.Elbow.kS);
+		extender.setMotorVoltage(Extender.getStaticFeedForward(ElbowSub.getInstance().getAngleRadians()) + voltage + Math.signum(voltage) * RobotMap.TelescopicArm.Elbow.kS);
 	}
 	
 	@Override

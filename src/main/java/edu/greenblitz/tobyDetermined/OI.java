@@ -3,9 +3,6 @@ package edu.greenblitz.tobyDetermined;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
-import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
-import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
-import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByTrigger;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -24,10 +21,13 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMov
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation.RotatingBelly;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
+import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -93,9 +93,9 @@ public class OI { //GEVALD
 		mainJoystick.X.whileTrue(new ResetVisionMoveToPose());
 	}
 
-	public void amireeeButtons() {
-		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
- 		Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
+    public void amireeeButtons(){
+        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+        ElbowSub.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
 
 		//screenshot
 		secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());
