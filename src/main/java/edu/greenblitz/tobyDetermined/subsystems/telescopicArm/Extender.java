@@ -25,6 +25,8 @@ public class Extender extends GBSubsystem {
 	private Debouncer debouncer;
 	private boolean holdPosition =false;
 	private boolean didReset;
+	private double speed;
+	private double angle;
 
 	public static Extender getInstance() {
 		init();
@@ -232,6 +234,11 @@ public class Extender extends GBSubsystem {
 	public void setMotorVoltage(double voltage) {
 		holdPosition = false;
 		motor.set(voltage / Battery.getInstance().getCurrentVoltage());
+	}
+
+	public void setLinSpeed(double speed, double angle) {
+		motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getStaticFeedForward(angle));
+
 	}
 
 	public PIDObject getPID(){
