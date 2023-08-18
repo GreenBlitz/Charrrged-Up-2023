@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import java.awt.*;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -10,14 +11,23 @@ public class NodeArm {
 
     private Double replaceCommand;
 
-
-    public NodeArm(double command, int id){
+    private double Xpos;
+    private double Ypos;
+    public NodeArm(double command, int id, double x, double y){
         this.id = id;
+        Xpos = x;
+        Ypos = y;
         replaceCommand = command;
         neighbors = new LinkedList<>();
     }
 
 
+    public double getXpos() {
+        return Xpos;
+    }
+    public double getYpos() {
+        return Ypos;
+    }
 
     public void setNeighbors(NodeArm[] neighbors) {
         Collections.addAll(this.neighbors, neighbors);
