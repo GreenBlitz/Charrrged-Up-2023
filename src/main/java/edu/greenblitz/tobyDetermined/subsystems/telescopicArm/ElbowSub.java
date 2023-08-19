@@ -245,7 +245,6 @@ public class ElbowSub extends GBSubsystem {
     }
     public void setAngSpeed(double speed, double angle, double length) {
         motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getStaticFeedForward(length ,angle));
-
     }
     public double getGoalAngle() {
         return goalAngle;

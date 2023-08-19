@@ -5,11 +5,17 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 
+import java.util.ArrayList;
+
 public class BeStraight extends GBCommand {
     ElbowSub elbowSub;
     Extender extender;
 
     public void ElbowSub (double lengthInMeters, double angleInRads, double timeInSec) {
+
+
+        ArrayList<Double> angleSpeeds = new ArrayList<>();
+        ArrayList<Double> lengthSpeeds = new ArrayList<>();
 
         //1 - find the change of angle and length
         double l = lengthInMeters - extender.getLength();
@@ -28,10 +34,15 @@ public class BeStraight extends GBCommand {
             double intermediateA = elbowSub.getAngleRadians() + t * (angleInRads - elbowSub.getAngleRadians());
             double intermediateL = extender.getLength() + t * (lengthInMeters - extender.getLength());
             double velocityA = intermediateA/timeForIteration;
+            angleSpeeds.add(velocityA);
             double velocityL = intermediateL/timeForIteration;
+            lengthSpeeds.add(velocityL);
+
         }
         double velocityA = angleInRads/timeForIteration;
+        angleSpeeds.add(velocityA);
         double velocityL = lengthInMeters/timeForIteration;
+        lengthSpeeds.add(velocityL);
 
         //double ratio = a/l;
         //double speed = 3;
