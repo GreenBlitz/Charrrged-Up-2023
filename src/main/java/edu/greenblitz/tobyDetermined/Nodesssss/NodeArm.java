@@ -5,12 +5,15 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
+    private NodeArm parent;
     //private GBCommand command;
     private int id;
     private LinkedList<NodeArm> neighbors;
 
-    private Double replaceCommand;
+    private double replaceCommand;
 
+    private double hCost;
+    private double gCost;
     private double Xpos;
     private double Ypos;
     public NodeArm(double command, int id, double x, double y){
@@ -21,6 +24,32 @@ public class NodeArm {
         neighbors = new LinkedList<>();
     }
 
+    public double getgCost() {
+        return gCost;
+    }
+
+    public double gethCost() {
+        return hCost;
+    }
+
+    public void setgCost(double gCost) {
+        this.gCost = gCost;
+    }
+
+    public void sethCost(double hCost) {
+        this.hCost = hCost;
+    }
+    public double getFcost(){
+        return hCost+gCost;
+    }
+
+    public NodeArm getParent(){
+        return parent;
+    }
+
+    public void setParent(NodeArm parent) {
+        this.parent = parent;
+    }
 
     public double getXpos() {
         return Xpos;
