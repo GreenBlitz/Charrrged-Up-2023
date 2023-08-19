@@ -34,7 +34,7 @@ public class NodeBase  {
         D.setNeighbors(new NodeArm[] {A,B,C,E,S});
         E.setNeighbors(new NodeArm[] {A,B,D,C});
         F.setNeighbors(new NodeArm[] {A});
-       S.setNeighbors(new NodeArm[] {D});
+        S.setNeighbors(new NodeArm[] {D});
     }
 
     public LinkedList<NodeArm> getList(){

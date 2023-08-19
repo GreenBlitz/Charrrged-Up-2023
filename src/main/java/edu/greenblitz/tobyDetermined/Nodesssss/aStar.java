@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined;
+package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
@@ -41,13 +41,14 @@ public class aStar {
    }
 
 
-        public static boolean isInList(NodeArm nodeArm, LinkedList<NodeArm> list){
+   public static boolean isInList(NodeArm nodeArm, LinkedList<NodeArm> list){
        for(int i = 0; i<list.size(); i++){
            if(nodeArm.getId() == list.get(i).getId())
                return true;
        }
        return false;
     }
+
     public static void printPathPath(NodeArm nodeArm, NodeArm end){
        LinkedList<NodeArm>  pathList = new LinkedList<>();
        NodeArm current = nodeArm;
@@ -84,6 +85,6 @@ public class aStar {
         }
     }
     public static void main(String args[]){
-       getPath(nodeBase.getNode(6), nodeBase.getNode(7));
+       getPath(nodeBase.getNode(6), nodeBase.getNode(2));
     }
 }

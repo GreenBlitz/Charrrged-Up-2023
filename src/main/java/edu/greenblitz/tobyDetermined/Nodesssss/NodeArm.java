@@ -9,11 +9,7 @@ public class NodeArm {
     //private GBCommand command;
     private int id;
     private LinkedList<NodeArm> neighbors;
-
     private double replaceCommand;
-
-    private double hCost;
-    private double gCost;
     private double Xpos;
     private double Ypos;
     public NodeArm(double command, int id, double x, double y){
@@ -22,25 +18,6 @@ public class NodeArm {
         Ypos = y;
         replaceCommand = command;
         neighbors = new LinkedList<>();
-    }
-
-    public double getgCost() {
-        return gCost;
-    }
-
-    public double gethCost() {
-        return hCost;
-    }
-
-    public void setgCost(double gCost) {
-        this.gCost = gCost;
-    }
-
-    public void sethCost(double hCost) {
-        this.hCost = hCost;
-    }
-    public double getFcost(){
-        return hCost+gCost;
     }
 
     public NodeArm getParent(){
@@ -60,10 +37,6 @@ public class NodeArm {
 
     public void setNeighbors(NodeArm[] neighbors) {
         Collections.addAll(this.neighbors, neighbors);
-    }
-
-    public void addNeighbors(NodeArm neighbor){
-        this.neighbors.add(neighbor);
     }
 
     public LinkedList<NodeArm> getNeighbors(){
