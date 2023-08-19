@@ -38,15 +38,7 @@ public class BeStraight extends GBCommand {
         //double speedL = Math.sqrt(Math.pow(speed,speed)/(1+ratio*ratio));
         //double speedA = speedL*ratio;
 
-        setLinSpeed();
-        setLinSpeed();
-        setLinSpeed();
-        setLinSpeed();
-        setLinSpeed();
-        setAngSpeed();
-        setAngSpeed();
-        setAngSpeed();
-        setAngSpeed();
-        setAngSpeed();
+        //setLinSpeed();
+        //setAngSpeed();
     }
 }
