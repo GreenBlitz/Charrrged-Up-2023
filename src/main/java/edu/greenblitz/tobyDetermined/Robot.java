@@ -1,11 +1,8 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
-<<<<<<< HEAD
 import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
-=======
->>>>>>> 1a4b5b7344b6fc4be966a4467d5dd802d465aae7
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
