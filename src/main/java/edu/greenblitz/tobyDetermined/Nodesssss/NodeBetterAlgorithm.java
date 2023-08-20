@@ -6,7 +6,6 @@ import java.util.*;
 public class NodeBetterAlgorithm{
     static NodeBase nodeBase = new NodeBase();
     static LinkedList<LinkedList<NodeArm> > linkedList = new LinkedList<>();
-    static LinkedList<NodeArm> list = nodeBase.getList();
 
     private static void addEdge() {
 

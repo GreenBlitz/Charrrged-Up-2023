@@ -21,13 +21,13 @@ public class NodeBase  {
     }
     public NodeBase(){
         list.add(0,null);
-        i = addToList(A = new NodeArm(1, i), list);
-        i = addToList(B = new NodeArm(2, i),list);
-        i = addToList(C = new NodeArm(3, i),list);
-        i = addToList(D = new NodeArm(4, i),list);
-        i = addToList(E = new NodeArm(5, i),list);
-        i = addToList(F = new NodeArm(6, i),list);
-        i = addToList(S = new NodeArm(7, i),list);
+        i = addToList(A = new NodeArm(1, i, 1,5), list);
+        i = addToList(B = new NodeArm(2, i, 2,6),list);
+        i = addToList(C = new NodeArm(3, i, 3,8),list);
+        i = addToList(D = new NodeArm(4, i, 9,4),list);
+        i = addToList(E = new NodeArm(5, i, 11,8),list);
+        i = addToList(F = new NodeArm(6, i, 15,3),list);
+        i = addToList(S = new NodeArm(7, i, 12,12),list);
         A.setNeighbors(new NodeArm[] {B, C, E, D, F});
         B.setNeighbors(new NodeArm[] {A, D, E, C});
         C.setNeighbors(new NodeArm[] {A, B, D, E});
@@ -51,13 +51,8 @@ public class NodeBase  {
         return null;
     }
 
-    public LinkedList<NodeArm> getNodeNeighbors(int index){
-        for (int j = 1; i<list.size(); j++){
-            if (index == list.get(j).getId()) {
-                return list.get(j).getNeighbors();
-            }
-        }
-        return null;
+    public double getDistanceBetweenToPoints(NodeArm a, NodeArm b ){
+        return Math.sqrt(Math.pow(a.getXpos()-b.getXpos(), a.getXpos()-b.getXpos())+Math.pow(a.getYpos()-b.getYpos(), a.getYpos()-b.getYpos()));
     }
 
 }

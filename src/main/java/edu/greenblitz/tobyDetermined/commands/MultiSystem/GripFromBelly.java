@@ -6,7 +6,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DropCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
-import edu.greenblitz.tobyDetermined.subsystems.armarm.ObjectSelector;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.wpi.first.wpilibj2.command.*;
 
 public class GripFromBelly extends SequentialCommandGroup {

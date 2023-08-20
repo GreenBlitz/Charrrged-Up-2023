@@ -148,7 +148,7 @@ public class ElbowSub extends GBSubsystem {
 
     public double getAngleRadians() {
 //        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
-        return (((motor.getEncoder().getPosition())));
+        return (motor.getEncoder().getPosition());
     }
 
     public ElbowState getState() {
@@ -243,7 +243,9 @@ public class ElbowSub extends GBSubsystem {
     public PIDObject getPID(){
         return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
     }
-    
+    public void setAngSpeed(double speed, double angle, double length) {
+        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getStaticFeedForward(length ,angle));
+    }
     public double getGoalAngle() {
         return goalAngle;
     }
