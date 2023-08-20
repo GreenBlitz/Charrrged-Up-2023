@@ -1,11 +1,13 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
+<<<<<<< HEAD
 import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
+=======
+>>>>>>> 1a4b5b7344b6fc4be966a4467d5dd802d465aae7
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripConeFromBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -20,9 +22,11 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
+import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -45,7 +49,18 @@ public class Robot extends TimedRobot {
 //		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
 //		SwerveChassis.getInstance().resetChassisPose();
 //		SwerveChassis.getInstance().resetAllEncoders();
-////		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		initSubsystems();
+		LiveWindow.disableAllTelemetry();
+		initPortForwarding();
+		AutonomousSelector.getInstance();
+		//swerve
+		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
+		SwerveChassis.getInstance().resetChassisPose();
+		SwerveChassis.getInstance().resetAllEncoders();
+//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+
+
 	}
 	
 	@Override
@@ -65,6 +80,21 @@ public class Robot extends TimedRobot {
 		IntakeExtender.init();
 		IntakeRoller.init();
 		OI.init();
+
+		initToggleAbleSubsystems();
+	}
+
+	public static void initToggleAbleSubsystems (){
+
+		BreakCoastSwitch.getInstance().addSubsystem(SwerveChassis.getInstance(),
+				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kBrake),
+				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast)
+		);
+
+		BreakCoastSwitch.getInstance().addSubsystem(Elbow.getInstance(),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
+		);
 	}
 	
 	private static void initPortForwarding() {
@@ -90,6 +120,10 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 //		RoborioUtils.updateCurrentCycleTime();
 //		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
+		RoborioUtils.updateCurrentCycleTime();
+		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
+
+		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
 	}
 	
 	
@@ -101,7 +135,6 @@ public class Robot extends TimedRobot {
 
 	
 	@Override
-	
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
 //
@@ -116,6 +149,20 @@ public class Robot extends TimedRobot {
 //		}
 //
 //		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
+
+		BreakCoastSwitch.getInstance().setBreak(); //return the motors that we might have changed to break.
+
+		Grid.init();
+		MultiLimelight.getInstance().updateRobotPoseAlliance();
+		Dashboard.getInstance().activateDriversDashboard();
+		SwerveChassis.getInstance().setIdleModeBrake();
+		SwerveChassis.getInstance().enableVision();
+		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
+		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
+			new ResetExtender().schedule();
+		}
+
+		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
 	
@@ -184,6 +231,29 @@ public class Robot extends TimedRobot {
 //		}
 //		SwerveChassis.getInstance().isEncoderBroken();
 //		Elbow.getInstance().resetEncoder();
+
+		BreakCoastSwitch.getInstance().toggleBreakCoast();
+
+		if (SwerveChassis.getInstance().isEncoderBroken()){
+			if (Extender.getInstance().DidReset()){
+				LED.getInstance().setColor(new Color(136, 8 ,90)); //dark red
+			} else {
+				LED.getInstance().setColor(Color.kRed);
+			}
+			
+		} else if (!Extender.getInstance().DidReset()){
+			LED.getInstance().setColor(Color.kOrangeRed);
+		} else {
+			LED.getInstance().setColor(Color.kGreen);
+		}
+	
+		if(Extender.getInstance().getLimitSwitch()){
+			if (Extender.getInstance().getLength() > 0 || !Extender.getInstance().DidReset()) {
+				Extender.getInstance().resetLength();
+			}
+		}
+		SwerveChassis.getInstance().isEncoderBroken();
+		Elbow.getInstance().resetEncoder();
 	}
 	
 	public enum robotName {

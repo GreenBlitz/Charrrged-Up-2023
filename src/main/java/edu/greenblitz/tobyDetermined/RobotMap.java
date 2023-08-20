@@ -20,6 +20,13 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTIN
 public class RobotMap {
     public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
 
+
+
+    public static class BreakCoastSwitch{
+        public static final int BREAK_COAST_SWITCH_DIO_PORT = 0;
+
+    }
+
     public static class General {
 
         public final static double MIN_VOLTAGE_BATTERY = 11.97;
