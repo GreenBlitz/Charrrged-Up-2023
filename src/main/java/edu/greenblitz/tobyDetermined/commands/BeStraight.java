@@ -10,12 +10,13 @@ import java.util.ArrayList;
 public class BeStraight extends GBCommand {
     ElbowSub elbowSub;
     Extender extender;
-
+    ArrayList<Double> angleSpeeds = new ArrayList<>();
+    ArrayList<Double> lengthSpeeds = new ArrayList<>();
     public void ElbowSub (double lengthInMeters, double angleInRads, double timeInSec) {
 
 
-        ArrayList<Double> angleSpeeds = new ArrayList<>();
-        ArrayList<Double> lengthSpeeds = new ArrayList<>();
+        angleSpeeds = new ArrayList<>();
+        lengthSpeeds = new ArrayList<>();
 
         //1 - find the change of angle and length
         double l = lengthInMeters - extender.getLength();
@@ -51,5 +52,13 @@ public class BeStraight extends GBCommand {
 
         //setLinSpeed();
         //setAngSpeed();
+
+    }
+
+    public ArrayList<Double> getAngleSpeeds(){
+        return angleSpeeds;
+    }
+    public ArrayList<Double> getLengthSpeeds(){
+        return lengthSpeeds;
     }
 }
