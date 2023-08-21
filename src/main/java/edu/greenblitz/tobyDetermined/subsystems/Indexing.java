@@ -12,8 +12,8 @@ public class Indexing extends GBSubsystem {
 	private ColorSensorV3 Scolor;
 	private DigitalInput macroSwitch;
 	private static Indexing instance;
-	private final int minBlue = 400;
-	private final int minRed = 900;
+	private final int minBlue = 250;
+	private final int minRed = 200;
 
 	public boolean isEnemyBallIn() {
 		if (DriverStation.getAlliance() != colorCheck() && colorCheck() != Invalid) {

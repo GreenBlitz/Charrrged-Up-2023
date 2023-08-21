@@ -22,6 +22,9 @@ public class GrippBall extends GBCommand {
 
 	@Override
 	public void execute() {
+		SmartDashboard.putNumber("red",Indexing.getInstance().getRed());
+		SmartDashboard.putNumber("green",Indexing.getInstance().getGreen());
+		SmartDashboard.putNumber("blue",Indexing.getInstance().getBlue());
 		SmartDashboard.putBoolean("ballIn", Indexing.getInstance().ballIn());
 		//new RunRoller().schedule();
 		IntakeRoller.getInstance().roll(0.4);

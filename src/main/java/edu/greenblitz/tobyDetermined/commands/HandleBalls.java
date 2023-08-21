@@ -29,19 +29,22 @@ public class HandleBalls extends GBCommand {
 	}
 
 	public void execute() {
-		SmartDashboard.putNumber("red",indexing.getRed());
-		SmartDashboard.putNumber("green",indexing.getGreen());
-		SmartDashboard.putNumber("blue",indexing.getBlue());
+//		SmartDashboard.putNumber("red",indexing.getRed());
+//		SmartDashboard.putNumber("green",indexing.getGreen());
+//		SmartDashboard.putNumber("blue",indexing.getBlue());
 
 		SmartDashboard.putBoolean("enemyBallIn", indexing.isEnemyBallIn());
+		SmartDashboard.putBoolean("switchOn",indexing.switchOn());
 
 		if (indexing.isEnemyBallIn() && indexing.switchOn()) {
+//			IntakeRoller.getInstance().roll(-0.6);
+//			new WaitCommand(2).andThen(new InstantCommand(() -> IntakeRoller.getInstance().roll(0)));
+
 			//System.out.println("reverse");
 			new ParallelDeadlineGroup(
-					new WaitCommand(1.5),
-					new ReverseRUnFunnel(),
-					new ReverseRunRoller()
-			).schedule();
+					new WaitCommand(1),
+					new InstantCommand(() -> IntakeRoller.getInstance().roll(-0.4))
+			).andThen(new InstantCommand(() -> IntakeRoller.getInstance().roll(0))).schedule();
 			SmartDashboard.putBoolean("shoot ball", false);
 			SmartDashboard.putBoolean("gripper evac", true);
 
@@ -68,6 +71,16 @@ public class HandleBalls extends GBCommand {
 					)
 			).schedule();
 
+		}
+		else if(!indexing.isEnemyBallIn() && indexing.ballIn()) {
+			new ParallelDeadlineGroup(
+					new WaitCommand(3.5).until(() -> indexing.switchOn()),
+					new InstantCommand(() -> Funnel.getInstance().setPower(0.4)).until(() -> indexing.switchOn()),
+					new InstantCommand(() -> IntakeRoller.getInstance().roll(0.4)).until(() -> indexing.switchOn())
+			).andThen(new SequentialCommandGroup(
+					new InstantCommand(() -> Funnel.getInstance().setPower(0)),
+					new InstantCommand(() -> IntakeRoller.getInstance().roll(0))
+			)).schedule();
 		}
 	}
 }
