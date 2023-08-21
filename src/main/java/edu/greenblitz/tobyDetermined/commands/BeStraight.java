@@ -19,14 +19,15 @@ public class BeStraight extends GBCommand {
         lengthSpeeds = new ArrayList<>();
 
         //1 - find the change of angle and length
-        double l = lengthInMeters - extender.getLength();
-        double a = angleInRads - elbowSub.getAngleRadians();
+        double alpha = angleInRads - elbowSub.getAngleRadians();
+        double curLength = extender.getLength();
+        double endLength = lengthInMeters;
 
-        //2 - split to spaces
-        double distance = Math.sqrt(a*a+l*l);
+        //2 - split to spaces using cosine rule
+        double distance = Math.sqrt(curLength*curLength+ endLength*endLength - 2* curLength*endLength*Math.cos(alpha));
         int numOfSpaces = (int) (distance/2); // magic number
 
-        //2 - how much time each iteration should take
+        //3 - how much time each iteration should take
         double timeForIteration = timeInSec/numOfSpaces; //magic number
 
         //4,5 - interpolation , call motors
