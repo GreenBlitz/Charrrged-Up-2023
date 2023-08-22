@@ -1,22 +1,23 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.utils.GBCommand;
+
 import java.awt.*;
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
     private NodeArm parent;
-    //private GBCommand command;
+    private GBCommand command;
     private int id;
     private LinkedList<NodeArm> neighbors;
-    private double replaceCommand;
-    private double Xpos;
-    private double Ypos;
-    public NodeArm(double command, int id, double x, double y){
+    private double anglePos;
+    private double extendPos;
+    public NodeArm(GBCommand command, int id, double x, double y){
         this.id = id;
-        Xpos = x;
-        Ypos = y;
-        replaceCommand = command;
+        extendPos = x;
+        anglePos = y;
+        this.command = command;
         neighbors = new LinkedList<>();
     }
 
@@ -28,11 +29,11 @@ public class NodeArm {
         this.parent = parent;
     }
 
-    public double getXpos() {
-        return Xpos;
+    public double getExtendPos() {
+        return extendPos;
     }
-    public double getYpos() {
-        return Ypos;
+    public double getAnglePos() {
+        return anglePos;
     }
 
     public void setNeighbors(NodeArm[] neighbors) {
