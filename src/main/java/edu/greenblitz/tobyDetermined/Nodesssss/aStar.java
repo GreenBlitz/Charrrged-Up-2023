@@ -42,15 +42,16 @@ public class aStar {
 
 
    public static boolean isInList(NodeArm nodeArm, LinkedList<NodeArm> list){
-       for(int i = 0; i<list.size(); i++){
-           if(nodeArm.getId() == list.get(i).getId())
+       for (NodeArm arm : list) {
+           if (nodeArm.getId() == arm.getId())
                return true;
        }
        return false;
     }
 
-    public static void printPathPath(NodeArm nodeArm, NodeArm end){
+    public static LinkedList<Integer> printPathPath(NodeArm nodeArm){
        LinkedList<NodeArm>  pathList = new LinkedList<>();
+       LinkedList<Integer> getPath = new LinkedList<>();
        NodeArm current = nodeArm;
         while (current != null) {
             pathList.add(current);
@@ -59,10 +60,12 @@ public class aStar {
 
         for (int i = pathList.size() - 1; i >= 0; i--) {
             System.out.print(pathList.get(i).getId()+", ");
+            getPath.add(pathList.get(i).getId());
         }
         System.out.println();
+        return getPath;
     }
-    public static void getPath(NodeArm start, NodeArm end){
+    public static LinkedList<Integer> getPath(NodeArm start, NodeArm end){
         open.add(start);
 
         while (!open.isEmpty()) {
@@ -70,8 +73,10 @@ public class aStar {
             open.remove(current);
             closed.add(current);
 
+            assert current != null;
             if (current.getId() == end.getId()) {
-                printPathPath(current, end);
+                LinkedList<Integer> path = printPathPath(current);
+                return path;
             }
 
             for (NodeArm neighbor : current.getNeighbors()) {
@@ -83,8 +88,9 @@ public class aStar {
                 }
             }
         }
+        return null;
     }
-    public static void main(String args[]){
-       getPath(nodeBase.getNode(6), nodeBase.getNode(2));
-    }
+    //public static void main(String[] args){
+      // getPath(nodeBase.getNode(6), nodeBase.getNode(2));
+   // }
 }
