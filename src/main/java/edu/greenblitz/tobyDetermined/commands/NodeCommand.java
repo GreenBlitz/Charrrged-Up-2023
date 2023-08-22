@@ -1,42 +1,36 @@
 package edu.greenblitz.tobyDetermined.commands;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.StraightLineMotion;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 
 public class NodeCommand extends GBCommand {
-    private Extender extender;
-    private ElbowSub elbowSub;
-    private NodeBase nodeBase;
     double gamma;
-    private StraightLineMotion straightLineMotion;
+    private final StraightLineMotion straightLineMotion;
+    NodeArm start;
+    NodeArm end;
 
-    int index;
-
-    public NodeCommand(int i){
-        extender = Extender.getInstance();
-        elbowSub = ElbowSub.getInstance();
+    public NodeCommand(NodeArm start, NodeArm end){
         straightLineMotion = StraightLineMotion.getInstance();
-        nodeBase = NodeBase.getInstance();
-        index = i;
-        require(extender);
-        require(elbowSub);
+        this.start = start;
+        this.end = end;
     }
 
     @Override
     public void execute() {
-        straightLineMotion.moveArm(3, 2, index, gamma);
+        if(start.getNeighbors().contains(end)) {
+            straightLineMotion.moveArm(3, end, start, gamma);//gamma problem
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return nodeBase.getIfInNode(elbowSub.getAngleRadians(), index);
+        return straightLineMotion.isInPlace(end);
     }
 
     @Override
     public void end(boolean interrupted) {
         straightLineMotion.resetMotors();
     }
+    // delete maybe because of time wast
 }

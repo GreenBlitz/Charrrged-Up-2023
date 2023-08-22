@@ -15,9 +15,10 @@ public class NodeBase  {
     private NodeArm S;
     private NodeArm currentNode;
     private int i = 1;
-    private LinkedList<NodeArm> list = new LinkedList<>();
+    private final LinkedList<NodeArm> list = new LinkedList<>();
     private static NodeBase instance;
-    private double tol;//magic
+    private final double tolA;//magic
+    private final double tolL;
     public static NodeBase getInstance() {
         init();
         return instance;
@@ -36,13 +37,13 @@ public class NodeBase  {
     }
     public NodeBase(){
         list.add(0,null);
-        i = addToList(A = new NodeArm(new NodeCommand(i), i, 1,5), list);
-        i = addToList(B = new NodeArm(new NodeCommand(i), i, 2,6),list);
-        i = addToList(C = new NodeArm(new NodeCommand(i), i, 3,8),list);
-        i = addToList(D = new NodeArm(new NodeCommand(i), i, 9,4),list);
-        i = addToList(E = new NodeArm(new NodeCommand(i), i, 11,8),list);
-        i = addToList(F = new NodeArm(new NodeCommand(i), i, 15,3),list);
-        i = addToList(S = new NodeArm(new NodeCommand(i), i, 12,12),list);
+        i = addToList(A = new NodeArm( i, 1,5), list);
+        i = addToList(B = new NodeArm( i, 2,6),list);
+        i = addToList(C = new NodeArm( i, 3,8),list);
+        i = addToList(D = new NodeArm( i, 9,4),list);
+        i = addToList(E = new NodeArm( i, 11,8),list);
+        i = addToList(F = new NodeArm( i, 15,3),list);
+        i = addToList(S = new NodeArm( i, 12,12),list);
         A.setNeighbors(new NodeArm[] {B, C, E, D, F});
         B.setNeighbors(new NodeArm[] {A, D, E, C});
         C.setNeighbors(new NodeArm[] {A, B, D, E});
@@ -51,11 +52,12 @@ public class NodeBase  {
         F.setNeighbors(new NodeArm[] {A});
         S.setNeighbors(new NodeArm[] {D});
         currentNode = A;
-        tol = 0.05; // magic
+        tolA = 0.05; // magic
+        tolL = 0.05; // magic
     }
 
-    public NodeArm getCurrentNode() {
-        return currentNode;
+    public int getCurrentNodeIndex() {
+        return currentNode.getId();
     }
     public void setCurrentNode(NodeArm nodeArm){
         currentNode = nodeArm;
@@ -75,11 +77,16 @@ public class NodeBase  {
         return null;
     }
 
-    public boolean getIfInNode(double angle , int index){
-        return angle >= getNode(index).getAnglePos() - tol || angle <= getNode(index).getAnglePos() + tol;
+    public boolean getIfInNode(double angle , double length,  NodeArm index){
+        return (angle >= index.getAnglePos() - tolA && angle <= index.getAnglePos() + tolA)
+                &&
+                (length >= index.getExtendPos() - tolL && length <= index.getExtendPos() + tolL);
     }
     public double getDistanceBetweenToPoints(NodeArm a, NodeArm b ){
-        return Math.sqrt(Math.pow(a.getAnglePos()-b.getAnglePos(), a.getAnglePos()-b.getAnglePos() + Math.pow(a.getExtendPos()-b.getExtendPos(), a.getExtendPos()-b.getExtendPos())));
+        return Math.sqrt(
+                Math.pow(a.getAnglePos()-b.getAnglePos(), 2)
+                +
+                Math.pow(a.getExtendPos()-b.getExtendPos(), 2));
     }
 
 }

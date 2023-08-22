@@ -1,14 +1,11 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
-
 import java.util.LinkedList;
 
 public class aStar {
     static LinkedList<NodeArm> open = new LinkedList<>();
     static LinkedList<NodeArm> closed = new LinkedList<>();
-    static NodeBase nodeBase = new NodeBase();
+    static NodeBase nodeBase = NodeBase.getInstance();
 
    public static double getHGcost(NodeArm point, NodeArm current){
        double distance =  nodeBase.getDistanceBetweenToPoints(point,current);
@@ -49,9 +46,9 @@ public class aStar {
        return false;
     }
 
-    public static LinkedList<Integer> printPathPath(NodeArm nodeArm){
+    public static LinkedList<NodeArm> printPathPath(NodeArm nodeArm){
        LinkedList<NodeArm>  pathList = new LinkedList<>();
-       LinkedList<Integer> getPath = new LinkedList<>();
+       LinkedList<NodeArm> getPath = new LinkedList<>();
        NodeArm current = nodeArm;
         while (current != null) {
             pathList.add(current);
@@ -60,12 +57,12 @@ public class aStar {
 
         for (int i = pathList.size() - 1; i >= 0; i--) {
             System.out.print(pathList.get(i).getId()+", ");
-            getPath.add(pathList.get(i).getId());
+            getPath.add(pathList.get(i));
         }
         System.out.println();
         return getPath;
     }
-    public static LinkedList<Integer> getPath(NodeArm start, NodeArm end){
+    public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){
         open.add(start);
 
         while (!open.isEmpty()) {
@@ -75,8 +72,7 @@ public class aStar {
 
             assert current != null;
             if (current.getId() == end.getId()) {
-                LinkedList<Integer> path = printPathPath(current);
-                return path;
+                return printPathPath(current);
             }
 
             for (NodeArm neighbor : current.getNeighbors()) {
@@ -90,7 +86,7 @@ public class aStar {
         }
         return null;
     }
-    //public static void main(String[] args){
-      // getPath(nodeBase.getNode(6), nodeBase.getNode(2));
-   // }
+    public static void main(String[] args){
+       getPath(nodeBase.getNode(6), nodeBase.getNode(7));
+    }
 }
