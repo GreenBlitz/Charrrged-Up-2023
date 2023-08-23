@@ -1,8 +1,5 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.commands.NodeCommand;
-import edu.greenblitz.utils.GBCommand;
-
 import java.util.LinkedList;
 
 public class NodeBase  {
