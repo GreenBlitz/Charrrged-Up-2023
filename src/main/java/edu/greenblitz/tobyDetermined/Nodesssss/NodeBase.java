@@ -15,7 +15,8 @@ public class NodeBase  {
     private final LinkedList<NodeArm> list = new LinkedList<>();
     private static NodeBase instance;
     private final double tolA;//magic
-    private final double tolL;
+    private final double tolL;//magic
+
     public static NodeBase getInstance() {
         init();
         return instance;
@@ -53,15 +54,11 @@ public class NodeBase  {
         tolL = 0.05; // magic
     }
 
-    public int getCurrentNodeIndex() {
-        return currentNode.getId();
+    public NodeArm getCurrentNodeIndex() {
+        return currentNode;
     }
     public void setCurrentNode(NodeArm nodeArm){
         currentNode = nodeArm;
-    }
-
-    public LinkedList<NodeArm> getList(){
-        return list;
     }
 
     public NodeArm getNode(int index) {

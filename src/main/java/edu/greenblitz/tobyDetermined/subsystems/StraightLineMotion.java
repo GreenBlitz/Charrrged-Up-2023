@@ -1,8 +1,7 @@
-package edu.greenblitz.tobyDetermined.commands.telescopicArm;
+package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
-import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 
@@ -26,27 +25,25 @@ public class StraightLineMotion extends GBSubsystem {
 		extender = Extender.getInstance();
 		elbowSub = ElbowSub.getInstance();
 	}
-	public static double distance(double x1, double y1, double x2, double y2) {
-		return Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2));
-	}
-	public static double Divisionary(double a, double b, double gamma) {
+	public static double Division(double a, double b, double gamma) {
 		double c = Math.sqrt(a*a+b*b-2*a*b*Math.cos(gamma));
 		double beta = Math.asin(b/c*Math.sin(gamma));
 		return Math.tan(beta);
 	}
-	public void moveArm(double velocityToAngle, NodeArm nodeEndIndex, NodeArm nodeStartIndex, double gamma){
-		double start = nodeStartIndex.getExtendPos();
+
+	public void moveArm(double velocityToAngle, NodeArm nodeEndIndex, double gamma){
+		double start = extender.getLength();
 		double end = nodeEndIndex.getExtendPos();
-		double ratio = Divisionary(start,end,gamma);
+		double ratio = Division(start,end,gamma);
 		elbowSub.setAngSpeed(velocityToAngle, elbowSub.getAngleRadians(), extender.getLength());
-		extender.setLinSpeed(velocityToAngle*ratio, elbowSub.getAngleRadians());
+		extender.setLinSpeed(velocityToAngle/ratio, elbowSub.getAngleRadians());
 	}
 
 	public boolean isInPlace(NodeArm target){
 		return NodeBase.getInstance().getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
 	}
 
-	public void resetMotors(){
+	public void stopMotors(){
 		extender.stop();
 		elbowSub.stop();
 	}

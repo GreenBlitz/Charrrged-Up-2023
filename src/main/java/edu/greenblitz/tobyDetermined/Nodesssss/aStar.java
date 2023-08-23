@@ -76,8 +76,8 @@ public class aStar {
             }
 
             for (NodeArm neighbor : current.getNeighbors()) {
-                if (!isInList(neighbor, closed)) {
-                    if (!isInList(neighbor, open)) {
+                if (isInList(neighbor, closed)) {
+                    if (isInList(neighbor, open)) {
                         open.add(neighbor);
                         neighbor.setParent(current);
                     }
@@ -87,6 +87,6 @@ public class aStar {
         return null;
     }
     public static void main(String[] args){
-       getPath(nodeBase.getNode(6), nodeBase.getNode(7));
+       getPath(nodeBase.getNode(6), nodeBase.getNode(3));
     }
 }
