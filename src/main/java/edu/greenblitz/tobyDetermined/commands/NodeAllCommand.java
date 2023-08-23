@@ -3,9 +3,8 @@ package edu.greenblitz.tobyDetermined.commands;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.Nodesssss.aStar;
+import edu.greenblitz.tobyDetermined.subsystems.StraightLineMotion;
 import edu.greenblitz.utils.GBCommand;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import java.util.LinkedList;
 
@@ -14,10 +13,13 @@ public class NodeAllCommand extends GBCommand {
     NodeArm start;
     NodeArm end;
     NodeCommand[] nodeCommands;
-    public NodeAllCommand(NodeArm nodeArm, NodeArm end){
+    StraightLineMotion straightLineMotion;
+
+    public NodeAllCommand( NodeArm end){
         nodeBase = NodeBase.getInstance();
-        start = nodeArm;
+        start = nodeBase.getCurrentNodeIndex();
         this.end = end;
+        straightLineMotion = StraightLineMotion.getInstance();
     }
 
     @Override
@@ -33,7 +35,7 @@ public class NodeAllCommand extends GBCommand {
     @Override
     public void execute() {
         int i =0;
-        while(i< nodeCommands.length){
+        while(i <= nodeCommands.length){
             nodeCommands[i].schedule();
             if(isFinished())
                 i++;
@@ -42,13 +44,11 @@ public class NodeAllCommand extends GBCommand {
 
     @Override
     public boolean isFinished() {
-        // add if in point
-        return false;
+        return straightLineMotion.isInPlace(end);
     }
 
     @Override
     public void end(boolean interrupted) {
-        //stop motors
         nodeBase.setCurrentNode(end);
     }
 }
