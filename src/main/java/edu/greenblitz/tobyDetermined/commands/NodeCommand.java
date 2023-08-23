@@ -13,7 +13,7 @@ public class NodeCommand extends GBCommand {
     public NodeCommand(NodeArm start, NodeArm end){
         straightLineMotion = StraightLineMotion.getInstance();
         this.start = start;
-        this.end = end;
+        this.end = end;;
     }
 
     @Override
@@ -28,9 +28,10 @@ public class NodeCommand extends GBCommand {
         return straightLineMotion.isInPlace(end);
     }
 
-    @Override
+
     public void end(boolean interrupted) {
         straightLineMotion.resetMotors();
     }
     // delete maybe because of time wast
+
 }

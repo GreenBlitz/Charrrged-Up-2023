@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.Nodesssss.aStar;
 import edu.greenblitz.utils.GBCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import java.util.LinkedList;
@@ -31,16 +32,17 @@ public class NodeAllCommand extends GBCommand {
 
     @Override
     public void execute() {
-            new SequentialCommandGroup(
-                    nodeCommands[0],
-                    nodeCommands[1],
-                    nodeCommands[2]
-            ).schedule();
+        int i =0;
+        while(i< nodeCommands.length){
+            nodeCommands[i].schedule();
+            if(isFinished())
+                i++;
+        }
     }
 
     @Override
     public boolean isFinished() {
-        // if in point
+        // add if in point
         return false;
     }
 
