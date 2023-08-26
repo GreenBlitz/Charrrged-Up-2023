@@ -31,9 +31,10 @@ public class StraightLineMotion extends GBSubsystem {
 		return Math.tan(beta);
 	}
 
-	public void moveArm(double velocityToAngle, NodeArm nodeEndIndex, double gamma){
+	public void moveArm(double velocityToAngle, NodeArm nodeEndIndex){
 		double start = extender.getLength();
 		double end = nodeEndIndex.getExtendPos();
+		double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
 		double ratio = Division(start,end,gamma);
 		elbowSub.setAngSpeed(velocityToAngle, elbowSub.getAngleRadians(), extender.getLength());
 		extender.setLinSpeed(velocityToAngle/ratio, elbowSub.getAngleRadians());
