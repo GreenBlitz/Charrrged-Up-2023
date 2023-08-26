@@ -35,7 +35,7 @@ public class NodeAllCommand extends GBCommand {
     @Override
     public void execute() {
         int i =0;
-        while(i <= nodeCommands.length){
+        while(i <= nodeCommands.length){ // problem
             nodeCommands[i].schedule();
             if(isFinished())
                 i++;
