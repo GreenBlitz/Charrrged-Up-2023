@@ -14,8 +14,8 @@ public class NodeBase  {
     private int i = 1;
     private final LinkedList<NodeArm> list = new LinkedList<>();
     private static NodeBase instance;
-    private final double tolA;//magic
-    private final double tolL;//magic
+    private final double tolA;//magic - problem
+    private final double tolL;//magic - problem
 
     public static NodeBase getInstance() {
         init();
@@ -71,7 +71,7 @@ public class NodeBase  {
         return null;
     }
 
-    public boolean getIfInNode(double angle , double length,  NodeArm index){
+    public boolean getIfInNode(double angle , double length,  NodeArm index){ // problem
         return (angle >= index.getAnglePos() - tolA && angle <= index.getAnglePos() + tolA)
                 &&
                 (length >= index.getExtendPos() - tolL && length <= index.getExtendPos() + tolL);
