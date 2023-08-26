@@ -5,7 +5,6 @@ import edu.greenblitz.tobyDetermined.subsystems.StraightLineMotion;
 import edu.greenblitz.utils.GBCommand;
 
 public class NodeCommand extends GBCommand {
-    double gamma;
     private final StraightLineMotion straightLineMotion;
     NodeArm start;
     NodeArm end;
@@ -19,7 +18,7 @@ public class NodeCommand extends GBCommand {
     @Override
     public void execute() {
         if(start.getNeighbors().contains(end)) {
-            straightLineMotion.moveArm(3, end, gamma);//gamma problem
+            straightLineMotion.moveArm(3, end);
         }
     }
 
