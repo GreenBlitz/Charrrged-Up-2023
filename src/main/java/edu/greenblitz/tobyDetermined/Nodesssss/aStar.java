@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.LinkedList;
 
 public class aStar {
@@ -50,16 +52,18 @@ public class aStar {
        LinkedList<NodeArm>  pathList = new LinkedList<>();
        LinkedList<NodeArm> getPath = new LinkedList<>();
        NodeArm current = nodeArm;
+       String returningPath = "";
         while (current != null) {
             pathList.add(current);
             current = current.getParent();
         }
 
         for (int i = pathList.size() - 1; i >= 0; i--) {
-            System.out.print(pathList.get(i).getId()+", ");
+            returningPath += pathList.get(i).getId()+", ";
             getPath.add(pathList.get(i));
         }
-        System.out.println();
+        returningPath+="\n";
+        SmartDashboard.putString("Returning Path",returningPath);
         return getPath;
     }
     public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){

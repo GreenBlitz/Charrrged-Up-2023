@@ -54,7 +54,7 @@ public class NodeBase  {
         tolL = 0.05; // magic
     }
 
-    public NodeArm getCurrentNodeIndex() {
+    public NodeArm getCurrentNode() {
         return currentNode;
     }
     public void setCurrentNode(NodeArm nodeArm){
@@ -71,7 +71,7 @@ public class NodeBase  {
         return null;
     }
 
-    public boolean getIfInNode(double angle , double length,  NodeArm index){ // problem
+    public boolean getIfInNode(double angle , double length,  NodeArm index){
         return (angle >= index.getAnglePos() - tolA && angle <= index.getAnglePos() + tolA)
                 &&
                 (length >= index.getExtendPos() - tolL && length <= index.getExtendPos() + tolL);
