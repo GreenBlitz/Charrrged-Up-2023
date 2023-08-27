@@ -14,8 +14,8 @@ public class NodeBase  {
     private int i = 1;
     private final LinkedList<NodeArm> list = new LinkedList<>();
     private static NodeBase instance;
-    private final double tolA;//magic - problem
-    private final double tolL;//magic - problem
+    private final double TOLERANCE_ANGLE = 0.05;//magic - problem
+    private final double TOLERANCE_LENGTH = 0.05;//magic - problem
 
     public static NodeBase getInstance() {
         init();
@@ -49,10 +49,7 @@ public class NodeBase  {
         E.setNeighbors(new NodeArm[] {A,B,D,C});
         F.setNeighbors(new NodeArm[] {A});
         S.setNeighbors(new NodeArm[] {D});
-        currentNode = A;
-        tolA = 0.05; // magic
-        tolL = 0.05; // magic
-    }
+        currentNode = A;    }
 
     public NodeArm getCurrentNode() {
         return currentNode;
@@ -61,10 +58,10 @@ public class NodeBase  {
         currentNode = nodeArm;
     }
 
-    public NodeArm getNode(int index) {
+    public NodeArm getNode(int id) {
         for (int j = 1; j < list.size(); j++) {
             NodeArm node = list.get(j);
-            if (index == node.getId()) {
+            if (id == node.getId()) {
                 return node;
             }
         }
@@ -72,9 +69,9 @@ public class NodeBase  {
     }
 
     public boolean getIfInNode(double angle , double length,  NodeArm index){
-        return (angle >= index.getAnglePos() - tolA && angle <= index.getAnglePos() + tolA)
+        return Math.abs(index.getAnglePos() - TOLERANCE_ANGLE) <= angle
                 &&
-                (length >= index.getExtendPos() - tolL && length <= index.getExtendPos() + tolL);
+                Math.abs(index.getExtendPos() - TOLERANCE_LENGTH) <= length;
     }
     public double getDistanceBetweenToPoints(NodeArm a, NodeArm b ){
         return Math.sqrt(

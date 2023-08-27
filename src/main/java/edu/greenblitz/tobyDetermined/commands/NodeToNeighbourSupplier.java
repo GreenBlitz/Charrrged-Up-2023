@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.commands;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
-import edu.greenblitz.tobyDetermined.Nodesssss.aStar;
+import edu.greenblitz.tobyDetermined.Nodesssss.AStar;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -20,7 +20,7 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
     }
     public Command get() {
         start = NodeBase.getInstance().getCurrentNode();
-        LinkedList<NodeArm> path = aStar.getPath(start,end);
+        LinkedList<NodeArm> path = AStar.getPath(start,end);
         assert path != null;
         nodeCommands = new NodeToNeighbourCommand[path.size()-1];
         for(int i = 0; i<path.size()-1; i++) {

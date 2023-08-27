@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -37,7 +37,7 @@ public class RotateToAngleRadians extends ElbowCommand {
         legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
         pidController.setGoal(legalGoalAngle);
         double pidGain = pidController.calculate(elbow.getAngleRadians(), legalGoalAngle);
-        double feedForward = ElbowSub.getStaticFeedForward( Extender.getInstance().getLength(), elbow.getAngleRadians()) + Math.signum(pidGain) * kS;
+        double feedForward = Elbow.getStaticFeedForward( Extender.getInstance().getLength(), elbow.getAngleRadians()) + Math.signum(pidGain) * kS;
         elbow.debugSetPower(feedForward / Battery.getInstance().getCurrentVoltage() + pidGain);
 
     }

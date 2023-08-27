@@ -4,21 +4,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.LinkedList;
 
-public class aStar {
+public class AStar {
     static LinkedList<NodeArm> open = new LinkedList<>();
     static LinkedList<NodeArm> closed = new LinkedList<>();
     static NodeBase nodeBase = NodeBase.getInstance();
 
-   public static double getHGcost(NodeArm point, NodeArm current){
+   public static double getDistanceFromCurrentNodeToEndOrStartNode(NodeArm point, NodeArm current){
        double distance =  nodeBase.getDistanceBetweenToPoints(point,current);
        if(distance < 0){
            distance*=-1;
        }
        return distance;
    }
-    public static double getFcost(NodeArm current, NodeArm start, NodeArm end){
-       double gCost = getHGcost(start,current);
-       double hCost = getHGcost(end,current);
+    public static double getDistanceToStartPlusEnd(NodeArm current, NodeArm start, NodeArm end){
+       double gCost = getDistanceFromCurrentNodeToEndOrStartNode(start,current);
+       double hCost = getDistanceFromCurrentNodeToEndOrStartNode(end,current);
        return gCost+hCost;
     }
 
@@ -28,9 +28,9 @@ public class aStar {
            return null; // Handle the case where the list is empty
        }
        int saveI = 0;
-       double fCost = getFcost(open.get(0), start, end);
+       double fCost = getDistanceToStartPlusEnd(open.get(0), start, end);
        for (int i = 1; i < open.size(); i++) {
-           double currentFCost = getFcost(open.get(i), start, end);
+           double currentFCost = getDistanceToStartPlusEnd(open.get(i), start, end);
            if (currentFCost < fCost) {
                fCost = currentFCost;
                saveI = i;

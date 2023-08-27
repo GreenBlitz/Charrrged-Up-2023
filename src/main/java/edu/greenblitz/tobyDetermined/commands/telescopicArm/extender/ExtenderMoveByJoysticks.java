@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,7 +16,7 @@ public class ExtenderMoveByJoysticks extends ExtenderCommand {
 	@Override
 	public void execute() {
 		double power = joystick.getAxisValue(SmartJoystick.Axis.LEFT_Y);
-		double ff = Extender.getStaticFeedForward(ElbowSub.getInstance().getAngleRadians());
+		double ff = Extender.getStaticFeedForward(Elbow.getInstance().getAngleRadians());
 		SmartDashboard.putNumber("joystick + ff volt",power * Battery.getInstance().getCurrentVoltage() + ff);
 
 		SmartDashboard.putNumber("ext velocity", extender.getVelocity());

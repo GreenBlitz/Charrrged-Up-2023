@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -44,7 +44,7 @@ public class ExtendToLength extends ExtenderCommand {
         double setpointGain = (pidController.getSetpoint().velocity - lastSetpoint) * setpointD;
         lastSetpoint = pidController.getSetpoint().velocity;
         double pidGain = pidController.calculate(extender.getLength(), legalGoalLength) + setpointGain;
-        double feedForward = Extender.getStaticFeedForward( ElbowSub.getInstance().getAngleRadians()) + Math.signum(pidGain) * kS;
+        double feedForward = Extender.getStaticFeedForward( Elbow.getInstance().getAngleRadians()) + Math.signum(pidGain) * kS;
         SmartDashboard.putNumber("vel target", pidController.getSetpoint().velocity);
         SmartDashboard.putNumber("pos target", pidController.getSetpoint().position);
         extender.setMotorVoltage(feedForward + pidGain);

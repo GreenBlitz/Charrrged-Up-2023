@@ -13,7 +13,7 @@ import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
 		LED.init();
 		Battery.init();
 		Extender.init();
-		ElbowSub.init();
+		Elbow.init();
 		Claw.init();
 		SwerveChassis.init();
 		RotatingBelly.init();
@@ -75,9 +75,9 @@ public class Robot extends TimedRobot {
 				() -> SwerveChassis.getInstance().setAngleMotorsIdleMode(CANSparkMax.IdleMode.kCoast)
 		);
 
-		BreakCoastSwitch.getInstance().addSubsystem(ElbowSub.getInstance(),
-				() -> ElbowSub.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
-				() -> ElbowSub.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
+		BreakCoastSwitch.getInstance().addSubsystem(Elbow.getInstance(),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
+				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
 		);
 	}
 	
@@ -191,7 +191,7 @@ public class Robot extends TimedRobot {
 			}
 		}
 		SwerveChassis.getInstance().isEncoderBroken();
-		ElbowSub.getInstance().resetEncoder();
+		Elbow.getInstance().resetEncoder();
 	}
 	
 	public enum robotName {

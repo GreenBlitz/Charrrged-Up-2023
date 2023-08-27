@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -20,7 +20,7 @@ public class GoToPosition extends SequentialCommandGroup {
 				new SimpleGoToPosition(targetLengthInMeters, targetAngleInRads),
 				new PassWallAndExtend(targetLengthInMeters, targetAngleInRads),
 				() ->
-				(((ElbowSub.getInstance().isInTheSameState(targetAngleInRads) && ElbowSub.getInstance().state != ElbowSub.ElbowState.WALL_ZONE) || (ElbowSub.getInstance().getState() == ElbowSub.ElbowState.WALL_ZONE && Extender.getInstance().getState().shorterOrEqualTo(Extender.ExtenderState.IN_WALL_LENGTH))
+				(((Elbow.getInstance().isInTheSameState(targetAngleInRads) && Elbow.getInstance().state != Elbow.ElbowState.WALL_ZONE) || (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && Extender.getInstance().getState().shorterOrEqualTo(Extender.ExtenderState.IN_WALL_LENGTH))
 		))));
 
 

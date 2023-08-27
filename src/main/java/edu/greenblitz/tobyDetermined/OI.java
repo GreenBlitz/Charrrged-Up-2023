@@ -22,7 +22,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -88,7 +88,7 @@ public class OI { //GEVALD
 
     public void amireeeButtons(){
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-        ElbowSub.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
+        Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
 
 		
         //screenshot

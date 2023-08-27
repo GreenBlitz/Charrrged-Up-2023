@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
-public class ElbowSub extends GBSubsystem {
+public class Elbow extends GBSubsystem {
 
 
-    private static ElbowSub instance;
+    private static Elbow instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double debugLastFF;
@@ -31,20 +31,20 @@ public class ElbowSub extends GBSubsystem {
 
     private boolean debug = false;
 
-    public static ElbowSub getInstance() {
+    public static Elbow getInstance() {
         init();
         return instance;
     }
 
     public static void init(){
         if (instance == null) {
-            instance = new ElbowSub();
+            instance = new Elbow();
         }
     }
 
     public double startingValue;
     
-    private ElbowSub() {
+    private Elbow() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
 

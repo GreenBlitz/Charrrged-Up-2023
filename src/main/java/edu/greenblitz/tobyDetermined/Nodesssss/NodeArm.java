@@ -9,11 +9,11 @@ public class NodeArm {
     private final LinkedList<NodeArm> neighbors;
     private final double anglePos;//problem
     private final double extendPos;//problem
-    public NodeArm(int id, double x, double y){
+    public NodeArm(int id, double extenderPos, double anglePos){
         this.id = id;
-        extendPos = x;
-        anglePos = y;
-        neighbors = new LinkedList<>();
+        this.extendPos = extenderPos;
+        this.anglePos = anglePos;
+        neighbors = new LinkedList<NodeArm>();
     }
     public NodeArm getParent(){
         return parent;

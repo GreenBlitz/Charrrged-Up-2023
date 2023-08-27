@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ElbowSub;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,9 +20,9 @@ public class ElbowMoveByJoysticks extends ElbowCommand {
 	@Override
 	public void execute() {
 		double power = joystick.getAxisValue(SmartJoystick.Axis.RIGHT_Y) * 1;
-		SmartDashboard.putNumber("volt elbow", power * Battery.getInstance().getCurrentVoltage() + ElbowSub.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
+		SmartDashboard.putNumber("volt elbow", power * Battery.getInstance().getCurrentVoltage() + Elbow.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
 		SmartDashboard.putNumber("elbow vel", elbow.getVelocity());
-		elbow.setMotorVoltage(power * Battery.getInstance().getCurrentVoltage() + ElbowSub.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
+		elbow.setMotorVoltage(power * Battery.getInstance().getCurrentVoltage() + Elbow.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
 	}
 
 	@Override
