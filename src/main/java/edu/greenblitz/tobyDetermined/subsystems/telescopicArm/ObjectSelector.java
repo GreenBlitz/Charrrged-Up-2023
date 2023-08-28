@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -8,13 +9,13 @@ public class ObjectSelector {
 	
 	public static void selectCone(){
 		isCone = true;
-		LED.getInstance().setColor(Color.kYellow);
+		LED.getInstance().setColor(Color.kYellow, RobotMap.LED.Sections.ALL);
 		Claw.getInstance().coneCatchMode();
 	}
 	
 	public static void selectCube(){
 		isCone = false;
-		LED.getInstance().setColor(Color.kMagenta);
+		LED.getInstance().setColor(Color.kYellow, RobotMap.LED.Sections.ALL);
 		Claw.getInstance().cubeCatchMode();
 	}
 	

@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class LED extends GBSubsystem {
@@ -31,30 +30,38 @@ public class LED extends GBSubsystem {
         }
     }
 
-    public void setColor(Color color) {
-        for (int i = 0; i < this.ledBuffer.getLength(); i++) {
-            this.ledBuffer.setLED(i, color);
-            SmartDashboard.putNumber("led num", i);
-        }
-        this.addressableLED.setData(ledBuffer);
+
+    public void setColor (Color color){
+        setColor(color, RobotMap.LED.Sections.ALL);
     }
-    public void setColor(int i, Color color) {
-        this.ledBuffer.setLED(i, color);
-        this.addressableLED.setData(ledBuffer);
+    public void setColor(Color color, int index) {
+        this.ledBuffer.setLED(index, color);
     }
 
+    public void setColor ( Color color,int startIndex,int endIndex){
+        for (int i = startIndex; i < endIndex; i++) {
+            setColor(color,i);
+        }
+    }
+
+    public void setColor (Color color, RobotMap.LED.Sections section){
+        setColor(color,section.start,section.end);
+    }
 
     public void turnOff (){
-        setColor(new Color(0,0,0));
+        setColor(new Color(0,0,0),RobotMap.LED.Sections.ALL);
     }
 
     public void turnOff (int index){
-        setColor(index,new Color(0,0,0));
+        setColor(new Color(0,0,0),index);
     }
-    public void turnoff (int startIndex,int endIndex){
+    public void turnOff (int startIndex,int endIndex){
         for (int i = startIndex; i < endIndex; i++) {
-            setColor(i,new Color(0,0,0));
+            turnOff(i);
         }
+    }
+    public void turnOff (RobotMap.LED.Sections section){
+        turnOff(section.start,section.end);
     }
 
 
@@ -63,13 +70,15 @@ public class LED extends GBSubsystem {
         for (int i = 0; i < this.ledBuffer.getLength(); i++) {
             this.ledBuffer.setHSV(i, h, s, v);
         }
-        this.addressableLED.setData(ledBuffer);
     }
 
 
     public void setHSV(int index, int h, int s, int v) {
         this.ledBuffer.setHSV(index, h, s, v);
-        this.addressableLED.setData(ledBuffer);
     }
 
+    @Override
+    public void periodic() {
+        this.addressableLED.setData(ledBuffer);
+    }
 }
