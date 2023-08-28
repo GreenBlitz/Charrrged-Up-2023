@@ -10,11 +10,8 @@ public class AStar {
     static NodeBase nodeBase = NodeBase.getInstance();
 
    public static double getDistanceFromCurrentNodeToEndOrStartNode(NodeArm point, NodeArm current){
-       double distance =  nodeBase.getDistanceBetweenToPoints(point,current);
-       if(distance < 0){
-           distance*=-1;
-       }
-       return distance;
+       return Math.abs(nodeBase.getDistanceBetweenToPoints(point,current));
+
    }
     public static double getDistanceToStartPlusEnd(NodeArm current, NodeArm start, NodeArm end){
        double gCost = getDistanceFromCurrentNodeToEndOrStartNode(start,current);
@@ -48,7 +45,7 @@ public class AStar {
        return false;
     }
 
-    public static LinkedList<NodeArm> printPathPath(NodeArm nodeArm){
+    public static LinkedList<NodeArm> printAndReturnPath(NodeArm nodeArm){
        LinkedList<NodeArm>  pathList = new LinkedList<>();
        LinkedList<NodeArm> getPath = new LinkedList<>();
        NodeArm current = nodeArm;
@@ -76,7 +73,7 @@ public class AStar {
 
             assert current != null;
             if (current.getId() == end.getId()) {
-                return printPathPath(current);
+                return printAndReturnPath(current);
             }
 
             for (NodeArm neighbor : current.getNeighbors()) {
