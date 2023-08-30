@@ -2,8 +2,11 @@ package edu.greenblitz.tobyDetermined;
 
 import edu.greenblitz.tobyDetermined.commands.Funnel.ReverseRUnFunnel;
 import edu.greenblitz.tobyDetermined.commands.Funnel.RunFunnel;
+import edu.greenblitz.tobyDetermined.commands.Intake;
+import edu.greenblitz.tobyDetermined.commands.ShootBall;
 import edu.greenblitz.tobyDetermined.commands.intake.extender.ToggleRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
+import edu.greenblitz.tobyDetermined.commands.moveFunnel;
 import edu.greenblitz.tobyDetermined.commands.shooter.RunShooterByPower;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
@@ -47,21 +50,10 @@ public class OI { //GEVALD
 	
 	
 	private void initButtons() {
-		//todo fill buttons
-		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 
-		//shooter
-		mainJoystick.X.whileTrue(new RunShooterByPower(-0.3));
-		//intake
-		mainJoystick.START.whileTrue(new ToggleRoller());
-		mainJoystick.R1.whileTrue(new RollByConst(0.6));
-		mainJoystick.L1.whileTrue(new RollByConst(-0.6));
-
-		//funnel
-		mainJoystick.POV_UP.whileTrue(new RunFunnel());
-		mainJoystick.POV_DOWN.whileTrue(new ReverseRUnFunnel());
-
-
+		mainJoystick.B.whileTrue(new Intake());
+		mainJoystick.B.whileTrue(new moveFunnel());
+		mainJoystick.B.whileTrue(new ShootBall());
 	}
 
 

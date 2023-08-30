@@ -6,15 +6,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
 public class MyShooter extends GBSubsystem{
-    private CANSparkMax motor1;
-    private TalonSRX motor2;
-    private TalonSRX motor3;
+    private CANSparkMax upperMotor;
+    private TalonSRX middleMotor;
+    private TalonSRX lowerMottor;
     private static MyShooter instance;
 
     private MyShooter(){
-        motor1 = new CANSparkMax(-1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor2 = new TalonSRX(-1);
-        motor3 = new TalonSRX(-1);
+        upperMotor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
+        middleMotor = new TalonSRX(3);
+        lowerMottor = new TalonSRX(5);
     }
 
     public static MyShooter getInstace() {
@@ -23,14 +23,14 @@ public class MyShooter extends GBSubsystem{
         }
         return instance;
     }
-    public void setPower1(double Speed){
-        motor1.set(Speed);
+    public void setUpperPower(double Speed){
+        upperMotor.set(Speed);
     }
-    public void setPower2(double Speed){
-        motor2.set(TalonSRXControlMode.PercentOutput, Speed);
+    public void setMiddlePower(double Speed){
+        middleMotor.set(TalonSRXControlMode.PercentOutput, Speed);
     }
-    public void setPower3(double Speed){
-        motor2.set(TalonSRXControlMode.PercentOutput, Speed);
+    public void setLowerPower(double Speed){
+        middleMotor.set(TalonSRXControlMode.PercentOutput, Speed);
     }
 
 
