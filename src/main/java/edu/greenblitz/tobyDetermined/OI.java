@@ -1,9 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
-import edu.greenblitz.tobyDetermined.commands.NodeFullPathCommand;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -87,9 +85,7 @@ public class OI { //GEVALD
 		//reset by vision(for move to pose shit)
 		mainJoystick.A.onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetToVision()));
     }
-	public void yoavButtons() {
-		mainJoystick.X.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(1)));
-	}
+
     public void amireeeButtons(){
         Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
         Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));

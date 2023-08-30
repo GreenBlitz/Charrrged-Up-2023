@@ -19,14 +19,18 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
         SmartDashboard.putNumber("passIsFinished",0);
     }
     public Command get() {
-        start = NodeBase.getInstance().getCurrentNode();
-        LinkedList<NodeArm> path = AStar.getPath(start,end);
-        assert path != null;
-        nodeCommands = new NodeToNeighbourCommand[path.size()-1];
-        for(int i = 0; i<path.size()-1; i++) {
-            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
-        }
-        return new SequentialCommandGroup(nodeCommands);
+//        start = NodeBase.getInstance().getCurrentNode();
+//        LinkedList<NodeArm> path = AStar.getPath(start,end);
+//        assert path != null;
+//        nodeCommands = new NodeToNeighbourCommand[path.size()-1];
+//        for(int i = 0; i<path.size()-1; i++) {
+//            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
+//        }
+//        return new SequentialCommandGroup(nodeCommands);
+        NodeArm zigHail = NodeBase.getInstance().getNode(6);
+        NodeArm rest = NodeBase.getInstance().getNode(9);
+        NodeArm cone = NodeBase.getInstance().getNode(7);
+        return new SequentialCommandGroup(new NodeToNeighbourCommand(cone,rest),new NodeToNeighbourCommand(rest,zigHail));
     }
 
 }

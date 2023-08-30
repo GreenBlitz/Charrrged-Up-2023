@@ -5,6 +5,7 @@ import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.opencv.core.Mat;
 
@@ -13,8 +14,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private double VELOCITY_TO_ANGLE_MOTOR = 1; //In Radians Per Second
-    private double MAX_VELOCITY = 6; //In Meters Per Second
+    private double VELOCITY_TO_ANGLE_MOTOR = Units.degreesToRadians(30); //In Radians Per Second
+    private double MAX_VELOCITY = 3; //In Meters Per Second
 
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
@@ -40,7 +41,8 @@ public class NodeToNeighbourCommand extends GBCommand {
         double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
         double ratio = getRatioBetweenAngleAndLength(start,end,gamma);
         double extenderVelocity = velocityToAngle * extender.getLength()/ratio;
-        extenderVelocity = Math.max(MAX_VELOCITY,extenderVelocity);
+        extenderVelocity = Math.min(MAX_VELOCITY,extenderVelocity);
+        extenderVelocity = Math.max(-MAX_VELOCITY,extenderVelocity);
         elbowSub.setAngSpeed(velocityToAngle, elbowSub.getAngleRadians(), extender.getLength());
         extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
     }
