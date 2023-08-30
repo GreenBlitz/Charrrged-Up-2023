@@ -48,9 +48,9 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
-		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
-		this.backLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackLeft);
-		this.backRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleBackRight);
+		this.frontRight = new DecoyModule();
+		this.backLeft = new DecoyModule();
+		this.backRight =  new DecoyModule();
 		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_DIO_PORT, RobotMap.Ultrasonic.ECHO_DIO_PORT);
 		Ultrasonic.setAutomaticMode(true);
 		doVision = true;

@@ -76,9 +76,12 @@ public class SdsSwerveModule implements SwerveModule {
 		double diff = Math.IEEEremainder(angleInRads - getModuleAngle(), 2 * Math.PI);
 		diff -= diff > Math.PI ? 2 * Math.PI : 0;
 		angleInRads = getModuleAngle() + diff;
-
-		angleMotor.set(ControlMode.Position, convertRadsToTicks(angleInRads));
-		
+		double maxGravityFF = 0.07;
+		double kTicksPerDegree = 4096 / 360; //Sensor is 1:1 with arm rotation
+		double degrees = diff;
+		double radians = java.lang.Math.toRadians(degrees);
+		double cosineScalar = java.lang.Math.cos(radians);
+		angleMotor.set(ControlMode.MotionMagic, angleInRads, DemandType.ArbitraryFeedForward, maxGravityFF* cosineScalar );
 		targetAngle = angleInRads;
 	}
 	
