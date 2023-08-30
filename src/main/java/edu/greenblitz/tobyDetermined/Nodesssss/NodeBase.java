@@ -1,21 +1,30 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.math.util.Units;
+import org.w3c.dom.Node;
+
 import java.util.LinkedList;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
+
 public class NodeBase  {
-    private NodeArm A;
-    private NodeArm B;
-    private NodeArm C;
-    private NodeArm D;
-    private NodeArm E;
-    private NodeArm F;
-    private NodeArm S;
+    private NodeArm REST_ABOVE_BELLY;
+    private NodeArm INTAKE_GRAB_CUBE_POSITION;
+    private NodeArm CONE_HIGH;
+    private NodeArm CONE_MID;
+    private NodeArm CUBE_HIGH;
+    private NodeArm CUBE_MID;
+    private NodeArm LOW;
+    private NodeArm ZIG_HAIL;
+    private NodeArm INTAKE_GRAB_CONE_POSITION;
     private NodeArm currentNode;
     private int i = 1;
     private final LinkedList<NodeArm> list = new LinkedList<>();
     private static NodeBase instance;
-    private final double TOLERANCE_ANGLE = 0.05;//magic - problem
-    private final double TOLERANCE_LENGTH = 0.05;//magic - problem
+    private final double TOLERANCE_ANGLE = Units.degreesToRadians(3);
+
+    private final double TOLERANCE_LENGTH = 0.04;//In Meters
 
     public static NodeBase getInstance() {
         init();
@@ -34,22 +43,37 @@ public class NodeBase  {
         return i;
     }
     public NodeBase(){
+        /*
+        double[][] poses = {{1,5},{2,6}};
+
+      for (int j = 0; j < poses.length; j++) {
+            addToList(new NodeArm(j, poses[j][0],poses[j][1]), list);
+
+            list.get(0).setNeighbors();
+        }*///todo change list adding to this format
+
         list.add(0,null);
-        i = addToList(A = new NodeArm( i, 1,5), list);
-        i = addToList(B = new NodeArm( i, 2,6),list);
-        i = addToList(C = new NodeArm( i, 3,8),list);
-        i = addToList(D = new NodeArm( i, 9,4),list);
-        i = addToList(E = new NodeArm( i, 11,8),list);
-        i = addToList(F = new NodeArm( i, 15,3),list);
-        i = addToList(S = new NodeArm( i, 12,12),list);
-        A.setNeighbors(new NodeArm[] {B, C, E, D, F});
-        B.setNeighbors(new NodeArm[] {A, D, E, C});
-        C.setNeighbors(new NodeArm[] {A, B, D, E});
-        D.setNeighbors(new NodeArm[] {A,B,C,E,S});
-        E.setNeighbors(new NodeArm[] {A,B,D,C});
-        F.setNeighbors(new NodeArm[] {A});
-        S.setNeighbors(new NodeArm[] {D});
-        currentNode = A;    }
+        i = addToList(CONE_HIGH = new NodeArm( i, 0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND), list);
+        i = addToList(CONE_MID = new NodeArm( i, 0.31, /*1.94*/ Math.toRadians(107)),list);
+        i = addToList(CUBE_HIGH = new NodeArm( i, 0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),list);
+        i = addToList(CUBE_MID = new NodeArm( i, 0.29, 1.85),list);
+        i = addToList(LOW = new NodeArm( i, 0.35, Math.toRadians(60)),list);
+        i = addToList(ZIG_HAIL = new NodeArm( i, 0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),list);
+        i = addToList(INTAKE_GRAB_CONE_POSITION = new NodeArm( i, 0.34, 0.123),list);
+        i = addToList(INTAKE_GRAB_CUBE_POSITION = new NodeArm(i,0.25, 0.123),list);
+        i = addToList(REST_ABOVE_BELLY = new NodeArm(i,-0.02,0.196),list);
+
+        CONE_HIGH.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, LOW, CUBE_MID, ZIG_HAIL});
+        CONE_MID.setNeighbors(new NodeArm[] {CONE_HIGH, CUBE_HIGH, LOW, CUBE_MID, ZIG_HAIL});
+        CUBE_HIGH.setNeighbors(new NodeArm[] {CONE_MID, CONE_HIGH, LOW, CUBE_MID, ZIG_HAIL});
+        CUBE_MID.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, LOW, CONE_HIGH, ZIG_HAIL});
+        LOW.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, CONE_HIGH, CUBE_MID, ZIG_HAIL});
+        ZIG_HAIL.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, LOW, CUBE_MID, CONE_HIGH,REST_ABOVE_BELLY});
+        INTAKE_GRAB_CONE_POSITION.setNeighbors(new NodeArm[] {REST_ABOVE_BELLY,INTAKE_GRAB_CUBE_POSITION});
+        INTAKE_GRAB_CUBE_POSITION.setNeighbors(new NodeArm[] {REST_ABOVE_BELLY,INTAKE_GRAB_CONE_POSITION});
+        REST_ABOVE_BELLY.setNeighbors(new NodeArm[] {ZIG_HAIL,INTAKE_GRAB_CONE_POSITION,INTAKE_GRAB_CUBE_POSITION});
+        currentNode = INTAKE_GRAB_CONE_POSITION;
+    }
 
     public NodeArm getCurrentNode() {
         return currentNode;

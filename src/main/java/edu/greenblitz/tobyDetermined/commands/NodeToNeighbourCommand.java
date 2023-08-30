@@ -6,13 +6,15 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.opencv.core.Mat;
 
 public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private double VELOCITY_TO_ANGLE_MOTOR = 3;
+    private double VELOCITY_TO_ANGLE_MOTOR = 1; //In Radians Per Second
+    private double MAX_VELOCITY = 6; //In Meters Per Second
 
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
@@ -37,8 +39,10 @@ public class NodeToNeighbourCommand extends GBCommand {
         double end = nodeEndIndex.getExtendPos();
         double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
         double ratio = getRatioBetweenAngleAndLength(start,end,gamma);
+        double extenderVelocity = velocityToAngle * extender.getLength()/ratio;
+        extenderVelocity = Math.max(MAX_VELOCITY,extenderVelocity);
         elbowSub.setAngSpeed(velocityToAngle, elbowSub.getAngleRadians(), extender.getLength());
-        extender.setLinSpeed(velocityToAngle/ratio, elbowSub.getAngleRadians());
+        extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
     }
 
     public boolean isInPlace(NodeArm target){

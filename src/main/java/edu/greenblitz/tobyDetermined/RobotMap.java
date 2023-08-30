@@ -250,7 +250,6 @@ public class RobotMap {
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663, 1.949);
 
-
             public double distance;
             public double angleInRadians;
 
