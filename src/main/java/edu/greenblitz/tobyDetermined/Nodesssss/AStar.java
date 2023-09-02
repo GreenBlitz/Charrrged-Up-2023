@@ -9,10 +9,10 @@ public class AStar {
     static LinkedList<NodeArm> closed = new LinkedList<>();
     static NodeBase nodeBase = NodeBase.getInstance();
 
-   public static double getDistanceFromCurrentNodeToEndOrStartNode(NodeArm point, NodeArm current){
+  public static double getDistanceFromCurrentNodeToEndOrStartNode(NodeArm point, NodeArm current){
        return Math.abs(nodeBase.getDistanceBetweenToPoints(point,current));
 
-   }
+  }
     public static double getDistanceToStartPlusEnd(NodeArm current, NodeArm start, NodeArm end){
        double gCost = getDistanceFromCurrentNodeToEndOrStartNode(start,current);
        double hCost = getDistanceFromCurrentNodeToEndOrStartNode(end,current);
@@ -38,7 +38,7 @@ public class AStar {
 
 
    public static boolean isInList(NodeArm nodeArm, LinkedList<NodeArm> list){
-       for (NodeArm arm : list) {
+      for (NodeArm arm : list) {
            if (nodeArm.getId() == arm.getId())
                return true;
        }
@@ -55,7 +55,8 @@ public class AStar {
        }
 
        for (int i = pathList.size() - 1; i >= 0; i--) {
-            getPath.add(pathList.get(i));
+           getPath.add(pathList.get(i));
+
        }
        printPath(pathList);
        return getPath;
@@ -64,26 +65,26 @@ public class AStar {
         String returningPath = "";
         for (int i = pathList.size() - 1; i >= 0; i--) {
             returningPath += pathList.get(i).getId()+", ";
+            System.out.print(pathList.get(i).getId()+", ");
         }
         returningPath+="\n";
         SmartDashboard.putString("Returning Path",returningPath);
+        System.out.println();
     }
     public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){
         open.add(start);
-
         while (!open.isEmpty()) {
             NodeArm current = getLowestFcost(open, start, end);
             open.remove(current);
             closed.add(current);
 
-            assert current != null;
             if (current.getId() == end.getId()) {
                 return returnPath(current);
             }
 
             for (NodeArm neighbor : current.getNeighbors()) {
-                if (isInList(neighbor, closed)) {
-                    if (isInList(neighbor, open)) {
+                if (!isInList(neighbor, closed)) {
+                    if (!isInList(neighbor, open)) {
                         open.add(neighbor);
                         neighbor.setParent(current);
                     }
@@ -93,6 +94,6 @@ public class AStar {
         return null;
     }
     public static void main(String[] args){
-       getPath(nodeBase.getNode(6), nodeBase.getNode(3));
+       getPath(nodeBase.getNode(7), nodeBase.getNode(1));
     }
 }
