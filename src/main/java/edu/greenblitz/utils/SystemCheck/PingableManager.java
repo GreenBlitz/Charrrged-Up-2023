@@ -25,5 +25,12 @@ public class PingableManager {
         return this.pingableList;
     }
 
+    public boolean isAllConnected (){
+        boolean isAllConnected = true;
+        for (IPingable pingable : getPingableList()){
+            isAllConnected &= pingable.isConnected();
+        }
+        return isAllConnected;
+    }
 
 }

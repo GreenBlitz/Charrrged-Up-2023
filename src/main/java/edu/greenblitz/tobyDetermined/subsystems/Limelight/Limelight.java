@@ -56,7 +56,7 @@ class Limelight implements IPingable {
 
     @Override
     public boolean isConnected() {
-        return this.hasTarget();
+        return idEntry.exists();
     }
 
     @Override
