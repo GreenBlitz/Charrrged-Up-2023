@@ -52,7 +52,7 @@ public class GBFalcon extends TalonFX implements IPingable{
 
 	@Override
 	public String deviceName() {
-		return "Falcon 500 - " + this.getDeviceID();
+		return "TalonFX - " + this.getDeviceID();
 	}
 
 

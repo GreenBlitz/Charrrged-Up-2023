@@ -62,7 +62,7 @@ public class GBSparkMax extends CANSparkMax implements IPingable {
 
 	@Override
 	public String deviceName() {
-		return "NEO - " + this.getDeviceId();
+		return "CANSparkMAX - " + this.getDeviceId();
 	}
 
 	/**

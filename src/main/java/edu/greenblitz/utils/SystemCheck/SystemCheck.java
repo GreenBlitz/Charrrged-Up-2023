@@ -141,15 +141,16 @@ public class SystemCheck extends GBSubsystem {
     }
 
     public void initPingableDashboard() {
-        ShuffleboardLayout pingableDataList = tab.getLayout("pingables", BuiltInLayouts.kList)
-                .withPosition(0, 6).withSize(1, PingableManager.getInstance().getPingableList().toArray().length)
-                .withProperties(Map.of("Label position", "TOP", "Number of columns", 1,
+        ShuffleboardLayout pingableDataList = tab.getLayout("pingable", BuiltInLayouts.kList)
+                .withPosition(6, 0).withSize(PingableManager.getInstance().getPingableList().toArray().length/4, PingableManager.getInstance().getPingableList().toArray().length + 1)
+                .withProperties(Map.of("Label position", "TOP",
+                        "Number of columns",  PingableManager.getInstance().getPingableList().toArray().length / 8 + 1,
                         "Number of rows", PingableManager.getInstance().getPingableList().toArray().length));
 
-        int cnt = 0;
+        int columns = 1;
         for (IPingable pingable : PingableManager.getInstance().getPingableList()) {
-            pingableDataList.addBoolean(pingable.deviceName(), () -> pingable.isConnected()).withPosition(0, cnt);
-            cnt++;
+            pingableDataList.addBoolean(pingable.deviceName(),() -> pingable.isConnected()).withPosition(columns / 4, columns);
+            columns++;
         }
 
 
