@@ -14,8 +14,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private double VELOCITY_TO_ANGLE_MOTOR = Units.degreesToRadians(30); //In Radians Per Second
-    private double MAX_VELOCITY = 3; //In Meters Per Second
+    private double VELOCITY_TO_ANGLE_MOTOR = Units.degreesToRadians(10);
+    private double MAX_VELOCITY = 0.2; //In Meters Per Second
 
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){

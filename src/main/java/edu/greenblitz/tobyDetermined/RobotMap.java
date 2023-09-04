@@ -23,7 +23,7 @@ public class RobotMap {
 
 
     public static class BreakCoastSwitch{
-        public static final int BREAK_COAST_SWITCH_DIO_PORT = 0;
+        public static final int BREAK_COAST_SWITCH_DIO_PORT =8;
 
     }
 
