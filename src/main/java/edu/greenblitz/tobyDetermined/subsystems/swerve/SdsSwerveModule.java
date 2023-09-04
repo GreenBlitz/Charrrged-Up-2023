@@ -76,9 +76,8 @@ public class SdsSwerveModule implements SwerveModule {
 		double diff = Math.IEEEremainder(angleInRads - getModuleAngle(), 2 * Math.PI);
 		diff -= diff > Math.PI ? 2 * Math.PI : 0;
 		angleInRads = getModuleAngle() + diff;
-		double maxGravityFF = 0.07;
 		double radians = diff;
-		angleMotor.set(ControlMode.MotionMagic, angleInRads, DemandType.ArbitraryFeedForward, maxGravityFF );
+		angleMotor.set(ControlMode.MotionMagic, angleInRads);
 		targetAngle = angleInRads;
 	}
 	
