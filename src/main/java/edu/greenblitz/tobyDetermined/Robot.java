@@ -1,8 +1,10 @@
 package edu.greenblitz.tobyDetermined;
 
+import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
+import edu.greenblitz.tobyDetermined.subsystems.MyShooter;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
@@ -10,9 +12,11 @@ import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -87,15 +91,30 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().enableVision();
 	}
-	
-	
+	ColorSensorV3 csv3 = new ColorSensorV3(I2C.Port.kOnboard);
+
+
 	@Override
 	public void teleopPeriodic() {
+
+
+		SmartDashboard.putNumber("greeen",csv3.getGreen());
+		SmartDashboard.putNumber("blue",csv3.getBlue());
+		SmartDashboard.putNumber("red",csv3.getRed());
+
+		if (csv3.getRed()>200){
+			MyShooter.getInstace().setLowerPower(0.5);
+		} else if(csv3.getBlue()>150){
+			MyShooter.getInstace().setLowerPower(-0.5);
+		}
+		if (csv3.getBlue()<150 && csv3.getRed()<200){
+			MyShooter.getInstace().setLowerPower(0);
+		}
 	}
 	
-	
 	/*
-		TODO: Dear @Orel & @Tal, please for the love of god, use the very useful function: schedule(), this will help the code to actually work
+		TODO: Dear @Orel & @Tal, please for the love of god, use the very useful
+		 function: schedule(), this will help the code to actually work
    */
 	@Override
 	public void autonomousInit() {
