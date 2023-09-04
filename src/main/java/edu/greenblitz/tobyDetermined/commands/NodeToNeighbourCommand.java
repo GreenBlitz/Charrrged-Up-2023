@@ -26,8 +26,8 @@ public class NodeToNeighbourCommand extends GBCommand {
         this.start = start;
         this.end = end;
     }
-    public static double cosineRule(double sideA, double sideB, double angleBetweenSideAAndSideB) {
-        return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAAndSideB));
+    public static double cosineRule(double sideA, double sideB, double angleBetweenSideAndSideB) {
+        return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAndSideB));
     }
     public static double getRatioBetweenAngleAndLength(double a, double b, double gamma) {
         double c = cosineRule(a,b,gamma);

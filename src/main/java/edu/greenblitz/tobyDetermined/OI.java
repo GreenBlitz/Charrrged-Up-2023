@@ -1,5 +1,8 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.commands.NodeFullPathCommand;
 import edu.greenblitz.tobyDetermined.commands.rotateToXRotations;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
@@ -66,7 +69,7 @@ public class OI { //GEVALD
 	
 	public void butt(){
 		System.out.println("Created OI");
-		mainJoystick.A.onTrue(new rotateToXRotations(100,0.01));
+		mainJoystick.A.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(6)));
 	}
 	
 	private void initButtons() {
