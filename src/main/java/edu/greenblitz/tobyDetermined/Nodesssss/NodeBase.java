@@ -93,10 +93,14 @@ public class NodeBase  {
     }
 
     public boolean getIfInNode(double angle , double length,  NodeArm index){
-        return Math.abs(index.getAnglePos() - TOLERANCE_ANGLE) <= angle
-                &&
-                Math.abs(index.getExtendPos() - TOLERANCE_LENGTH) <= length;
+        return putName(length, index) && putName1(angle, index);
+
     }
+    public boolean putName(double length, NodeArm index){
+        return Math.abs(index.getExtendPos() - TOLERANCE_LENGTH) <= length;
+    }
+    public boolean putName1(double angle, NodeArm index){
+        return Math.abs(index.getAnglePos() - TOLERANCE_ANGLE) <= angle;    }
     public double getDistanceBetweenToPoints(NodeArm a, NodeArm b ){
         return Math.sqrt(
                 Math.pow(a.getAnglePos()-b.getAnglePos(), 2)
