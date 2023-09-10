@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
@@ -56,8 +55,6 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
-
-
 	}
 	
 	@Override
@@ -100,20 +97,8 @@ public class Robot extends TimedRobot {
 		}
 	}
 	
-	static DigitalInput sw = new DigitalInput(0);
-	static ColorSensorV3 cs = new ColorSensorV3(I2C.Port.kOnboard);
-	
 	@Override
 	public void robotPeriodic() {
-		
-		SmartDashboard.putBoolean("is clicked", sw.get());
-		SmartDashboard.putNumber("red",cs.getRed());
-		SmartDashboard.putNumber("green",cs.getGreen());
-		SmartDashboard.putNumber("blue",cs.getBlue());
-		SmartDashboard.putString("color", cs.getColor().toString());
-		
-		
-		
 		CommandScheduler.getInstance().run();
 //		RoborioUtils.updateCurrentCycleTime();
 //		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
