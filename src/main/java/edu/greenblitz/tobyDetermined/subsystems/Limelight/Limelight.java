@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Optional;
 
 
-class Limelight {
+public class Limelight {
     private NetworkTableEntry robotPoseEntry, idEntry;
     private String name;
 
-    Limelight(String limelightName) {
+     Limelight(String limelightName) {
         this.name = limelightName;
         String robotPoseQuery = "botpose_wpiblue";
         robotPoseEntry = NetworkTableInstance.getDefault().getTable(name).getEntry(robotPoseQuery);

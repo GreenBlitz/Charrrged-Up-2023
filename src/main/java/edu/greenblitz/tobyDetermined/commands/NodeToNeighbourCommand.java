@@ -7,15 +7,15 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.opencv.core.Mat;
 
 public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private double VELOCITY_TO_ANGLE_MOTOR = Units.degreesToRadians(10);
-    private double MAX_VELOCITY = 0.2; //In Meters Per Second
+    private double TOTAL_VELOCITY = 0.2;
+    private double MAX_EXTENDER_VELOCITY = 0.2; //In Meters Per Second
+    private double MAX_ANGULAR_VELOCITY = Units.degreesToRadians(20);
 
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
@@ -35,16 +35,28 @@ public class NodeToNeighbourCommand extends GBCommand {
         return Math.tan(beta);
     }
 
-    public void moveArm(double velocityToAngle, NodeArm nodeEndIndex){// not tested
+    public void moveArm(double velocityToAngle, NodeArm nodeEndIndex){// untested
         double start = extender.getLength();
         double end = nodeEndIndex.getExtendPos();
         double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
         double ratio = getRatioBetweenAngleAndLength(start,end,gamma);
-        double extenderVelocity = velocityToAngle * extender.getLength()/ratio;
-        extenderVelocity = Math.min(MAX_VELOCITY,extenderVelocity);
-        extenderVelocity = Math.max(-MAX_VELOCITY,extenderVelocity);
-        elbowSub.setAngSpeed(velocityToAngle, elbowSub.getAngleRadians(), extender.getLength());
-        extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
+        double extenderVelocity = -1*Math.sqrt(velocityToAngle*velocityToAngle/(ratio*ratio+1));
+        double angularVelocity = ratio*extenderVelocity;
+        SmartDashboard.putNumber("Extender velocity", extenderVelocity);
+        extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
+        extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
+        angularVelocity = Math.min(MAX_ANGULAR_VELOCITY,angularVelocity);
+        angularVelocity = Math.max(-MAX_ANGULAR_VELOCITY,angularVelocity);
+        SmartDashboard.putBoolean("got to here", false);
+        if (!NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))
+            elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
+        else
+            elbowSub.setAngSpeed(0,elbowSub.getAngleRadians(),extender.getLength());
+        if (!NodeBase.getInstance().getIfInLength(extender.getLength(),nodeEndIndex)){
+            SmartDashboard.putBoolean("got to here", true);
+            extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());}
+        else
+            extender.setLinSpeed(0,elbowSub.getAngleRadians());
     }
 
     public boolean isInPlace(NodeArm target){
@@ -55,7 +67,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     @Override
     public void execute() {
         if(start.getNeighbors().contains(end)) {
-            moveArm(VELOCITY_TO_ANGLE_MOTOR, end);
+            moveArm(TOTAL_VELOCITY, end);
         }
     }
 
