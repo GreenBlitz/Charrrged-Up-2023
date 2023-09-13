@@ -18,6 +18,9 @@ public class ExtendToLength extends ExtenderCommand {
         wantedLength = length;
     }
 
+    public double getLengthGoal(){
+        return wantedLength;
+    }
 
     @Override
     public void initialize() {

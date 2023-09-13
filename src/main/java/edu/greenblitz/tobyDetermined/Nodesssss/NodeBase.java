@@ -96,7 +96,7 @@ public class NodeBase  {
         return Math.abs(index.getExtendPos() - length) <= TOLERANCE_LENGTH;
     }
     public boolean getIfInAngle(double angle, NodeArm index) {
-        return Math.abs(index.getAnglePos() - TOLERANCE_ANGLE) <= angle;
+        return Math.abs(index.getAnglePos() - angle) <= TOLERANCE_ANGLE;
 
     }
     public boolean getIfInNode(double angle , double length,  NodeArm index){
