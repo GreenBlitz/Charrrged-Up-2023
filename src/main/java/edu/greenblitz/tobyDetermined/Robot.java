@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
 public class Robot extends TimedRobot {
@@ -102,13 +103,34 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("blue",csv3.getBlue());
 		SmartDashboard.putNumber("red",csv3.getRed());
 
-		if (csv3.getRed()>200){
-			MyShooter.getInstace().setLowerPower(0.5);
-		} else if(csv3.getBlue()>150){
-			MyShooter.getInstace().setLowerPower(-0.5);
+//		if (csv3.getRed()>200){
+//			MyShooter.getInstace().setLowerPower(0.5);
+//		} else if(csv3.getBlue()>150){
+//			MyShooter.getInstace().setLowerPower(-0.5);
+//		}
+//		if (csv3.getBlue()<150 && csv3.getRed()<200){
+//			MyShooter.getInstace().setLowerPower(0);
+//		}
+//
+//		if(MyShooter.getInstace().getMiddlePower() > 0){
+//			MyShooter.getInstace().setUpperPower(0.3);
+//		}
+//		if(MyShooter.getInstace().getMiddlePower() == 0){
+//			MyShooter.getInstace().setUpperPower(0);
+//		}
+		if(csv3.getRed()>250){
+			MyShooter.getInstace().redIn = true;
 		}
-		if (csv3.getBlue()<150 && csv3.getRed()<200){
-			MyShooter.getInstace().setLowerPower(0);
+		if(csv3.getBlue()>150 && MyShooter.getInstace().redIn == false){
+			MyShooter.getInstace().activateShooterBlue();
+		}
+		if(csv3.getBlue()>150 && MyShooter.getInstace().redIn == true){
+			SmartDashboard.putString("lowerMotorVroom","f");
+		}
+		if(MyShooter.getInstace().redIn == true){
+			SmartDashboard.putString("redIn","true");
+		} else {
+			SmartDashboard.putString("redIn","false");
 		}
 	}
 	

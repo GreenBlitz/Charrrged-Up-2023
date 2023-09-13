@@ -52,10 +52,9 @@ public class OI { //GEVALD
 	private void initButtons() {
 
 		secondJoystick.B.whileTrue(new MoveAll());
-		secondJoystick.A.whileTrue(new Intake());
+		secondJoystick.A.whileTrue(new ShootRed());
 		secondJoystick.X.whileTrue(new moveFunnel());
 		secondJoystick.Y.whileTrue(new ShootBall());
-		secondJoystick.START.onTrue(new Reverse());
 
 
 
