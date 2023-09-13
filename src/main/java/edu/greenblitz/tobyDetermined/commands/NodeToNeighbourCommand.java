@@ -17,9 +17,9 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private double COMBINED_VELOCITY = 0.2;
+    private double COMBINED_VELOCITY = 0.1;
     private double MAX_EXTENDER_VELOCITY = 0.2; //In Meters Per Second
-    private double MAX_ANGULAR_VELOCITY = Units.degreesToRadians(20);
+    private double MAX_ANGULAR_VELOCITY = Units.degreesToRadians(10);
     private double[][] littlePoints;
     private ExtendToLength curCommand;
     private int miniIndex = 1;
