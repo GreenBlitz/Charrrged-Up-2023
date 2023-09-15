@@ -105,11 +105,12 @@ public class NodeToNeighbourCommand extends GBCommand {
         angularVelocity = Math.min(MAX_ANGULAR_VELOCITY,angularVelocity);
         angularVelocity = Math.max(-MAX_ANGULAR_VELOCITY,angularVelocity);
         SmartDashboard.putBoolean("got to here", false);
-        if (!NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))
+        if (!NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex)){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
+            SmartDashboard.putBoolean("got to here", true);
+        }
         else
             elbowSub.setAngSpeed(0,elbowSub.getAngleRadians(),extender.getLength());
-        SmartDashboard.putBoolean("got to here", true);
         extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
     }
 
