@@ -22,9 +22,9 @@ public class NodeBase  {
     private int i = 1;
     private final LinkedList<NodeArm> list = new LinkedList<>();
     private static NodeBase instance;
-    private final double TOLERANCE_ANGLE = Units.degreesToRadians(3);
+    private final double TOLERANCE_ANGLE = Units.degreesToRadians(10);
 
-    private final double TOLERANCE_LENGTH = 0.04;//In Meters
+    private final double TOLERANCE_LENGTH = 0.08;//In Meters
 
     public static NodeBase getInstance() {
         init();

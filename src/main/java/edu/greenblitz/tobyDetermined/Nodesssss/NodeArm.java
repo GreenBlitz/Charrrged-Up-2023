@@ -7,8 +7,8 @@ public class NodeArm {
     private NodeArm parent;
     private int id;
     private final LinkedList<NodeArm> neighbors;
-    private final double anglePos;//problem
-    private final double extendPos;//problem
+    private final double anglePos;
+    private final double extendPos;
     public NodeArm(int id, double extenderPos, double anglePos){
         this.id = id;
         this.extendPos = extenderPos;
