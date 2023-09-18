@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.commands.StopShooter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
@@ -13,13 +14,16 @@ public class MyShooter extends GBSubsystem {
 	private TalonSRX middleMotor;
 	private TalonSRX lowerMotor;
 	private static MyShooter instance;
-	private static final double speed = 0.4;
+	public final double speed = 1;
 	public boolean redIn;
+	public boolean BlueDetected;
+	public Timer timer;
 
 	private MyShooter() {
 		upperMotor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
 		middleMotor = new TalonSRX(5);
 		lowerMotor = new TalonSRX(6);
+		timer = new Timer();
 	}
 
 	public static MyShooter getInstace() {
@@ -43,17 +47,5 @@ public class MyShooter extends GBSubsystem {
 
 	public double getMiddlePower(){
 		return middleMotor.getMotorOutputPercent();
-	}
-
-	public void activateShooterBlue(){
-		MyShooter.getInstace().setMiddlePower(-0.5 * speed);
-		MyShooter.getInstace().setUpperPower(-0.5 * speed);
-		new WaitCommand(2).schedule();
-		new StopShooter().schedule();
-	}
-	public void activateShooterRed(){
-		MyShooter.getInstace().setMiddlePower(-0.5 * speed);
-		MyShooter.getInstace().setUpperPower(-0.5 * speed);
-		redIn = false;
 	}
 }

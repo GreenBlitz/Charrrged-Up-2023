@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.ColorSensorV3;
+import edu.greenblitz.tobyDetermined.commands.ShootBlue;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
@@ -121,13 +122,21 @@ public class Robot extends TimedRobot {
 		if(csv3.getRed()>250){
 			MyShooter.getInstace().redIn = true;
 		}
-		if(csv3.getBlue()>150 && MyShooter.getInstace().redIn == false){
-			MyShooter.getInstace().activateShooterBlue();
+		if (csv3.getBlue()>150){
+			MyShooter.getInstace().BlueDetected = true;
+		} else {
+			MyShooter.getInstace().BlueDetected = false;
 		}
-		if(csv3.getBlue()>150 && MyShooter.getInstace().redIn == true){
+
+		if(csv3.getBlue()>150 && !MyShooter.getInstace().redIn){
+			new ShootBlue().schedule();
+		}
+
+		if(csv3.getBlue()>150 && MyShooter.getInstace().redIn){
 			SmartDashboard.putString("lowerMotorVroom","f");
 		}
-		if(MyShooter.getInstace().redIn == true){
+
+		if(MyShooter.getInstace().redIn){
 			SmartDashboard.putString("redIn","true");
 		} else {
 			SmartDashboard.putString("redIn","false");
