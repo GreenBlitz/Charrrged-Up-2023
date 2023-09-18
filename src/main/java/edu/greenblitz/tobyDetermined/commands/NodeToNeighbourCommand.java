@@ -39,7 +39,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
     public static double getRatioBetweenAngleAndLength(double a, double b, double gamma) {
         double c = cosineRule(a,b,gamma);
-        double beta = Math.asin(b/c*Math.sin(gamma));
+        double beta = Math.asin( b/c*Math.sin(gamma));
         return Math.tan(beta);
     }
     public static double[][] createPoints(double x1, double y1, double x2, double y2) {
@@ -105,12 +105,12 @@ public class NodeToNeighbourCommand extends GBCommand {
         angularVelocity = Math.min(MAX_ANGULAR_VELOCITY,angularVelocity);
         angularVelocity = Math.max(-MAX_ANGULAR_VELOCITY,angularVelocity);
         SmartDashboard.putBoolean("got to here", false);
-        if (!NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex)){
+        if (!(NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
             SmartDashboard.putBoolean("got to here", true);
         }
         else
-            elbowSub.setAngSpeed(0,elbowSub.getAngleRadians(),extender.getLength());
+            elbowSub.stop();
         extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
     }
 
