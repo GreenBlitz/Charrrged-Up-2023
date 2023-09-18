@@ -39,7 +39,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
     public static double getRatioBetweenAngleAndLength(double a, double b, double gamma) {
         double c = cosineRule(a,b,gamma);
-        double beta = Math.asin( b/c*Math.sin(gamma));
+        double beta = Math.asin(a*Math.sin(gamma)/c);
         return Math.tan(beta);
     }
     public static double[][] createPoints(double x1, double y1, double x2, double y2) {
@@ -92,7 +92,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         double extenderVelocity = Math.sqrt(COMBINED_VELOCITY * COMBINED_VELOCITY /(ratio*ratio+1));
         return signOfExtender * extenderVelocity;
     }
-    public void moveArm( NodeArm nodeEndIndex){// untested
+    public void moveArm( NodeArm nodeEndIndex){
         double start = extender.getLength();
         double end = nodeEndIndex.getExtendPos();
         double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
