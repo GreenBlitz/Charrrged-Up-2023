@@ -74,8 +74,8 @@ public class OI { //GEVALD
 	
 	private void initButtons() {
 //		amireeeButtons();
-//		romyButtons();
-		butt();
+		romyButtons();
+//		butt();
 		
 	}
 

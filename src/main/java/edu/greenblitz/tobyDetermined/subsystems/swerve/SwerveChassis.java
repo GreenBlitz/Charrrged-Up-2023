@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.Limelight.Limelight;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
 import edu.greenblitz.utils.PigeonGyro;
@@ -64,7 +65,7 @@ public class SwerveChassis extends GBSubsystem {
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
 				getPigeonAngle(),
 				getSwerveModulePositions(),
-				new Pose2d(new Translation2d(),new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
+				new Pose2d(MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst().getTranslation(),MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst().getRotation()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		SmartDashboard.putData("field", getField());
