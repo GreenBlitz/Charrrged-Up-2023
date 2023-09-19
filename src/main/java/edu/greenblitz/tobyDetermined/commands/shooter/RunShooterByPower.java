@@ -1,6 +1,5 @@
 package edu.greenblitz.tobyDetermined.commands.shooter;
 
-import edu.greenblitz.tobyDetermined.subsystems.Shooter;
 import edu.greenblitz.utils.GBCommand;
 
 public class RunShooterByPower extends GBCommand {

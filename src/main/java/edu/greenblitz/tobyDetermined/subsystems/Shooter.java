@@ -1,32 +1,32 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.ColorSensorV3;
 
-public class Shooter extends GBSubsystem{
-
-
-    private CANSparkMax motor;
-
+public class Shooter extends GBSubsystem {
     private static Shooter instance;
+    private CANSparkMax motor;
+    private ColorSensorV3 cs;
+    private  boolean isBall;
 
-    public Shooter (){
-        motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private Shooter() {
+        this.motor = new CANSparkMax();
+        this.cs=new ColorSensorV3();
 
     }
     public static Shooter getInstance(){
-        if(instance == null){
-            instance = new Shooter();
+        if (instance==null){
+            instance=new Shooter();
         }
         return instance;
     }
-
-    public void setPower(double power){
-        motor.set(power);
+    public void SetPower(double speed){
+        motor.set(speed);
     }
-
-    public void stop(){
-        motor.set(0);
+    public boolean isBallEnemy (){
+        if (cs.getBlue()>110&&cs.getRed()>225){
+            return true;
+        }
     }
 
 }
