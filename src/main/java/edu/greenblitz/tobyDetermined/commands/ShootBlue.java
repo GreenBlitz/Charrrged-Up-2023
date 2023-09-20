@@ -20,7 +20,7 @@ public class ShootBlue extends GBCommand {
 
 	@Override
 	public boolean isFinished() {
-		if (MyShooter.getInstace().timer.advanceIfElapsed(2)){
+		if (MyShooter.getInstace().timer.advanceIfElapsed(1)){
 			return true;
 		}
 		return false;
