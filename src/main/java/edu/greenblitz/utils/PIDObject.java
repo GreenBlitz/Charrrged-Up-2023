@@ -5,13 +5,21 @@ import edu.wpi.first.math.controller.PIDController;
 
 public class PIDObject {
 
-    private double kp, kd, ki, ff;
+    private double kp;
+    private double kd;
+    private double ki;
+    private double ff;
+
+
+    private double ks;
+    private double kv;
     private double iZone;
     private double tolerance;
     private int inverted = 1;
 
 
     private double maxPower;
+    private double maxVoltage;
 
     public PIDObject() {
         this(0);
@@ -31,6 +39,17 @@ public class PIDObject {
         setInverted(inv);
     }
 
+
+    public PIDObject(double kp, double ki, double kd, double ks,double kv,double maxVoltage, int inv) {
+        this.kp = kp;
+        this.kd = kd;
+        this.ki = ki;
+        this.kv = kv;
+        this.ks = ks;
+        this.maxVoltage = maxVoltage;
+
+        setInverted(inv);
+    }
 
     public PIDObject(PIDObject other) {
         this.kp = other.kp;
@@ -150,6 +169,11 @@ public class PIDObject {
         return maxPower;
     }
 
+    public double maxVoltage() {
+        return maxVoltage;
+    }
+
+
     public void setMaxPower(double maxPower) {
         this.maxPower = maxPower;
     }
@@ -199,6 +223,14 @@ public class PIDObject {
 
     public PIDConstants getPIDConstants() {
         return new PIDConstants(this.kp, this.ki, this.kd);
+    }
+
+    public double getKs() {
+        return ks;
+    }
+
+    public double getKv() {
+        return kv;
     }
 
 

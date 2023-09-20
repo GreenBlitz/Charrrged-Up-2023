@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenixpro.controls.MotionMagicVoltage;
+import com.ctre.phoenixpro.controls.VelocityVoltage;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
@@ -15,8 +17,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import scala.Unit;
 
 public class SdsSwerveModule implements SwerveModule {
 	public double targetAngle;
@@ -31,7 +31,7 @@ public class SdsSwerveModule implements SwerveModule {
 		//SET ANGLE MOTO
 		angleMotor = new GBFalcon(angleMotorID);
 		angleMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
-
+		angleMotor.configMotionMagicConsts(RobotMap.Swerve.SdsSwerve.BASE_MOTION_MAGIC_CONFIGS);
 		linearMotor = new GBFalcon(linearMotorID);
 		linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj).withInverted(linInverted));
 
@@ -52,12 +52,12 @@ public class SdsSwerveModule implements SwerveModule {
 				);
 	}
 	
-	public static double convertRadsToTicks(double angInRads) {
-		return angInRads / RobotMap.Swerve.SdsSwerve.angleTicksToRadians;
+	public static double convertRadsToRotations(double angleInRadians) {
+		return angleInRadians / RobotMap.Swerve.SdsSwerve.angleRotationsToRadians;
 	}
 	
-	public static double convertTicksToRads(double angInTicks) {
-		return angInTicks * RobotMap.Swerve.SdsSwerve.angleTicksToRadians;
+	public static double convertRotationsToRads(double angleInRotatians) {
+		return angleInRotatians * RobotMap.Swerve.SdsSwerve.angleRotationsToRadians;
 	}
 
 	public static double convertMetersToTicks(double distanceInMeters) {
@@ -73,11 +73,16 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void rotateToAngle(double angleInRads) {
+
+		MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0);
+		motionMagicVoltage.Slot = 0;
+
 		double diff = Math.IEEEremainder(angleInRads - getModuleAngle(), 2 * Math.PI);
 		diff -= diff > Math.PI ? 2 * Math.PI : 0;
 		angleInRads = getModuleAngle() + diff;
 
-		angleMotor.set(ControlMode.Position, convertRadsToTicks(angleInRads));
+		double angleInRotations = Units.radiansToRotations(angleInRads);
+		angleMotor.setControl(motionMagicVoltage.withPosition(angleInRotations));
 		
 		targetAngle = angleInRads;
 	}
@@ -88,7 +93,7 @@ public class SdsSwerveModule implements SwerveModule {
 	@Override
 	//maybe not after gear ratio plz check ~ noam
 	public double getModuleAngle() {
-		return convertTicksToRads(angleMotor.getSelectedSensorPosition());
+		return convertRotationsToRads(angleMotor.getPosition().getValue());
 	}
 	
 	/**
@@ -96,12 +101,12 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public double getCurrentVelocity() {
-		return linearMotor.getSelectedSensorVelocity() * RobotMap.Swerve.SdsSwerve.linTicksToMetersPerSecond;
+		return linearMotor.getVelocity().getValue();
 	}
 
 	@Override
 	public double getCurrentMeters() {
-		return convertTicksToMeters(linearMotor.getSelectedSensorPosition());
+		return convertTicksToMeters(linearMotor.getPosition().getValue());
 	}
 
 	@Override
@@ -114,7 +119,7 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void resetEncoderToValue(double angleInRads) {
-		angleMotor.setSelectedSensorPosition(convertRadsToTicks(angleInRads));
+		angleMotor.setRotorPosition(convertRadsToRotations(angleInRads) / RobotMap.Swerve.SdsSwerve.ANG_GEAR_RATIO);
 	}
 	
 	/**
@@ -122,12 +127,12 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void resetEncoderToValue() {
-		angleMotor.setSelectedSensorPosition(0);
+		angleMotor.setRotorPosition(0);
 	}
 	
 	@Override
 	public void resetEncoderByAbsoluteEncoder(SwerveChassis.Module module) {
-		angleMotor.setSelectedSensorPosition(getAbsoluteEncoderValue() * RobotMap.Swerve.SdsSwerve.magEncoderTicksToFalconTicks);
+		angleMotor.setRotorPosition(getAbsoluteEncoderValue() * RobotMap.Swerve.SdsSwerve.magEncoderTicksToFalconTicks / RobotMap.Swerve.SdsSwerve.ANG_GEAR_RATIO);
 	}
 	
 	@Override
@@ -145,11 +150,14 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void setLinSpeed(double speed) {
-		linearMotor.set(
-				TalonFXControlMode.Velocity,
-				speed / RobotMap.Swerve.SdsSwerve.linTicksToMetersPerSecond,
-				DemandType.ArbitraryFeedForward,
-				feedforward.calculate(speed) / Battery.getInstance().getCurrentVoltage());
+
+		VelocityVoltage velocity = new VelocityVoltage(0);
+
+		linearMotor.setControl(velocity);
+		velocity.Slot = 0;
+
+		linearMotor.setControl(velocity.withVelocity(speed).withFeedForward(	feedforward.calculate(speed) / Battery.getInstance().getCurrentVoltage()));
+
 	}
 	
 	/**
@@ -157,8 +165,8 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void stop() {
-		linearMotor.set(ControlMode.PercentOutput, 0);
-		angleMotor.set(ControlMode.PercentOutput, 0);
+		linearMotor.set(0);
+		angleMotor.set(0);
 	}
 	
 	/**
@@ -225,32 +233,32 @@ public class SdsSwerveModule implements SwerveModule {
 	 */
 	@Override
 	public void setRotPowerOnlyForCalibrations(double power) {
-		angleMotor.set(ControlMode.PercentOutput, power);
+		angleMotor.set(power);
 	}
 	
 	@Override
 	public void setLinPowerOnlyForCalibrations(double power) {
-		linearMotor.set(ControlMode.PercentOutput, power);
+		linearMotor.set(power);
 	}
 
 	@Override
 	public void setLinIdleModeBrake() {
-		linearMotor.setNeutralMode(NeutralMode.Brake);
+//		linearMotor.setNeutralMode(NeutralMode.Brake);
 	}
 
 	@Override
 	public void setLinIdleModeCoast() {
-		linearMotor.setNeutralMode(NeutralMode.Coast);
+//		linearMotor.setNeutralMode(NeutralMode.Coast);
 	}
 
 	@Override
 	public void setRotIdleModeBrake() {
-		angleMotor.setNeutralMode(NeutralMode.Brake);
+//		angleMotor.setNeutralMode(NeutralMode.Brake);
 	}
 
 	@Override
 	public void setRotIdleModeCoast() {
-		angleMotor.setNeutralMode(NeutralMode.Coast);
+//		angleMotor.setNeutralMode(NeutralMode.Coast);
 	}
 
 	public static class SdsSwerveModuleConfigObject {

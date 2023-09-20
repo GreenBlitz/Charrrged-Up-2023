@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenixpro.configs.MotionMagicConfigs;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
@@ -37,7 +38,7 @@ public class RobotMap {
             public final static double SPARKMAX_TICKS_PER_RADIAN = Math.PI * 2;
             public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
             public static final double NEO_PHYSICAL_TICKS_TO_RADIANS = SPARKMAX_TICKS_PER_RADIAN / 42; //do not use unless you understand the meaning
-            public final static double FALCON_TICKS_PER_RADIAN = 2 * Math.PI / 2048.0;
+            public final static double FALCON_TICKS_PER_RADIAN = 2 * Math.PI;
 
             public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
         }
@@ -187,14 +188,22 @@ public class RobotMap {
             public static final double ka = 0.25968;
 
             public static final double WHEEL_CIRC = 0.0517 * 2 * Math.PI;
-            public static final double linTicksToMeters = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN * WHEEL_CIRC / 2 / Math.PI / LIN_GEAR_RATIO;
+            public static final double linTicksToMeters = WHEEL_CIRC/ LIN_GEAR_RATIO;
             public static final double angleTicksToWheelToRPM = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / ANG_GEAR_RATIO;
-            public static final double linTicksToMetersPerSecond = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / LIN_GEAR_RATIO * WHEEL_CIRC / 60;
-            public static final double angleTicksToRadians = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN / ANG_GEAR_RATIO;
-            public static final double magEncoderTicksToFalconTicks = 2 * Math.PI / angleTicksToRadians;
+            public static final double LIN_ROTATIONS_TO_METERS_PER_SECOND = RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM / LIN_GEAR_RATIO * WHEEL_CIRC / 60;
+            public static final double angleRotationsToRadians = RobotMap.General.Motors.FALCON_TICKS_PER_RADIAN / ANG_GEAR_RATIO;
+            public static final double magEncoderTicksToFalconTicks = 2 * Math.PI / angleRotationsToRadians;
 
             public static final PIDObject angPID = new PIDObject().withKp(0.05).withMaxPower(1.0).withFF(0);//.withKd(10).withMaxPower(0.8);
             public static final GBFalcon.FalconConfObject baseAngConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withInverted(true).withPID(angPID);
+
+            public static final MotionMagicConfigs BASE_MOTION_MAGIC_CONFIGS = new MotionMagicConfigs();
+            static {
+                BASE_MOTION_MAGIC_CONFIGS.MotionMagicAcceleration = 0.5;
+                BASE_MOTION_MAGIC_CONFIGS.MotionMagicCruiseVelocity = 4;
+                BASE_MOTION_MAGIC_CONFIGS.MotionMagicJerk = 3;
+
+            }
 
             public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
             public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withPID(linPID);
