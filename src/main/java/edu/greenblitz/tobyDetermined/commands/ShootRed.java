@@ -7,14 +7,14 @@ public class ShootRed extends GBCommand {
 
 	@Override
 	public void execute() {
-		MyShooter.getInstace().setMiddlePower(-0.2 * MyShooter.getInstace().speed);
-		MyShooter.getInstace().setUpperPower(-0.2 * MyShooter.getInstace().speed);
-		MyShooter.getInstace().redIn = false;
+		MyShooter.getInstance().setMiddlePower(-0.2 * MyShooter.getInstance().speed);
+		MyShooter.getInstance().setUpperPower(-0.2 * MyShooter.getInstance().speed);
+		MyShooter.getInstance().redIn = false;
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		MyShooter.getInstace().setMiddlePower(0);
-		MyShooter.getInstace().setUpperPower(0);
+		MyShooter.getInstance().setMiddlePower(0);
+		MyShooter.getInstance().setUpperPower(0);
 	}
 }

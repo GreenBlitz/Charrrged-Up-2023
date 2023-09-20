@@ -7,11 +7,11 @@ public class moveFunnel extends GBCommand {
 
 	@Override
 	public void execute() {
-		MyShooter.getInstace().setMiddlePower(0.3);
+		MyShooter.getInstance().setMiddlePower(0.3);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		MyShooter.getInstace().setMiddlePower(0);
+		MyShooter.getInstance().setMiddlePower(0);
 	}
 }

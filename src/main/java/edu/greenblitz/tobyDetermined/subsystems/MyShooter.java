@@ -4,9 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.greenblitz.tobyDetermined.commands.StopShooter;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
 public class MyShooter extends GBSubsystem {
@@ -26,7 +24,7 @@ public class MyShooter extends GBSubsystem {
 		timer = new Timer();
 	}
 
-	public static MyShooter getInstace() {
+	public static MyShooter getInstance() {
 		if (instance == null) {
 			instance = new MyShooter();
 		}

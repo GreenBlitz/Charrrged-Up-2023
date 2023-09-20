@@ -7,11 +7,11 @@ public class Intake extends GBCommand {
 
 	@Override
 	public void execute() {
-		MyShooter.getInstace().setLowerPower(0.3);
+		MyShooter.getInstance().setLowerPower(0.3);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		MyShooter.getInstace().setLowerPower(0);
+		MyShooter.getInstance().setLowerPower(0);
 	}
 }

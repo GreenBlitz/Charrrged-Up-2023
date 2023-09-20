@@ -17,9 +17,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
 public class Robot extends TimedRobot {
@@ -120,23 +118,23 @@ public class Robot extends TimedRobot {
 //			MyShooter.getInstace().setUpperPower(0);
 //		}
 		if(csv3.getRed()>250){
-			MyShooter.getInstace().redIn = true;
+			MyShooter.getInstance().redIn = true;
 		}
 		if (csv3.getBlue()>150){
-			MyShooter.getInstace().BlueDetected = true;
+			MyShooter.getInstance().BlueDetected = true;
 		} else {
-			MyShooter.getInstace().BlueDetected = false;
+			MyShooter.getInstance().BlueDetected = false;
 		}
 
-		if(csv3.getBlue()>150 && !MyShooter.getInstace().redIn){
+		if(csv3.getBlue()>150 && !MyShooter.getInstance().redIn){
 			new ShootBlue().schedule();
 		}
 
-		if(csv3.getBlue()>150 && MyShooter.getInstace().redIn){
+		if(csv3.getBlue()>150 && MyShooter.getInstance().redIn){
 			SmartDashboard.putString("lowerMotorVroom","f");
 		}
 
-		if(MyShooter.getInstace().redIn){
+		if(MyShooter.getInstance().redIn){
 			SmartDashboard.putString("redIn","true");
 		} else {
 			SmartDashboard.putString("redIn","false");

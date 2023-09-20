@@ -7,11 +7,11 @@ public class ShootBall extends GBCommand {
 
 	@Override
 	public void execute() {
-		MyShooter.getInstace().setUpperPower(0.3);
+		MyShooter.getInstance().setUpperPower(0.3);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		MyShooter.getInstace().setUpperPower(0);
+		MyShooter.getInstance().setUpperPower(0);
 	}
 }
