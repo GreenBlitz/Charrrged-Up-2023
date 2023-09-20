@@ -28,9 +28,9 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
 //        }
 //        return new SequentialCommandGroup(nodeCommands);
         NodeArm zigHail = NodeBase.getInstance().getNode(6);
-        NodeArm rest = NodeBase.getInstance().getNode(9);
-        NodeArm cone = NodeBase.getInstance().getNode(7);
-        return new SequentialCommandGroup(new NodeToNeighbourCommand(cone,rest));
+        NodeArm Low = NodeBase.getInstance().getNode(5);
+        NodeArm CubeHigh = NodeBase.getInstance().getNode(6);
+        return new SequentialCommandGroup(new NodeToNeighbourCommand(Low,CubeHigh));
     }
 
 }
