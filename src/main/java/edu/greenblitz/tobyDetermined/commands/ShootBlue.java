@@ -5,7 +5,7 @@ import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ShootBlue extends GBCommand {
-
+// This is done
 
 	public ShootBlue(){
 		require(MyShooter.getInstace());
@@ -20,7 +20,8 @@ public class ShootBlue extends GBCommand {
 
 	@Override
 	public boolean isFinished() {
-		if (MyShooter.getInstace().timer.advanceIfElapsed(1)){
+		//Need for the code to get to end, don't forget!
+		if (MyShooter.getInstace().timer.advanceIfElapsed(0.5)){
 			return true;
 		}
 		return false;
