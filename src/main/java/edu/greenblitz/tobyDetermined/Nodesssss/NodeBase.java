@@ -90,6 +90,8 @@ public class NodeBase  {
     }
 
     public NodeArm getCurrentNode() {
+        if (currentNode == null)
+            currentNode = INTAKE_GRAB_CONE_POSITION;
         return currentNode;
     }
     public void setCurrentNode(NodeArm nodeArm){

@@ -19,19 +19,14 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
         SmartDashboard.putNumber("passIsFinished",0);
     }
     public Command get() {
-//        start = NodeBase.getInstance().getCurrentNode();
-//        LinkedList<NodeArm> path = AStar.getPath(start,end);
-//        assert path != null;
-//        nodeCommands = new NodeToNeighbourCommand[path.size()-1];
-//        for(int i = 0; i<path.size()-1; i++) {
-//            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
-//        }
-//        return new SequentialCommandGroup(nodeCommands);
-        NodeArm startingNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.INTAKE_GRAB_CONE_POSITION);
-        NodeArm secondNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.REST_ABOVE_BELLY);
-        NodeArm thirdNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL);
-        NodeArm lastNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH);
-        return new SequentialCommandGroup(new NodeToNeighbourCommand(startingNode,secondNode),new NodeToNeighbourCommand(secondNode,thirdNode),new NodeToNeighbourCommand(thirdNode,lastNode));
-    }
+        start = NodeBase.getInstance().getCurrentNode();
+        LinkedList<NodeArm> path = AStar.getPath(start,end);
+        assert path != null;
+        nodeCommands = new NodeToNeighbourCommand[path.size()-1];
+        for(int i = 0; i<path.size()-1; i++) {
+            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
+        }
+        return new SequentialCommandGroup(nodeCommands);
+        }
 
 }

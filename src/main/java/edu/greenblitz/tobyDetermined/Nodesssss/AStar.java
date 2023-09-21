@@ -68,7 +68,7 @@ public class AStar {
             System.out.print(pathList.get(i).getId()+", ");
         }
         returningPath+="\n";
-        SmartDashboard.putString("Returning Path",returningPath);
+//        SmartDashboard.putString("Returning Path",returningPath);
         System.out.println();
     }
     public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){
@@ -94,5 +94,6 @@ public class AStar {
         return null;
     }
     public static void main(String[] args){
+      getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.INTAKE_GRAB_CONE_POSITION),NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL) );
     }
 }
