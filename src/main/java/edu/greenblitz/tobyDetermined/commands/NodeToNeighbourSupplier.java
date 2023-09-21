@@ -31,8 +31,7 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
         NodeArm secondNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.REST_ABOVE_BELLY);
         NodeArm thirdNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL);
         NodeArm lastNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH);
-        return new SequentialCommandGroup(new NodeToNeighbourCommand(startingNode,secondNode));
-                //,new NodeToNeighbourCommand(secondNode,thirdNode),new NodeToNeighbourCommand(thirdNode,lastNode));
+        return new SequentialCommandGroup(new NodeToNeighbourCommand(startingNode,secondNode),new NodeToNeighbourCommand(secondNode,thirdNode),new NodeToNeighbourCommand(thirdNode,lastNode));
     }
 
 }
