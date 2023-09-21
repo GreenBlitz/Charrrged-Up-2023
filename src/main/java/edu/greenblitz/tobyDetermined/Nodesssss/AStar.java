@@ -94,6 +94,5 @@ public class AStar {
         return null;
     }
     public static void main(String[] args){
-       getPath(nodeBase.getNode(7), nodeBase.getNode(1));
     }
 }

@@ -92,13 +92,18 @@ public class NodeToNeighbourCommand extends GBCommand {
         double extenderVelocity = Math.sqrt(COMBINED_VELOCITY * COMBINED_VELOCITY /(ratio*ratio+1));
         return signOfExtender * extenderVelocity;
     }
+    public double calculateAngularVelocity(double startVelocity,NodeArm nodeEndIndex){
+        double signOfAngle = Math.signum(nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians());
+        double magnitudeOfVelocity = startVelocity/extender.getLength();
+        return signOfAngle*Math.abs(magnitudeOfVelocity);
+    }
     public void moveArm( NodeArm nodeEndIndex){
         double start = extender.getLength();
         double end = nodeEndIndex.getExtendPos();
         double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
         double ratio = getRatioBetweenAngleAndLength(start,end,gamma);
         double extenderVelocity = calculateExtenderVelocity(ratio,nodeEndIndex);
-        double angularVelocity = 20*ratio*extenderVelocity*Math.signum(nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians());
+        double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
         SmartDashboard.putNumber("ExtenderVelocity",extenderVelocity);
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);

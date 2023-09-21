@@ -1,8 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.util.Units;
-import org.w3c.dom.Node;
 
 import java.util.LinkedList;
 
@@ -74,6 +72,17 @@ public class NodeBase  {
         REST_ABOVE_BELLY.setNeighbors(new NodeArm[] {ZIG_HAIL,INTAKE_GRAB_CONE_POSITION,INTAKE_GRAB_CUBE_POSITION});
         currentNode = INTAKE_GRAB_CONE_POSITION;
     }
+    public enum SpecificNode {
+        ECONE_HIGH,
+        ECONE_MID,
+        ECUBE_HIGH,
+        ECUBE_MID,
+        ELOW,
+        EZIG_HAIL,
+        EINTAKE_GRAB_CONE_POSITION,
+        EINTAKE_GRAB_CUBE_POSITION,
+        EREST_ABOVE_BELLY
+    }
 
     public NodeArm getCurrentNode() {
         return currentNode;
@@ -82,12 +91,26 @@ public class NodeBase  {
         currentNode = nodeArm;
     }
 
-    public NodeArm getNode(int id) {
-        for (int j = 1; j < list.size(); j++) {
-            NodeArm node = list.get(j);
-            if (id == node.getId()) {
-                return node;
-            }
+    public NodeArm getNode(SpecificNode specNode) {
+        switch (specNode) {
+            case ECONE_HIGH:
+                return CONE_HIGH;
+            case ECONE_MID:
+                return CONE_MID;
+            case ECUBE_HIGH:
+                return CUBE_HIGH;
+            case ECUBE_MID:
+                return CUBE_MID;
+            case ELOW:
+                return LOW;
+            case EZIG_HAIL:
+                return ZIG_HAIL;
+            case EINTAKE_GRAB_CONE_POSITION:
+                return INTAKE_GRAB_CONE_POSITION;
+            case EINTAKE_GRAB_CUBE_POSITION:
+                return INTAKE_GRAB_CUBE_POSITION;
+            case EREST_ABOVE_BELLY:
+                return REST_ABOVE_BELLY;
         }
         return null;
     }
