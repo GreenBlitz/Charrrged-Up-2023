@@ -27,9 +27,12 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
 //            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
 //        }
 //        return new SequentialCommandGroup(nodeCommands);
-        NodeArm Low = NodeBase.getInstance().getNode(NodeBase.SpecificNode.ELOW);
-        NodeArm CubeHigh = NodeBase.getInstance().getNode(NodeBase.SpecificNode.EZIG_HAIL);
-        return new SequentialCommandGroup(new NodeToNeighbourCommand(Low,CubeHigh));
+        NodeArm startingNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.INTAKE_GRAB_CONE_POSITION);
+        NodeArm secondNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.REST_ABOVE_BELLY);
+        NodeArm thirdNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL);
+        NodeArm lastNode = NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH);
+        return new SequentialCommandGroup(new NodeToNeighbourCommand(startingNode,secondNode));
+                //,new NodeToNeighbourCommand(secondNode,thirdNode),new NodeToNeighbourCommand(thirdNode,lastNode));
     }
 
 }

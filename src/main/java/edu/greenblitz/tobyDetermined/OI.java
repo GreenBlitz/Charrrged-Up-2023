@@ -69,7 +69,7 @@ public class OI { //GEVALD
 	
 	public void butt(){
 		System.out.println("Created OI");
-		mainJoystick.A.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.EZIG_HAIL)));
+		mainJoystick.A.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL)));
 	}
 	
 	private void initButtons() {

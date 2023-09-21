@@ -22,7 +22,7 @@ public class NodeBase  {
     private static NodeBase instance;
     private final double TOLERANCE_ANGLE = Units.degreesToRadians(10);
 
-    private final double TOLERANCE_LENGTH = 0.08;//In Meters
+    private final double TOLERANCE_LENGTH = 0.04;//In Meters
 
     public static NodeBase getInstance() {
         init();
@@ -73,15 +73,20 @@ public class NodeBase  {
         currentNode = INTAKE_GRAB_CONE_POSITION;
     }
     public enum SpecificNode {
-        ECONE_HIGH,
-        ECONE_MID,
-        ECUBE_HIGH,
-        ECUBE_MID,
-        ELOW,
-        EZIG_HAIL,
-        EINTAKE_GRAB_CONE_POSITION,
-        EINTAKE_GRAB_CUBE_POSITION,
-        EREST_ABOVE_BELLY
+
+        CONE_HIGH(new NodeArm( 1, 0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND)),
+        CONE_MID(new NodeArm( 2, 0.31, /*1.94*/ Math.toRadians(107))),
+        CUBE_HIGH(new NodeArm( 3, 0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND)),
+        CUBE_MID(new NodeArm(4, 0.29, 1.85)),
+        LOW(new NodeArm( 5, 0.35, Math.toRadians(60))),
+        ZIG_HAIL(new NodeArm( 6, 0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND)),
+        INTAKE_GRAB_CONE_POSITION(new NodeArm( 7, 0.34, 0.123)),
+        INTAKE_GRAB_CUBE_POSITION(new NodeArm(8,0.25, 0.123)),
+        REST_ABOVE_BELLY(new NodeArm(9,-0.02,0.196));
+        private NodeArm node;
+        SpecificNode(NodeArm node){
+            this.node = node;
+        }
     }
 
     public NodeArm getCurrentNode() {
@@ -93,23 +98,23 @@ public class NodeBase  {
 
     public NodeArm getNode(SpecificNode specNode) {
         switch (specNode) {
-            case ECONE_HIGH:
+            case CONE_HIGH:
                 return CONE_HIGH;
-            case ECONE_MID:
+            case CONE_MID:
                 return CONE_MID;
-            case ECUBE_HIGH:
+            case CUBE_HIGH:
                 return CUBE_HIGH;
-            case ECUBE_MID:
+            case CUBE_MID:
                 return CUBE_MID;
-            case ELOW:
+            case LOW:
                 return LOW;
-            case EZIG_HAIL:
+            case ZIG_HAIL:
                 return ZIG_HAIL;
-            case EINTAKE_GRAB_CONE_POSITION:
+            case INTAKE_GRAB_CONE_POSITION:
                 return INTAKE_GRAB_CONE_POSITION;
-            case EINTAKE_GRAB_CUBE_POSITION:
+            case INTAKE_GRAB_CUBE_POSITION:
                 return INTAKE_GRAB_CUBE_POSITION;
-            case EREST_ABOVE_BELLY:
+            case REST_ABOVE_BELLY:
                 return REST_ABOVE_BELLY;
         }
         return null;

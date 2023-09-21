@@ -294,6 +294,7 @@ public class RobotMap {
                     .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
                     .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                    .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(40);
         }

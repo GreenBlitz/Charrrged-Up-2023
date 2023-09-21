@@ -14,9 +14,9 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private double COMBINED_VELOCITY = 0.2;
+    private double COMBINED_VELOCITY = 0.3;
     private double MAX_EXTENDER_VELOCITY = 0.2; //In Meters Per Second
-    private double MAX_ANGULAR_VELOCITY = Units.degreesToRadians(200);
+    private double MAX_ANGULAR_VELOCITY = 0.2;//
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
         extender = Extender.getInstance();
@@ -33,8 +33,9 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
     public static double getRatioBetweenAngleAndLength(double a, double b, double gamma) {
         double c = cosineRule(a,b,gamma);
-        double beta = Math.asin(a*Math.sin(gamma)/c);
-        return Math.tan(beta);
+        double height = a*Math.sin(gamma);
+        double adjacent = Math.sqrt(c*c - height*height);
+        return height/adjacent;
     }
 
     public double calculateExtenderVelocity(double ratio, NodeArm nodeEndIndex) {
@@ -43,6 +44,8 @@ public class NodeToNeighbourCommand extends GBCommand {
         return signOfExtender * extenderVelocity;
     }
     public double calculateAngularVelocity(double startVelocity,NodeArm nodeEndIndex){
+        startVelocity = Math.min(MAX_ANGULAR_VELOCITY,startVelocity);
+        startVelocity = Math.max(-MAX_ANGULAR_VELOCITY,startVelocity);
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians());
         double magnitudeOfVelocity = startVelocity/extender.getLength();
         return signOfAngle*Math.abs(magnitudeOfVelocity);
@@ -54,18 +57,11 @@ public class NodeToNeighbourCommand extends GBCommand {
         double ratio = getRatioBetweenAngleAndLength(start,end,gamma);
         double extenderVelocity = calculateExtenderVelocity(ratio,nodeEndIndex);
         double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
-        SmartDashboard.putNumber("ExtenderVelocity",extenderVelocity);
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
-        angularVelocity = Math.min(MAX_ANGULAR_VELOCITY,angularVelocity);
-        angularVelocity = Math.max(-MAX_ANGULAR_VELOCITY,angularVelocity);
-
-        SmartDashboard.putNumber("angularVelocity",angularVelocity);
         SmartDashboard.putNumber("ratioVelocity",ratio);
-        SmartDashboard.putBoolean("got to here", false);
         if (!(NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
-            SmartDashboard.putBoolean("got to here", true);
         }
         else
             elbowSub.stop();
@@ -95,7 +91,12 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public boolean isFinished() {
-        return isInPlace(end);
+        SmartDashboard.putBoolean("isInTarget",false);
+        if (isInPlace(end)) {
+            SmartDashboard.putBoolean("isInTarget", true);
+            return true;
+        }
+        return false;
     }
 
     @Override
