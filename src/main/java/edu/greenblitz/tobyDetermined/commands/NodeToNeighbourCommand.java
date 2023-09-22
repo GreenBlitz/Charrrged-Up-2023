@@ -33,7 +33,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
     public static double getRatioBetweenAngleAndLength(double a, double b, double gamma) {
         if (b == 0)
-            b+=0.02;//weird edge case where 0 * big number = 0 so messes up whole calculation
+            b+=0.02;//weird edge case where 0 * big number = 0 so messes up whole calculations
         double c = cosineRule(a,b,gamma);
         double height = b*Math.sin(gamma);
         double adjacent = Math.sqrt(c*c - height*height);
