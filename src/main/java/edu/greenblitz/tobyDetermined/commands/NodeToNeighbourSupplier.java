@@ -20,13 +20,18 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
     }
     public Command get() {
         start = NodeBase.getInstance().getCurrentNode();
+        SmartDashboard.putNumber("starting node",start.getId());
+        SmartDashboard.putNumber("end node",end.getId());
         LinkedList<NodeArm> path = AStar.getPath(start,end);
         assert path != null;
+        if (path == null)
+            return null;
         nodeCommands = new NodeToNeighbourCommand[path.size()-1];
         for(int i = 0; i<path.size()-1; i++) {
             nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
         }
         return new SequentialCommandGroup(nodeCommands);
+//        return new NodeToNeighbourCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW),NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH) );
         }
 
 }

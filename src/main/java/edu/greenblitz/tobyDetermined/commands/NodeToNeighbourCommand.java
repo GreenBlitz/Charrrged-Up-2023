@@ -14,9 +14,9 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private double COMBINED_VELOCITY = 0.5;
-    private double MAX_EXTENDER_VELOCITY = 0.3; //In Meters Per Second
-    private double MAX_ANGULAR_VELOCITY = 0.3;//In Meters Per Second
+    private static final double COMBINED_VELOCITY = 0.5;
+    private static final double MAX_EXTENDER_VELOCITY = 0.5; //In Meters Per Second
+    private static final double MAX_ANGULAR_VELOCITY = 0.6;//In Meters Per Second
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
         extender = Extender.getInstance();
@@ -32,9 +32,13 @@ public class NodeToNeighbourCommand extends GBCommand {
         return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAndSideB));
     }
     public static double getRatioBetweenAngleAndLength(double a, double b, double gamma) {
+        if (b == 0)
+            b+=0.02;//weird edge case where 0 * big number = 0 so messes up whole calculation
         double c = cosineRule(a,b,gamma);
-        double height = a*Math.sin(gamma);
+        double height = b*Math.sin(gamma);
         double adjacent = Math.sqrt(c*c - height*height);
+        SmartDashboard.putNumber("height Ratio",height);
+        SmartDashboard.putNumber("adjacent Ratio",adjacent);
         return height/adjacent;
     }
 
@@ -59,6 +63,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
+        SmartDashboard.putNumber("extender velocity",extenderVelocity);
         SmartDashboard.putNumber("ratioVelocity",ratio);
         if (!(NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());

@@ -72,6 +72,7 @@ public class OI { //GEVALD
 		mainJoystick.A.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL)));
 		mainJoystick.X.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW)));
 		mainJoystick.Y.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH)));
+		mainJoystick.B.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.POST_CONE_DROP)));
 	}
 	
 	private void initButtons() {

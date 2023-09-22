@@ -2,12 +2,12 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class AStar {
-    static LinkedList<NodeArm> open = new LinkedList<>();
-    static LinkedList<NodeArm> closed = new LinkedList<>();
-    static NodeBase nodeBase = NodeBase.getInstance();
+    private static final NodeBase nodeBase = NodeBase.getInstance();
 
   public static double getDistanceFromCurrentNodeToEndOrStartNode(NodeArm point, NodeArm current){
        return Math.abs(nodeBase.getDistanceBetweenToPoints(point,current));
@@ -45,13 +45,14 @@ public class AStar {
        return false;
     }
 
-    public static LinkedList<NodeArm> returnPath(NodeArm nodeArm){
+    public static LinkedList<NodeArm> returnPath(NodeArm nodeArm,Map<NodeArm, NodeArm> parents){
        LinkedList<NodeArm> pathList = new LinkedList<>();
        LinkedList<NodeArm> getPath = new LinkedList<>();
        NodeArm current = nodeArm;
        while (current != null) {
             pathList.add(current);
-            current = current.getParent();
+            //current = current.getParent();
+            current = parents.get(current);
        }
 
        for (int i = pathList.size() - 1; i >= 0; i--) {
@@ -72,21 +73,26 @@ public class AStar {
         System.out.println();
     }
     public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){
+        LinkedList<NodeArm> open = new LinkedList<NodeArm>();
+        LinkedList<NodeArm> closed = new LinkedList<NodeArm>();
+        Map<NodeArm, NodeArm> parents = new HashMap<>();
         open.add(start);
+
         while (!open.isEmpty()) {
             NodeArm current = getLowestFcost(open, start, end);
             open.remove(current);
             closed.add(current);
 
             if (current.getId() == end.getId()) {
-                return returnPath(current);
+                return returnPath(current,parents);
             }
 
             for (NodeArm neighbor : current.getNeighbors()) {
                 if (!isInList(neighbor, closed)) {
                     if (!isInList(neighbor, open)) {
                         open.add(neighbor);
-                        neighbor.setParent(current);
+                      //  neighbor.setParent(current);
+                        parents.put(neighbor,current );
                     }
                 }
             }
@@ -94,6 +100,9 @@ public class AStar {
         return null;
     }
     public static void main(String[] args){
-      getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.INTAKE_GRAB_CONE_POSITION),NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL) );
+        getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL),NodeBase.getInstance().getNode(NodeBase.SpecificNode.POST_CONE_DROP) );
+      getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.REST_ABOVE_BELLY),NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL) );
+
     }
+
 }

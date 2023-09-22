@@ -333,7 +333,7 @@ public class RobotMap {
             public static final double MAX_ACCELERATION = 10;
             public static final double MAX_VELOCITY = 4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(0.1).withKd(0.2).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(0.3).withKd(0.2).withMaxPower(1);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
