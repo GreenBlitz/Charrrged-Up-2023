@@ -65,18 +65,15 @@ public class BreakCoastSwitch extends GBSubsystem {
             lastState = !lastState;
             switchPressCount += lastState ? 1 : 0;
         }
-        SmartDashboard.putNumber("cnt",switchPressCount);
 
-
-        if (this.switchPressCount % 2 == 1) {
-            SmartDashboard.putBoolean("is", true);
-            setBreak();
-        } else if (this.switchPressCount % 2 == 0) {
-            SmartDashboard.putBoolean("is", false);
-            setCoast();
+        if(isDisabled){
+            if (this.switchPressCount % 2 == 1) {
+                setBreak();
+            } else if (this.switchPressCount % 2 == 0) {
+                setCoast();
+            }
         }
 
-        SmartDashboard.putNumber("press count", switchPressCount);
     }
 
     public boolean getSwitchState() {
@@ -86,7 +83,8 @@ public class BreakCoastSwitch extends GBSubsystem {
     public void setIsDisabled (boolean isDisabled){
         this.isDisabled = isDisabled;
         if(isDisabled){
-            switchPressCount++;
+            switchPressCount = 1;
+            setBreak();
         }
     }
 
