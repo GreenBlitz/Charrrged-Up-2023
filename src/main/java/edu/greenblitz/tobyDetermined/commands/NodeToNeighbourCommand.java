@@ -77,15 +77,6 @@ public class NodeToNeighbourCommand extends GBCommand {
         return NodeBase.getInstance().getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
     }
 
-
-    @Override
-    public void initialize() {
-//        moveLittlePoints(end);
-//        curCommand = new ExtendToLength(littlePoints[0][0]);
-//        elbowSub.moveTowardsAngleRadians(littlePoints[1][0]);
-
-    }
-
     @Override
     public void execute() {
         if(start.getNeighbors().contains(end)) {

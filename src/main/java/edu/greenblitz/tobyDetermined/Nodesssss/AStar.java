@@ -51,7 +51,6 @@ public class AStar {
        NodeArm current = nodeArm;
        while (current != null) {
             pathList.add(current);
-            //current = current.getParent();
             current = parents.get(current);
        }
 
@@ -63,13 +62,9 @@ public class AStar {
        return getPath;
     }
     public static void printPath(LinkedList<NodeArm> pathList){
-        String returningPath = "";
         for (int i = pathList.size() - 1; i >= 0; i--) {
-            returningPath += pathList.get(i).getId()+", ";
             System.out.print(pathList.get(i).getId()+", ");
         }
-        returningPath+="\n";
-//        SmartDashboard.putString("Returning Path",returningPath);
         System.out.println();
     }
     public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){
@@ -91,7 +86,6 @@ public class AStar {
                 if (!isInList(neighbor, closed)) {
                     if (!isInList(neighbor, open)) {
                         open.add(neighbor);
-                      //  neighbor.setParent(current);
                         parents.put(neighbor,current );
                     }
                 }

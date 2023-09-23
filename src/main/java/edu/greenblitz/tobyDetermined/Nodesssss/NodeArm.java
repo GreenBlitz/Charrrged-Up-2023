@@ -4,28 +4,15 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
-    private NodeArm parent;
     private int id;
     private final LinkedList<NodeArm> neighbors;
     private final double anglePos;
     private final double extendPos;
-    public NodeArm(NodeArm copy) {
-        this.id = copy.getId();
-        this.extendPos = copy.getExtendPos();
-        this.anglePos = copy.getAnglePos();
-        this.neighbors= copy.getNeighbors();
-    }
     public NodeArm(int id, double extenderPos, double anglePos){
         this.id = id;
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
         neighbors = new LinkedList<NodeArm>();
-    }
-    public NodeArm getParent(){
-        return parent;
-    }
-    public void setParent(NodeArm parent) {
-        this.parent = parent;
     }
     public double getExtendPos() {
         return extendPos;
