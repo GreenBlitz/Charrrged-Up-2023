@@ -22,7 +22,7 @@ public class NodeBase  {
     private int i = 1;
     private final LinkedList<NodeArm> list = new LinkedList<>();
     private static NodeBase instance;
-    private final double TOLERANCE_ANGLE = Units.degreesToRadians(10);
+    private final double TOLERANCE_ANGLE = Units.degreesToRadians(3);
 
     private final double TOLERANCE_LENGTH = 0.04;//In Meters
 
@@ -80,24 +80,18 @@ public class NodeBase  {
     }
     public enum SpecificNode {
 
-        CONE_HIGH(new NodeArm( 1, 0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND)),
-        CONE_MID(new NodeArm( 2, 0.31, /*1.94*/ Math.toRadians(107))),
-        CUBE_HIGH(new NodeArm( 3, 0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND)),
-        CUBE_MID(new NodeArm(4, 0.29, 1.85)),
-        LOW(new NodeArm( 5, 0.35, Math.toRadians(60))),
-        ZIG_HAIL(new NodeArm( 6, 0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND)),
-        INTAKE_GRAB_CONE_POSITION(new NodeArm( 7, 0.34, 0.123)),
-        INTAKE_GRAB_CUBE_POSITION(new NodeArm(8,0.25, 0.123)),
-        REST_ABOVE_BELLY(new NodeArm(9,-0.02,0.196)),
-        PRE_CONE_DROP(new NodeArm(10,0.089,0.667)),
-        POST_CONE_DROP(new NodeArm(11,0.089,0.1));
+        CONE_HIGH,
+        CONE_MID,
+        CUBE_HIGH,
+        CUBE_MID,
+        LOW,
+        ZIG_HAIL,
+        INTAKE_GRAB_CONE_POSITION,
+        INTAKE_GRAB_CUBE_POSITION,
+        REST_ABOVE_BELLY,
+        PRE_CONE_DROP,
+        POST_CONE_DROP
 
-        private NodeArm node;
-        SpecificNode() {
-        }
-        SpecificNode(NodeArm node){
-            this.node = node;
-        }
     }
 
     public NodeArm getCurrentNode() {

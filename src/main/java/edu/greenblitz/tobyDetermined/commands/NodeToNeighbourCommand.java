@@ -16,7 +16,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     private NodeArm end;
     private static final double COMBINED_VELOCITY = 2;
     private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
-    private static final double MAX_ANGULAR_VELOCITY = 0.6;//In Meters Per Second
+    private static final double MAX_ANGULAR_VELOCITY = 2;//In Radians Per Second
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
         extender = Extender.getInstance();
@@ -46,10 +46,11 @@ public class NodeToNeighbourCommand extends GBCommand {
         return signOfExtender * extenderVelocity;
     }
     public double calculateAngularVelocity(double startVelocity,NodeArm nodeEndIndex){
-        startVelocity = Math.min(MAX_ANGULAR_VELOCITY,startVelocity);
-        startVelocity = Math.max(-MAX_ANGULAR_VELOCITY,startVelocity);
+
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians());
         double magnitudeOfVelocity = startVelocity/extender.getLength();
+        magnitudeOfVelocity = Math.min(MAX_ANGULAR_VELOCITY,magnitudeOfVelocity);
+        magnitudeOfVelocity = Math.max(-MAX_ANGULAR_VELOCITY,magnitudeOfVelocity);
         return signOfAngle*Math.abs(magnitudeOfVelocity);
     }
     public void moveArm( NodeArm nodeEndIndex){
