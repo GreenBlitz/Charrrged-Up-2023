@@ -326,7 +326,7 @@ public class RobotMap {
             public static final int RESET_MEDIAN_SIZE = 7;
             public static final double GEAR_RATIO = 1;
 
-            public static final double kS = 0.5;
+            public static final double kS = 0.133000000000002;
             public static final double MIN_Kg = 0.155;
             public static final double MAX_Kg = 0.62;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
