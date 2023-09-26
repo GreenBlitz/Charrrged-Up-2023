@@ -93,10 +93,4 @@ public class AStar {
         }
         return null;
     }
-    public static void main(String[] args){
-        getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL),NodeBase.getInstance().getNode(NodeBase.SpecificNode.POST_CONE_DROP) );
-      getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.REST_ABOVE_BELLY),NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL) );
-
-    }
-
 }

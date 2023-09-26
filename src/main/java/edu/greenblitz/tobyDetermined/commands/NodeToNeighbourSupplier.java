@@ -23,14 +23,14 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
         SmartDashboard.putNumber("starting node",start.getId());
         SmartDashboard.putNumber("end node",end.getId());
         LinkedList<NodeArm> path = AStar.getPath(start,end);
-        assert path != null;
-        if (path == null)
-            return null;
+        assert path != null;//can delete
+        if (path == null)//can delete
+            return null;//can delete
         nodeCommands = new NodeToNeighbourCommand[path.size()-1];
         for(int i = 0; i<path.size()-1; i++) {
             nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
         }
         return new SequentialCommandGroup(nodeCommands);
-        }
+    }
 
 }

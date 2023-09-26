@@ -10,6 +10,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NodeToNeighbourCommand extends GBCommand {
+    private NodeBase nodeBase;
     private final Extender extender;
     private final Elbow elbowSub;
     private NodeArm start;
@@ -21,6 +22,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
+        nodeBase = NodeBase.getInstance();
         //require(elbowSub);
         //require(extender);
         this.start = start;
@@ -95,6 +97,6 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-
+        nodeBase.setCurrentNode(end);
     }
 }
