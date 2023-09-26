@@ -14,8 +14,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbowSub;
     private NodeArm start;
     private NodeArm end;
-    private static final double COMBINED_VELOCITY = 0.5;
-    private static final double MAX_EXTENDER_VELOCITY = 0.5; //In Meters Per Second
+    private static final double COMBINED_VELOCITY = 2;
+    private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 0.6;//In Meters Per Second
 
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
@@ -37,8 +37,6 @@ public class NodeToNeighbourCommand extends GBCommand {
         double c = cosineRule(a,b,gamma);
         double height = b*Math.sin(gamma);
         double adjacent = Math.sqrt(c*c - height*height);
-        SmartDashboard.putNumber("height Ratio",height);
-        SmartDashboard.putNumber("adjacent Ratio",adjacent);
         return height/adjacent;
     }
 
@@ -63,14 +61,13 @@ public class NodeToNeighbourCommand extends GBCommand {
         double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
-        SmartDashboard.putNumber("extender velocity",extenderVelocity);
-        SmartDashboard.putNumber("ratioVelocity",ratio);
         if (!(NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
         }
         else
             elbowSub.stop();
         extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
+        SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
     }
 
     public boolean isInPlace(NodeArm target){
@@ -97,6 +94,6 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        SmartDashboard.putNumber("passIsFinished",SmartDashboard.getNumber("passIsFinished",0)+1);
+
     }
 }

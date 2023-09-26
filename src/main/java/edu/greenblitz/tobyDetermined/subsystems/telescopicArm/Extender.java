@@ -238,7 +238,7 @@ public class Extender extends GBSubsystem {
 
 	public void setLinSpeed(double speed, double angle) {
 		motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getStaticFeedForward(angle));
-
+		SmartDashboard.putNumber("extender output", motor.getAppliedOutput());
 	}
 
 	public PIDObject getPID(){

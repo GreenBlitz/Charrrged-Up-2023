@@ -270,7 +270,7 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final PIDObject PID = new PIDObject().withKp(0.781125).withKd(0).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(0.9).withKd(0).withMaxPower(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
@@ -282,7 +282,7 @@ public class RobotMap {
             public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
-            public static final double kS = 0.45;
+            public static final double kS = 0.3;
             public static final double kG = 0.67 - kS;
 
             public static final double MAX_ACCELERATION = 3.5; //4.2
@@ -325,7 +325,7 @@ public class RobotMap {
             public static final int RESET_MEDIAN_SIZE = 7;
             public static final double GEAR_RATIO = 1;
 
-            public static final double kS = 0.133000000000002*1.5;
+            public static final double kS = 0.133000000000002;
             public static final double MIN_Kg = 0.155;
             public static final double MAX_Kg = 0.62;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
