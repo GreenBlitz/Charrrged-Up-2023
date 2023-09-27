@@ -1,9 +1,9 @@
-package edu.greenblitz.utils;
+package edu.greenblitz.utils.Gyros;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-public class PigeonGyro extends PigeonIMU {
+public class PigeonGyro extends PigeonIMU implements IGyro {
 	
 	double yawOffset = 0.0;
 	double pitchOffset = 0.0;
@@ -21,23 +21,20 @@ public class PigeonGyro extends PigeonIMU {
 	
 	
 	@Override
-	public ErrorCode setYaw(double yaw) {
+	public void setYawAngle(double yaw) {
 		yawOffset += (yaw + getYaw());
-		return ErrorCode.valueOf(0);
 	}
-	
-	public void setYawOffset(double offset) {
-		yawOffset += offset;
+
+	@Override
+	public void setPitchAngle(double pitch) {
+		pitchOffset += (pitch + getYaw());
 	}
-	
-	public void setPitchOffset(double offset) {
-		pitchOffset += offset;
+
+	@Override
+	public void setRollAngle(double roll) {
+		rollOffset += (roll + getRoll());
 	}
-	
-	public void setRollOffset(double offset) {
-		rollOffset += offset;
-	}
-	
+
 	@Override
 	public double getYaw() {
 		return Math.IEEEremainder((Math.toRadians(super.getYaw()) - yawOffset), 2 * Math.PI);

@@ -106,6 +106,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 
 		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
+
+		SmartDashboard.putNumber("yaw", SwerveChassis.getInstance().getNavX().getYaw());
+		SmartDashboard.putNumber("pitch", SwerveChassis.getInstance().getNavX().getPitch());
+		SmartDashboard.putNumber("roll", SwerveChassis.getInstance().getNavX().getRoll());
+
 	}
 	
 	

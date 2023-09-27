@@ -5,7 +5,9 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
-import edu.greenblitz.utils.PigeonGyro;
+import edu.greenblitz.utils.Gyros.IGyro;
+import edu.greenblitz.utils.Gyros.NavX;
+import edu.greenblitz.utils.Gyros.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
@@ -32,7 +34,8 @@ public class SwerveChassis extends GBSubsystem {
 	
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
-	private final PigeonGyro pigeonGyro;
+	private final IGyro pigeonGyro;
+	private final IGyro navX;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
@@ -55,14 +58,14 @@ public class SwerveChassis extends GBSubsystem {
 		Ultrasonic.setAutomaticMode(true);
 		doVision = true;
 		
-		
+		this.navX = new NavX();
 		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
-				getPigeonAngle(),
+				getGyroAngle(),
 				getSwerveModulePositions(),
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY),
@@ -92,7 +95,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void resetAll(Pose2d pose) {
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), pose);
 	}
 	
 	/**
@@ -163,15 +166,15 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void resetChassisPose() {
-		pigeonGyro.setYaw(0);
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
+		pigeonGyro.setYawAngle(0);
+		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), new Pose2d());
 	}
 	
 	/**
 	 * returns chassis angle in radians
 	 */
-	private Rotation2d getPigeonAngle() {
-		return new Rotation2d(pigeonGyro.getYaw());
+	private Rotation2d getGyroAngle() {
+		return new Rotation2d(navX.getYaw());
 	}
 	
 	public double getChassisAngle() {
@@ -242,8 +245,11 @@ public class SwerveChassis extends GBSubsystem {
 		return this.kinematics;
 	}
 	
-	public PigeonGyro getPigeonGyro() {
+	public IGyro getPigeonGyro() {
 		return pigeonGyro;
+	}
+	public IGyro getNavX() {
+		return navX;
 	}
 	
 	/**
@@ -272,12 +278,12 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void updatePoseEstimationPhotonVision() {
-		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 		Photonvision.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 	}
 	
 	public void updatePoseEstimationLimeLight() {
-		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 		if (doVision) {
 			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 				target.ifPresent(this::addVisionMeasurement);
@@ -344,7 +350,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void resetChassisPose(Pose2d pose) {
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), pose);
 	}
 	
 	public void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
