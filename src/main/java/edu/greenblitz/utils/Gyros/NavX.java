@@ -19,7 +19,7 @@ public class NavX implements IGyro{
 
 	@Override
 	public double getYaw() {
-		return Math.IEEEremainder((Math.toRadians(gyro.getYaw()) - yawOffset), 2 * Math.PI);
+		return -Math.IEEEremainder((Math.toRadians(gyro.getYaw()) - yawOffset), 2 * Math.PI);
 	}
 
 	@Override

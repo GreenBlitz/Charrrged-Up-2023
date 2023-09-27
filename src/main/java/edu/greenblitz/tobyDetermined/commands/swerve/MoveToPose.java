@@ -25,7 +25,7 @@ public class MoveToPose extends SwerveCommand {
 	public static final double ROT_KI = 0;
 	public static final double ROT_KD = 0;
 
-	public static final double TRANSLATION_KP = 2;
+	public static final double TRANSLATION_KP = 0.5;
 	public static final double TRANSLATION_KI = 0;
 	public static final double TRANSLATION_KD = 0;
 

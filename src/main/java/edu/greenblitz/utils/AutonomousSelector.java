@@ -14,11 +14,11 @@ public class AutonomousSelector {
 	private AutonomousSelector(){
 		//         m_chooser.addOption(auto name, path name );
 		chooser.addOption("Bjust_place", AutonomousPaths.BOTTOM_JUST_PLACE);
-		chooser.addOption("Bplace_exit", AutonomousPaths.BOTTOM_PLACE_EXIT);
+		chooser.addOption("ConePlaceAndExit", AutonomousPaths.BOTTOM_PLACE_EXIT);
 		chooser.addOption("B13_ramp", AutonomousPaths.BOTTOM_PICK_RAMP);
 		chooser.addOption("B13_a_23", AutonomousPaths.BOTTOM_TWO_OBJ);
-		chooser.addOption("Mjust_place", AutonomousPaths.MIDDLE_JUST_PLACE);
-		chooser.addOption("Mjust_ramp", AutonomousPaths.MIDDLE_JUST_RAMP);
+		chooser.addOption("just_place", AutonomousPaths.MIDDLE_JUST_PLACE);
+		chooser.addOption("just_ramp", AutonomousPaths.MIDDLE_JUST_RAMP);
 		chooser.addOption("M_ramp", AutonomousPaths.MIDDLE_PLACE_RAMP);
 		chooser.addOption("M_out_ramp", AutonomousPaths.MIDDLE_OUT_RAMP);
 		chooser.addOption("Tjust_place", AutonomousPaths.TOP_JUST_PLACE);

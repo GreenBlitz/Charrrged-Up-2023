@@ -15,6 +15,7 @@ import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToPose;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DropCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
@@ -60,6 +61,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 		eventMap.put("GrabCube", new InstantCommand(ObjectSelector::selectCube).andThen(new GripFromBelly()));
 		eventMap.put("DelayedGrabCube", new InstantCommand(ObjectSelector::selectCube).andThen(new WaitCommand(1.5)).andThen(new GripFromBelly()));
 		eventMap.put("Wait15", new WaitCommand(15));
+		eventMap.put("LEAVE_CUBE",new ReleaseObject());
 
 	}
 

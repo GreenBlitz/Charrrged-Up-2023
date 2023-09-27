@@ -50,7 +50,10 @@ public class SwerveChassis extends GBSubsystem {
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
-	
+
+	public double limelightX;
+	public double limelightY;
+
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
 		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
@@ -168,7 +171,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void resetChassisPose() {
-		pigeonGyro.setYawAngle(0);
+		navX.setYawAngle(0);
 		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), new Pose2d());
 	}
 	
@@ -183,6 +186,7 @@ public class SwerveChassis extends GBSubsystem {
 		return getRobotPose().getRotation().getRadians();
 		
 	}
+
 	
 	/**
 	 * setting module states to all 4 modules
@@ -287,17 +291,13 @@ public class SwerveChassis extends GBSubsystem {
 	public void updatePoseEstimationLimeLight() {
 		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 
-		ShuffleboardTab tab = Shuffleboard.getTab("Drivers");
-		Pose2d noVisionPose = poseEstimator.getEstimatedPosition();
-		tab.addDouble("No Vision Pose X", () -> noVisionPose.getX());
-		tab.addDouble("No Vision Pose Y", () -> noVisionPose.getY());
-
 		if (doVision) {
 			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 				target.ifPresent(this::addVisionMeasurement);
 			}
 		}
 	}
+
 	
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
