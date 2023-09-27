@@ -96,7 +96,8 @@ public class Dashboard extends GBSubsystem {
 		robotPoseWidget.addDouble("X", () -> SwerveChassis.getInstance().getRobotPose().getX());
 		robotPoseWidget.addDouble("Y", () -> SwerveChassis.getInstance().getRobotPose().getY());
 		robotPoseWidget.addDouble("Rotation", () -> SwerveChassis.getInstance().getRobotPose().getRotation().getDegrees());
-
+		driversTab.addDouble("limelight X",() -> MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst().getX());
+		driversTab.addDouble("limelight Y",() -> MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst().getY());
 		//battery
 		driversTab.addDouble("Battery", () -> Battery.getInstance().getCurrentVoltage())
 				.withPosition(9, 3);

@@ -24,6 +24,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
@@ -284,6 +286,12 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public void updatePoseEstimationLimeLight() {
 		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
+
+		ShuffleboardTab tab = Shuffleboard.getTab("Drivers");
+		Pose2d noVisionPose = poseEstimator.getEstimatedPosition();
+		tab.addDouble("No Vision Pose X", () -> noVisionPose.getX());
+		tab.addDouble("No Vision Pose Y", () -> noVisionPose.getY());
+
 		if (doVision) {
 			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 				target.ifPresent(this::addVisionMeasurement);
