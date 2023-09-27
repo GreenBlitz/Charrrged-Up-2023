@@ -14,6 +14,9 @@ public class Field {
     /**
      * gets pose, returns it fitted to the other alliance ("mirrored") and rotated by 180 degrees.
      * */
+
+    public static final boolean IS_AT_HADREAM_MIRRORD = true;
+
     public static Pose2d mirrorPositionToOtherSide(Pose2d pose){
         Pose2d mirroredPose = new Pose2d(
                 pose.getX(),
@@ -21,6 +24,14 @@ public class Field {
                 pose.getRotation());
         return mirroredPose;
     }
+    public static Pose2d mirrorToHadarimPosition(Pose2d pose){
+        Pose2d mirroredPose = new Pose2d(
+                pose.getX() - FieldConstants.fieldLength,
+                pose.getY(),
+                pose.getRotation());
+        return mirroredPose;
+    }
+
 
     /**
      * gets pose[], returns it fitted to the other alliance ("mirrored") and rotated by 180 degrees.
@@ -33,6 +44,13 @@ public class Field {
         return mirroredPoses;
     }
 
+    public static Pose2d[] mirrorPositionsToHadarim(Pose2d[] poses){
+        Pose2d[] mirroredPoses = new Pose2d[poses.length];
+        for (int i = 0; i< poses.length; i++ ) {
+            mirroredPoses[i] = mirrorToHadarimPosition(poses[i]);
+        }
+        return mirroredPoses;
+    }
 
     public static class Apriltags{
         public static int selectedTagId = 1;
@@ -70,10 +88,16 @@ public class Field {
         };
 
         public static Pose2d[] getLocationsOnBlueSide(){
+            if(IS_AT_HADREAM_MIRRORD){
+                return mirrorPositionsToHadarim(locationsOnBlueSide);
+            }
             return locationsOnBlueSide;
         }
 
         public static Pose2d[] getLocationsOnRedSide(){
+            if(IS_AT_HADREAM_MIRRORD){
+                return mirrorPositionsToHadarim(mirrorPositionsToOtherSide(locationsOnBlueSide));
+            }
             return mirrorPositionsToOtherSide(locationsOnBlueSide);
         }
 
