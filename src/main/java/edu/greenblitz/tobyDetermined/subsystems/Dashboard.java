@@ -112,6 +112,8 @@ public class Dashboard extends GBSubsystem {
 
 		driversTab.add("limelight NT", MultiLimelight.getInstance().isConnected());
 
+		driversTab.add("two apriltags",SwerveChassis.getInstance().twoApriltagsPresent);
+
 
 
 
@@ -177,13 +179,13 @@ public class Dashboard extends GBSubsystem {
 	}
 
 	public void pigeonDashboard(){
-		ShuffleboardTab pigeonTab = Shuffleboard.getTab("pigeon debug");
-		ShuffleboardLayout pigeonWidget = pigeonTab.getLayout("pigeon angles", BuiltInLayouts.kGrid)
-				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
-
-		pigeonWidget.addDouble("pitch (irl roll)", () -> SwerveChassis.getInstance().getPigeonGyro().getPitch());
-		pigeonWidget.addDouble("roll (irl pitch)", () -> Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
-		pigeonWidget.addDouble("pitch roll add ", () -> PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getPitch(),SwerveChassis.getInstance().getPigeonGyro().getRoll()));
+//		ShuffleboardTab pigeonTab = Shuffleboard.getTab("pigeon debug");
+//		ShuffleboardLayout pigeonWidget = pigeonTab.getLayout("pigeon angles", BuiltInLayouts.kGrid)
+//				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+//
+//		pigeonWidget.addDouble("pitch (irl roll)", () -> SwerveChassis.getInstance().getPigeonGyro().getPitch());
+//		pigeonWidget.addDouble("roll (irl pitch)", () -> Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
+//		pigeonWidget.addDouble("pitch roll add ", () -> PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getPitch(),SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 	}
 
 	public PIDObject getElbowPID() {

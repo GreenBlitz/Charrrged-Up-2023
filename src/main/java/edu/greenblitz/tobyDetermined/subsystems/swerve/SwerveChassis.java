@@ -53,6 +53,7 @@ public class SwerveChassis extends GBSubsystem {
 
 	public double limelightX;
 	public double limelightY;
+	public boolean twoApriltagsPresent;
 
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
@@ -292,7 +293,8 @@ public class SwerveChassis extends GBSubsystem {
 		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 
 		if (doVision) {
-			if (MultiLimelight.getInstance().getAllEstimates().size() >= 2) {
+			if (MultiLimelight.getInstance().getAllEstimates().size() >= 1) {
+				twoApriltagsPresent = true;
 				for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 					target.ifPresent(this::addVisionMeasurement);
 				}

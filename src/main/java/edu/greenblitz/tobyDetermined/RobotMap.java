@@ -97,7 +97,7 @@ public class RobotMap {
 
             public static final double ROBOT_LENGTH_IN_METERS = 0.69;
             public static final double ROBOT_WIDTH_IN_METERS = 0.79;
-            public static final double BUMPER_WIDTH = 0.08;
+            public static final double BUMPER_WIDTH = 0.13;
 
             public static final double CAPPED_MAX_VELOCITY = 2;
             public static final double CAPPED_MAX_ACCELERATION = 1.75;
@@ -243,7 +243,7 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_CONE_POSITION(0.34, 0.123),
+            INTAKE_GRAB_CONE_POSITION(0.34, 0.07),
             INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
             PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
 
