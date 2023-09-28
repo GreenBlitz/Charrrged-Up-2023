@@ -63,13 +63,13 @@ public class NodeBase  {
         i = addToList(INTAKE_GRAB_CUBE_POSITION = new NodeArm(i,0.25, 0.123),list);
         i = addToList(REST_ABOVE_BELLY = new NodeArm(i,-0.02,0.196),list);
         i = addToList(PRE_CONE_DROP = new NodeArm(i,0.089,0.667),list);
-        i = addToList(POST_CONE_DROP = new NodeArm(i,0.089,0.1),list);
+        i = addToList(POST_CONE_DROP = new NodeArm(i,0.080,0.1),list);
 
-        CONE_HIGH.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, LOW, CUBE_MID, ZIG_HAIL,PRE_CONE_DROP});
-        CONE_MID.setNeighbors(new NodeArm[] {CONE_HIGH, CUBE_HIGH, LOW, CUBE_MID, ZIG_HAIL,PRE_CONE_DROP});
-        CUBE_HIGH.setNeighbors(new NodeArm[] {CONE_MID, CONE_HIGH, LOW, CUBE_MID, ZIG_HAIL,PRE_CONE_DROP});
-        CUBE_MID.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, LOW, CONE_HIGH, ZIG_HAIL,PRE_CONE_DROP});
-        LOW.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, CONE_HIGH, CUBE_MID, ZIG_HAIL,PRE_CONE_DROP});
+        CONE_HIGH.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, CUBE_MID, ZIG_HAIL,PRE_CONE_DROP});
+        CONE_MID.setNeighbors(new NodeArm[] {CONE_HIGH, CUBE_HIGH,  CUBE_MID, ZIG_HAIL,PRE_CONE_DROP});
+        CUBE_HIGH.setNeighbors(new NodeArm[] {CONE_MID, CONE_HIGH,  CUBE_MID, ZIG_HAIL,PRE_CONE_DROP});
+        CUBE_MID.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH,  CONE_HIGH, ZIG_HAIL,PRE_CONE_DROP});
+        LOW.setNeighbors(new NodeArm[] {ZIG_HAIL});
         ZIG_HAIL.setNeighbors(new NodeArm[] {CONE_MID, CUBE_HIGH, LOW, CUBE_MID, CONE_HIGH,REST_ABOVE_BELLY,PRE_CONE_DROP});
         INTAKE_GRAB_CONE_POSITION.setNeighbors(new NodeArm[] {REST_ABOVE_BELLY,INTAKE_GRAB_CUBE_POSITION});
         INTAKE_GRAB_CUBE_POSITION.setNeighbors(new NodeArm[] {REST_ABOVE_BELLY,INTAKE_GRAB_CONE_POSITION});

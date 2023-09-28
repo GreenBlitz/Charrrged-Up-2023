@@ -93,4 +93,8 @@ public class AStar {
         }
         return null;
     }
+
+    public static void main(String[] args) {
+        printPath(getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW),NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH) ));
+    }
 }

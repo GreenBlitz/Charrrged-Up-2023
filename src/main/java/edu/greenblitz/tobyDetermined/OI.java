@@ -16,6 +16,7 @@ import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullB
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.SetElbowVoltage;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.setArmVoltage;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
@@ -71,7 +72,8 @@ public class OI { //GEVALD
 		mainJoystick.A.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.REST_ABOVE_BELLY)));
 		mainJoystick.X.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL)));
 		mainJoystick.Y.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH)));
-		mainJoystick.B.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.POST_CONE_DROP)));
+		mainJoystick.B.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW)));
+
 	}
 	
 	private void initButtons() {

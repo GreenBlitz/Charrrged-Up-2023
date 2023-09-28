@@ -194,9 +194,12 @@ public class Elbow extends GBSubsystem {
     }
 
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
-        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
+        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg + kS) * extenderLength)
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
 
+    }
+    public static double getDynamicFeedForward(double extenderLength,double elbowAngle) {
+        return getStaticFeedForward(extenderLength, elbowAngle) + kV / Battery.getInstance().getCurrentVoltage();
     }
 
     public double getDebugLastFF(){
@@ -236,6 +239,10 @@ public class Elbow extends GBSubsystem {
         }
     }
 
+    public double getVoltage (){
+        return motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage();
+    }
+
     public void setMotorVoltage (double voltage){
         motor.setVoltage(voltage);
     }
@@ -244,7 +251,7 @@ public class Elbow extends GBSubsystem {
         return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
     }
     public void setAngSpeed(double speed, double angle, double length) {
-        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getStaticFeedForward(length ,angle));
+        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getDynamicFeedForward(length ,angle));
     }
     public double getGoalAngle() {
         return goalAngle;

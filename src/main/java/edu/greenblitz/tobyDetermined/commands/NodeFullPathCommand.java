@@ -9,14 +9,17 @@ import edu.wpi.first.wpilibj2.command.ProxyCommand;
 public class NodeFullPathCommand extends ProxyCommand {
     private final Extender extender;
     private final Elbow elbowSub;
+
     public NodeFullPathCommand(NodeArm endNode){
         super(new NodeToNeighbourSupplier(endNode));
+
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
     }
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
+
         stopMotors();
     }
     public void stopMotors(){

@@ -270,7 +270,7 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.37;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final PIDObject PID = new PIDObject().withKp(0.9).withKd(0).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(0.6).withKd(0.5).withMaxPower(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
@@ -327,14 +327,15 @@ public class RobotMap {
             public static final double GEAR_RATIO = 1;
 
             public static final double kS = 0.133000000000002;
+            public static final double kV = 1.9;
             public static final double MIN_Kg = 0.155;
-            public static final double MAX_Kg = 0.62;
+            public static final double MAX_Kg = 0.62 ;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
             public static final double MAX_ACCELERATION = 10;
             public static final double MAX_VELOCITY = 4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
-            public static final PIDObject PID = new PIDObject().withKp(0.05).withKd(0.2).withKi(0.001).withMaxPower(0.8);
+            public static final PIDObject PID = new PIDObject().withKp(0.05).withKi(0.001).withKd(0.55).withMaxPower(0.8);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
