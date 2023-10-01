@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import edu.greenblitz.tobyDetermined.commands.Auto.balance.GetOutOfRampAndBalance;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.SystemCheck.SystemCheck;
@@ -12,6 +13,7 @@ import edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation.Tim
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
+import edu.greenblitz.tobyDetermined.commands.swerve.ResetVisionMoveToPose;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
@@ -86,6 +88,10 @@ public class OI { //GEVALD
 
 		//reset by vision(for move to pose shit)
 		mainJoystick.A.onTrue(new InstantCommand(()-> SwerveChassis.getInstance().resetToVision()));
+
+
+		//amir and noam doing stuff
+		mainJoystick.X.whileTrue(new ResetVisionMoveToPose());
     }
 
     public void amireeeButtons(){

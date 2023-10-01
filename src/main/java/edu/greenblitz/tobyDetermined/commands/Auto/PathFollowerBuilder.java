@@ -62,6 +62,7 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 		eventMap.put("DelayedGrabCube", new InstantCommand(ObjectSelector::selectCube).andThen(new WaitCommand(1.5)).andThen(new GripFromBelly()));
 		eventMap.put("Wait15", new WaitCommand(15));
 		eventMap.put("LEAVE_CUBE",new ReleaseObject());
+		eventMap.put("BALLANCE_FROM_OUT", new FullBalance(false));
 
 	}
 

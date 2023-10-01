@@ -36,7 +36,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
-	private final IGyro pigeonGyro;
+//	private final IGyro pigeonGyro;
 	private final IGyro navX;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
@@ -65,7 +65,7 @@ public class SwerveChassis extends GBSubsystem {
 		doVision = true;
 		
 		this.navX = new NavX();
-		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
+//		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
@@ -253,7 +253,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public IGyro getPigeonGyro() {
-		return pigeonGyro;
+		return this.navX;
 	}
 	public IGyro getNavX() {
 		return navX;
@@ -317,7 +317,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void resetToVision() {
 		Optional<Pair<Pose2d, Double>> visionOutput = MultiLimelight.getInstance().getFirstAvailableTarget();
 		if(visionOutput.isPresent()) {
-			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0));
+			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0.6));
 			visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
 			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		}
@@ -402,9 +402,9 @@ public class SwerveChassis extends GBSubsystem {
 		}
 	}
 	
-	public double getAngleToGround(){
-		return PitchRollAdder.add(pigeonGyro.getRoll(), pigeonGyro.getPitch());
-	}
+//	public double getAngleToGround(){
+//		return PitchRollAdder.add(pigeonGyro.getRoll(), pigeonGyro.getPitch());
+//	}
 	
 	public boolean isEncoderBroken(Module module){
 		return getModule(module).isEncoderBroken();

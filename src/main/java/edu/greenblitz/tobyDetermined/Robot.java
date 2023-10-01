@@ -109,8 +109,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
 
 		SmartDashboard.putNumber("yaw", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getYaw()));
-		SmartDashboard.putNumber("pitch", SwerveChassis.getInstance().getNavX().getPitch());
-		SmartDashboard.putNumber("roll", SwerveChassis.getInstance().getNavX().getRoll());
+		SmartDashboard.putNumber("pitch",Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getPitch()));
+		SmartDashboard.putNumber("roll", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getRoll()));
 
 	}
 	

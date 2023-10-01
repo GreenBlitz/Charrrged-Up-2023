@@ -243,9 +243,9 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_CONE_POSITION(0.34, 0.07),
+            INTAKE_GRAB_CONE_POSITION(0.32, 0.01),
             INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
-            PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
+            PRE_INTAKE_GRAB_POSITION(0.02,0.30), //0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663, 1.949);
@@ -283,7 +283,7 @@ public class RobotMap {
             public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
-            public static final double kS = 0.3;
+            public static final double kS = 0.32;
             public static final double kG = 0.67 - kS;
 
             public static final double MAX_ACCELERATION = 3.5; //4.2

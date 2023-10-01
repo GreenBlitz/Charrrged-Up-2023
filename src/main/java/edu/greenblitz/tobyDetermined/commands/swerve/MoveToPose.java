@@ -88,6 +88,13 @@ public class MoveToPose extends SwerveCommand {
 		double rotationPid = rotationController.calculate(SwerveChassis.getInstance().getChassisAngle());
 		rotationPid = rotationController.atGoal() ? 0 : rotationPid;
 
+
+//		 if (!xController.atGoal()){
+//			swerve.moveByChassisSpeeds(xAxisPid,0,0,SwerveChassis.getInstance().getChassisAngle() );
+//		}else if(!yController.atGoal()){
+//			swerve.moveByChassisSpeeds(0,yAxisPid,0,SwerveChassis.getInstance().getChassisAngle() );
+//		}
+//
 		swerve.moveByChassisSpeeds(
 				xAxisPid,
 				yAxisPid,
