@@ -232,10 +232,10 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
-            CONE_MID(0.31, /*1.94*/ Math.toRadians(107)),
-            CUBE_HIGH(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_MID(0.29, 1.85),
+            CONE_HIGH(0.736, 2.2- STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
+            CONE_MID(0.354, 1.980),
+            CUBE_HIGH(0.479, 2.068 - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_MID(0.13, 1.71),
             LOW(0.35, Math.toRadians(60)),
 
             POST_CONE_DROP(0.089,0.1),
@@ -343,7 +343,7 @@ public class RobotMap {
             public static final double RELATIVE_POSITION_CONVERSION_FACTOR = 0.0328; //you know of calibrating pid but have you heard of calibrating the gear ratio
             public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328/ 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
-            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
+            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(2);
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);

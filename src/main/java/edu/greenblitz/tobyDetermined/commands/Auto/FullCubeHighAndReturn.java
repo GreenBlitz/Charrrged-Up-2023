@@ -8,7 +8,7 @@ public class FullCubeHighAndReturn extends SequentialCommandGroup {
 	public FullCubeHighAndReturn() {
 		super(
 				new FullCubeHigh(),
-				new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.COMMUNITY_PRE_GRID)
+				new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH)
 						.raceWith(new WaitCommand(5))
 		);
 	}

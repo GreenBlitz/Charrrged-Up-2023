@@ -1,6 +1,7 @@
 package edu.greenblitz.utils;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
+import edu.greenblitz.tobyDetermined.commands.Auto.balance.GetOutOfRampAndBalance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -26,7 +27,7 @@ public class AutonomousSelector {
 		chooser.addOption("T_place_exit_ramp", AutonomousPaths.TOP_PICK_RAMP);
 		chooser.addOption("T_two_obj_plus", AutonomousPaths.TOP_TWO_OBJ_PLUS); //_93_d_83_c_82
 		chooser.addOption("T_only_two_obj", AutonomousPaths.TOP_ONLY_TWO_OBJ); //_93_d_83_c_82
-
+		chooser.addOption("better",AutonomousPaths.BETTER);
 
 
 		ShuffleboardTab tab = Shuffleboard.getTab("auto");
@@ -61,7 +62,7 @@ public class AutonomousSelector {
 		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_ramp")),
 		MIDDLE_OUT_RAMP(PathFollowerBuilder.getInstance().followPath("M_out_ramp")),
 		MIDDLE_JUST_RAMP(PathFollowerBuilder.getInstance().followPath("Mjust_ramp")),
-		
+		BETTER(new GetOutOfRampAndBalance()),
 		
 
 		NONE(new InstantCommand());

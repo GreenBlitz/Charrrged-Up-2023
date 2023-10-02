@@ -12,6 +12,7 @@ public class FullConeHigh extends SequentialCommandGroup {
 
 	public FullConeHigh() {
 		super(
+				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH)
 						.raceWith(new WaitCommand(5))
 						.alongWith(new GripCone().raceWith(new WaitCommand(1))

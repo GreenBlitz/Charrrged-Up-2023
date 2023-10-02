@@ -26,7 +26,7 @@ public class GetOutOfRampAndBalance extends SequentialCommandGroup {
 								0,
 								SwerveChassis.getInstance().getChassisAngle()
 						)
-				).until(() -> SwerveChassis.getInstance().getNavX().getRoll() < OFF_RAMP_ANGLE),
+				).until(() -> SwerveChassis.getInstance().getNavX().getRoll() < 0),
 				new InstantCommand(
 						()-> SwerveChassis.getInstance().moveByChassisSpeeds(
 								FORWARD_SPEED,
@@ -34,8 +34,8 @@ public class GetOutOfRampAndBalance extends SequentialCommandGroup {
 								0,
 								SwerveChassis.getInstance().getChassisAngle()
 						)
-				).raceWith(new WaitCommand(2)),
-				new FullBalance(false)
+				).raceWith(new WaitCommand(4)),
+				new AdvancedBalanceOnRamp(false)
 
 		);
 
