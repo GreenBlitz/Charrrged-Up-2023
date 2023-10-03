@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByTrigger;
@@ -121,7 +122,7 @@ public class OI { //GEVALD
 		secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 		secondJoystick.L3.onTrue(new PushCone()).onFalse(new RetractPusher());
 		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new TimedAlignAfterDropCone()));
-		secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new FullGripCube());
+		secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
 		//intake and belly
 
