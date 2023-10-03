@@ -243,8 +243,8 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_CONE_POSITION(0.32, 0.01),
-            INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
+            INTAKE_GRAB_CONE_POSITION(0.377663314342499, 0.080738164484501),
+            INTAKE_GRAB_CUBE_POSITION(0.262638002634048, 0.067),
             PRE_INTAKE_GRAB_POSITION(0.02,0.30), //0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
@@ -317,7 +317,7 @@ public class RobotMap {
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(30)
-                    .withInverted(true);
+                    .withInverted(false);
         }
 
         public static class Elbow {
