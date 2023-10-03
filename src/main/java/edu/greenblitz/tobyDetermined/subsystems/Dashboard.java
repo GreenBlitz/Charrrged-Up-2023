@@ -172,6 +172,8 @@ public class Dashboard extends GBSubsystem {
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 1);
 			swerveTab.addDouble(module + "-lin-dist", () -> SwerveChassis.getInstance().getSwerveModulePositions()[module.ordinal()].distanceMeters)
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 2);
+			swerveTab.addDouble(module + "-lin-volt", () -> SwerveChassis.getInstance().getModule(module).getLinVoltage())
+					.withSize(2, 1).withPosition(module.ordinal() * 2, 3);
 		}
 		swerveTab.addDouble("pigeon-angle", () -> Math.toDegrees(SwerveChassis.getInstance().getChassisAngle()))
 				.withSize(1, 1).withPosition(0, 3);

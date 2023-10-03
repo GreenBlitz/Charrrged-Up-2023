@@ -205,7 +205,12 @@ public class KazaSwerveModule implements SwerveModule {
 	public boolean isEncoderBroken() {
 		return false;
 	}
-	
+
+	@Override
+	public double getLinVoltage() {
+		return linearMotor.getAppliedOutput();
+	}
+
 	public static class KazaSwerveModuleConfigObject {
 		private int angleMotorID;
 		private int linearMotorID;
