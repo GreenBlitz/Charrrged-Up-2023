@@ -10,19 +10,6 @@ import java.util.function.BooleanSupplier;
 
 public class CheckCommand {
 
-
-    static {
-        new CheckCommand(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH),
-                new BooleanSupplier() {
-                    @Override
-                    public boolean getAsBoolean() {
-                        return Extender.getInstance().isAtLength();
-                    }
-                }
-
-        );
-    }
-
     private BooleanSupplier isAtTargetSupplier;
     private Command runCommand;
 

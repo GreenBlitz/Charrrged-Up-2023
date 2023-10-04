@@ -5,9 +5,13 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
+import org.jetbrains.annotations.NotNull;
 import scala.collection.parallel.immutable.ParRange;
 
+import javax.annotation.Nonnull;
 import javax.swing.plaf.PanelUI;
 import java.util.HashMap;
 import java.util.function.BooleanSupplier;
@@ -30,29 +34,25 @@ public class SystemCheck extends GBSubsystem{
     }
 
     public SystemCheck(){
+        this.tab = Shuffleboard.getTab("System check");
 
-        this.innerBatteryResistance = (this.startingVoltage * (Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage());
 
+        this.innerBatteryResistance = calculateInnerBatteryResistance();
         this.startingVoltage = 13.73;
 
         subsystemsAndCommands = new HashMap<>();
 
-        this.tab = Shuffleboard.getTab("System check");
-        
-        
-        for (CheckCommand checkCommand : this.subsystemsAndCommands.values()){
-            tab.addBoolean(checkCommand.getRunCommand().getRequirements().getClass().getName(),checkCommand.getBooleanSupplier());
-        }
-        
+
         tab.addDouble("current voltage", ()-> Battery.getInstance().getCurrentVoltage());
         tab.addDouble("current current", ()-> Battery.getInstance().getCurrentUsage());
         tab.addDouble("battery inner resistance:", () -> getInnerBatteryResistance());
         tab.addDouble("battery voltage drop:", () ->  SystemCheck.getInstance().getStartingVoltage() - Battery.getInstance().getCurrentVoltage());
-        
+
     }
+
     
     public double getInnerBatteryResistance() {
-        this.innerBatteryResistance  = (this.startingVoltage * (Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage());
+        this.innerBatteryResistance  = calculateInnerBatteryResistance();
         return innerBatteryResistance;
     }
 
@@ -60,9 +60,44 @@ public class SystemCheck extends GBSubsystem{
         return startingVoltage;
     }
 
-    public void add (GBSubsystem subsystem, CheckCommand checkCommand){
+
+    private double calculateInnerBatteryResistance (){
+        return ((this.startingVoltage - Battery.getInstance().getCurrentVoltage()) / Battery.getInstance().getCurrentUsage());
+    }
+
+    public void add (CheckCommand checkCommand, GBSubsystem subsystem){
         subsystemsAndCommands.putIfAbsent(subsystem, checkCommand);
-        this.tab.addBoolean(checkCommand.getRunCommand().getRequirements().getClass().getName(),checkCommand.getBooleanSupplier());
+        this.tab.addBoolean(subsystem.getClass().getName(),checkCommand.getBooleanSupplier());
+    }
+    public void add (CheckCommand checkCommand, @NotNull GBSubsystem... subsystems){
+        //in the multi subsystem case the first inserted subsystem is the keyholder.
+        String multiSystemName = "";
+        GBSubsystem keyHolder = null;
+        for (GBSubsystem subs : subsystems){
+
+            if(keyHolder == null){
+                keyHolder = subs;
+            }
+
+            multiSystemName += subs.getClass().getSimpleName() + ", ";
+        }
+
+        subsystemsAndCommands.putIfAbsent(keyHolder, checkCommand);
+        this.tab.addBoolean(multiSystemName.getClass().getName(),checkCommand.getBooleanSupplier());
+    }
+
+    public void add (String overrideName,CheckCommand checkCommand, @NotNull GBSubsystem... subsystems){
+        //in the multi subsystem case the first inserted subsystem is the keyholder.
+        String multiSystemName = "";
+        GBSubsystem keyHolder = null;
+        for (GBSubsystem subs : subsystems){
+            if(keyHolder == null){
+                keyHolder = subs;
+            }
+        }
+
+        subsystemsAndCommands.putIfAbsent(keyHolder, checkCommand);
+        this.tab.addBoolean(overrideName,checkCommand.getBooleanSupplier());
     }
 
     public void remove (GBSubsystem subsystem,Command command){

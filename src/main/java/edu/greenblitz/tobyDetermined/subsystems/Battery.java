@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 
@@ -11,6 +12,7 @@ public class Battery extends GBSubsystem {
 	private static Battery instance;
 
 	private static PowerDistribution pdp = new PowerDistribution(20,PowerDistribution.ModuleType.kRev);
+	private static PneumaticsControlModule pcm = new PneumaticsControlModule(RobotMap.Pneumatics.PneumaticsController.ID); //todo check if worky with PH
 
 	private Battery() {
 	}
@@ -27,11 +29,7 @@ public class Battery extends GBSubsystem {
 	}
 
 	public double getCurrentUsage (){
-		double totalCurrent = 0;
-		for (int i = 0; i < pdp.getNumChannels(); i++) {
-			totalCurrent += pdp.getCurrent(i);
-		}
-		return totalCurrent;
+		return pdp.getTotalCurrent() + pcm.getCompressorCurrent(); //the pdh don't count the compressor
 	}
 
 	public double getCurrentVoltage() {
