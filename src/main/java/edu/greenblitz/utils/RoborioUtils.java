@@ -25,7 +25,6 @@ public class RoborioUtils {
     }
 
     public static double getCANUtilization(){
-        RobotController.getInputCurrent()
         return RobotController.getCANStatus().percentBusUtilization;
     }
 

@@ -100,6 +100,7 @@ public class Robot extends TimedRobot {
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
 		);
+		SystemCheck.getInstance();
 	}
 	
 	private static void initPortForwarding() {

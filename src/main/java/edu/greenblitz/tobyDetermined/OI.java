@@ -6,7 +6,7 @@ import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
-import edu.greenblitz.tobyDetermined.commands.SystemCheckCommand;
+
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByTrigger;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -106,6 +106,7 @@ public class OI { //GEVALD
 			Extender.getInstance().resetLength();
 			Extender.getInstance().disableReverseLimit();
 		}));
+
 		//grid
 		secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
 		secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
@@ -117,6 +118,7 @@ public class OI { //GEVALD
 		secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
 		secondJoystick.X.whileTrue(new ReleaseObject());
 		secondJoystick.A.whileTrue(new GripFromFeeder());
+
 		secondJoystick.A.and(secondJoystick.B).whileTrue(new GripBelly());
 
 		//grab
@@ -133,6 +135,8 @@ public class OI { //GEVALD
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
 
 	}
+
+
 
 
 
