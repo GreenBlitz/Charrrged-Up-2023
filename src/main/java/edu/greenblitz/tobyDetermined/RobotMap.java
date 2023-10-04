@@ -71,7 +71,7 @@ public class RobotMap {
         public static double STANDARD_DEVIATION_VISION_ANGLE = 0.6;
         public static final int[] PORT_NUMBERS = {5800, 5801, 5802, 5803, 5804, 5805};
         public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(new Translation3d(), new Rotation3d());
-        public final static double MIN_DISTANCE_TO_FILTER_OUT = 1;
+        public final static double MIN_DISTANCE_TO_FILTER_OUT = 1.5;
         public final static double VISION_CONSTANT = 0.2;
 
 
@@ -97,7 +97,7 @@ public class RobotMap {
 
             public static final double ROBOT_LENGTH_IN_METERS = 0.69;
             public static final double ROBOT_WIDTH_IN_METERS = 0.79;
-            public static final double BUMPER_WIDTH = 0.08;
+            public static final double BUMPER_WIDTH = 0.13;
 
             public static final double CAPPED_MAX_VELOCITY = 2;
             public static final double CAPPED_MAX_ACCELERATION = 1.75;
@@ -232,10 +232,10 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
-            CONE_MID(0.31, /*1.94*/ Math.toRadians(107)),
-            CUBE_HIGH(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_MID(0.29, 1.85),
+            CONE_HIGH(0.736, 2.2- STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
+            CONE_MID(0.354, 1.980),
+            CUBE_HIGH(0.479, 2.068 - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_MID(0.13, 1.71),
             LOW(0.35, Math.toRadians(60)),
 
             POST_CONE_DROP(0.089,0.1),
@@ -243,9 +243,9 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_CONE_POSITION(0.34, 0.123),
-            INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
-            PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
+            INTAKE_GRAB_CONE_POSITION(0.39, 0.040823493540287),
+            INTAKE_GRAB_CUBE_POSITION(0.343106359243393, 0.141),
+            PRE_INTAKE_GRAB_POSITION(0.02,0.30), //0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663, 1.949);
@@ -269,7 +269,7 @@ public class RobotMap {
             public static final double FORWARD_LIMIT = 0.78;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT - 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.37;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.4;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
             public static final double SETPOINT_D = 10;
@@ -283,7 +283,7 @@ public class RobotMap {
             public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
-            public static final double kS = 0.3;
+            public static final double kS = 0.32;
             public static final double kG = 0.67 - kS;
 
             public static final double MAX_ACCELERATION = 3.5; //4.2
@@ -317,7 +317,7 @@ public class RobotMap {
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(30)
-                    .withInverted(true);
+                    .withInverted(false);
         }
 
         public static class Elbow {
@@ -343,7 +343,7 @@ public class RobotMap {
             public static final double RELATIVE_POSITION_CONVERSION_FACTOR = 0.0328; //you know of calibrating pid but have you heard of calibrating the gear ratio
             public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328/ 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
-            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
+            public static final double BACKWARD_ANGLE_LIMIT = 0.061182841658592;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);

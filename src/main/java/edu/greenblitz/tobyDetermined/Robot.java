@@ -20,6 +20,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -106,6 +107,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 
 		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
+
+		SmartDashboard.putNumber("yaw", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getYaw()));
+		SmartDashboard.putNumber("pitch",Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getPitch()));
+		SmartDashboard.putNumber("roll", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getRoll()));
+
 	}
 	
 	

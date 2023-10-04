@@ -52,4 +52,5 @@ public interface SwerveModule {
 	void setRotIdleModeBrake();
 	void setRotIdleModeCoast ();
 	boolean isEncoderBroken();
+	double getLinVoltage();
 }

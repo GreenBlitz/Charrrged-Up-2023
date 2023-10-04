@@ -270,6 +270,10 @@ public class SdsSwerveModule implements SwerveModule {
 	}
 
 	@Override
+	public double getLinVoltage (){
+		return linearMotor.getMotorOutputVoltage();
+	}
+	@Override
 	public boolean isEncoderBroken() {
 		return canCoder.getFirmwareVersion() == -1;
 	}

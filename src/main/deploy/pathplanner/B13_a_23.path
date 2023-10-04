@@ -67,7 +67,8 @@
       "stopEvent": {
         "names": [
           "GrabCube",
-          "HalfCubeHigh"
+          "HalfCubeHigh",
+          "LEAVE_CUBE"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -75,7 +76,7 @@
       }
     }
   ],
-  "maxVelocity": 0.5,
+  "maxVelocity": 4.0,
   "maxAcceleration": 1.75,
   "isReversed": null,
   "markers": [

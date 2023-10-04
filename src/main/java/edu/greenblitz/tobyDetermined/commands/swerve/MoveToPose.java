@@ -21,12 +21,12 @@ public class MoveToPose extends SwerveCommand {
 	private ProfiledPIDController rotationController;
 	protected Pose2d pose;
 
-	public static final double ROT_KP = 2;
+	public static final double ROT_KP = 0.5;
 	public static final double ROT_KI = 0;
 	public static final double ROT_KD = 0;
 
-	public static final double TRANSLATION_KP = 2;
-	public static final double TRANSLATION_KI = 0;
+	public static final double TRANSLATION_KP = 1;
+	public static final double TRANSLATION_KI = 0.1;
 	public static final double TRANSLATION_KD = 0;
 
 	private final double TOLERANCE = 0.05;
@@ -88,6 +88,13 @@ public class MoveToPose extends SwerveCommand {
 		double rotationPid = rotationController.calculate(SwerveChassis.getInstance().getChassisAngle());
 		rotationPid = rotationController.atGoal() ? 0 : rotationPid;
 
+
+//		 if (!xController.atGoal()){
+//			swerve.moveByChassisSpeeds(xAxisPid,0,0,SwerveChassis.getInstance().getChassisAngle() );
+//		}else if(!yController.atGoal()){
+//			swerve.moveByChassisSpeeds(0,yAxisPid,0,SwerveChassis.getInstance().getChassisAngle() );
+//		}
+//
 		swerve.moveByChassisSpeeds(
 				xAxisPid,
 				yAxisPid,
@@ -98,6 +105,8 @@ public class MoveToPose extends SwerveCommand {
 		if (DEBUG) {
 			this.debugDashboard(xAxisPid, yAxisPid, rotationPid);
 		}
+		SmartDashboard.putNumber("xx", pose.getX());
+		SmartDashboard.putNumber("yy", pose.getY());
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class PlaceFromAdjacent extends SequentialCommandGroup {
 	public PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions targetPosition) {
-		super(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.COMMUNITY_PRE_GRID),
+		super(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
 				new GoToPosition(targetPosition)
 		);
 	}

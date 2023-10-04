@@ -138,4 +138,9 @@ public class DecoyModule implements SwerveModule {
 	public boolean isEncoderBroken() {
 		return false;
 	}
+
+	@Override
+	public double getLinVoltage() {
+		return 0;
+	}
 }

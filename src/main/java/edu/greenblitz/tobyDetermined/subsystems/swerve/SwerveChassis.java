@@ -5,7 +5,9 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
-import edu.greenblitz.utils.PigeonGyro;
+import edu.greenblitz.utils.Gyros.IGyro;
+import edu.greenblitz.utils.Gyros.NavX;
+import edu.greenblitz.utils.Gyros.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
@@ -22,6 +24,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
@@ -32,7 +36,8 @@ public class SwerveChassis extends GBSubsystem {
 	
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
-	private final PigeonGyro pigeonGyro;
+//	private final IGyro pigeonGyro;
+	private final IGyro navX;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
@@ -45,7 +50,11 @@ public class SwerveChassis extends GBSubsystem {
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
-	
+
+	public double limelightX;
+	public double limelightY;
+	public boolean twoApriltagsPresent;
+
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
 		this.frontRight = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontRight);
@@ -55,14 +64,14 @@ public class SwerveChassis extends GBSubsystem {
 		Ultrasonic.setAutomaticMode(true);
 		doVision = true;
 		
-		
-		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
+		this.navX = new NavX();
+//		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
-				getPigeonAngle(),
+				getGyroAngle(),
 				getSwerveModulePositions(),
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY),
@@ -92,7 +101,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void resetAll(Pose2d pose) {
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), pose);
 	}
 	
 	/**
@@ -163,21 +172,22 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void resetChassisPose() {
-		pigeonGyro.setYaw(0);
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), new Pose2d());
+		navX.setYawAngle(0);
+		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), new Pose2d());
 	}
 	
 	/**
 	 * returns chassis angle in radians
 	 */
-	private Rotation2d getPigeonAngle() {
-		return new Rotation2d(pigeonGyro.getYaw());
+	private Rotation2d getGyroAngle() {
+		return new Rotation2d(navX.getYaw());
 	}
 	
 	public double getChassisAngle() {
 		return getRobotPose().getRotation().getRadians();
 		
 	}
+
 	
 	/**
 	 * setting module states to all 4 modules
@@ -242,8 +252,11 @@ public class SwerveChassis extends GBSubsystem {
 		return this.kinematics;
 	}
 	
-	public PigeonGyro getPigeonGyro() {
-		return pigeonGyro;
+	public IGyro getPigeonGyro() {
+		return this.navX;
+	}
+	public IGyro getNavX() {
+		return navX;
 	}
 	
 	/**
@@ -272,27 +285,28 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void updatePoseEstimationPhotonVision() {
-		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 		Photonvision.getInstance().getUpdatedPoseEstimator().ifPresent((EstimatedRobotPose pose) -> poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds));
 	}
 	
 	public void updatePoseEstimationLimeLight() {
-		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
+
 		if (doVision) {
-			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
-				target.ifPresent(this::addVisionMeasurement);
+			if (MultiLimelight.getInstance().getAllEstimates().size() >= 1) {
+				twoApriltagsPresent = true;
+				for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
+					target.ifPresent(this::addVisionMeasurement);
+				}
 			}
 		}
 	}
+
 	
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
-		double limelightXSpeed = SwerveChassis.getInstance().getChassisSpeeds().vxMetersPerSecond * RobotMap.Vision.VISION_CONSTANT;
-		double limelightYSpeed = SwerveChassis.getInstance().getChassisSpeeds().vyMetersPerSecond * RobotMap.Vision.VISION_CONSTANT;
-		double limelightRotationSpeed = SwerveChassis.getInstance().getChassisSpeeds().omegaRadiansPerSecond * RobotMap.Vision.VISION_CONSTANT;
 		if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > RobotMap.Vision.MIN_DISTANCE_TO_FILTER_OUT)) {
-			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(limelightXSpeed, limelightYSpeed, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
-			poseEstimator.addVisionMeasurement(visionPose, poseTimestampPair.getSecond());
+			resetToVision();
 		}
 	}
 	
@@ -303,7 +317,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void resetToVision() {
 		Optional<Pair<Pose2d, Double>> visionOutput = MultiLimelight.getInstance().getFirstAvailableTarget();
 		if(visionOutput.isPresent()) {
-			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0));
+			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0.6));
 			visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
 			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		}
@@ -344,7 +358,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void resetChassisPose(Pose2d pose) {
-		poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), pose);
+		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), pose);
 	}
 	
 	public void moveByChassisSpeeds(ChassisSpeeds chassisSpeeds) {
@@ -388,9 +402,9 @@ public class SwerveChassis extends GBSubsystem {
 		}
 	}
 	
-	public double getAngleToGround(){
-		return PitchRollAdder.add(pigeonGyro.getRoll(), pigeonGyro.getPitch());
-	}
+//	public double getAngleToGround(){
+//		return PitchRollAdder.add(pigeonGyro.getRoll(), pigeonGyro.getPitch());
+//	}
 	
 	public boolean isEncoderBroken(Module module){
 		return getModule(module).isEncoderBroken();

@@ -1,12 +1,13 @@
 package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
-import edu.greenblitz.utils.PigeonGyro;
+import edu.greenblitz.utils.Gyros.IGyro;
+import edu.greenblitz.utils.Gyros.PigeonGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class StraightBalanceOnRamp extends SwerveCommand {
 
-	private final PigeonGyro gyro;
+		private final IGyro gyro;
 	private double currentAngle = 0;
 	private double lastAngle = 0;
 	private boolean hasPassedHighPoint;

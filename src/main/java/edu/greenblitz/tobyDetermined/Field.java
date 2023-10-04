@@ -14,6 +14,9 @@ public class Field {
     /**
      * gets pose, returns it fitted to the other alliance ("mirrored") and rotated by 180 degrees.
      * */
+
+    public static final boolean IS_AT_HADREAM_MIRRORD = false;
+
     public static Pose2d mirrorPositionToOtherSide(Pose2d pose){
         Pose2d mirroredPose = new Pose2d(
                 pose.getX(),
@@ -21,6 +24,14 @@ public class Field {
                 pose.getRotation());
         return mirroredPose;
     }
+    public static Pose2d mirrorToHadarimPosition(Pose2d pose){
+        Pose2d mirroredPose = new Pose2d(
+                pose.getX() - FieldConstants.fieldLength,
+                pose.getY(),
+                pose.getRotation());
+        return mirroredPose;
+    }
+
 
     /**
      * gets pose[], returns it fitted to the other alliance ("mirrored") and rotated by 180 degrees.
@@ -33,6 +44,13 @@ public class Field {
         return mirroredPoses;
     }
 
+    public static Pose2d[] mirrorPositionsToHadarim(Pose2d[] poses){
+        Pose2d[] mirroredPoses = new Pose2d[poses.length];
+        for (int i = 0; i< poses.length; i++ ) {
+            mirroredPoses[i] = mirrorToHadarimPosition(poses[i]);
+        }
+        return mirroredPoses;
+    }
 
     public static class Apriltags{
         public static int selectedTagId = 1;
@@ -58,22 +76,28 @@ public class Field {
     public static class PlacementLocations{
         // the locations of the grid plus half of the robot length.
         private static final Pose2d[] locationsOnBlueSide = {
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 0.508 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 1.067 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 1.626 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 2.184 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 2.743 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 3.302 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 3.861 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 4.420 + 0.30), new Rotation2d(Math.PI)),
-                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.36, 4.978 + 0.30), new Rotation2d(Math.PI))
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 0.508 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 1.067 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 1.626 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 2.184 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 2.743 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 3.302 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 3.861 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 4.420 +0.36), new Rotation2d(Math.PI)),
+                new Pose2d(new Translation2d(1.43 + (0.5 * RobotMap.Swerve.Frankenstein.ROBOT_LENGTH_IN_METERS) + RobotMap.Swerve.Frankenstein.BUMPER_WIDTH + 0.45 , 4.978 +0.36), new Rotation2d(Math.PI))
         };
 
         public static Pose2d[] getLocationsOnBlueSide(){
+            if(IS_AT_HADREAM_MIRRORD){
+                return mirrorPositionsToHadarim(locationsOnBlueSide);
+            }
             return locationsOnBlueSide;
         }
 
         public static Pose2d[] getLocationsOnRedSide(){
+            if(IS_AT_HADREAM_MIRRORD){
+                return mirrorPositionsToHadarim(mirrorPositionsToOtherSide(locationsOnBlueSide));
+            }
             return mirrorPositionsToOtherSide(locationsOnBlueSide);
         }
 
