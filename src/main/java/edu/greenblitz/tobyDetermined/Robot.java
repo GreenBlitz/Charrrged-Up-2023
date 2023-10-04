@@ -133,6 +133,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("roll", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getRoll()));
 
 		SmartDashboard.putNumber("can utilization",RoborioUtils.getCANUtilization());
+
 	}
 	
 	
