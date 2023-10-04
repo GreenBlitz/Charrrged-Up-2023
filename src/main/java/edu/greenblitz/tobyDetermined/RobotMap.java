@@ -243,8 +243,9 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_CONE_POSITION(0.39, 0.040823493540287),
-            INTAKE_GRAB_CUBE_POSITION(0.343106359243393, 0.141),
+            INTAKE_GRAB_CONE_POSITION(0.39, 0.026
+            ),
+            INTAKE_GRAB_CUBE_POSITION(0.343106359243393, 0.040823493540287),
             PRE_INTAKE_GRAB_POSITION(0.02,0.30), //0.28),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
@@ -270,7 +271,7 @@ public class RobotMap {
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT - 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.4;
-            public static double MAX_ENTRANCE_LENGTH = 0.054;
+            public static double MAX_ENTRANCE_LENGTH = 0.1;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
@@ -343,7 +344,7 @@ public class RobotMap {
             public static final double RELATIVE_POSITION_CONVERSION_FACTOR = 0.0328; //you know of calibrating pid but have you heard of calibrating the gear ratio
             public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328/ 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
-            public static final double BACKWARD_ANGLE_LIMIT = 0.061182841658592;
+            public static final double BACKWARD_ANGLE_LIMIT = 0.05;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);

@@ -18,7 +18,8 @@ public class FullGripCone extends SequentialCommandGroup {
 						new GoToPosition(RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CONE_POSITION)),
 				new InstantCommand(() -> SmartDashboard.putBoolean("ssssss", true)),
 				new GripCone().raceWith(new WaitCommand(0.3)),
-				new RotateClaw()
+				new RotateClaw().raceWith(new WaitCommand(0.2)),
+				new DisableClawCubeRotation().raceWith(new WaitCommand(0.3))
 
 
 		);

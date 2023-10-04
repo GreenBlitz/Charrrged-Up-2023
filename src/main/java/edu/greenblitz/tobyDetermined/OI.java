@@ -88,7 +88,8 @@ public class OI { //GEVALD
 		mainJoystick.Y.and(mainJoystick.R1).onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetChassisPose())); //reset pose
 
 		//reset by vision(for move to pose shit)
-		mainJoystick.A.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetToVision()));
+		mainJoystick.A
+				.onTrue(new InstantCommand(() -> SwerveChassis.getInstance().resetToVision()));
 		//amir and noam doing stuff
 		mainJoystick.X.whileTrue(new ResetVisionMoveToPose());
 	}
@@ -105,13 +106,18 @@ public class OI { //GEVALD
 			Extender.getInstance().disableReverseLimit();
 		}));
 		//grid
-		secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
-		secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
-		secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
-		secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+//		secondJoystick.POV_LEFT.onTrue(new MoveSelectedTargetLeft());
+//		secondJoystick.POV_RIGHT.onTrue(new MoveSelectedTargetRight());
+//		secondJoystick.POV_UP.onTrue(new MoveSelectedTargetUp());
+//		secondJoystick.POV_DOWN.onTrue(new MoveSelectedTargetDown());
+		secondJoystick.POV_DOWN.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CONE_MID));
+		secondJoystick.POV_UP.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
+		secondJoystick.POV_LEFT.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH));
+		secondJoystick.POV_RIGHT.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CUBE_MID));
+
 
 		//score
-		secondJoystick.Y.whileTrue(new GoToGrid());
+//		secondJoystick.Y.whileTrue(new GoToGrid());
 		secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
 		secondJoystick.X.whileTrue(new ReleaseObject());
 		secondJoystick.A.whileTrue(new GripFromFeeder());

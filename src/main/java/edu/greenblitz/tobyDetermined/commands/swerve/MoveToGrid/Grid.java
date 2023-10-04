@@ -142,11 +142,11 @@ public class Grid {
     }
 
     public void moveSelectedPositionRight(){
-        moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? -1 : 1);
+        moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? 1 : 1);
     }
 
     public void moveSelectedPositionLeft(){
-        moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? 1 : -1);
+        moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? -1 : -1);
     }
 
     public void moveSelectedHeight(int amount){
