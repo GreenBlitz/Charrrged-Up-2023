@@ -21,6 +21,7 @@ import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.math.util.Units;
+import edu.greenblitz.utils.SystemCheck.SystemCheck;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
@@ -56,6 +58,7 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		SystemCheck.getInstance().add(SwerveChassis.getInstance(),new InstantCommand(() -> SmartDashboard.putBoolean("azaka",false)));
 	}
 	
 	@Override
