@@ -7,7 +7,6 @@ import edu.greenblitz.utils.SystemCheck.PingableManager;
 import edu.greenblitz.utils.SystemCheck.SystemCheck;
 
 public class PigeonGyro extends PigeonIMU implements IGyro, IPingable {
-
 	double yawOffset = 0.0;
 	double pitchOffset = 0.0;
 	double rollOffset = 0.0;

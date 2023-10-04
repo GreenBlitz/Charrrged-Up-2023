@@ -121,7 +121,6 @@ public class OI { //GEVALD
 		secondJoystick.B.and(secondJoystick.L1.negate()).and(secondJoystick.A.negate()).and(secondJoystick.X.negate()).and(secondJoystick.BACK.negate()).whileTrue(new ZigHail());
 		secondJoystick.X.whileTrue(new ReleaseObject());
 		secondJoystick.A.whileTrue(new GripFromFeeder());
-
 		secondJoystick.A.and(secondJoystick.B).whileTrue(new GripBelly());
 
 		//grab
@@ -138,9 +137,6 @@ public class OI { //GEVALD
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
 
 	}
-
-
-
 
 
 	public SmartJoystick getMainJoystick() {

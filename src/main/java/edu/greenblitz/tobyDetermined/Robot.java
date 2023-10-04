@@ -28,7 +28,6 @@ import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.math.util.Units;
 import edu.greenblitz.utils.SystemCheck.SystemCheck;
 import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -84,6 +83,10 @@ public class Robot extends TimedRobot {
 		IntakeRoller.init();
 		OI.init();
 
+
+		SystemCheck.getInstance();
+		addChecks();
+
 		initToggleAbleSubsystems();
 	}
 
@@ -98,8 +101,7 @@ public class Robot extends TimedRobot {
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake),
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
 		);
-		SystemCheck.getInstance();
-		addChecks();
+
 	}
 	
 	private static void addChecks(){
