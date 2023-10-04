@@ -57,10 +57,6 @@ public class SystemCheck extends GBSubsystem{
     private GenericEntry batteryStartingVoltageEntry;
     private void initDashBoard (){
         this.tab = Shuffleboard.getTab("System check");
-        batteryStartingVoltageEntry = tab.add("battery starting voltage",13/*default value*/)
-                .withWidget(BuiltInWidgets.kTextView)
-                .getEntry();
-        
         
         initBatteryWidget();
         initCANWidget();
@@ -88,6 +84,12 @@ public class SystemCheck extends GBSubsystem{
     
 
     private void initBatteryWidget (){
+        
+        batteryStartingVoltageEntry = tab.add("set starting voltage",13/*default value*/)
+                .withWidget(BuiltInWidgets.kTextView)
+                .getEntry();
+        
+        
         ShuffleboardLayout batteryDataList = tab.getLayout("System check", BuiltInLayouts.kList)
                 .withPosition(0,0).withSize(1, 4).withProperties(Map.of("Label position", "TOP", "Number of columns", 1, "Number of rows", 4));;
 

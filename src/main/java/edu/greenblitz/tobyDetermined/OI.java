@@ -42,11 +42,13 @@ public class OI { //GEVALD
 	private final SmartJoystick mainJoystick;
 
 	private final SmartJoystick secondJoystick;
-
-
+	private final SmartJoystick debugJoystick;
+	
+	
 	private OI() {
 		mainJoystick = new SmartJoystick(RobotMap.Joystick.MAIN, 0.1);
 		secondJoystick = new SmartJoystick(RobotMap.Joystick.SECOND, 0.2);
+		debugJoystick = new SmartJoystick(RobotMap.Joystick.DEBUG,0.2);
 		initButtons();
 
 	}
@@ -74,7 +76,7 @@ public class OI { //GEVALD
 	private void initButtons() {
 		amireeeButtons();
 		romyButtons();
-		secondJoystick.A.and(secondJoystick.B).whileTrue(SystemCheck.getInstance().getRunCommands());
+		debugJoystick.A.whileTrue(SystemCheck.getInstance().getRunCommands());
 	}
 
 	public void romyButtons() {

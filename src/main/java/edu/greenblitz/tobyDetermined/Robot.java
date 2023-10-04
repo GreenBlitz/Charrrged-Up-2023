@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.CloseIntakeAndAlign;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.ExtendRoller;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.FullGripCone;
@@ -98,18 +99,29 @@ public class Robot extends TimedRobot {
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
 		);
 		SystemCheck.getInstance();
-
-
+		addChecks();
+	}
+	
+	private static void addChecks(){
 		SystemCheck.getInstance().add(
-
+				
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
 				() -> Extender.getInstance().isAtLength(
-						RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.distance
-				) && Elbow.getInstance().isAtAngle(
+						RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.distance)
+						&& Elbow.getInstance().isAtAngle(
 						RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL.angleInRadians
 				),
 				"elbow and extender"
 		);
+		
+		
+		SystemCheck.getInstance().add(
+				new ExtendRoller().andThen(new WaitCommand(5)),
+				() -> IntakeExtender.getInstance().isExtended(),
+				"extend gripper"
+		);
+		
+		
 	}
 	
 	private static void initPortForwarding() {
