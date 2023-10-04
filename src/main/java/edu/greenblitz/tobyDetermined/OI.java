@@ -74,6 +74,7 @@ public class OI { //GEVALD
 	private void initButtons() {
 		amireeeButtons();
 		romyButtons();
+		secondJoystick.A.and(secondJoystick.B).whileTrue(SystemCheck.getInstance().getRunCommands());
 	}
 
 	public void romyButtons() {

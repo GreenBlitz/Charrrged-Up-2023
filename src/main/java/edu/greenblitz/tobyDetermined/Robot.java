@@ -1,20 +1,17 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
-import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.CloseIntakeAndAlign;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.FullGripCone;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripConeFromBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.BellyPusher;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
@@ -27,9 +24,7 @@ import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.math.util.Units;
-import edu.greenblitz.utils.SystemCheck.CheckCommand;
 import edu.greenblitz.utils.SystemCheck.SystemCheck;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -38,7 +33,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
@@ -101,6 +95,15 @@ public class Robot extends TimedRobot {
 				() -> Elbow.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast)
 		);
 		SystemCheck.getInstance();
+
+
+		SystemCheck.getInstance().add(
+
+				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
+//				() -> Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle(),
+				() -> true,
+				"elbow and extender"
+		);
 	}
 	
 	private static void initPortForwarding() {
@@ -200,18 +203,14 @@ public class Robot extends TimedRobot {
 
 
 		SystemCheck.getInstance().add(
-				new CheckCommand(
 						new FullOpenIntake(),
-						() -> IntakeExtender.getInstance().isExtended()
-				),
+						() -> IntakeExtender.getInstance().isExtended(),
 				"open intake check"
 		);
 
 		SystemCheck.getInstance().add(
-				new CheckCommand(
 						new CloseIntakeAndAlign(),
-						() -> !IntakeExtender.getInstance().isExtended()
-				),
+						() -> !IntakeExtender.getInstance().isExtended(),
 				"close intake and align check"
 
 				);
@@ -219,17 +218,14 @@ public class Robot extends TimedRobot {
 
 
 		SystemCheck.getInstance().add(
-				new CheckCommand(
 						new FullGripCone(),
-						() -> (Claw.getInstance().state == Claw.ClawState.CONE_MODE)
-				),
+						() -> (Claw.getInstance().state == Claw.ClawState.CONE_MODE),
 				"grip cone"
 		);
 		SystemCheck.getInstance().add(
-				new CheckCommand(
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
-				() -> (Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle())
-				),
+				() -> (Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle()),
+
 				"zig heil"
 		);
 
