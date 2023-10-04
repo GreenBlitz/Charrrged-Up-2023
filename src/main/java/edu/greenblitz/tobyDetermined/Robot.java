@@ -198,45 +198,38 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().cancelAll();
 
 
-
 		SystemCheck.getInstance().add(
-				"open intake check",
 				new CheckCommand(
 						new FullOpenIntake(),
 						() -> IntakeExtender.getInstance().isExtended()
 				),
-				IntakeExtender.getInstance()
+				"open intake check"
 		);
 
 		SystemCheck.getInstance().add(
-
-
-				"close intake and align check",
 				new CheckCommand(
 						new CloseIntakeAndAlign(),
 						() -> !IntakeExtender.getInstance().isExtended()
 				),
-				IntakeExtender.getInstance(),
-				RotatingBelly.getInstance()
-		);
+				"close intake and align check"
+
+				);
 
 
 
 		SystemCheck.getInstance().add(
-				"grip cone",
 				new CheckCommand(
 						new FullGripCone(),
 						() -> (Claw.getInstance().state == Claw.ClawState.CONE_MODE)
 				),
-				Claw.getInstance()
+				"grip cone"
 		);
 		SystemCheck.getInstance().add(
 				new CheckCommand(
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL),
 				() -> (Extender.getInstance().isAtLength() && Elbow.getInstance().isAtAngle())
 				),
-				Extender.getInstance(),
-				Elbow.getInstance()
+				"zig heil"
 		);
 
 
