@@ -60,8 +60,9 @@ public class SystemCheck extends GBSubsystem{
 
 
     private void initCANWidget (){
-        ShuffleboardLayout CANDataList = tab.getLayout("System check", BuiltInLayouts.kList)
-                .withPosition(1,0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+        ShuffleboardLayout CANDataList = tab.getLayout("CANBus", BuiltInLayouts.kGrid)
+                .withPosition(1, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
+
         CANDataList.addBoolean("is CAN Connected", RoborioUtils::isCANConnectedToRoborio)
                 .withPosition(0,0);
 
