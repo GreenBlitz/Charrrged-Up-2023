@@ -4,9 +4,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.greenblitz.utils.PIDObject;
+import edu.greenblitz.utils.SystemCheck.*;
 
-public class GBFalcon extends TalonFX {
-	
+public class GBFalcon extends TalonFX implements IPingable{
+
 	/**
 	 * Constructor
 	 *
@@ -14,6 +15,8 @@ public class GBFalcon extends TalonFX {
 	 */
 	public GBFalcon(int deviceNumber) {
 		super(deviceNumber);
+
+		PingableManager.getInstance().add(this);
 	}
 	
 	/**
@@ -41,7 +44,18 @@ public class GBFalcon extends TalonFX {
 		super.config_IntegralZone(0, pidObject.getIZone());
 		super.configClosedLoopPeakOutput(0, pidObject.getMaxPower());
 	}
-	
+
+	@Override
+	public boolean isConnected() {
+		return super.getFirmwareVersion() != -1;
+	}
+
+	@Override
+	public String deviceName() {
+		return "Falcon 500 - " + this.getDeviceID();
+	}
+
+
 	/**
 	 * @see GBSparkMax.SparkMaxConfObject
 	 */

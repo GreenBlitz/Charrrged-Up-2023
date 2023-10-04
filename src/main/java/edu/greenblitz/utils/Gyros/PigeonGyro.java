@@ -2,14 +2,19 @@ package edu.greenblitz.utils.Gyros;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.greenblitz.utils.SystemCheck.IPingable;
+import edu.greenblitz.utils.SystemCheck.PingableManager;
+import edu.greenblitz.utils.SystemCheck.SystemCheck;
 
-public class PigeonGyro extends PigeonIMU implements IGyro {
-	
+public class PigeonGyro extends PigeonIMU implements IGyro, IPingable {
+
 	double yawOffset = 0.0;
 	double pitchOffset = 0.0;
 	double rollOffset = 0.0;
 	public PigeonGyro(int id) {
 		super(id);
+
+		PingableManager.getInstance().add(this);
 	}
 	
 	/**
@@ -49,6 +54,15 @@ public class PigeonGyro extends PigeonIMU implements IGyro {
 	public double getRoll() {
 		return ((Math.toRadians(super.getRoll()) - rollOffset)%(2* Math.PI));
 	}
-	
-	
+
+
+	@Override
+	public boolean isConnected() {
+		return super.getFirmwareVersion() != -1; //todo check
+	}
+
+	@Override
+	public String deviceName() {
+		return "Pigeon 1 - " + this.getDeviceID();
+	}
 }

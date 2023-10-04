@@ -3,8 +3,10 @@ package edu.greenblitz.utils.motors;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
 import edu.greenblitz.utils.PIDObject;
+import edu.greenblitz.utils.SystemCheck.IPingable;
+import edu.greenblitz.utils.SystemCheck.PingableManager;
 
-public class GBSparkMax extends CANSparkMax {
+public class GBSparkMax extends CANSparkMax implements IPingable {
 	
 	
 	/**
@@ -17,6 +19,8 @@ public class GBSparkMax extends CANSparkMax {
 	 */
 	public GBSparkMax(int deviceId, MotorType type) {
 		super(deviceId, type);
+
+		PingableManager.getInstance().add(this);
 	}
 	
 	
@@ -50,7 +54,17 @@ public class GBSparkMax extends CANSparkMax {
 	public REVLibError setSoftLimit(SoftLimitDirection direction, double limit) {
 		return super.setSoftLimit(direction,(float) limit);
 	}
-	
+
+	@Override
+	public boolean isConnected() {
+		return super.getFirmwareVersion() != -1; //todo check
+	}
+
+	@Override
+	public String deviceName() {
+		return "NEO - " + this.getDeviceId();
+	}
+
 	/**
 	 * inner conf class
 	 * usage example:
