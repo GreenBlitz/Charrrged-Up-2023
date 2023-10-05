@@ -29,6 +29,12 @@ public class IntakeRoller extends GBSubsystem {
 		}
 	}
 
+
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("amp ", motor.getOutputCurrent());
+	}
+
 	public void roll(double power) {
 		motor.set(power);
 	}
@@ -47,5 +53,9 @@ public class IntakeRoller extends GBSubsystem {
 
 	public boolean isObjectIn(){
 		return objectDetector.get();
+	}
+
+	public double getOutputCurrent(){
+		return motor.getOutputCurrent();
 	}
 }

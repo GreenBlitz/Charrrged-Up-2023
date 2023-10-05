@@ -37,13 +37,13 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 
 	//todo add commands to event map
 	static {
-		eventMap.put("FullConeHighAndReturn", new FullConeHighAndReturn());
-		eventMap.put("FullConeHigh", new FullConeHigh());
+		eventMap.put("FullConeHighAndReturn", new autoGripCone());
+		eventMap.put("FullConeHigh", new autoGripCone());
 		eventMap.put("FullCubeHighAndReturn", new FullCubeHighAndReturn());
 		eventMap.put("FullCubeHigh", new FullCubeHigh());
 		eventMap.put("FullCubeMid", new FullCubeMid());
 		eventMap.put("HalfCubeHigh", new HalfCubeHigh());
-		eventMap.put("PlaceFromAdjacentConeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
+		eventMap.put("PlaceFromAdjacentConeHigh", new autoGripCone());
 		eventMap.put("PlaceFromAdjacentCubeHigh", new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH));
 		eventMap.put("DropCone", new DropCone());
 		eventMap.put("DropCube", new EjectCube());

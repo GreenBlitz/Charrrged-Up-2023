@@ -16,4 +16,10 @@ public class RollByConst extends RollerCommand{
 	public void end(boolean interrupted) {
 		roller.stop();
 	}
+
+	@Override
+	public boolean isFinished() {
+		return roller.getOutputCurrent() > 10 && power > 0;
+
+	}
 }

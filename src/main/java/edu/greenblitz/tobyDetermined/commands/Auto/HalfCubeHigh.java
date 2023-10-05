@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.Auto;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotate;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -10,7 +10,7 @@ public class HalfCubeHigh extends SequentialCommandGroup {
 		super(
 				new PlaceFromAdjacent(RobotMap.TelescopicArm.PresetPositions.CUBE_HIGH)
 						.raceWith(new WaitCommand(5))
-						.deadlineWith(new DefaultRotateWhenCube())
+						.deadlineWith(new DefaultRotate())
 		);
 	}
 }

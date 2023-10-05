@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
+import edu.greenblitz.tobyDetermined.commands.intake.extender.RetractRoller;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByTrigger;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -128,12 +129,12 @@ public class OI { //GEVALD
 		secondJoystick.BACK.whileTrue(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
 		secondJoystick.L3.onTrue(new PushCone()).onFalse(new RetractPusher());
 		secondJoystick.R3.onTrue(new AutoDropCone().andThen(new TimedAlignAfterDropCone()));
-		secondJoystick.R1.and(secondJoystick.L1.negate()).whileTrue(new GripFromBelly());
 
 		//intake and belly
 
 		RotatingBelly.getInstance().setDefaultCommand(new RotateByTrigger(getSecondJoystick()));
-		secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake().alongWith(new GoToPosition(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION))).onFalse(new FullIntake());
+		secondJoystick.L1.and(secondJoystick.R1.negate()).whileTrue(new FullOpenIntake());
+		secondJoystick.L1.onFalse(new RetractRoller());
 		secondJoystick.L1.and(secondJoystick.B).whileTrue(new RollByConst(-1));
 
 	}

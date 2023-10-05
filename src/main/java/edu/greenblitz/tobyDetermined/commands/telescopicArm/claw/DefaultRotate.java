@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 
-public class DefaultRotateWhenCube extends ClawCommand{
+public class DefaultRotate extends ClawCommand{
 
     @Override
     public void execute() {

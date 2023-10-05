@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.Auto;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotate;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.StayAtCurrentAngle;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
@@ -13,7 +13,7 @@ public class FullCubeMid extends SequentialCommandGroup {
 		super(
 				new GoToPosition(RobotMap.TelescopicArm.PresetPositions.CUBE_MID)
 						.raceWith(new WaitCommand(5))
-						.deadlineWith(new DefaultRotateWhenCube()),
+						.deadlineWith(new DefaultRotate()),
 
 				new EjectCube()
 						.alongWith(new WaitCommand(0.2))
