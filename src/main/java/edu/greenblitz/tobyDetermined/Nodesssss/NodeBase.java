@@ -76,7 +76,19 @@ public class NodeBase  {
         REST_ABOVE_BELLY.setNeighbors(new NodeArm[] {ZIG_HAIL,INTAKE_GRAB_CONE_POSITION,INTAKE_GRAB_CUBE_POSITION,PRE_CONE_DROP});
         PRE_CONE_DROP.setNeighbors(new NodeArm[] {POST_CONE_DROP});
         POST_CONE_DROP.setNeighbors(new NodeArm[] {REST_ABOVE_BELLY,INTAKE_GRAB_CONE_POSITION,INTAKE_GRAB_CUBE_POSITION});
+
         currentNode = INTAKE_GRAB_CONE_POSITION;
+
+        CONE_HIGH.setClawPos(3);
+        CONE_MID.setClawPos(3);
+        CUBE_HIGH.setClawPos(3);
+        CUBE_MID.setClawPos(3);
+        INTAKE_GRAB_CONE_POSITION.setClawPos(1);
+        INTAKE_GRAB_CUBE_POSITION.setClawPos(2);
+        PRE_CONE_DROP.setClawPos(1);
+        POST_CONE_DROP.setClawPos(1);
+        LOW.setClawPos(3);
+
     }
     public enum SpecificNode {
 

@@ -1,9 +1,12 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
+
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
+    private int clawPos;//1 = cone catch . 2 = cube catch . 3 = cone drop . 4 = cube drop
     private int id;
     private final LinkedList<NodeArm> neighbors;
     private final double anglePos;
@@ -12,6 +15,7 @@ public class NodeArm {
         this.id = id;
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
+        clawPos = 4590;
         neighbors = new LinkedList<NodeArm>();
     }
     public double getExtendPos() {
@@ -31,5 +35,13 @@ public class NodeArm {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setClawPos(int clawPos) {
+        this.clawPos = clawPos;
+    }
+
+    public int getClawPos() {
+        return clawPos;
     }
 }
