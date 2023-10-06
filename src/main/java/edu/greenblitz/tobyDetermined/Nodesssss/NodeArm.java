@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
-    private int clawPos;//1 = cone catch . 2 = cube catch . 3 = cone drop . 4 = cube drop
+    private int clawPos;//1 = cone catch . 2 = cube catch . 3 = release . 4590 = null
     private int id;
     private final LinkedList<NodeArm> neighbors;
     private final double anglePos;
