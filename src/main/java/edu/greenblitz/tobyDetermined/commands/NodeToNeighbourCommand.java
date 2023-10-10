@@ -62,7 +62,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
-        if (!(NodeBase.getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
+        if (!(NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
         }
         else
@@ -72,7 +72,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
 
     public boolean isInPlace(NodeArm target){
-        return NodeBase.getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
+        return NodeBase.getInstance().getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
     }
 
     @Override
@@ -95,6 +95,6 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        NodeBase.setCurrentNode(end);
+        NodeBase.getInstance().setCurrentNode(end);
     }
 }

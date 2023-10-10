@@ -7,8 +7,8 @@ import java.util.Map;
 public class AStar {
 
     public static double getDistanceToStartPlusEnd(NodeArm current, NodeArm start, NodeArm end){
-       double gCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(start,current));
-       double hCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(end,current));
+       double gCost = Math.abs(NodeBase.getInstance().getDistanceBetweenTwoPoints(start,current));
+       double hCost = Math.abs(NodeBase.getInstance().getDistanceBetweenTwoPoints(end,current));
        return gCost+hCost;
     }
 
@@ -36,7 +36,7 @@ public class AStar {
 
     public static LinkedList<NodeArm> returnPath(NodeArm nodeArm,Map<NodeArm, NodeArm> parents){
        LinkedList<NodeArm> pathList = new LinkedList<>();
-       LinkedList<NodeArm> getPath = new LinkedList<>();
+       LinkedList<NodeArm> realPath = new LinkedList<>();
        NodeArm current = nodeArm;
        while (current != null) {
             pathList.add(current);
@@ -44,11 +44,11 @@ public class AStar {
        }
 
        for (int i = pathList.size() - 1; i >= 0; i--) {
-           getPath.add(pathList.get(i));
+           realPath.add(pathList.get(i));
 
        }
        printPath(pathList);
-       return getPath;
+       return realPath;
     }
     public static void printPath(LinkedList<NodeArm> pathList){
         for (int i = pathList.size() - 1; i >= 0; i--) {
@@ -68,15 +68,13 @@ public class AStar {
             closed.add(current);
 
             if (current.getId() == end.getId()) {
-                return returnPath(current,parents);
+                return returnPath(current, parents);
             }
 
             for (NodeArm neighbor : current.getNeighbors()) {
-                if (!isInList(neighbor, closed)) {
-                    if (!isInList(neighbor, nodesCanGoTo)) {
-                        nodesCanGoTo.add(neighbor);
-                        parents.put(neighbor,current );
-                    }
+                if (!isInList(neighbor, closed) && !isInList(neighbor, nodesCanGoTo)) {
+                    nodesCanGoTo.add(neighbor);
+                    parents.put(neighbor, current);
                 }
             }
         }
@@ -84,6 +82,6 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        getPath(NodeBase.getNode(NodeBase.SpecificNode.LOW),NodeBase.getNode(NodeBase.SpecificNode.CONE_HIGH));
+        getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW),NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH));
     }
 }
