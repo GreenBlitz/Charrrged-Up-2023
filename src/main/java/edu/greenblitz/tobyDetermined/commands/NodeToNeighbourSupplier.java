@@ -21,7 +21,7 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
         SmartDashboard.putNumber("passIsFinished",0);
     }
     public Command get() {
-        start = NodeBase.getInstance().getCurrentNode();
+        start = NodeBase.getCurrentNode();
         SmartDashboard.putNumber("starting node",start.getId());
         SmartDashboard.putNumber("end node",end.getId());
         LinkedList<NodeArm> path = AStar.getPath(start,end);

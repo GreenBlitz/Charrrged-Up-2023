@@ -3,11 +3,11 @@ package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class setArmVoltage extends ExtenderCommand{
+public class SetArmVoltage extends ExtenderCommand{
 
     private double voltage;
 
-    public setArmVoltage(double voltage){
+    public SetArmVoltage(double voltage){
         this.voltage = voltage;
     }
 

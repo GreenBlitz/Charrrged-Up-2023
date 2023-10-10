@@ -10,7 +10,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NodeToNeighbourCommand extends GBCommand {
-    private NodeBase nodeBase;
     private final Extender extender;
     private final Elbow elbowSub;
     private NodeArm start;
@@ -22,7 +21,6 @@ public class NodeToNeighbourCommand extends GBCommand {
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
-        nodeBase = NodeBase.getInstance();
         //require(elbowSub);
         //require(extender);
         this.start = start;
@@ -33,12 +31,12 @@ public class NodeToNeighbourCommand extends GBCommand {
     public static double cosineRule(double sideA, double sideB, double angleBetweenSideAndSideB) {
         return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAndSideB));
     }
-    public static double getRatioBetweenAngleAndLength(double a, double b, double gamma) {
-        if (b == 0)
-            b+=0.02;//weird edge case where 0 * big number = 0 so messes up whole calculations
-        double c = cosineRule(a,b,gamma);
-        double height = b*Math.sin(gamma);
-        double adjacent = Math.sqrt(c*c - height*height);
+    public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double gamma) {
+        if (sideB == 0)
+            sideB+=0.02;//weird edge case where 0 * big number = 0 so messes up whole calculations
+        double sideC = cosineRule(sideA,sideB,gamma);
+        double height = sideB*Math.sin(gamma);
+        double adjacent = Math.sqrt(sideC*sideC - height*height);
         return height/adjacent;
     }
 
@@ -64,7 +62,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
-        if (!(NodeBase.getInstance().getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
+        if (!(NodeBase.getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
         }
         else
@@ -74,7 +72,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
 
     public boolean isInPlace(NodeArm target){
-        return NodeBase.getInstance().getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
+        return NodeBase.getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
     }
 
     @Override
@@ -97,6 +95,6 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        nodeBase.setCurrentNode(end);
+        NodeBase.setCurrentNode(end);
     }
 }

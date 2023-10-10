@@ -1,21 +1,14 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 public class AStar {
-    private static final NodeBase nodeBase = NodeBase.getInstance();
 
-  public static double getDistanceFromCurrentNodeToEndOrStartNode(NodeArm point, NodeArm current){
-       return Math.abs(nodeBase.getDistanceBetweenToPoints(point,current));
-
-  }
     public static double getDistanceToStartPlusEnd(NodeArm current, NodeArm start, NodeArm end){
-       double gCost = getDistanceFromCurrentNodeToEndOrStartNode(start,current);
-       double hCost = getDistanceFromCurrentNodeToEndOrStartNode(end,current);
+       double gCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(start,current));
+       double hCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(end,current));
        return gCost+hCost;
     }
 
@@ -38,12 +31,8 @@ public class AStar {
 
 
    public static boolean isInList(NodeArm nodeArm, LinkedList<NodeArm> list){
-      for (NodeArm arm : list) {
-           if (nodeArm.getId() == arm.getId())
-               return true;
-       }
-       return false;
-    }
+       return list.contains(nodeArm);
+   }
 
     public static LinkedList<NodeArm> returnPath(NodeArm nodeArm,Map<NodeArm, NodeArm> parents){
        LinkedList<NodeArm> pathList = new LinkedList<>();
@@ -68,14 +57,14 @@ public class AStar {
         System.out.println();
     }
     public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){
-        LinkedList<NodeArm> open = new LinkedList<NodeArm>();
+        LinkedList<NodeArm> nodesCanGoTo = new LinkedList<NodeArm>();
         LinkedList<NodeArm> closed = new LinkedList<NodeArm>();
         Map<NodeArm, NodeArm> parents = new HashMap<>();
-        open.add(start);
+        nodesCanGoTo.add(start);
 
-        while (!open.isEmpty()) {
-            NodeArm current = getLowestFcost(open, start, end);
-            open.remove(current);
+        while (!nodesCanGoTo.isEmpty()) {
+            NodeArm current = getLowestFcost(nodesCanGoTo, start, end);
+            nodesCanGoTo.remove(current);
             closed.add(current);
 
             if (current.getId() == end.getId()) {
@@ -84,8 +73,8 @@ public class AStar {
 
             for (NodeArm neighbor : current.getNeighbors()) {
                 if (!isInList(neighbor, closed)) {
-                    if (!isInList(neighbor, open)) {
-                        open.add(neighbor);
+                    if (!isInList(neighbor, nodesCanGoTo)) {
+                        nodesCanGoTo.add(neighbor);
                         parents.put(neighbor,current );
                     }
                 }
@@ -95,6 +84,6 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        printPath(getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW),NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH) ));
+        getPath(NodeBase.getNode(NodeBase.SpecificNode.LOW),NodeBase.getNode(NodeBase.SpecificNode.CONE_HIGH));
     }
 }
