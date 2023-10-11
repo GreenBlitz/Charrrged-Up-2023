@@ -1,19 +1,24 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
+
 public class AStar {
 
-    public static double getDistanceToStartPlusEnd(NodeArm current, NodeArm start, NodeArm end){
-       double gCost = Math.abs(NodeBase.getInstance().getDistanceBetweenTwoPoints(start,current));
-       double hCost = Math.abs(NodeBase.getInstance().getDistanceBetweenTwoPoints(end,current));
+    public static double getDistanceToStartPlusEnd(PresetPositions current, NodeArm start, NodeArm end){
+       double gCost = Math.abs(NodeBase.getInstance().getDistanceBetweenTwoPoints(start,NodeBase.getInstance().getNode(current)));
+       double hCost = Math.abs(NodeBase.getInstance().getDistanceBetweenTwoPoints(end,NodeBase.getInstance().getNode(current)));
        return gCost+hCost;
     }
 
 
-    public static NodeArm getLowestFcost(LinkedList<NodeArm> open, NodeArm start, NodeArm end) {
+    public static PresetPositions getLowestFcost(LinkedList<PresetPositions> open, NodeArm start, NodeArm end) {
        if (open.isEmpty()) {
            return null; // Handle the case where the list is empty
        }
@@ -30,13 +35,13 @@ public class AStar {
    }
 
 
-   public static boolean isInList(NodeArm nodeArm, LinkedList<NodeArm> list){
-       return list.contains(nodeArm);
+   public static boolean isInList(PresetPositions nodeArmPos, LinkedList<PresetPositions> list){
+       return list.contains(nodeArmPos);
    }
 
-    public static LinkedList<NodeArm> returnPath(NodeArm nodeArm,Map<NodeArm, NodeArm> parents){
-       LinkedList<NodeArm> pathList = new LinkedList<>();
-       NodeArm current = nodeArm;
+    public static LinkedList<PresetPositions> returnPath(PresetPositions nodeArm,Map<PresetPositions, PresetPositions> parents){
+       LinkedList<PresetPositions> pathList = new LinkedList<>();
+       PresetPositions current = nodeArm;
        while (current != null) {
             pathList.addFirst(current);
             current = parents.get(current);
@@ -44,28 +49,28 @@ public class AStar {
        printPath(pathList);
        return pathList;
     }
-    public static void printPath(LinkedList<NodeArm> pathList){
+    public static void printPath(LinkedList<PresetPositions> pathList){
         for (int i = 0; i <= pathList.size() - 1; i++) {
-            System.out.print(pathList.get(i).getId()+", ");
+            System.out.print(pathList.get(i)+", ");
         }
         System.out.println();
     }
-    public static LinkedList<NodeArm> getPath(NodeArm start, NodeArm end){
-        LinkedList<NodeArm> nodesCanGoTo = new LinkedList<NodeArm>();
-        LinkedList<NodeArm> closed = new LinkedList<NodeArm>();
-        Map<NodeArm, NodeArm> parents = new HashMap<>();
+    public static LinkedList<PresetPositions> getPath(PresetPositions start, PresetPositions end){
+        LinkedList<PresetPositions> nodesCanGoTo = new LinkedList<>();
+        LinkedList<PresetPositions> closed = new LinkedList<>();
+        Map<PresetPositions, PresetPositions> parents = new HashMap<>();
         nodesCanGoTo.add(start);
 
         while (!nodesCanGoTo.isEmpty()) {
-            NodeArm current = getLowestFcost(nodesCanGoTo, start, end);
+            PresetPositions current = getLowestFcost(nodesCanGoTo, NodeBase.getInstance().getNode(start), NodeBase.getInstance().getNode(end));
             nodesCanGoTo.remove(current);
             closed.add(current);
 
-            if (current.getId() == end.getId()) {
+            if (current.equals(end)) {
                 return returnPath(current, parents);
             }
 
-            for (NodeArm neighbor : current.getNeighbors()) {
+            for (PresetPositions neighbor : NodeBase.getInstance().getNode(current).getNeighbors()) {
                 if (!isInList(neighbor, closed) && !isInList(neighbor, nodesCanGoTo)) {
                     nodesCanGoTo.add(neighbor);
                     parents.put(neighbor, current);
@@ -76,6 +81,6 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        getPath(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW),NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH));
+        getPath(LOW,CONE_HIGH);
     }
 }

@@ -9,17 +9,18 @@ import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
 
 public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbowSub;
-    private NodeArm start;
-    private NodeArm end;
+    private PresetPositions start;
+    private PresetPositions end;
     private static final double COMBINED_VELOCITY = 2.3; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 1.5;//In Radians Per Second
 
-    public NodeToNeighbourCommand(NodeArm start, NodeArm end){
+    public NodeToNeighbourCommand(PresetPositions start, PresetPositions end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
         require(elbowSub);
@@ -74,8 +75,8 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void execute() {
-        if(start.getNeighbors().contains(end)) {
-            moveArm(end);
+        if(NodeBase.getInstance().getNode(start).getNeighbors().contains(end)) {
+            moveArm(NodeBase.getInstance().getNode(end));
         }
 
     }
@@ -83,7 +84,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     @Override
     public boolean isFinished() {
         SmartDashboard.putBoolean("isInTarget",false);
-        if (isInPlace(end)) {
+        if (isInPlace(NodeBase.getInstance().getNode(end))) {
             SmartDashboard.putBoolean("isInTarget", true);
             return true;
         }

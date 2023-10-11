@@ -1,21 +1,21 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
+
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
     private int clawPos;//1 = cone catch . 2 = cube catch . 3 = release . 4590 = null
-    private int id;
     private boolean isNeighborsSet;
-    private final LinkedList<NodeArm> neighbors;
+    private final LinkedList<RobotMap.TelescopicArm.PresetPositions> neighbors;
     private final double anglePos;
     private final double extendPos;
-    public NodeArm(int id, double extenderPos, double anglePos){
-        this.id = id;
+    public NodeArm( double extenderPos, double anglePos){
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
         clawPos = 4590;
-        neighbors = new LinkedList<NodeArm>();
+        neighbors = new LinkedList<RobotMap.TelescopicArm.PresetPositions>();
         isNeighborsSet = false;
     }
     public double getExtendPos() {
@@ -24,20 +24,14 @@ public class NodeArm {
     public double getAnglePos() {
         return anglePos;
     }
-    public void addNeighbors(NodeArm[] neighbors) {
+    public void addNeighbors(RobotMap.TelescopicArm.PresetPositions[] neighbors) {
         if(!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
-    public LinkedList<NodeArm> getNeighbors(){
+    public LinkedList<RobotMap.TelescopicArm.PresetPositions> getNeighbors(){
         return neighbors;
-    }
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setClawPos(int clawPos) {

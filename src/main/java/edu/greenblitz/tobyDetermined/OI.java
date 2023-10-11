@@ -67,10 +67,10 @@ public class OI { //GEVALD
 	
 	public void butt(){
 		System.out.println("Created OI");
-		mainJoystick.A.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.REST_ABOVE_BELLY)));
-		mainJoystick.X.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.ZIG_HAIL)));
-		mainJoystick.Y.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.CONE_HIGH)));
-		mainJoystick.B.whileTrue(new NodeFullPathCommand(NodeBase.getInstance().getNode(NodeBase.SpecificNode.LOW)));
+		mainJoystick.A.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.PRE_INTAKE_GRAB_POSITION));
+		mainJoystick.X.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL));
+		mainJoystick.Y.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
+		mainJoystick.B.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.LOW));
 
 	}
 	
