@@ -36,22 +36,16 @@ public class AStar {
 
     public static LinkedList<NodeArm> returnPath(NodeArm nodeArm,Map<NodeArm, NodeArm> parents){
        LinkedList<NodeArm> pathList = new LinkedList<>();
-       LinkedList<NodeArm> realPath = new LinkedList<>();
        NodeArm current = nodeArm;
        while (current != null) {
-            pathList.add(current);
+            pathList.addFirst(current);
             current = parents.get(current);
        }
-
-       for (int i = pathList.size() - 1; i >= 0; i--) {
-           realPath.add(pathList.get(i));
-
-       }
        printPath(pathList);
-       return realPath;
+       return pathList;
     }
     public static void printPath(LinkedList<NodeArm> pathList){
-        for (int i = pathList.size() - 1; i >= 0; i--) {
+        for (int i = 0; i <= pathList.size() - 1; i++) {
             System.out.print(pathList.get(i).getId()+", ");
         }
         System.out.println();
