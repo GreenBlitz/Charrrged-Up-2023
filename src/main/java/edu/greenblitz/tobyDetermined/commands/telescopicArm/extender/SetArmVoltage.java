@@ -14,8 +14,6 @@ public class SetArmVoltage extends ExtenderCommand{
     @Override
     public void execute() {
         extender.setMotorVoltage(voltage);
-
-        SmartDashboard.putNumber("aaa", (extender.getVolt() - RobotMap.TelescopicArm.Extender.kS)/extender.getVelocity());
     }
 
     @Override

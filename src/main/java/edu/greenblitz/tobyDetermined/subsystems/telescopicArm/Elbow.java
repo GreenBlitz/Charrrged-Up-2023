@@ -194,12 +194,12 @@ public class Elbow extends GBSubsystem {
     }
 
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
-        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg + kS) * extenderLength)
+        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg ) * extenderLength)
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
 
     }
     public static double getDynamicFeedForward(double extenderLength,double elbowAngle) {
-        return getStaticFeedForward(extenderLength, elbowAngle) + kV / Battery.getInstance().getCurrentVoltage();
+        return getStaticFeedForward(extenderLength, elbowAngle) + kV * Elbow.getInstance().getVelocity();
     }
 
     public double getDebugLastFF(){

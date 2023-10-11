@@ -22,7 +22,7 @@ public class ElbowMoveByJoysticks extends ElbowCommand {
 		double power = joystick.getAxisValue(SmartJoystick.Axis.RIGHT_Y) * 1;
 		SmartDashboard.putNumber("volt elbow", power * Battery.getInstance().getCurrentVoltage() + Elbow.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
 		SmartDashboard.putNumber("elbow vel", elbow.getVelocity());
-		elbow.setMotorVoltage(power * Battery.getInstance().getCurrentVoltage() + Elbow.getDynamicFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
+		elbow.setMotorVoltage(power * Battery.getInstance().getCurrentVoltage() + Elbow.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()));
 	}
 
 	@Override

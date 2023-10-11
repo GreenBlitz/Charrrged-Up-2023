@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLen
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
+import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,20 +22,16 @@ public class NodeToNeighbourCommand extends GBCommand {
     public NodeToNeighbourCommand(NodeArm start, NodeArm end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
-        //require(elbowSub);
-        //require(extender);
+        require(elbowSub);
+        require(extender);
         this.start = start;
         this.end = end;
     }
 
-
-    public static double cosineRule(double sideA, double sideB, double angleBetweenSideAndSideB) {
-        return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAndSideB));
-    }
     public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double gamma) {
         if (sideB == 0)
             sideB+=0.02;//weird edge case where 0 * big number = 0 so messes up whole calculations
-        double sideC = cosineRule(sideA,sideB,gamma);
+        double sideC = GBMath.lawOfCosines(sideA,sideB,gamma);
         double height = sideB*Math.sin(gamma);
         double adjacent = Math.sqrt(sideC*sideC - height*height);
         return height/adjacent;

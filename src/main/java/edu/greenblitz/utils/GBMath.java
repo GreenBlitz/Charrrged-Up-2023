@@ -15,6 +15,9 @@ public class GBMath {
 	public static double absoluteModulo(double x, double y) {
 		return ((x % y) + y) % y;
 	}
-	
+
+	public static double lawOfCosines(double sideA, double sideB, double angleBetweenSideAndSideB) {
+		return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAndSideB));
+	}
 	
 }

@@ -38,7 +38,7 @@ public class NodeBase  {
     }
     public  int addToList(NodeArm nodeArm, LinkedList<NodeArm> list){
         list.add(indexOfNodes,nodeArm);
-        indexOfNodes = indexOfNodes +1;
+        indexOfNodes++;
         return indexOfNodes;
     }
     public NodeBase(){
