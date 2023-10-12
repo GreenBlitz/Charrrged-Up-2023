@@ -10,14 +10,15 @@ public class ObjectPositionByNode extends GBCommand {
             case CONE_MODE:
                 ObjectSelector.selectCone();
                 new GripBelly();
-
+                break;
             case CUBE_MODE:
                 ObjectSelector.selectCube();
                 new GripBelly();
-
+                break;
             case RELEASE:
                 new ReleaseObject();
                 ObjectSelector.selectCube();
+                break;
         }
     }
 
