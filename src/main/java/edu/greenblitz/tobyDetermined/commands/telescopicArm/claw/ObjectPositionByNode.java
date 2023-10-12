@@ -1,23 +1,23 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw.ClawState;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.GBCommand;
 
 public class ObjectPositionByNode extends GBCommand {
-    public ObjectPositionByNode(int object){
-        if(object == 1) {
-            ObjectSelector.selectCone();
-            new GripBelly();
-        }
+    public ObjectPositionByNode(ClawState object){
+        switch (object){
+            case CONE_MODE:
+                ObjectSelector.selectCone();
+                new GripBelly();
 
-        else if (object == 2) {
-            ObjectSelector.selectCube();
-            new GripBelly();
-        }
+            case CUBE_MODE:
+                ObjectSelector.selectCube();
+                new GripBelly();
 
-        else if(object == 3) {
-            new ReleaseObject();
-            ObjectSelector.selectCube();
+            case RELEASE:
+                new ReleaseObject();
+                ObjectSelector.selectCube();
         }
     }
 

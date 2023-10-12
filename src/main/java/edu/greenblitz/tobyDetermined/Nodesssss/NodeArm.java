@@ -1,12 +1,12 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw.ClawState;
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
-    private int clawPos;//1 = cone catch . 2 = cube catch . 3 = release . 4590 = null
+    private ClawState clawPos;
     private boolean isNeighborsSet;
     private final LinkedList<RobotMap.TelescopicArm.PresetPositions> neighbors;
     private final double anglePos;
@@ -14,7 +14,7 @@ public class NodeArm {
     public NodeArm( double extenderPos, double anglePos){
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
-        clawPos = 4590;
+        clawPos = ClawState.CONE_MODE;
         neighbors = new LinkedList<RobotMap.TelescopicArm.PresetPositions>();
         isNeighborsSet = false;
     }
@@ -34,11 +34,11 @@ public class NodeArm {
         return neighbors;
     }
 
-    public void setClawPos(int clawPos) {
+    public void setClawPos(ClawState clawPos) {
         this.clawPos = clawPos;
     }
 
-    public int getClawPos() {
+    public ClawState getClawPos() {
         return clawPos;
     }
 }

@@ -23,8 +23,8 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
     }
     public Command get() {
         start = NodeBase.getInstance().getCurrentNode();
-        SmartDashboard.putString("starting node", String.valueOf(start));
-        SmartDashboard.putString("end node", String.valueOf(end));
+        SmartDashboard.putString("starting node", (start).toString());
+        SmartDashboard.putString("end node", (end).toString());
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
         nodeCommands = new GBCommand[path.size()];
         for(int i = 0; i<path.size()-2; i++) {

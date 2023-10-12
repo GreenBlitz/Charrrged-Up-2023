@@ -247,6 +247,8 @@ public class RobotMap {
             INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
             PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
 
+            REST_ABOVE_BELLY(-0.02, 0.196),
+
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
             FEEDER(0.663, 1.949);
 
