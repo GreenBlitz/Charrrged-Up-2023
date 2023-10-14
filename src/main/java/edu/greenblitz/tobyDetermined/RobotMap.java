@@ -19,6 +19,7 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTIN
 
 public class RobotMap {
     public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
+    public static final Robot.currentMode ROBOT_MODE = Robot.currentMode.SIMULATION;
 
 
 

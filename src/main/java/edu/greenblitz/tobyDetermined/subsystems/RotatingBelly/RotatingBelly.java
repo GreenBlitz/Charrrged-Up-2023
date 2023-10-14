@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.RotatingBellyIO;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.RotatingBellyIOTalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,20 +13,17 @@ public class RotatingBelly extends GBSubsystem {
 
 
     private static RotatingBelly instance;
-    private TalonSRX motor;
-    private DigitalInput limitSwitch;
+
+    private RotatingBellyIO io;
+    private final RotatingBellyIO.RotatingBellyInputs inputs = new RotatingBellyIO.RotatingBellyInputs();
+
 //    private BellyGameObjectSensor colorSensor;
 
     private RotatingBelly (){
-        limitSwitch = new DigitalInput(RobotMap.RotatingBelly.MACRO_SWITCH_DIO_PORT);
-//        colorSensor = BellyGameObjectSensor.getInstance();
-        motor = new TalonSRX(RobotMap.RotatingBelly.MOTOR_ID);
-
-        motor.setInverted(true);
+        io = new RotatingBellyIOTalonSRX();
     }
-
     public void setPower(double power){
-        motor.set(TalonSRXControlMode.PercentOutput,power);
+        io.setPower(power);
     }
 
     public static RotatingBelly getInstance (){
@@ -38,31 +37,15 @@ public class RotatingBelly extends GBSubsystem {
         }
     }
 
-    /*
-    commented code since the color sensor doesn't exist yet
-    public BellyGameObjectSensor.GameObject getGameObject (){
-        return colorSensor.getCurObject();
-    }
-
-    public boolean isObjectIn(){
-        return getGameObject() == BellyGameObjectSensor.GameObject.NONE;
-    }
-
-    public boolean isConeIn(){
-        return getGameObject() == BellyGameObjectSensor.GameObject.CONE;
-    }
-*/
-    public boolean isLimitSwitchPressed(){
-        return !limitSwitch.get();
-    }
-
     public void stop (){
-        setPower(0);
+        io.stop();
     }
-
+    public boolean isLimitSwitchPressed(){
+        return io.isLimitSwitchPressed();
+    }
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("is",RotatingBelly.getInstance().isLimitSwitchPressed());
+        SmartDashboard.putBoolean("is",io.isLimitSwitchPressed());
     }
 }

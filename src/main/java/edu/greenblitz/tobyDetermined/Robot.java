@@ -30,15 +30,23 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 
 public class Robot extends LoggedRobot {
-	
+
+
 	@Override
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
+
+		initLogger();
+
 		OI.init();
 //		initSubsystems();
 //		LiveWindow.disableAllTelemetry();
@@ -58,12 +66,40 @@ public class Robot extends LoggedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+
+
+
 	}
-	
-	@Override
-	public void disabledExit() {
+
+	private void initLogger(){
+
+		Logger logger = Logger.getInstance();
+
+
+		// Set up data receivers & replay source
+		switch (RobotMap.ROBOT_MODE) {
+			// Running on a real robot, log to a USB stick
+			case REAL:
+				logger.addDataReceiver(new WPILOGWriter("/U"));
+				logger.addDataReceiver(new NT4Publisher());
+				break;
+
+			// Running a physics simulator, log to local folder
+			case SIMULATION:
+				logger.addDataReceiver(new WPILOGWriter(""));
+				logger.addDataReceiver(new NT4Publisher());
+				break;
+
+			// Replaying a log, set up replay source
+			case REPLAY:
+				setUseTiming(false); // Run as fast as possible
+				String logPath = LogFileUtil.findReplayLog();
+				logger.setReplaySource(new WPILOGReader(logPath));
+				logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+				break;
+		}
+		logger.start();
 	}
-	
 	private static void initSubsystems() {
 		MultiLimelight.init();
 		Dashboard.init();
@@ -103,6 +139,7 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
+
 //		RoborioUtils.updateCurrentCycleTime();
 //		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 		RoborioUtils.updateCurrentCycleTime();
@@ -245,9 +282,20 @@ public class Robot extends LoggedRobot {
 		SwerveChassis.getInstance().isEncoderBroken();
 		Elbow.getInstance().resetEncoder();
 	}
-	
+
+	@Override
+	public void disabledExit() {
+	}
+
+
 	public enum robotName {
 		pegaSwerve, Frankenstein
+	}
+
+	public enum currentMode {
+		SIMULATION,
+		REAL,
+		REPLAY
 	}
 
 }
