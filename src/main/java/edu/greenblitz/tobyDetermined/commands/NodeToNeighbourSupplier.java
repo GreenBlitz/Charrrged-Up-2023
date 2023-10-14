@@ -15,16 +15,18 @@ import java.util.function.Supplier;
 
 public class NodeToNeighbourSupplier implements Supplier<Command> {
     private RobotMap.TelescopicArm.PresetPositions start;
-    private RobotMap.TelescopicArm.PresetPositions end;
+    private static RobotMap.TelescopicArm.PresetPositions end;
     private GBCommand[] nodeCommands;
+    public static RobotMap.TelescopicArm.PresetPositions getEnd(){
+        return end;
+    }
+
     public NodeToNeighbourSupplier(RobotMap.TelescopicArm.PresetPositions endNode) {
         end = endNode;
         SmartDashboard.putNumber("passIsFinished",0);
     }
     public Command get() {
         start = NodeBase.getInstance().getCurrentNode();
-        SmartDashboard.putString("starting node", (start).toString());
-        SmartDashboard.putString("end node", (end).toString());
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
         nodeCommands = new GBCommand[path.size()];
         for(int i = 0; i<path.size()-2; i++) {
