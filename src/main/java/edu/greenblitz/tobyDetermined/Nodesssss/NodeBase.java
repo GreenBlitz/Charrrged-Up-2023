@@ -12,26 +12,14 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositio
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
 
 public class NodeBase {
-    private RobotMap.TelescopicArm.PresetPositions currentNode;
 
-    protected final HashMap<RobotMap.TelescopicArm.PresetPositions, NodeArm> nodeMap = new HashMap<>();
-    private static NodeBase instance;
-    private final double TOLERANCE_ANGLE = Units.degreesToRadians(3);
+    protected final static HashMap<RobotMap.TelescopicArm.PresetPositions, NodeArm> nodeMap = new HashMap<>();
 
-    private final double TOLERANCE_LENGTH = 0.04;//In Meters
+    private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
 
-    public static NodeBase getInstance() {
-        init();
-        return instance;
-    }
+    private final static double TOLERANCE_LENGTH = 0.04;//In Meters
 
-    public static void init() {
-        if (instance == null) {
-            instance = new NodeBase();
-        }
-    }
-
-    public NodeBase() {
+    static {
         /*
         double[][] poses = {{1,5},{2,6}};
 
@@ -64,8 +52,6 @@ public class NodeBase {
         nodeMap.get(PRE_CONE_DROP).addNeighbors(new PresetPositions[]{POST_CONE_DROP});
         nodeMap.get(POST_CONE_DROP).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION});
 
-        currentNode = INTAKE_GRAB_CONE_POSITION;
-
         nodeMap.get(CONE_HIGH).setClawPos(Claw.ClawState.RELEASE);
         nodeMap.get(CONE_MID).setClawPos(Claw.ClawState.RELEASE);
         nodeMap.get(CUBE_HIGH).setClawPos(Claw.ClawState.RELEASE);
@@ -78,39 +64,29 @@ public class NodeBase {
 
     }
 
-    public RobotMap.TelescopicArm.PresetPositions getCurrentNode() {
-        if (currentNode == null)
-            currentNode = INTAKE_GRAB_CONE_POSITION;
-        return currentNode;
-    }
-
-    public void setCurrentNode(RobotMap.TelescopicArm.PresetPositions pos) {
-        currentNode = pos;
-    }
-
-    public NodeArm getNode(RobotMap.TelescopicArm.PresetPositions specNode) {
+    public static NodeArm getNode(PresetPositions specNode) {
         return nodeMap.get(specNode);
     }
 
-    public boolean getIfInLength(double length, NodeArm index) {
+    public static boolean getIfInLength(double length, NodeArm index) {
         return Math.abs(index.getExtendPos() - length) <= TOLERANCE_LENGTH;
     }
 
-    public boolean getIfInAngle(double angle, NodeArm index) {
+    public static boolean getIfInAngle(double angle, NodeArm index) {
         return Math.abs(index.getAnglePos() - angle) <= TOLERANCE_ANGLE;
 
     }
 
-    public boolean getIfInNode(double angle, double length, NodeArm index) {
+    public static boolean getIfInNode(double angle, double length, NodeArm index) {
         return getIfInAngle(angle, index) && getIfInLength(length, index);
 
     }
 
-    public double getDistanceBetweenTwoPoints(NodeArm a, NodeArm b) {
+    public static double getDistanceBetweenTwoPoints(NodeArm a, NodeArm b) {
         return Math.sqrt(
                 Math.pow(a.getAnglePos() - b.getAnglePos(), 2)
                         +
-                        Math.pow(a.getExtendPos() - b.getExtendPos(), 2));
+                Math.pow(a.getExtendPos() - b.getExtendPos(), 2));
     }
 
 }

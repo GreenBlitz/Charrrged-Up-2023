@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
@@ -12,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
 
 public class NodeToNeighbourCommand extends GBCommand {
-    private final NodeBase nodeBase;
     private final Extender extender;
     private final Elbow elbowSub;
     private PresetPositions start;
@@ -24,7 +24,6 @@ public class NodeToNeighbourCommand extends GBCommand {
     public NodeToNeighbourCommand(PresetPositions start, PresetPositions end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
-        nodeBase = NodeBase.getInstance();
         require(elbowSub);
         require(extender);
         this.start = start;
@@ -62,7 +61,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
-        if (!(nodeBase.getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
+        if (!(NodeBase.getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
         }
         else
@@ -72,13 +71,13 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
 
     public boolean isInPlace(NodeArm target){
-        return nodeBase.getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
+        return NodeBase.getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
     }
 
     @Override
     public void execute() {
-        if(nodeBase.getNode(start).getNeighbors().contains(end)) {
-            moveArm(nodeBase.getNode(end));
+        if(NodeBase.getNode(start).getNeighbors().contains(end)) {
+            moveArm(NodeBase.getNode(end));
         }
 
     }
@@ -86,7 +85,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     @Override
     public boolean isFinished() {
         SmartDashboard.putBoolean("isInTarget",false);
-        if (isInPlace(nodeBase.getNode(end))) {
+        if (isInPlace(NodeBase.getNode(end))) {
             SmartDashboard.putBoolean("isInTarget", true);
             return true;
         }
@@ -95,6 +94,6 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        nodeBase.setCurrentNode(end);
+        CurrentNode.getInstance().setCurrentNode(end);
     }
 }

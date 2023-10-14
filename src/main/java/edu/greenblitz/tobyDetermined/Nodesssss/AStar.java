@@ -11,10 +11,9 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositio
 
 public class AStar {
 
-    private static final NodeBase nodeBase = NodeBase.getInstance();
     public static double getDistanceToStartPlusEnd(PresetPositions current, NodeArm start, NodeArm end){
-       double gCost = Math.abs(nodeBase.getDistanceBetweenTwoPoints(start,nodeBase.getNode(current)));
-       double hCost = Math.abs(nodeBase.getDistanceBetweenTwoPoints(end,nodeBase.getNode(current)));
+       double gCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(start,NodeBase.getNode(current)));
+       double hCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(end,NodeBase.getNode(current)));
        return gCost+hCost;
     }
 
@@ -63,7 +62,7 @@ public class AStar {
         nodesCanGoTo.add(start);
 
         while (!nodesCanGoTo.isEmpty()) {
-            PresetPositions current = getLowestFcost(nodesCanGoTo, nodeBase.getNode(start), nodeBase.getNode(end));
+            PresetPositions current = getLowestFcost(nodesCanGoTo, NodeBase.getNode(start), NodeBase.getNode(end));
             nodesCanGoTo.remove(current);
             closed.add(current);
 
@@ -71,7 +70,7 @@ public class AStar {
                 return returnPath(current, parents);
             }
 
-            for (PresetPositions neighbor : nodeBase.getNode(current).getNeighbors()) {
+            for (PresetPositions neighbor : NodeBase.getNode(current).getNeighbors()) {
                 if (!isInList(neighbor, closed) && !isInList(neighbor, nodesCanGoTo)) {
                     nodesCanGoTo.add(neighbor);
                     parents.put(neighbor, current);
