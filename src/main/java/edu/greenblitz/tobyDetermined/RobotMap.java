@@ -18,10 +18,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
 
 public class RobotMap {
-    public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
-    public static final Robot.currentMode ROBOT_MODE = Robot.currentMode.SIMULATION;
-
-
+    public static final Robot.RobotType ROBOT_TYPE = Robot.RobotType.SIMULATION;
 
     public static class BreakCoastSwitch{
         public static final int BREAK_COAST_SWITCH_DIO_PORT = 0;

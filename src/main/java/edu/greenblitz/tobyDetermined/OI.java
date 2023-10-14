@@ -17,7 +17,6 @@ import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.ResetVisionMoveToPose;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.FullGripCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
@@ -27,8 +26,8 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPos
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;

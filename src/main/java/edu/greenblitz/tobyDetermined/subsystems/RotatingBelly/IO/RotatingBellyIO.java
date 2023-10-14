@@ -19,6 +19,7 @@ public interface RotatingBellyIO {
     @AutoLog
     class RotatingBellyInputs {
         public double motorVoltage;
+        public boolean isSwitchPressed;
     }
 
 }

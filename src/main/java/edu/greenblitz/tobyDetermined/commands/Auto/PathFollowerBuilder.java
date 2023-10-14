@@ -18,7 +18,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

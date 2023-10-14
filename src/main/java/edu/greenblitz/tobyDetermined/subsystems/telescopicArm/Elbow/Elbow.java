@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.telescopicArm;
+package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -7,6 +7,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.filter.MedianFilter;

@@ -1,8 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.utils.GBCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class ElbowCommand extends GBCommand {
 

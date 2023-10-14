@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
-import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
@@ -14,16 +13,14 @@ import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -77,9 +74,9 @@ public class Robot extends LoggedRobot {
 
 
 		// Set up data receivers & replay source
-		switch (RobotMap.ROBOT_MODE) {
+		switch (RobotMap.ROBOT_TYPE) {
 			// Running on a real robot, log to a USB stick
-			case REAL:
+			case Frankenstein:
 				logger.addDataReceiver(new WPILOGWriter("/U"));
 				logger.addDataReceiver(new NT4Publisher());
 				break;
@@ -185,7 +182,7 @@ public class Robot extends LoggedRobot {
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().enableVision();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
-		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().doesSensorExists && !Extender.getInstance().DidReset()) {
 			new ResetExtender().schedule();
 		}
 
@@ -217,9 +214,10 @@ public class Robot extends LoggedRobot {
 		} else {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
-		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().doesSensorExists && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(4)).andThen(command).schedule();
 		} else command.schedule();
+
 	}
 	
 	@Override
@@ -288,14 +286,12 @@ public class Robot extends LoggedRobot {
 	}
 
 
-	public enum robotName {
-		pegaSwerve, Frankenstein
-	}
-
-	public enum currentMode {
+	public enum RobotType {
+		pegaSwerve,
+		Frankenstein,
 		SIMULATION,
-		REAL,
 		REPLAY
 	}
+
 
 }

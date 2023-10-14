@@ -105,6 +105,8 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
 
+    def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
+    annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
 
 }
 
@@ -126,6 +128,10 @@ deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
 
+
+configurations.all {
+    exclude group: "edu.wpi.first.wpilibj"
+}
 tasks.named('wrapper') {
     distributionType = Wrapper.DistributionType.ALL
 }

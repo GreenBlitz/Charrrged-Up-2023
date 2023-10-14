@@ -6,11 +6,10 @@ import edu.greenblitz.tobyDetermined.IsRobotReady;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.PIDObject;
-import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -20,7 +19,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Map;
 

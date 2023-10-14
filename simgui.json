@@ -1,0 +1,12 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Arm debug/arm mechanism": "Mechanism2d",
+      "/Shuffleboard/Arm debug/elbowPID": "PIDController",
+      "/Shuffleboard/Arm debug/extenderPID": "PIDController",
+      "/Shuffleboard/auto/autonomous chooser": "String Chooser",
+      "/SmartDashboard/field": "Field2d"
+    }
+  }
+}

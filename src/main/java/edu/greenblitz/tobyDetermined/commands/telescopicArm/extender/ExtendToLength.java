@@ -1,14 +1,9 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.extender;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderCommand;
-import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.Console;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;

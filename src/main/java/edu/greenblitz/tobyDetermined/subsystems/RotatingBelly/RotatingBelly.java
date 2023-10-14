@@ -1,12 +1,8 @@
 package edu.greenblitz.tobyDetermined.subsystems.RotatingBelly;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.RotatingBellyIO;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.RotatingBellyIOTalonSRX;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.RotatingBellyInputsAutoLogged;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotatingBelly extends GBSubsystem {
@@ -14,8 +10,9 @@ public class RotatingBelly extends GBSubsystem {
 
     private static RotatingBelly instance;
 
-    private RotatingBellyIO io;
-    private final RotatingBellyIO.RotatingBellyInputs inputs = new RotatingBellyIO.RotatingBellyInputs();
+    private RotatingBellyIOTalonSRX io;
+    private final RotatingBellyInputsAutoLogged inputs = new RotatingBellyInputsAutoLogged();
+
 
 //    private BellyGameObjectSensor colorSensor;
 
@@ -41,11 +38,12 @@ public class RotatingBelly extends GBSubsystem {
         io.stop();
     }
     public boolean isLimitSwitchPressed(){
-        return io.isLimitSwitchPressed();
+        return inputs.isSwitchPressed;
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("is",io.isLimitSwitchPressed());
+        io.updateInputs(inputs);
+        SmartDashboard.putBoolean("is", inputs.isSwitchPressed);
     }
 }
