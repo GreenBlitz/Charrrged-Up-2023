@@ -149,7 +149,7 @@ public class Dashboard extends GBSubsystem {
 
 		//arm ff
 		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
-		armTab.addDouble("encoder value", ()-> Elbow.getInstance().motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition()).withPosition(0, 0).withSize(2, 2);
+		armTab.addDouble("encoder value", ()-> Elbow.getInstance().getAngleRadians()).withPosition(0, 0).withSize(2, 2);
 		Mechanism2d mech = new Mechanism2d(3, 3);
 
 

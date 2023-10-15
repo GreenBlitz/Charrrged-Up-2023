@@ -1,0 +1,52 @@
+package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+
+import com.revrobotics.CANSparkMax;
+import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+
+public class ElbowIOSim implements ElbowIO{
+    SingleJointedArmSim elbowSim;
+    private double appliedVoltage;
+
+    public ElbowIOSim() {
+        elbowSim = new SingleJointedArmSim(
+                DCMotor.getNEO(1),
+                RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR,
+                SingleJointedArmSim.estimateMOI(0.02, 6),
+                0.02,
+                RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT,
+                RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT,
+                true
+        );
+    }
+
+    @Override
+    public void setPosition(double position) {
+        ElbowIO.super.setPosition(position);
+    }
+
+    @Override
+    public void setPower(double power) {
+        setVoltage(power * 12);
+    }
+    @Override
+    public void setVoltage(double voltage) {
+        appliedVoltage = MathUtil.clamp(voltage, -12, 12);
+        elbowSim.setInputVoltage(appliedVoltage);
+    }
+
+    @Override
+    public void updateInputs(ElbowInputs inputs) {
+
+        elbowSim.update(0.02);
+
+        inputs.appliedOutput = appliedVoltage;
+        inputs.outputCurrent = elbowSim.getCurrentDrawAmps();
+        inputs.position = elbowSim.getAngleRads();
+        inputs.velocity = elbowSim.getVelocityRadPerSec();
+        inputs.absoluteEncoderPosition = elbowSim.getAngleRads();
+        inputs.absoluteEncoderVelocity = elbowSim.getVelocityRadPerSec();
+    }
+}

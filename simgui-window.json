@@ -10,11 +10,26 @@
       "style": "0",
       "userScale": "2",
       "width": "1280",
-      "xpos": "401",
-      "ypos": "142"
+      "xpos": "221",
+      "ypos": "113"
     }
   },
   "Window": {
+    "###/AdvantageKit/RealOutputs/Arm/ArmMechanism": {
+      "Collapsed": "0",
+      "Pos": "538,60",
+      "Size": "200,200"
+    },
+    "###/Shuffleboard/Arm debug/extenderPID": {
+      "Collapsed": "0",
+      "Pos": "598,56",
+      "Size": "123,144"
+    },
+    "###/Shuffleboard/Drivers/Field": {
+      "Collapsed": "0",
+      "Pos": "305,87",
+      "Size": "462,314"
+    },
     "###FMS": {
       "Collapsed": "0",
       "Pos": "5,540",
@@ -22,13 +37,23 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "250,465",
+      "Pos": "336,472",
       "Size": "796,73"
+    },
+    "###Keyboard 0 Settings": {
+      "Collapsed": "0",
+      "Pos": "225,30",
+      "Size": "300,582"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "250,277",
-      "Size": "750,185"
+      "Pos": "536,273",
+      "Size": "724,422"
+    },
+    "###NetworkTables Info": {
+      "Collapsed": "0",
+      "Pos": "250,130",
+      "Size": "750,145"
     },
     "###Other Devices": {
       "Collapsed": "0",
@@ -37,12 +62,12 @@
     },
     "###System Joysticks": {
       "Collapsed": "0",
-      "Pos": "5,350",
+      "Pos": "768,17",
       "Size": "192,218"
     },
     "###Timing": {
       "Collapsed": "0",
-      "Pos": "5,150",
+      "Pos": "18,190",
       "Size": "141,150"
     },
     "Debug##Default": {

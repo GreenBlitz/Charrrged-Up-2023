@@ -1,12 +1,34 @@
 {
   "NTProvider": {
     "types": {
+      "/AdvantageKit/RealOutputs/Arm/ArmMechanism": "Mechanism2d",
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Arm debug/arm mechanism": "Mechanism2d",
       "/Shuffleboard/Arm debug/elbowPID": "PIDController",
       "/Shuffleboard/Arm debug/extenderPID": "PIDController",
+      "/Shuffleboard/Drivers/Field": "Field2d",
       "/Shuffleboard/auto/autonomous chooser": "String Chooser",
       "/SmartDashboard/field": "Field2d"
+    },
+    "windows": {
+      "/AdvantageKit/RealOutputs/Arm/ArmMechanism": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "AdvantageKit": {
+        "Elbow": {
+          "open": true
+        },
+        "Extender": {
+          "open": true
+        },
+        "open": true
+      }
     }
   }
 }

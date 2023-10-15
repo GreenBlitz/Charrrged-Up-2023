@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 
 import com.revrobotics.CANSparkMax;
+import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
@@ -11,6 +12,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.littletonrobotics.junction.Logger;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
 
@@ -41,14 +43,24 @@ public class Extender extends GBSubsystem {
 
 	private Extender() {
 		io = generateIO();
+		if(RobotMap.ROBOT_TYPE == Robot.RobotType.Frankenstein){
+			this.profileGenerator = new ProfiledPIDController(
+					PID.getKp(),
+					PID.getKi(),
+					PID.getKd(),
+					CONSTRAINTS
+			);
+			this.profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+		}else{
+			this.profileGenerator = new ProfiledPIDController(
+					SIM_PID.getKp(),
+					SIM_PID.getKi(),
+					SIM_PID.getKd(),
+					CONSTRAINTS
+			);
+			this.profileGenerator.setTolerance(SIM_LENGTH_TOLERANCE);
+		}
 
-		this.profileGenerator = new ProfiledPIDController(
-				PID.getKp(),
-				PID.getKi(),
-				PID.getKd(),
-				CONSTRAINTS
-				);
-		this.profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 
 		lastSpeed = 0;
 		didReset = false;
@@ -85,7 +97,7 @@ public class Extender extends GBSubsystem {
 		SmartDashboard.putBoolean("holdPosition", holdPosition);
 		SmartDashboard.putNumber("voltage",getVolt());
 		SmartDashboard.putNumber("velocity",getVelocity());
-		SmartDashboard.putNumber("position",getLength());
+		SmartDashboard.putNumber("",getLength());
 
 		if (accTimer.advanceIfElapsed(0.15)) {
 			SmartDashboard.putNumber("curr acc",
@@ -97,9 +109,17 @@ public class Extender extends GBSubsystem {
 
 
 
+
 		if (holdPosition) {
 			io.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 		}
+
+
+
+		io.updateInputs(inputs);
+		Logger.getInstance().processInputs("Extender",inputs);
+
+
 	}
 
 	public static ExtenderState getHypotheticalState(double lengthInMeters) {
@@ -128,18 +148,18 @@ public class Extender extends GBSubsystem {
 		// going out of bounds should not be allowed
 		if (getHypotheticalState(wantedLength) == ExtenderState.FORWARD_OUT_OF_BOUNDS) {
 			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
-			return (RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+			return (RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH - profileGenerator.getPositionTolerance());
 		} else if (getHypotheticalState(wantedLength) == ExtenderState.REVERSE_OUT_OF_BOUNDS) {
 			Console.log("OUT OF BOUNDS", "arm Extender is trying to move OUT OF BOUNDS" );
-			return (RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+			return (RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + profileGenerator.getPositionTolerance());
 		}
 
 		// arm should not extend to open state when inside the belly (would hit chassis)
 		else if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(wantedLength).longerThan( ExtenderState.IN_ROBOT_BELLY_LENGTH)) {
-			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT - profileGenerator.getPositionTolerance());
 		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(wantedLength).longerThan(ExtenderState.IN_WALL_LENGTH)) {
 			// arm should not extend too much in front of the wall
-			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
+			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - profileGenerator.getPositionTolerance());
 		} else {
 			return (wantedLength);
 		}
@@ -186,7 +206,7 @@ public class Extender extends GBSubsystem {
 
 	public boolean isAtLength(double wantedLength){
 		double lengthError = wantedLength - getLength();
-		return lengthError > -FORWARDS_LENGTH_TOLERANCE  && lengthError < RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
+		return lengthError > -FORWARDS_LENGTH_TOLERANCE  && lengthError < profileGenerator.getPositionTolerance();
 		//makes it so the arm can only be too short, so it can always pass the state line
 	}
 

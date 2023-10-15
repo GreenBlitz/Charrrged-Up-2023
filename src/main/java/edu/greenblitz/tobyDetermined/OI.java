@@ -20,6 +20,8 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPositio
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngleRadians;
+import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
@@ -31,6 +33,8 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class OI { //GEVALD
 
@@ -44,6 +48,7 @@ public class OI { //GEVALD
 	private OI() {
 		mainJoystick = new SmartJoystick(RobotMap.Joystick.MAIN, 0.1);
 		secondJoystick = new SmartJoystick(RobotMap.Joystick.SECOND, 0.2);
+
 		initButtons();
 
 	}
@@ -93,8 +98,19 @@ public class OI { //GEVALD
 	}
 
 	public void amireeeButtons() {
-		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-		Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
+//		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+// 		Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
+
+		Extender.getInstance().setDefaultCommand(
+				new RepeatCommand(
+					new ExtendToLength(0.6)
+				)
+		);
+        Elbow.getInstance().setDefaultCommand(
+                new RepeatCommand(
+                        new RotateToAngleRadians(0.5)
+                )
+        );
 
 
 		//screenshot

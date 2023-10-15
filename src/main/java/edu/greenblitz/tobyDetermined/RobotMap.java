@@ -270,6 +270,7 @@ public class RobotMap {
             public static final double MAX_LENGTH_IN_ROBOT = 0.4;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
+            public static final PIDObject SIM_PID = new PIDObject().withKp(30).withKi(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
@@ -278,6 +279,7 @@ public class RobotMap {
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.045; //in meters
+            public static final double SIM_LENGTH_TOLERANCE = 0.001; //in meters
             public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
