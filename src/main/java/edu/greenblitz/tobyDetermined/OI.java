@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.commands.NodeFullPathCommand;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
+import edu.greenblitz.tobyDetermined.commands.intake.ExtendAndRoll;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.*;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -71,6 +72,7 @@ public class OI { //GEVALD
 		mainJoystick.X.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL));
 		mainJoystick.Y.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
 		mainJoystick.B.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.LOW));
+		mainJoystick.L1.whileTrue(new ExtendAndRoll(true));
 
 	}
 	

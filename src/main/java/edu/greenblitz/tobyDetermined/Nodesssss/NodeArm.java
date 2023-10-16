@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm {
+    private boolean griperPos; //true - open, close - false
     private ClawState clawPos;
     private boolean isNeighborsSet;
     private final LinkedList<RobotMap.TelescopicArm.PresetPositions> neighbors;
@@ -40,5 +41,13 @@ public class NodeArm {
 
     public ClawState getClawPos() {
         return clawPos;
+    }
+
+    public boolean isGriperPos() {
+        return griperPos;
+    }
+
+    public void setGriperPos(boolean griperPos) {
+        this.griperPos = griperPos;
     }
 }

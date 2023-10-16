@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.commands;
 import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.commands.intake.ExtendAndRoll;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
@@ -72,6 +73,17 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     public boolean isInPlace(NodeArm target){
         return NodeBase.getIfInNode(elbowSub.getAngleRadians(),extender.getLength(), target );
+    }
+
+    @Override
+    public void initialize() {
+        PresetPositions use = end;
+        if(use.equals(PresetPositions.ZIG_HAIL))
+            use=start;
+        if(NodeBase.getNode(use).getClawPos()!= null) {
+            if (NodeBase.getNode(use).getClawPos() != griperCurrentPos)
+                new ExtendAndRoll(false).schedule();
+        }
     }
 
     @Override
