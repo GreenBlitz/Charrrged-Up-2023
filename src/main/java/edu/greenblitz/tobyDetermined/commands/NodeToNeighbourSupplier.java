@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
+import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.Nodesssss.AStar;
 import edu.greenblitz.tobyDetermined.RobotMap;
@@ -26,7 +25,7 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
         SmartDashboard.putNumber("passIsFinished",0);
     }
     public Command get() {
-        RobotMap.TelescopicArm.PresetPositions start = CurrentNode.getInstance().getCurrentNode();
+        RobotMap.TelescopicArm.PresetPositions start = CurrentNodeArm.getInstance().getCurrentNode();
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
         nodeCommands = new GBCommand[path.size()];
         for(int i = 0; i<path.size()-2; i++) {

@@ -3,8 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.IsRobotReady;
-import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNodeArm;
 import edu.greenblitz.tobyDetermined.commands.NodeToNeighbourSupplier;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
@@ -157,7 +156,7 @@ public class Dashboard extends GBSubsystem {
 
 		armTab.addDouble("extender velocity",()-> Extender.getInstance().getVelocity());
 		armTab.addDouble("angular velocity", () -> Elbow.getInstance().getVelocity());
-		armTab.addString("Current Node ", () -> CurrentNode.getInstance().getCurrentNode().toString());
+		armTab.addString("Current Node ", () -> CurrentNodeArm.getInstance().getCurrentNode().toString());
 		armTab.addString("wantedNode" , ()-> NodeToNeighbourSupplier.getEnd().toString());
 		MechanismRoot2d root = mech.getRoot("arm root", 1.5, 1.5);
 

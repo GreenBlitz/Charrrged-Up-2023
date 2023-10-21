@@ -1,14 +1,12 @@
 package edu.greenblitz.tobyDetermined.commands;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.GBMath;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
 
@@ -94,6 +92,6 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        CurrentNode.getInstance().setCurrentNode(end);
+        CurrentNodeArm.getInstance().setCurrentNode(end);
     }
 }

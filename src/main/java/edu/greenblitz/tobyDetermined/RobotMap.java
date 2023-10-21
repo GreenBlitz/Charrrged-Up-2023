@@ -369,6 +369,11 @@ public class RobotMap {
     }
 
     public static class Intake {
+        public enum GriperPos{
+            ONE,
+            TWO,
+            THREE;
+        }
         public static final int ROLLER_ID = 4;
         public static final double DEFAULT_POWER = 1;
         public static final int BEAM_BREAKER_ID = 20;
