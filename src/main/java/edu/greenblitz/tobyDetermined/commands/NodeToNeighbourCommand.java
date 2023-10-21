@@ -3,23 +3,25 @@ package edu.greenblitz.tobyDetermined.commands;
 import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
+import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
 
 public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbowSub;
-    private PresetPositions start;
-    private PresetPositions end;
+    private GriperPos start;
+    private GriperPos end;
     private static final double COMBINED_VELOCITY = 2.3; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 1.5;//In Radians Per Second
 
-    public NodeToNeighbourCommand(PresetPositions start, PresetPositions end){
+    public NodeToNeighbourCommand(GriperPos start, GriperPos end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
         require(elbowSub);

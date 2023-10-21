@@ -25,13 +25,13 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
         SmartDashboard.putNumber("passIsFinished",0);
     }
     public Command get() {
-        RobotMap.TelescopicArm.PresetPositions start = CurrentNodeArm.getInstance().getCurrentNode();
-        LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
-        nodeCommands = new GBCommand[path.size()];
-        for(int i = 0; i<path.size()-2; i++) {
-            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i+1));
-        }
-        nodeCommands[path.size()-1] = new ObjectPositionByNode(NodeBase.getNode(end).getClawPos());
+//        RobotMap.TelescopicArm.PresetPositions start = CurrentNodeArm.getInstance().getCurrentNode();
+//        LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
+//        nodeCommands = new GBCommand[path.size()];
+//        for(int i = 0; i<path.size()-2; i++) {
+//            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i+1));
+//        }
+//        nodeCommands[path.size()-1] = new ObjectPositionByNode(NodeBase.getNode(end).getClawPos());
         return new SequentialCommandGroup(nodeCommands);
     }
 

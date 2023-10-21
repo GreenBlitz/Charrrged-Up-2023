@@ -8,17 +8,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class GriperNode {
-    private LinkedList<RobotMap.TelescopicArm.PresetPositions> armMustBe;
+public class GriperNode extends GBNode {
+    private LinkedList<RobotMap.Intake.GriperPos> armMustBe;
     private boolean isNeighborsSet;
     private final LinkedList<RobotMap.Intake.GriperPos> neighbors;
     private GBCommand command;
+
     public GriperNode(GBCommand command){
+        super(command);
         neighbors = new LinkedList<>();
         armMustBe = new LinkedList<>();
         isNeighborsSet = false;
         this.command = command;
-
     }
     public void addNeighbors(RobotMap.Intake.GriperPos[] neighbors) {
         if(!isNeighborsSet) {
@@ -27,11 +28,11 @@ public class GriperNode {
         }
     }
 
-    public LinkedList<RobotMap.TelescopicArm.PresetPositions> getArmMustBe() {
+    public LinkedList<RobotMap.Intake.GriperPos> getArmMustBe() {
         return armMustBe;
     }
 
-    public void setArmMustBe(RobotMap.TelescopicArm.PresetPositions[] armMustBe) {
+    public void setArmMustBe(RobotMap.Intake.GriperPos[] armMustBe) {
         if(!isNeighborsSet) {
             Collections.addAll(this.armMustBe, armMustBe);
             isNeighborsSet = true;

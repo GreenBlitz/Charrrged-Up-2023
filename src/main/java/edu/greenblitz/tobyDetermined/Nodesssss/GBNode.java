@@ -6,17 +6,17 @@ import edu.greenblitz.utils.GBCommand;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public abstract class GBNode <T> {
+public abstract class GBNode {
     private boolean isNeighborsSet;
-    private final LinkedList<T> neighbors;
+    private final LinkedList<RobotMap.Intake.GriperPos> neighbors;
     private GBCommand command;
 
     public GBNode(GBCommand command ){
-        neighbors = new LinkedList<T>();
+        neighbors = new LinkedList<RobotMap.Intake.GriperPos>();
         isNeighborsSet = false;
         this.command = command;
     }
-    public void addNeighbors(T[] neighbors) {
+    public void addNeighbors(RobotMap.Intake.GriperPos[] neighbors) {
         if(!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
@@ -27,7 +27,7 @@ public abstract class GBNode <T> {
         return command;
     }
 
-    public LinkedList<T> getNeighbors(){
+    public LinkedList<RobotMap.Intake.GriperPos> getNeighbors(){
         return neighbors;
     }
 
