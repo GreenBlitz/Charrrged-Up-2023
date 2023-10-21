@@ -55,7 +55,7 @@ public class SdsSwerveModule implements SwerveModule {
 	public static double convertRadsToTicks(double angInRads) {
 		return angInRads / RobotMap.Swerve.SdsSwerve.angleTicksToRadians;
 	}
-	
+
 	public static double convertTicksToRads(double angInTicks) {
 		return angInTicks * RobotMap.Swerve.SdsSwerve.angleTicksToRadians;
 	}
@@ -67,7 +67,7 @@ public class SdsSwerveModule implements SwerveModule {
 	public static double convertTicksToMeters(double angInTicks){
 		return angInTicks * RobotMap.Swerve.SdsSwerve.linTicksToMeters;
 	}
-	
+
 	/**
 	 * @param angleInRads - angle to turn to in radians
 	 */
@@ -254,11 +254,11 @@ public class SdsSwerveModule implements SwerveModule {
 	}
 
 	public static class SdsSwerveModuleConfigObject {
-		private int angleMotorID;
-		private int linearMotorID;
-		private int AbsoluteEncoderID;
-		private boolean linInverted;
-		private double encoderOffset;
+		public int angleMotorID;
+		public int linearMotorID;
+		public int AbsoluteEncoderID;
+		public boolean linInverted;
+		public double encoderOffset;
 
 		public SdsSwerveModuleConfigObject(int angleMotorID, int linearMotorID, int AbsoluteEncoderID,double encoderOffset, boolean linInverted) {
 			this.angleMotorID = angleMotorID;

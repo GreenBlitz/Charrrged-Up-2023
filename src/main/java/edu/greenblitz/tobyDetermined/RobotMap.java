@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+//import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SimModuleIO;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SimModuleIO;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -141,7 +143,7 @@ public class RobotMap {
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 
-        
+
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(2, 8, 1, false); //back left
@@ -155,6 +157,13 @@ public class RobotMap {
         public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 3, 0.5524,false); //back left
 
         public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 4, 0.8718,true); //back right
+
+
+
+        public static SimModuleIO.SimModuleConfigObject SimModuleFrontLeft = new SimModuleIO.SimModuleConfigObject(1, 0,false); //front left
+        public static SimModuleIO.SimModuleConfigObject SimModuleFrontRight =new SimModuleIO.SimModuleConfigObject(3, 2 ,true); //front right
+        public static SimModuleIO.SimModuleConfigObject SimModuleBackLeft = new  SimModuleIO.SimModuleConfigObject(5, 4,false); //back left
+        public static SimModuleIO.SimModuleConfigObject SimModuleBackRight = new SimModuleIO.SimModuleConfigObject(7, 6,true); //back right
 
 
         public static class KazaSwerve {
