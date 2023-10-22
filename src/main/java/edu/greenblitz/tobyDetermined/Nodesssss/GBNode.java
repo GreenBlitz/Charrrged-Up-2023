@@ -42,9 +42,8 @@ public abstract class GBNode {
     }
     public double getCost(){return 1.0;}
 
-
     public double getCost(GriperPos nodeArm){
-        return 1.0;
+        return 0;
     }
 
 }

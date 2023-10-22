@@ -53,19 +53,10 @@ public class AStar {
             return null; // Handle the case where the list is empty
         }
         int saveI = 0;
-        if (open.contains(end)) {
-            double fCost = getDistanceToStartPlusEnd(end, start, end);
-            fCost += addAnotherPathAndCost(closed.get(0), end, griperPos, griperPath).getFirst();
-            //cost += fCost;
-            return end;
-        }
         double fCost = getDistanceToStartPlusEnd(open.get(0), start, end);
-        fCost += addAnotherPathAndCost(closed.get(0), open.get(0), griperPos, griperPath).getFirst();
         //null
         for (int i = 1; i < open.size(); i++) {
             double currentFCost = getDistanceToStartPlusEnd(open.get(i), start, end);
-            Pair<Double, GriperPos> a = addAnotherPathAndCost(closed.get(0), open.get(i), griperPos, griperPath);
-            currentFCost += a.getFirst();
             if (currentFCost < fCost) {
                 fCost = currentFCost;
                 saveI = i;

@@ -51,7 +51,7 @@ public class GriperNode extends GBNode {
     @Override
     public double getCost(RobotMap.Intake.GriperPos griperNode){
        // return this.x + NodeBase.getNode(griperNode, GriperPointer.GRIPER_POINTER).x;
-        return 0;
+        return 1;
     }
 
 

@@ -67,8 +67,13 @@ public class NodeArm extends GBNode {
     @Override
     public double getCost(RobotMap.Intake.GriperPos nodeArm){
         return Math.sqrt(
-                Math.pow(this.getAnglePos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getAnglePos(), 2)
+                Math.pow(getAnglePos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getAnglePos(), 2)
                         +
-                        Math.pow(this.getExtendPos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getExtendPos(), 2));
+                        Math.pow(getExtendPos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getExtendPos(), 2));
     }
+    public static void main(String[] args){
+
+        System.out.println(NodeBase.getNode(RobotMap.Intake.GriperPos.LOW).getCost(RobotMap.Intake.GriperPos.CONE_HIGH));
+    }
+
 }
