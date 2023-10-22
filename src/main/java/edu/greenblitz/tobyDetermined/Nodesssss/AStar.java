@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.wpi.first.math.Pair;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -9,24 +10,28 @@ import java.util.Map;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos.*;
 import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
 
 public class AStar {
-//    public static boolean checks(GriperPos cur, GriperPos griperPos){
-//        if(cur.toString().contains("GRIPER")){
-//            return !NodeBase.getNode(cur).getGriperMustBe().isEmpty() && !NodeBase.getNode(cur).getGriperMustBe().contains(griperPos);
-//        }
-//        else
-//            return !NodeBase.getNode(cur).getGriperMustBe().isEmpty() && !NodeBase.getNode(cur).getGriperMustBe().contains(griperPos);
-//    }
-    public static double getDistanceToStartPlusEnd(GriperPos current, NodeArm start, NodeArm end, GriperPos griperPos, HashMap<GriperPos, LinkedList<GriperPos>> griperPath) {
-//        double gCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(start, NodeBase.getNode(current)));
-//        double hCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(end, NodeBase.getNode(current)));
-        double gCost = NodeBase.getCost();
-        double hCost = NodeBase.getCost();
-        System.out.println("yyyyyyyyyyyyyyyyyyyyyyy");
-        if(!NodeBase.getNode(current).getGriperMustBe().isEmpty()) {
-            System.out.println("bllalalalalalal");
-            if (!NodeBase.getNode(current).getGriperMustBe().contains(griperPos)) {
+    public static <T> void printPath(LinkedList<T> pathList) {
+        for (int i = 0; i <= pathList.size() - 1; i++) {
+            System.out.print(pathList.get(i) + ", ");
+        }
+        System.out.println();
+    }
+
+    public static <T> boolean isInList(T nodeArmPos, LinkedList<T> list) {
+        return list.contains(nodeArmPos);
+    }
+
+    public static <T extends GBNode<T>> double getDistanceToStartPlusEnd(T current, T start, T end) {
+        double gCost = current.getCost(start);
+        double hCost = current.getCost(end);
+        return gCost + hCost ;
+    }
+    public static double addAnotherPathAndCost(PresetPositions current, GriperPos griperPos, HashMap<PresetPositions, LinkedList<GriperPos>> griperPath){
+        if(!NodeBase.getNode(current).getGriperMustBe().isEmpty() && !NodeBase.getNode(current).getGriperMustBe().contains(griperPos)) {
                 double min = Double.MAX_VALUE;
                 LinkedList<GriperPos> path = new LinkedList<>();
                 for (int i = 0; i < NodeBase.getNode(current).getGriperMustBe().size() - 1; i++) {
@@ -37,28 +42,25 @@ public class AStar {
                     }
                 }
                 griperPath.put(current, path);
-                return gCost + hCost + min;
+                return min;
             }
-        }
-        return gCost + hCost ;
+        return 0;
     }
-
-
-    public static GriperPos getLowestFcost(
-            LinkedList<GriperPos> open,
-            NodeArm start,
-            NodeArm end,
+    public static PresetPositions getLowestFcost(
+            LinkedList<PresetPositions> open,
+            PresetPositions start,
+            PresetPositions end,
             GriperPos griperPos,
             double cost,
-            HashMap<GriperPos, LinkedList<GriperPos>> griperPath
+            HashMap<PresetPositions, LinkedList<GriperPos>> griperPath
     ) {
         if (open.isEmpty()) {
             return null; // Handle the case where the list is empty
         }
         int saveI = 0;
-        double fCost = getDistanceToStartPlusEnd(open.get(0), start, end, griperPos, griperPath);
+        double fCost = getDistanceToStartPlusEnd(NodeBase.getNode(open.get(0)), NodeBase.getNode(start), NodeBase.getNode(end));
         for (int i = 1; i < open.size(); i++) {
-            double currentFCost = getDistanceToStartPlusEnd(open.get(i), start, end, griperPos, griperPath);
+            double currentFCost = getDistanceToStartPlusEnd(open.get(i), start, end);
             if (currentFCost < fCost) {
                 fCost = currentFCost;
                 saveI = i;
@@ -68,41 +70,32 @@ public class AStar {
         return open.get(saveI);
     }
 
-
-    public static boolean isInList(GriperPos nodeArmPos, LinkedList<GriperPos> list) {
-        return list.contains(nodeArmPos);
-    }
-
-    public static Pair<LinkedList<GriperPos>, Double> returnPath(GriperPos nodeArm, Map<GriperPos, GriperPos> parents,double cost, HashMap<GriperPos, LinkedList<GriperPos>> griperPath) {
-        LinkedList<GriperPos> pathList = new LinkedList<>();
-        GriperPos current = nodeArm;
+    public static Pair<LinkedList<String>, Double> returnPath(PresetPositions nodeArm, Map<PresetPositions, PresetPositions> parents,double cost, HashMap<PresetPositions, LinkedList<GriperPos>> griperPath) {
+        LinkedList<String> pathList = new LinkedList<>();
+        PresetPositions current = nodeArm;
         while (current != null) {
-            pathList.addFirst(current);
-            if (griperPath.containsKey(current))
-                    pathList.addAll(0,griperPath.get(current));
+            pathList.addFirst(current.toString());
+            if (griperPath.containsKey(current)) {
+                for (int i = 0; i < griperPath.get(current).size() - 1; i++) {
+                    pathList.add(griperPath.get(current).get(i).toString());
+                }
+            }
             current = parents.get(current);
         }
         printPath(pathList);
         return new Pair<>(pathList, cost);
     }
 
-    public static void printPath(LinkedList<GriperPos> pathList) {
-        for (int i = 0; i <= pathList.size() - 1; i++) {
-            System.out.print(pathList.get(i) + ", ");
-        }
-        System.out.println();
-    }
-
-    public static Pair<LinkedList<GriperPos>, Double> getPath(GriperPos start, GriperPos end, GriperPos gripPos) {
-        LinkedList<GriperPos> nodesCanGoTo = new LinkedList<>();
-        LinkedList<GriperPos> closed = new LinkedList<>();
-        Map<GriperPos, GriperPos> parents = new HashMap<>();
-        HashMap<GriperPos, LinkedList<GriperPos>> griperPath = new HashMap<>();
+    public static Pair<LinkedList<String>, Double> getPath(PresetPositions start, PresetPositions end, GriperPos gripPos) {
+        LinkedList<PresetPositions> nodesCanGoTo = new LinkedList<>();
+        LinkedList<PresetPositions> closed = new LinkedList<>();
+        Map<PresetPositions, PresetPositions> parents = new HashMap<>();
+        HashMap<PresetPositions, LinkedList<GriperPos>> griperPath = new HashMap<>();
         double cost = 0;
         nodesCanGoTo.add(start);
 
         while (!nodesCanGoTo.isEmpty()) {
-            GriperPos current = getLowestFcost(nodesCanGoTo, NodeBase.getNode(start), NodeBase.getNode(end), gripPos, cost, griperPath);
+            PresetPositions current = getLowestFcost(nodesCanGoTo, start, end, gripPos, cost, griperPath);
             nodesCanGoTo.remove(current);
             closed.add(current);
 
@@ -110,7 +103,7 @@ public class AStar {
                 return returnPath(current, parents, cost, griperPath);
             }
 
-            for (GriperPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+            for (PresetPositions neighbor : NodeBase.getNode(current).getNeighbors()) {
                 if (!isInList(neighbor, closed) && !isInList(neighbor, nodesCanGoTo)) {
                     nodesCanGoTo.add(neighbor);
                     parents.put(neighbor, current);

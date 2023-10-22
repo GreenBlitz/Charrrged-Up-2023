@@ -370,22 +370,6 @@ public class RobotMap {
 
     public static class Intake {
         public enum GriperPos{
-            CONE_HIGH,
-            CONE_MID,
-            CUBE_HIGH,
-            CUBE_MID,
-            LOW,
-
-            POST_CONE_DROP,
-            PRE_CONE_DROP,
-
-            INTAKE_GRAB_CONE_POSITION,
-            INTAKE_GRAB_CUBE_POSITION,
-            PRE_INTAKE_GRAB_POSITION,
-
-            REST_ABOVE_BELLY,
-
-            ZIG_HAIL,
             ONE,
             TWO,
             THREE;
