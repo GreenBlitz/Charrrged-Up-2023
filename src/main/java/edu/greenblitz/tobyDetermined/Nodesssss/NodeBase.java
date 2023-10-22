@@ -13,13 +13,13 @@ import java.util.HashMap;
 import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos.*;
 import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions.*;
+//import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
+//import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions.*;
 
 
 public class NodeBase {
 
-    protected final static HashMap<PresetPositions, NodeArm> nodeMapArm = new HashMap<>();
+    protected final static HashMap<GriperPos, NodeArm> nodeMapArm = new HashMap<>();
     protected final static HashMap<GriperPos, GriperNode> nodeMapGrip = new HashMap<>();
 
     private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
@@ -35,9 +35,9 @@ public class NodeBase {
         nodeMapGrip.get(ONE).addNeighbors(new GriperPos[]{ONE,THREE});
         nodeMapGrip.get(ONE).addNeighbors(new GriperPos[]{TWO});
 
-        nodeMapGrip.get(ONE).setArmMustBe(new PresetPositions[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
-        nodeMapGrip.get(TWO).setArmMustBe(new PresetPositions[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
-        nodeMapGrip.get(THREE).setArmMustBe(new PresetPositions[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
+        nodeMapGrip.get(ONE).setArmMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
+        nodeMapGrip.get(TWO).setArmMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
+        nodeMapGrip.get(THREE).setArmMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
 
 
         /*
@@ -60,17 +60,17 @@ public class NodeBase {
         nodeMapArm.put(PRE_CONE_DROP, new NodeArm(0.089, 0.667, new ArmCommand()));
         nodeMapArm.put(POST_CONE_DROP, new NodeArm(0.080, 0.1, new ArmCommand()));
 
-        nodeMapArm.get(CONE_HIGH).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
-        nodeMapArm.get(CONE_MID).addNeighbors(new PresetPositions[]{CONE_HIGH, CUBE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
-        nodeMapArm.get(CUBE_HIGH).addNeighbors(new PresetPositions[]{CONE_MID, CONE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
-        nodeMapArm.get(CUBE_MID).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CONE_HIGH, ZIG_HAIL, PRE_CONE_DROP});
-        nodeMapArm.get(LOW).addNeighbors(new PresetPositions[]{ZIG_HAIL});
-        nodeMapArm.get(ZIG_HAIL).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, LOW, CUBE_MID, CONE_HIGH, REST_ABOVE_BELLY, PRE_CONE_DROP});
-        nodeMapArm.get(INTAKE_GRAB_CONE_POSITION).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CUBE_POSITION});
-        nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CONE_POSITION});
-        nodeMapArm.get(REST_ABOVE_BELLY).addNeighbors(new PresetPositions[]{ZIG_HAIL, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION, PRE_CONE_DROP});
-        nodeMapArm.get(PRE_CONE_DROP).addNeighbors(new PresetPositions[]{POST_CONE_DROP});
-        nodeMapArm.get(POST_CONE_DROP).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION});
+        nodeMapArm.get(CONE_HIGH).addNeighbors(new GriperPos[]{CONE_MID, CUBE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
+        nodeMapArm.get(CONE_MID).addNeighbors(new GriperPos[]{CONE_HIGH, CUBE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
+        nodeMapArm.get(CUBE_HIGH).addNeighbors(new GriperPos[]{CONE_MID, CONE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
+        nodeMapArm.get(CUBE_MID).addNeighbors(new GriperPos[]{CONE_MID, CUBE_HIGH, CONE_HIGH, ZIG_HAIL, PRE_CONE_DROP});
+        nodeMapArm.get(LOW).addNeighbors(new GriperPos[]{ZIG_HAIL});
+        nodeMapArm.get(ZIG_HAIL).addNeighbors(new GriperPos[]{CONE_MID, CUBE_HIGH, LOW, CUBE_MID, CONE_HIGH, REST_ABOVE_BELLY, PRE_CONE_DROP});
+        nodeMapArm.get(INTAKE_GRAB_CONE_POSITION).addNeighbors(new GriperPos[]{REST_ABOVE_BELLY, INTAKE_GRAB_CUBE_POSITION});
+        nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).addNeighbors(new GriperPos[]{REST_ABOVE_BELLY, INTAKE_GRAB_CONE_POSITION});
+        nodeMapArm.get(REST_ABOVE_BELLY).addNeighbors(new GriperPos[]{ZIG_HAIL, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION, PRE_CONE_DROP});
+        nodeMapArm.get(PRE_CONE_DROP).addNeighbors(new GriperPos[]{POST_CONE_DROP});
+        nodeMapArm.get(POST_CONE_DROP).addNeighbors(new GriperPos[]{REST_ABOVE_BELLY, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION});
 
         nodeMapArm.get(CONE_HIGH).setClawPos(Claw.ClawState.RELEASE);
         nodeMapArm.get(CONE_MID).setClawPos(Claw.ClawState.RELEASE);
@@ -92,10 +92,14 @@ public class NodeBase {
 
     }
 
-    public static NodeArm getNode(PresetPositions specNode) {
+    public static NodeArm getNode(GriperPos specNode, NodeArm.ArmPointer armPointer) {
             return nodeMapArm.get(specNode);
     }
-    public static GriperNode getNode(GriperPos specNode) {
+    public static GriperNode getNode(GriperPos specNode, GriperNode.GriperPointer a) {
+        return nodeMapGrip.get(specNode);
+    }
+
+    public static GBNode getNode(GriperPos specNode){
         return nodeMapGrip.get(specNode);
     }
 //    public static void getNode(String str) {

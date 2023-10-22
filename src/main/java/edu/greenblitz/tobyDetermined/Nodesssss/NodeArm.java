@@ -7,11 +7,14 @@ import edu.greenblitz.utils.GBCommand;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class NodeArm extends GBNode<RobotMap.TelescopicArm.PresetPositions, RobotMap.Intake.GriperPos> {
+public class NodeArm extends GBNode<RobotMap.Intake.GriperPos> {
+    public enum ArmPointer{
+        ARM_POINTER;
+    }
     private final LinkedList<RobotMap.Intake.GriperPos> griperMustBe;
     private ClawState clawPos;
     private boolean isNeighborsSet;
-    private final LinkedList<RobotMap.TelescopicArm.PresetPositions> neighbors;
+    private final LinkedList<RobotMap.Intake.GriperPos> neighbors;
     private final double anglePos;
     private final double extendPos;
     private GBCommand command;
@@ -21,7 +24,7 @@ public class NodeArm extends GBNode<RobotMap.TelescopicArm.PresetPositions, Robo
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
         clawPos = ClawState.CONE_MODE;
-        neighbors = new LinkedList<RobotMap.TelescopicArm.PresetPositions>();
+        neighbors = new LinkedList<RobotMap.Intake.GriperPos>();
         isNeighborsSet = false;
         griperMustBe = new LinkedList<>();
         this.command = command;
@@ -41,13 +44,13 @@ public class NodeArm extends GBNode<RobotMap.TelescopicArm.PresetPositions, Robo
         return griperMustBe;
     }
 
-    public void addNeighbors(RobotMap.TelescopicArm.PresetPositions[] neighbors) {
+    public void addNeighbors(RobotMap.Intake.GriperPos[] neighbors) {
         if(!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
-    public LinkedList<RobotMap.TelescopicArm.PresetPositions> getNeighbors(){
+    public LinkedList<RobotMap.Intake.GriperPos> getNeighbors(){
         return neighbors;
     }
 
@@ -60,10 +63,10 @@ public class NodeArm extends GBNode<RobotMap.TelescopicArm.PresetPositions, Robo
     }
 
 
-    public double getCost(RobotMap.TelescopicArm.PresetPositions nodeArm){
+    public double getCost(RobotMap.Intake.GriperPos nodeArm){
         return Math.sqrt(
-                Math.pow(this.getAnglePos() - NodeBase.getNode(nodeArm).getAnglePos(), 2)
+                Math.pow(this.getAnglePos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getAnglePos(), 2)
                         +
-                        Math.pow(this.getExtendPos() - NodeBase.getNode(nodeArm).getExtendPos(), 2));
+                        Math.pow(this.getExtendPos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getExtendPos(), 2));
     }
 }

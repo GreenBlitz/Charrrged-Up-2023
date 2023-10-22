@@ -6,12 +6,12 @@ import edu.greenblitz.utils.GBCommand;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public abstract class GBNode <T,S> {
+public abstract class GBNode <T> {
     private boolean isNeighborsSet;
     private final LinkedList<T> neighbors;
     private GBCommand command;
 
-    private LinkedList<S> somethingMustBe;
+    private LinkedList<T> somethingMustBe;
     public GBNode(GBCommand command ){
         neighbors = new LinkedList<T>();
         isNeighborsSet = false;
@@ -24,11 +24,11 @@ public abstract class GBNode <T,S> {
             isNeighborsSet = true;
         }
     }
-    public void setGriperMustBe(S[] griperMustBe) {
+    public void setGriperMustBe(T[] griperMustBe) {
         Collections.addAll(this.somethingMustBe, griperMustBe);
     }
 
-    public LinkedList<S> getGriperMustBe() {
+    public LinkedList<T> getGriperMustBe() {
         return somethingMustBe;
     }
     public GBCommand getCommand() {

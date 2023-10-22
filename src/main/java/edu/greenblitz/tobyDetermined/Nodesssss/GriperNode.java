@@ -6,8 +6,11 @@ import edu.greenblitz.utils.GBCommand;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class GriperNode extends GBNode<RobotMap.Intake.GriperPos,RobotMap.TelescopicArm.PresetPositions > {
-    private LinkedList<RobotMap.TelescopicArm.PresetPositions> armMustBe;
+public class GriperNode extends GBNode<RobotMap.Intake.GriperPos > {
+    public enum GriperPointer{
+        GRIPER_POINTER;
+    }
+    private LinkedList<RobotMap.Intake.GriperPos> armMustBe;
     private boolean isNeighborsSet;
     private final LinkedList<RobotMap.Intake.GriperPos> neighbors;
     private GBCommand command;
@@ -28,11 +31,11 @@ public class GriperNode extends GBNode<RobotMap.Intake.GriperPos,RobotMap.Telesc
         }
     }
 
-    public LinkedList<RobotMap.TelescopicArm.PresetPositions> getArmMustBe() {
+    public LinkedList<RobotMap.Intake.GriperPos> getArmMustBe() {
         return armMustBe;
     }
 
-    public void setArmMustBe(RobotMap.TelescopicArm.PresetPositions[] armMustBe) {
+    public void setArmMustBe(RobotMap.Intake.GriperPos[] armMustBe) {
         if(!isNeighborsSet) {
             Collections.addAll(this.armMustBe, armMustBe);
             isNeighborsSet = true;
@@ -49,7 +52,7 @@ public class GriperNode extends GBNode<RobotMap.Intake.GriperPos,RobotMap.Telesc
 
 
     public double getCost(RobotMap.Intake.GriperPos griperNode){
-        return this.x + NodeBase.getNode(griperNode).x;
+        return this.x;
     }
 
 

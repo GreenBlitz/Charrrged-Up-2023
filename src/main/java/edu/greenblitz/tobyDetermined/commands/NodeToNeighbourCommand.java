@@ -76,19 +76,19 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void execute() {
-        if(NodeBase.getNode(start).getNeighbors().contains(end)) {
-            moveArm(NodeBase.getNode(end));
-        }
+//        if(NodeBase.getNode(start).getNeighbors().contains(end)) {
+//            moveArm(NodeBase.getNode(end));
+//        }
 
     }
 
     @Override
     public boolean isFinished() {
-        SmartDashboard.putBoolean("isInTarget",false);
-        if (isInPlace(NodeBase.getNode(end))) {
-            SmartDashboard.putBoolean("isInTarget", true);
-            return true;
-        }
+//        SmartDashboard.putBoolean("isInTarget",false);
+//        if (isInPlace(NodeBase.getNode(end))) {
+//            SmartDashboard.putBoolean("isInTarget", true);
+//            return true;
+//        }
         return false;
     }
 
