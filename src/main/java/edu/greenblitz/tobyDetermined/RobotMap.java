@@ -387,9 +387,9 @@ public class RobotMap {
 
             ZIG_HAIL,
 
-            ONE,
-            TWO,
-            THREE;
+            GRIPER_ONE,
+            GRIPER_TWO,
+            GRIPER_THREE;
         }
         public static final int ROLLER_ID = 4;
         public static final double DEFAULT_POWER = 1;

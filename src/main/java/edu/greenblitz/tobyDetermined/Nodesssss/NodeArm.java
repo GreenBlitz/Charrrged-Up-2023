@@ -7,7 +7,7 @@ import edu.greenblitz.utils.GBCommand;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class NodeArm extends GBNode<RobotMap.Intake.GriperPos> {
+public class NodeArm extends GBNode {
     public enum ArmPointer{
         ARM_POINTER;
     }
@@ -36,11 +36,13 @@ public class NodeArm extends GBNode<RobotMap.Intake.GriperPos> {
         return anglePos;
     }
 
-    public void setGriperMustBe(RobotMap.Intake.GriperPos[] griperMustBe) {
+    @Override
+    public void setOtherSystemMustBe(RobotMap.Intake.GriperPos[] griperMustBe) {
         Collections.addAll(this.griperMustBe, griperMustBe);
     }
 
-    public LinkedList<RobotMap.Intake.GriperPos> getGriperMustBe() {
+    @Override
+    public LinkedList<RobotMap.Intake.GriperPos> getOtherSystemMustBe() {
         return griperMustBe;
     }
 
@@ -62,7 +64,7 @@ public class NodeArm extends GBNode<RobotMap.Intake.GriperPos> {
         return clawPos;
     }
 
-
+    @Override
     public double getCost(RobotMap.Intake.GriperPos nodeArm){
         return Math.sqrt(
                 Math.pow(this.getAnglePos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getAnglePos(), 2)

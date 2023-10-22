@@ -27,17 +27,17 @@ public class NodeBase {
     private final static double TOLERANCE_LENGTH = 0.04;//In Meters
 
     static {
-        nodeMapGrip.put(ONE, new GriperNode( new GriperCommand()));
-        nodeMapGrip.put(TWO, new GriperNode( new GriperCommand()));
-        nodeMapGrip.put(THREE, new GriperNode( new GriperCommand()));
+        nodeMapGrip.put(GRIPER_ONE, new GriperNode( new GriperCommand()));
+        nodeMapGrip.put(GRIPER_TWO, new GriperNode( new GriperCommand()));
+        nodeMapGrip.put(GRIPER_THREE, new GriperNode( new GriperCommand()));
 
-        nodeMapGrip.get(ONE).addNeighbors(new GriperPos[]{TWO});
-        nodeMapGrip.get(ONE).addNeighbors(new GriperPos[]{ONE,THREE});
-        nodeMapGrip.get(ONE).addNeighbors(new GriperPos[]{TWO});
+        nodeMapGrip.get(GRIPER_ONE).addNeighbors(new GriperPos[]{GRIPER_TWO});
+        nodeMapGrip.get(GRIPER_TWO).addNeighbors(new GriperPos[]{GRIPER_ONE,GRIPER_THREE});
+        nodeMapGrip.get(GRIPER_THREE).addNeighbors(new GriperPos[]{GRIPER_TWO});
 
-        nodeMapGrip.get(ONE).setArmMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
-        nodeMapGrip.get(TWO).setArmMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
-        nodeMapGrip.get(THREE).setArmMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
+        nodeMapGrip.get(GRIPER_ONE).setOtherSystemMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
+        nodeMapGrip.get(GRIPER_TWO).setOtherSystemMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
+        nodeMapGrip.get(GRIPER_THREE).setOtherSystemMustBe(new GriperPos[]{ZIG_HAIL, CONE_HIGH, CUBE_HIGH});
 
 
         /*
@@ -82,13 +82,13 @@ public class NodeBase {
         nodeMapArm.get(POST_CONE_DROP).setClawPos(Claw.ClawState.CONE_MODE);
         nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).setClawPos(Claw.ClawState.CUBE_MODE);
 
-        nodeMapArm.get(CONE_HIGH).setGriperMustBe(new GriperPos[]{ONE, THREE});
-        nodeMapArm.get(CONE_MID).setGriperMustBe(new GriperPos[]{ONE, THREE});
-        nodeMapArm.get(CUBE_HIGH).setGriperMustBe(new GriperPos[]{ONE, THREE});
-        nodeMapArm.get(CUBE_MID).setGriperMustBe(new GriperPos[]{ONE, THREE});
-        nodeMapArm.get(LOW).setGriperMustBe(new GriperPos[]{ONE, THREE});
-        nodeMapArm.get(INTAKE_GRAB_CONE_POSITION).setGriperMustBe(new GriperPos[]{TWO});
-        nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).setGriperMustBe(new GriperPos[]{TWO});
+        nodeMapArm.get(CONE_HIGH).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
+        nodeMapArm.get(CONE_MID).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
+        nodeMapArm.get(CUBE_HIGH).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
+        nodeMapArm.get(CUBE_MID).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
+        nodeMapArm.get(LOW).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
+        nodeMapArm.get(INTAKE_GRAB_CONE_POSITION).setOtherSystemMustBe(new GriperPos[]{GRIPER_TWO});
+        nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).setOtherSystemMustBe(new GriperPos[]{GRIPER_TWO});
 
     }
 
@@ -100,13 +100,49 @@ public class NodeBase {
     }
 
     public static GBNode getNode(GriperPos specNode){
-        return nodeMapGrip.get(specNode);
+        if(specNode.toString().contains("GRIPER")){
+            return nodeMapGrip.get(specNode);
+        }
+        return nodeMapArm.get(specNode);
     }
 //    public static void getNode(String str) {
 //       nodeMapGrip.
 //       return nodeMapGrip.get(specNode);
 //
 //    }
+        public static GriperPos getGripPos(GriperPos specPos){
+            switch (specPos) {
+                case LOW:
+                    return LOW;
+                case CONE_MID:
+                    return CONE_MID;
+                case CUBE_MID:
+                    return CUBE_MID;
+                case ZIG_HAIL:
+                    return ZIG_HAIL;
+                case INTAKE_GRAB_CUBE_POSITION:
+                    return INTAKE_GRAB_CUBE_POSITION;
+                case INTAKE_GRAB_CONE_POSITION:
+                    return INTAKE_GRAB_CONE_POSITION;
+                case REST_ABOVE_BELLY:
+                    return REST_ABOVE_BELLY;
+                case POST_CONE_DROP:
+                    return POST_CONE_DROP;
+                case PRE_CONE_DROP:
+                    return PRE_CONE_DROP;
+                case CUBE_HIGH:
+                    return CUBE_HIGH;
+                case CONE_HIGH:
+                    return CONE_HIGH;
+                case GRIPER_THREE:
+                    return GRIPER_THREE;
+                case GRIPER_TWO:
+                    return GRIPER_TWO;
+                default:
+                    return GRIPER_ONE;
+
+            }
+        }
 
 
     public static boolean getIfInLength(double length, NodeArm index) {

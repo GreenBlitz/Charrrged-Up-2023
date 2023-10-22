@@ -6,7 +6,7 @@ import edu.greenblitz.utils.GBCommand;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class GriperNode extends GBNode<RobotMap.Intake.GriperPos > {
+public class GriperNode extends GBNode {
     public enum GriperPointer{
         GRIPER_POINTER;
     }
@@ -19,10 +19,10 @@ public class GriperNode extends GBNode<RobotMap.Intake.GriperPos > {
     public GriperNode(GBCommand command){
         super(command);
         neighbors = new LinkedList<>();
-        armMustBe = new LinkedList<>();
         isNeighborsSet = false;
         this.command = command;
         x = 90.0;
+        armMustBe = new LinkedList<>();
     }
     public void addNeighbors(RobotMap.Intake.GriperPos[] neighbors) {
         if(!isNeighborsSet) {
@@ -30,17 +30,16 @@ public class GriperNode extends GBNode<RobotMap.Intake.GriperPos > {
             isNeighborsSet = true;
         }
     }
-
-    public LinkedList<RobotMap.Intake.GriperPos> getArmMustBe() {
+    @Override
+    public LinkedList<RobotMap.Intake.GriperPos> getOtherSystemMustBe() {
         return armMustBe;
     }
 
-    public void setArmMustBe(RobotMap.Intake.GriperPos[] armMustBe) {
-        if(!isNeighborsSet) {
-            Collections.addAll(this.armMustBe, armMustBe);
-            isNeighborsSet = true;
-        }
+    @Override
+    public void setOtherSystemMustBe(RobotMap.Intake.GriperPos[] griperMustBe) {
+        Collections.addAll(this.armMustBe, griperMustBe);
     }
+
 
     public GBCommand getCommand() {
         return command;
@@ -49,10 +48,10 @@ public class GriperNode extends GBNode<RobotMap.Intake.GriperPos > {
     public LinkedList<RobotMap.Intake.GriperPos> getNeighbors(){
         return neighbors;
     }
-
-
+    @Override
     public double getCost(RobotMap.Intake.GriperPos griperNode){
-        return this.x;
+       // return this.x + NodeBase.getNode(griperNode, GriperPointer.GRIPER_POINTER).x;
+        return 0;
     }
 
 
