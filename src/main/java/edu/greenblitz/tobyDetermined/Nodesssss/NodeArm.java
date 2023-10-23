@@ -71,9 +71,4 @@ public class NodeArm extends GBNode {
                         +
                         Math.pow(getExtendPos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getExtendPos(), 2));
     }
-    public static void main(String[] args){
-
-        System.out.println(NodeBase.getNode(RobotMap.Intake.GriperPos.LOW).getCost(RobotMap.Intake.GriperPos.CONE_HIGH));
-    }
-
 }

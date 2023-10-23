@@ -26,7 +26,7 @@ public class Vertex {
     public double getFCostVertex(RobotMap.Intake.GriperPos posS, RobotMap.Intake.GriperPos posE){
         return getHOrGCostVertex(posS) + getHOrGCostVertex(posE);
     }
-    public boolean ifInOtherSystemMustBe(RobotMap.Intake.GriperPos pos){
+    public boolean isInOtherSystemMustBe(RobotMap.Intake.GriperPos pos){
         return NodeBase.getNode(pos1).getOtherSystemMustBe().contains(pos) || NodeBase.getNode(pos2).getOtherSystemMustBe().contains(pos);
     }
     public LinkedList<RobotMap.Intake.GriperPos> mergeAndReturnOtherSystemMustBe(){
@@ -35,10 +35,4 @@ public class Vertex {
         merge.addAll(NodeBase.getNode(pos2).getOtherSystemMustBe());
         return merge;
     }
-    public static void main(String[] args){
-        Vertex a = new Vertex(RobotMap.Intake.GriperPos.LOW, RobotMap.Intake.GriperPos.CONE_HIGH);
-        System.out.println(a.getHOrGCostVertex(RobotMap.Intake.GriperPos.CONE_HIGH));
-    }
-
-
 }
