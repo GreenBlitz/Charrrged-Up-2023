@@ -49,7 +49,7 @@ public interface IModuleIO {
 
     }
 
-    default void updateInputs(IModuleIOInputs inputs) {
+    default void updateInputs(IModuleIOInputsAutoLogged inputs) {
     }
 
 

@@ -40,7 +40,7 @@ public class ElbowIOSim implements ElbowIO{
     @Override
     public void updateInputs(ElbowInputs inputs) {
 
-        elbowSim.update(0.02);
+        elbowSim.update(RobotMap.SimulationConstants.TIME_STEP);
 
         inputs.appliedOutput = appliedVoltage;
         inputs.outputCurrent = elbowSim.getCurrentDrawAmps();

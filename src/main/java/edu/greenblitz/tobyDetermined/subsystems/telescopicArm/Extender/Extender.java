@@ -114,8 +114,6 @@ public class Extender extends GBSubsystem {
 			io.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 		}
 
-
-
 		io.updateInputs(inputs);
 		Logger.getInstance().processInputs("Extender",inputs);
 

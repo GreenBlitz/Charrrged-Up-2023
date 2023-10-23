@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 
 import java.util.Optional;
@@ -90,6 +91,8 @@ public class SwerveChassis extends GBSubsystem {
 	}
 
 
+
+
 	public static SwerveChassis getInstance() {
 		init();
 		return instance;
@@ -104,9 +107,17 @@ public class SwerveChassis extends GBSubsystem {
 
 	@Override
 	public void periodic() {
+		frontLeft.periodic();
+		frontRight.periodic();
+		backLeft.periodic();
+		backRight.periodic();
 
 		updatePoseEstimationLimeLight();
 		field.setRobotPose(getRobotPose());
+		Logger.getInstance().recordOutput("DriveTrain/Pose2D", getRobotPose());
+		SmartDashboard.putData(getField());
+
+
 	}
 
 	public void resetAll(Pose2d pose) {
@@ -381,7 +392,8 @@ public class SwerveChassis extends GBSubsystem {
 
 	public double getUltrasonicDistance() {
 		MedianFilter filter = new MedianFilter(FILTER_BUFFER_SIZE);
-		return filter.calculate(ultrasonic.getRangeMM());
+//		return filter.calculate(ultrasonic.getRangeMM());
+		return 0;
 	}
 
 	/**

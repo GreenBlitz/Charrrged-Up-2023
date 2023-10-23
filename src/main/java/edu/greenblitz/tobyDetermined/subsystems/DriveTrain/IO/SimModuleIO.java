@@ -4,114 +4,104 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.Conversions;
 import edu.greenblitz.utils.motors.GBFalcon;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import org.littletonrobotics.junction.Logger;
 
-public class SimModuleIO implements IModuleIO{
+public class SimModuleIO implements IModuleIO {
 
-    private final GBFalcon linearMotor;
-    private final GBFalcon angularMotor;
+    private final DCMotorSim linearMotor;
+    private final DCMotorSim angularMotor;
+    private IModuleIOInputsAutoLogged lastInputs = new IModuleIOInputsAutoLogged();
+    private final SwerveChassis.Module module;
+    private final PIDController angularController = new PIDController(
+            RobotMap.Swerve.SimulationSwerve.angularController.kP,
+            RobotMap.Swerve.SimulationSwerve.angularController.kI,
+            RobotMap.Swerve.SimulationSwerve.angularController.kD
+    );
 
-    public SimModuleIO(SwerveChassis.Module module){
+    private double angularAppliedVoltage, linearAppliedVoltage;
 
-        switch (module){
+    public SimModuleIO(SwerveChassis.Module module) {
+        this.module = module;
+        System.out.println("[Init] simulation swerve module " + this.module.name());
 
-            case FRONT_LEFT:
-                linearMotor = new GBFalcon(RobotMap.Swerve.SimModuleFrontLeft.linearMotorID);
-                linearMotor.setInverted(RobotMap.Swerve.SimModuleFrontLeft.linInverted);
-                linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj));
+        this.linearMotor = new DCMotorSim(
+                DCMotor.getFalcon500(1),
+                RobotMap.Swerve.SdsSwerve.LIN_GEAR_RATIO,
+                0.0001
+                );
+        this.angularMotor = new DCMotorSim(
+                DCMotor.getFalcon500(1),
+                RobotMap.Swerve.SdsSwerve.ANG_GEAR_RATIO,
+                0.0001
 
-                angularMotor = new GBFalcon(RobotMap.Swerve.SimModuleFrontLeft.angleMotorID);
-                angularMotor.setInverted(true);
-                angularMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
-                break;
-            case FRONT_RIGHT:
-                linearMotor = new GBFalcon(RobotMap.Swerve.SimModuleFrontRight.linearMotorID);
-                linearMotor.setInverted(RobotMap.Swerve.SimModuleFrontRight.linInverted);
-                linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj));
-
-
-                angularMotor = new GBFalcon(RobotMap.Swerve.SimModuleFrontRight.angleMotorID);
-                angularMotor.setInverted(true);
-                angularMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
-                break;
-            case BACK_LEFT:
-                linearMotor = new GBFalcon(RobotMap.Swerve.SimModuleBackLeft.linearMotorID);
-                linearMotor.setInverted(RobotMap.Swerve.SimModuleBackLeft.linInverted);
-                linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj));
-
-
-                angularMotor = new GBFalcon(RobotMap.Swerve.SimModuleBackLeft.angleMotorID);
-                angularMotor.setInverted(true);
-                angularMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
-                break;
-            case BACK_RIGHT:
-                linearMotor = new GBFalcon(RobotMap.Swerve.SimModuleBackRight.linearMotorID);
-                linearMotor.setInverted(RobotMap.Swerve.SimModuleBackRight.linInverted);
-                linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj));
-
-                angularMotor = new GBFalcon(RobotMap.Swerve.SimModuleBackRight.angleMotorID);
-                angularMotor.setInverted(true);
-                angularMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseAngConfObj));
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid module");
-
-        }
+        );
     }
+
 
     @Override
     public void setLinearVelocity(double speed) {
-        linearMotor.getSimCollection().setIntegratedSensorVelocity((int) Conversions.MK4IConversions.convertMetersPerSecondToTicksPer100ms(speed));
+        final double power = speed / RobotMap.Swerve.MAX_VELOCITY;
+        final double voltage = power * 12;
+        setLinearVoltage(voltage);
     }
 
     @Override
     public void rotateToAngle(double angleInRadians) {
-        angularMotor.getSimCollection().setIntegratedSensorRawPosition((int) Conversions.MK4IConversions.convertRadsToTicks(angleInRadians));
+        double diff = Math.IEEEremainder(angleInRadians - lastInputs.angularPositionInRads, 2 * Math.PI);
+        diff -= diff > Math.PI ? 2 * Math.PI : 0;
+        angleInRadians = lastInputs.angularPositionInRads + diff;
+
+        angularController.setSetpoint(angleInRadians);
+        final double voltage = angularController.calculate(lastInputs.angularPositionInRads);
+        setAngularVoltage(voltage);
+    }
+
+    @Override
+    public void setLinearVoltage(double voltage) {
+        linearAppliedVoltage = voltage;
+        linearMotor.setInputVoltage(voltage);
+    }
+
+    @Override
+    public void setAngularVoltage(double voltage) {
+        angularAppliedVoltage = voltage;
+        angularMotor.setInputVoltage(voltage);
+    }
+
+    @Override
+    public void resetAngle(double angleInRads) {//todo
     }
 
     @Override
     public void stop() {
-        linearMotor.getSimCollection().setIntegratedSensorVelocity(0);
-        angularMotor.getSimCollection().setIntegratedSensorVelocity(0);
+        setLinearVoltage(0);
+        setAngularVoltage(0);
     }
 
     @Override
-    public void updateInputs(IModuleIOInputs inputs) {
-        inputs.linearVelocity = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getSelectedSensorPosition());
-        inputs.angularVelocity = Conversions.MK4IConversions.convertTicksToRads(angularMotor.getSelectedSensorPosition());
+    public void updateInputs(IModuleIOInputsAutoLogged inputs) {
+        linearMotor.update(RobotMap.SimulationConstants.TIME_STEP);
+        angularMotor.update(RobotMap.SimulationConstants.TIME_STEP);
 
-        inputs.linearVoltage = linearMotor.getMotorOutputVoltage();
-        inputs.angularVoltage = angularMotor.getMotorOutputVoltage();
+        inputs.linearVelocity = Conversions.MK4IConversions.convertMetersPerSecondToTicksPer100ms(linearMotor.getAngularVelocityRPM());
+        inputs.angularVelocity = Conversions.MK4IConversions.convertTicksToRads(angularMotor.getAngularVelocityRPM());
 
-        inputs.linearCurrent = linearMotor.getSupplyCurrent();
-        inputs.angularCurrent = angularMotor.getStatorCurrent();
+        inputs.linearVoltage = linearAppliedVoltage;
+        inputs.angularVoltage = angularAppliedVoltage;
 
-        inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getSelectedSensorPosition());
-        inputs.angularPositionInRads = Conversions.MK4IConversions.convertTicksToRads(angularMotor.getSelectedSensorPosition());
+        inputs.linearCurrent = linearMotor.getCurrentDrawAmps();
+        inputs.angularCurrent = angularMotor.getCurrentDrawAmps();
 
-        inputs.absoluteEncoderPosition = angularMotor.getSelectedSensorPosition();
+        inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getAngularPositionRotations() * 2048);
+        inputs.angularPositionInRads = angularMotor.getAngularPositionRad();
+
+        inputs.absoluteEncoderPosition = inputs.angularPositionInRads;
         inputs.isAbsoluteEncoderConnected = true;
+
+        lastInputs = inputs;
     }
-
-    //write a config object for the swerve module
-
-    public static class SimModuleConfigObject {
-        private int angleMotorID;
-        private int linearMotorID;
-        private boolean linInverted;
-
-        public SimModuleConfigObject(int angleMotorID, int linearMotorID, boolean linInverted){
-            this.angleMotorID = angleMotorID;
-            this.linearMotorID = linearMotorID;
-            this.linInverted = linInverted;
-        }
-    }
-
-
-
-
-
-
-
-
-
 }

@@ -12,6 +12,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -21,6 +22,10 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTIN
 
 public class RobotMap {
     public static final Robot.RobotType ROBOT_TYPE = Robot.RobotType.SIMULATION;
+
+    public static class SimulationConstants{
+        public static final double TIME_STEP = 0.02;
+    }
 
     public static class BreakCoastSwitch{
         public static final int BREAK_COAST_SWITCH_DIO_PORT = 0;
@@ -159,11 +164,10 @@ public class RobotMap {
         public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 4, 0.8718,true); //back right
 
 
+        public static class SimulationSwerve{
+            public static final PIDConstants angularController = new PIDConstants(1, 0, 0);
+        }
 
-        public static SimModuleIO.SimModuleConfigObject SimModuleFrontLeft = new SimModuleIO.SimModuleConfigObject(1, 0,false); //front left
-        public static SimModuleIO.SimModuleConfigObject SimModuleFrontRight =new SimModuleIO.SimModuleConfigObject(3, 2 ,true); //front right
-        public static SimModuleIO.SimModuleConfigObject SimModuleBackLeft = new  SimModuleIO.SimModuleConfigObject(5, 4,false); //back left
-        public static SimModuleIO.SimModuleConfigObject SimModuleBackRight = new SimModuleIO.SimModuleConfigObject(7, 6,true); //back right
 
 
         public static class KazaSwerve {

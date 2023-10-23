@@ -8,10 +8,16 @@
       "/Shuffleboard/Arm debug/extenderPID": "PIDController",
       "/Shuffleboard/Drivers/Field": "Field2d",
       "/Shuffleboard/auto/autonomous chooser": "String Chooser",
+      "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/field": "Field2d"
     },
     "windows": {
       "/AdvantageKit/RealOutputs/Arm/ArmMechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Drivers/Field": {
         "window": {
           "visible": true
         }
@@ -21,14 +27,15 @@
   "NetworkTables": {
     "transitory": {
       "AdvantageKit": {
-        "Elbow": {
+        "RealOutputs": {
+          "DriveTrain": {
+            "open": true
+          },
           "open": true
         },
-        "Extender": {
-          "open": true
-        }
+        "open": true
       },
-      "SmartDashboard": {
+      "Shuffleboard": {
         "open": true
       }
     }

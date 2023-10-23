@@ -35,7 +35,8 @@ public class ExtenderIOSim implements ExtenderIO {
 
     @Override
     public void updateInputs(ExtenderInputs inputs) {
-        extenderSim.update(0.02);
+        extenderSim.update(RobotMap.SimulationConstants.TIME_STEP);
+
         inputs.appliedOutput = appliedVoltage;
         inputs.outputCurrent = extenderSim.getCurrentDrawAmps();
         inputs.position = extenderSim.getPositionMeters();
