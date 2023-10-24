@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.Gyro;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.IModuleIO;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.MK4iModuleIO;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SimModuleIO;
@@ -42,14 +43,11 @@ public class SwerveChassis extends GBSubsystem {
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 //	private final IGyro pigeonGyro;
-	private final IGyro navX;
+	private final Gyro gyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
 	private final int FILTER_BUFFER_SIZE = 15;
-	Debouncer encoderBrokenDebouncer = new Debouncer(0.2);
-
-
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
@@ -74,7 +72,7 @@ public class SwerveChassis extends GBSubsystem {
 
 		doVision = true;
 		
-		this.navX = new NavX();
+		this.gyro = new Gyro();
 //		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
@@ -86,7 +84,6 @@ public class SwerveChassis extends GBSubsystem {
 				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
-		SmartDashboard.putData("field", getField());
 		SmartDashboard.putData("field", getField());
 	}
 
@@ -192,7 +189,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 
 	public void resetChassisPose() {
-		navX.setYawAngle(0);
+		gyro.setYaw(0);
 		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), new Pose2d());
 	}
 
@@ -200,7 +197,7 @@ public class SwerveChassis extends GBSubsystem {
 	 * returns chassis angle in radians
 	 */
 	private Rotation2d getGyroAngle() {
-		return new Rotation2d(navX.getYaw());
+		return new Rotation2d(gyro.getYaw());
 	}
 
 	public double getChassisAngle() {
@@ -272,11 +269,11 @@ public class SwerveChassis extends GBSubsystem {
 		return this.kinematics;
 	}
 
-	public IGyro getPigeonGyro() {
-		return this.navX;
+	public Gyro getPigeonGyro() {
+		return this.gyro;
 	}
-	public IGyro getNavX() {
-		return navX;
+	public Gyro getNavX() {
+		return gyro;
 	}
 
 	/**

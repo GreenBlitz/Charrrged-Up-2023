@@ -65,7 +65,7 @@ public class AutonomousSelector {
 		BETTER(new GetOutOfRampAndBalance()),
 		
 
-		NONE(BETTER.autonomousCommand);
+		NONE(BOTTOM_PICK_RAMP.autonomousCommand);
 
 
 		public CommandBase autonomousCommand;
