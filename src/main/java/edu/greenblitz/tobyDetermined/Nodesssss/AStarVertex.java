@@ -2,14 +2,13 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.wpi.first.math.Pair;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
 
 public class AStarVertex {
-
-    private static HashMap<Vertex, LinkedList<GriperPos>> pathMap;
 
     public static <T> void printPath(LinkedList<T> pathList) {
         for (int i = 0; i <= pathList.size() - 1; i++) {
@@ -27,89 +26,127 @@ public class AStarVertex {
         return list.contains(object);
     }
 
-    public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, GriperPos start, GriperPos end, GriperPos secondSystemState) {
+    private  static boolean ifInVerList(LinkedList<Vertex> nonUsable, Vertex ver) {
+        for (Vertex vertex : nonUsable) {
+            if (vertex.getPos1().equals(ver.getPos1()) && vertex.getPos2().equals(ver.getPos2()))
+                return true;
+        }
+        return false;
+    }
+
+    public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, GriperPos start, GriperPos end, LinkedList<Vertex> nonUsable, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
         int saveI = 0;
-        double fCost = open.get(0).getFCostVertex(start, end);
-        fCost += addOtherSystemCost(open.get(0),secondSystemState);
-        for (int i = 1; i < open.size(); i++) {
-            double currentFCost = open.get(i).getFCostVertex(start, end);
-            currentFCost += addOtherSystemCost(open.get(i),secondSystemState);
-            if (currentFCost < fCost) {
-                fCost = currentFCost;
-                saveI = i;
+        int con = 0;
+        double fCost = Double.MAX_VALUE;
+        Pair<Double, Boolean> a = addOtherSystemCost(open.get(0), pathMap);
+        if(!a.getSecond()){
+            nonUsable.add(new Vertex(open.get(0).getPos1(), open.get(0).getPos2(), open.get(0).getOtherSystem()));
+            open.remove(open.get(0));
+            con++;
+        }
+        else if (!ifInVerList(nonUsable, open.get(0))) {
+            fCost = open.get(0).getFCostVertex(start, end);
+            fCost+= a.getFirst();
+        }
+        for (int i = 1-con; i < open.size(); i++) {
+            a =  addOtherSystemCost(open.get(i), pathMap);
+            if(!a.getSecond()){
+                nonUsable.add(open.get(i));
+                open.remove(open.get(i));
+                con++;
+            }
+            else if (!ifInVerList(nonUsable, open.get(i))) {
+                double currentFCost = a.getFirst();
+                currentFCost += open.get(i).getFCostVertex(start, end);
+                if (currentFCost < fCost) {
+                    fCost = currentFCost;
+                    saveI = i;
+                }
             }
         }
-        //System.out.println(open.get(saveI).getPos1()+", "+open.get(saveI).getPos2()+" lowestfcots");
         return open.get(saveI);
     }
 
-    public static double addOtherSystemCost(Vertex vertex, GriperPos secondSystemState) {
-        if (!vertex.isInOtherSystemMustBe(secondSystemState) && !vertex.mergeAndReturnOtherSystemMustBe().isEmpty()) {
-            GriperPos pos = NodeBase.getGripPos(secondSystemState);
-            LinkedList<GriperPos> list = vertex.mergeAndReturnOtherSystemMustBe();
-            double min = Double.MAX_VALUE;
-            LinkedList<GriperPos> path = new LinkedList<>();
-            for (GriperPos griperPos : list) {
-                Pair<LinkedList<GriperPos>, Double> pair = getPath(pos, griperPos, vertex.getPos1());
-                if (pair.getSecond() < min) {
-                    min = pair.getSecond();
-                    path = pair.getFirst();
+    public static Pair<Double, Boolean> addOtherSystemCost(Vertex vertex, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
+        if (!vertex.isInOtherSystemMustBe(vertex.getOtherSystem()) ) {
+            LinkedList<GriperPos> otherSystemPositions = NodeBase.getOtherSystemPositions(vertex.getOtherSystem());
+            boolean check = false;
+            for(int i = 0; i<otherSystemPositions.size() && !check; i++){
+                if(vertex.isInOtherSystemMustBe(otherSystemPositions.get(i))){
+                    check = true;
                 }
             }
-            pathMap.put(vertex, path);
-            return min;
+            if(check) {
+                if (NodeBase.getNode(vertex.getOtherSystem()).getOtherSystemMustBe().contains(vertex.getPos1()) || NodeBase.getNode(vertex.getOtherSystem()).getOtherSystemMustBe().isEmpty()) {
+                    GriperPos pos = NodeBase.getGripPos(vertex.getOtherSystem());
+                    LinkedList<GriperPos> list = vertex.mergeAndReturnOtherSystemMustBe();
+                    double min = Double.MAX_VALUE;
+                    LinkedList<GriperPos> path = new LinkedList<>();
+                    for (GriperPos griperPos : list) {
+                        Pair<LinkedList<GriperPos>, Double> pair = getPath(pos, griperPos, vertex.getPos1());
+                        if (pair.getSecond() < min) {
+                            min = pair.getSecond();
+                            path = pair.getFirst();
+                        }
+                    }
+                    pathMap.put(vertex, path);
+                    vertex.setOtherSystem(path.get(path.size()-1));
+                    return new Pair<>(min,true);
+                }
+                return new Pair<>(0.0,false);
+            }
+            return new Pair<>(0.0,false);
         }
-        return 0;
+        return new Pair<>(0.0,true);
     }
 
-    public static Pair<LinkedList<GriperPos>, Double> returnPath(Vertex vertex, HashMap<Vertex, Vertex> parents) {
+    public static Pair<LinkedList<GriperPos>, Double> returnPath(Vertex vertex, HashMap<Vertex, Vertex> parents, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
         LinkedList<GriperPos> pathList = new LinkedList<>();
         Vertex current = vertex;
+        pathList.addFirst(current.getPos2());
         while (current != null) {
-            pathList.addFirst(current.getPos2());
+            if(!pathList.get(0).equals(current.getPos2()))
+                pathList.addFirst(current.getPos2());
             if (pathMap.containsKey(current)) {
                 for (int i = 0; i < pathMap.get(current).size(); i++) {
-                    pathList.add(i, pathMap.get(current).get(i));
+                    if(!pathList.get(i).equals(pathMap.get(current).get(i)))
+                        pathList.add(i, pathMap.get(current).get(i));
                 }
             }
-            pathList.addFirst(current.getPos1());
+            if(!pathList.get(0).equals(current.getPos1()))
+                pathList.addFirst(current.getPos1());
             current = parents.get(current);
         }
         return new Pair<>(pathList, 0.0);
     }
 
     public static Pair<LinkedList<GriperPos>, Double> getPath(GriperPos start, GriperPos end, GriperPos secondSystemState) {
-        LinkedList<GriperPos> open = new LinkedList<>();
-        LinkedList<GriperPos> closed = new LinkedList<>();
+        LinkedList<Vertex> closedVer = new LinkedList<>();
         LinkedList<Vertex> openVer = new LinkedList<>();
         HashMap<Vertex, Vertex> parents = new HashMap<>();
-        pathMap = new HashMap<>();
+        LinkedList<Vertex> nonUsable = new LinkedList<>();
+        HashMap<Vertex, LinkedList<GriperPos>> pathMap = new HashMap<>();
         GriperPos current = start;
-        open.add(current);
         Vertex currentVer;
         for (GriperPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-            if (!isInList(neighbor, closed) && !isInList(neighbor, open)) {
-                openVer.add(new Vertex(current, neighbor));
-                open.add(neighbor);
+            if (!ifInVerList(closedVer, new Vertex(current, neighbor,secondSystemState)) && !ifInVerList(openVer, new Vertex(current, neighbor,secondSystemState))) {
+                openVer.add(new Vertex(current, neighbor,secondSystemState));
             }
         }
-        open.remove(current);
 
-        while (!open.isEmpty()) {
-            currentVer = getVertexLowestFcost(openVer, start, end, secondSystemState);
+        while (!openVer.isEmpty()) {
+            currentVer = getVertexLowestFcost(openVer, start, end, nonUsable, pathMap);
             current = currentVer.getPos2();
             openVer.remove(currentVer);
-            open.remove(current);
-            closed.add(current);
+            closedVer.add(currentVer);
 
             if (current.equals(end)) {
-                return returnPath(currentVer, parents);
+                return returnPath(currentVer, parents, pathMap);
             }
             for (GriperPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-                if (!isInList(neighbor, closed) && !isInList(neighbor, open)) {
-                    openVer.add(new Vertex(current, neighbor));
-                    open.add(neighbor);
-                    parents.put(currentVer, openVer.get(openVer.size() - 1));
+                if (!ifInVerList(closedVer, new Vertex(current, neighbor,currentVer.getOtherSystem())) && !ifInVerList(openVer, new Vertex(current, neighbor,currentVer.getOtherSystem()))) {
+                    openVer.add(new Vertex(current, neighbor, currentVer.getOtherSystem()));
+                    parents.put( openVer.get(openVer.size() - 1), currentVer);
                 }
             }
         }
