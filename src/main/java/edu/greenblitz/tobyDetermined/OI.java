@@ -98,19 +98,19 @@ public class OI { //GEVALD
 	}
 
 	public void amireeeButtons() {
-//		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-// 		Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
-
-		Extender.getInstance().setDefaultCommand(
-				new RepeatCommand(
-					new ExtendToLength(0.6)
-				)
-		);
-        Elbow.getInstance().setDefaultCommand(
-                new RepeatCommand(
-                        new RotateToAngleRadians(0.5)
-                )
-        );
+		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+ 		Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
+//
+//		Extender.getInstance().setDefaultCommand(
+//				new RepeatCommand(
+//					new ExtendToLength(0.6)
+//				)
+//		);
+//        Elbow.getInstance().setDefaultCommand(
+//                new RepeatCommand(
+//                        new RotateToAngleRadians(0.5)
+//                )
+//        );
 
 
 		//screenshot

@@ -15,10 +15,12 @@ public class Gyro {
                 break;
             case SIMULATION:
                 io = new SimGyro();
+                System.out.println("[Init] sim gyro");
                 break;
             case REPLAY:
             default:
                 io = new GyroIO() {};
+                break;
         }
     }
 

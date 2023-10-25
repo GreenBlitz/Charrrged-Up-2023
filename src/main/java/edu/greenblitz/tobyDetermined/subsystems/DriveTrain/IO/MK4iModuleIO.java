@@ -110,8 +110,8 @@ public class MK4iModuleIO implements IModuleIO {
 
     @Override
     public void updateInputs(IModuleIOInputsAutoLogged inputs) {
-        inputs.linearVelocity = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getSelectedSensorPosition());
-        inputs.angularVelocity = Conversions.MK4IConversions.convertTicksToRads(angularMotor.getSelectedSensorPosition());
+        inputs.linearVelocity = Conversions.MK4IConversions.convertTicksPer100msToMeterPerSecond(linearMotor.getSelectedSensorVelocity());
+        inputs.angularVelocity =  Conversions.MK4IConversions.convertTicksPer100msToRadsPerSecond(angularMotor.getSelectedSensorVelocity());
 
         inputs.linearVoltage = linearMotor.getMotorOutputVoltage();
         inputs.angularVoltage = angularMotor.getMotorOutputVoltage();

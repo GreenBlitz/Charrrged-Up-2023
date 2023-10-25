@@ -87,8 +87,8 @@ public class SimModuleIO implements IModuleIO {
         linearMotor.update(RobotMap.SimulationConstants.TIME_STEP);
         angularMotor.update(RobotMap.SimulationConstants.TIME_STEP);
 
-        inputs.linearVelocity = Conversions.MK4IConversions.convertMetersPerSecondToTicksPer100ms(linearMotor.getAngularVelocityRPM());
-        inputs.angularVelocity = Conversions.MK4IConversions.convertTicksToRads(angularMotor.getAngularVelocityRPM());
+        inputs.linearVelocity = Conversions.MK4IConversions.convertTicksPer100msToMeterPerSecond(linearMotor.getAngularVelocityRPM());
+        inputs.angularVelocity = angularMotor.getAngularVelocityRadPerSec();
 
         inputs.linearVoltage = linearAppliedVoltage;
         inputs.angularVoltage = angularAppliedVoltage;

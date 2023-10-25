@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SimGyro implements GyroIO{
 
