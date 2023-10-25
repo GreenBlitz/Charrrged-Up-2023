@@ -389,7 +389,16 @@ public class RobotMap {
 
             GRIPER_ONE,
             GRIPER_TWO,
-            GRIPER_THREE;
+            GRIPER_THREE,
+
+            GROUND,
+            LOWWW,
+            MID,
+            HIGH,
+
+            GRIPER_OPEN,
+            GRIPER_CLOSE;
+
         }
         public static final int ROLLER_ID = 4;
         public static final double DEFAULT_POWER = 1;
