@@ -5,6 +5,9 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -27,14 +30,6 @@ public class ArmSimViewer extends GBSubsystem {
             TARGET_ARM_LIGAMENT = ARM_MECHANISM_ROOT.append(new MechanismLigament2d("targetArmLigament", RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + 0.1, 0, 10, new Color8Bit(Color.kGray))),
             ARM_LIGAMENT = ARM_MECHANISM_ROOT.append(new MechanismLigament2d("zShowfirst armLigament", RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + 0.1, 0, 10, new Color8Bit(Color.kBlue)));
 
-
-    static TalonFX f = new TalonFX(30);
-
-
-
-
-
-
     public static void init() {
         new ArmSimViewer();
     }
@@ -53,5 +48,19 @@ public class ArmSimViewer extends GBSubsystem {
 
 
         Logger.getInstance().recordOutput("Arm/ArmMechanism", ARM_MECHANISM);
+        Logger.getInstance().recordOutput("Arm/Pose3d", getArmPosition());
+    }
+
+    public static Pose3d getArmPosition (){
+        return new Pose3d(
+                new Translation3d(
+                        Extender.getInstance().getLength(),
+                        new Rotation3d(
+                               0 , 0 ,  Elbow.getInstance().getAngleRadians()
+                        )
+                ),
+                new Rotation3d(0 , Elbow.getInstance().getAngleRadians() , 0)
+        );
+
     }
 }

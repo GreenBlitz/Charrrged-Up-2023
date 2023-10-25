@@ -72,6 +72,9 @@ public class ElbowIONEO implements ElbowIO {
         inputs.velocity = motor.getEncoder().getVelocity();
         inputs.absoluteEncoderPosition = motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
         inputs.absoluteEncoderVelocity = motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getVelocity();
+
+        inputs.hasHitBackwardsLimit = inputs.position == RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT;
+        inputs.hasHitForwardLimit = inputs.position == RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT;
     }
 
 

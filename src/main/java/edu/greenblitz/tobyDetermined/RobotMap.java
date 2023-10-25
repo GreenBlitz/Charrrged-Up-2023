@@ -25,6 +25,8 @@ public class RobotMap {
 
     public static class SimulationConstants{
         public static final double TIME_STEP = 0.02;
+        public static final double MAX_CHASSIS_VELOCITY = 8;
+
     }
 
     public static class BreakCoastSwitch{
@@ -356,7 +358,7 @@ public class RobotMap {
             public static final double RELATIVE_POSITION_CONVERSION_FACTOR = 0.0328; //you know of calibrating pid but have you heard of calibrating the gear ratio
             public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328/ 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
-            public static final double BACKWARD_ANGLE_LIMIT = 0.061182841658592;
+            public static final double BACKWARD_ANGLE_LIMIT = 0.02;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);

@@ -40,7 +40,10 @@ public class Conversions {
             return convertRPMToRadsPerSec(convertTicksPer100msToRPM(ticksPer100ms));
         }
         public static double convertTicksPer100msToMeterPerSecond (double ticksPer100ms){
-            return convertRPMToMeterPerSecond(convertTicksPer100msToRPM(ticksPer100ms), RobotMap.Swerve.SdsSwerve.WHEEL_CIRC / (2 * Math.PI));
+            return Conversions.convertRPMToMeterPerSecond(convertTicksPer100msToRPM(ticksPer100ms), RobotMap.Swerve.SdsSwerve.WHEEL_CIRC / (2 * Math.PI));
+        }
+        public static double convertRPMToMeterPerSecond (double rpm){
+            return Conversions.convertRPMToMeterPerSecond(rpm, RobotMap.Swerve.SdsSwerve.WHEEL_CIRC / (2 * Math.PI));
         }
     }
 

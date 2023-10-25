@@ -27,15 +27,24 @@
   "NetworkTables": {
     "transitory": {
       "AdvantageKit": {
+        "Elbow": {
+          "open": true
+        },
         "RealOutputs": {
           "DriveTrain": {
             "open": true
           },
           "open": true
-        }
-      },
-      "SmartDashboard": {
+        },
         "open": true
+      },
+      "Shuffleboard": {
+        "auto": {
+          "autonomous chooser": {
+            "open": true
+          },
+          "open": true
+        }
       }
     }
   }

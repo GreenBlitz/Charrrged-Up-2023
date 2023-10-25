@@ -31,7 +31,7 @@ public class SimModuleIO implements IModuleIO {
         this.linearMotor = new DCMotorSim(
                 DCMotor.getFalcon500(1),
                 RobotMap.Swerve.SdsSwerve.LIN_GEAR_RATIO,
-                0.0001
+                0.01
                 );
         this.angularMotor = new DCMotorSim(
                 DCMotor.getFalcon500(1),
@@ -73,10 +73,6 @@ public class SimModuleIO implements IModuleIO {
     }
 
     @Override
-    public void resetAngle(double angleInRads) {//todo
-    }
-
-    @Override
     public void stop() {
         setLinearVoltage(0);
         setAngularVoltage(0);
@@ -87,8 +83,8 @@ public class SimModuleIO implements IModuleIO {
         linearMotor.update(RobotMap.SimulationConstants.TIME_STEP);
         angularMotor.update(RobotMap.SimulationConstants.TIME_STEP);
 
-        inputs.linearVelocity = Conversions.MK4IConversions.convertTicksPer100msToMeterPerSecond(linearMotor.getAngularVelocityRPM());
-        inputs.angularVelocity = angularMotor.getAngularVelocityRadPerSec();
+        inputs.linearVelocity = Conversions.MK4IConversions.convertRPMToMeterPerSecond(linearMotor.getAngularVelocityRPM()); // [m/s]
+        inputs.angularVelocity = angularMotor.getAngularVelocityRadPerSec(); // [Rad/s]
 
         inputs.linearVoltage = linearAppliedVoltage;
         inputs.angularVoltage = angularAppliedVoltage;
@@ -96,7 +92,7 @@ public class SimModuleIO implements IModuleIO {
         inputs.linearCurrent = linearMotor.getCurrentDrawAmps();
         inputs.angularCurrent = angularMotor.getCurrentDrawAmps();
 
-        inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getAngularPositionRotations() * 2048);
+        inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getAngularPositionRotations() * 4096);
         inputs.angularPositionInRads = angularMotor.getAngularPositionRad();
 
         inputs.absoluteEncoderPosition = inputs.angularPositionInRads;

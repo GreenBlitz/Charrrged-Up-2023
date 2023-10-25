@@ -31,6 +31,9 @@ public interface ElbowIO {
         public double kP;
         public double kI;
         public double kD;
+
+        public boolean hasHitForwardLimit;
+        public boolean hasHitBackwardsLimit;
     }
 
     default void updateInputs(ElbowInputs inputs){

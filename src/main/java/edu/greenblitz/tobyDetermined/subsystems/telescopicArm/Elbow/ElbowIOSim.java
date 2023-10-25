@@ -14,7 +14,7 @@ public class ElbowIOSim implements ElbowIO{
         elbowSim = new SingleJointedArmSim(
                 DCMotor.getNEO(1),
                 RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR,
-                SingleJointedArmSim.estimateMOI(0.02, 6),
+                SingleJointedArmSim.estimateMOI(0.5, 6),
                 0.02,
                 RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT,
                 RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT,
@@ -48,5 +48,8 @@ public class ElbowIOSim implements ElbowIO{
         inputs.velocity = elbowSim.getVelocityRadPerSec();
         inputs.absoluteEncoderPosition = elbowSim.getAngleRads();
         inputs.absoluteEncoderVelocity = elbowSim.getVelocityRadPerSec();
+
+        inputs.hasHitForwardLimit = elbowSim.hasHitLowerLimit();
+        inputs.hasHitBackwardsLimit = elbowSim.hasHitLowerLimit();
     }
 }
