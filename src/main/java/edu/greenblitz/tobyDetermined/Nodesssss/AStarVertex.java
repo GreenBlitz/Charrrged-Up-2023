@@ -34,32 +34,25 @@ public class AStarVertex {
         return false;
     }
 
-    public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, GriperPos start, GriperPos end, LinkedList<Vertex> nonUsable, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
+    public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, GriperPos start, GriperPos end, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
         int saveI = 0;
         int con = 0;
-        //printPathVer(open);
         double fCost = Double.MAX_VALUE;
         Pair<Double, Boolean> a = addOtherSystemCost(open.get(0), pathMap);
         if(!a.getSecond()){
-            //nonUsable.add(new Vertex(open.get(0).getPos1(), open.get(0).getPos2(), open.get(0).getOtherSystem()));
             open.remove(open.get(0));
             con++;
         }
-        //else if (!ifInVerList(nonUsable, open.get(0))) {
         else {
             fCost = open.get(0).getFCostVertex(start, end);
             fCost+= a.getFirst();
         }
         for (int i = 1-con; i < open.size(); i++) {
-            //System.out.println(con);
             a =  addOtherSystemCost(open.get(i), pathMap);
             if(!a.getSecond()){
-                //System.out.println(con);
-                //nonUsable.add(open.get(i));
                 open.remove(open.get(i));
                 con++;
             }
-           // else if (!ifInVerList(nonUsable, open.get(i))) {
             else{
                 double currentFCost = a.getFirst();
                 currentFCost += open.get(i).getFCostVertex(start, end);
@@ -74,7 +67,6 @@ public class AStarVertex {
 
     public static Pair<Double, Boolean> addOtherSystemCost(Vertex vertex, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
         if (!vertex.isInOtherSystemMustBe(vertex.getOtherSystem()) ) {
-            //System.out.println("in if 1"+vertex.getPos1()+", "+vertex.getPos2());
             LinkedList<GriperPos> otherSystemPositions = NodeBase.getOtherSystemPositions(vertex.getOtherSystem());
             boolean check = false;
             for(int i = 0; i<otherSystemPositions.size() && !check; i++){
@@ -83,15 +75,12 @@ public class AStarVertex {
                 }
             }
             if(check) {
-                //System.out.println("in if 2"+vertex.getPos1()+", "+vertex.getPos2());
                 if (NodeBase.getNode(vertex.getOtherSystem()).getOtherSystemMustBe().contains(vertex.getPos1()) || NodeBase.getNode(vertex.getOtherSystem()).getOtherSystemMustBe().isEmpty()) {
-                    //System.out.println("in if 3"+vertex.getPos1()+", "+vertex.getPos2()+", "+vertex.getOtherSystem());
                     GriperPos pos = NodeBase.getGripPos(vertex.getOtherSystem());
                     LinkedList<GriperPos> list = vertex.mergeAndReturnOtherSystemMustBe();
                     double min = Double.MAX_VALUE;
                     LinkedList<GriperPos> path = new LinkedList<>();
                     for (GriperPos griperPos : list) {
-                        //System.out.println(pos+", "+griperPos+", "+vertex.getPos1());
                         Pair<LinkedList<GriperPos>, Double> pair = getPath(pos, griperPos, vertex.getPos1());
                         if (pair.getSecond() < min) {
                             min = pair.getSecond();
@@ -133,7 +122,6 @@ public class AStarVertex {
         LinkedList<Vertex> closedVer = new LinkedList<>();
         LinkedList<Vertex> openVer = new LinkedList<>();
         HashMap<Vertex, Vertex> parents = new HashMap<>();
-        LinkedList<Vertex> nonUsable = new LinkedList<>();
         HashMap<Vertex, LinkedList<GriperPos>> pathMap = new HashMap<>();
         GriperPos current = start;
         Vertex currentVer;
@@ -142,10 +130,9 @@ public class AStarVertex {
                 openVer.add(new Vertex(current, neighbor,secondSystemState));
             }
         }
-        //System.out.println("adfafeeas f");
 
         while (!openVer.isEmpty()) {
-            currentVer = getVertexLowestFcost(openVer, start, end, nonUsable, pathMap);
+            currentVer = getVertexLowestFcost(openVer, start, end, pathMap);
             current = currentVer.getPos2();
             openVer.remove(currentVer);
             closedVer.add(currentVer);
