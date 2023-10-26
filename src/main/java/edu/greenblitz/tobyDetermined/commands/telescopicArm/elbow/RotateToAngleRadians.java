@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
+import edu.greenblitz.tobyDetermined.Robot;
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
@@ -7,9 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.CONSTRAINTS;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.PID;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.kS;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
 public class RotateToAngleRadians extends ElbowCommand {
 
@@ -27,9 +27,15 @@ public class RotateToAngleRadians extends ElbowCommand {
     @Override
     public void initialize() {
         super.initialize();
-        pidController = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
+        if(RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION) {
+            pidController = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
+        }else{
+            pidController = new ProfiledPIDController(SIM_PID.getKp(), SIM_PID.getKi(), SIM_PID.getKd(), CONSTRAINTS);
+        }
         legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
         pidController.reset(new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
+
+        elbow.setGoalAngle(legalGoalAngle);
     }
 
     @Override

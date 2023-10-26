@@ -6,6 +6,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.SIM_PID;
+
 public class ElbowIOSim implements ElbowIO{
     SingleJointedArmSim elbowSim;
     private double appliedVoltage;
@@ -14,11 +16,11 @@ public class ElbowIOSim implements ElbowIO{
         elbowSim = new SingleJointedArmSim(
                 DCMotor.getNEO(1),
                 RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR,
-                SingleJointedArmSim.estimateMOI(0.5, 6),
-                0.02,
+                0.0001, //-> 1.0 / 3.0 * mass * length^2,
+                0.2,
                 RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT,
                 RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT,
-                true
+                false
         );
     }
 
@@ -51,5 +53,9 @@ public class ElbowIOSim implements ElbowIO{
 
         inputs.hasHitForwardLimit = elbowSim.hasHitLowerLimit();
         inputs.hasHitBackwardsLimit = elbowSim.hasHitLowerLimit();
+
+        inputs.kP = SIM_PID.getKp();
+        inputs.kI = SIM_PID.getKi();
+        inputs.kD = SIM_PID.getKd();
     }
 }

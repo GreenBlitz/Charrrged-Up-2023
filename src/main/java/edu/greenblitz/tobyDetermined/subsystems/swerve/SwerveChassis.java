@@ -113,7 +113,8 @@ public class SwerveChassis extends GBSubsystem {
 
 		updatePoseEstimationLimeLight();
 		field.setRobotPose(getRobotPose());
-		Logger.getInstance().recordOutput("DriveTrain/Pose2D", new Pose2d(getRobotPose().getX(),getRobotPose().getY(),new Rotation2d(gyro.getYaw())));
+		Logger.getInstance().recordOutput("DriveTrain/SimPose2D",getRobotPose());
+		Logger.getInstance().recordOutput("DriveTrain/TargetPose2D", getRobotPose());
 
 		SmartDashboard.putData(getField());
 		SmartDashboard.putNumber("chassisAngle", gyro.getYaw());

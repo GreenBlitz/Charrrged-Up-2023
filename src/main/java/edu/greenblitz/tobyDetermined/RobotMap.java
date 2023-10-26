@@ -25,7 +25,7 @@ public class RobotMap {
 
     public static class SimulationConstants{
         public static final double TIME_STEP = 0.02;
-        public static final double MAX_CHASSIS_VELOCITY = 8;
+        public static final Translation3d ARM_TO_ROBOT = new Translation3d(0,0,1.2);
 
     }
 
@@ -349,6 +349,7 @@ public class RobotMap {
             public static final double MAX_VELOCITY = 4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(4).withKd(0.4).withMaxPower(1);
+            public static final PIDObject SIM_PID = new PIDObject().withKp(0.000005).withKd(0.0001).withMaxPower(1);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
@@ -361,11 +362,12 @@ public class RobotMap {
             public static final double BACKWARD_ANGLE_LIMIT = 0.02;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
+            public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(0.1);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);
 
 
             public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
-                    .withPID(PID)
+                    .withPID(RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  PID : SIM_PID)
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT);

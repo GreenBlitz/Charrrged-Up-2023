@@ -135,7 +135,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public static double getStaticFeedForward(double elbowAngle) {
-		return Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
+		return RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG : 0;
 	}
 
 	public double getVolt(){
@@ -277,6 +277,9 @@ public class Extender extends GBSubsystem {
 		io.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
 		io.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
 		io.enableBackSwitchLimit(false);
+	}
+	public void setGoalLength (double goalLength){
+		this.goalLength = goalLength;
 	}
 }
 

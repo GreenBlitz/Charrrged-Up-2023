@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
+import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
@@ -127,9 +128,9 @@ public class Elbow extends GBSubsystem {
         if (getHypotheticalState(angleInRads) == ElbowState.FORWARD_OUT_OF_BOUNDS || getHypotheticalState(angleInRads) == ElbowState.BACKWARD_OUT_OF_BOUNDS){
             Console.log("OUT OF BOUNDS", "arm Elbow is trying to move OUT OF BOUNDS" );
             if(angleInRads < RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT){
-                return (RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT + RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
+                return (RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT + (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : SIM_ANGLE_TOLERANCE ));
             }else {
-                return (RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT - RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
+                return (RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT -  (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : SIM_ANGLE_TOLERANCE ));
             }
         }
 
@@ -139,7 +140,7 @@ public class Elbow extends GBSubsystem {
             // if its not short enough the arm will approach the start of the zone
         } else if((getState() != getHypotheticalState(angleInRads)) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
-            return (state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE - RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE+ RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
+            return (state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE - (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : SIM_ANGLE_TOLERANCE ) : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE+ (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : SIM_ANGLE_TOLERANCE ));
         }else {
             return (angleInRads);
         }
@@ -184,7 +185,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public boolean isAtAngle(double wantedAngle) {
-        return Math.abs(getAngleRadians() - wantedAngle) < RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE;
+        return Math.abs(getAngleRadians() - wantedAngle) <  (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : SIM_ANGLE_TOLERANCE );
     }
 
     public boolean isAtAngle(){
@@ -200,9 +201,9 @@ public class Elbow extends GBSubsystem {
     }
 
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
-        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
-                / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
-
+        return RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
+                / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND)
+                : 0;
     }
 
 
@@ -257,5 +258,9 @@ public class Elbow extends GBSubsystem {
 
     public void setIdleMode (CANSparkMax.IdleMode idleMode){
         io.setIdleMode(idleMode);
+    }
+
+    public void setGoalAngle (double goalAngle){
+        this.goalAngle = goalAngle;
     }
 }

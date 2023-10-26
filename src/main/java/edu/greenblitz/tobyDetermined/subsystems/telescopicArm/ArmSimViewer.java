@@ -7,6 +7,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -27,7 +28,7 @@ public class ArmSimViewer extends GBSubsystem {
             new Color8Bit(Color.kBlack));
     private static final MechanismRoot2d ARM_MECHANISM_ROOT = ARM_MECHANISM.getRoot("ArmRoot", RobotMap.TelescopicArm.Extender.FORWARD_LIMIT, 0.2);
     static final MechanismLigament2d
-            TARGET_ARM_LIGAMENT = ARM_MECHANISM_ROOT.append(new MechanismLigament2d("targetArmLigament", RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + 0.1, 0, 10, new Color8Bit(Color.kGray))),
+//            TARGET_ARM_LIGAMENT = ARM_MECHANISM_ROOT.append(new MechanismLigament2d("targetArmLigament", RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + 0.1, 0, 10, new Color8Bit(Color.kGray))),
             ARM_LIGAMENT = ARM_MECHANISM_ROOT.append(new MechanismLigament2d("zShowfirst armLigament", RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + 0.1, 0, 10, new Color8Bit(Color.kBlue)));
 
     public static void init() {
@@ -37,8 +38,8 @@ public class ArmSimViewer extends GBSubsystem {
     @Override
     public void periodic() {
 
-        TARGET_ARM_LIGAMENT.setLength((Extender.getInstance().getGoalLength()) + 0.2);
-        TARGET_ARM_LIGAMENT.setAngle(Units.radiansToDegrees(Elbow.getInstance().goalAngle));
+//        TARGET_ARM_LIGAMENT.setLength((Extender.getInstance().getGoalLength()) + 0.2);
+//        TARGET_ARM_LIGAMENT.setAngle(Units.radiansToDegrees(Elbow.getInstance().goalAngle));
         ARM_LIGAMENT.setLength((Extender.getInstance().getLength()) + 0.2);
         ARM_LIGAMENT.setAngle(Units.radiansToDegrees(Elbow.getInstance().getAngleRadians()));
 
@@ -48,19 +49,27 @@ public class ArmSimViewer extends GBSubsystem {
 
 
         Logger.getInstance().recordOutput("Arm/ArmMechanism", ARM_MECHANISM);
-        Logger.getInstance().recordOutput("Arm/Pose3d", getArmPosition());
+
+        Logger.getInstance().recordOutput("Arm/SimPose3D", getArmPosition(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians()));
+        Logger.getInstance().recordOutput("Arm/TargetPose3D", getArmPosition(Extender.getInstance().getGoalLength(), Elbow.getInstance().getGoalAngle()));
+
+
     }
 
-    public static Pose3d getArmPosition (){
-        return new Pose3d(
-                new Translation3d(
-                        Extender.getInstance().getLength(),
-                        new Rotation3d(
-                               0 , 0 ,  Elbow.getInstance().getAngleRadians()
-                        )
-                ),
-                new Rotation3d(0 , Elbow.getInstance().getAngleRadians() , 0)
-        );
+    public static Pose3d getArmPosition(double extenderLength, double elbowAngle) {
 
+        Pose3d armToRobotPose = new Pose3d(
+                RobotMap.SimulationConstants.ARM_TO_ROBOT,
+                new Rotation3d(0, elbowAngle, 0)
+        );
+        return armToRobotPose.transformBy(
+                new Transform3d(
+                new Translation3d(
+                        0,
+                        0,
+                        -extenderLength + RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH
+                        ),
+                        new Rotation3d()
+        ));
     }
 }

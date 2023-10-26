@@ -30,6 +30,8 @@ public class ExtendToLength extends ExtenderCommand {
         legalGoalLength = extender.getLegalGoalLength(wantedLength);
         pidController.reset(new TrapezoidProfile.State(extender.getLength(), extender.getVelocity()));
         lastSetpoint = 0;
+
+        extender.setGoalLength(legalGoalLength);
     }
     private double lastSetpoint;
     @Override
