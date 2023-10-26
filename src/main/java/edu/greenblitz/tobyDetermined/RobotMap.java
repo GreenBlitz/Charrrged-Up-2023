@@ -362,7 +362,7 @@ public class RobotMap {
             public static final double BACKWARD_ANGLE_LIMIT = 0.02;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
-            public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(0.1);
+            public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(3);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);
 
 

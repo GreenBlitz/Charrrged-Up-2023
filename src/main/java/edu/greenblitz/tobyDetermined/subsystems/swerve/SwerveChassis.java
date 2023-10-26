@@ -2,10 +2,8 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.*;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.Gyro;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.IModuleIO;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.MK4iModuleIO;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SimModuleIO;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
@@ -38,7 +36,7 @@ import org.photonvision.EstimatedRobotPose;
 
 import java.util.Optional;
 
-public class SwerveChassis extends GBSubsystem {
+public class SwerveChassis extends GBSubsystem implements ISwerveChassisIO {
 
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
@@ -55,6 +53,8 @@ public class SwerveChassis extends GBSubsystem {
 	public double limelightX;
 	public double limelightY;
 	public boolean twoApriltagsPresent;
+
+	private final SwerveChassisInputsAutoLogged inputs = new SwerveChassisInputsAutoLogged();
 
 	public SwerveChassis() {
 
@@ -110,17 +110,19 @@ public class SwerveChassis extends GBSubsystem {
 		backRight.periodic();
 
 		gyro.periodic();
+		field.setRobotPose(getRobotPose());
+
+		updateInputs(inputs);
+		Logger.getInstance().processInputs("DriveTrain/Chassis", inputs);
 
 		updatePoseEstimationLimeLight();
-		field.setRobotPose(getRobotPose());
-		Logger.getInstance().recordOutput("DriveTrain/SimPose2D",getRobotPose());
-		Logger.getInstance().recordOutput("DriveTrain/TargetPose2D", getRobotPose());
+
+
+		Logger.getInstance().recordOutput("DriveTrain/SimPose2D",inputs.chassisPose);
+		Logger.getInstance().recordOutput("DriveTrain/TargetPose2D", inputs.chassisPose);
 
 		SmartDashboard.putData(getField());
 		SmartDashboard.putNumber("chassisAngle", gyro.getYaw());
-		SmartDashboard.putNumber("chassisAnglularSpeed", SwerveChassis.getInstance().getChassisSpeeds().omegaRadiansPerSecond * RobotMap.SimulationConstants.TIME_STEP);
-		SmartDashboard.putNumber("xChassisVelocity",getChassisSpeeds().vxMetersPerSecond);
-		SmartDashboard.putNumber("yChassisVelocity",getChassisSpeeds().vyMetersPerSecond);
 
 	}
 
@@ -450,4 +452,19 @@ public class SwerveChassis extends GBSubsystem {
 		doVision = true;
 	}
 
+	@Override
+	public void updateInputs(SwerveChassisInputsAutoLogged inputs) {
+
+		inputs.chassisPose = poseEstimator.getEstimatedPosition();
+		inputs.isVisionEnabled = doVision;
+		inputs.numberOfDetectedAprilTag = MultiLimelight.getInstance().getAllEstimates().size();
+		inputs.omegaRadiansPerSecond = getChassisSpeeds().omegaRadiansPerSecond;
+		inputs.xAxisSpeed = getChassisSpeeds().vxMetersPerSecond;
+		inputs.yAxisSpeed = getChassisSpeeds().vyMetersPerSecond;
+
+
+
+
+
+	}
 }
