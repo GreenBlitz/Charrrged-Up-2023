@@ -5,25 +5,20 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface IElbow {
 
-    default void setPosition(double position){}
-    default void setPower(double power){}
+    void setPosition(double position);
+
+    void setPower(double power);
+
+    void setAngleRadiansByPID(double goalAngle, double feedForward);
+
+    void setVoltage(double voltage);
+
+    void setIdleMode(CANSparkMax.IdleMode idleMode);
+
+    void setSoftLimit(CANSparkMax.SoftLimitDirection direction, double limit);
 
 
-    default void setAngleRadiansByPID(double goalAngle, double feedForward){
-
-    }
-
-    default void setVoltage(double voltage){}
-    default void setIdleMode(CANSparkMax.IdleMode idleMode){}
-
-    default void setSoftLimit(CANSparkMax.SoftLimitDirection direction, double limit){}
-
-
-
-    default void updateInputs(ElbowInputsAutoLogged inputs){
-
-    }
-
+    void updateInputs(ElbowInputsAutoLogged inputs);
 
 
 }

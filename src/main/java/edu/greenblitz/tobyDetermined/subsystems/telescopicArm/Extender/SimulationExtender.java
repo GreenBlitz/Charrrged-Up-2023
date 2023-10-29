@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 
+import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -33,6 +34,7 @@ public class SimulationExtender implements IExtender {
         extenderSim.setInputVoltage(appliedVoltage);
     }
 
+
     @Override
     public void updateInputs(ExtenderInputs inputs) {
         extenderSim.update(RobotMap.SimulationConstants.TIME_STEP);
@@ -49,5 +51,28 @@ public class SimulationExtender implements IExtender {
         inputs.kI = RobotMap.TelescopicArm.Extender.Simulation.SIM_PID.getKi();
         inputs.kD = RobotMap.TelescopicArm.Extender.Simulation.SIM_PID.getKd();
     }
+
+    @Override
+    public void enableSoftLimit(boolean isEnabled, CANSparkMax.SoftLimitDirection direction) {
+    }
+
+    @Override
+    public void setPosition(double position) {
+    }
+
+    @Override
+    public void setIdleMode(CANSparkMax.IdleMode idleMode) {
+    }
+
+    @Override
+    public void enableSoftLimit(CANSparkMax.SoftLimitDirection direction, boolean isEnabled) {
+
+    }
+
+    @Override
+    public void enableBackSwitchLimit(boolean enable) {
+
+    }
+
 
 }

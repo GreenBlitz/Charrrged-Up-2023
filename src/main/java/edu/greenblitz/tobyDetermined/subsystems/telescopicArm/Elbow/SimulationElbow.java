@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 
+import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -23,20 +24,22 @@ public class SimulationElbow implements IElbow {
         );
     }
 
-    @Override
-    public void setPosition(double position) {
-        IElbow.super.setPosition(position);
-    }
+
 
     @Override
     public void setPower(double power) {
         setVoltage(power * RobotMap.SimulationConstants.BATTERY_VOLTAGE);
     }
+
+
+
     @Override
     public void setVoltage(double voltage) {
         appliedVoltage = MathUtil.clamp(voltage, -RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE, RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE);
         elbowSim.setInputVoltage(appliedVoltage);
     }
+
+
 
     @Override
     public void updateInputs(ElbowInputsAutoLogged inputs) {
@@ -56,5 +59,21 @@ public class SimulationElbow implements IElbow {
         inputs.kP = SIM_PID.getKp();
         inputs.kI = SIM_PID.getKi();
         inputs.kD = SIM_PID.getKd();
+    }
+
+    @Override
+    public void setIdleMode(CANSparkMax.IdleMode idleMode) {
+    }
+
+    @Override
+    public void setSoftLimit(CANSparkMax.SoftLimitDirection direction, double limit) {
+    }
+
+    @Override
+    public void setAngleRadiansByPID(double goalAngle, double feedForward) {
+    }
+
+    @Override
+    public void setPosition(double position) {
     }
 }

@@ -5,30 +5,18 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface IExtender {
 
-    default void setPower(double power) {
-    }
+     void setPower(double power);
 
-    default void setVoltage(double voltage) {
-    }
+     void setVoltage(double voltage);
+     void enableSoftLimit(boolean isEnabled, CANSparkMax.SoftLimitDirection direction);
 
-    default void enableSoftLimit(boolean isEnabled, CANSparkMax.SoftLimitDirection direction){
+     void setPosition (double position);
+     void setIdleMode (CANSparkMax.IdleMode idleMode);
 
-    }
+     void enableSoftLimit(CANSparkMax.SoftLimitDirection direction, boolean isEnabled);
 
-    default void setPosition (double position) {
-    }
-    default void setIdleMode (CANSparkMax.IdleMode idleMode) {
-    }
-
-    default void enableSoftLimit(CANSparkMax.SoftLimitDirection direction, boolean isEnabled) {
-    }
-
-    default void enableBackSwitchLimit(boolean enable) {
-    }
-
-    default void updateInputs(ExtenderInputs inputs){
-
-    }
+     void enableBackSwitchLimit(boolean enable);
+     void updateInputs(ExtenderInputs inputs);
 
 
 }

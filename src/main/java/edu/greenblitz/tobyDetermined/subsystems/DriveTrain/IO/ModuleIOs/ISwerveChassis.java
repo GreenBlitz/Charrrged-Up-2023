@@ -16,8 +16,6 @@ public interface ISwerveChassis {
         public double omegaRadiansPerSecond;
     }
 
-    default void updateInputs(SwerveChassisInputsAutoLogged inputs){
-
-    }
+    void updateInputs(SwerveChassisInputsAutoLogged inputs);
 
 }

@@ -31,7 +31,7 @@
       "Size": "123,144"
     },
     "###/Shuffleboard/Drivers/Field": {
-      "Collapsed": "1",
+      "Collapsed": "0",
       "Pos": "186,171",
       "Size": "853,421"
     },
@@ -73,7 +73,7 @@
     "###Timing": {
       "Collapsed": "0",
       "Pos": "18,190",
-      "Size": "141,127"
+      "Size": "141,150"
     },
     "Debug##Default": {
       "Collapsed": "0",

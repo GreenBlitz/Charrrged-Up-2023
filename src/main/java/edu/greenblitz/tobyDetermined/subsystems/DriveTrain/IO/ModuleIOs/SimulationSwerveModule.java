@@ -67,7 +67,6 @@ public class SimulationSwerveModule implements ISwerveModule {
         angularAppliedVoltage = voltage;
         angularMotor.setInputVoltage(voltage);
     }
-
     @Override
     public void stop() {
         setLinearVoltage(0);
@@ -96,4 +95,21 @@ public class SimulationSwerveModule implements ISwerveModule {
 
         lastInputs = inputs;
     }
+
+
+    @Override
+    public void setLinearIdleModeBrake(boolean isBrake) {
+
+    }
+
+    @Override
+    public void setAngularIdleModeBrake(boolean isBrake) {
+
+    }
+
+    @Override
+    public void resetAngle(double angleInRads) {
+
+    }
+
 }

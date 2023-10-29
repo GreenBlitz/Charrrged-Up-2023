@@ -50,6 +50,11 @@ public class NeoExtender implements IExtender {
     }
 
     @Override
+    public void enableSoftLimit(CANSparkMax.SoftLimitDirection direction, boolean isEnabled) {
+        motor.enableSoftLimit(direction, isEnabled);
+    }
+
+    @Override
     public void enableBackSwitchLimit(boolean enable) {
         motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(enable);
     }

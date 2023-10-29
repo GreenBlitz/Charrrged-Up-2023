@@ -9,16 +9,15 @@ public class SwerveModuleFactory {
     public static ISwerveModule create(SwerveChassis.Module module) {
 
         switch (RobotMap.ROBOT_TYPE) {
-
+            case REPLAY:
+                return new ReplaySwerveModule();
             case FRANKENSTEIN:
                 return new MK4ISwerveModule(module);
-            case SIMULATION:
-                return new SimulationSwerveModule(module);
             case PEGA_SWERVE:
-            case REPLAY:
+            case SIMULATION:
             default:
-                return new ISwerveModule() {
-                };
+                return new SimulationSwerveModule(module);
+
         }
     }
 }

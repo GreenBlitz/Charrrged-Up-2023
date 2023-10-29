@@ -5,39 +5,28 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface ISwerveModule {
 
-    default void setLinearVelocity(double speed) {
-    }
-
-    default void rotateToAngle(double angleInRadians) {
-    }
-
-    default void setLinearVoltage(double voltage) {
-    }
-
-    default void setAngularVoltage(double voltage) {
-    }
-
-    default void setLinearIdleModeBrake(boolean isBrake) {
-    }
-
-    default void setAngularIdleModeBrake(boolean isBrake) {
-    }
-
-    default void resetAngle(double angleInRads) {
-    }
+    void setLinearVelocity(double speed);
 
 
-    default void stop() {
-    }
-
-    @AutoLog
-    class ModuleIOInputs {
+    void rotateToAngle(double angleInRadians);
+    void setLinearVoltage(double voltage);
+     void setAngularVoltage(double voltage);
 
 
-    }
+     void setLinearIdleModeBrake(boolean isBrake);
 
-    default void updateInputs(SwerveModuleInputsAutoLogged inputs) {
-    }
+
+     void setAngularIdleModeBrake(boolean isBrake);
+
+
+     void resetAngle(double angleInRads);
+
+
+
+     void stop();
+
+     void updateInputs(SwerveModuleInputsAutoLogged inputs);
+
 
 
 
