@@ -1,23 +1,22 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 
-import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.SIM_PID;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.Simulation.SIM_PID;
 
-public class ElbowIOSim implements ElbowIO{
+public class SimulationElbow implements IElbow {
     SingleJointedArmSim elbowSim;
     private double appliedVoltage;
 
-    public ElbowIOSim() {
+    public SimulationElbow() {
         elbowSim = new SingleJointedArmSim(
-                DCMotor.getNEO(1),
+                DCMotor.getNEO(RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.NUMBER_OF_MOTORS),
                 RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR,
-                0.0001, //-> 1.0 / 3.0 * mass * length^2,
-                0.2,
+                RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.MOMENT_OF_INERTIA, //-> 1.0 / 3.0 * mass * length^2,
+                RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
                 RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT,
                 RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT,
                 false
@@ -26,16 +25,16 @@ public class ElbowIOSim implements ElbowIO{
 
     @Override
     public void setPosition(double position) {
-        ElbowIO.super.setPosition(position);
+        IElbow.super.setPosition(position);
     }
 
     @Override
     public void setPower(double power) {
-        setVoltage(power * 12);
+        setVoltage(power * RobotMap.SimulationConstants.BATTERY_VOLTAGE);
     }
     @Override
     public void setVoltage(double voltage) {
-        appliedVoltage = MathUtil.clamp(voltage, -12, 12);
+        appliedVoltage = MathUtil.clamp(voltage, -RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE, RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE);
         elbowSim.setInputVoltage(appliedVoltage);
     }
 

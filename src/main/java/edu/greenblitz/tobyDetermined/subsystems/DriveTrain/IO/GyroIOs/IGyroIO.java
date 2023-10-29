@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface GyroIO {
+public interface IGyroIO {
 
     default void setYaw(double yaw) {
     }

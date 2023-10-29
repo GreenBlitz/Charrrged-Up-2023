@@ -1,9 +1,9 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO;
+package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface ISwerveChassisIO {
+public interface ISwerveChassis {
 
 
     @AutoLog

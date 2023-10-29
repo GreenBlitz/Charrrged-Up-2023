@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface RotatingBellyIO {
+public interface IRotatingBelly {
 
     default void setPower(double power) {
 
@@ -19,6 +19,7 @@ public interface RotatingBellyIO {
     @AutoLog
     class RotatingBellyInputs {
         public double motorVoltage;
+        public double motorCurrent;
         public boolean isSwitchPressed;
     }
 

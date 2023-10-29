@@ -2,21 +2,17 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.*;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.Gyro;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SwerveModule;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.ISwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.SwerveChassisInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.SwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
-import edu.greenblitz.utils.Gyros.IGyro;
-import edu.greenblitz.utils.Gyros.NavX;
-import edu.greenblitz.utils.Gyros.PigeonGyro;
-import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -26,9 +22,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
@@ -36,7 +29,7 @@ import org.photonvision.EstimatedRobotPose;
 
 import java.util.Optional;
 
-public class SwerveChassis extends GBSubsystem implements ISwerveChassisIO {
+public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;

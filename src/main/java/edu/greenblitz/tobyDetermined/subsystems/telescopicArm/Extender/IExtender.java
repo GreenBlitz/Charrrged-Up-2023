@@ -1,10 +1,9 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface ExtenderIO {
+public interface IExtender {
 
     default void setPower(double power) {
     }

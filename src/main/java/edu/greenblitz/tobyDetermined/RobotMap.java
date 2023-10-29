@@ -5,14 +5,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
-//import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SimModuleIO;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.SimModuleIO;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -25,6 +22,9 @@ public class RobotMap {
 
     public static class SimulationConstants{
         public static final double TIME_STEP = 0.02;
+        public static final double BATTERY_VOLTAGE = 12;
+        public static final double MAX_MOTOR_VOLTAGE = 12;
+
         public static final Translation3d ARM_TO_ROBOT = new Translation3d(0,0,1.2);
 
     }
@@ -45,6 +45,7 @@ public class RobotMap {
             public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
             public static final double NEO_PHYSICAL_TICKS_TO_RADIANS = SPARKMAX_TICKS_PER_RADIAN / 42; //do not use unless you understand the meaning
             public final static double FALCON_TICKS_PER_RADIAN = 2 * Math.PI / 2048.0;
+            public final static double FALCON_TICKS_PER_ROTATION = 2048.0;
 
             public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
         }
@@ -98,6 +99,32 @@ public class RobotMap {
     }
 
     public static class Swerve {
+
+        public static class Simulation{
+
+            public static class SIMULATION_LINEAR_MOTOR{
+
+                public static final int NUMBER_OF_MOTORS = 1;
+                public static final double GEAR_RATIO = SdsSwerve.LIN_GEAR_RATIO;
+                public static final double MOMENT_OF_INERTIA = 0.01;
+            }
+
+                public static class SIMULATION_ANGULAR_MOTOR{
+
+                public static final int NUMBER_OF_MOTORS = 1;
+                public static final double GEAR_RATIO = SdsSwerve.LIN_GEAR_RATIO;
+                public static final double MOMENT_OF_INERTIA = 0.01;
+            }
+
+
+
+
+
+
+
+
+
+        }
 
         public static class Frankenstein {
 
@@ -285,16 +312,15 @@ public class RobotMap {
             public static final double MAX_LENGTH_IN_ROBOT = 0.4;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
-            public static final PIDObject SIM_PID = new PIDObject().withKp(30).withKi(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
 
-            public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
+            public static final double EXTENDER_EXTENDING_GEAR_RADIUS = 0.0165;
+            public static final double EXTENDER_EXTENDING_GEAR_CIRC = EXTENDER_EXTENDING_GEAR_RADIUS * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.045; //in meters
-            public static final double SIM_LENGTH_TOLERANCE = 0.001; //in meters
             public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
@@ -312,6 +338,21 @@ public class RobotMap {
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(40);
+
+            public static class Simulation{
+
+                public static class MotorSimulationConstants {
+
+                    public static final int NUMBER_OF_MOTORS = 1;
+                    public static final double GEAR_RATIO = 1 / RobotMap.TelescopicArm.Extender.GEAR_RATIO;
+                    public static final double CARRIAGE_MASS = 6; //[Kg]
+
+                }
+
+
+                public static final PIDObject SIM_PID = new PIDObject().withKp(30).withKi(1);
+                public static final double SIM_LENGTH_TOLERANCE = 0.001; //in meters
+            }
         }
 
         public static class Claw {
@@ -349,7 +390,6 @@ public class RobotMap {
             public static final double MAX_VELOCITY = 4;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(4).withKd(0.4).withMaxPower(1);
-            public static final PIDObject SIM_PID = new PIDObject().withKp(0.000005).withKd(0.0001).withMaxPower(1);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);
 
@@ -362,18 +402,30 @@ public class RobotMap {
             public static final double BACKWARD_ANGLE_LIMIT = 0.02;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
-            public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(3);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);
 
 
             public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
-                    .withPID(RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  PID : SIM_PID)
+                    .withPID(RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  PID : Simulation.SIM_PID)
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT);
 
             public static final int CURRENT_LIMIT = 40;
 
+            public static class Simulation {
+
+                public static class MotorSimulationConstants {
+
+                    public static final int NUMBER_OF_MOTORS = 1;
+                    public static final double GEAR_RATIO = RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR;
+                    public static final double MOMENT_OF_INERTIA = 0.01;
+
+                }
+
+                public static final PIDObject SIM_PID = new PIDObject().withKp(0.000005).withKd(0.0001).withMaxPower(1);
+                public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(3);
+            }
         }
     }
 

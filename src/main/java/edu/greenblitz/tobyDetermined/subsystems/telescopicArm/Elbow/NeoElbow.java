@@ -9,13 +9,13 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.RELATIVE_VELOCITY_CONVERSION_FACTOR;
 
-public class ElbowIONEO implements ElbowIO {
+public class NeoElbow implements IElbow {
 
 
 
     GBSparkMax motor;
 
-    public ElbowIONEO() {
+    public NeoElbow() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
 
@@ -75,6 +75,10 @@ public class ElbowIONEO implements ElbowIO {
 
         inputs.hasHitBackwardsLimit = inputs.position == RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT;
         inputs.hasHitForwardLimit = inputs.position == RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT;
+
+        inputs.kP = motor.getPIDController().getP();
+        inputs.kI = motor.getPIDController().getI();
+        inputs.kD = motor.getPIDController().getD();
     }
 
 

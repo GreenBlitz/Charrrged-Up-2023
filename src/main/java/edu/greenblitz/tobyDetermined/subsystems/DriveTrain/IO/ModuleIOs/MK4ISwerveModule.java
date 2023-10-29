@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO;
+package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -14,9 +14,7 @@ import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 
-import static edu.greenblitz.utils.Conversions.MK4IConversions.convertRadsToTicks;
-
-public class MK4iModuleIO implements IModuleIO {
+public class MK4ISwerveModule implements ISwerveModule {
 
     private GBFalcon angularMotor;
     private GBFalcon linearMotor;
@@ -25,7 +23,7 @@ public class MK4iModuleIO implements IModuleIO {
     private double encoderOffset;
 
 
-    public MK4iModuleIO(SwerveChassis.Module module) {
+    public MK4ISwerveModule(SwerveChassis.Module module) {
 
         SdsSwerveModule.SdsSwerveModuleConfigObject configObject;
         switch (module) {
@@ -54,9 +52,6 @@ public class MK4iModuleIO implements IModuleIO {
 
         canCoder = new CANCoder(configObject.AbsoluteEncoderID);
         this.encoderOffset = configObject.encoderOffset;
-
-//		canCoder.setPositionToAbsolute();
-//		canCoder.setPosition(canCoder.getPosition() - Units.rotationsToDegrees(encoderOffset));
 
         this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
     }
@@ -109,7 +104,7 @@ public class MK4iModuleIO implements IModuleIO {
     }
 
     @Override
-    public void updateInputs(IModuleIOInputsAutoLogged inputs) {
+    public void updateInputs(ModuleIOInputsAutoLogged inputs) {
         inputs.linearVelocity = Conversions.MK4IConversions.convertTicksPer100msToMeterPerSecond(linearMotor.getSelectedSensorVelocity());
         inputs.angularVelocity =  Conversions.MK4IConversions.convertTicksPer100msToRadsPerSecond(angularMotor.getSelectedSensorVelocity());
 

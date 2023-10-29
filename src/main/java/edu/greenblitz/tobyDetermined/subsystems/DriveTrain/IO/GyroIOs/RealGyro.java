@@ -4,7 +4,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.Gyros.NavX;
 import edu.greenblitz.utils.Gyros.PigeonGyro;
 
-public class RealGyro implements GyroIO{
+public class RealGyro implements IGyroIO {
 
     PigeonGyro gyro;
     NavX navX;

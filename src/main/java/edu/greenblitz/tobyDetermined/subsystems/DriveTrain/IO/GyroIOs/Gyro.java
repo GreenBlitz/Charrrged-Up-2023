@@ -4,22 +4,21 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 
 public class Gyro {
 
-    private GyroIO io;
+    private IGyroIO io;
     private final GyroIOInputsAutoLogged inputs = new GyroIOInputsAutoLogged();
 
     public Gyro() {
         switch (RobotMap.ROBOT_TYPE) {
-            case Frankenstein:
-            case pegaSwerve:
+            case FRANKENSTEIN:
+            case PEGA_SWERVE:
                 io = new RealGyro();
                 break;
             case SIMULATION:
-                io = new SimGyro();
-                System.out.println("[Init] sim gyro");
+                io = new SimulationGyro();
                 break;
             case REPLAY:
             default:
-                io = new GyroIO() {};
+                io = new IGyroIO() {};
                 break;
         }
     }

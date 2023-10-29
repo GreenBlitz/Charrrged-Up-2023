@@ -8,14 +8,14 @@ import edu.greenblitz.utils.motors.GBSparkMax;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT;
 
-public class ExtenderIONEO implements ExtenderIO {
+public class NeoExtender implements IExtender {
 
 
     private GBSparkMax motor;
 
     private boolean doesSensorExists = true;
 
-    public ExtenderIONEO() {
+    public NeoExtender() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
         motor.setSmartCurrentLimit(50, EXTENDER_CONFIG_OBJECT.getCurrentLimit());

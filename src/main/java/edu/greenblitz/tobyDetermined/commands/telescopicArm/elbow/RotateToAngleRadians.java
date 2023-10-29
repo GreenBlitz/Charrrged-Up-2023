@@ -27,14 +27,10 @@ public class RotateToAngleRadians extends ElbowCommand {
     @Override
     public void initialize() {
         super.initialize();
-        if(RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION) {
-            pidController = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
-        }else{
-            pidController = new ProfiledPIDController(SIM_PID.getKp(), SIM_PID.getKi(), SIM_PID.getKd(), CONSTRAINTS);
-        }
+
+        pidController = new ProfiledPIDController(elbow.getPID().getKp(), elbow.getPID().getKi(), elbow.getPID().getKd(), CONSTRAINTS);
         legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
         pidController.reset(new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
-
         elbow.setGoalAngle(legalGoalAngle);
     }
 

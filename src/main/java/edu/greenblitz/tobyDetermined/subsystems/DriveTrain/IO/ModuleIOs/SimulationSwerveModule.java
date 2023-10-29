@@ -1,20 +1,17 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO;
+package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.Conversions;
-import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import org.littletonrobotics.junction.Logger;
 
-public class SimModuleIO implements IModuleIO {
+public class SimulationSwerveModule implements ISwerveModule {
 
     private final DCMotorSim linearMotor;
     private final DCMotorSim angularMotor;
-    private IModuleIOInputsAutoLogged lastInputs = new IModuleIOInputsAutoLogged();
+    private ModuleIOInputsAutoLogged lastInputs = new ModuleIOInputsAutoLogged();
     private final SwerveChassis.Module module;
     private final PIDController angularController = new PIDController(
             RobotMap.Swerve.SimulationSwerve.angularController.kP,
@@ -24,20 +21,18 @@ public class SimModuleIO implements IModuleIO {
 
     private double angularAppliedVoltage, linearAppliedVoltage;
 
-    public SimModuleIO(SwerveChassis.Module module) {
+    public SimulationSwerveModule(SwerveChassis.Module module) {
         this.module = module;
-        System.out.println("[Init] simulation swerve module " + this.module.name());
 
         this.linearMotor = new DCMotorSim(
-                DCMotor.getFalcon500(1),
-                RobotMap.Swerve.SdsSwerve.LIN_GEAR_RATIO,
-                0.01
+                DCMotor.getFalcon500(RobotMap.Swerve.Simulation.SIMULATION_LINEAR_MOTOR.NUMBER_OF_MOTORS),
+                RobotMap.Swerve.Simulation.SIMULATION_LINEAR_MOTOR.GEAR_RATIO,
+                RobotMap.Swerve.Simulation.SIMULATION_LINEAR_MOTOR.MOMENT_OF_INERTIA
                 );
         this.angularMotor = new DCMotorSim(
-                DCMotor.getFalcon500(1),
-                RobotMap.Swerve.SdsSwerve.ANG_GEAR_RATIO,
-                0.0001
-
+                DCMotor.getFalcon500(RobotMap.Swerve.Simulation.SIMULATION_ANGULAR_MOTOR.NUMBER_OF_MOTORS),
+                RobotMap.Swerve.Simulation.SIMULATION_ANGULAR_MOTOR.GEAR_RATIO,
+                RobotMap.Swerve.Simulation.SIMULATION_ANGULAR_MOTOR.MOMENT_OF_INERTIA
         );
     }
 
@@ -45,7 +40,7 @@ public class SimModuleIO implements IModuleIO {
     @Override
     public void setLinearVelocity(double speed) {
         final double power = speed / RobotMap.Swerve.MAX_VELOCITY;
-        final double voltage = power * 12;
+        final double voltage = power * RobotMap.SimulationConstants.BATTERY_VOLTAGE;
         setLinearVoltage(voltage);
     }
 
@@ -79,7 +74,7 @@ public class SimModuleIO implements IModuleIO {
     }
 
     @Override
-    public void updateInputs(IModuleIOInputsAutoLogged inputs) {
+    public void updateInputs(ModuleIOInputsAutoLogged inputs) {
         linearMotor.update(RobotMap.SimulationConstants.TIME_STEP);
         angularMotor.update(RobotMap.SimulationConstants.TIME_STEP);
 
@@ -92,7 +87,7 @@ public class SimModuleIO implements IModuleIO {
         inputs.linearCurrent = linearMotor.getCurrentDrawAmps();
         inputs.angularCurrent = angularMotor.getCurrentDrawAmps();
 
-        inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getAngularPositionRotations() * 4096);
+        inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getAngularPositionRotations() * RobotMap.General.Motors.FALCON_TICKS_PER_ROTATION);
         inputs.angularPositionInRads = angularMotor.getAngularPositionRad();
 
         inputs.absoluteEncoderPosition = inputs.angularPositionInRads;

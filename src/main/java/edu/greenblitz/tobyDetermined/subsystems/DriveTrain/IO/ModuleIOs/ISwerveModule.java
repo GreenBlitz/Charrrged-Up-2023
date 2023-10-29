@@ -1,8 +1,8 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO;
+package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface IModuleIO {
+public interface ISwerveModule {
 
     default void setLinearVelocity(double speed) {
     }
@@ -30,7 +30,7 @@ public interface IModuleIO {
     }
 
     @AutoLog
-    class IModuleIOInputs {
+    class ModuleIOInputs {
         public double linearVelocity;
         public double angularVelocity;
 
@@ -49,7 +49,7 @@ public interface IModuleIO {
 
     }
 
-    default void updateInputs(IModuleIOInputsAutoLogged inputs) {
+    default void updateInputs(ModuleIOInputsAutoLogged inputs) {
     }
 
 

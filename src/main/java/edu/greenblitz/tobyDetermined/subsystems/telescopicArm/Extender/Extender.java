@@ -28,7 +28,7 @@ public class Extender extends GBSubsystem {
 	private boolean holdPosition =false;
 	private boolean didReset;
 
-	private final ExtenderIO io;
+	private final IExtender io;
 	private final ExtenderInputsAutoLogged inputs = new ExtenderInputsAutoLogged();
 	public static Extender getInstance() {
 		init();
@@ -43,7 +43,7 @@ public class Extender extends GBSubsystem {
 
 	private Extender() {
 		io = generateIO();
-		if(RobotMap.ROBOT_TYPE == Robot.RobotType.Frankenstein){
+		if(RobotMap.ROBOT_TYPE == Robot.RobotType.FRANKENSTEIN){
 			this.profileGenerator = new ProfiledPIDController(
 					PID.getKp(),
 					PID.getKi(),
@@ -53,12 +53,12 @@ public class Extender extends GBSubsystem {
 			this.profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 		}else{
 			this.profileGenerator = new ProfiledPIDController(
-					SIM_PID.getKp(),
-					SIM_PID.getKi(),
-					SIM_PID.getKd(),
+					Simulation.SIM_PID.getKp(),
+					Simulation.SIM_PID.getKi(),
+					Simulation.SIM_PID.getKd(),
 					CONSTRAINTS
 			);
-			this.profileGenerator.setTolerance(SIM_LENGTH_TOLERANCE);
+			this.profileGenerator.setTolerance(Simulation.SIM_LENGTH_TOLERANCE);
 		}
 
 
@@ -69,14 +69,14 @@ public class Extender extends GBSubsystem {
 		accTimer.start();
 	}
 
-	private ExtenderIO generateIO(){
+	private IExtender generateIO(){
 		switch (RobotMap.ROBOT_TYPE){
-			case Frankenstein:
-				return new ExtenderIONEO();
+			case FRANKENSTEIN:
+				return new NeoExtender();
 			case SIMULATION:
-				return new ExtenderIOSim();
+				return new SimulationExtender();
 			default:
-				return new ExtenderIO(){};
+				return new IExtender(){};
 		}
 	}
 

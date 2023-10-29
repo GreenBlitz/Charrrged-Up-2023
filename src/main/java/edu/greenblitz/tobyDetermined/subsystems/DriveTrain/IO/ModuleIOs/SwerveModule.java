@@ -1,8 +1,7 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO;
+package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -12,8 +11,8 @@ import org.littletonrobotics.junction.Logger;
 public class SwerveModule {
 
 
-    IModuleIO io;
-    IModuleIOInputsAutoLogged inputs;
+    ISwerveModule io;
+    ModuleIOInputsAutoLogged inputs;
 
     SwerveChassis.Module module;
 
@@ -25,19 +24,19 @@ public class SwerveModule {
 
         switch (RobotMap.ROBOT_TYPE){
 
-            case Frankenstein:
-                io = new MK4iModuleIO(module);
+            case FRANKENSTEIN:
+                io = new MK4ISwerveModule(module);
                 break;
             case SIMULATION:
-                io = new SimModuleIO(module);
+                io = new SimulationSwerveModule(module);
                 break;
-            case pegaSwerve:
+            case PEGA_SWERVE:
             case REPLAY:
             default:
-                io = new IModuleIO() {};
+                io = new ISwerveModule() {};
         }
 
-        inputs = new IModuleIOInputsAutoLogged();
+        inputs = new ModuleIOInputsAutoLogged();
     }
 
 

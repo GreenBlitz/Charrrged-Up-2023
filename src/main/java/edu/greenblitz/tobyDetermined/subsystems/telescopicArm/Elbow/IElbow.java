@@ -3,7 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import com.revrobotics.CANSparkMax;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface ElbowIO {
+public interface IElbow {
 
     default void setPosition(double position){}
     default void setPower(double power){}

@@ -12,7 +12,7 @@ import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ArmSimViewer;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ArmSimulation;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
@@ -43,7 +43,7 @@ public class Robot extends LoggedRobot {
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
 
-		initLogger();
+		initializeLogger();
 
 		OI.init();
 //		initSubsystems();
@@ -66,39 +66,35 @@ public class Robot extends LoggedRobot {
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 
 
+		ArmSimulation.init();
 
 	}
 
-	private void initLogger(){
+	private void initializeLogger(){
 
 		Logger logger = Logger.getInstance();
 
-
-		// Set up data receivers & replay source
 		switch (RobotMap.ROBOT_TYPE) {
 			// Running on a real robot, log to a USB stick
-			case Frankenstein:
+			case FRANKENSTEIN:
 				logger.addDataReceiver(new WPILOGWriter("/U"));
 				logger.addDataReceiver(new NT4Publisher());
 				break;
-
-			// Running a physics simulator, log to local folder
-			case SIMULATION:
-				logger.addDataReceiver(new WPILOGWriter("/SimulationLogs"));
-				logger.addDataReceiver(new NT4Publisher());
-				break;
-
-			// Replaying a log, set up replay source
+            // Replaying a log, set up replay source
 			case REPLAY:
 				setUseTiming(false); // Run as fast as possible
 				String logPath = LogFileUtil.findReplayLog();
 				logger.setReplaySource(new WPILOGReader(logPath));
 				logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
 				break;
+            case SIMULATION:
+            default:
+				logger.addDataReceiver(new WPILOGWriter("/SimulationLogs"));
+				logger.addDataReceiver(new NT4Publisher());
+				break;
 		}
 		logger.start();
 
-		ArmSimViewer.init();
 	}
 	private static void initSubsystems() {
 		MultiLimelight.init();
@@ -284,14 +280,10 @@ public class Robot extends LoggedRobot {
 		Elbow.getInstance().resetEncoder();
 	}
 
-	@Override
-	public void disabledExit() {
-	}
-
 
 	public enum RobotType {
-		pegaSwerve,
-		Frankenstein,
+		PEGA_SWERVE,
+		FRANKENSTEIN,
 		SIMULATION,
 		REPLAY
 	}
