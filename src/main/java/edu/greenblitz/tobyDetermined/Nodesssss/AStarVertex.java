@@ -2,11 +2,10 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.wpi.first.math.Pair;
 
-import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos;
 
 public class AStarVertex {
 
@@ -34,7 +33,7 @@ public class AStarVertex {
         return false;
     }
 
-    public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, GriperPos start, GriperPos end, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
+    public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, SystemsPos start, SystemsPos end, HashMap<Vertex, LinkedList<SystemsPos>> pathMap) {
         int saveI = 0;
         int con = 0;
         double fCost = Double.MAX_VALUE;
@@ -65,9 +64,9 @@ public class AStarVertex {
         return open.get(saveI);
     }
 
-    public static Pair<Double, Boolean> addOtherSystemCost(Vertex vertex, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
+    public static Pair<Double, Boolean> addOtherSystemCost(Vertex vertex, HashMap<Vertex, LinkedList<SystemsPos>> pathMap) {
         if (!vertex.isInOtherSystemMustBe(vertex.getOtherSystem()) ) {
-            LinkedList<GriperPos> otherSystemPositions = NodeBase.getOtherSystemPositions(vertex.getOtherSystem());
+            LinkedList<SystemsPos> otherSystemPositions = NodeBase.getOtherSystemPositions(vertex.getOtherSystem());
             boolean check = false;
             for(int i = 0; i<otherSystemPositions.size() && !check; i++){
                 if(vertex.isInOtherSystemMustBe(otherSystemPositions.get(i))){
@@ -76,12 +75,12 @@ public class AStarVertex {
             }
             if(check) {
                 if (NodeBase.getNode(vertex.getOtherSystem()).getOtherSystemMustBe().contains(vertex.getPos1()) || NodeBase.getNode(vertex.getOtherSystem()).getOtherSystemMustBe().isEmpty()) {
-                    GriperPos pos = NodeBase.getGripPos(vertex.getOtherSystem());
-                    LinkedList<GriperPos> list = vertex.mergeAndReturnOtherSystemMustBe();
+                    SystemsPos pos = NodeBase.getGripPos(vertex.getOtherSystem());
+                    LinkedList<SystemsPos> list = vertex.mergeAndReturnOtherSystemMustBe();
                     double min = Double.MAX_VALUE;
-                    LinkedList<GriperPos> path = new LinkedList<>();
-                    for (GriperPos griperPos : list) {
-                        Pair<LinkedList<GriperPos>, Double> pair = getPath(pos, griperPos, vertex.getPos1());
+                    LinkedList<SystemsPos> path = new LinkedList<>();
+                    for (SystemsPos griperPos : list) {
+                        Pair<LinkedList<SystemsPos>, Double> pair = getPath(pos, griperPos, vertex.getPos1());
                         if (pair.getSecond() < min) {
                             min = pair.getSecond();
                             path = pair.getFirst();
@@ -98,8 +97,8 @@ public class AStarVertex {
         return new Pair<>(0.0,true);
     }
 
-    public static Pair<LinkedList<GriperPos>, Double> returnPath(Vertex vertex, HashMap<Vertex, Vertex> parents, HashMap<Vertex, LinkedList<GriperPos>> pathMap) {
-        LinkedList<GriperPos> pathList = new LinkedList<>();
+    public static Pair<LinkedList<SystemsPos>, Double> returnPath(Vertex vertex, HashMap<Vertex, Vertex> parents, HashMap<Vertex, LinkedList<SystemsPos>> pathMap) {
+        LinkedList<SystemsPos> pathList = new LinkedList<>();
         Vertex current = vertex;
         pathList.addFirst(current.getPos2());
         while (current != null) {
@@ -118,14 +117,14 @@ public class AStarVertex {
         return new Pair<>(pathList, 0.0);
     }
 
-    public static Pair<LinkedList<GriperPos>, Double> getPath(GriperPos start, GriperPos end, GriperPos secondSystemState) {
+    public static Pair<LinkedList<SystemsPos>, Double> getPath(SystemsPos start, SystemsPos end, SystemsPos secondSystemState) {
         LinkedList<Vertex> closedVer = new LinkedList<>();
         LinkedList<Vertex> openVer = new LinkedList<>();
         HashMap<Vertex, Vertex> parents = new HashMap<>();
-        HashMap<Vertex, LinkedList<GriperPos>> pathMap = new HashMap<>();
-        GriperPos current = start;
+        HashMap<Vertex, LinkedList<SystemsPos>> pathMap = new HashMap<>();
+        SystemsPos current = start;
         Vertex currentVer;
-        for (GriperPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+        for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
             if (!ifInVerList(closedVer, new Vertex(current, neighbor,secondSystemState)) && !ifInVerList(openVer, new Vertex(current, neighbor,secondSystemState))) {
                 openVer.add(new Vertex(current, neighbor,secondSystemState));
             }
@@ -140,7 +139,7 @@ public class AStarVertex {
             if (current.equals(end)) {
                 return returnPath(currentVer, parents, pathMap);
             }
-            for (GriperPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+            for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
                 if (!ifInVerList(closedVer, new Vertex(current, neighbor,currentVer.getOtherSystem())) && !ifInVerList(openVer, new Vertex(current, neighbor,currentVer.getOtherSystem()))) {
                     openVer.add(new Vertex(current, neighbor, currentVer.getOtherSystem()));
                     parents.put( openVer.get(openVer.size() - 1), currentVer);
@@ -150,14 +149,14 @@ public class AStarVertex {
         return null;
     }
 
-    public static LinkedList<GriperPos> printAndReturnFinalPath(GriperPos start, GriperPos end, GriperPos secondSystemState) {
-        Pair<LinkedList<GriperPos>, Double> a = getPath(start, end, secondSystemState);
+    public static LinkedList<SystemsPos> printAndReturnFinalPath(SystemsPos start, SystemsPos end, SystemsPos secondSystemState) {
+        Pair<LinkedList<SystemsPos>, Double> a = getPath(start, end, secondSystemState);
         printPath(a.getFirst());
         return a.getFirst();
     }
 
     public static void main(String[] args) {
-        LinkedList<GriperPos> a = printAndReturnFinalPath(GriperPos.LOWWW, GriperPos.HIGH, GriperPos.GRIPER_CLOSE);
+        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.LOWWW, SystemsPos.HIGH, SystemsPos.GRIPER_CLOSE);
     }
 }
 

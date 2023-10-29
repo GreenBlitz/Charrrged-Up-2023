@@ -1,35 +1,33 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.GBCommand;
-import edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
-import edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos.*;
+import edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos;
+
 import java.util.Collections;
 import java.util.LinkedList;
 
 public abstract class GBNode {
     private boolean isNeighborsSet;
-    private final LinkedList<GriperPos> neighbors;
+    private final LinkedList<SystemsPos> neighbors;
     private GBCommand command;
-
-    private LinkedList<GriperPos> OtherSystemMustBe;
+    private LinkedList<SystemsPos> OtherSystemMustBe;
     public GBNode(GBCommand command ){
-        neighbors = new LinkedList<GriperPos>();
+        neighbors = new LinkedList<>();
         isNeighborsSet = false;
         this.command = command;
         OtherSystemMustBe = new LinkedList<>();
     }
-    public void addNeighbors(GriperPos[] neighbors) {
+    public void addNeighbors(SystemsPos[] neighbors) {
         if(!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
-    public void setOtherSystemMustBe(GriperPos[] griperMustBe) {
+    public void setOtherSystemMustBe(SystemsPos[] griperMustBe) {
         Collections.addAll(this.OtherSystemMustBe, griperMustBe);
     }
 
-    public LinkedList<GriperPos> getOtherSystemMustBe() {
+    public LinkedList<SystemsPos> getOtherSystemMustBe() {
         return OtherSystemMustBe;
     }
 
@@ -37,12 +35,11 @@ public abstract class GBNode {
         return command;
     }
 
-    public LinkedList<GriperPos> getNeighbors(){
+    public LinkedList<SystemsPos> getNeighbors(){
         return neighbors;
     }
-    public double getCost(){return 1.0;}
 
-    public double getCost(GriperPos nodeArm){
+    public double getCost(SystemsPos nodeArm){
         return 0;
     }
 

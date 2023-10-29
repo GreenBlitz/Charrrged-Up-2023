@@ -11,10 +11,10 @@ public class NodeArm extends GBNode {
     public enum ArmPointer{
         ARM_POINTER;
     }
-    private final LinkedList<RobotMap.Intake.GriperPos> griperMustBe;
+    private final LinkedList<RobotMap.Intake.SystemsPos> griperMustBe;
     private ClawState clawPos;
     private boolean isNeighborsSet;
-    private final LinkedList<RobotMap.Intake.GriperPos> neighbors;
+    private final LinkedList<RobotMap.Intake.SystemsPos> neighbors;
     private final double anglePos;
     private final double extendPos;
     private GBCommand command;
@@ -24,7 +24,7 @@ public class NodeArm extends GBNode {
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
         clawPos = ClawState.CONE_MODE;
-        neighbors = new LinkedList<RobotMap.Intake.GriperPos>();
+        neighbors = new LinkedList<RobotMap.Intake.SystemsPos>();
         isNeighborsSet = false;
         griperMustBe = new LinkedList<>();
         this.command = command;
@@ -37,22 +37,22 @@ public class NodeArm extends GBNode {
     }
 
     @Override
-    public void setOtherSystemMustBe(RobotMap.Intake.GriperPos[] griperMustBe) {
+    public void setOtherSystemMustBe(RobotMap.Intake.SystemsPos[] griperMustBe) {
         Collections.addAll(this.griperMustBe, griperMustBe);
     }
 
     @Override
-    public LinkedList<RobotMap.Intake.GriperPos> getOtherSystemMustBe() {
+    public LinkedList<RobotMap.Intake.SystemsPos> getOtherSystemMustBe() {
         return griperMustBe;
     }
 
-    public void addNeighbors(RobotMap.Intake.GriperPos[] neighbors) {
+    public void addNeighbors(RobotMap.Intake.SystemsPos[] neighbors) {
         if(!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
-    public LinkedList<RobotMap.Intake.GriperPos> getNeighbors(){
+    public LinkedList<RobotMap.Intake.SystemsPos> getNeighbors(){
         return neighbors;
     }
 
@@ -65,7 +65,7 @@ public class NodeArm extends GBNode {
     }
 
     @Override
-    public double getCost(RobotMap.Intake.GriperPos nodeArm){
+    public double getCost(RobotMap.Intake.SystemsPos nodeArm){
         return Math.sqrt(
                 Math.pow(getAnglePos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getAnglePos(), 2)
                         +

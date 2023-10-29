@@ -10,9 +10,9 @@ public class GriperNode extends GBNode {
     public enum GriperPointer{
         GRIPER_POINTER;
     }
-    private LinkedList<RobotMap.Intake.GriperPos> armMustBe;
+    private LinkedList<RobotMap.Intake.SystemsPos> armMustBe;
     private boolean isNeighborsSet;
-    private final LinkedList<RobotMap.Intake.GriperPos> neighbors;
+    private final LinkedList<RobotMap.Intake.SystemsPos> neighbors;
     private GBCommand command;
     private double x;
 
@@ -24,19 +24,19 @@ public class GriperNode extends GBNode {
         x = 90.0;
         armMustBe = new LinkedList<>();
     }
-    public void addNeighbors(RobotMap.Intake.GriperPos[] neighbors) {
+    public void addNeighbors(RobotMap.Intake.SystemsPos[] neighbors) {
         if(!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
     @Override
-    public LinkedList<RobotMap.Intake.GriperPos> getOtherSystemMustBe() {
+    public LinkedList<RobotMap.Intake.SystemsPos> getOtherSystemMustBe() {
         return armMustBe;
     }
 
     @Override
-    public void setOtherSystemMustBe(RobotMap.Intake.GriperPos[] griperMustBe) {
+    public void setOtherSystemMustBe(RobotMap.Intake.SystemsPos[] griperMustBe) {
         Collections.addAll(this.armMustBe, griperMustBe);
     }
 
@@ -45,11 +45,11 @@ public class GriperNode extends GBNode {
         return command;
     }
 
-    public LinkedList<RobotMap.Intake.GriperPos> getNeighbors(){
+    public LinkedList<RobotMap.Intake.SystemsPos> getNeighbors(){
         return neighbors;
     }
     @Override
-    public double getCost(RobotMap.Intake.GriperPos griperNode){
+    public double getCost(RobotMap.Intake.SystemsPos griperNode){
        // return this.x + NodeBase.getNode(griperNode, GriperPointer.GRIPER_POINTER).x;
         return 0;
     }

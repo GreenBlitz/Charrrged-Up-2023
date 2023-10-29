@@ -1,12 +1,10 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
-
-import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos.*;
-import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos;
 
 public class CurrentNodeArm {
-    private GriperPos currentNode;
+    private SystemsPos currentNode;
     private static CurrentNodeArm instance;
     public static CurrentNodeArm getInstance() {
         init();
@@ -18,12 +16,12 @@ public class CurrentNodeArm {
             instance = new CurrentNodeArm();
         }
     }
-    public GriperPos getCurrentNode() {
+    public SystemsPos getCurrentNode() {
         if (currentNode == null)
             currentNode = INTAKE_GRAB_CONE_POSITION;
         return currentNode;
     }
-    public void setCurrentNode(GriperPos pos) {
+    public void setCurrentNode(SystemsPos pos) {
         currentNode = pos;
     }
 }

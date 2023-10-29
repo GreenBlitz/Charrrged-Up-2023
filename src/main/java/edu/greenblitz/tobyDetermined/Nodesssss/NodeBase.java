@@ -1,30 +1,27 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.ArmCommand;
 import edu.greenblitz.tobyDetermined.commands.GriperCommand;
-import edu.greenblitz.tobyDetermined.commands.NodeToNeighbourCommand;
-import edu.greenblitz.tobyDetermined.commands.intake.ExtendAndRoll;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.wpi.first.math.util.Units;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 
-import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos.*;
-import static edu.greenblitz.tobyDetermined.RobotMap.Intake.GriperPos;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
+import static edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos;
 //import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
 //import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions.*;
 
 
 public class NodeBase {
 
-    protected final static HashMap<GriperPos, NodeArm> nodeMapArm = new HashMap<>();
-    protected final static HashMap<GriperPos, GriperNode> nodeMapGrip = new HashMap<>();
+    protected final static HashMap<SystemsPos, NodeArm> nodeMapArm = new HashMap<>();
+    protected final static HashMap<SystemsPos, GriperNode> nodeMapGrip = new HashMap<>();
 
-    private static LinkedList<GriperPos> listGriper = new LinkedList<>();
-    private static LinkedList<GriperPos> listArm = new LinkedList<>();
+    private static LinkedList<SystemsPos> listGriper = new LinkedList<>();
+    private static LinkedList<SystemsPos> listArm = new LinkedList<>();
     private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
 
     private final static double TOLERANCE_LENGTH = 0.04;//In Meters
@@ -114,20 +111,20 @@ public class NodeBase {
         listArm.add(MID);
         listArm.add(HIGH);
 
-        nodeMapArm.get(LOWWW).addNeighbors(new GriperPos[]{GROUND, MID, HIGH});
-        nodeMapArm.get(GROUND).addNeighbors(new GriperPos[]{LOWWW, MID, HIGH});
-        nodeMapArm.get(MID).addNeighbors(new GriperPos[]{GROUND, LOWWW, HIGH});
-        nodeMapArm.get(HIGH).addNeighbors(new GriperPos[]{GROUND, MID, LOWWW});
+        nodeMapArm.get(LOWWW).addNeighbors(new SystemsPos[]{GROUND, MID, HIGH});
+        nodeMapArm.get(GROUND).addNeighbors(new SystemsPos[]{LOWWW, MID, HIGH});
+        nodeMapArm.get(MID).addNeighbors(new SystemsPos[]{GROUND, LOWWW, HIGH});
+        nodeMapArm.get(HIGH).addNeighbors(new SystemsPos[]{GROUND, MID, LOWWW});
 
         nodeMapGrip.put(GRIPER_OPEN, new GriperNode(new GriperCommand()));
         nodeMapGrip.put(GRIPER_CLOSE, new GriperNode(new GriperCommand()));
         listGriper.add(GRIPER_OPEN);
         listGriper.add(GRIPER_CLOSE);
 
-        nodeMapGrip.get(GRIPER_OPEN).addNeighbors(new GriperPos[]{GRIPER_CLOSE});
-        nodeMapGrip.get(GRIPER_CLOSE).addNeighbors(new GriperPos[]{GRIPER_OPEN});
+        nodeMapGrip.get(GRIPER_OPEN).addNeighbors(new SystemsPos[]{GRIPER_CLOSE});
+        nodeMapGrip.get(GRIPER_CLOSE).addNeighbors(new SystemsPos[]{GRIPER_OPEN});
 
-        nodeMapArm.get(LOWWW).setOtherSystemMustBe(new GriperPos[]{GRIPER_OPEN});
+        nodeMapArm.get(LOWWW).setOtherSystemMustBe(new SystemsPos[]{GRIPER_OPEN});
 
 
 
@@ -135,21 +132,21 @@ public class NodeBase {
 
     }
 
-    public static NodeArm getNode(GriperPos specNode, NodeArm.ArmPointer armPointer) {
+    public static NodeArm getNode(SystemsPos specNode, NodeArm.ArmPointer armPointer) {
             return nodeMapArm.get(specNode);
     }
-    public static GriperNode getNode(GriperPos specNode, GriperNode.GriperPointer a) {
+    public static GriperNode getNode(SystemsPos specNode, GriperNode.GriperPointer a) {
         return nodeMapGrip.get(specNode);
     }
 
-    public static GBNode getNode(GriperPos specNode){
+    public static GBNode getNode(SystemsPos specNode){
         if(specNode.toString().contains("GRIPER")){
             return nodeMapGrip.get(specNode);
         }
         return nodeMapArm.get(specNode);
     }
-    public static LinkedList<GriperPos> getOtherSystemPositions(GriperPos specNode) {
-        LinkedList<GriperPos> list;
+    public static LinkedList<SystemsPos> getOtherSystemPositions(SystemsPos specNode) {
+        LinkedList<SystemsPos> list;
         if(specNode.toString().contains("GRIPER")){
             list = new LinkedList<>(listGriper);
         }
@@ -157,10 +154,9 @@ public class NodeBase {
             list = new LinkedList<>(listArm);
         }
         return list;
-
-
     }
-        public static GriperPos getGripPos(GriperPos specPos){
+
+        public static SystemsPos getGripPos(SystemsPos specPos){
             switch (specPos) {
                 case LOW:
                     return LOW;
