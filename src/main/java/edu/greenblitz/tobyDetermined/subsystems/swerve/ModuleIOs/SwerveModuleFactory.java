@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;

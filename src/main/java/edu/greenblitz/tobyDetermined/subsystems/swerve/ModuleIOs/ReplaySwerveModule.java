@@ -1,6 +1,6 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs;
 
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.SwerveModuleInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
 
 public class ReplaySwerveModule implements ISwerveModule{
     @Override

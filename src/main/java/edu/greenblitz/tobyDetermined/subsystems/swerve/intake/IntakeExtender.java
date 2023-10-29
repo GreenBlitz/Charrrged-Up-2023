@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.intake;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.intake;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;

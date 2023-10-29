@@ -2,12 +2,12 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.GyroFactory;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.IGyro;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.ISwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.SwerveChassisInputsAutoLogged;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.SwerveModule;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.GyroIOs.GyroFactory;
+import edu.greenblitz.tobyDetermined.subsystems.GyroIOs.IGyro;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs.ISwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs.SwerveChassisInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs.SwerveModule;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;

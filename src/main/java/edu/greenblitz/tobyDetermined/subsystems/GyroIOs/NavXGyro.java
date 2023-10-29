@@ -1,10 +1,10 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
+package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
 import edu.wpi.first.wpilibj.SerialPort;
 
-public class NavX implements IGyro {
+public class NavXGyro implements IGyro {
 	private AHRS gyro;
 	private double yawOffset;
 	private double pitchOffset;
@@ -12,7 +12,7 @@ public class NavX implements IGyro {
 
 	private GyroInputsAutoLogged lastInputs = new GyroInputsAutoLogged();
 
-	public NavX(){
+	public NavXGyro(){
 		this.gyro = new AHRS(SerialPort.Port.kMXP);
 
 		yawOffset = 0;

@@ -1,7 +1,7 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
+package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 
 public class SimulationGyro implements IGyro {

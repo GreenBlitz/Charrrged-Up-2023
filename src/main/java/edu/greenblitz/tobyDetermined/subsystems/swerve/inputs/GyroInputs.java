@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.inputs;
 
 
 import org.littletonrobotics.junction.AutoLog;

@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.thirdLeg;
 
-import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.intake.IntakeExtender;
 import edu.greenblitz.utils.GBCommand;
 
 public abstract class ThirdLegCommand extends GBCommand {

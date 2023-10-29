@@ -1,8 +1,7 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.SwerveModuleInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;

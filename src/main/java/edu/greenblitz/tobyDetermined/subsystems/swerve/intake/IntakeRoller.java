@@ -1,11 +1,10 @@
-package edu.greenblitz.tobyDetermined.subsystems.intake;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.intake;
 
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeRoller extends GBSubsystem {
 	private static IntakeRoller instance;

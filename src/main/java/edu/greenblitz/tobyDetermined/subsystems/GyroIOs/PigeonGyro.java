@@ -1,7 +1,7 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
+package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
 
 public class PigeonGyro implements IGyro {
 

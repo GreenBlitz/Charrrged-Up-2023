@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
+package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 
@@ -8,7 +8,7 @@ public class GyroFactory {
         switch (RobotMap.ROBOT_TYPE) {
             case FRANKENSTEIN:
             case PEGA_SWERVE:
-                return new NavX();
+                return new NavXGyro();
             case REPLAY:
                 return new ReplayGyro();
             case SIMULATION:
