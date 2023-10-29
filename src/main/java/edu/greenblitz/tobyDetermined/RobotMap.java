@@ -418,12 +418,11 @@ public class RobotMap {
                 public static class MotorSimulationConstants {
 
                     public static final int NUMBER_OF_MOTORS = 1;
-                    public static final double GEAR_RATIO = RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR;
-                    public static final double MOMENT_OF_INERTIA = 0.01;
+                    public static final double GEAR_RATIO = 1 / RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR;
 
                 }
 
-                public static final PIDObject SIM_PID = new PIDObject().withKp(0.000005).withKd(0.0001).withMaxPower(1);
+                public static final PIDObject SIM_PID = new PIDObject().withKp(0.8).withKd(0.1).withMaxPower(1);
                 public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(3);
             }
         }
