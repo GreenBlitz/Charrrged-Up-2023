@@ -8,19 +8,7 @@ public class Gyro {
     private final GyroIOInputsAutoLogged inputs = new GyroIOInputsAutoLogged();
 
     public Gyro() {
-        switch (RobotMap.ROBOT_TYPE) {
-            case FRANKENSTEIN:
-            case PEGA_SWERVE:
-                io = new RealGyro();
-                break;
-            case SIMULATION:
-                io = new SimulationGyro();
-                break;
-            case REPLAY:
-            default:
-                io = new IGyroIO() {};
-                break;
-        }
+        io = GyroFactory.create();
     }
 
     public double getYaw() {

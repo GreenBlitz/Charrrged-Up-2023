@@ -69,6 +69,7 @@ public class NeoExtender implements IExtender {
         inputs.kI = motor.getPIDController().getI();
         inputs.kD = motor.getPIDController().getD();
         inputs.reverseLimitSwitchPressed = motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).isPressed();
+        inputs.tolerance = RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE;
 
     }
 }

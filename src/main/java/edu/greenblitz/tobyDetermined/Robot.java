@@ -143,9 +143,9 @@ public class Robot extends LoggedRobot {
 
 		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
 
-		SmartDashboard.putNumber("yaw", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getYaw()));
-		SmartDashboard.putNumber("pitch",Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getPitch()));
-		SmartDashboard.putNumber("roll", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getRoll()));
+		SmartDashboard.putNumber("yaw", Units.radiansToDegrees(SwerveChassis.getInstance().getGyro().getYaw()));
+		SmartDashboard.putNumber("pitch",Units.radiansToDegrees(SwerveChassis.getInstance().getGyro().getPitch()));
+		SmartDashboard.putNumber("roll", Units.radiansToDegrees(SwerveChassis.getInstance().getGyro().getRoll()));
 
 	}
 	

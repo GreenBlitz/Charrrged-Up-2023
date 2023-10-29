@@ -270,10 +270,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		return this.kinematics;
 	}
 
-	public Gyro getPigeonGyro() {
-		return this.gyro;
-	}
-	public Gyro getNavX() {
+	public Gyro getGyro() {
 		return gyro;
 	}
 

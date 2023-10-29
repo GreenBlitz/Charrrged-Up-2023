@@ -48,7 +48,7 @@ public class Elbow extends GBSubsystem {
     
     private Elbow() {
 
-        io = generateIO();
+        io = ElbowFactory.create();
         inputs = new ElbowInputsAutoLogged();
         io.updateInputs(inputs);
 
@@ -64,18 +64,6 @@ public class Elbow extends GBSubsystem {
         absolutAngFilter = new MedianFilter(RESET_MEDIAN_SIZE);
     }
 
-    private IElbow generateIO(){
-        switch (RobotMap.ROBOT_TYPE){
-            case FRANKENSTEIN:
-                return new NeoElbow();
-            case REPLAY:
-                return new IElbow() {};
-            case SIMULATION:
-            default:
-                return new SimulationElbow();
-        }
-    }
-    
     private Timer accTimer;
     private double lastSpeed;
 

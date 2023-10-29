@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import org.apache.logging.log4j.core.appender.rolling.action.IfNot;
 
 public class SimulationExtender implements IExtender {
     ElevatorSim extenderSim;
@@ -41,9 +42,12 @@ public class SimulationExtender implements IExtender {
         inputs.position = extenderSim.getPositionMeters();
         inputs.velocity = extenderSim.getVelocityMetersPerSecond();
         inputs.reverseLimitSwitchPressed = extenderSim.hasHitLowerLimit();
-        inputs.kP = 1;
-        inputs.kI = 0;
-        inputs.kD = 0;
+
+        inputs.tolerance = RobotMap.TelescopicArm.Extender.Simulation.SIM_LENGTH_TOLERANCE;
+
+        inputs.kP = RobotMap.TelescopicArm.Extender.Simulation.SIM_PID.getKp();
+        inputs.kI = RobotMap.TelescopicArm.Extender.Simulation.SIM_PID.getKi();
+        inputs.kD = RobotMap.TelescopicArm.Extender.Simulation.SIM_PID.getKd();
     }
 
 }

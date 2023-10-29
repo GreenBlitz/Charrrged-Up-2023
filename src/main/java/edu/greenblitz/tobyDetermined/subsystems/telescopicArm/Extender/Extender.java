@@ -42,24 +42,16 @@ public class Extender extends GBSubsystem {
 	}
 
 	private Extender() {
-		io = generateIO();
-		if(RobotMap.ROBOT_TYPE == Robot.RobotType.FRANKENSTEIN){
-			this.profileGenerator = new ProfiledPIDController(
-					PID.getKp(),
-					PID.getKi(),
-					PID.getKd(),
-					CONSTRAINTS
-			);
-			this.profileGenerator.setTolerance(RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
-		}else{
-			this.profileGenerator = new ProfiledPIDController(
-					Simulation.SIM_PID.getKp(),
-					Simulation.SIM_PID.getKi(),
-					Simulation.SIM_PID.getKd(),
-					CONSTRAINTS
-			);
-			this.profileGenerator.setTolerance(Simulation.SIM_LENGTH_TOLERANCE);
-		}
+		io = ExtenderFactory.create();
+		io.updateInputs(inputs);
+
+		this.profileGenerator = new ProfiledPIDController(
+				inputs.kP,
+				inputs.kI,
+				inputs.kD,
+				CONSTRAINTS
+		);
+		this.profileGenerator.setTolerance(inputs.tolerance);
 
 
 		lastSpeed = 0;
@@ -69,16 +61,6 @@ public class Extender extends GBSubsystem {
 		accTimer.start();
 	}
 
-	private IExtender generateIO(){
-		switch (RobotMap.ROBOT_TYPE){
-			case FRANKENSTEIN:
-				return new NeoExtender();
-			case SIMULATION:
-				return new SimulationExtender();
-			default:
-				return new IExtender(){};
-		}
-	}
 
 	private Timer accTimer;
 

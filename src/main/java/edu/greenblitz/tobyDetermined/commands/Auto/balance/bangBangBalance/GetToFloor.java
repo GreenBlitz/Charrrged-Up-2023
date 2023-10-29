@@ -27,7 +27,7 @@ public class GetToFloor extends SwerveCommand {
 
 	@Override
 	public void execute() {
-		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? 1 : -1);//gyro is flipped
+		pitchAngle = swerve.getGyro().getRoll() * (forwards ? 1 : -1);//gyro is flipped
 		swerve.moveByChassisSpeeds(speed, 0, 0, 0);
 	}
 

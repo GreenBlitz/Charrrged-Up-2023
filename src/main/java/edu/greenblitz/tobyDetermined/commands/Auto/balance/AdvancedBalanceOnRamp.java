@@ -2,8 +2,6 @@ package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.Gyro;
-import edu.greenblitz.utils.Gyros.IGyro;
-import edu.greenblitz.utils.Gyros.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,7 +17,7 @@ public class AdvancedBalanceOnRamp extends SwerveCommand {
 	private boolean hasPassedHighPoint;
 
 	public AdvancedBalanceOnRamp(boolean forward) {
-		this.gyro = swerve.getPigeonGyro();
+		this.gyro = swerve.getGyro();
 		if (!forward) {
 			speed *= -1;
 		}

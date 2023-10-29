@@ -22,19 +22,7 @@ public class SwerveModule {
     public SwerveModule(SwerveChassis.Module module) {
         this.module = module;
 
-        switch (RobotMap.ROBOT_TYPE){
-
-            case FRANKENSTEIN:
-                io = new MK4ISwerveModule(module);
-                break;
-            case SIMULATION:
-                io = new SimulationSwerveModule(module);
-                break;
-            case PEGA_SWERVE:
-            case REPLAY:
-            default:
-                io = new ISwerveModule() {};
-        }
+        this.io = SwerveModuleFactory.create(module);
 
         inputs = new ModuleIOInputsAutoLogged();
     }

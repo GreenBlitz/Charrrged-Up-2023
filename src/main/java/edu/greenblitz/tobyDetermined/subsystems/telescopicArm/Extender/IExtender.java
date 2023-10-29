@@ -37,6 +37,8 @@ public interface IExtender {
         public double kP;
         public double kI;
         public double kD;
+
+        public double tolerance;
     }
 
     default void updateInputs(ExtenderInputs inputs){
