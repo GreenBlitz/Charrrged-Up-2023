@@ -4,7 +4,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 
-public class SimulationGyro implements IGyroIO {
+public class SimulationGyro implements IGyro {
 
     private GyroInputsAutoLogged lastInputs = new GyroInputsAutoLogged();
     @Override
@@ -29,5 +29,20 @@ public class SimulationGyro implements IGyroIO {
     @Override
     public void setRoll(double roll) {
         lastInputs.roll = roll;
+    }
+
+    @Override
+    public double getYaw() {
+        return lastInputs.yaw;
+    }
+
+    @Override
+    public double getPitch() {
+        return lastInputs.pitch;
+    }
+
+    @Override
+    public double getRoll() {
+        return lastInputs.roll;
     }
 }

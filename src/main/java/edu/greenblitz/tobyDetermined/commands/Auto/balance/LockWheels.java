@@ -2,12 +2,12 @@ package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.RotateAllWheelsToAngle;
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.Gyro;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.IGyro;
 
 // import edu.wpi.first.math.geometry.Rotation2d;
 public class LockWheels extends SwerveCommand {
 
-	Gyro pigeon;
+	IGyro pigeon;
 
 	public LockWheels() {
 	}

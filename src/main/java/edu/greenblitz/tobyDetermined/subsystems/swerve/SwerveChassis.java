@@ -2,10 +2,12 @@ package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.Gyro;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.GyroFactory;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.IGyro;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.ISwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.SwerveChassisInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs.SwerveModule;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
@@ -34,7 +36,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 //	private final IGyro pigeonGyro;
-	private final Gyro gyro;
+	private final IGyro gyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
@@ -47,7 +49,8 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	public double limelightY;
 	public boolean twoApriltagsPresent;
 
-	private final SwerveChassisInputsAutoLogged inputs = new SwerveChassisInputsAutoLogged();
+	private final SwerveChassisInputsAutoLogged ChassisInputs = new SwerveChassisInputsAutoLogged();
+	private final GyroInputsAutoLogged gyroInputs = new GyroInputsAutoLogged();
 
 	public SwerveChassis() {
 
@@ -65,7 +68,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 
 		doVision = true;
 		
-		this.gyro = new Gyro();
+		this.gyro = GyroFactory.create();
 //		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
 		
 		this.kinematics = new SwerveDriveKinematics(
@@ -102,17 +105,18 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		backLeft.periodic();
 		backRight.periodic();
 
-		gyro.periodic();
+		gyro.updateInputs(gyroInputs);
 		field.setRobotPose(getRobotPose());
 
-		updateInputs(inputs);
-		Logger.getInstance().processInputs("DriveTrain/Chassis", inputs);
+		updateInputs(ChassisInputs);
+		Logger.getInstance().processInputs("DriveTrain/Chassis", ChassisInputs);
+		Logger.getInstance().processInputs("DriveTrain/Gyro", gyroInputs);
 
 		updatePoseEstimationLimeLight();
 
 
-		Logger.getInstance().recordOutput("DriveTrain/SimPose2D",inputs.chassisPose);
-		Logger.getInstance().recordOutput("DriveTrain/TargetPose2D", inputs.chassisPose);
+		Logger.getInstance().recordOutput("DriveTrain/SimPose2D", ChassisInputs.chassisPose);
+		Logger.getInstance().recordOutput("DriveTrain/TargetPose2D", ChassisInputs.chassisPose);
 
 		SmartDashboard.putData(getField());
 		SmartDashboard.putNumber("chassisAngle", gyro.getYaw());
@@ -270,7 +274,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		return this.kinematics;
 	}
 
-	public Gyro getGyro() {
+	public IGyro getGyro() {
 		return gyro;
 	}
 

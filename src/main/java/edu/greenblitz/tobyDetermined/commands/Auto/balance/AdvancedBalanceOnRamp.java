@@ -1,14 +1,14 @@
 package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
-import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.Gyro;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs.IGyro;
 import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // advance until ramp starts falling forwards, then move backwards fixed duration
 public class AdvancedBalanceOnRamp extends SwerveCommand {
 
-	private final Gyro gyro;
+	private final IGyro gyro;
 	private final double highPoint = Math.toRadians(16);
 	private final double minAngleChangeToStop = Math.toRadians(0.1);
 	private double speed = 0.25;
