@@ -26,21 +26,6 @@ public interface IExtender {
     default void enableBackSwitchLimit(boolean enable) {
     }
 
-    @AutoLog
-    class ExtenderInputs{
-        public double appliedOutput;
-        public double outputCurrent;
-        public double position;
-        public double velocity;
-        public boolean reverseLimitSwitchPressed;
-
-        public double kP;
-        public double kI;
-        public double kD;
-
-        public double tolerance;
-    }
-
     default void updateInputs(ExtenderInputs inputs){
 
     }

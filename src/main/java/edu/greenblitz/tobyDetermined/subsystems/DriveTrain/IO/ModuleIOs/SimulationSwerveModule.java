@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.greenblitz.utils.Conversions;
 import edu.wpi.first.math.controller.PIDController;
@@ -11,7 +12,7 @@ public class SimulationSwerveModule implements ISwerveModule {
 
     private final DCMotorSim linearMotor;
     private final DCMotorSim angularMotor;
-    private ModuleIOInputsAutoLogged lastInputs = new ModuleIOInputsAutoLogged();
+    private SwerveModuleInputsAutoLogged lastInputs = new SwerveModuleInputsAutoLogged();
     private final SwerveChassis.Module module;
     private final PIDController angularController = new PIDController(
             RobotMap.Swerve.SimulationSwerve.angularController.kP,
@@ -74,7 +75,7 @@ public class SimulationSwerveModule implements ISwerveModule {
     }
 
     @Override
-    public void updateInputs(ModuleIOInputsAutoLogged inputs) {
+    public void updateInputs(SwerveModuleInputsAutoLogged inputs) {
         linearMotor.update(RobotMap.SimulationConstants.TIME_STEP);
         angularMotor.update(RobotMap.SimulationConstants.TIME_STEP);
 

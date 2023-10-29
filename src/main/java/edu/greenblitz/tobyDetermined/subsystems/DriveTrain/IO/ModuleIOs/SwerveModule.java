@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -12,7 +13,7 @@ public class SwerveModule {
 
 
     ISwerveModule io;
-    ModuleIOInputsAutoLogged inputs;
+    SwerveModuleInputsAutoLogged inputs;
 
     SwerveChassis.Module module;
 
@@ -24,7 +25,7 @@ public class SwerveModule {
 
         this.io = SwerveModuleFactory.create(module);
 
-        inputs = new ModuleIOInputsAutoLogged();
+        inputs = new SwerveModuleInputsAutoLogged();
     }
 
 

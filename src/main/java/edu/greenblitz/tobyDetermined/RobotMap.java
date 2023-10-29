@@ -106,7 +106,7 @@ public class RobotMap {
 
                 public static final int NUMBER_OF_MOTORS = 1;
                 public static final double GEAR_RATIO = SdsSwerve.LIN_GEAR_RATIO;
-                public static final double MOMENT_OF_INERTIA = 0.01;
+                public static final double MOMENT_OF_INERTIA = 0.0001;
             }
 
                 public static class SIMULATION_ANGULAR_MOTOR{
@@ -422,7 +422,7 @@ public class RobotMap {
 
                 }
 
-                public static final PIDObject SIM_PID = new PIDObject().withKp(0.8).withKd(0.1).withMaxPower(1);
+                public static final PIDObject SIM_PID = new PIDObject().withKp(0.8).withKd(0.3).withMaxPower(1);
                 public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(3);
             }
         }

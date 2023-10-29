@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
 import edu.greenblitz.utils.Gyros.NavX;
 import edu.greenblitz.utils.Gyros.PigeonGyro;
 
@@ -29,7 +30,7 @@ public class RealGyro implements IGyroIO {
     }
 
     @Override
-    public void updateInputs(GyroIOInputsAutoLogged inputs) {
+    public void updateInputs(GyroInputsAutoLogged inputs) {
         inputs.yaw = gyro.getYaw();
         inputs.pitch = gyro.getPitch();
         inputs.roll = gyro.getRoll();

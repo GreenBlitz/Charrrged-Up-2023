@@ -1,11 +1,12 @@
 package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
 
 public class Gyro {
 
     private IGyroIO io;
-    private final GyroIOInputsAutoLogged inputs = new GyroIOInputsAutoLogged();
+    private final GyroInputsAutoLogged inputs = new GyroInputsAutoLogged();
 
     public Gyro() {
         io = GyroFactory.create();

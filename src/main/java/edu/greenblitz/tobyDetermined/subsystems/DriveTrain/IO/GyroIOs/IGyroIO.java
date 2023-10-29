@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.GyroIOs;
 
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.GyroInputsAutoLogged;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface IGyroIO {
@@ -13,12 +14,10 @@ public interface IGyroIO {
 
     @AutoLog
     class GyroIOInputs {
-        public double yaw;
-        public double pitch;
-        public double roll;
+
     }
 
-    default void updateInputs(GyroIOInputsAutoLogged inputs) {
+    default void updateInputs(GyroInputsAutoLogged inputs) {
     }
 
 

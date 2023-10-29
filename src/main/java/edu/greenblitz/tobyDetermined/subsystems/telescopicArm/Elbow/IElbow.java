@@ -18,25 +18,9 @@ public interface IElbow {
 
     default void setSoftLimit(CANSparkMax.SoftLimitDirection direction, double limit){}
 
-    @AutoLog
-    class ElbowInputs{
-        public double appliedOutput;
-        public double outputCurrent;
-        public double position;
-        public double velocity;
 
-        public double absoluteEncoderPosition;
-        public double absoluteEncoderVelocity;
 
-        public double kP;
-        public double kI;
-        public double kD;
-
-        public boolean hasHitForwardLimit;
-        public boolean hasHitBackwardsLimit;
-    }
-
-    default void updateInputs(ElbowInputs inputs){
+    default void updateInputs(ElbowInputsAutoLogged inputs){
 
     }
 

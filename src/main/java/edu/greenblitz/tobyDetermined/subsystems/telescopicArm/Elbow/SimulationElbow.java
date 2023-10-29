@@ -39,7 +39,7 @@ public class SimulationElbow implements IElbow {
     }
 
     @Override
-    public void updateInputs(ElbowInputs inputs) {
+    public void updateInputs(ElbowInputsAutoLogged inputs) {
 
         elbowSim.update(RobotMap.SimulationConstants.TIME_STEP);
 

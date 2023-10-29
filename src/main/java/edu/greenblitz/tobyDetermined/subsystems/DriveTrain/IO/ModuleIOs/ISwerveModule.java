@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.ModuleIOs;
 
+import edu.greenblitz.tobyDetermined.subsystems.DriveTrain.IO.inputs.SwerveModuleInputsAutoLogged;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ISwerveModule {
@@ -31,25 +32,11 @@ public interface ISwerveModule {
 
     @AutoLog
     class ModuleIOInputs {
-        public double linearVelocity;
-        public double angularVelocity;
 
-        public double linearVoltage;
-        public double angularVoltage;
-
-        public double linearCurrent;
-        public double angularCurrent;
-
-        public double angularPositionInRads;
-        public double linearMetersPassed;
-
-        public double absoluteEncoderPosition;
-
-        public boolean isAbsoluteEncoderConnected;
 
     }
 
-    default void updateInputs(ModuleIOInputsAutoLogged inputs) {
+    default void updateInputs(SwerveModuleInputsAutoLogged inputs) {
     }
 
 

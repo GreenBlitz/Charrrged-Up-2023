@@ -65,7 +65,7 @@ public class NeoElbow implements IElbow {
     }
 
     @Override
-    public void updateInputs(ElbowInputs inputs) {
+    public void updateInputs(ElbowInputsAutoLogged inputs) {
         inputs.appliedOutput = motor.getAppliedOutput();
         inputs.outputCurrent = motor.getOutputCurrent();
         inputs.position = motor.getEncoder().getPosition();
