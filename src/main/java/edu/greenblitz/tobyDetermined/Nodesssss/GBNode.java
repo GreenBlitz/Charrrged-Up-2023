@@ -11,18 +11,21 @@ public abstract class GBNode {
     private final LinkedList<SystemsPos> neighbors;
     private GBCommand command;
     private LinkedList<SystemsPos> OtherSystemMustBe;
-    public GBNode(GBCommand command ){
+
+    public GBNode(GBCommand command) {
         neighbors = new LinkedList<>();
         isNeighborsSet = false;
         this.command = command;
         OtherSystemMustBe = new LinkedList<>();
     }
+
     public void addNeighbors(SystemsPos[] neighbors) {
-        if(!isNeighborsSet) {
+        if (!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
+
     public void setOtherSystemMustBe(SystemsPos[] griperMustBe) {
         Collections.addAll(this.OtherSystemMustBe, griperMustBe);
     }
@@ -35,12 +38,13 @@ public abstract class GBNode {
         return command;
     }
 
-    public LinkedList<SystemsPos> getNeighbors(){
+    public LinkedList<SystemsPos> getNeighbors() {
         return neighbors;
     }
 
-    public double getCost(SystemsPos nodeArm){
-        return 0;
+    public boolean getIfInNode() {
+        return false;
     }
+
 
 }

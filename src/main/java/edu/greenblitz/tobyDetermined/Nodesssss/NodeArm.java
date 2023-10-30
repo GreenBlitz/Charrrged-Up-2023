@@ -3,14 +3,16 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw.ClawState;
 import edu.greenblitz.utils.GBCommand;
+import edu.wpi.first.math.util.Units;
 
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class NodeArm extends GBNode {
-    public enum ArmPointer{
-        ARM_POINTER;
-    }
+
+    private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
+    private final static double TOLERANCE_LENGTH = 0.04;//In Meters
+
     private final LinkedList<RobotMap.Intake.SystemsPos> griperMustBe;
     private ClawState clawPos;
     private boolean isNeighborsSet;
@@ -19,7 +21,7 @@ public class NodeArm extends GBNode {
     private final double extendPos;
     private GBCommand command;
 
-    public NodeArm( double extenderPos, double anglePos, GBCommand command){
+    public NodeArm(double extenderPos, double anglePos, GBCommand command) {
         super(command);
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
@@ -29,9 +31,11 @@ public class NodeArm extends GBNode {
         griperMustBe = new LinkedList<>();
         this.command = command;
     }
+
     public double getExtendPos() {
         return extendPos;
     }
+
     public double getAnglePos() {
         return anglePos;
     }
@@ -47,12 +51,13 @@ public class NodeArm extends GBNode {
     }
 
     public void addNeighbors(RobotMap.Intake.SystemsPos[] neighbors) {
-        if(!isNeighborsSet) {
+        if (!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
-    public LinkedList<RobotMap.Intake.SystemsPos> getNeighbors(){
+
+    public LinkedList<RobotMap.Intake.SystemsPos> getNeighbors() {
         return neighbors;
     }
 
@@ -64,11 +69,19 @@ public class NodeArm extends GBNode {
         return clawPos;
     }
 
-    @Override
-    public double getCost(RobotMap.Intake.SystemsPos nodeArm){
-        return Math.sqrt(
-                Math.pow(getAnglePos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getAnglePos(), 2)
-                        +
-                        Math.pow(getExtendPos() - NodeBase.getNode(nodeArm, ArmPointer.ARM_POINTER).getExtendPos(), 2));
+    public boolean getIfInLength(double length) {
+        return Math.abs(extendPos - length) <= TOLERANCE_LENGTH;
     }
+
+    public boolean getIfInAngle(double angle) {
+        return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE;
+
+    }
+
+    @Override
+    public boolean getIfInNode() {
+        return getIfInAngle(anglePos) && getIfInLength(extendPos);
+
+    }
+
 }

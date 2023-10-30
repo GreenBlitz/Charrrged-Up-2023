@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
-import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -16,9 +15,7 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import org.ejml.data.DMatrixSparseTriplet;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
@@ -423,16 +420,20 @@ public class RobotMap {
         }
     }
     public static class VertexCost{
-        static LinkedList<Pair<String, Double>> list= new LinkedList<>();
+        static LinkedList<Pair<String, Double>> costList = new LinkedList<>();
         static{
-            list.add(new Pair<>("LOWWW-MID", 3.0));
-            list.add(new Pair<>("LOWWW-HIGH", 5.0));
-            list.add(new Pair<>("HIGH-GROUND", 7.0));
+            costList.add(new Pair<>("LOWWW-MID", 3.0));
+            costList.add(new Pair<>("LOWWW-HIGH", 5.0));
+            costList.add(new Pair<>("LOWWW-GROUND", 7.0));
+            costList.add(new Pair<>("MID-GROUND", 9.0));
+            costList.add(new Pair<>("MID-HIGH", 11.0));
+            costList.add(new Pair<>("HIGH-GROUND", 13.0));
+            costList.add(new Pair<>("GRIPER_CLOSE-GRIPER_OPEN", 15.0));
         }
         public static double getCostByMap(Intake.SystemsPos a,Intake.SystemsPos b ){
-            for(int i = 0; i< list.size(); i++){
-                if(list.get(i).getFirst().contains(a.toString()) && list.get(i).getFirst().contains(b.toString()))
-                    return list.get(i).getSecond();
+            for (Pair<String, Double> stringDoublePair : costList) {
+                if (stringDoublePair.getFirst().contains(a.toString()) && stringDoublePair.getFirst().contains(b.toString()))
+                    return stringDoublePair.getSecond();
             }
             return 0 ;
         }
