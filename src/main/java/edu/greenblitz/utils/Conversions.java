@@ -12,6 +12,9 @@ public class Conversions {
     }
 
     public static class MK4IConversions{
+        public static double convertRevolutionToMeters(double angInTicks){
+            return angInTicks * RobotMap.Swerve.SdsSwerve.WHEEL_CIRC;
+        }
 
         public static double revolutionsToMeters(double revolutions) {
             return revolutions * RobotMap.Swerve.SdsSwerve.WHEEL_CIRC;

@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.Gyros;
 
 public class ReplayGyro implements IGyro{
 
+    private GyroInputsAutoLogged lastInputs = new GyroInputsAutoLogged();
     @Override
     public void setYaw(double yaw) {
 
@@ -19,21 +20,21 @@ public class ReplayGyro implements IGyro{
 
     @Override
     public double getYaw() {
-        return 0;
+        return lastInputs.yaw;
     }
 
     @Override
     public double getPitch() {
-        return 0;
+        return lastInputs.pitch;
     }
 
     @Override
     public double getRoll() {
-        return 0;
+        return lastInputs.roll;
     }
 
     @Override
     public void updateInputs(GyroInputsAutoLogged inputs) {
-
+        lastInputs = inputs;
     }
 }

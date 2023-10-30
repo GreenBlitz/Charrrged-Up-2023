@@ -87,7 +87,7 @@ public class SimulationSwerveModule implements ISwerveModule {
         inputs.linearCurrent = linearMotor.getCurrentDrawAmps();
         inputs.angularCurrent = angularMotor.getCurrentDrawAmps();
 
-        inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getAngularPositionRotations() * RobotMap.General.Motors.FALCON_TICKS_PER_ROTATION);
+        inputs.linearMetersPassed = Conversions.MK4IConversions.convertRevolutionToMeters(linearMotor.getAngularPositionRotations());
         inputs.angularPositionInRads = angularMotor.getAngularPositionRad();
 
         inputs.absoluteEncoderPosition = inputs.angularPositionInRads;
