@@ -430,8 +430,8 @@ public class RobotMap {
             costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_HIGH, 5.0));
             costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_GROUND, 7.0));
             costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_HIGH, 9.0));
-            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_MID, 11.0));
-            costList.add(new Pair<>(SystemsPos.ARM_MID+"-"+SystemsPos.ARM_HIGH, 13.0));
+            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_MID, 10.0));
+            costList.add(new Pair<>(SystemsPos.ARM_MID+"-"+SystemsPos.ARM_HIGH, 12.0));
             costList.add(new Pair<>(SystemsPos.GRIPER_CLOSE+"-"+SystemsPos.GRIPER_OPEN, 15.0));
         }
 
