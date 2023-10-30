@@ -19,7 +19,7 @@ public class NodeArm extends GBNode {
     private final LinkedList<RobotMap.Intake.SystemsPos> neighbors;
     private final double anglePos;
     private final double extendPos;
-    private GBCommand command;
+    private final GBCommand command;
 
     public NodeArm(double extenderPos, double anglePos, GBCommand command) {
         super(command);

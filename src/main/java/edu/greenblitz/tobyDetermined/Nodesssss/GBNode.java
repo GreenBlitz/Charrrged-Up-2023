@@ -9,8 +9,8 @@ import java.util.LinkedList;
 public abstract class GBNode {
     private boolean isNeighborsSet;
     private final LinkedList<SystemsPos> neighbors;
-    private GBCommand command;
-    private LinkedList<SystemsPos> OtherSystemMustBe;
+    private final GBCommand command;
+    private final LinkedList<SystemsPos> OtherSystemMustBe;
 
     public GBNode(GBCommand command) {
         neighbors = new LinkedList<>();

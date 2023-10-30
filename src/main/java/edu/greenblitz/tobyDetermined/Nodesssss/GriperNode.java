@@ -8,10 +8,10 @@ import java.util.LinkedList;
 
 public class GriperNode extends GBNode {
 
-    private LinkedList<RobotMap.Intake.SystemsPos> armMustBe;
+    private final LinkedList<RobotMap.Intake.SystemsPos> armMustBe;
     private boolean isNeighborsSet;
     private final LinkedList<RobotMap.Intake.SystemsPos> neighbors;
-    private GBCommand command;
+    private final GBCommand command;
 
     public GriperNode(GBCommand command) {
         super(command);

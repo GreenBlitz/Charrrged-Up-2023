@@ -5,8 +5,8 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import java.util.LinkedList;
 
 public class Vertex {
-    private RobotMap.Intake.SystemsPos pos1;
-    private RobotMap.Intake.SystemsPos pos2;
+    private final RobotMap.Intake.SystemsPos pos1;
+    private final RobotMap.Intake.SystemsPos pos2;
     private RobotMap.Intake.SystemsPos otherSystemPos;
 
     public Vertex(RobotMap.Intake.SystemsPos one, RobotMap.Intake.SystemsPos two, RobotMap.Intake.SystemsPos otherSystem) {
