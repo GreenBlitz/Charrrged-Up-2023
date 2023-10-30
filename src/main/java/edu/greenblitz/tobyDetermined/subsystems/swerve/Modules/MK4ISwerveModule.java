@@ -8,7 +8,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.utils.Conversions;
 import edu.greenblitz.utils.motors.GBFalcon;

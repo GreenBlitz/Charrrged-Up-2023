@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve.Modules;
 
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;

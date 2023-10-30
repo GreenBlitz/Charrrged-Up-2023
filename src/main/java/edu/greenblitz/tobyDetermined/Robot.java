@@ -68,6 +68,7 @@ public class Robot extends LoggedRobot {
 		switch (RobotMap.ROBOT_TYPE) {
 			// Running on a real robot, log to a USB stick
 			case FRANKENSTEIN:
+			case PEGA_SWERVE:
 				logger.addDataReceiver(new WPILOGWriter("/U"));
 				logger.addDataReceiver(new NT4Publisher());
 				break;
@@ -80,7 +81,6 @@ public class Robot extends LoggedRobot {
 				break;
             case SIMULATION:
             default:
-				logger.addDataReceiver(new WPILOGWriter("/SimulationLogs"));
 				logger.addDataReceiver(new NT4Publisher());
 				break;
 		}
@@ -171,7 +171,7 @@ public class Robot extends LoggedRobot {
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().enableVision();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
-		if (Extender.getInstance().doesSensorExists && !Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().isSensorExists()  && !Extender.getInstance().DidReset()) {
 			new ResetExtender().schedule();
 		}
 
@@ -203,7 +203,7 @@ public class Robot extends LoggedRobot {
 		} else {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
-		if (Extender.getInstance().doesSensorExists && !Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().isSensorExists() && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(4)).andThen(command).schedule();
 		} else command.schedule();
 

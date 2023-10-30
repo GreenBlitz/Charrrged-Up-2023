@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve.Modules;
 
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModuleInputsAutoLogged;
 
 public class ReplaySwerveModule implements ISwerveModule{
     @Override

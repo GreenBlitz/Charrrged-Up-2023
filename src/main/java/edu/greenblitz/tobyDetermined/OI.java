@@ -13,7 +13,7 @@ import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.PushCone
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.RetractPusher;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation.TimedAlignAfterDropCone;
 import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
-import edu.greenblitz.tobyDetermined.commands.swerve.DriveSidewaysUntilEdge;
+import edu.greenblitz.tobyDetermined.commands.swerve.DriveSideWays;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.ResetVisionMoveToPose;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
@@ -78,8 +78,8 @@ public class OI { //GEVALD
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
 		mainJoystick.R1.whileTrue(new CombineJoystickMovement(false,true));//swerve fast mode
 		mainJoystick.L1.and(mainJoystick.Y.negate()).whileTrue(new CombineJoystickMovement(true));  //slow mode
-		mainJoystick.POV_LEFT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.LEFT, 0.5)); //left movement
-		mainJoystick.POV_RIGHT.whileTrue(new DriveSidewaysUntilEdge(DriveSidewaysUntilEdge.Direction.RIGHT, 0.5)); //right movement
+		mainJoystick.POV_LEFT.whileTrue(new DriveSideWays(DriveSideWays.Direction.LEFT, RobotMap.Swerve.Frankenstein.SIDEWAY_DRIVING_SPEED)); //left movement
+		mainJoystick.POV_RIGHT.whileTrue(new DriveSideWays(DriveSideWays.Direction.RIGHT, RobotMap.Swerve.Frankenstein.SIDEWAY_DRIVING_SPEED)); //right movement
 		mainJoystick.POV_UP.whileTrue(new FullBalance(true));
 		mainJoystick.POV_DOWN.whileTrue(new FullBalance(false));
 		mainJoystick.B.onTrue(new LockWheels()); //lock wheel

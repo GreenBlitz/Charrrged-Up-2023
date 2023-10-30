@@ -114,15 +114,6 @@ public class RobotMap {
                 public static final double GEAR_RATIO = SdsSwerve.LIN_GEAR_RATIO;
                 public static final double MOMENT_OF_INERTIA = 0.01;
             }
-
-
-
-
-
-
-
-
-
         }
 
         public static class Frankenstein {
@@ -151,6 +142,8 @@ public class RobotMap {
                     new Translation2d(-0.3020647, 0.25265),/*bl*/
                     new Translation2d(-0.3020647, -0.25265)/*br*/
             };
+
+            public static final double SIDEWAY_DRIVING_SPEED = 0.5;
         }
 
 
@@ -319,6 +312,8 @@ public class RobotMap {
             public static final double kS = 0.32;
             public static final double kG = 0.67 - kS;
 
+            public static final double EXTENDER_MASS_KG = 6;
+
             public static final double MAX_ACCELERATION = 3.5; //4.2
             public static final double MAX_VELOCITY = 1.75;
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
@@ -392,6 +387,7 @@ public class RobotMap {
             public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328/ 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
             public static final double BACKWARD_ANGLE_LIMIT = 0.02;
+            public static final double DEBUG_ANGLE_LIMIT = 0.3;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);

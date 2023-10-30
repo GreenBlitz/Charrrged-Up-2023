@@ -10,9 +10,9 @@ public class StraightBalanceOnRamp extends SwerveCommand {
     private double currentAngle = 0;
     private double lastAngle = 0;
     private boolean hasPassedHighPoint;
-    private final double highPoint = Math.toRadians(16);
-    private final double minAngleChangeToStop = Math.toRadians(0.25);
-    private final double speed = 0.25;
+    private final double HIGH_POINT = Math.toRadians(16);
+    private final double MIN_ANGLE_CHANCE_TO_STOP = Math.toRadians(0.25);
+    private final double SPEED = 0.25;
 
     public StraightBalanceOnRamp() {
         this.gyro = swerve.getGyro();
@@ -22,16 +22,16 @@ public class StraightBalanceOnRamp extends SwerveCommand {
     public void execute() {
         lastAngle = currentAngle;
         currentAngle = Math.abs(gyro.getRoll());
-        swerve.moveByChassisSpeeds(speed * -Math.signum(gyro.getRoll()), 0, 0, 0);
+        swerve.moveByChassisSpeeds(SPEED * -Math.signum(gyro.getRoll()), 0, 0, 0);
 
-        if (currentAngle > highPoint) {
+        if (currentAngle > HIGH_POINT) {
             hasPassedHighPoint = true;
         }
     }
 
     @Override
     public boolean isFinished() {
-        if (currentAngle - lastAngle <= -1 * minAngleChangeToStop && hasPassedHighPoint) {
+        if (currentAngle - lastAngle <= -1 * MIN_ANGLE_CHANCE_TO_STOP && hasPassedHighPoint) {
             SmartDashboard.putBoolean("on", false);
             return true;
         }

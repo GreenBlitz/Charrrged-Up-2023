@@ -84,7 +84,6 @@ public class Elbow extends GBSubsystem {
             lastSpeed = getVelocity();
         }
 
-
         io.updateInputs(inputs);
         Logger.getInstance().processInputs("Elbow",inputs);
     }
@@ -94,7 +93,7 @@ public class Elbow extends GBSubsystem {
     }
 
     private void debugSoftLimit(){
-        io.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0.3);
+        io.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, DEBUG_ANGLE_LIMIT);
     }
 
     public void debugSetPower(double power){

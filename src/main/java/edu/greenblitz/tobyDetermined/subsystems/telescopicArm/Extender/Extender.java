@@ -18,7 +18,7 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
 
 public class Extender extends GBSubsystem {
 
-	public boolean doesSensorExists = true;
+	private boolean doesSensorExists = true;
 	private static Extender instance;
 	private static Extender.ExtenderState state = Extender.ExtenderState.IN_ROBOT_BELLY_LENGTH;
  	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
@@ -188,6 +188,10 @@ public class Extender extends GBSubsystem {
 		double lengthError = wantedLength - getLength();
 		return lengthError > -FORWARDS_LENGTH_TOLERANCE  && lengthError < profileGenerator.getPositionTolerance();
 		//makes it so the arm can only be too short, so it can always pass the state line
+	}
+
+	public boolean isSensorExists() {
+		return doesSensorExists;
 	}
 
 	public enum ExtenderState{

@@ -9,6 +9,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassisInputsAutoLogged;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Pair;
@@ -33,7 +34,6 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 
 	private static SwerveChassis instance;
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
-//	private final IGyro pigeonGyro;
 	private final IGyro gyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
@@ -58,17 +58,10 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
         this.backLeft = new SwerveModule(Module.BACK_LEFT);
         this.backRight = new SwerveModule(Module.BACK_RIGHT);
 
-
-
-
-//		this.ultrasonic = new Ultrasonic(RobotMap.Ultrasonic.PING_DIO_PORT, RobotMap.Ultrasonic.ECHO_DIO_PORT);
-//		Ultrasonic.setAutomaticMode(true);
-
 		doVision = true;
 		
 		this.gyro = GyroFactory.create();
-//		this.pigeonGyro = new PigeonGyro(RobotMap.gyro.pigeonID);
-		
+
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
@@ -388,12 +381,6 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		SmartDashboard.putNumber("omega", chassisSpeeds.omegaRadiansPerSecond);
 	}
 
-	public double getUltrasonicDistance() {
-		MedianFilter filter = new MedianFilter(FILTER_BUFFER_SIZE);
-//		return filter.calculate(ultrasonic.getRangeMM());
-		return 0;
-	}
-
 	/**
 	 * set the idle mode of the linear motor to brake
 	 */
@@ -420,10 +407,6 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 			}
 		}
 	}
-
-//	public double getAngleToGround(){
-//		return PitchRollAdder.add(pigeonGyro.getRoll(), pigeonGyro.getPitch());
-//	}
 
 	public boolean isEncoderBroken(Module module){
 		return getModule(module).isEncoderBroken();
@@ -453,6 +436,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		inputs.omegaRadiansPerSecond = getChassisSpeeds().omegaRadiansPerSecond;
 		inputs.xAxisSpeed = getChassisSpeeds().vxMetersPerSecond;
 		inputs.yAxisSpeed = getChassisSpeeds().vyMetersPerSecond;
+
 	}
 
 }

@@ -5,6 +5,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import org.littletonrobotics.junction.Logger;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.Simulation.SIM_PID;
 
@@ -16,7 +17,10 @@ public class SimulationElbow implements IElbow {
         elbowSim = new SingleJointedArmSim(
                 DCMotor.getNEO(RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.NUMBER_OF_MOTORS),
                 RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.GEAR_RATIO,
-                SingleJointedArmSim.estimateMOI( RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH, 6), //-> 1.0 / 3.0 * mass * length^2,
+                SingleJointedArmSim.estimateMOI(
+                        RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
+                        RobotMap.TelescopicArm.Extender.EXTENDER_MASS_KG
+                        ), //-> 1.0 / 3.0 * mass * length^2,
                 RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
                 RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT,
                 RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT,
@@ -60,9 +64,10 @@ public class SimulationElbow implements IElbow {
         inputs.kI = SIM_PID.getKi();
         inputs.kD = SIM_PID.getKd();
     }
-
+    static boolean isBreak = false;
     @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
+        isBreak = idleMode == CANSparkMax.IdleMode.kBrake;
     }
 
     @Override

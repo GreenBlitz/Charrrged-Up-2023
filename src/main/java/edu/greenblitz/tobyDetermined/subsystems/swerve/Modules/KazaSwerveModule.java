@@ -6,7 +6,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Calibration;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.utils.Conversions;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -16,8 +16,8 @@ import static edu.greenblitz.tobyDetermined.RobotMap.General.Motors.NEO_PHYSICAL
 
 public class KazaSwerveModule implements ISwerveModule{
 
-    public double targetAngle;
-    public double targetVel;
+    private double targetAngle;
+    private double targetVel;
     private GBSparkMax angleMotor;
     private GBSparkMax linearMotor;
     private AnalogInput lamprey;
