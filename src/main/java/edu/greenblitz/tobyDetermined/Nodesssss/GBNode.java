@@ -1,7 +1,9 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.utils.GBCommand;
-import edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -42,7 +44,7 @@ public abstract class GBNode {
         return neighbors;
     }
 
-    public boolean getIfInNode() {
+    public boolean getIsAtNode() {
         return false;
     }
 

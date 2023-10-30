@@ -1,6 +1,8 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw.ClawState;
 import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.math.util.Units;
@@ -13,10 +15,10 @@ public class NodeArm extends GBNode {
     private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
     private final static double TOLERANCE_LENGTH = 0.04;//In Meters
 
-    private final LinkedList<RobotMap.Intake.SystemsPos> griperMustBe;
+    private final LinkedList<SystemsPos> griperMustBe;
     private ClawState clawPos;
     private boolean isNeighborsSet;
-    private final LinkedList<RobotMap.Intake.SystemsPos> neighbors;
+    private final LinkedList<SystemsPos> neighbors;
     private final double anglePos;
     private final double extendPos;
     private final GBCommand command;
@@ -26,7 +28,7 @@ public class NodeArm extends GBNode {
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
         clawPos = ClawState.CONE_MODE;
-        neighbors = new LinkedList<RobotMap.Intake.SystemsPos>();
+        neighbors = new LinkedList<>();
         isNeighborsSet = false;
         griperMustBe = new LinkedList<>();
         this.command = command;
@@ -41,23 +43,23 @@ public class NodeArm extends GBNode {
     }
 
     @Override
-    public void setOtherSystemMustBe(RobotMap.Intake.SystemsPos[] griperMustBe) {
+    public void setOtherSystemMustBe(SystemsPos[] griperMustBe) {
         Collections.addAll(this.griperMustBe, griperMustBe);
     }
 
     @Override
-    public LinkedList<RobotMap.Intake.SystemsPos> getOtherSystemMustBe() {
+    public LinkedList<SystemsPos> getOtherSystemMustBe() {
         return griperMustBe;
     }
 
-    public void addNeighbors(RobotMap.Intake.SystemsPos[] neighbors) {
+    public void addNeighbors(SystemsPos[] neighbors) {
         if (!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
 
-    public LinkedList<RobotMap.Intake.SystemsPos> getNeighbors() {
+    public LinkedList<SystemsPos> getNeighbors() {
         return neighbors;
     }
 
@@ -69,18 +71,18 @@ public class NodeArm extends GBNode {
         return clawPos;
     }
 
-    public boolean getIfInLength(double length) {
+    public boolean getIsAtLength(double length) {
         return Math.abs(extendPos - length) <= TOLERANCE_LENGTH;
     }
 
-    public boolean getIfInAngle(double angle) {
+    public boolean getIsAtAngle(double angle) {
         return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE;
 
     }
 
     @Override
-    public boolean getIfInNode() {
-        return getIfInAngle(anglePos) && getIfInLength(extendPos);
+    public boolean getIsAtNode() {
+        return getIsAtAngle(anglePos) && getIsAtLength(extendPos);
 
     }
 

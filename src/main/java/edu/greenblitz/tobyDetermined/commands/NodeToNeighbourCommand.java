@@ -9,7 +9,9 @@ import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 
 public class NodeToNeighbourCommand extends GBCommand {
 //    private final Extender extender;

@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
 import edu.greenblitz.utils.PIDObject;
@@ -24,9 +25,8 @@ public class RobotMap {
     public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
 
 
-
-    public static class BreakCoastSwitch{
-        public static final int BREAK_COAST_SWITCH_DIO_PORT =8;
+    public static class BreakCoastSwitch {
+        public static final int BREAK_COAST_SWITCH_DIO_PORT = 8;
 
     }
 
@@ -146,20 +146,20 @@ public class RobotMap {
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
 
-        
+
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(2, 8, 1, false); //back left
 
         public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 1, 0.8486328125,false); //front left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 1, 0.8486328125, false); //front left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 2,0.2939453125 ,true); //front right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 2, 0.2939453125, true); //front right
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 3, 0.5524,false); //back left
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 3, 0.5524, false); //back left
 
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 4, 0.8718,true); //back right
+        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 4, 0.8718, true); //back right
 
 
         public static class KazaSwerve {
@@ -241,14 +241,14 @@ public class RobotMap {
             CUBE_MID(0.29, 1.85),
             LOW(0.35, Math.toRadians(60)),
 
-            POST_CONE_DROP(0.089,0.1),
-            PRE_CONE_DROP(0.089,0.667),
+            POST_CONE_DROP(0.089, 0.1),
+            PRE_CONE_DROP(0.089, 0.667),
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
             INTAKE_GRAB_CONE_POSITION(0.34, 0.123),
             INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
-            PRE_INTAKE_GRAB_POSITION(0.02,0.35), //0.28),
+            PRE_INTAKE_GRAB_POSITION(0.02, 0.35), //0.28),
 
             REST_ABOVE_BELLY(-0.02, 0.196),
 
@@ -333,7 +333,7 @@ public class RobotMap {
             public static final double kS = 0.133000000000002;
             public static final double kV = 1.9;
             public static final double MIN_Kg = 0.155;
-            public static final double MAX_Kg = 0.62 ;
+            public static final double MAX_Kg = 0.62;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
             public static final double MAX_ACCELERATION = 10;
@@ -347,7 +347,7 @@ public class RobotMap {
             public static final double ABSOLUTE_POSITION_CONVERSION_FACTOR = General.Motors.SPARKMAX_TICKS_PER_RADIAN / GEAR_RATIO;
             public static final double ABSOLUTE_VELOCITY_CONVERSION_FACTOR = ABSOLUTE_POSITION_CONVERSION_FACTOR;
             public static final double RELATIVE_POSITION_CONVERSION_FACTOR = 0.0328; //you know of calibrating pid but have you heard of calibrating the gear ratio
-            public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328/ 60;
+            public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328 / 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
             public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
 
@@ -372,6 +372,25 @@ public class RobotMap {
     }
 
     public static class Intake {
+        public static final int ROLLER_ID = 4;
+        public static final double DEFAULT_POWER = 1;
+        public static final int BEAM_BREAKER_ID = 20;
+        public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
+                .withPID(RobotMap.TelescopicArm.Extender.PID)
+                .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
+                .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
+                .withIdleMode(CANSparkMax.IdleMode.kBrake)
+                .withRampRate(General.RAMP_RATE_VAL)
+                .withCurrentLimit(30)
+                .withInverted(true);
+
+        public static class Solenoid {
+            public static final int FORWARD_PORT = 10;
+            public static final int REVERSE_PORT = 6;
+        }
+    }
+
+    public static class NodeSystem {
         public enum SystemsPos {
             CONE_HIGH,
             CONE_MID,
@@ -394,48 +413,35 @@ public class RobotMap {
             GRIPER_TWO,
             GRIPER_THREE,
 
-            GROUND,
-            LOWWW,
-            MID,
-            HIGH,
+            ARM_GROUND,
+            ARM_LOWWW,
+            ARM_MID,
+            ARM_HIGH,
 
             GRIPER_OPEN,
             GRIPER_CLOSE;
 
         }
-        public static final int ROLLER_ID = 4;
-        public static final double DEFAULT_POWER = 1;
-        public static final int BEAM_BREAKER_ID = 20;
-        public static final GBSparkMax.SparkMaxConfObject INTAKE_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
-                .withPID(RobotMap.TelescopicArm.Extender.PID)
-                .withPositionConversionFactor(RobotMap.TelescopicArm.Extender.POSITION_CONVERSION_FACTOR)
-                .withVelocityConversionFactor(RobotMap.TelescopicArm.Extender.VELOCITY_CONVERSION_FACTOR)
-                .withIdleMode(CANSparkMax.IdleMode.kBrake)
-                .withRampRate(General.RAMP_RATE_VAL)
-                .withCurrentLimit(30)
-                .withInverted(true);
-        public static class Solenoid {
-            public static final int FORWARD_PORT = 10;
-            public static final int REVERSE_PORT = 6;
-        }
-    }
-    public static class VertexCost{
+
         static LinkedList<Pair<String, Double>> costList = new LinkedList<>();
-        static{
-            costList.add(new Pair<>("LOWWW-MID", 3.0));
-            costList.add(new Pair<>("LOWWW-HIGH", 5.0));
-            costList.add(new Pair<>("LOWWW-GROUND", 7.0));
-            costList.add(new Pair<>("MID-GROUND", 9.0));
-            costList.add(new Pair<>("MID-HIGH", 11.0));
-            costList.add(new Pair<>("HIGH-GROUND", 13.0));
-            costList.add(new Pair<>("GRIPER_CLOSE-GRIPER_OPEN", 15.0));
+
+        static {
+            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_MID, 3.0));
+            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_HIGH, 5.0));
+            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_GROUND, 7.0));
+            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_HIGH, 9.0));
+            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_MID, 11.0));
+            costList.add(new Pair<>(SystemsPos.ARM_MID+"-"+SystemsPos.ARM_HIGH, 13.0));
+            costList.add(new Pair<>(SystemsPos.GRIPER_CLOSE+"-"+SystemsPos.GRIPER_OPEN, 15.0));
         }
-        public static double getCostByMap(Intake.SystemsPos a,Intake.SystemsPos b ){
+
+        public static double getCostByMap(SystemsPos a, SystemsPos b) {
             for (Pair<String, Double> stringDoublePair : costList) {
                 if (stringDoublePair.getFirst().contains(a.toString()) && stringDoublePair.getFirst().contains(b.toString()))
                     return stringDoublePair.getSecond();
             }
-            return 0 ;
+            return 0;
         }
+
     }
 }

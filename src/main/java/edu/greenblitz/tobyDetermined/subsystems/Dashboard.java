@@ -156,7 +156,7 @@ public class Dashboard extends GBSubsystem {
 
 		armTab.addDouble("extender velocity",()-> Extender.getInstance().getVelocity());
 		armTab.addDouble("angular velocity", () -> Elbow.getInstance().getVelocity());
-		armTab.addString("Current Node ", () -> CurrentNodeArm.getInstance().getCurrentNode().toString());
+		armTab.addString("Current Node ", () -> CurrentNodeArm.getCurrentNode().toString());
 		armTab.addString("wantedNode" , ()-> NodeToNeighbourSupplier.getEnd().toString());
 		MechanismRoot2d root = mech.getRoot("arm root", 1.5, 1.5);
 

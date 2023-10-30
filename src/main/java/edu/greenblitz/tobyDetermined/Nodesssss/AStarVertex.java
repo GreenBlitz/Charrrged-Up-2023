@@ -5,7 +5,7 @@ import edu.wpi.first.math.Pair;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.Intake.SystemsPos;
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
 
 public class AStarVertex {
 
@@ -40,11 +40,11 @@ public class AStarVertex {
         int index = 0;
         double minFCost = Double.MAX_VALUE;
         while (index != open.size()) {
-            Pair<Double, Boolean> a = addOtherSystemCost(open.get(index), pathMap);
-            if (!a.getSecond()) {
+            Pair<Double, Boolean> isVertexFineAndCost = addOtherSystemCost(open.get(index), pathMap);
+            if (!isVertexFineAndCost.getSecond()) {
                 open.remove(open.get(index));
             } else {
-                double currentFCost = a.getFirst();
+                double currentFCost = isVertexFineAndCost.getFirst();
                 currentFCost += open.get(index).getTimeCost();
                 if (currentFCost < minFCost) {
                     minFCost = currentFCost;
@@ -57,18 +57,18 @@ public class AStarVertex {
     }
 
     public static Pair<Double, Boolean> addOtherSystemCost(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
-        if (!vertex.isInOtherSystemMustBe(vertex.getOtherSystemPos())) {
-            LinkedList<SystemsPos> otherSystemPositions = NodeBase.getOtherSystemPositions(vertex.getOtherSystemPos());
-            boolean check = false;
-            for (int i = 0; i < otherSystemPositions.size() && !check; i++) {
-                if (vertex.isInOtherSystemMustBe(otherSystemPositions.get(i))) {
-                    check = true;
+        if (!vertex.inOtherSystemMustBe(vertex.getOtherSystemPos())) {
+            LinkedList<SystemsPos> otherSystemPositions = NodeBase.getOneSystemPositions();
+            boolean isTherePossiblePosition = false;
+            for (int i = 0; i < otherSystemPositions.size() && !isTherePossiblePosition; i++) {
+                if (vertex.inOtherSystemMustBe(otherSystemPositions.get(i))) {
+                    isTherePossiblePosition = true;
                 }
             }
-            if (check) {
+            if (isTherePossiblePosition) {
                 if (NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBe().contains(vertex.getPos1()) || NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBe().isEmpty()) {
-                    SystemsPos pos = NodeBase.getSystemsPos(vertex.getOtherSystemPos());
-                    LinkedList<SystemsPos> list = vertex.mergeAndReturnOtherSystemMustBe();
+                    SystemsPos pos = vertex.getOtherSystemPos();
+                    LinkedList<SystemsPos> list = vertex.mergeAndGetOtherSystemMustBe();
                     double min = Double.MAX_VALUE;
                     LinkedList<SystemsPos> path = new LinkedList<>();
                     for (SystemsPos griperPos : list) {
@@ -91,15 +91,15 @@ public class AStarVertex {
 
     public static Pair<LinkedList<SystemsPos>, Double> returnPath(Vertex vertex, HashMap<Vertex, Vertex> parents, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
         LinkedList<SystemsPos> pathList = new LinkedList<>();
-        double cost = 0;
+        double totalCost = 0;
         Vertex current = vertex;
         pathList.addFirst(current.getPos2());
         while (current != null) {
-            cost += current.getTimeCost();
+            totalCost += current.getTimeCost();
             if (!pathList.get(0).equals(current.getPos2()))
                 pathList.addFirst(current.getPos2());
             if (pathMap.containsKey(current)) {
-                cost += pathMap.get(current).getSecond();
+                totalCost += pathMap.get(current).getSecond();
                 for (int i = 0; i < pathMap.get(current).getFirst().size(); i++) {
                     if (!pathList.get(i).equals(pathMap.get(current).getFirst().get(i)))
                         pathList.add(i, pathMap.get(current).getFirst().get(i));
@@ -109,10 +109,10 @@ public class AStarVertex {
                 pathList.addFirst(current.getPos1());
             current = parents.get(current);
         }
-        return new Pair<>(pathList, cost);
+        return new Pair<>(pathList, totalCost);
     }
 
-    public static Pair<LinkedList<SystemsPos>, Double> getPath(SystemsPos start, SystemsPos end, SystemsPos secondSystemState) {
+    public static Pair<LinkedList<SystemsPos>, Double> getPath(SystemsPos start, SystemsPos end, SystemsPos secondSystemPos) {
         LinkedList<Vertex> closedVer = new LinkedList<>();
         LinkedList<Vertex> openVer = new LinkedList<>();
         HashMap<Vertex, Vertex> parents = new HashMap<>();
@@ -120,8 +120,8 @@ public class AStarVertex {
         SystemsPos current = start;
         Vertex currentVer;
         for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-            if (!ifInVerList(closedVer, new Vertex(current, neighbor, secondSystemState)) && !ifInVerList(openVer, new Vertex(current, neighbor, secondSystemState))) {
-                openVer.add(new Vertex(current, neighbor, secondSystemState));
+            if (!ifInVerList(closedVer, new Vertex(current, neighbor, secondSystemPos)) && !ifInVerList(openVer, new Vertex(current, neighbor, secondSystemPos))) {
+                openVer.add(new Vertex(current, neighbor, secondSystemPos));
             }
         }
 
@@ -152,7 +152,7 @@ public class AStarVertex {
     }
 
     public static void main(String[] args) {
-        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.LOWWW, SystemsPos.HIGH, SystemsPos.GRIPER_CLOSE);
+        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.ARM_LOWWW, SystemsPos.ARM_HIGH, SystemsPos.GRIPER_CLOSE);
     }
 }
 
