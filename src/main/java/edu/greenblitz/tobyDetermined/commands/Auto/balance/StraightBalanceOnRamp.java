@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
-import edu.greenblitz.tobyDetermined.subsystems.GyroIOs.IGyro;
+import edu.greenblitz.tobyDetermined.subsystems.Gyros.IGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class StraightBalanceOnRamp extends SwerveCommand {

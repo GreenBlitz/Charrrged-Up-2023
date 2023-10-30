@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.Modules;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -7,9 +7,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.sensors.CANCoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.utils.Conversions;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -26,7 +26,7 @@ public class MK4ISwerveModule implements ISwerveModule {
 
     public MK4ISwerveModule(SwerveChassis.Module module) {
 
-        SdsSwerveModule.SdsSwerveModuleConfigObject configObject;
+        SwerveModuleConfigObject configObject;
         switch (module) {
 
             case FRONT_LEFT:

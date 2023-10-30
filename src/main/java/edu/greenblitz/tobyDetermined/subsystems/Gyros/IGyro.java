@@ -1,15 +1,18 @@
-package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
+package edu.greenblitz.tobyDetermined.subsystems.Gyros;
 
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
 
 public interface IGyro {
 
     void setYaw(double yaw);
+
     void setPitch(double pitch);
+
     void setRoll(double roll);
 
     double getYaw();
+
     double getPitch();
+
     double getRoll();
 
 

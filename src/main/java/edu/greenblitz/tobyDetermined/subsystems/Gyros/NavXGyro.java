@@ -1,7 +1,6 @@
-package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
+package edu.greenblitz.tobyDetermined.subsystems.Gyros;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class NavXGyro implements IGyro {

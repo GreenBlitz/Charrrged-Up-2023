@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.swerve.intake;
+package edu.greenblitz.tobyDetermined.subsystems.intake;
 
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;

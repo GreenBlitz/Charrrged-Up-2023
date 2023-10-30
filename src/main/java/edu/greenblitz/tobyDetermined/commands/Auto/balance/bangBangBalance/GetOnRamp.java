@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.intake.IntakeExtender;
+import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.wpi.first.math.filter.Debouncer;
 
 public class GetOnRamp extends SwerveCommand {

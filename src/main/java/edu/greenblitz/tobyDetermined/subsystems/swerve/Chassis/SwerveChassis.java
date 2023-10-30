@@ -1,13 +1,11 @@
-package edu.greenblitz.tobyDetermined.subsystems.swerve;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.GyroIOs.GyroFactory;
-import edu.greenblitz.tobyDetermined.subsystems.GyroIOs.IGyro;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs.ISwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs.SwerveChassisInputsAutoLogged;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs.SwerveModule;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.Gyros.GyroFactory;
+import edu.greenblitz.tobyDetermined.subsystems.Gyros.GyroInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.Gyros.IGyro;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
@@ -365,6 +363,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		return getModule(module).getModuleState();
 	}
 
+
 	public enum Module {
 		FRONT_LEFT,
 		FRONT_RIGHT,
@@ -448,17 +447,12 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 
 	@Override
 	public void updateInputs(SwerveChassisInputsAutoLogged inputs) {
-
 		inputs.chassisPose = poseEstimator.getEstimatedPosition();
 		inputs.isVisionEnabled = doVision;
 		inputs.numberOfDetectedAprilTag = MultiLimelight.getInstance().getAllEstimates().size();
 		inputs.omegaRadiansPerSecond = getChassisSpeeds().omegaRadiansPerSecond;
 		inputs.xAxisSpeed = getChassisSpeeds().vxMetersPerSecond;
 		inputs.yAxisSpeed = getChassisSpeeds().vyMetersPerSecond;
-
-
-
-
-
 	}
+
 }

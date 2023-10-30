@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.swerve;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 
 public class DriveSidewaysUntilEdge extends SwerveCommand {
 	/**

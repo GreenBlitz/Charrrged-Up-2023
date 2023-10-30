@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.swerve.ModuleIOs;
+package edu.greenblitz.tobyDetermined.subsystems.swerve.Modules;
 
 import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.SwerveModuleInputsAutoLogged;
 

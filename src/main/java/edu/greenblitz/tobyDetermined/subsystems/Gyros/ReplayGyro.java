@@ -1,6 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
-
-import edu.greenblitz.tobyDetermined.subsystems.swerve.inputs.GyroInputsAutoLogged;
+package edu.greenblitz.tobyDetermined.subsystems.Gyros;
 
 public class ReplayGyro implements IGyro{
 

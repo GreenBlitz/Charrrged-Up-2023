@@ -5,8 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
@@ -175,22 +174,15 @@ public class RobotMap {
 
         public static final double ka = 0.11023;
 
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
+        public static SwerveModuleConfigObject KazaModuleFrontLeft = new SwerveModuleConfigObject(1, 10, 0, false); //front left
+        public static SwerveModuleConfigObject KazaModuleFrontRight = new SwerveModuleConfigObject(3, 11, 2, true); //front right
+        public static SwerveModuleConfigObject KazaModuleBackLeft = new SwerveModuleConfigObject(2, 8, 1, false); //back left
+        public static SwerveModuleConfigObject KazaModuleBackRight = new SwerveModuleConfigObject(12, 5, 3, true); //back right
 
-
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right
-
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(2, 8, 1, false); //back left
-
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 1, 0.8486328125,false); //front left
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 2,0.2939453125 ,true); //front right
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 3, 0.5524,false); //back left
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 4, 0.8718,true); //back right
+        public static SwerveModuleConfigObject SdsModuleFrontLeft =new SwerveModuleConfigObject(1, 0, 1, 0.8486328125,false); //front left
+        public static SwerveModuleConfigObject SdsModuleFrontRight=new SwerveModuleConfigObject(3, 2, 2,0.2939453125 ,true); //front right
+        public static SwerveModuleConfigObject SdsModuleBackLeft = new SwerveModuleConfigObject(5, 4, 3, 0.5524,false); //back left
+        public static SwerveModuleConfigObject SdsModuleBackRight =new SwerveModuleConfigObject(7, 6, 4, 0.8718,true); //back right
 
 
         public static class SimulationSwerve{

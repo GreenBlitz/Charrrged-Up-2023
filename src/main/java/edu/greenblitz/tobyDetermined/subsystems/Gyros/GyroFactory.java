@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.GyroIOs;
+package edu.greenblitz.tobyDetermined.subsystems.Gyros;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 

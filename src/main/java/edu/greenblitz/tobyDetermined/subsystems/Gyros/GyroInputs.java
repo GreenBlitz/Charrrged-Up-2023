@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.swerve.inputs;
+package edu.greenblitz.tobyDetermined.subsystems.Gyros;
 
 
 import org.littletonrobotics.junction.AutoLog;
