@@ -63,7 +63,6 @@ public class Elbow extends GBSubsystem {
 
         absolutAngFilter = new MedianFilter(RESET_MEDIAN_SIZE);
 
-        Logger.getInstance().recordOutput("Arm/ElbowIdleMode","switched to: " +  CANSparkMax.IdleMode.kCoast.name());
     }
 
     private Timer accTimer;
@@ -244,7 +243,6 @@ public class Elbow extends GBSubsystem {
     }
 
     public void setIdleMode (CANSparkMax.IdleMode idleMode){
-        Logger.getInstance().recordOutput("Arm/ElbowIdleMode","switched to: " +  idleMode.name());
         elbow.setIdleMode(idleMode);
     }
 

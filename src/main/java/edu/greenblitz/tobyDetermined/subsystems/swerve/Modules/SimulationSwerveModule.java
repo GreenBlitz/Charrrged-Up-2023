@@ -6,7 +6,9 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.utils.Conversions;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import org.littletonrobotics.junction.Logger;
 
 public class SimulationSwerveModule implements ISwerveModule {
 
@@ -99,17 +101,18 @@ public class SimulationSwerveModule implements ISwerveModule {
 
     @Override
     public void setLinearIdleModeBrake(boolean isBrake) {
+        Logger.getInstance().recordOutput("DriveTrain/Module"+module.name(), "tried setting linear idleMode to " + (isBrake ? "Brake" : "Coast"));
 
     }
 
     @Override
     public void setAngularIdleModeBrake(boolean isBrake) {
-
+        Logger.getInstance().recordOutput("DriveTrain/Module"+module.name(), "tried setting angular idleMode to " + (isBrake ? "Brake" : "Coast"));
     }
 
     @Override
     public void resetAngle(double angleInRads) {
-
+        Logger.getInstance().recordOutput("DriveTrain/Module"+module.name(), "tried setting the module angle to " + Units.radiansToDegrees(angleInRads));
     }
 
 }

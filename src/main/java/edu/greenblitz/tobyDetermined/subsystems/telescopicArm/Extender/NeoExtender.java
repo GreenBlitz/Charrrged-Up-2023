@@ -40,11 +40,6 @@ public class NeoExtender implements IExtender {
     }
 
     @Override
-    public void enableSoftLimit(boolean isEnabled, CANSparkMax.SoftLimitDirection direction) {
-        motor.enableSoftLimit(direction, isEnabled);
-    }
-
-    @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
         motor.setIdleMode(idleMode);
     }

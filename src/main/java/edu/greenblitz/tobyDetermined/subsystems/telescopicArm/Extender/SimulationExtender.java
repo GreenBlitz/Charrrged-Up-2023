@@ -4,8 +4,10 @@ import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import org.apache.logging.log4j.core.appender.rolling.action.IfNot;
+import org.littletonrobotics.junction.Logger;
 
 public class SimulationExtender implements IExtender {
     ElevatorSim extenderSim;
@@ -53,25 +55,25 @@ public class SimulationExtender implements IExtender {
     }
 
     @Override
-    public void enableSoftLimit(boolean isEnabled, CANSparkMax.SoftLimitDirection direction) {
-    }
-
-    @Override
     public void setPosition(double position) {
+//        System.out.println("[Extender]: tried setting the position to " + position);
+        Logger.getInstance().recordOutput("Arm/Extender", "tried setting the position to " + position);
     }
 
     @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
+        Logger.getInstance().recordOutput("Arm/Extender", "tried setting the idleMode to " + idleMode.name());
+
     }
 
     @Override
     public void enableSoftLimit(CANSparkMax.SoftLimitDirection direction, boolean isEnabled) {
-
+        Logger.getInstance().recordOutput("Arm/Extender", "tried to " + (isEnabled ? "Enable" : "Disable") + " soft limit for direction " + direction.name());
     }
 
     @Override
     public void enableBackSwitchLimit(boolean enable) {
-
+        Logger.getInstance().recordOutput("Arm/Extender", "tried to " + (enable ? "Enable" : "Disable") + " the back switch limit");
     }
 
 

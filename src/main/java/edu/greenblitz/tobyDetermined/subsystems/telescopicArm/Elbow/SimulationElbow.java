@@ -64,21 +64,23 @@ public class SimulationElbow implements IElbow {
         inputs.kI = SIM_PID.getKi();
         inputs.kD = SIM_PID.getKd();
     }
-    static boolean isBreak = false;
     @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
-        isBreak = idleMode == CANSparkMax.IdleMode.kBrake;
+        Logger.getInstance().recordOutput("Arm/Elbow", "tried setting the idleMode to " + idleMode.name());
     }
 
     @Override
     public void setSoftLimit(CANSparkMax.SoftLimitDirection direction, double limit) {
+        Logger.getInstance().recordOutput("Arm/Elbow", "tried to set soft limit for direction " + direction.name() + " to " + limit);
     }
 
     @Override
     public void setAngleRadiansByPID(double goalAngle, double feedForward) {
+        Logger.getInstance().recordOutput("Arm/Elbow", "tried setting the goal angle to " + goalAngle + " with feed  forward of " + feedForward);
     }
 
     @Override
     public void setPosition(double position) {
+        Logger.getInstance().recordOutput("Arm/Elbow", "tried to set the position to " + position);
     }
 }

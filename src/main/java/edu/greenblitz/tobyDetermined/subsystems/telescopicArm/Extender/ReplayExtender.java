@@ -14,11 +14,6 @@ public class ReplayExtender implements IExtender{
     }
 
     @Override
-    public void enableSoftLimit(boolean isEnabled, CANSparkMax.SoftLimitDirection direction) {
-
-    }
-
-    @Override
     public void setPosition(double position) {
 
     }
