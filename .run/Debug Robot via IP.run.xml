@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Debug Robot via IP" type="Remote">
-    <module name="Charrrged-Up-2023.main" />
+    <module name="Charrrged-Up-2023-WPILib2024.main" />
     <option name="USE_SOCKET_TRANSPORT" value="true" />
     <option name="SERVER_MODE" value="false" />
     <option name="SHMEM_ADDRESS" value="javadebug" />

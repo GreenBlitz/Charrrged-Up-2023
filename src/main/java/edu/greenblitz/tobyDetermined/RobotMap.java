@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.util.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;

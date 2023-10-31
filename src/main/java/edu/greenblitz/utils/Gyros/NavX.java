@@ -4,7 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class NavX implements IGyro{
-	private AHRS gyro;
+	private final AHRS gyro;
 	private double yawOffset;
 	private double pitchOffset;
 	private double rollOffset;
