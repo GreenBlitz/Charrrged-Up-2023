@@ -18,6 +18,8 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTIN
 
 public class RobotMap {
     public static final Robot.RobotType ROBOT_TYPE = Robot.RobotType.SIMULATION;
+    public static final String SIMULATION_LOG_PATH = "C:\\Users\\GB\\Desktop\\RobotCode\\Charrrged-Up-2023\\SimulationLogs";
+    public static final String ROBORIO_LOG_PATH = "/media/sda1/";
 
     public static class SimulationConstants{
         public static final double TIME_STEP = 0.02;

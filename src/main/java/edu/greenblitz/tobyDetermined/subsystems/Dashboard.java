@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
 import edu.greenblitz.tobyDetermined.Field;
-import edu.greenblitz.tobyDetermined.IsRobotReady;
+import edu.greenblitz.tobyDetermined.RobotConditions;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
@@ -120,7 +120,7 @@ public class Dashboard extends GBSubsystem {
 
 
 		//ready to place
-		driversTab.addBoolean("Ready to place", IsRobotReady::isRobotReady).withPosition(3, 2).withSize(1, 2);
+		driversTab.addBoolean("Ready to place", RobotConditions::isRobotReady).withPosition(3, 2).withSize(1, 2);
 		//todo check if at place and arm in pos
 	}
 

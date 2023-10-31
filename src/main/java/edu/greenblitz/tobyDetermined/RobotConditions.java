@@ -6,7 +6,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 
-public class IsRobotReady {
+public class RobotConditions {
 	public static boolean isArmAtGoal(){
 		switch (Grid.getInstance().getSelectedHeight()){
 			case HIGH:
