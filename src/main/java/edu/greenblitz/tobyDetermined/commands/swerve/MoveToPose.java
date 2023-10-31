@@ -54,7 +54,7 @@ public class MoveToPose extends SwerveCommand {
 
 	@Override
 	public void initialize() {
-		if (useAlliance && DriverStation.getAlliance() == DriverStation.Alliance.Red){
+		if (useAlliance && DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
 			pose = Field.mirrorPositionToOtherSide(pose);
 		}
 		xController.reset(swerve.getRobotPose().getX(), swerve.getChassisSpeeds().vxMetersPerSecond);

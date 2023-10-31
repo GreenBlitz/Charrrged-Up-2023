@@ -28,10 +28,10 @@ public class Grid {
     }
 
     public void updateAlliance(){
-        if (DriverStation.getAlliance() == DriverStation.Alliance.Red){
+        if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
             locations = Field.PlacementLocations.getLocationsOnRedSide();
         }
-        if (DriverStation.getAlliance() == DriverStation.Alliance.Blue){
+        if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
             locations = Field.PlacementLocations.getLocationsOnBlueSide();
         }
     }
@@ -142,11 +142,11 @@ public class Grid {
     }
 
     public void moveSelectedPositionRight(){
-        moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? -1 : 1);
+        moveSelectedPosition(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? -1 : 1);
     }
 
     public void moveSelectedPositionLeft(){
-        moveSelectedPosition(DriverStation.getAlliance() == DriverStation.Alliance.Blue ? 1 : -1);
+        moveSelectedPosition(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? 1 : -1);
     }
 
     public void moveSelectedHeight(int amount){

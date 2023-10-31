@@ -4,7 +4,7 @@ import edu.greenblitz.tobyDetermined.commands.Auto.balance.GetOutOfRampAndBalanc
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class AutonomousSelector {
@@ -67,8 +67,8 @@ public class AutonomousSelector {
 		NONE(new InstantCommand());
 
 
-		public CommandBase autonomousCommand;
-		private AutonomousPaths (CommandBase autonomousCommands){
+		public Command autonomousCommand;
+		private AutonomousPaths (Command autonomousCommands){
 			autonomousCommand = autonomousCommands;
 		}
 	}

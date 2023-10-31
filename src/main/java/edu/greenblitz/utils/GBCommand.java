@@ -14,7 +14,7 @@ import java.util.Set;
  * @author Raz
  * @author Tal -ish
  */
-public abstract class GBCommand implements Command {
+public abstract class GBCommand extends Command {
 	
 	protected Set<Subsystem> systems;
 	

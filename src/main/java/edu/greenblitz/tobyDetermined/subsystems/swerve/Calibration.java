@@ -1,14 +1,16 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve;
 
 import edu.greenblitz.utils.Dataset;
-import edu.wpi.first.util.InterpolatingTreeMap;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
+import edu.wpi.first.math.interpolation.Interpolator;
+import edu.wpi.first.math.interpolation.InverseInterpolator;
 
 import java.util.HashMap;
 
 public class Calibration {
 	
 	
-	public static final InterpolatingTreeMap<Double, Double> FRONT_LEFT= new InterpolatingTreeMap<>();
+	public static final InterpolatingTreeMap<Double, Double> FRONT_LEFT= new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
 	
 	static {
 		FRONT_LEFT.put(0.0, 251.0);
@@ -267,7 +269,7 @@ public class Calibration {
 		FRONT_LEFT.put(5.0, 0.0);
 	}
 	
-	public static InterpolatingTreeMap<Double, Double> FRONT_RIGHT = new InterpolatingTreeMap<>();
+	public static InterpolatingTreeMap<Double, Double> FRONT_RIGHT = new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
 	
 	static {
 		FRONT_RIGHT.put(0.0, 0.0);
@@ -526,7 +528,7 @@ public class Calibration {
 		Calibration.FRONT_RIGHT.put(5.0, 1.0);
 	}
 	
-	public static InterpolatingTreeMap<Double, Double> BACK_LEFT = new InterpolatingTreeMap<>();
+	public static InterpolatingTreeMap<Double, Double> BACK_LEFT = new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
 	static {
 		BACK_LEFT.put(0.0, 0.0);
 		BACK_LEFT.put(0.043945308, 0.0);
@@ -784,7 +786,7 @@ public class Calibration {
 		BACK_LEFT.put(5.0, 1.0);
 	}
 	
-	public static InterpolatingTreeMap<Double, Double> BACK_RIGHT = new InterpolatingTreeMap<>();
+	public static InterpolatingTreeMap<Double, Double> BACK_RIGHT = new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
 	static {
 		BACK_RIGHT.put(0.0, 0.0);
 		BACK_RIGHT.put(0.013427733, 0.0);

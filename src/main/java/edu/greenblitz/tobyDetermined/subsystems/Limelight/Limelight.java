@@ -23,7 +23,7 @@ class Limelight {
     }
     
     public void updateRobotPoseEntry(){
-        String robotPoseQuery = DriverStation.getAlliance() == DriverStation.Alliance.Red ? "botpose_wpired" : "botpose_wpiblue";
+        String robotPoseQuery = DriverStation.getAlliance().get()== DriverStation.Alliance.Red ? "botpose_wpired" : "botpose_wpiblue";
         robotPoseEntry = NetworkTableInstance.getDefault().getTable(name).getEntry(robotPoseQuery);
     }
 
