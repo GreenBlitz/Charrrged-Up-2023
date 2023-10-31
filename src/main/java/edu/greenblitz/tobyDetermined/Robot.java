@@ -65,11 +65,13 @@ public class Robot extends LoggedRobot {
 
 		Logger logger = Logger.getInstance();
 
+
+
 		switch (RobotMap.ROBOT_TYPE) {
 			// Running on a real robot, log to a USB stick
 			case FRANKENSTEIN:
 			case PEGA_SWERVE:
-				logger.addDataReceiver(new WPILOGWriter("/U"));
+				logger.addDataReceiver(new WPILOGWriter("/media/sda1/"));
 				logger.addDataReceiver(new NT4Publisher());
 				break;
             // Replaying a log, set up replay source
