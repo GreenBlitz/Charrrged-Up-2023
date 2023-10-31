@@ -28,8 +28,8 @@ public class Extender extends GBSubsystem {
 	private boolean holdPosition =false;
 	private boolean didReset;
 
-	private final IExtender io;
-	private final ExtenderInputsAutoLogged inputs = new ExtenderInputsAutoLogged();
+	private final IExtender extender;
+	private final ExtenderInputsAutoLogged extenderInputs = new ExtenderInputsAutoLogged();
 	public static Extender getInstance() {
 		init();
 		return instance;
@@ -42,17 +42,19 @@ public class Extender extends GBSubsystem {
 	}
 
 	private Extender() {
-		io = ExtenderFactory.create();
-		io.updateInputs(inputs);
+		extender = ExtenderFactory.create();
+		extender.updateInputs(extenderInputs);
 
 		this.profileGenerator = new ProfiledPIDController(
-				inputs.kP,
-				inputs.kI,
-				inputs.kD,
+				extenderInputs.kP,
+				extenderInputs.kI,
+				extenderInputs.kD,
 				CONSTRAINTS
 		);
-		this.profileGenerator.setTolerance(inputs.tolerance);
+		this.profileGenerator.setTolerance(extenderInputs.tolerance);
 
+
+		Logger.getInstance().recordOutput("Arm/ExtenderIdleMode","switched to: " +  CANSparkMax.IdleMode.kCoast.name());
 
 		lastSpeed = 0;
 		didReset = false;
@@ -69,7 +71,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public void setPower(double power){
-		io.setPower(power);
+		extender.setPower(power);
 		holdPosition = false;
 	}
 
@@ -93,11 +95,11 @@ public class Extender extends GBSubsystem {
 
 
 		if (holdPosition) {
-			io.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
+			extender.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
 		}
 
-		io.updateInputs(inputs);
-		Logger.getInstance().processInputs("Extender",inputs);
+		extender.updateInputs(extenderInputs);
+		Logger.getInstance().processInputs("Extender", extenderInputs);
 
 
 	}
@@ -121,7 +123,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public double getVolt(){
-		return inputs.appliedOutput * Battery.getInstance().getCurrentVoltage();
+		return extenderInputs.appliedOutput * Battery.getInstance().getCurrentVoltage();
 	}
 
 	public double getLegalGoalLength(double wantedLength){
@@ -147,7 +149,7 @@ public class Extender extends GBSubsystem {
 
 
 	public double getLength() {
-		return inputs.position;
+		return extenderInputs.position;
 	}
 
 	public ExtenderState getState() {
@@ -155,7 +157,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public double getVelocity(){
-		return inputs.velocity;
+		return extenderInputs.velocity;
 	}
 
 	public boolean DidReset(){
@@ -165,7 +167,7 @@ public class Extender extends GBSubsystem {
 	 * @return the current value of the limit switch
 	 */
 	public boolean getLimitSwitch() {
-		return debouncer.calculate(inputs.reverseLimitSwitchPressed);
+		return debouncer.calculate(extenderInputs.reverseLimitSwitchPressed);
 	}
 	public void resetLength() {
 		resetLength(0);
@@ -174,12 +176,12 @@ public class Extender extends GBSubsystem {
 	}
 
 	public void resetLength(double position) {
-		io.setPosition(position);
+		extender.setPosition(position);
 	}
 
 
 	public void stop() {
-		io.setPower(0);
+		extender.setPower(0);
 		holdPosition = true;
 	}
 
@@ -236,11 +238,11 @@ public class Extender extends GBSubsystem {
 
 	public void setMotorVoltage(double voltage) {
 		holdPosition = false;
-		io.setPower(voltage / Battery.getInstance().getCurrentVoltage());
+		extender.setPower(voltage / Battery.getInstance().getCurrentVoltage());
 	}
 
 	public PIDObject getPID(){
-		return new PIDObject().withKp(inputs.kP).withKi(inputs.kI).withKd(inputs.kI);
+		return new PIDObject().withKp(extenderInputs.kP).withKi(extenderInputs.kI).withKd(extenderInputs.kI);
 	}
 
 	public double getGoalLength() {
@@ -248,21 +250,22 @@ public class Extender extends GBSubsystem {
 	}
 
 	public void enableReverseLimit(){
-		io.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+		extender.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 	}
 
 	public void disableReverseLimit(){
-		io.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+		extender.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
 	}
 
 	public void setIdleMode(CANSparkMax.IdleMode idleMode){
-		io.setIdleMode(idleMode);
+		extender.setIdleMode(idleMode);
+		Logger.getInstance().recordOutput("Arm/ExtenderIdleMode", "switched to: " + idleMode.name());
 	}
 
 	public void disableAllLimits(){
-		io.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
-		io.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
-		io.enableBackSwitchLimit(false);
+		extender.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+		extender.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
+		extender.enableBackSwitchLimit(false);
 	}
 	public void setGoalLength (double goalLength){
 		this.goalLength = goalLength;

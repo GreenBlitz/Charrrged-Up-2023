@@ -15,4 +15,5 @@ public class ExtenderInputs {
     public double kD;
 
     public double tolerance;
+    public String idleMode;
 }

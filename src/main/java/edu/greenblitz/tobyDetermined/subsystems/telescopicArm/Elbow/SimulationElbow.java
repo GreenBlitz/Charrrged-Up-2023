@@ -20,7 +20,7 @@ public class SimulationElbow implements IElbow {
                 SingleJointedArmSim.estimateMOI(
                         RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
                         RobotMap.TelescopicArm.Extender.EXTENDER_MASS_KG
-                        ), //-> 1.0 / 3.0 * mass * length^2,
+                ),
                 RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
                 RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT,
                 RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT,

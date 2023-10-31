@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined.subsystems.swerve.Modules;
 
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -11,8 +10,8 @@ import org.littletonrobotics.junction.Logger;
 public class SwerveModule {
 
 
-    ISwerveModule io;
-    SwerveModuleInputsAutoLogged inputs;
+    ISwerveModule swerveModule;
+    SwerveModuleInputsAutoLogged swerveModuleInputs;
 
     SwerveChassis.Module module;
 
@@ -22,9 +21,9 @@ public class SwerveModule {
     public SwerveModule(SwerveChassis.Module module) {
         this.module = module;
 
-        this.io = SwerveModuleFactory.create(module);
+        this.swerveModule = SwerveModuleFactory.create(module);
 
-        inputs = new SwerveModuleInputsAutoLogged();
+        swerveModuleInputs = new SwerveModuleInputsAutoLogged();
     }
 
 
@@ -34,19 +33,19 @@ public class SwerveModule {
         diff -= diff > Math.PI ? 2 * Math.PI : 0;
         angleInRads = getModuleAngle() + diff;
 
-        io.rotateToAngle(angleInRads);
+        swerveModule.rotateToAngle(angleInRads);
     }
 
     public double getModuleAngle() {
-        return inputs.angularPositionInRads;
+        return swerveModuleInputs.angularPositionInRads;
     }
 
     public double getCurrentVelocity() {
-        return inputs.linearVelocity;
+        return swerveModuleInputs.linearVelocity;
     }
 
     public double getCurrentMeters() {
-        return inputs.linearMetersPassed;
+        return swerveModuleInputs.linearMetersPassed;
     }
 
     public SwerveModulePosition getCurrentPosition() {
@@ -54,7 +53,7 @@ public class SwerveModule {
     }
 
     public void resetEncoderToValue(double angleInRads) {
-        io.resetAngle(angleInRads);
+        swerveModule.resetAngle(angleInRads);
     }
 
     public void resetEncoderToValue() {
@@ -62,21 +61,21 @@ public class SwerveModule {
     }
 
     public void periodic() {
-        io.updateInputs(inputs);
-        Logger.getInstance().processInputs("DriveTrain/Module" + this.module.toString(), inputs);
+        swerveModule.updateInputs(swerveModuleInputs);
+        Logger.getInstance().processInputs("DriveTrain/Module" + this.module.toString(), swerveModuleInputs);
     }
 
 
     public void resetEncoderByAbsoluteEncoder() {
-        resetEncoderToValue(inputs.absoluteEncoderPosition);
+        resetEncoderToValue(swerveModuleInputs.absoluteEncoderPosition);
     }
 
     public void setLinSpeed(double speed) {
-        io.setLinearVelocity(speed);
+        swerveModule.setLinearVelocity(speed);
     }
 
     public void stop() {
-        io.stop();
+        swerveModule.stop();
     }
 
     public SwerveModuleState getModuleState(){
@@ -99,35 +98,35 @@ public class SwerveModule {
         rotateToAngle(moduleState.angle.getRadians());
     }
     public double getAbsoluteEncoderValue(){
-        return inputs.absoluteEncoderPosition;
+        return swerveModuleInputs.absoluteEncoderPosition;
     }
 
 
 
     public void setRotPowerOnlyForCalibrations(double power){
-        io.setAngularVoltage(power * Battery.getInstance().getCurrentVoltage());
+        swerveModule.setAngularVoltage(power * Battery.getInstance().getCurrentVoltage());
     }
     public void setLinPowerOnlyForCalibrations(double power){
-        io.setLinearVoltage(power * Battery.getInstance().getCurrentVoltage());
+        swerveModule.setLinearVoltage(power * Battery.getInstance().getCurrentVoltage());
     }
     public void setLinIdleModeBrake (){
-        io.setLinearIdleModeBrake(true);
+        swerveModule.setLinearIdleModeBrake(true);
     }
     public void setLinIdleModeCoast (){
-        io.setLinearIdleModeBrake(false);
+        swerveModule.setLinearIdleModeBrake(false);
     }
     public void setRotIdleModeBrake(){
-        io.setAngularIdleModeBrake(true);
+        swerveModule.setAngularIdleModeBrake(true);
 
     }
     public void setRotIdleModeCoast (){
-        io.setAngularIdleModeBrake(false);
+        swerveModule.setAngularIdleModeBrake(false);
     }
     public boolean isEncoderBroken(){
-        return !inputs.isAbsoluteEncoderConnected;
+        return !swerveModuleInputs.isAbsoluteEncoderConnected;
     }
     public double getLinVoltage(){
-        return inputs.linearVoltage;
+        return swerveModuleInputs.linearVoltage;
     }
 
 }

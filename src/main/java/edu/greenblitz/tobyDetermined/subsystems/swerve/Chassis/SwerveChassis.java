@@ -58,9 +58,10 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
         this.backLeft = new SwerveModule(Module.BACK_LEFT);
         this.backRight = new SwerveModule(Module.BACK_RIGHT);
 
-		doVision = true;
-		
 		this.gyro = GyroFactory.create();
+
+		doVision = true;
+
 
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates

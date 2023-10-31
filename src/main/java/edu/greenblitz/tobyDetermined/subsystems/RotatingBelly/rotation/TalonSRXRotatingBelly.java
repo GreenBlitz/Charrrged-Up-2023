@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO;
+package edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;

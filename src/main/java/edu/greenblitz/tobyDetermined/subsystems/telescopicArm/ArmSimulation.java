@@ -52,6 +52,7 @@ public class ArmSimulation extends GBSubsystem {
         Logger.getInstance().recordOutput("Arm/TargetPose3D", getArmPosition(Extender.getInstance().getGoalLength(), Elbow.getInstance().getGoalAngle()));
 
 
+
     }
 
     public static Pose3d getArmPosition(double extenderLength, double elbowAngle) {

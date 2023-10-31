@@ -1,26 +1,24 @@
-package edu.greenblitz.tobyDetermined.subsystems.RotatingBelly;
+package edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation;
 
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.IRotatingBelly;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.TalonSRXRotatingBelly;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.IO.RotatingBellyInputsAutoLogged;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation.RotatingBellyInputsAutoLogged;
 
 public class RotatingBelly extends GBSubsystem {
 
 
     private static RotatingBelly instance;
 
-    private IRotatingBelly io;
-    private final RotatingBellyInputsAutoLogged inputs = new RotatingBellyInputsAutoLogged();
+    private IRotatingBelly rotatingBelly;
+    private final RotatingBellyInputsAutoLogged rotatingBellyInputs = new RotatingBellyInputsAutoLogged();
 
 
 //    private BellyGameObjectSensor colorSensor;
 
     private RotatingBelly (){
-        io = new TalonSRXRotatingBelly();
+        rotatingBelly = RotatingBellyFactory.create();
     }
     public void setPower(double power){
-        io.setPower(power);
+        rotatingBelly.setPower(power);
     }
 
     public static RotatingBelly getInstance (){
@@ -35,14 +33,14 @@ public class RotatingBelly extends GBSubsystem {
     }
 
     public void stop (){
-        io.stop();
+        rotatingBelly.stop();
     }
     public boolean isLimitSwitchPressed(){
-        return inputs.isSwitchPressed;
+        return rotatingBellyInputs.isSwitchPressed;
     }
 
     @Override
     public void periodic() {
-        io.updateInputs(inputs);
+        rotatingBelly.updateInputs(rotatingBellyInputs);
     }
 }
