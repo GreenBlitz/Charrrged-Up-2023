@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
+import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
@@ -17,7 +18,8 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
-import edu.greenblitz.utils.AutonomousSelector;
+import edu.greenblitz.utils.Autonomous.AutonomousSelector;
+import edu.greenblitz.utils.Autonomous.LocalADStarAK;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,6 +48,7 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void robotInit() {
+		Pathfinding.setPathfinder(new LocalADStarAK());
 		CommandScheduler.getInstance().enable();
 
 		initializeLogger();

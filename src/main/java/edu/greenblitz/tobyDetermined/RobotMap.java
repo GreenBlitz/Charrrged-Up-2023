@@ -2,7 +2,9 @@ package edu.greenblitz.tobyDetermined;
 
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
@@ -146,6 +148,20 @@ public class RobotMap {
             };
 
             public static final double SIDEWAY_DRIVING_SPEED = 0.5;
+            public static final double TOTAL_ERROR_FOR_REPLANNING = 0.05;
+            public static final double ERROR_SPIKE_FOR_REPLANNING = 0.1;
+            public static final HolonomicPathFollowerConfig PATH_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
+                    TRANSLATION_PID,
+                    ROTATION_PID,
+                    MAX_VELOCITY,
+                    (ROBOT_WIDTH_IN_METERS+BUMPER_WIDTH)/2,
+                    new ReplanningConfig(
+                            true,
+                            true,
+                            TOTAL_ERROR_FOR_REPLANNING,
+                            ERROR_SPIKE_FOR_REPLANNING
+                    )
+            );
         }
 
 

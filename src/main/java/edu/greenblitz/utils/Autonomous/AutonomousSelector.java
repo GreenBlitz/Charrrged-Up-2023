@@ -1,11 +1,8 @@
-package edu.greenblitz.utils;
+package edu.greenblitz.utils.Autonomous;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.balance.GetOutOfRampAndBalance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class AutonomousSelector {
 	static private AutonomousSelector instance; //i did some shenanigan with the static private hehe

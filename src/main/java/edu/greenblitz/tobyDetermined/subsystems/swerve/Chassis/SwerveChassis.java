@@ -258,6 +258,12 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 				getModuleState(Module.BACK_LEFT),
 				getModuleState(Module.BACK_RIGHT));
 	}
+	public ChassisSpeeds getRobotRelativeChassisSpeeds(){
+		return ChassisSpeeds.fromFieldRelativeSpeeds(
+				getChassisSpeeds(),
+				Rotation2d.fromRadians(gyro.getYaw())
+		);
+	}
 
 	public SwerveModulePosition[] getSwerveModulePositions() {
 		return new SwerveModulePosition[]{
@@ -386,6 +392,12 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 				getChassisAngle()
 		);
 		SmartDashboard.putNumber("omega", chassisSpeeds.omegaRadiansPerSecond);
+	}
+
+	public void moveByRobotRelativeSpeeds(ChassisSpeeds ChassisSpeeds){
+		moveByChassisSpeeds(
+				ChassisSpeeds.fromRobotRelativeSpeeds(ChassisSpeeds, Rotation2d.fromRadians(gyro.getYaw()))
+		);
 	}
 
 	/**
