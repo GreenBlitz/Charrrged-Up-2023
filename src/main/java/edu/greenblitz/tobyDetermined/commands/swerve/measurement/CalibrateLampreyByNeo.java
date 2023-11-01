@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve.measurement;
 
 import edu.greenblitz.tobyDetermined.OI;
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.utils.Dataset;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

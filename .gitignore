@@ -930,4 +930,16 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/java,python,intellij,vim,visualstudiocode,windows,macos,linux,gradle,git,eclipse,sublimetext,bluej,visualstudio.
 
+simgui-ds.json
+simgui-window.json
+simgui.json
+networktables.json
+
+
+
 .idea/misc.xml
+.run/
+/.idea/
+
+*.wpilog
+*.xml

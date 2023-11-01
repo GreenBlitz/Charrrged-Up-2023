@@ -1,19 +1,15 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
+import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
-import edu.greenblitz.tobyDetermined.subsystems.Console;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-import edu.greenblitz.utils.RoborioUtils;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.CONSTRAINTS;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.PID;
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.kS;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
 public class RotateToAngleRadians extends ElbowCommand {
 
@@ -31,9 +27,11 @@ public class RotateToAngleRadians extends ElbowCommand {
     @Override
     public void initialize() {
         super.initialize();
-        pidController = new ProfiledPIDController(PID.getKp(), PID.getKi(), PID.getKd(), CONSTRAINTS);
+
+        pidController = new ProfiledPIDController(elbow.getPID().getKp(), elbow.getPID().getKi(), elbow.getPID().getKd(), CONSTRAINTS);
         legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
         pidController.reset(new TrapezoidProfile.State(elbow.getAngleRadians(), elbow.getVelocity()));
+        elbow.setGoalAngle(legalGoalAngle);
     }
 
     @Override
@@ -41,7 +39,7 @@ public class RotateToAngleRadians extends ElbowCommand {
         legalGoalAngle = elbow.getLegalGoalAngle(wantedAngle);
         pidController.setGoal(legalGoalAngle);
         double pidGain = pidController.calculate(elbow.getAngleRadians(), legalGoalAngle);
-        double feedForward = Elbow.getStaticFeedForward( Extender.getInstance().getLength(), elbow.getAngleRadians()) + Math.signum(pidGain) * kS;
+        double feedForward = Elbow.getStaticFeedForward(Extender.getInstance().getLength(), elbow.getAngleRadians()) + Math.signum(pidGain) * kS;
         elbow.debugSetPower(feedForward / Battery.getInstance().getCurrentVoltage() + pidGain);
 
     }

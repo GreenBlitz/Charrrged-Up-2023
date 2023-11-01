@@ -34,7 +34,9 @@ public class AutonomousSelector {
 	}
 
 	public AutonomousPaths getChosenValue (){
-		if(chooser.getSelected() == null){return AutonomousPaths.NONE;}
+		if(chooser.getSelected() == null){
+			return null;
+		}
 		else {
 			return chooser.getSelected();
 		}
@@ -61,16 +63,16 @@ public class AutonomousSelector {
 //		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_ramp")),
 //		MIDDLE_OUT_RAMP(PathFollowerBuilder.getInstance().followPath("M_out_ramp")),
 //		MIDDLE_JUST_RAMP(PathFollowerBuilder.getInstance().followPath("Mjust_ramp")),
-		BETTER(new GetOutOfRampAndBalance()),
+//		BETTER(new GetOutOfRampAndBalance()),
 		
 
-		NONE(new InstantCommand());
+//		NONE(BOTTOM_PICK_RAMP.autonomousCommand);
 
 
-		public Command autonomousCommand;
-		private AutonomousPaths (Command autonomousCommands){
-			autonomousCommand = autonomousCommands;
-		}
+//		public Command autonomousCommand;
+//		private AutonomousPaths (Command autonomousCommands){
+//			autonomousCommand = autonomousCommands;
+//		}
 	}
 
 //	private static CommandBase getPathTCommand (String path){

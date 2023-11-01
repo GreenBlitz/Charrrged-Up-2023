@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.littletonrobotics.akit.junction/junction-autolog/3.0.0-beta-1/40b7e56d75c768613efc5eb2eae72540996a9d2e/junction-autolog-3.0.0-beta-1.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup/javapoet/1.13.0/d6562d385049f35eb50403fa86bb11cce76b866a/javapoet-1.13.0.jar" />
+        </processorPath>
+        <module name="Charrrged-Up-2023.main" />
+      </profile>
+    </annotationProcessing>
     <bytecodeTargetLevel target="11" />
   </component>
 </project>

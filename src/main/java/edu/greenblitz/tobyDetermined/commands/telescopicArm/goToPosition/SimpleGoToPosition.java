@@ -2,9 +2,8 @@ package edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition;
 
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngleRadians;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-import edu.greenblitz.utils.GBCommand;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
