@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
+import edu.greenblitz.utils.FMSUtils;
 import edu.greenblitz.utils.GBMath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,10 +23,10 @@ public class Grid {
     }
 
     public void updateAlliance(){
-        if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
+        if (FMSUtils.getAlliance() == DriverStation.Alliance.Red){
             locations = Field.PlacementLocations.getLocationsOnRedSide();
         }
-        if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
+        if (FMSUtils.getAlliance() == DriverStation.Alliance.Blue){
             locations = Field.PlacementLocations.getLocationsOnBlueSide();
         }
     }

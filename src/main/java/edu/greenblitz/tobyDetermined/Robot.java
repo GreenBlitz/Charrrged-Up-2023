@@ -20,8 +20,12 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -64,6 +68,11 @@ public class Robot extends LoggedRobot {
 
 	private void initializeLogger(){
 
+		StructPublisher<Pose2d> publisher2D = NetworkTableInstance.getDefault()
+				.getStructTopic("RobotPose", Pose2d.struct).publish();
+
+		StructPublisher<Pose3d> publisher3D = NetworkTableInstance.getDefault()
+				.getStructTopic("MechanismPoses", Pose3d.struct).publish();
 		switch (RobotMap.ROBOT_TYPE) {
 			// Running on a real robot, log to a USB stick
 			case FRANKENSTEIN:

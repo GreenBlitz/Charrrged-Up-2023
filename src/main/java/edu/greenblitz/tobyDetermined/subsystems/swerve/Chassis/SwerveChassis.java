@@ -22,6 +22,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -101,14 +103,18 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		field.setRobotPose(getRobotPose());
 
 		updateInputs(ChassisInputs);
+
 		Logger.processInputs("DriveTrain/Chassis", ChassisInputs);
 		Logger.processInputs("DriveTrain/Gyro", gyroInputs);
 
 		updatePoseEstimationLimeLight();
 
 
-		Logger.recordOutput("DriveTrain/SimPose2D", ChassisInputs.chassisPose);
-		Logger.recordOutput("DriveTrain/TargetPose2D", ChassisInputs.chassisPose);
+
+//		publisher.set(getRobotPose());
+
+		Logger.recordOutput("DriveTrain/SimPose2D", getRobotPose());
+		Logger.recordOutput("DriveTrain/TargetPose2D", getRobotPose());
 
 		SmartDashboard.putData(getField());
 		SmartDashboard.putNumber("chassisAngle", gyro.getYaw());
@@ -431,7 +437,6 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 
 	@Override
 	public void updateInputs(SwerveChassisInputsAutoLogged inputs) {
-		inputs.chassisPose = poseEstimator.getEstimatedPosition();
 		inputs.isVisionEnabled = doVision;
 		inputs.numberOfDetectedAprilTag = MultiLimelight.getInstance().getAllEstimates().size();
 		inputs.omegaRadiansPerSecond = getChassisSpeeds().omegaRadiansPerSecond;

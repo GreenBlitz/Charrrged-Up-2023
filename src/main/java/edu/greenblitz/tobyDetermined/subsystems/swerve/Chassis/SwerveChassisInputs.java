@@ -5,7 +5,6 @@ import org.littletonrobotics.junction.AutoLog;
 
 @AutoLog
 public class SwerveChassisInputs {
-    public Pose2d chassisPose;
     public boolean isVisionEnabled;
     public double numberOfDetectedAprilTag;
     public double xAxisSpeed;
