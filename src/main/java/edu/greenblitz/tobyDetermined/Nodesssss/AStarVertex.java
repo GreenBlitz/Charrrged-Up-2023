@@ -40,11 +40,12 @@ public class AStarVertex {
         int index = 0;
         double minFCost = Double.MAX_VALUE;
         while (index != open.size()) {
-            Pair<Double, Boolean> isVertexFineAndCost = addOtherSystemCost(open.get(index), pathMap);
-            if (!isVertexFineAndCost.getSecond()) {
+            Pair<Boolean, Double> a = returnIsVertexUsableAndCost(open.get(index), pathMap);
+            if (!a.getFirst()) {
                 open.remove(open.get(index));
-            } else {
-                double currentFCost = isVertexFineAndCost.getFirst();
+            }
+            else {
+                double currentFCost = a.getSecond();
                 currentFCost += open.get(index).getTimeCost();
                 if (currentFCost < minFCost) {
                     minFCost = currentFCost;
@@ -56,38 +57,47 @@ public class AStarVertex {
         return open.get(saveI);
     }
 
-    public static Pair<Double, Boolean> addOtherSystemCost(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
+    public static Pair<Boolean, Double> returnIsVertexUsableAndCost(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
+        double cost = 0;
+        boolean check = true;
         if (!vertex.isPosFineForVertex(vertex.getOtherSystemPos())) {
-            LinkedList<SystemsPos> otherSystemPositions = NodeBase.getAllSystemsPositions();
-            boolean isTherePossiblePosition = false;
-            for (int i = 0; i < otherSystemPositions.size() && !isTherePossiblePosition; i++) {
-                if (vertex.isPosFineForVertex(otherSystemPositions.get(i))) {
-                    isTherePossiblePosition = true;
-                }
-            }
-            if (isTherePossiblePosition) {
-                if (NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().contains(vertex.getPos1())
-                        || NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().isEmpty()) {
-                    SystemsPos pos = vertex.getOtherSystemPos();
-                    LinkedList<SystemsPos> list = vertex.mergeAndGetPos1OutAndPos2Enter();
-                    double min = Double.MAX_VALUE;
-                    LinkedList<SystemsPos> path = new LinkedList<>();
-                    for (SystemsPos systemsPos : list) {
-                        Pair<LinkedList<SystemsPos>, Double> pair = getPath(pos, systemsPos, vertex.getPos1());
-                        if (pair.getSecond() < min) {
-                            min = pair.getSecond();
-                            path = pair.getFirst();
-                        }
-                    }
-                    pathMap.put(vertex, new Pair<>(path, min));
-                    vertex.setOtherSystemPos(path.get(path.size() - 1));
-                    return new Pair<>(min, true);
-                }
-                return new Pair<>(0.0, false);
-            }
-            return new Pair<>(0.0, false);
+            check = isVertexUsable(vertex);
+            if (check)
+                cost =  getCostOfOtherSystemPathAndAddToMap(vertex, pathMap);
         }
-        return new Pair<>(0.0, true);
+        return new Pair<>(check,cost);
+    }
+
+    public static Boolean isVertexUsable(Vertex vertex) {
+        LinkedList<SystemsPos> otherSystemPositions = NodeBase.getAllSystemsPositions();
+        boolean isTherePossiblePosition = false;
+        for (int i = 0; i < otherSystemPositions.size() && !isTherePossiblePosition; i++) {
+            if (vertex.isPosFineForVertex(otherSystemPositions.get(i))) {
+                isTherePossiblePosition = true;
+            }
+        }
+        if (isTherePossiblePosition) {
+            return NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().contains(vertex.getPos1())
+                    || NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().isEmpty();
+        }
+        return false;
+    }
+
+    public static Double getCostOfOtherSystemPathAndAddToMap(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
+        SystemsPos pos = vertex.getOtherSystemPos();
+        LinkedList<SystemsPos> list = vertex.mergeAndGetPos1OutAndPos2Enter();
+        double min = Double.MAX_VALUE;
+        LinkedList<SystemsPos> path = new LinkedList<>();
+        for (SystemsPos systemsPos : list) {
+            Pair<LinkedList<SystemsPos>, Double> pair = getPath(pos, systemsPos, vertex.getPos1());
+            if (pair.getSecond() < min) {
+                min = pair.getSecond();
+                path = pair.getFirst();
+            }
+        }
+        pathMap.put(vertex, new Pair<>(path, min));
+        vertex.setOtherSystemPos(path.get(path.size() - 1));
+        return min;
     }
 
     public static Pair<LinkedList<SystemsPos>, Double> returnPath(Vertex vertex, HashMap<Vertex, Vertex> parents, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
