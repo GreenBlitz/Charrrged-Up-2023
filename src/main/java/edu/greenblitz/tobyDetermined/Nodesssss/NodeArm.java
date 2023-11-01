@@ -15,8 +15,6 @@ public class NodeArm extends GBNode {
 
     private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
     private final static double TOLERANCE_LENGTH = 0.04;//In Meters
-
-    private final LinkedList<SystemsPos> griperMustBe;
     private ClawState clawPos;
     private final double anglePos;
     private final double extendPos;
@@ -25,8 +23,7 @@ public class NodeArm extends GBNode {
         super(command);
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
-        clawPos = ClawState.CONE_MODE;
-        griperMustBe = new LinkedList<>();
+        clawPos = null;
     }
 
     public double getExtendPos() {
@@ -36,17 +33,6 @@ public class NodeArm extends GBNode {
     public double getAnglePos() {
         return anglePos;
     }
-
-    @Override
-    public void setOtherSystemMustBe(SystemsPos[] griperMustBe) {
-        Collections.addAll(this.griperMustBe, griperMustBe);
-    }
-
-    @Override
-    public LinkedList<SystemsPos> getOtherSystemMustBe() {
-        return griperMustBe;
-    }
-
     public void setClawPos(ClawState clawPos) {
         this.clawPos = clawPos;
     }
@@ -63,7 +49,6 @@ public class NodeArm extends GBNode {
         return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE;
 
     }
-
     @Override
     public boolean getIsAtNode() {
         return getIsAtAngle(anglePos) && getIsAtLength(extendPos);

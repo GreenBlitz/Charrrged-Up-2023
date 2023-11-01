@@ -1,7 +1,5 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 
@@ -39,21 +37,16 @@ public class Vertex {
         this.otherSystemPos = otherSystem;
     }
 
-    public boolean inOtherSystemMustBe(SystemsPos pos) {
-        return (NodeBase.getNode(pos1).getOtherSystemMustBe().contains(pos) || NodeBase.getNode(pos1).getOtherSystemMustBe().isEmpty()) &&
-                (NodeBase.getNode(pos2).getOtherSystemMustBe().contains(pos) || NodeBase.getNode(pos2).getOtherSystemMustBe().isEmpty());
+    public boolean isPosFineForVertex(SystemsPos pos) {
+        return (NodeBase.getNode(pos1).getOtherSystemMustBeToOut().contains(pos) || NodeBase.getNode(pos1).getOtherSystemMustBeToOut().isEmpty()) &&
+                (NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().contains(pos) || NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().isEmpty());
     }
 
-    public LinkedList<SystemsPos> mergeAndGetOtherSystemMustBe() {
-        LinkedList<SystemsPos> merge = new LinkedList<>();
-        for (int i = 0; i < NodeBase.getNode(pos1).getOtherSystemMustBe().size(); i++) {
-            if (!merge.contains(NodeBase.getNode(pos1).getOtherSystemMustBe().get(i))) {
-                merge.add(NodeBase.getNode(pos1).getOtherSystemMustBe().get(i));
-            }
-        }
-        for (int i = 0; i < NodeBase.getNode(pos2).getOtherSystemMustBe().size(); i++) {
-            if (!merge.contains(NodeBase.getNode(pos2).getOtherSystemMustBe().get(i))) {
-                merge.add(NodeBase.getNode(pos2).getOtherSystemMustBe().get(i));
+    public LinkedList<SystemsPos> mergeAndGetPos1OutAndPos2Enter() {
+        LinkedList<SystemsPos> merge = new LinkedList<>(NodeBase.getNode(pos1).getOtherSystemMustBeToOut());
+        for (int i = 0; i < NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().size(); i++) {
+            if (!merge.contains(NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().get(i))) {
+                merge.add(NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().get(i));
             }
         }
         return merge;

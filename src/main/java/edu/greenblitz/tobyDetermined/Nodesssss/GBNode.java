@@ -1,9 +1,8 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.utils.GBCommand;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
+
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,14 +10,18 @@ import java.util.LinkedList;
 public abstract class GBNode {
     protected boolean isNeighborsSet;
     protected LinkedList<SystemsPos> neighbors;
+
     protected GBCommand command;
-    protected final LinkedList<SystemsPos> OtherSystemMustBe;
+    protected final LinkedList<SystemsPos> otherSystemMustBeToEnter;
+    protected final LinkedList<SystemsPos> otherSystemMustBeToOut;
+
 
     public GBNode(GBCommand command) {
         neighbors = new LinkedList<>();
         isNeighborsSet = false;
         this.command = command;
-        OtherSystemMustBe = new LinkedList<>();
+        otherSystemMustBeToEnter = new LinkedList<>();
+        otherSystemMustBeToOut = new LinkedList<>();
     }
 
     public void addNeighbors(SystemsPos[] neighbors) {
@@ -28,12 +31,19 @@ public abstract class GBNode {
         }
     }
 
-    public void setOtherSystemMustBe(SystemsPos[] griperMustBe) {
-        Collections.addAll(this.OtherSystemMustBe, griperMustBe);
+    public LinkedList<SystemsPos> getOtherSystemMustBeToEnter() {
+        return otherSystemMustBeToEnter;
     }
 
-    public LinkedList<SystemsPos> getOtherSystemMustBe() {
-        return OtherSystemMustBe;
+    public LinkedList<SystemsPos> getOtherSystemMustBeToOut() {
+        return otherSystemMustBeToOut;
+    }
+
+    public void setOtherSystemMustBeToEnter(SystemsPos[] otherSystemMustBeToEnter){
+        Collections.addAll(this.otherSystemMustBeToEnter, otherSystemMustBeToEnter);
+    }
+    public void setOtherSystemMustBeToOut(SystemsPos[] otherSystemMustBeToOut){
+        Collections.addAll(this.otherSystemMustBeToOut, otherSystemMustBeToOut);
     }
 
     public GBCommand getCommand() {

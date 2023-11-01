@@ -9,22 +9,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class GriperNode extends GBNode {
-
-    private final LinkedList<SystemsPos> armMustBe;
     public GriperNode(GBCommand command) {
         super(command);
-        armMustBe = new LinkedList<>();
     }
-
-    @Override
-    public LinkedList<SystemsPos> getOtherSystemMustBe() {
-        return armMustBe;
-    }
-
-    @Override
-    public void setOtherSystemMustBe(SystemsPos[] griperMustBe) {
-        Collections.addAll(this.armMustBe, griperMustBe);
-    }
-
-
 }

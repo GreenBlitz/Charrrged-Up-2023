@@ -113,7 +113,8 @@ public class NodeBase {
         nodeMap.get(GRIPER_OPEN).addNeighbors(new SystemsPos[]{GRIPER_CLOSE});
         nodeMap.get(GRIPER_CLOSE).addNeighbors(new SystemsPos[]{GRIPER_OPEN});
 
-        nodeMap.get(ARM_LOWWW).setOtherSystemMustBe(new SystemsPos[]{GRIPER_OPEN});
+        nodeMap.get(ARM_LOWWW).setOtherSystemMustBeToEnter(new SystemsPos[]{GRIPER_OPEN});
+        nodeMap.get(ARM_LOWWW).setOtherSystemMustBeToOut(new SystemsPos[]{GRIPER_OPEN});
 
 
     }
@@ -122,7 +123,7 @@ public class NodeBase {
         return nodeMap.get(specificNode);
     }
 
-    public static LinkedList<SystemsPos> getOneSystemPositions() {
+    public static LinkedList<SystemsPos> getAllSystemsPositions() {
         return new LinkedList<>(listSystemsPos);
     }
 }
