@@ -49,9 +49,9 @@ public class NodeArm extends GBNode {
         return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE;
 
     }
-    @Override
-    public boolean getIsAtNode() {
-        return getIsAtAngle(anglePos) && getIsAtLength(extendPos);
+
+    public boolean getIsAtNode(double angle, double length) {
+        return getIsAtAngle(angle) && getIsAtLength(length);
 
     }
 

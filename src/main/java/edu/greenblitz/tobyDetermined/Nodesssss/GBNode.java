@@ -54,9 +54,6 @@ public abstract class GBNode {
         return neighbors;
     }
 
-    public boolean getIsAtNode() {
-        return false;
-    }
 
 
 }

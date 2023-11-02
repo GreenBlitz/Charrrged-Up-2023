@@ -27,7 +27,7 @@ public class AStarVertex {
         return list.contains(object);
     }
 
-    private static boolean ifInVerList(LinkedList<Vertex> verList, Vertex ver) {
+    private static boolean ifNotInVerList(LinkedList<Vertex> verList, Vertex ver) {
         for (Vertex vertex : verList) {
             if (vertex.getPos1().equals(ver.getPos1()) && vertex.getPos2().equals(ver.getPos2()))
                 return true;
@@ -131,7 +131,7 @@ public class AStarVertex {
         SystemsPos current = start;
         Vertex currentVer;
         for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-            if (!ifInVerList(closedVer, new Vertex(current, neighbor, secondSystemPos)) && !ifInVerList(openVer, new Vertex(current, neighbor, secondSystemPos))) {
+            if (ifNotInVerList(closedVer, new Vertex(current, neighbor, secondSystemPos)) && ifNotInVerList(openVer, new Vertex(current, neighbor, secondSystemPos))) {
                 openVer.add(new Vertex(current, neighbor, secondSystemPos));
             }
         }
@@ -145,7 +145,7 @@ public class AStarVertex {
                 return returnPath(currentVer, parents, pathMap);
             }
             for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-                if (!ifInVerList(closedVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos())) && !ifInVerList(openVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos()))) {
+                if (ifNotInVerList(closedVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos())) && ifNotInVerList(openVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos()))) {
                     openVer.add(new Vertex(current, neighbor, currentVer.getOtherSystemPos()));
                     parents.put(openVer.get(openVer.size() - 1), currentVer);
                 }

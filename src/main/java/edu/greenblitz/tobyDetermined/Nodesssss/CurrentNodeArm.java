@@ -11,7 +11,7 @@ public class CurrentNodeArm {
             currentNode = ARM_MID;
         return currentNode;
     }
-    public void setCurrentNode(SystemsPos pos) {
+    public static void setCurrentNode(SystemsPos pos) {
         currentNode = pos;
     }
 }
