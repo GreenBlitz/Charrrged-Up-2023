@@ -96,7 +96,7 @@ public class Trac {
                 System.out.println(point);
             }
         }
-        Transform2d transform2d = new Pose2d(4, 4, Rotation2d.fromDegrees(50)).minus(trajectory.getInitialPose());
+        Transform2d transform2d = new Pose2d(4, 4, Rotation2d.fromDegrees(30)).minus(trajectoryTwo.getInitialPose());
         Trajectory newTrajectory = trajectoryTwo.transformBy(transform2d);
         //Pose2d bOrigin = new Pose2d(1, 1, Rotation2d.fromDegrees(0));
         //Trajectory bTrajectory = trajectory.relativeTo(bOrigin);
