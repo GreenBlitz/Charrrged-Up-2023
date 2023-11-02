@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
+import edu.greenblitz.tobyDetermined.Nodesssss.Trac;
 import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
@@ -30,9 +31,12 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
 
 
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
 	
 	@Override
 	public void robotInit() {
@@ -47,6 +51,9 @@ public class Robot extends TimedRobot {
 //		SwerveChassis.getInstance().resetChassisPose();
 //		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+		Logger.getInstance().addDataReceiver(new NT4Publisher());
+		Logger.getInstance().start();
+		Trac.main(new String[]{});
 		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		initPortForwarding();

@@ -4,12 +4,14 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.*;
 import edu.wpi.first.math.util.Units;
+import org.littletonrobotics.junction.Logger;
 import scala.Unit;
 
 import java.util.ArrayList;
@@ -17,7 +19,8 @@ import java.util.List;
 
 import static edu.wpi.first.math.geometry.Rotation2d.*;
 import static org.ejml.UtilEjml.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.ejml.UtilEjml.maxInverseSize;
+
 
 public class Trac {
     public static void generateTrajectory() {
@@ -62,21 +65,23 @@ public class Trac {
     }
 
     public static void main(String[] args) {
+
         var trajectory = TrajectoryGenerator.generateTrajectory(
                 new Pose2d(4, 5, Rotation2d.fromDegrees(10)),
-                List.of(new Translation2d(6, 7), new Translation2d(8, 10)),
-                new Pose2d(15, 18, Rotation2d.fromDegrees(10)),
+                List.of(new Translation2d(6, 7), new Translation2d(8, 6)),
+                new Pose2d(9, 8, Rotation2d.fromDegrees(10)),
                 new TrajectoryConfig(20, 15)
         );
         RectangularRegionConstraint constraint = new RectangularRegionConstraint(
                 new Translation2d(1, 1),
                 new Translation2d(2, 2),
-                new MaxVelocityConstraint(1));
+                new MaxVelocityConstraint(300));
+
 
         var trajectoryTwo = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-                List.of(new Translation2d(2, 3), new Translation2d(0.5, 1)),
-                new Pose2d(4, 4, Rotation2d.fromDegrees(10)),
+                new Pose2d(2, 2,  Rotation2d.fromDegrees(30)),
+                List.of( ),//new Translation2d(0.5, 1), new Translation2d(2, 3)
+                new Pose2d(8, 8, Rotation2d.fromDegrees(0)),
                 new TrajectoryConfig(
                         20, 15)
                         .addConstraint(constraint)
@@ -91,6 +96,14 @@ public class Trac {
                 System.out.println(point);
             }
         }
-        System.out.println(trajectoryTwo.getStates());
+        Transform2d transform2d = new Pose2d(4, 4, Rotation2d.fromDegrees(50)).minus(trajectory.getInitialPose());
+        Trajectory newTrajectory = trajectoryTwo.transformBy(transform2d);
+        //Pose2d bOrigin = new Pose2d(1, 1, Rotation2d.fromDegrees(0));
+        //Trajectory bTrajectory = trajectory.relativeTo(bOrigin);
+        //Logger.getInstance().recordOutput("Trac5", bTrajectory);
+        Logger.getInstance().recordOutput("Trac4", newTrajectory);
+        //Logger.getInstance().recordOutput("Trac3", trajectoryTwo.concatenate(trajectory));
+        Logger.getInstance().recordOutput("Trac1", trajectoryTwo);
+        //Logger.getInstance().recordOutput("Trac2", trajectory);
     }
 }
