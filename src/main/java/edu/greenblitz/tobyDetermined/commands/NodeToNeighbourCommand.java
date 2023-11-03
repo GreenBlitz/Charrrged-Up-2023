@@ -65,7 +65,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         }
         else
             elbowSub.stop();
-        extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
+        extender.setLinSpeed(extenderVelocity);
         SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
     }
 
@@ -90,6 +90,7 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        CurrentNodeArm.setCurrentNode(end);
+        if (!interrupted)
+            CurrentNodeArm.setCurrentNode(end);
     }
 }

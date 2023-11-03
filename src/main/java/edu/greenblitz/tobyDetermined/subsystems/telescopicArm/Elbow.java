@@ -198,10 +198,9 @@ public class Elbow extends GBSubsystem {
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
 
     }
-    public static double getDynamicFeedForward(double extenderLength,double elbowAngle) {
-        return getStaticFeedForward(extenderLength, elbowAngle) + kV * Elbow.getInstance().getVelocity();
+    public static double getDynamicFeedForward(double wantedvelocity,double extenderLength,double elbowAngle) {
+        return getStaticFeedForward(extenderLength, elbowAngle) + kV * wantedvelocity + kS*Math.signum(wantedvelocity);
     }
-
     public double getDebugLastFF(){
         return debugLastFF;
     }
@@ -251,7 +250,7 @@ public class Elbow extends GBSubsystem {
         return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
     }
     public void setAngSpeed(double speed, double angle, double length) {
-        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getDynamicFeedForward(length ,angle));
+        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getDynamicFeedForward(speed,length ,angle));
     }
     public double getGoalAngle() {
         return goalAngle;
