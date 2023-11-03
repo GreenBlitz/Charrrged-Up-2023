@@ -16,18 +16,16 @@ import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbowSub;
-    private SystemsPos start;
     private SystemsPos end;
     private static final double COMBINED_VELOCITY = 2.3; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 1.5;//In Radians Per Second
 
-    public NodeToNeighbourCommand(SystemsPos start, SystemsPos end){
+    public NodeToNeighbourCommand(SystemsPos end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
         require(elbowSub);
         require(extender);
-        this.start = start;
         this.end = end;
     }
 
@@ -77,9 +75,7 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void execute() {
-        if(NodeBase.getNode(start).getNeighbors().contains(end)) {
             moveArm((NodeArm) NodeBase.getNode(end));
-        }
     }
 
     @Override

@@ -10,7 +10,7 @@ public class NodeFullPathCommand extends ProxyCommand {
     private final Extender extender;
     private final Elbow elbow;
 
-    public NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions endNode){
+    public NodeFullPathCommand(RobotMap.NodeSystem.SystemsPos endNode){
         super(new NodeToNeighbourSupplier(endNode));
 
         extender = Extender.getInstance();
