@@ -121,8 +121,8 @@ public class Extender extends GBSubsystem {
 		return Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG;
 	}
 
-	public static double getDynamicFeedForward(double elbowAngle) {
-		return getStaticFeedForward(elbowAngle) + kV * getInstance().getVelocity()/Battery.getInstance().getCurrentVoltage();
+	public static double getDynamicFeedForward(double wantedVelocity,double elbowAngle) {
+		return getStaticFeedForward(elbowAngle) + kV*wantedVelocity+ kS * Math.signum(wantedVelocity);
 	}
 	
 	public double getVolt(){
@@ -240,8 +240,8 @@ public class Extender extends GBSubsystem {
 		motor.set(voltage / Battery.getInstance().getCurrentVoltage());
 	}
 
-	public void setLinSpeed(double speed, double angle) {
-		motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getDynamicFeedForward(angle));
+	public void setLinSpeed(double speed) {
+		motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getDynamicFeedForward(speed,Elbow.getInstance().getAngleRadians()));
 		SmartDashboard.putNumber("extender output", motor.getAppliedOutput());
 	}
 

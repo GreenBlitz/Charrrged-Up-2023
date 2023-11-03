@@ -81,6 +81,6 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        getPath(LOW,CONE_HIGH);
+        getPath(INTAKE_GRAB_CONE_POSITION,REST_ABOVE_BELLY);
     }
 }

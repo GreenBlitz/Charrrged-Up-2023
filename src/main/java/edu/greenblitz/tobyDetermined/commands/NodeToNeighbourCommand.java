@@ -15,18 +15,17 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositio
 public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbowSub;
-    private PresetPositions start;
+
     private PresetPositions end;
     private static final double COMBINED_VELOCITY = 2.3; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 1.5;//In Radians Per Second
 
-    public NodeToNeighbourCommand(PresetPositions start, PresetPositions end){
+    public NodeToNeighbourCommand( PresetPositions end){
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
         require(elbowSub);
         require(extender);
-        this.start = start;
         this.end = end;
     }
 
@@ -66,7 +65,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         }
         else
             elbowSub.stop();
-        extender.setLinSpeed(extenderVelocity, elbowSub.getAngleRadians());
+        extender.setLinSpeed(extenderVelocity);
         SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
     }
 
@@ -76,10 +75,7 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void execute() {
-        if(NodeBase.getNode(start).getNeighbors().contains(end)) {
             moveArm(NodeBase.getNode(end));
-        }
-
     }
 
     @Override
@@ -94,6 +90,8 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        CurrentNode.getInstance().setCurrentNode(end);
+        if (!interrupted)
+            CurrentNode.getInstance().setCurrentNode(end);
+        SmartDashboard.putString("currentNode",CurrentNode.getInstance().toString());
     }
 }

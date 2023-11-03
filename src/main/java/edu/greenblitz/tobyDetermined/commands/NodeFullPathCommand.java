@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 
 public class NodeFullPathCommand extends ProxyCommand {
@@ -20,11 +21,11 @@ public class NodeFullPathCommand extends ProxyCommand {
     public void end(boolean interrupted) {
         super.end(interrupted);
 
-        stopMotors();
+    stopMotors();
     }
     public void stopMotors(){
-        extender.stop();
-        elbow.stop();
+    extender.stop();
+    elbow.stop();
     }
 }
 
