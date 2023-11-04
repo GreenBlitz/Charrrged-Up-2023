@@ -59,7 +59,7 @@ public class ArmSimulation extends GBSubsystem {
 
         Pose3d armToRobotPose = new Pose3d(
                 RobotMap.SimulationConstants.ARM_TO_ROBOT,
-                new Rotation3d(0, elbowAngle, 0)
+                new Rotation3d(0, -elbowAngle, 0)
         );
         return armToRobotPose.transformBy(
                 new Transform3d(

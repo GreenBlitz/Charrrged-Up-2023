@@ -8,7 +8,6 @@ import com.ctre.phoenix.sensors.CANCoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModuleInputsAutoLogged;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.utils.Conversions;
 import edu.greenblitz.utils.motors.GBFalcon;
@@ -106,8 +105,8 @@ public class MK4ISwerveModule implements ISwerveModule {
 
     @Override
     public void updateInputs(SwerveModuleInputsAutoLogged inputs) {
-        inputs.linearVelocity = Conversions.MK4IConversions.convertTicksPer100msToMeterPerSecond(linearMotor.getSelectedSensorVelocity());
-        inputs.angularVelocity =  Conversions.MK4IConversions.convertTicksPer100msToRadsPerSecond(angularMotor.getSelectedSensorVelocity());
+        inputs.linearVelocity = Conversions.MK4IConversions.convertSensorVelocityToMeterPerSecond(linearMotor.getSelectedSensorVelocity());
+        inputs.angularVelocity =  Conversions.MK4IConversions.convertSensorVelocityToRPM(angularMotor.getSelectedSensorVelocity());
 
         inputs.linearVoltage = linearMotor.getMotorOutputVoltage();
         inputs.angularVoltage = angularMotor.getMotorOutputVoltage();

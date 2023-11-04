@@ -18,7 +18,7 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTIN
 
 public class RobotMap {
     public static final Robot.RobotType ROBOT_TYPE = Robot.RobotType.SIMULATION;
-    public static final String SIMULATION_LOG_PATH = "C:\\Users\\GB\\Desktop\\RobotCode\\Charrrged-Up-2023\\SimulationLogs";
+    public static final String SIMULATION_LOG_PATH = System.getProperty("user.home") + "\\Desktop\\SimulationLogs";
     public static final String ROBORIO_LOG_PATH = "/media/sda1/";
 
     public static class SimulationConstants{
@@ -224,7 +224,11 @@ public class RobotMap {
             public static final GBFalcon.FalconConfObject baseAngConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withInverted(true).withPID(angPID);
 
             public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
-            public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withPID(linPID);
+            public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject()
+                    .withNeutralMode(NeutralMode.Brake)
+                    .withCurrentLimit(40)
+                    .withRampRate(RobotMap.General.RAMP_RATE_VAL)
+                    .withPID(linPID);
         }
 
         public static class Autonomus {

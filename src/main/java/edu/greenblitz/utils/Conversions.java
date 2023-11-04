@@ -16,6 +16,7 @@ public class Conversions {
             return angInTicks * RobotMap.Swerve.SdsSwerve.WHEEL_CIRC;
         }
 
+
         public static double revolutionsToMeters(double revolutions) {
             return revolutions * RobotMap.Swerve.SdsSwerve.WHEEL_CIRC;
         }
@@ -39,11 +40,14 @@ public class Conversions {
             return ticksPer100ms * RobotMap.General.Motors.FALCON_VELOCITY_UNITS_PER_RPM;
         }
 
-        public static double convertTicksPer100msToRadsPerSecond (double ticksPer100ms){
-            return convertRPMToRadsPerSec(convertTicksPer100msToRPM(ticksPer100ms));
+        public static double convertSensorVelocityToRPM(double ticks){
+            return ticks * RobotMap.Swerve.SdsSwerve.angleTicksToWheelToRPM;
         }
-        public static double convertTicksPer100msToMeterPerSecond (double ticksPer100ms){
-            return Conversions.convertRPMToMeterPerSecond(convertTicksPer100msToRPM(ticksPer100ms), RobotMap.Swerve.SdsSwerve.WHEEL_CIRC / (2 * Math.PI));
+        public static double convertSensorTicksToRadPerSecond(double ticks){
+            return convertRPMToRadsPerSec(convertSensorVelocityToRPM(ticks));
+        }
+        public static double convertSensorVelocityToMeterPerSecond(double selectedSensorVelocity){
+            return selectedSensorVelocity * RobotMap.Swerve.SdsSwerve.linTicksToMetersPerSecond;
         }
         public static double convertRPMToMeterPerSecond (double rpm){
             return Conversions.convertRPMToMeterPerSecond(rpm, RobotMap.Swerve.SdsSwerve.WHEEL_CIRC / (2 * Math.PI));
