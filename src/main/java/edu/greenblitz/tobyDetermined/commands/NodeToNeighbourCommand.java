@@ -91,7 +91,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     @Override
     public void end(boolean interrupted) {
         if (!interrupted)
-            CurrentNode.getInstance().setCurrentNode(end);
-        SmartDashboard.putString("currentNode",CurrentNode.getInstance().toString());
+            CurrentNode.setCurrentNode(end);
+        SmartDashboard.putString("currentNode",CurrentNode.getCurrentNode().toString());
     }
 }
