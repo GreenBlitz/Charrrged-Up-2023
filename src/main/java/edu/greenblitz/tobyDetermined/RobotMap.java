@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.Swerve.Frankenstein.BUMPER_WIDTH;
 import static edu.greenblitz.tobyDetermined.RobotMap.Swerve.Frankenstein.ROBOT_WIDTH_IN_METERS;
@@ -251,8 +252,8 @@ public class RobotMap {
         public static class Autonomus {
             public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
             static{
-                NamedCommands.registerCommand("GripFromBelly", new GripFromBelly());
-                NamedCommands.registerCommand("PlaceCone", new FullConeHighAndReturn());
+                NamedCommands.registerCommand("GripFromBelly", new GripFromBelly().raceWith(new WaitCommand(3)));
+                NamedCommands.registerCommand("PlaceCone", new FullConeHighAndReturn().raceWith(new WaitCommand(3)));
             }
             public static final HolonomicPathFollowerConfig CONFIG = new HolonomicPathFollowerConfig(
                     Frankenstein.TRANSLATION_PID,

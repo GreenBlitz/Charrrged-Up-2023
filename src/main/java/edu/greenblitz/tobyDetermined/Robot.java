@@ -57,7 +57,8 @@ public class Robot extends LoggedRobot {
 		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		initPortForwarding();
-		AutonomousSelector.getInstance();
+
+
 		//swerve
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
 		SwerveChassis.getInstance().resetChassisPose();
@@ -203,7 +204,7 @@ public class Robot extends LoggedRobot {
    */
 	@Override
 	public void autonomousInit() {
-		Command command = /*= AutonomousSelector.getInstance().getChosenValue().autonomousCommand;*/ new InstantCommand();
+		Command command = AutonomousSelector.getInstance().getAutonomousCommand();
 		Grid.init();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		MultiLimelight.getInstance().updateRobotPoseAlliance();

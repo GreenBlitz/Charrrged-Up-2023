@@ -396,7 +396,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 
 	public void moveByRobotRelativeSpeeds(ChassisSpeeds ChassisSpeeds){
 		moveByChassisSpeeds(
-				ChassisSpeeds.fromRobotRelativeSpeeds(ChassisSpeeds, Rotation2d.fromRadians(gyro.getYaw()))
+				edu.wpi.first.math.kinematics.ChassisSpeeds.fromRobotRelativeSpeeds(ChassisSpeeds, Rotation2d.fromRadians(gyro.getYaw()))
 		);
 	}
 
