@@ -69,6 +69,8 @@ public class Robot extends LoggedRobot {
 
 	}
 
+
+
 	private void initializeLogger(){
 
 		StructPublisher<Pose2d> publisher2D = NetworkTableInstance.getDefault()

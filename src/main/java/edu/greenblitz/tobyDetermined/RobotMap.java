@@ -2,11 +2,14 @@ package edu.greenblitz.tobyDetermined;
 
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+import edu.greenblitz.tobyDetermined.commands.Auto.FullConeHighAndReturn;
+import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
@@ -16,6 +19,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
+import static edu.greenblitz.tobyDetermined.RobotMap.Swerve.Frankenstein.BUMPER_WIDTH;
+import static edu.greenblitz.tobyDetermined.RobotMap.Swerve.Frankenstein.ROBOT_WIDTH_IN_METERS;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
 
 public class RobotMap {
@@ -244,7 +249,18 @@ public class RobotMap {
         }
 
         public static class Autonomus {
-            public static final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
+            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
+            static{
+                NamedCommands.registerCommand("GripFromBelly", new GripFromBelly());
+                NamedCommands.registerCommand("PlaceCone", new FullConeHighAndReturn());
+            }
+            public static final HolonomicPathFollowerConfig CONFIG = new HolonomicPathFollowerConfig(
+                    Frankenstein.TRANSLATION_PID,
+                    Frankenstein.ROTATION_PID,
+                    Swerve.MAX_VELOCITY,
+                    (ROBOT_WIDTH_IN_METERS+BUMPER_WIDTH)/2,
+                    new ReplanningConfig()
+            );
         }
 
         public static class Balance {
