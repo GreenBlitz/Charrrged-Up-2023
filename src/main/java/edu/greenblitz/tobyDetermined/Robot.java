@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		initPortForwarding();
-		AutonomousSelector.getInstance();
+//		AutonomousSelector.getInstance();
 		//swerve
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
 		SwerveChassis.getInstance().resetChassisPose();

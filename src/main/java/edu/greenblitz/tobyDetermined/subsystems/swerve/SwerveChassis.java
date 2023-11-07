@@ -16,10 +16,7 @@ import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -34,6 +31,9 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveModule frontRight, frontLeft, backRight, backLeft;
 	private final PigeonGyro pigeonGyro;
 	private final SwerveDriveKinematics kinematics;
+
+
+	private final SwerveDriveOdometry odometry;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
 	
@@ -61,6 +61,7 @@ public class SwerveChassis extends GBSubsystem {
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
+		this.odometry = new SwerveDriveOdometry(this.kinematics, getPigeonAngle(),getSwerveModulePositions());
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
 				getPigeonAngle(),
 				getSwerveModulePositions(),
@@ -86,7 +87,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	@Override
 	public void periodic() {
-		
+		updateOdometry();
 		updatePoseEstimationLimeLight();
 		field.setRobotPose(getRobotPose());
 	}
@@ -284,17 +285,23 @@ public class SwerveChassis extends GBSubsystem {
 			}
 		}
 	}
-	
+
+	public void updateOdometry(){
+		odometry.update(getPigeonAngle(), getSwerveModulePositions());
+	}
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
-		double limelightXSpeed = SwerveChassis.getInstance().getChassisSpeeds().vxMetersPerSecond * RobotMap.Vision.VISION_CONSTANT;
-		double limelightYSpeed = SwerveChassis.getInstance().getChassisSpeeds().vyMetersPerSecond * RobotMap.Vision.VISION_CONSTANT;
-		double limelightRotationSpeed = SwerveChassis.getInstance().getChassisSpeeds().omegaRadiansPerSecond * RobotMap.Vision.VISION_CONSTANT;
 		if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > RobotMap.Vision.MIN_DISTANCE_TO_FILTER_OUT)) {
-			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(limelightXSpeed, limelightYSpeed, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
-			poseEstimator.addVisionMeasurement(visionPose, poseTimestampPair.getSecond());
+			resetToVision();
 		}
 	}
+
+	private void filterOdometryByDistance(){
+		Pose2d odometryPose = odometry.getPoseMeters();
+		if (!(odometryPose.getTranslation().getDistance(getRobotPose().getTranslation())>))
+
+	}
+
 	
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
