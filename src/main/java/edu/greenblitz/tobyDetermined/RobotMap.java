@@ -443,5 +443,9 @@ public class RobotMap {
             public static final int FORWARD_PORT = 10;
             public static final int REVERSE_PORT = 6;
         }
+
+        public static class Odometry{
+
+        }
     }
 }
