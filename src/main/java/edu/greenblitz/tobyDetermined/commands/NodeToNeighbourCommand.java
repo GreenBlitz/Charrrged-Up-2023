@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined.commands;
 import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
@@ -17,9 +16,9 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbowSub;
 
     private PresetPositions end;
-    private static final double COMBINED_VELOCITY = 2.3; // Meters Per Second
-    private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
-    private static final double MAX_ANGULAR_VELOCITY = 1.5;//In Radians Per Second
+    private static final double COMBINED_VELOCITY = 1.2; // Meters Per Second
+    private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
+    private static final double MAX_ANGULAR_VELOCITY = 3;//In Radians Per Second
 
     public NodeToNeighbourCommand( PresetPositions end){
         extender = Extender.getInstance();
@@ -49,9 +48,9 @@ public class NodeToNeighbourCommand extends GBCommand {
         double magnitudeOfVelocity = startVelocity/extender.getLength();
         magnitudeOfVelocity = Math.min(MAX_ANGULAR_VELOCITY,magnitudeOfVelocity);
         magnitudeOfVelocity = Math.max(-MAX_ANGULAR_VELOCITY,magnitudeOfVelocity);
-        return signOfAngle*Math.abs(magnitudeOfVelocity);
+        return signOfAngle * Math.abs(magnitudeOfVelocity);
     }
-    public void moveArm( NodeArm nodeEndIndex){
+    public void moveArm(NodeArm nodeEndIndex){
         double start = extender.getLength();
         double end = nodeEndIndex.getExtendPos();
         double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
@@ -62,11 +61,18 @@ public class NodeToNeighbourCommand extends GBCommand {
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
         if (!(NodeBase.getIfInAngle(elbowSub.getAngleRadians(),nodeEndIndex))){
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
+            SmartDashboard.putBoolean("isInThreshold",true);
         }
-        else
+        else {
             elbowSub.stop();
-        extender.setLinSpeed(extenderVelocity);
+            SmartDashboard.putBoolean("isInThreshold",false);
+        }
+        if (end >= 0.1 || start >= 0.1)
+            extender.setLinSpeed(extenderVelocity);
+        else
+            extender.setMotorVoltage(Extender.getStaticFeedForward(elbowSub.getAngleRadians()));
         SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
+        SmartDashboard.putNumber("wanted angular vel",angularVelocity);
     }
 
     public boolean isInPlace(NodeArm target){

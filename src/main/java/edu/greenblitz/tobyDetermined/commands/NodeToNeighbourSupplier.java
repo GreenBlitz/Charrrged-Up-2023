@@ -34,7 +34,7 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
             nodeCommands[i] = new NodeToNeighbourCommand(path.get(i+1));
         }
         //nodeCommands[path.size()-1] = new ObjectPositionByNode(NodeBase.getNode(end).getClawPos());
-        return new SequentialCommandGroup(nodeCommands);
+        return new SequentialCommandGroup(nodeCommands).andThen( ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));
     }
 
 }

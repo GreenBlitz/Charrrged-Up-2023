@@ -159,7 +159,7 @@ public class Robot extends TimedRobot {
 			new ResetExtender().schedule();
 		}
 
-		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
+//		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 	}
 	
 	
