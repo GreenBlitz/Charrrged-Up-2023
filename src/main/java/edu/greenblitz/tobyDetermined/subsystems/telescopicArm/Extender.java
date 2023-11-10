@@ -122,7 +122,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public static double getDynamicFeedForward(double wantedVelocity,double elbowAngle) {
-		return getStaticFeedForward(elbowAngle) + kV*wantedVelocity+ kS * Math.signum(wantedVelocity);
+		return getStaticFeedForward(elbowAngle) + kV * wantedVelocity+ kS * Math.signum(wantedVelocity);
 	}
 	
 	public double getVolt(){

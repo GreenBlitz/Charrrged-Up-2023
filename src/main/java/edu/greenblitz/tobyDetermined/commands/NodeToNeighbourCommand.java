@@ -17,9 +17,9 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbowSub;
     private SystemsPos end;
-    private static final double COMBINED_VELOCITY = 2.3; // Meters Per Second
-    private static final double MAX_EXTENDER_VELOCITY = 1; //In Meters Per Second
-    private static final double MAX_ANGULAR_VELOCITY = 1.5;//In Radians Per Second
+    private static final double COMBINED_VELOCITY = 1.2; // Meters Per Second
+    private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
+    private static final double MAX_ANGULAR_VELOCITY = 3;//In Radians Per Second
 
     public NodeToNeighbourCommand(SystemsPos end){
         extender = Extender.getInstance();
@@ -44,29 +44,35 @@ public class NodeToNeighbourCommand extends GBCommand {
         return signOfExtender * extenderVelocity;
     }
     public double calculateAngularVelocity(double startVelocity,NodeArm nodeEndIndex){
-
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians());
         double magnitudeOfVelocity = startVelocity/extender.getLength();
         magnitudeOfVelocity = Math.min(MAX_ANGULAR_VELOCITY,magnitudeOfVelocity);
         magnitudeOfVelocity = Math.max(-MAX_ANGULAR_VELOCITY,magnitudeOfVelocity);
-        return signOfAngle*Math.abs(magnitudeOfVelocity);
+        return signOfAngle * Math.abs(magnitudeOfVelocity);
     }
-    public void moveArm(NodeArm nodeEndIndex){
+    public void moveArm(NodeArm nodeEndIndex) {
         double start = extender.getLength();
         double end = nodeEndIndex.getExtendPos();
-        double gamma = nodeEndIndex.getAnglePos()-elbowSub.getAngleRadians();
-        double ratio = getRatioBetweenAngleAndLength(start,end,gamma);
-        double extenderVelocity = calculateExtenderVelocity(ratio,nodeEndIndex);
-        double angularVelocity = calculateAngularVelocity(ratio*extenderVelocity,nodeEndIndex);
-        extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY,extenderVelocity);
-        extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY,extenderVelocity);
-        if(!nodeEndIndex.getIsAtAngle(elbowSub.getAngleRadians())){
+        double gamma = nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians();
+        double ratio = getRatioBetweenAngleAndLength(start, end, gamma);
+        double extenderVelocity = calculateExtenderVelocity(ratio, nodeEndIndex);
+        double angularVelocity = calculateAngularVelocity(ratio * extenderVelocity, nodeEndIndex);
+        extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY, extenderVelocity);
+        extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY, extenderVelocity);
+        if (!nodeEndIndex.getIsAtAngle(elbowSub.getAngleRadians())) {
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
+            SmartDashboard.putBoolean("isInThreshold", true);
         }
-        else
+        else {
             elbowSub.stop();
-        extender.setLinSpeed(extenderVelocity);
+            SmartDashboard.putBoolean("isInThreshold", false);
+        }
+        if (end >= 0.1 || start >= 0.1)
+            extender.setLinSpeed(extenderVelocity);
+        else
+            extender.setMotorVoltage(Extender.getStaticFeedForward(elbowSub.getAngleRadians()));
         SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
+        SmartDashboard.putNumber("wanted angular vel",angularVelocity);
     }
 
     public boolean isInPlace(NodeArm target){

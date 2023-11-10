@@ -132,8 +132,8 @@ public class Elbow extends GBSubsystem {
             return getAngleRadians();
             //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
             // if it's not short enough the arm will approach the start of the zone
-        }else if((getState() != getHypotheticalState(angleInRads)) &&
-                Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
+        }else if((getState() != getHypotheticalState(angleInRads))
+                && Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             return (state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE - RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE+ RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
         }else {
             return (angleInRads);

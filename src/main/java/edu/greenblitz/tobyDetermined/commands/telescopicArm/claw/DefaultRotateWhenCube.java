@@ -15,6 +15,7 @@ public class DefaultRotateWhenCube extends ClawCommand{
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         claw.stopMotor();
     }
 }

@@ -47,7 +47,7 @@ public class NodeBase {
 //        nodeMapArm.put(ZIG_HAIL, new NodeArm(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND, new ArmCommand()));
 //        nodeMapArm.put(INTAKE_GRAB_CONE_POSITION, new NodeArm(0.34, 0.123, new ArmCommand()));
 //        nodeMapArm.put(INTAKE_GRAB_CUBE_POSITION, new NodeArm(0.25, 0.123, new ArmCommand()));
-//        nodeMapArm.put(REST_ABOVE_BELLY, new NodeArm(-0.02, 0.196, new ArmCommand()));
+//        nodeMapArm.put(REST_ABOVE_BELLY, new NodeArm(0.02, 0.196, new ArmCommand()));
 //        nodeMapArm.put(PRE_CONE_DROP, new NodeArm(0.089, 0.667, new ArmCommand()));
 //        nodeMapArm.put(POST_CONE_DROP, new NodeArm(0.080, 0.1, new ArmCommand()));
 //        listArm.add(CONE_HIGH);
@@ -79,10 +79,10 @@ public class NodeBase {
 //        nodeMapArm.get(CUBE_HIGH).setClawPos(Claw.ClawState.RELEASE);
 //        nodeMapArm.get(CUBE_MID).setClawPos(Claw.ClawState.RELEASE);
 //        nodeMapArm.get(LOW).setClawPos(Claw.ClawState.RELEASE);
-//        nodeMapArm.get(INTAKE_GRAB_CONE_POSITION).setClawPos(Claw.ClawState.CONE_MODE);
-//        nodeMapArm.get(PRE_CONE_DROP).setClawPos(Claw.ClawState.CONE_MODE);
-//        nodeMapArm.get(POST_CONE_DROP).setClawPos(Claw.ClawState.CONE_MODE);
-//        nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).setClawPos(Claw.ClawState.CUBE_MODE);
+//        nodeMapArm.get(INTAKE_GRAB_CONE_POSITION).setClawPos(Claw.ClawState.CATCH);
+//        nodeMapArm.get(PRE_CONE_DROP).setClawPos(Claw.ClawState.CATCH);
+//        nodeMapArm.get(POST_CONE_DROP).setClawPos(Claw.ClawState.CATCH);
+//        nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).setClawPos(Claw.ClawState.CATCH);
 //
 //        nodeMapArm.get(CONE_HIGH).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
 //        nodeMapArm.get(CONE_MID).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});

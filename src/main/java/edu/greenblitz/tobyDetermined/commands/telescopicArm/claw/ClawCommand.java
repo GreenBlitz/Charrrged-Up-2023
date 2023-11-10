@@ -10,4 +10,16 @@ public abstract class ClawCommand extends GBCommand {
         claw = Claw.getInstance();
         require(claw);
     }
+
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        claw.isUsingSubsystem = true;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        claw.isUsingSubsystem = false;
+    }
 }

@@ -6,6 +6,8 @@ import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.Pneumatics.PneumaticsController.ID;
 
@@ -14,11 +16,13 @@ public class Claw extends GBSubsystem {
     private GBSparkMax motor;
     private DoubleSolenoid solenoid;
     public ClawState state;
+    public boolean isUsingSubsystem;
 
     private Claw() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(RobotMap.TelescopicArm.Claw.CLAW_CONFIG_OBJECT);
         solenoid = new DoubleSolenoid(ID, RobotMap.Pneumatics.PneumaticsController.PCM_TYPE, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
+        isUsingSubsystem = false;
     }
 
     /**
@@ -40,6 +44,14 @@ public class Claw extends GBSubsystem {
     @Override
     public void periodic() {
         state = solenoid.get() == DoubleSolenoid.Value.kForward ? ClawState.CONE_MODE : ClawState.CUBE_MODE;
+        if (ObjectSelector.IsCube() && !isUsingSubsystem) {
+            motorGrip(0.1);
+        }
+        if (ObjectSelector.IsCone() && !isUsingSubsystem){
+            stopMotor();
+
+        }
+        SmartDashboard.putNumber("claw power", motor.get());
     }
 
     public void cubeCatchMode() {
@@ -80,5 +92,6 @@ public class Claw extends GBSubsystem {
         CUBE_MODE,
         CONE_MODE,
         RELEASE,
+        CATCH;
     }
 }

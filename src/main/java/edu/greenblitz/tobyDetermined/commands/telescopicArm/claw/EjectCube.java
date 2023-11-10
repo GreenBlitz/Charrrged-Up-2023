@@ -8,22 +8,25 @@ public class EjectCube extends ClawCommand {
 
     Timer timer;
     private double timeOfEjection;
-    public EjectCube(double timeOfEjection){
+
+    public EjectCube(double timeOfEjection) {
 
         this.timeOfEjection = timeOfEjection;
     }
-    public EjectCube(){
+
+    public EjectCube() {
         this(RobotMap.TelescopicArm.Claw.TIME_OF_GRIP_CONSTANT);
     }
 
 
     @Override
     public void initialize() {
-        if(claw.state == Claw.ClawState.CUBE_MODE){
-        claw.cubeCatchMode(); //the wider
-        claw.motorEject();
-        timer = new Timer();
-        timer.start();
+        super.initialize();
+        if (claw.state == Claw.ClawState.CUBE_MODE) {
+            claw.cubeCatchMode(); //the wider
+            claw.motorEject();
+            timer = new Timer();
+            timer.start();
         }
     }
 
@@ -34,6 +37,7 @@ public class EjectCube extends ClawCommand {
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         claw.stopMotor();
     }
 }

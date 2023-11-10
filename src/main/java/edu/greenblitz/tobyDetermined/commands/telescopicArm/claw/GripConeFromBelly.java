@@ -9,6 +9,7 @@ public class GripConeFromBelly extends ClawCommand {
 
     @Override
     public void initialize() {
+        super.initialize();
         claw.coneCatchMode();
     }
 
@@ -24,6 +25,7 @@ public class GripConeFromBelly extends ClawCommand {
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         claw.stopMotor();
     }
 

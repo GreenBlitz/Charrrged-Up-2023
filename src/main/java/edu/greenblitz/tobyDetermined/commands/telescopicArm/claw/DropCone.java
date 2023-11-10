@@ -8,6 +8,7 @@ public class DropCone extends ClawCommand{
 
     @Override
     public boolean isFinished() {
+        super.initialize();
         return true;
     }
 }

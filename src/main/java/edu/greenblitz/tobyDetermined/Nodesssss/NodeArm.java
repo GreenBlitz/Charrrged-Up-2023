@@ -42,11 +42,11 @@ public class NodeArm extends GBNode {
     }
 
     public boolean getIsAtLength(double length) {
-        return Math.abs(extendPos - length) <= TOLERANCE_LENGTH;
+        return Math.abs(extendPos - length) <= TOLERANCE_LENGTH || (extendPos < 0.1 && length < 0.1);
     }
 
     public boolean getIsAtAngle(double angle) {
-        return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE;
+        return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE ;
 
     }
 

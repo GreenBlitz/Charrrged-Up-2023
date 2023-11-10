@@ -25,13 +25,12 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
     public Command get() {
         RobotMap.NodeSystem.SystemsPos start = CurrentNodeArm.getCurrentNode();
         LinkedList<RobotMap.NodeSystem.SystemsPos> path = AStarVertex.getPath(start, end, CurrentGriperNode.getCurrentNode()).getFirst();
-        nodeCommands = new GBCommand[path.size()];
-        for(int i = 0; i<path.size()-2; i++) {
+        nodeCommands = new GBCommand[path.size()-1];
+        for(int i = 0; i<path.size()-1; i++) {
             nodeCommands[i] = new NodeToNeighbourCommand(path.get(i+1));
         }
         NodeArm nodeArm = (NodeArm) NodeBase.getNode(end);
-        nodeCommands[path.size()-1] = new ObjectPositionByNode(nodeArm.getClawPos());
-        return new SequentialCommandGroup(nodeCommands);
+        return new SequentialCommandGroup(nodeCommands).andThen(ObjectPositionByNode.getCommandFromState(nodeArm.getClawPos()));
     }
 
 }
