@@ -1,8 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
-import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.GetOnRamp;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -26,7 +25,7 @@ public class GetOutOfRampAndBalance extends SequentialCommandGroup {
 								0,
 								SwerveChassis.getInstance().getChassisAngle()
 						)
-				).until(() -> SwerveChassis.getInstance().getNavX().getRoll() < 0),
+				).until(() -> SwerveChassis.getInstance().getGyro().getRoll() < 0),
 				new InstantCommand(
 						()-> SwerveChassis.getInstance().moveByChassisSpeeds(
 								FORWARD_SPEED,

@@ -1,17 +1,16 @@
 package edu.greenblitz.tobyDetermined.subsystems;
 
-import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.Field;
-import edu.greenblitz.tobyDetermined.IsRobotReady;
+import edu.greenblitz.tobyDetermined.RobotConditions;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.PIDObject;
-import edu.greenblitz.utils.PitchRollAdder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -20,7 +19,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Map;
 
@@ -123,7 +121,7 @@ public class Dashboard extends GBSubsystem {
 
 
 		//ready to place
-		driversTab.addBoolean("Ready to place", IsRobotReady::isRobotReady).withPosition(3, 2).withSize(1, 2);
+		driversTab.addBoolean("Ready to place", RobotConditions::isRobotReady).withPosition(3, 2).withSize(1, 2);
 		//todo check if at place and arm in pos
 	}
 
@@ -151,7 +149,7 @@ public class Dashboard extends GBSubsystem {
 
 		//arm ff
 		armTab.addDouble("elbow ff", ()-> Elbow.getInstance().getDebugLastFF());
-		armTab.addDouble("encoder value", ()-> Elbow.getInstance().motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition()).withPosition(0, 0).withSize(2, 2);
+		armTab.addDouble("encoder value", ()-> Elbow.getInstance().getAngleRadians()).withPosition(0, 0).withSize(2, 2);
 		Mechanism2d mech = new Mechanism2d(3, 3);
 
 
@@ -168,7 +166,7 @@ public class Dashboard extends GBSubsystem {
 		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
 			swerveTab.addDouble(module + "-angle", () -> Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(module)), 360))
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 0);
-			swerveTab.addDouble(module + "-absolute-angle", () -> SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(module))
+			swerveTab.addDouble(module + "-absolute-angle", () -> Units.radiansToDegrees( SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(module)))
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 1);
 			swerveTab.addDouble(module + "-lin-dist", () -> SwerveChassis.getInstance().getSwerveModulePositions()[module.ordinal()].distanceMeters)
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 2);

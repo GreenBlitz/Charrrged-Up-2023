@@ -50,7 +50,7 @@ public class GBFalcon extends TalonFX {
 		private int currentLimit = 0;
 		private double rampRate = 0;
 		private boolean inverted = false;
-		private double ConversionFactor = 1;
+		private double conversionFactor = 1;
 		private double voltageCompSaturation = 0;
 		private NeutralMode neutralMode = NeutralMode.Brake;
 		
@@ -61,6 +61,7 @@ public class GBFalcon extends TalonFX {
 			this.inverted = other.inverted;
 			this.neutralMode = other.neutralMode;
 			this.voltageCompSaturation = other.voltageCompSaturation;
+			this.conversionFactor = other.conversionFactor;
 		}
 		
 		public FalconConfObject() {
@@ -80,7 +81,7 @@ public class GBFalcon extends TalonFX {
 		}
 		
 		public double getConversionFactor() {
-			return ConversionFactor;
+			return conversionFactor;
 		}
 		
 		public double getVoltageCompSaturation() {
@@ -97,7 +98,7 @@ public class GBFalcon extends TalonFX {
 		}
 		
 		public FalconConfObject withConversionFactor(double velocityConversionFactor) {
-			this.ConversionFactor = velocityConversionFactor;
+			this.conversionFactor = velocityConversionFactor;
 			return this;
 		}
 		

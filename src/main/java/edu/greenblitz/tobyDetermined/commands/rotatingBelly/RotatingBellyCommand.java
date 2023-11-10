@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.rotatingBelly;
 
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation.RotatingBelly;
 import edu.greenblitz.utils.GBCommand;
 
 public abstract class RotatingBellyCommand extends GBCommand {

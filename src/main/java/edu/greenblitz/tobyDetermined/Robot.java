@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined;
 
 import com.revrobotics.CANSparkMax;
-import edu.greenblitz.tobyDetermined.commands.ConsoleLog;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.Grid;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DefaultRotateWhenCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ResetExtender;
@@ -9,44 +8,44 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Dashboard;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
-import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation.RotatingBelly;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeExtender;
 import edu.greenblitz.tobyDetermined.subsystems.intake.IntakeRoller;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ArmSimulation;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 
-public class Robot extends TimedRobot {
-	
+public class Robot extends LoggedRobot {
+
+
 	@Override
 	public void robotInit() {
 		CommandScheduler.getInstance().enable();
+
+		initializeLogger();
+
 		OI.init();
-//		initSubsystems();
-//		LiveWindow.disableAllTelemetry();
-//		initPortForwarding();
-//		AutonomousSelector.getInstance();
-//		//swerve
-//		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
-//		SwerveChassis.getInstance().resetChassisPose();
-//		SwerveChassis.getInstance().resetAllEncoders();
-//		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		initSubsystems();
 		LiveWindow.disableAllTelemetry();
 		initPortForwarding();
@@ -56,12 +55,38 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().resetChassisPose();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
+
+
+		ArmSimulation.init();
+
 	}
-	
-	@Override
-	public void disabledExit() {
+
+	private void initializeLogger(){
+
+		Logger logger = Logger.getInstance();
+
+		switch (RobotMap.ROBOT_TYPE) {
+			// Running on a real robot, log to a USB stick
+			case FRANKENSTEIN:
+			case PEGA_SWERVE:
+				logger.addDataReceiver(new WPILOGWriter(RobotMap.ROBORIO_LOG_PATH));
+				logger.addDataReceiver(new NT4Publisher());
+				break;
+            // Replaying a log, set up replay source
+			case REPLAY:
+				setUseTiming(false); // Run as fast as possible
+				String logPath = LogFileUtil.findReplayLog();
+				logger.setReplaySource(new WPILOGReader(logPath));
+				logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_simulation")));
+				break;
+            case SIMULATION:
+            default:
+				logger.addDataReceiver(new NT4Publisher());
+				logger.addDataReceiver(new WPILOGWriter(RobotMap.SIMULATION_LOG_PATH));
+				break;
+		}
+		logger.start();
 	}
-	
 	private static void initSubsystems() {
 		MultiLimelight.init();
 		Dashboard.init();
@@ -101,6 +126,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
+
 //		RoborioUtils.updateCurrentCycleTime();
 //		SmartDashboard.putBoolean("encoderBroken", SwerveChassis.getInstance().isEncoderBroken());
 		RoborioUtils.updateCurrentCycleTime();
@@ -108,9 +134,9 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putBoolean("switch state",BreakCoastSwitch.getInstance().getSwitchState());
 
-		SmartDashboard.putNumber("yaw", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getYaw()));
-		SmartDashboard.putNumber("pitch",Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getPitch()));
-		SmartDashboard.putNumber("roll", Units.radiansToDegrees(SwerveChassis.getInstance().getNavX().getRoll()));
+		SmartDashboard.putNumber("yaw", Units.radiansToDegrees(SwerveChassis.getInstance().getGyro().getYaw()));
+		SmartDashboard.putNumber("pitch",Units.radiansToDegrees(SwerveChassis.getInstance().getGyro().getPitch()));
+		SmartDashboard.putNumber("roll", Units.radiansToDegrees(SwerveChassis.getInstance().getGyro().getRoll()));
 
 	}
 	
@@ -146,7 +172,7 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().setIdleModeBrake();
 		SwerveChassis.getInstance().enableVision();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
-		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().isSensorExists()  && !Extender.getInstance().DidReset()) {
 			new ResetExtender().schedule();
 		}
 
@@ -178,9 +204,10 @@ public class Robot extends TimedRobot {
 		} else {
 			SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 		}
-		if (Extender.getInstance().DoesSensorExist && !Extender.getInstance().DidReset()) {
+		if (Extender.getInstance().isSensorExists() && !Extender.getInstance().DidReset()) {
 			new ResetExtender().raceWith(new WaitCommand(4)).andThen(command).schedule();
 		} else command.schedule();
+
 	}
 	
 	@Override
@@ -243,9 +270,14 @@ public class Robot extends TimedRobot {
 		SwerveChassis.getInstance().isEncoderBroken();
 		Elbow.getInstance().resetEncoder();
 	}
-	
-	public enum robotName {
-		pegaSwerve, Frankenstein
+
+
+	public enum RobotType {
+		PEGA_SWERVE,
+		FRANKENSTEIN,
+		SIMULATION,
+		REPLAY
 	}
+
 
 }

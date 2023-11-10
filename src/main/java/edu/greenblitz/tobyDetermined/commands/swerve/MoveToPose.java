@@ -2,7 +2,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve;
 
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -10,7 +10,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import static edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis.TRANSLATION_TOLERANCE;
+import static edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis.TRANSLATION_TOLERANCE;
 
 public class MoveToPose extends SwerveCommand {
 	/**

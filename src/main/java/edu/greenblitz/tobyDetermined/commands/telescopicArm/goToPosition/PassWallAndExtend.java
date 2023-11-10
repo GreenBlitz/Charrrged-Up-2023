@@ -4,14 +4,7 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.RotateToAngleRadians;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.StayAtCurrentAngle;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtendToLength;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.StayAtCurrentLength;
-import edu.greenblitz.tobyDetermined.subsystems.Console;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class PassWallAndExtend extends SequentialCommandGroup {
 
