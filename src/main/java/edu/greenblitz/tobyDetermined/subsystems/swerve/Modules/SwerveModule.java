@@ -24,6 +24,8 @@ public class SwerveModule {
         this.swerveModule = SwerveModuleFactory.create(module);
 
         swerveModuleInputs = new SwerveModuleInputsAutoLogged();
+        this.periodic();
+        
     }
 
 

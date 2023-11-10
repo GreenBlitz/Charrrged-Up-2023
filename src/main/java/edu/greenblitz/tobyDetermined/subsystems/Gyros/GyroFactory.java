@@ -8,7 +8,7 @@ public class GyroFactory {
         switch (RobotMap.ROBOT_TYPE) {
             case FRANKENSTEIN:
             case PEGA_SWERVE:
-                return new NavXGyro();
+                return new PigeonGyro(RobotMap.gyro.pigeonID);
             case REPLAY:
                 return new ReplayGyro();
             case SIMULATION:

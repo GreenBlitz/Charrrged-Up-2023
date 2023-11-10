@@ -117,9 +117,11 @@ public class MK4ISwerveModule implements ISwerveModule {
         inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getSelectedSensorPosition());
         inputs.angularPositionInRads = Conversions.MK4IConversions.convertTicksToRads(angularMotor.getSelectedSensorPosition());
 
-        inputs.absoluteEncoderPosition = Units.rotationsToRadians(
-                Units.degreesToRotations(canCoder.getAbsolutePosition()) - encoderOffset * RobotMap.Swerve.SdsSwerve.magEncoderTicksToFalconTicks
-        );
+        if (Double.isNaN(Units.degreesToRadians(canCoder.getAbsolutePosition()))){
+            inputs.absoluteEncoderPosition = 0;
+        }else{
+            inputs.absoluteEncoderPosition = Units.degreesToRadians(canCoder.getAbsolutePosition()) - Units.rotationsToRadians(encoderOffset);
+        }
         inputs.isAbsoluteEncoderConnected = canCoder.getFirmwareVersion() != -1;
     }
 }

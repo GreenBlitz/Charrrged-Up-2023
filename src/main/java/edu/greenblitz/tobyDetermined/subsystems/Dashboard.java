@@ -10,6 +10,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -165,7 +166,7 @@ public class Dashboard extends GBSubsystem {
 		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
 			swerveTab.addDouble(module + "-angle", () -> Math.IEEEremainder(Math.toDegrees(SwerveChassis.getInstance().getModuleAngle(module)), 360))
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 0);
-			swerveTab.addDouble(module + "-absolute-angle", () -> SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(module))
+			swerveTab.addDouble(module + "-absolute-angle", () -> Units.radiansToDegrees( SwerveChassis.getInstance().getModuleAbsoluteEncoderValue(module)))
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 1);
 			swerveTab.addDouble(module + "-lin-dist", () -> SwerveChassis.getInstance().getSwerveModulePositions()[module.ordinal()].distanceMeters)
 					.withSize(2, 1).withPosition(module.ordinal() * 2, 2);

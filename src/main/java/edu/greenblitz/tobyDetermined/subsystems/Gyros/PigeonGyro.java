@@ -54,7 +54,7 @@ public class PigeonGyro implements IGyro {
 
 	@Override
 	public void updateInputs(GyroInputsAutoLogged inputs) {
-		inputs.yaw = ((Math.toRadians(pigeonIMU.getYaw()) - yawOffset)%(2* Math.PI));
+		inputs.yaw = -((Math.toRadians(pigeonIMU.getYaw()) - yawOffset)%(2* Math.PI));
 		inputs.pitch = ((Math.toRadians(pigeonIMU.getPitch()) - pitchOffset)%( 2 * Math.PI));
 		inputs.roll = ((Math.toRadians(pigeonIMU.getRoll()) - rollOffset)%(2* Math.PI));
 
