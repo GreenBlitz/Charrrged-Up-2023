@@ -278,7 +278,9 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void updatePoseEstimationLimeLight() {
-		poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		if((odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT)) {
+			poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+		}
 		if (doVision) {
 			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 				target.ifPresent(this::addVisionMeasurement);
@@ -286,7 +288,7 @@ public class SwerveChassis extends GBSubsystem {
 		}
 	}
 
-	public void updateOdometry(){
+	public void updateOdometry() {
 		odometry.update(getPigeonAngle(), getSwerveModulePositions());
 	}
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
@@ -295,14 +297,6 @@ public class SwerveChassis extends GBSubsystem {
 			resetToVision();
 		}
 	}
-
-	private void filterOdometryByDistance(){
-		Pose2d odometryPose = odometry.getPoseMeters();
-		if (!(odometryPose.getTranslation().getDistance(getRobotPose().getTranslation())>))
-
-	}
-
-	
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
 	}
@@ -315,7 +309,8 @@ public class SwerveChassis extends GBSubsystem {
 			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		}
 		}
-	
+
+
 	public boolean isAtPose(Pose2d goalPose) {
 		Pose2d robotPose = getRobotPose();
 		
