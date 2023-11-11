@@ -72,7 +72,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY, extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY, extenderVelocity);
 
-        if (!(NodeBase.getIfInAngle(elbowSub.getAngleRadians(), nodeEndIndex))) {
+        if (!(nodeEndIndex.getIsAtAngle(elbowSub.getAngleRadians()))) {
             elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
             SmartDashboard.putBoolean("isInThreshold", true);
         } else {
@@ -90,7 +90,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
 
     public boolean isInPlace(NodeArm target) {
-        return NodeBase.getIfInNode(elbowSub.getAngleRadians(), extender.getLength(), target);
+        return target.getIsAtNode(elbowSub.getAngleRadians(),extender.getLength());
     }
 
     @Override

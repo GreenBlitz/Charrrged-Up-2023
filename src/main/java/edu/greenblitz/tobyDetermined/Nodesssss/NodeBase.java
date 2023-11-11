@@ -15,9 +15,7 @@ public class NodeBase {
 
     protected final static HashMap<RobotMap.TelescopicArm.PresetPositions, NodeArm> nodeMap = new HashMap<>();
 
-    private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
 
-    private final static double TOLERANCE_LENGTH = 0.04;//In Meters
 
     static {
         /*
@@ -67,21 +65,6 @@ public class NodeBase {
         if (specNode.equals(MID_NODE))
             return MidNode.getInstance().getNodeArm();
         return nodeMap.get(specNode);
-    }
-
-    public static boolean getIfInLength(double length, NodeArm index) {
-        return Math.abs(index.getExtendPos() - length) <= TOLERANCE_LENGTH || (index.getExtendPos() < 0.1 && length < 0.1);
-    }
-
-    public static boolean getIfInAngle(double angle, NodeArm index) {
-
-        return Math.abs(index.getAnglePos() - angle) <= TOLERANCE_ANGLE;
-
-    }
-
-    public static boolean getIfInNode(double angle, double length, NodeArm index) {
-        return getIfInAngle(angle, index) && getIfInLength(length, index);
-
     }
 
     public static double getDistanceBetweenTwoPoints(NodeArm a, NodeArm b) {
