@@ -86,6 +86,12 @@ public class RobotMap {
 
     }
 
+    public static class Odometry{
+
+        public static final double MAX_DISTANCE_TO_FILTER_OUT = 1;
+
+    }
+
     public static class LED {
 
         public static final int LENGTH = 100;
@@ -444,8 +450,5 @@ public class RobotMap {
             public static final int REVERSE_PORT = 6;
         }
 
-        public static class Odometry{
-
-        }
     }
 }
