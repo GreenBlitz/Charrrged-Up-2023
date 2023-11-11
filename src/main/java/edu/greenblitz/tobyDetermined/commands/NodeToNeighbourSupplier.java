@@ -1,7 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.Nodesssss.AStar;
 import edu.greenblitz.tobyDetermined.RobotMap;
@@ -28,12 +27,10 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
     public Command get() {
         RobotMap.TelescopicArm.PresetPositions start = CurrentNode.getCurrentNode();
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
-
-        nodeCommands = new GBCommand[path.size()-1];//need to be size
-        for(int i = 0; i<path.size()-1; i++) { // need to be size -2
-            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i+1));
+        nodeCommands = new GBCommand[path.size()-1];
+        for(int i = 0; i<path.size()-1; i++) {
+            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i),path.get(i+1));
         }
-        //nodeCommands[path.size()-1] = new ObjectPositionByNode(NodeBase.getNode(end).getClawPos());
         return new SequentialCommandGroup(nodeCommands).andThen( ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));
     }
 

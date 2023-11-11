@@ -250,7 +250,9 @@ public class RobotMap {
             REST_ABOVE_BELLY(-0.02, 0.196),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            FEEDER(0.663, 1.949);
+            FEEDER(0.663, 1.949),
+
+            MID_NODE(0,0);//Placeholder for setting mid nodes
 
             public double distance;
             public double angleInRadians;

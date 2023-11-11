@@ -23,7 +23,7 @@ public class NodeFullPathCommand extends ProxyCommand {
     public void end(boolean interrupted) {
         super.end(interrupted);
 
-    stopMotors();
+        stopMotors();//needs to be changed when default command works
     }
     public void stopMotors(){
     extender.stop();

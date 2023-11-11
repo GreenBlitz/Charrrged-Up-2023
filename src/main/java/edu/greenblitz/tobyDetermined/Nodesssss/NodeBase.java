@@ -64,6 +64,8 @@ public class NodeBase {
     }
 
     public static NodeArm getNode(PresetPositions specNode) {
+        if (specNode.equals(MID_NODE))
+            return MidNode.getInstance().getNodeArm();
         return nodeMap.get(specNode);
     }
 

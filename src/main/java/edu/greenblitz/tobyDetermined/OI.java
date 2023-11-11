@@ -18,7 +18,7 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPositio
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.*;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
-import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.calibration.SetExtenderVelocity;
+
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
@@ -69,9 +69,8 @@ public class OI { //GEVALD
 	
 	public void butt(){
 //		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+		//TO DO: make default command work
 		Elbow.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
-
-		secondJoystick.POV_RIGHT.whileTrue(new SetExtenderVelocity(0.6));
 		secondJoystick.X.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL));
 		secondJoystick.Y.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
 		secondJoystick.B.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.LOW));

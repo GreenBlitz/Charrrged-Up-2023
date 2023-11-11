@@ -19,9 +19,6 @@ public class AStar {
 
 
     public static PresetPositions getLowestFcost(LinkedList<PresetPositions> open, NodeArm start, NodeArm end) {
-       if (open.isEmpty()) {
-           return null; // Handle the case where the list is empty
-       }
        int saveI = 0;
        double fCost = getDistanceToStartPlusEnd(open.get(0), start, end);
        for (int i = 1; i < open.size(); i++) {
@@ -60,7 +57,6 @@ public class AStar {
         LinkedList<PresetPositions> closed = new LinkedList<>();
         Map<PresetPositions, PresetPositions> parents = new HashMap<>();
         nodesCanGoTo.add(start);
-
         while (!nodesCanGoTo.isEmpty()) {
             PresetPositions current = getLowestFcost(nodesCanGoTo, NodeBase.getNode(start), NodeBase.getNode(end));
             nodesCanGoTo.remove(current);
@@ -81,6 +77,7 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        getPath(INTAKE_GRAB_CONE_POSITION,REST_ABOVE_BELLY);
+        MidNode.getInstance().setNewMidNode(ZIG_HAIL,CUBE_MID,0,0);
+        getPath(CONE_HIGH,CONE_HIGH);
     }
 }
