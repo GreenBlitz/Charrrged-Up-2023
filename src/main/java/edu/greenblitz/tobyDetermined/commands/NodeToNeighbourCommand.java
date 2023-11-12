@@ -19,10 +19,11 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     private PresetPositions start;
     private PresetPositions end;
-    private static final double COMBINED_VELOCITY = 1.2; // Meters Per Second
+    private double COMBINED_VELOCITY;
+    private static final double STATIC_COMBINED_VELOCITY = 1.2; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 3;//In Radians Per Second
-
+    
     public NodeToNeighbourCommand(PresetPositions start, PresetPositions end) {
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
@@ -31,8 +32,14 @@ public class NodeToNeighbourCommand extends GBCommand {
 
         this.start = start;
         this.end = end;
+        
+        COMBINED_VELOCITY = STATIC_COMBINED_VELOCITY *
+                GBMath.distance(
+                        GBMath.polarToCartesian(start.distance,start.angleInRadians),
+                        GBMath.polarToCartesian(end.distance,end.angleInRadians)
+                );
     }
-
+    
     public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double gamma) {
         if (sideB == 0)
             sideB += 0.02;//weird edge case where 0 * big number = 0 so messes up whole calculations
