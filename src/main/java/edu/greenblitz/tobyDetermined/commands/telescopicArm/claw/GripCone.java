@@ -1,10 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.claw;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.Console;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GripCone extends ClawCommand {
 double time;
