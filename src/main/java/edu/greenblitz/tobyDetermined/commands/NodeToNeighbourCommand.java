@@ -20,7 +20,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     private PresetPositions start;
     private PresetPositions end;
     private double COMBINED_VELOCITY;
-    private static final double STATIC_COMBINED_VELOCITY = 2; // Meters Per Second
+    private static final double STATIC_COMBINED_VELOCITY = 2.1; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 3;//In Radians Per Second
     
@@ -29,7 +29,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         elbowSub = Elbow.getInstance();
         require(elbowSub);
         require(extender);
-
+        COMBINED_VELOCITY = 0;
         this.start = start;
         this.end = end;
         
@@ -38,10 +38,12 @@ public class NodeToNeighbourCommand extends GBCommand {
     
     @Override
     public void initialize() {
-        COMBINED_VELOCITY = STATIC_COMBINED_VELOCITY *
+        COMBINED_VELOCITY =
+                STATIC_COMBINED_VELOCITY
+                        *
                 GBMath.distance(
-                        GBMath.polarToCartesian(start.distance,start.angleInRadians),
-                        GBMath.polarToCartesian(end.distance,end.angleInRadians)
+                        GBMath.polarToCartesian(NodeBase.getNode(start).getExtendPos(),NodeBase.getNode(start).getAnglePos()),
+                        GBMath.polarToCartesian(NodeBase.getNode(end).getExtendPos(),NodeBase.getNode(end).getAnglePos())
                 );
         SmartDashboard.putNumber("Combined Velocity",COMBINED_VELOCITY);
     }
