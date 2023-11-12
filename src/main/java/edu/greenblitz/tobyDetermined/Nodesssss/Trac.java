@@ -2,13 +2,20 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.constraint.*;
 import edu.wpi.first.math.util.Units;
 import org.littletonrobotics.junction.Logger;
@@ -16,6 +23,7 @@ import scala.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.wpi.first.wpilibj.Timer;
 
 import static edu.wpi.first.math.geometry.Rotation2d.*;
 import static org.ejml.UtilEjml.assertTrue;
@@ -95,6 +103,22 @@ public class Trac {
                 System.out.println(false);
                 System.out.println(point);
             }
+        }
+
+        var controller = new HolonomicDriveController(
+                new PIDController(1, 0, 0),
+                new PIDController(1, 0, 0),
+                new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(6.28, 3.14))
+        );
+        Timer t = new Timer();
+        t.start();
+        Pose2d cur = new Pose2d(1,1,Rotation2d.fromDegrees(10));//need to be pos of current state
+        while(t.get() != trajectory.getTotalTimeSeconds()){
+            Trajectory.State goal = trajectory.sample(t.get());
+            ChassisSpeeds speeds = controller.calculate(cur, goal , goal.poseMeters.getRotation());
+            double x = speeds.vxMetersPerSecond;
+            double y = speeds.vyMetersPerSecond;
+            cur = goal.poseMeters;
         }
         Transform2d transform2d = new Pose2d(4, 4, Rotation2d.fromDegrees(30)).minus(trajectoryTwo.getInitialPose());
         Trajectory newTrajectory = trajectoryTwo.transformBy(transform2d);
