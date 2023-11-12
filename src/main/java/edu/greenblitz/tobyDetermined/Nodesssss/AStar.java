@@ -77,7 +77,7 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        MidNode.getInstance().setNewMidNode(ZIG_HAIL,CUBE_MID,0,0);
-        getPath(CONE_HIGH,CONE_HIGH);
+        MidNode.getInstance().setNewMidNode(PRE_CONE_DROP,CONE_HIGH,0.4,1.405);
+        getPath(MID_NODE,CUBE_HIGH);
     }
 }

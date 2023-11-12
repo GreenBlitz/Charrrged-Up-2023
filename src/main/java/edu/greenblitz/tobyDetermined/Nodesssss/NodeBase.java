@@ -38,10 +38,10 @@ public class NodeBase {
         nodeMap.put(PRE_CONE_DROP, new NodeArm(0.089, 0.667));
         nodeMap.put(POST_CONE_DROP, new NodeArm(0.080, 0.1));
 
-        nodeMap.get(CONE_HIGH).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
-        nodeMap.get(CONE_MID).addNeighbors(new PresetPositions[]{CONE_HIGH, CUBE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
-        nodeMap.get(CUBE_HIGH).addNeighbors(new PresetPositions[]{CONE_MID, CONE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP});
-        nodeMap.get(CUBE_MID).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CONE_HIGH, ZIG_HAIL, PRE_CONE_DROP,LOW});
+        nodeMap.get(CONE_HIGH).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CUBE_MID, ZIG_HAIL});
+        nodeMap.get(CONE_MID).addNeighbors(new PresetPositions[]{CONE_HIGH, CUBE_HIGH, CUBE_MID, ZIG_HAIL});
+        nodeMap.get(CUBE_HIGH).addNeighbors(new PresetPositions[]{CONE_MID, CONE_HIGH, CUBE_MID, ZIG_HAIL});
+        nodeMap.get(CUBE_MID).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CONE_HIGH, ZIG_HAIL,LOW});
         nodeMap.get(LOW).addNeighbors(new PresetPositions[]{CUBE_MID});
         nodeMap.get(ZIG_HAIL).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH,CUBE_MID, CONE_HIGH, REST_ABOVE_BELLY, PRE_CONE_DROP});
         nodeMap.get(INTAKE_GRAB_CONE_POSITION).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CUBE_POSITION});

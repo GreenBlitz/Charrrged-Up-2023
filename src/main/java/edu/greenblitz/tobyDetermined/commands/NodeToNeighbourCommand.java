@@ -22,7 +22,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     private static final double COMBINED_VELOCITY = 1.2; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 3;//In Radians Per Second
-
+    
     public NodeToNeighbourCommand(PresetPositions start, PresetPositions end) {
         extender = Extender.getInstance();
         elbowSub = Elbow.getInstance();
