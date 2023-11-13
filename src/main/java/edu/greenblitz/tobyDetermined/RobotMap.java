@@ -367,6 +367,25 @@ public class RobotMap {
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(30)
                     .withInverted(false);
+
+            public static class Simulation{
+                public static final Pose3d leftClawOpen = new Pose3d(
+                        new Translation3d(-6,-10.2,0),
+                        new Rotation3d(0,0,0)
+                );
+                public static final Pose3d rightClawOpen = new Pose3d(
+                        new Translation3d(6,10.2,0),
+                        new Rotation3d(0,0,0)
+                );
+                public static final Pose3d leftClawClosed = new Pose3d(
+                        new Translation3d(0,12,0),
+                        new Rotation3d(0,0,0)
+                );
+                public static final Pose3d rightClawClosed = new Pose3d(
+                        new Translation3d(0,12,0),
+                        new Rotation3d(0,0,0)
+                );
+            }
         }
 
         public static class Elbow {

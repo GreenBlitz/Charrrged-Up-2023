@@ -5,19 +5,19 @@ import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import org.littletonrobotics.junction.Logger;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.Pneumatics.PneumaticsController.ID;
 
 public class Claw extends GBSubsystem {
     private static Claw instance;
-    private GBSparkMax motor;
-    private DoubleSolenoid solenoid;
     public ClawState state;
+    private IClaw claw;
+    private ClawInputsAutoLogged inputs = new ClawInputsAutoLogged();
 
     private Claw() {
-        motor = new GBSparkMax(RobotMap.TelescopicArm.Claw.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.config(RobotMap.TelescopicArm.Claw.CLAW_CONFIG_OBJECT);
-        solenoid = new DoubleSolenoid(ID, RobotMap.Pneumatics.PneumaticsController.PCM_TYPE, RobotMap.TelescopicArm.Claw.SOLENOID_OPEN_CLAW_ID, RobotMap.TelescopicArm.Claw.SOLENOID_CLOSED_CLAW_ID);
+        claw = ClawFactory.create();
+
     }
 
     /**
@@ -38,21 +38,23 @@ public class Claw extends GBSubsystem {
 
     @Override
     public void periodic() {
-        state = solenoid.get() == DoubleSolenoid.Value.kForward ? ClawState.CONE_MODE : ClawState.CUBE_MODE;
+        state = inputs.isOpen ? ClawState.CONE_MODE : ClawState.CUBE_MODE;
+        claw.updateInputs(inputs);
+        Logger.getInstance().processInputs("Claw", inputs);
     }
 
     public void cubeCatchMode() {
-        solenoid.set(DoubleSolenoid.Value.kReverse);
+        claw.setSolenoidState(DoubleSolenoid.Value.kReverse);
         state = ClawState.CUBE_MODE;
     }
 
     public void coneCatchMode() {
-        solenoid.set(DoubleSolenoid.Value.kForward);
+        claw.setSolenoidState(DoubleSolenoid.Value.kForward);
         state = ClawState.CONE_MODE;
     }
 
     public void toggleSolenoid() {
-        if (solenoid.get() == DoubleSolenoid.Value.kReverse) {
+        if (inputs.isOpen) {
             coneCatchMode();
         } else {
             cubeCatchMode();
@@ -60,19 +62,19 @@ public class Claw extends GBSubsystem {
     }
 
     public void motorGrip() {
-        motor.set( RobotMap.TelescopicArm.Claw.MOTOR_POWER_CONE);
+        claw.setPower( RobotMap.TelescopicArm.Claw.MOTOR_POWER_CONE);
     }
 
     public void motorGrip(double power){
-        motor.set(power);
+        claw.setPower(power);
     }
 
     public void motorEject() {
-        motor.set(RobotMap.TelescopicArm.Claw.MOTOR_POWER_RELEASE);
+        claw.setPower(RobotMap.TelescopicArm.Claw.MOTOR_POWER_RELEASE);
     }
 
     public void stopMotor() {
-        motor.set(0);
+        claw.setPower(0);
     }
 
     public enum ClawState{
