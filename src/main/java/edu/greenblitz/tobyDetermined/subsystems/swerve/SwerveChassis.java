@@ -309,7 +309,7 @@ public class SwerveChassis extends GBSubsystem {
 	private boolean moduleHasObstacles(SwerveModule module) {
 		return module.getMotorOutputCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - currentTolerance && module.getMotorOutputCurrent() < currentTolerance + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
 	}
-	public boolean robotHasObstacles() {
+	private boolean robotHasObstacles() {
 
 		boolean fl = moduleHasObstacles(frontLeft);
 		boolean fr = moduleHasObstacles(frontRight);
