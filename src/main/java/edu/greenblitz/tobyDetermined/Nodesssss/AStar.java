@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.utils.GBMath;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -12,8 +13,8 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositio
 public class AStar {
 
     public static double getDistanceToStartPlusEnd(PresetPositions current, NodeArm start, NodeArm end){
-       double gCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(start,NodeBase.getNode(current)));
-       double hCost = Math.abs(NodeBase.getDistanceBetweenTwoPoints(end,NodeBase.getNode(current)));
+       double gCost = Math.abs(GBMath.distance(GBMath.polarToCartesian(start.getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,start.getAnglePos()),GBMath.polarToCartesian(NodeBase.getNode(current).getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(current).getAnglePos())));
+       double hCost = Math.abs(GBMath.distance(GBMath.polarToCartesian(end.getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,end.getAnglePos()),GBMath.polarToCartesian(NodeBase.getNode(current).getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(current).getAnglePos())));
        return gCost+hCost;
     }
 
@@ -78,6 +79,6 @@ public class AStar {
 
     public static void main(String[] args) {
         MidNode.getInstance().setNewMidNode(ZIG_HAIL,CUBE_MID,0,0);
-        getPath(CONE_HIGH,CONE_HIGH);
+        getPath(REST_ABOVE_BELLY,CONE_HIGH);
     }
 }

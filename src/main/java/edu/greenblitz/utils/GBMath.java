@@ -30,8 +30,15 @@ public class GBMath {
 	public static double distance(Pair<Double,Double> p1, Pair<Double,Double> p2) {
 		return Math.sqrt(Math.pow(p1.getFirst()- p2.getFirst(),2)+Math.pow(p1.getSecond()-p2.getSecond(),2));
 	}
+	public static double sigmoid(double x, double size, double uniformity, double xMovement) {
+		return size /(1+Math.exp(uniformity*(xMovement-x)));
+	}
 	public static double lawOfCosines(double sideA, double sideB, double angleBetweenSideAndSideB) {
 		return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAndSideB));
 	}
-	
+	public static double getBow(double length1, double angle1, double length2, double angle2){
+		double circumfrence = 2*Math.PI*length1;
+		double angle  = Math.abs(angle1-angle2);
+		return (circumfrence*angle)/360;
+	}
 }

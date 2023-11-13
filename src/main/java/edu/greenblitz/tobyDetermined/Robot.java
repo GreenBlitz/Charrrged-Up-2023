@@ -228,7 +228,10 @@ public class Robot extends TimedRobot {
 //		}
 //		SwerveChassis.getInstance().isEncoderBroken();
 //		Elbow.getInstance().resetEncoder();
-
+		
+		Extender.getInstance().brake();
+		Elbow.getInstance().brake();
+		
 		BreakCoastSwitch.getInstance().toggleBreakCoast();
 
 		if (SwerveChassis.getInstance().isEncoderBroken()){

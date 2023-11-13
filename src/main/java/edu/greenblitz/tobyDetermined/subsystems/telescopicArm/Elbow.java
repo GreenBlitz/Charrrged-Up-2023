@@ -188,7 +188,10 @@ public class Elbow extends GBSubsystem {
     public boolean isNotMoving(){
         return Math.abs(getVelocity()) < RobotMap.TelescopicArm.Elbow.ANGULAR_VELOCITY_TOLERANCE;
     }
-
+    
+    public void brake(){
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
     public boolean isInTheSameState(double wantedAng) {
         return getHypotheticalState(getAngleRadians()) == getHypotheticalState(wantedAng) && (getHypotheticalState(wantedAng) != ElbowState.FORWARD_OUT_OF_BOUNDS || getHypotheticalState(wantedAng) != ElbowState.BACKWARD_OUT_OF_BOUNDS);
     }

@@ -80,6 +80,7 @@ public class OI { //GEVALD
 				ObjectSelector.IsCone() ? RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CONE_POSITION : RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CUBE_POSITION
 		));
 		secondJoystick.POV_LEFT.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.CUBE_MID));
+	
 		secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
 	}
 	

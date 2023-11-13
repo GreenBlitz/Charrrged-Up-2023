@@ -187,7 +187,10 @@ public class Extender extends GBSubsystem {
 		motor.set(0);
 		holdPosition = true;
 	}
-
+	
+	public void brake(){
+		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+	}
 
 	public boolean isAtLength(double wantedLength){
 		double lengthError = wantedLength - getLength();

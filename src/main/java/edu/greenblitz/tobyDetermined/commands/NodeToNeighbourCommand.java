@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.utils.GBCommand;
@@ -20,9 +21,9 @@ public class NodeToNeighbourCommand extends GBCommand {
     private PresetPositions start;
     private PresetPositions end;
     private double COMBINED_VELOCITY;
-    private static final double STATIC_COMBINED_VELOCITY = 2.1; // Meters Per Second
+    private static final double STATIC_COMBINED_VELOCITY = 2; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
-    private static final double MAX_ANGULAR_VELOCITY = 3;//In Radians Per Second
+    private static final double MAX_ANGULAR_VELOCITY = 5;//In Radians Per Second
     
     public NodeToNeighbourCommand(PresetPositions start, PresetPositions end) {
         extender = Extender.getInstance();
@@ -38,13 +39,11 @@ public class NodeToNeighbourCommand extends GBCommand {
     
     @Override
     public void initialize() {
-        COMBINED_VELOCITY =
-                STATIC_COMBINED_VELOCITY
-                        *
-                GBMath.distance(
-                        GBMath.polarToCartesian(NodeBase.getNode(start).getExtendPos(),NodeBase.getNode(start).getAnglePos()),
-                        GBMath.polarToCartesian(NodeBase.getNode(end).getExtendPos(),NodeBase.getNode(end).getAnglePos())
-                );
+        double distance = GBMath.distance(
+                GBMath.polarToCartesian(NodeBase.getNode(start).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(start).getAnglePos()),
+                GBMath.polarToCartesian(NodeBase.getNode(end).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(end).getAnglePos())
+        );
+        COMBINED_VELOCITY = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance,1,5.9,0.3);
         SmartDashboard.putNumber("Combined Velocity",COMBINED_VELOCITY);
     }
     
@@ -67,8 +66,13 @@ public class NodeToNeighbourCommand extends GBCommand {
     public double calculateAngularVelocity(double startVelocity, NodeArm nodeEndIndex) {
 
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians());
-        double magnitudeOfVelocity = startVelocity / extender.getLength();
-
+        double extUsableLength = extender.getLength();
+        if (extUsableLength == 0)
+            extUsableLength=0.02;
+        double magnitudeOfVelocity = startVelocity / extUsableLength;
+        
+        SmartDashboard.putNumber("wanted angular vel", Math.abs(magnitudeOfVelocity)*signOfAngle);
+        
         magnitudeOfVelocity = Math.min(MAX_ANGULAR_VELOCITY, magnitudeOfVelocity);
         magnitudeOfVelocity = Math.max(-MAX_ANGULAR_VELOCITY, magnitudeOfVelocity);
 
@@ -101,7 +105,7 @@ public class NodeToNeighbourCommand extends GBCommand {
             extender.setMotorVoltage(Extender.getStaticFeedForward(elbowSub.getAngleRadians()));
 
         SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
-        SmartDashboard.putNumber("wanted angular vel", angularVelocity);
+        
     }
 
     public boolean isInPlace(NodeArm target) {
