@@ -294,7 +294,13 @@ public class SwerveChassis extends GBSubsystem {
 		return module.getMotorOutputCurrent() > currentTolerance + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
 	}
 	private boolean robotHasObstacles() {
-		return ((moduleHasObstacles(frontLeft) && moduleHasObstacles(frontRight)) || (moduleHasObstacles(backLeft) && moduleHasObstacles(backRight)) || (moduleHasObstacles(frontLeft) && moduleHasObstacles(backLeft)) || (moduleHasObstacles(backRight) && moduleHasObstacles(frontRight)) || (moduleHasObstacles(frontLeft) && moduleHasObstacles(backRight)) || (moduleHasObstacles(frontRight) && moduleHasObstacles(backLeft)));
+
+		boolean fl = moduleHasObstacles(frontLeft);
+		boolean fr = moduleHasObstacles(frontRight);
+		boolean bl = moduleHasObstacles(backLeft);
+		boolean br = moduleHasObstacles(backRight);
+
+		return ((fl && fr) || (bl && br) || (fl && bl) || (br && fr) || (fl && br) || (fr && bl));
 	}
 
 	public void updateOdometry() {
