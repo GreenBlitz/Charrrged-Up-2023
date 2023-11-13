@@ -87,7 +87,6 @@ public class RobotMap {
     }
 
     public static class Odometry{
-
         public static final double MAX_DISTANCE_TO_FILTER_OUT = 1;
 
     }
@@ -235,6 +234,8 @@ public class RobotMap {
                     .withCurrentLimit(40)
                     .withRampRate(RobotMap.General.RAMP_RATE_VAL)
                     .withPID(linPID);
+
+            public static final double FREE_CURRENT = 1.5;
         }
 
         public static class Autonomus {
