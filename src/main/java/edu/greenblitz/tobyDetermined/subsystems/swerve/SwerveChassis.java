@@ -45,6 +45,7 @@ public class SwerveChassis extends GBSubsystem {
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
+	public final double currentTolerance = 0.1;
 	
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
@@ -279,13 +280,21 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public void updatePoseEstimationLimeLight() {
 		if((odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT)) {
-			poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+			if(robotHasObstacles()) {
+				poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+			}
 		}
 		if (doVision) {
 			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 				target.ifPresent(this::addVisionMeasurement);
 			}
 		}
+	}
+	private boolean moduleHasObstacles(SwerveModule module) {
+		return module.getMotorOutputCurrent() > currentTolerance + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
+	}
+	private boolean robotHasObstacles() {
+		return ((moduleHasObstacles(frontLeft) && moduleHasObstacles(frontRight)) || (moduleHasObstacles(backLeft) && moduleHasObstacles(backRight)) || (moduleHasObstacles(frontLeft) && moduleHasObstacles(backLeft)) || (moduleHasObstacles(backRight) && moduleHasObstacles(frontRight)) || (moduleHasObstacles(frontLeft) && moduleHasObstacles(backRight)) || (moduleHasObstacles(frontRight) && moduleHasObstacles(backLeft)));
 	}
 
 	public void updateOdometry() {

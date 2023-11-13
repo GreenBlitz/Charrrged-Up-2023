@@ -134,6 +134,11 @@ public class KazaSwerveModule implements SwerveModule {
 		return targetVel;
 	}
 
+	@Override
+	public double getMotorOutputCurrent() {
+		return linearMotor.getOutputCurrent();
+	}
+
 	//only for debugging
 
 	@Override

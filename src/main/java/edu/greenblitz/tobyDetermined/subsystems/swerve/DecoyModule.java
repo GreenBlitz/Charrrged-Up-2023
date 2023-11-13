@@ -78,7 +78,12 @@ public class DecoyModule implements SwerveModule {
 	public double getTargetVel() {
 		return 0;
 	}
-	
+
+	@Override
+	public double getMotorOutputCurrent() {
+		return 0;
+	}
+
 	@Override
 	public SwerveModuleState getModuleState() {
 		return new SwerveModuleState();
