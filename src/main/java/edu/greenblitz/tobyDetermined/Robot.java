@@ -20,8 +20,11 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.AutonomousSelector;
 import edu.greenblitz.utils.breakCoastToggle.BreakCoastSwitch;
 import edu.greenblitz.utils.RoborioUtils;
+import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -63,29 +66,27 @@ public class Robot extends LoggedRobot {
 
 	private void initializeLogger(){
 
-		Logger logger = Logger.getInstance();
-
 		switch (RobotMap.ROBOT_TYPE) {
 			// Running on a real robot, log to a USB stick
 			case FRANKENSTEIN:
 			case PEGA_SWERVE:
-				logger.addDataReceiver(new WPILOGWriter(RobotMap.ROBORIO_LOG_PATH));
-				logger.addDataReceiver(new NT4Publisher());
+				Logger.addDataReceiver(new WPILOGWriter(RobotMap.ROBORIO_LOG_PATH));
+				Logger.addDataReceiver(new NT4Publisher());
 				break;
             // Replaying a log, set up replay source
 			case REPLAY:
 				setUseTiming(false); // Run as fast as possible
 				String logPath = LogFileUtil.findReplayLog();
-				logger.setReplaySource(new WPILOGReader(logPath));
-				logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_simulation")));
+				Logger.setReplaySource(new WPILOGReader(logPath));
+				Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_simulation")));
 				break;
             case SIMULATION:
             default:
-				logger.addDataReceiver(new NT4Publisher());
-				logger.addDataReceiver(new WPILOGWriter(RobotMap.SIMULATION_LOG_PATH));
+				Logger.addDataReceiver(new NT4Publisher());
+				Logger.addDataReceiver(new WPILOGWriter(RobotMap.SIMULATION_LOG_PATH));
 				break;
 		}
-		logger.start();
+		Logger.start();
 	}
 	private static void initSubsystems() {
 		MultiLimelight.init();
@@ -190,7 +191,7 @@ public class Robot extends LoggedRobot {
    */
 	@Override
 	public void autonomousInit() {
-		Command command = AutonomousSelector.getInstance().getChosenValue().autonomousCommand;
+		Command command = AutonomousSelector.getInstance().getChosenValue();
 		Grid.init();
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kBrake);
 		MultiLimelight.getInstance().updateRobotPoseAlliance();

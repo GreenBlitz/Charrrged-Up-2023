@@ -46,10 +46,10 @@ public class ArmSimulation extends GBSubsystem {
         ARM_LIGAMENT.setAngle(Units.radiansToDegrees(Elbow.getInstance().getAngleRadians()));
 
 
-        Logger.getInstance().recordOutput("Arm/ArmMechanism", ARM_MECHANISM);
+        Logger.recordOutput("Arm/ArmMechanism", ARM_MECHANISM);
 
-        Logger.getInstance().recordOutput("Arm/SimPose3D", getArmPosition(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians()));
-        Logger.getInstance().recordOutput("Arm/TargetPose3D", getArmPosition(Extender.getInstance().getGoalLength(), Elbow.getInstance().getGoalAngle()));
+        Logger.recordOutput("Arm/SimPose3D", getArmPosition(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians()));
+        Logger.recordOutput("Arm/TargetPose3D", getArmPosition(Extender.getInstance().getGoalLength(), Elbow.getInstance().getGoalAngle()));
 
 
 

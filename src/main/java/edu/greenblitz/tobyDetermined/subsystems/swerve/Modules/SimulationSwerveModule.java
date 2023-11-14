@@ -101,18 +101,18 @@ public class SimulationSwerveModule implements ISwerveModule {
 
     @Override
     public void setLinearIdleModeBrake(boolean isBrake) {
-        Logger.getInstance().recordOutput("DriveTrain/Module"+module.name(), "tried setting linear idleMode to " + (isBrake ? "Brake" : "Coast"));
+        Logger.recordOutput("DriveTrain/Module"+module.name(), "tried setting linear idleMode to " + (isBrake ? "Brake" : "Coast"));
 
     }
 
     @Override
     public void setAngularIdleModeBrake(boolean isBrake) {
-        Logger.getInstance().recordOutput("DriveTrain/Module"+module.name(), "tried setting angular idleMode to " + (isBrake ? "Brake" : "Coast"));
+        Logger.recordOutput("DriveTrain/Module"+module.name(), "tried setting angular idleMode to " + (isBrake ? "Brake" : "Coast"));
     }
 
     @Override
     public void resetAngle(double angleInRads) {
-        Logger.getInstance().recordOutput("DriveTrain/Module"+module.name(), "tried setting the module angle to " + Units.radiansToDegrees(angleInRads));
+        Logger.recordOutput("DriveTrain/Module"+module.name(), "tried setting the module angle to " + Units.radiansToDegrees(angleInRads));
     }
 
 }

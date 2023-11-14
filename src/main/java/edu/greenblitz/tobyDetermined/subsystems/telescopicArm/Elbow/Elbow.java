@@ -22,17 +22,17 @@ public class Elbow extends GBSubsystem {
     private double debugLastFF;
     public double goalAngle;
 
-    private MedianFilter absolutAngFilter;
+    private final MedianFilter absolutAngFilter;
     
     /*double sprocketRatio = 16.0/60;
     double gearRatio = 1.0/30;
     double combinedGearRatio = sprocketRatio * gearRatio;*/
 
-    private boolean debug = false;
+    private final boolean debug = false;
 
 
-    private IElbow elbow;
-    private ElbowInputsAutoLogged elbowInputs;
+    private final IElbow elbow;
+    private final ElbowInputsAutoLogged elbowInputs;
 
     public static Elbow getInstance() {
         init();
@@ -65,7 +65,7 @@ public class Elbow extends GBSubsystem {
 
     }
 
-    private Timer accTimer;
+    private final Timer accTimer;
     private double lastSpeed;
 
     @Override
@@ -86,7 +86,7 @@ public class Elbow extends GBSubsystem {
         }
 
         elbow.updateInputs(elbowInputs);
-        Logger.getInstance().processInputs("Elbow", elbowInputs);
+        Logger.processInputs("Elbow", elbowInputs);
     }
 
     public void resetEncoder(){
@@ -213,8 +213,8 @@ public class Elbow extends GBSubsystem {
         FORWARD_OUT_OF_BOUNDS(Double.POSITIVE_INFINITY),
 
         BACKWARD_OUT_OF_BOUNDS(BACKWARD_ANGLE_LIMIT);
-        private double maxAngle;
-        private ElbowState(double maxAngle){
+        private final double maxAngle;
+        ElbowState(double maxAngle){
             this.maxAngle = maxAngle;
         }
 

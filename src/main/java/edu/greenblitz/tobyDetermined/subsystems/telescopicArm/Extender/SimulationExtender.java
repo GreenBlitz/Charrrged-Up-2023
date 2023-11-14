@@ -21,7 +21,8 @@ public class SimulationExtender implements IExtender {
                 RobotMap.TelescopicArm.Extender.EXTENDER_EXTENDING_GEAR_RADIUS,
                 RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT,
                 RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
-                false
+                false,
+                RobotMap.TelescopicArm.Extender.STARTING_LENGTH
         );
     }
 
@@ -57,23 +58,23 @@ public class SimulationExtender implements IExtender {
     @Override
     public void setPosition(double position) {
 //        System.out.println("[Extender]: tried setting the position to " + position);
-        Logger.getInstance().recordOutput("Arm/Extender", "tried setting the position to " + position);
+        Logger.recordOutput("Arm/Extender", "tried setting the position to " + position);
     }
 
     @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
-        Logger.getInstance().recordOutput("Arm/Extender", "tried setting the idleMode to " + idleMode.name());
+        Logger.recordOutput("Arm/Extender", "tried setting the idleMode to " + idleMode.name());
 
     }
 
     @Override
     public void enableSoftLimit(CANSparkMax.SoftLimitDirection direction, boolean isEnabled) {
-        Logger.getInstance().recordOutput("Arm/Extender", "tried to " + (isEnabled ? "Enable" : "Disable") + " soft limit for direction " + direction.name());
+        Logger.recordOutput("Arm/Extender", "tried to " + (isEnabled ? "Enable" : "Disable") + " soft limit for direction " + direction.name());
     }
 
     @Override
     public void enableBackSwitchLimit(boolean enable) {
-        Logger.getInstance().recordOutput("Arm/Extender", "tried to " + (enable ? "Enable" : "Disable") + " the back switch limit");
+        Logger.recordOutput("Arm/Extender", "tried to " + (enable ? "Enable" : "Disable") + " the back switch limit");
     }
 
 

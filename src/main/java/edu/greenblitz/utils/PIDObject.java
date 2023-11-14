@@ -1,6 +1,6 @@
 package edu.greenblitz.utils;
 
-import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.util.PIDConstants;
 import edu.wpi.first.math.controller.PIDController;
 
 public class PIDObject {

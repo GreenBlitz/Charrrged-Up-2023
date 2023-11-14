@@ -101,14 +101,14 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		field.setRobotPose(getRobotPose());
 
 		updateInputs(ChassisInputs);
-		Logger.getInstance().processInputs("DriveTrain/Chassis", ChassisInputs);
-		Logger.getInstance().processInputs("DriveTrain/Gyro", gyroInputs);
+		Logger.processInputs("DriveTrain/Chassis", ChassisInputs);
+		Logger.processInputs("DriveTrain/Gyro", gyroInputs);
 
 		updatePoseEstimationLimeLight();
 
 
-		Logger.getInstance().recordOutput("DriveTrain/SimPose2D", ChassisInputs.chassisPose);
-		Logger.getInstance().recordOutput("DriveTrain/TargetPose2D", ChassisInputs.chassisPose);
+		Logger.recordOutput("DriveTrain/SimPose2D", ChassisInputs.chassisPose);
+		Logger.recordOutput("DriveTrain/TargetPose2D", ChassisInputs.chassisPose);
 
 		SmartDashboard.putData(getField());
 		SmartDashboard.putNumber("chassisAngle", gyro.getYaw());

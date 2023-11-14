@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.commands.swerve;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
+import edu.greenblitz.utils.FMSUtils;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -54,7 +55,7 @@ public class MoveToPose extends SwerveCommand {
 
 	@Override
 	public void initialize() {
-		if (useAlliance && DriverStation.getAlliance() == DriverStation.Alliance.Red){
+		if (FMSUtils.getAlliance() == DriverStation.Alliance.Red){
 			pose = Field.mirrorPositionToOtherSide(pose);
 		}
 		xController.reset(swerve.getRobotPose().getX(), swerve.getChassisSpeeds().vxMetersPerSecond);

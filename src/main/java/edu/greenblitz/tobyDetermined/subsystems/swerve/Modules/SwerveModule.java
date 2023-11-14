@@ -64,7 +64,7 @@ public class SwerveModule {
 
     public void periodic() {
         swerveModule.updateInputs(swerveModuleInputs);
-        Logger.getInstance().processInputs("DriveTrain/Module" + this.module.toString(), swerveModuleInputs);
+        Logger.processInputs("DriveTrain/Module" + this.module.toString(), swerveModuleInputs);
     }
 
 

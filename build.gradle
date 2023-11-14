@@ -2,8 +2,8 @@ import edu.wpi.first.gradlerio.GradleRIOPlugin
 
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.4.2"
-    id "com.peterabeles.gversion" version "1.10"
+    id "edu.wpi.first.GradleRIO" version "2024.1.1-beta-3"
+//    id "com.peterabeles.gversion" version "1.10"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -105,8 +105,10 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
 
+
     def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
     annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
+
 
 }
 

@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.Auto;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -27,20 +27,20 @@ public class SetToFirstTrajectoryState extends SwerveCommand {
 
 	@Override
 	public void initialize() {
-		swerve.resetChassisPose(path.getInitialHolonomicPose());
+		swerve.resetChassisPose(path.getInitialTargetHolonomicPose());
 	}
 
 	@Override
 	public void execute() {
 		SmartDashboard.putBoolean("pre auto command", true);
-		PathPlannerTrajectory.PathPlannerState state = path.getInitialState();
+		PathPlannerTrajectory.State state = path.getInitialState();
 
 		//make from the combined vector to leftward speed and forward speed
 		double leftwardSpeed =
-				state.poseMeters.getRotation().getSin() * state.velocityMetersPerSecond;
+				state.positionMeters.getAngle().getSin() * state.velocityMps;
 		double forwardSpeeeeed =
-				state.poseMeters.getRotation().getCos() * state.velocityMetersPerSecond;
-		ChassisSpeeds speeds = new ChassisSpeeds(forwardSpeeeeed * EPSILON, leftwardSpeed * EPSILON, state.holonomicAngularVelocityRadPerSec * EPSILON);
+				state.positionMeters.getAngle().getCos() * state.velocityMps;
+		ChassisSpeeds speeds = new ChassisSpeeds(forwardSpeeeeed * EPSILON, leftwardSpeed * EPSILON, state.headingAngularVelocityRps * EPSILON);
 		swerve.moveByChassisSpeeds(speeds);
 	}
 

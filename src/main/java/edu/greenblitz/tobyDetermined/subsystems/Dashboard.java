@@ -8,6 +8,7 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
+import edu.greenblitz.utils.FMSUtils;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -77,7 +78,7 @@ public class Dashboard extends GBSubsystem {
 		ShuffleboardLayout grid = driversTab.getLayout("Grid", BuiltInLayouts.kGrid)
 				.withPosition(2, 0).withSize(6, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 9, "Number of rows", 3));
 
-		boolean isRedAlliance = DriverStation.getAlliance() == DriverStation.Alliance.Red;
+		boolean isRedAlliance = FMSUtils.getAlliance() == DriverStation.Alliance.Red;
 		for (int i = 0; i < Field.PlacementLocations.getLocationsOnRedSide().length; i++) {
 			for (Grid.Height height : Grid.Height.values()) {
 				int finalGridPositionID = i;

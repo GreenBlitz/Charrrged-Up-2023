@@ -24,7 +24,8 @@ public class SimulationElbow implements IElbow {
                 RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
                 RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT,
                 RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT,
-                false
+                false,
+                RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND
         );
     }
 
@@ -66,21 +67,21 @@ public class SimulationElbow implements IElbow {
     }
     @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
-        Logger.getInstance().recordOutput("Arm/Elbow", "tried setting the idleMode to " + idleMode.name());
+        Logger.recordOutput("Arm/Elbow", "tried setting the idleMode to " + idleMode.name());
     }
 
     @Override
     public void setSoftLimit(CANSparkMax.SoftLimitDirection direction, double limit) {
-        Logger.getInstance().recordOutput("Arm/Elbow", "tried to set soft limit for direction " + direction.name() + " to " + limit);
+        Logger.recordOutput("Arm/Elbow", "tried to set soft limit for direction " + direction.name() + " to " + limit);
     }
 
     @Override
     public void setAngleRadiansByPID(double goalAngle, double feedForward) {
-        Logger.getInstance().recordOutput("Arm/Elbow", "tried setting the goal angle to " + goalAngle + " with feed  forward of " + feedForward);
+        Logger.recordOutput("Arm/Elbow", "tried setting the goal angle to " + goalAngle + " with feed  forward of " + feedForward);
     }
 
     @Override
     public void setPosition(double position) {
-        Logger.getInstance().recordOutput("Arm/Elbow", "tried to set the position to " + position);
+        Logger.recordOutput("Arm/Elbow", "tried to set the position to " + position);
     }
 }

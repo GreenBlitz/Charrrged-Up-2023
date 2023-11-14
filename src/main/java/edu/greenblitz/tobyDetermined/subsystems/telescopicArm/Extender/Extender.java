@@ -18,13 +18,13 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
 
 public class Extender extends GBSubsystem {
 
-	private boolean doesSensorExists = true;
+	private final boolean doesSensorExists = true;
 	private static Extender instance;
 	private static Extender.ExtenderState state = Extender.ExtenderState.IN_ROBOT_BELLY_LENGTH;
- 	private ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
+ 	private final ProfiledPIDController profileGenerator; // this does not actually use the pid controller only the setpoint
 	private double lastSpeed;
 	private double goalLength;
-	private Debouncer debouncer;
+	private final Debouncer debouncer;
 	private boolean holdPosition =false;
 	private boolean didReset;
 
@@ -54,7 +54,7 @@ public class Extender extends GBSubsystem {
 		this.profileGenerator.setTolerance(extenderInputs.tolerance);
 
 
-		Logger.getInstance().recordOutput("Arm/ExtenderIdleMode","switched to: " +  CANSparkMax.IdleMode.kCoast.name());
+		Logger.recordOutput("Arm/ExtenderIdleMode","switched to: " +  CANSparkMax.IdleMode.kCoast.name());
 
 		lastSpeed = 0;
 		didReset = false;
@@ -64,7 +64,7 @@ public class Extender extends GBSubsystem {
 	}
 
 
-	private Timer accTimer;
+	private final Timer accTimer;
 
 	public void unsafeSetGoalLengthByPid(double length){
 		goalLength = length;
@@ -99,7 +99,7 @@ public class Extender extends GBSubsystem {
 		}
 
 		extender.updateInputs(extenderInputs);
-		Logger.getInstance().processInputs("Extender", extenderInputs);
+		Logger.processInputs("Extender", extenderInputs);
 
 
 	}
@@ -259,7 +259,7 @@ public class Extender extends GBSubsystem {
 
 	public void setIdleMode(CANSparkMax.IdleMode idleMode){
 		extender.setIdleMode(idleMode);
-		Logger.getInstance().recordOutput("Arm/ExtenderIdleMode", "switched to: " + idleMode.name());
+		Logger.recordOutput("Arm/ExtenderIdleMode", "switched to: " + idleMode.name());
 	}
 
 	public void disableAllLimits(){

@@ -5,74 +5,54 @@
   "MainWindow": {
     "GLOBAL": {
       "fps": "120",
-      "height": "1035",
-      "maximized": "1",
+      "height": "720",
+      "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "1920",
-      "xpos": "0",
-      "ypos": "23"
+      "width": "1280",
+      "xpos": "5",
+      "ypos": "355"
     }
   },
   "Window": {
     "###/AdvantageKit/RealOutputs/Arm/ArmMechanism": {
       "Collapsed": "0",
-      "Pos": "297,46",
-      "Size": "735,302"
-    },
-    "###/FMSInfo": {
-      "Collapsed": "0",
-      "Pos": "60,60",
-      "Size": "169,167"
-    },
-    "###/Shuffleboard/Arm debug/extenderPID": {
-      "Collapsed": "0",
-      "Pos": "598,56",
-      "Size": "123,144"
+      "Pos": "400,400",
+      "Size": "200,200"
     },
     "###/Shuffleboard/Drivers/Field": {
       "Collapsed": "0",
-      "Pos": "186,171",
-      "Size": "853,421"
+      "Pos": "200,200",
+      "Size": "400,200"
     },
     "###FMS": {
-      "Collapsed": "1",
-      "Pos": "939,87",
+      "Collapsed": "0",
+      "Pos": "5,540",
       "Size": "283,146"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "402,410",
+      "Pos": "250,465",
       "Size": "796,73"
-    },
-    "###Keyboard 0 Settings": {
-      "Collapsed": "0",
-      "Pos": "225,30",
-      "Size": "300,582"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "1081,84",
-      "Size": "724,740"
-    },
-    "###NetworkTables Info": {
-      "Collapsed": "0",
-      "Pos": "250,130",
-      "Size": "750,145"
+      "Pos": "250,277",
+      "Size": "750,185"
     },
     "###Other Devices": {
-      "Collapsed": "1",
-      "Pos": "939,46",
+      "Collapsed": "0",
+      "Pos": "1025,20",
       "Size": "250,695"
     },
     "###System Joysticks": {
       "Collapsed": "0",
-      "Pos": "150,697",
+      "Pos": "5,350",
       "Size": "192,218"
     },
     "###Timing": {
       "Collapsed": "0",
-      "Pos": "18,190",
+      "Pos": "5,150",
       "Size": "141,150"
     },
     "Debug##Default": {

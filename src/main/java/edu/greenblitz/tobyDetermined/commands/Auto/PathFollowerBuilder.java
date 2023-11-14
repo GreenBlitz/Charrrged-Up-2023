@@ -1,10 +1,9 @@
 package edu.greenblitz.tobyDetermined.commands.Auto;
 
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 import edu.greenblitz.tobyDetermined.Field;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
@@ -17,17 +16,13 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.DropCone;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.EjectCube;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 
 import java.util.HashMap;
-import java.util.List;
 
-public class PathFollowerBuilder extends SwerveAutoBuilder {
+public class PathFollowerBuilder extends AutoBuilder {
 
 	/**
 	 * the use of the event map is to run a marker by its name run a command
@@ -70,16 +65,17 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 
 	private PathFollowerBuilder() {
 		super(
-				SwerveChassis.getInstance()::getRobotPose,
-				(Pose2d pose) -> SwerveChassis.getInstance().resetChassisPose(pose),
-				SwerveChassis.getInstance().getKinematics(),
-				RobotMap.Swerve.Frankenstein.TRANSLATION_PID,
-				RobotMap.Swerve.Frankenstein.ROTATION_PID,
-				SwerveChassis.getInstance()::setModuleStates,
-				eventMap,
-				true,
-				SwerveChassis.getInstance()
+//				SwerveChassis.getInstance()::getRobotPose,
+//				(Pose2d pose) -> SwerveChassis.getInstance().resetChassisPose(pose),
+//				SwerveChassis.getInstance().getKinematics(),
+//				RobotMap.Swerve.Frankenstein.TRANSLATION_PID,
+//				RobotMap.Swerve.Frankenstein.ROTATION_PID,
+//				SwerveChassis.getInstance()::setModuleStates,
+//				eventMap,
+//				true,
+//				SwerveChassis.getInstance()
 		);
+
 	}
 
 
@@ -94,28 +90,29 @@ public class PathFollowerBuilder extends SwerveAutoBuilder {
 	/**
 	 * @return returns the command for the full auto (commands and trajectory included)
 	 */
-	public CommandBase followPath(String pathName) {
-
-		List<PathPlannerTrajectory> path;
-		path = PathPlanner.loadPathGroup(
-				pathName, new PathConstraints(
-						RobotMap.Swerve.Frankenstein.CAPPED_MAX_VELOCITY,
-						RobotMap.Swerve.Frankenstein.CAPPED_MAX_ACCELERATION
-				)
-		);
-
-		if (path == null) {
-			SmartDashboard.putString("wrong pth", pathName);
-		}
-		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
-		return fullAuto(path)
-				.beforeStarting(new SetToFirstTrajectoryState(path)
-						.raceWith(new WaitCommand(DEADLINE_TIME_FOR_PRE_AUTO_COMMAND)));
+	public InstantCommand followPath(String pathName) {
+//
+//		List<PathPlannerTrajectory> path;
+//		path = PathPlanner.loadPathGroup(
+//				pathName, new PathConstraints(
+//						RobotMap.Swerve.Frankenstein.CAPPED_MAX_VELOCITY,
+//						RobotMap.Swerve.Frankenstein.CAPPED_MAX_ACCELERATION
+//				)
+//		);
+//
+//		if (path == null) {
+//			SmartDashboard.putString("wrong pth", pathName);
+//		}
+//		//pathplanner was acting wierd when starting position was not the one defined in the path so i added a reset to the path start
+//		return fullAuto(path)
+//				.beforeStarting(new SetToFirstTrajectoryState(path)
+//						.raceWith(new WaitCommand(DEADLINE_TIME_FOR_PRE_AUTO_COMMAND)));
+		return new InstantCommand();
 	}
 
-	public static PathPlannerTrajectory getPathPlannerTrajectory(String path) {
-		return PathPlanner.loadPath(path, new PathConstraints(RobotMap.Swerve.Frankenstein.CAPPED_MAX_VELOCITY, RobotMap.Swerve.Frankenstein.CAPPED_MAX_ACCELERATION));
-	}
+//	public static PathPlannerTrajectory getPathPlannerTrajectory(String path) {
+//		return PathPlanner.loadPath(path, new PathConstraints(RobotMap.Swerve.Frankenstein.CAPPED_MAX_VELOCITY, RobotMap.Swerve.Frankenstein.CAPPED_MAX_ACCELERATION));
+//	}
 
 
 }
