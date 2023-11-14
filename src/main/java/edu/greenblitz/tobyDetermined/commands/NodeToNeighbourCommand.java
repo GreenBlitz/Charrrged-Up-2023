@@ -48,9 +48,6 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
     
     public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double gamma) {
-        if (sideB == 0)
-            sideB += 0.02;//weird edge case where 0 * big number = 0 so messes up whole calculations
-
         double sideC = GBMath.lawOfCosines(sideA, sideB, gamma);
         double height = sideB * Math.sin(gamma);
         double adjacent = Math.sqrt(sideC * sideC - height * height);
@@ -60,16 +57,16 @@ public class NodeToNeighbourCommand extends GBCommand {
     public double calculateExtenderVelocity(double ratio, NodeArm nodeEndIndex) {
         double signOfExtender = Math.signum(nodeEndIndex.getExtendPos() - extender.getLength());
         double extenderVelocity = Math.sqrt(COMBINED_VELOCITY * COMBINED_VELOCITY / (ratio * ratio + 1));
+
+        SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
+
         return signOfExtender * extenderVelocity;
     }
 
     public double calculateAngularVelocity(double startVelocity, NodeArm nodeEndIndex) {
 
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians());
-        double extUsableLength = extender.getLength();
-        if (extUsableLength == 0)
-            extUsableLength=0.02;
-        double magnitudeOfVelocity = startVelocity / extUsableLength;
+        double magnitudeOfVelocity = startVelocity / extender.getLength();
         
         SmartDashboard.putNumber("wanted angular vel", Math.abs(magnitudeOfVelocity)*signOfAngle);
         
@@ -80,8 +77,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
 
     public void moveArm(NodeArm nodeEndIndex) {
-        double start = extender.getLength();
-        double end = nodeEndIndex.getExtendPos();
+        double start = extender.getLength() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
+        double end = nodeEndIndex.getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
         double gamma = nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians();
         double ratio = getRatioBetweenAngleAndLength(start, end, gamma);
 
@@ -103,8 +100,6 @@ public class NodeToNeighbourCommand extends GBCommand {
             extender.setLinSpeed(extenderVelocity);
         else
             extender.setMotorVoltage(Extender.getStaticFeedForward(elbowSub.getAngleRadians()));
-
-        SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
         
     }
 
