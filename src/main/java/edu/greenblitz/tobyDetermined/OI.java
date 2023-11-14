@@ -16,6 +16,7 @@ import edu.greenblitz.tobyDetermined.commands.swerve.CombineJoystickMovement;
 import edu.greenblitz.tobyDetermined.commands.swerve.DriveSideWays;
 import edu.greenblitz.tobyDetermined.commands.swerve.MoveToGrid.*;
 import edu.greenblitz.tobyDetermined.commands.swerve.ResetVisionMoveToPose;
+import edu.greenblitz.tobyDetermined.commands.swerve.RotateAroundAxis;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.RewritePresetPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
@@ -30,6 +31,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class OI { //GEVALD
@@ -76,7 +78,7 @@ public class OI { //GEVALD
 
 	public void romyButtons() {
 		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(false));
-		mainJoystick.R1.whileTrue(new CombineJoystickMovement(false,true));//swerve fast mode
+		mainJoystick.R1.whileTrue(new RotateAroundAxis(false, new Translation2d(1,1), SwerveChassis.getInstance().getKinematics()));//swerve fast mode
 		mainJoystick.L1.and(mainJoystick.Y.negate()).whileTrue(new CombineJoystickMovement(true));  //slow mode
 		mainJoystick.POV_LEFT.whileTrue(new DriveSideWays(DriveSideWays.Direction.LEFT, RobotMap.Swerve.Frankenstein.SIDEWAY_DRIVING_SPEED)); //left movement
 		mainJoystick.POV_RIGHT.whileTrue(new DriveSideWays(DriveSideWays.Direction.RIGHT, RobotMap.Swerve.Frankenstein.SIDEWAY_DRIVING_SPEED)); //right movement
