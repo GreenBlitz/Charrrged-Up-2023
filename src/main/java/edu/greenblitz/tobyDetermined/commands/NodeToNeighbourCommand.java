@@ -24,6 +24,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     private static final double STATIC_COMBINED_VELOCITY = 2; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 5;//In Radians Per Second
+    private static final double STARTING_LENGTH = RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
     
     public NodeToNeighbourCommand(PresetPositions start, PresetPositions end) {
         extender = Extender.getInstance();
@@ -40,8 +41,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     @Override
     public void initialize() {
         double distance;
-        double length1 = NodeBase.getNode(start).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
-        double length2 = NodeBase.getNode(end).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
+        double length1 = NodeBase.getNode(start).getExtendPos() + STARTING_LENGTH;
+        double length2 = NodeBase.getNode(end).getExtendPos() + STARTING_LENGTH;
         if (extender.getLength()+ NodeBase.getNode(end).getExtendPos() <= 0.1)
             distance = GBMath.getBow(length1,NodeBase.getNode(start).getAnglePos(),length2,NodeBase.getNode(end).getAnglePos());
         else
@@ -64,7 +65,7 @@ public class NodeToNeighbourCommand extends GBCommand {
         double signOfExtender = Math.signum(nodeEndIndex.getExtendPos() - extender.getLength());
         double extenderVelocity = Math.sqrt(COMBINED_VELOCITY * COMBINED_VELOCITY / (ratio * ratio + 1));
 
-        SmartDashboard.putNumber("wanted extender vel", extenderVelocity);
+        SmartDashboard.putNumber("wanted extender vel", extenderVelocity * signOfExtender);
 
         return signOfExtender * extenderVelocity;
     }
@@ -72,7 +73,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     public double calculateAngularVelocity(double startVelocity, NodeArm nodeEndIndex) {
 
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians());
-        double magnitudeOfVelocity = startVelocity / (extender.getLength() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
+        double magnitudeOfVelocity = startVelocity / (extender.getLength() + STARTING_LENGTH);
         
         SmartDashboard.putNumber("wanted angular vel", Math.abs(magnitudeOfVelocity)*signOfAngle);
         
@@ -83,8 +84,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     }
 
     public void moveArm(NodeArm nodeEndIndex) {
-        double start = extender.getLength() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
-        double end = nodeEndIndex.getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
+        double start = extender.getLength() + STARTING_LENGTH;
+        double end = nodeEndIndex.getExtendPos() + STARTING_LENGTH;
         double gamma = nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians();
         double ratio = getRatioBetweenAngleAndLength(start, end, gamma);
 
