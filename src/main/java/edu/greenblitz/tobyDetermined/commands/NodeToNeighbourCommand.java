@@ -39,10 +39,16 @@ public class NodeToNeighbourCommand extends GBCommand {
     
     @Override
     public void initialize() {
-        double distance = GBMath.distance(
-                GBMath.polarToCartesian(NodeBase.getNode(start).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(start).getAnglePos()),
-                GBMath.polarToCartesian(NodeBase.getNode(end).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(end).getAnglePos())
-        );
+        double distance;
+        double length1 = NodeBase.getNode(start).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
+        double length2 = NodeBase.getNode(end).getExtendPos() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
+        if (extender.getLength()+ NodeBase.getNode(end).getExtendPos() <= 0.1)
+            distance = GBMath.getBow(length1,NodeBase.getNode(start).getAnglePos(),length2,NodeBase.getNode(end).getAnglePos());
+        else
+            distance = GBMath.distance(
+                    GBMath.polarToCartesian(length1,NodeBase.getNode(start).getAnglePos()),
+                    GBMath.polarToCartesian(length2,NodeBase.getNode(end).getAnglePos())
+            );
         COMBINED_VELOCITY = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance,1,5.9,0.3);
         SmartDashboard.putNumber("Combined Velocity",COMBINED_VELOCITY);
     }
@@ -66,7 +72,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     public double calculateAngularVelocity(double startVelocity, NodeArm nodeEndIndex) {
 
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians());
-        double magnitudeOfVelocity = startVelocity / extender.getLength();
+        double magnitudeOfVelocity = startVelocity / (extender.getLength() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
         
         SmartDashboard.putNumber("wanted angular vel", Math.abs(magnitudeOfVelocity)*signOfAngle);
         

@@ -37,8 +37,7 @@ public class GBMath {
 		return Math.sqrt(sideA*sideA+sideB*sideB-2*sideA*sideB*Math.cos(angleBetweenSideAndSideB));
 	}
 	public static double getBow(double length1, double angle1, double length2, double angle2){
-		double circumfrence = 2*Math.PI*length1;
 		double angle  = Math.abs(angle1-angle2);
-		return (circumfrence*angle)/360;
+		return length1*angle;
 	}
 }
