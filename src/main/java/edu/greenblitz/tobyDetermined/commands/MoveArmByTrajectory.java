@@ -50,10 +50,21 @@ public class MoveArmByTrajectory extends GBCommand {
 		Trajectory.State goal = path.sample(clock.get());
 		
 		ChassisSpeeds speeds = controller.calculate(new Pose2d(cords,new Rotation2d(0,0)),goal,goal.poseMeters.getRotation());
-		Pair<Double,Double> speedsPolar = GBMath.cartesianToPolar(speeds.vxMetersPerSecond,speeds.vyMetersPerSecond);
-		
-		extender.setLinSpeed(speedsPolar.getFirst());
-		elbow.setAngSpeed(speedsPolar.getSecond(),elbow.getAngleRadians(),extender.getLength());
+		double x = goal.poseMeters.getX();
+		double y = goal.poseMeters.getY();
+
+//		Pair<Double,Double> speedsPolar = GBMath.cartesianToPolar(speeds.vxMetersPerSecond,speeds.vyMetersPerSecond);
+
+		//conversion between cartesian and polar speeds using complicated math
+
+		double extenderVelocity = x* speeds.vxMetersPerSecond + y * speeds.vyMetersPerSecond;
+		extenderVelocity /= Math.sqrt(x*x + y*y);
+
+		double elbowVelocity = x*speeds.vyMetersPerSecond-speeds.vxMetersPerSecond*y;
+		elbowVelocity /= x*x+y*y;
+
+		extender.setLinSpeed(extenderVelocity);
+		elbow.setAngSpeed(elbowVelocity,elbow.getAngleRadians(),extender.getLength());
 	}
 	
 	@Override
