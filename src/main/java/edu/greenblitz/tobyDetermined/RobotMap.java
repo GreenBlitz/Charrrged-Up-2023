@@ -88,7 +88,6 @@ public class RobotMap {
 
     public static class Odometry{
         public static final double MAX_DISTANCE_TO_FILTER_OUT = 1;
-
     }
 
     public static class LED {
