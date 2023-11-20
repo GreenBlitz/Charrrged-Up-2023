@@ -70,20 +70,17 @@ public class Elbow extends GBSubsystem {
     @Override
     public void periodic() {
         state = getHypotheticalState(getAngleRadians());
-<<<<<<< HEAD:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow.java
         SmartDashboard.putNumber("voltage", motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage());
         SmartDashboard.putNumber("velocity",getVelocity());
         SmartDashboard.putNumber("position",getAngleRadians());
         SmartDashboard.putNumber("current", motor.getOutputCurrent());
         SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue) / (motor.getEncoder().getPosition() - startingValue));
-=======
         SmartDashboard.putNumber("voltage", elbowInputs.appliedOutput);
         SmartDashboard.putNumber("velocity", elbowInputs.velocity);
         SmartDashboard.putNumber("position", elbowInputs.position);
         SmartDashboard.putNumber("current", elbowInputs.outputCurrent);
         SmartDashboard.putNumber("ratio", (elbowInputs.absoluteEncoderPosition - startingValue) / (elbowInputs.position - startingValue));
     
->>>>>>> origin/master:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow/Elbow.java
         if (accTimer.advanceIfElapsed(0.15)) {
             SmartDashboard.putNumber("curr acc",
                     (getVelocity() - lastSpeed) / (0.15 + accTimer.get())
@@ -130,17 +127,14 @@ public class Elbow extends GBSubsystem {
         else if (getState() == ElbowState.WALL_ZONE && Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH) {
             return getAngleRadians();
             //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
-<<<<<<< HEAD:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow.java
             // if it's not short enough the arm will approach the start of the zone
         }else if((getState() != getHypotheticalState(angleInRads))
                 && Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             return (state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE - RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE+ RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
-=======
             // if its not short enough the arm will approach the start of the zone
         } else if((getState() != getHypotheticalState(angleInRads)) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             return (state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE - (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : Simulation.SIM_ANGLE_TOLERANCE ) : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE+ (RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : Simulation.SIM_ANGLE_TOLERANCE ));
->>>>>>> origin/master:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow/Elbow.java
         }else {
             return (angleInRads);
         }
@@ -154,11 +148,8 @@ public class Elbow extends GBSubsystem {
 
     public double getAngleRadians() {
 //        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
-<<<<<<< HEAD:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow.java
         return (motor.getEncoder().getPosition());
-=======
         return elbowInputs.position;
->>>>>>> origin/master:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow/Elbow.java
     }
 
     public ElbowState getState() {
@@ -207,15 +198,12 @@ public class Elbow extends GBSubsystem {
     }
 
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
-<<<<<<< HEAD:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow.java
         return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg ) * extenderLength)
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
 
-=======
         return RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND)
                 : 0;
->>>>>>> origin/master:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Elbow/Elbow.java
     }
     public static double getDynamicFeedForward(double wantedvelocity,double extenderLength,double elbowAngle) {
         return getStaticFeedForward(extenderLength, elbowAngle) + kV * wantedvelocity + kS*Math.signum(wantedvelocity);

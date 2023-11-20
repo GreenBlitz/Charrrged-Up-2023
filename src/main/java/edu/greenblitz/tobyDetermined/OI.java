@@ -1,19 +1,16 @@
 package edu.greenblitz.tobyDetermined;
 
-<<<<<<< HEAD
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.commands.NodeFullPathCommand;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.NodeToNeighbourCommand;
-=======
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
->>>>>>> origin/master
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByTrigger;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -29,11 +26,8 @@ import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.GripBelly;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.claw.ReleaseObject;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow.ElbowMoveByJoysticks;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.extender.ExtenderMoveByJoysticks;
-<<<<<<< HEAD
 
-=======
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToGrid;
->>>>>>> origin/master
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.GoToPosition;
 import edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition.ZigHail;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation.RotatingBelly;
@@ -79,8 +73,7 @@ public class OI { //GEVALD
 	public static void disableHandling() {
 		isHandled = false;
 	}
-<<<<<<< HEAD
-	
+
 	public void butt(){
 //		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
 		//TO DO: make default command work
@@ -98,10 +91,8 @@ public class OI { //GEVALD
 		secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
 	}
 	
-=======
 
 
->>>>>>> origin/master
 	private void initButtons() {
 		amireeeButtons();
 		romyButtons();

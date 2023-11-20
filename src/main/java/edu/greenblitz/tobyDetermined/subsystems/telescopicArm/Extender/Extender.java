@@ -8,10 +8,7 @@ import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.utils.PIDObject;
-<<<<<<< HEAD:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Extender.java
 import edu.greenblitz.utils.motors.GBSparkMax;
-=======
->>>>>>> origin/master:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Extender/Extender.java
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.Timer;
@@ -128,13 +125,10 @@ public class Extender extends GBSubsystem {
 		return RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG : 0;
 	}
 
-<<<<<<< HEAD:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Extender.java
 	public static double getDynamicFeedForward(double wantedVelocity,double elbowAngle) {
 		return getStaticFeedForward(elbowAngle) + kV * wantedVelocity+ kS * Math.signum(wantedVelocity);
 	}
 	
-=======
->>>>>>> origin/master:src/main/java/edu/greenblitz/tobyDetermined/subsystems/telescopicArm/Extender/Extender.java
 	public double getVolt(){
 		return extenderInputs.appliedOutput * Battery.getInstance().getCurrentVoltage();
 	}

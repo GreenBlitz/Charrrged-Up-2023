@@ -319,13 +319,9 @@ public class RobotMap {
             public static final double FORWARDS_LENGTH_TOLERANCE = 0.01; //in meters
             public static final double VELOCITY_TOLERANCE = 0.02;
 
-<<<<<<< HEAD
             public static final double kS = 0.5;
             public static final double kV = 0.10958 / POSITION_CONVERSION_FACTOR;
             public static final double kA = 0.022655 * POSITION_CONVERSION_FACTOR;
-=======
-            public static final double kS = 0.32;
->>>>>>> origin/master
             public static final double kG = 0.67 - kS;
 
             public static final double EXTENDER_MASS_KG = 6;
