@@ -297,7 +297,7 @@ public class SwerveChassis extends GBSubsystem {
 	public void updatePoseEstimationLimeLight() {
 		if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent() || odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT) {
 			if(!robotHasObstacles()) {
-				poseEstimator.update(getPigeonAngle(), getSwerveModulePositions());
+				poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 			}
 		}
 		if (doVision) {
