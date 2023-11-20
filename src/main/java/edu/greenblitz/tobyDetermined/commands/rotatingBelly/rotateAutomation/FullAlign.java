@@ -1,12 +1,9 @@
 package edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateInDoorDirection;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateOutDoorDirection;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.*;
 

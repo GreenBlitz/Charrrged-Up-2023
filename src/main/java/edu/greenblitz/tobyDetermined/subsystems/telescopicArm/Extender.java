@@ -7,7 +7,6 @@ import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.utils.PIDObject;
-import edu.greenblitz.utils.RoborioUtils;
 import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
@@ -26,6 +25,8 @@ public class Extender extends GBSubsystem {
 	private Debouncer debouncer;
 	private boolean holdPosition =false;
 	private boolean didReset;
+	private double speed;
+	private double angle;
 
 	public static Extender getInstance() {
 		init();
@@ -95,7 +96,7 @@ public class Extender extends GBSubsystem {
 
 		
 		if (holdPosition) {
-			motor.setVoltage(getStaticFeedForward(Elbow.getInstance().getAngleRadians()));
+			motor.setVoltage(getStaticFeedForward(ElbowSub.getInstance().getAngleRadians()));
 		}
 	}
 
@@ -135,9 +136,9 @@ public class Extender extends GBSubsystem {
 		}
 
 		// arm should not extend to open state when inside the belly (would hit chassis)
-		else if (Elbow.getInstance().getState() == Elbow.ElbowState.IN_BELLY && getHypotheticalState(wantedLength).longerThan( ExtenderState.IN_ROBOT_BELLY_LENGTH)) {
+		else if (ElbowSub.getInstance().getState() == ElbowSub.ElbowState.IN_BELLY && getHypotheticalState(wantedLength).longerThan( ExtenderState.IN_ROBOT_BELLY_LENGTH)) {
 			return (RobotMap.TelescopicArm.Extender.MAX_LENGTH_IN_ROBOT - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
-		}else if (Elbow.getInstance().getState() == Elbow.ElbowState.WALL_ZONE && getHypotheticalState(wantedLength).longerThan(ExtenderState.IN_WALL_LENGTH)) {
+		}else if (ElbowSub.getInstance().getState() == ElbowSub.ElbowState.WALL_ZONE && getHypotheticalState(wantedLength).longerThan(ExtenderState.IN_WALL_LENGTH)) {
 			// arm should not extend too much in front of the wall
 			return (RobotMap.TelescopicArm.Extender.MAX_ENTRANCE_LENGTH - RobotMap.TelescopicArm.Extender.LENGTH_TOLERANCE);
 		} else {
@@ -233,6 +234,11 @@ public class Extender extends GBSubsystem {
 	public void setMotorVoltage(double voltage) {
 		holdPosition = false;
 		motor.set(voltage / Battery.getInstance().getCurrentVoltage());
+	}
+
+	public void setLinSpeed(double speed, double angle) {
+		motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getStaticFeedForward(angle));
+
 	}
 
 	public PIDObject getPID(){

@@ -15,16 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
-public class Elbow extends GBSubsystem {
+public class ElbowSub extends GBSubsystem {
 
 
-    private static Elbow instance;
+    private static ElbowSub instance;
     public ElbowState state = ElbowState.IN_BELLY;
     public GBSparkMax motor;
     private double debugLastFF;
-
     public double goalAngle;
-
     private MedianFilter absolutAngFilter;
     
     /*double sprocketRatio = 16.0/60;
@@ -33,20 +31,20 @@ public class Elbow extends GBSubsystem {
 
     private boolean debug = false;
 
-    public static Elbow getInstance() {
+    public static ElbowSub getInstance() {
         init();
         return instance;
     }
 
     public static void init(){
         if (instance == null) {
-            instance = new Elbow();
+            instance = new ElbowSub();
         }
     }
 
     public double startingValue;
     
-    private Elbow() {
+    private ElbowSub() {
         motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
 
@@ -79,15 +77,12 @@ public class Elbow extends GBSubsystem {
 
     @Override
     public void periodic() {
-        super.periodic();
         state = getHypotheticalState(getAngleRadians());
         SmartDashboard.putNumber("voltage", motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage());
         SmartDashboard.putNumber("velocity",getVelocity());
         SmartDashboard.putNumber("position",getAngleRadians());
         SmartDashboard.putNumber("current", motor.getOutputCurrent());
-        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue)
-        / (motor.getEncoder().getPosition() - startingValue));
-    
+        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue) / (motor.getEncoder().getPosition() - startingValue));
         if (accTimer.advanceIfElapsed(0.15)) {
             SmartDashboard.putNumber("curr acc",
                     (getVelocity() - lastSpeed) / (0.15 + accTimer.get())
@@ -136,8 +131,8 @@ public class Elbow extends GBSubsystem {
         else if (getState() == ElbowState.WALL_ZONE && Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH) {
             return getAngleRadians();
             //when moving between states the arm always passes through the IN_FRONT_OF_ENTRANCE zone and so length must be short enough
-            // if its not short enough the arm will approach the start of the zone
-        } else if((getState() != getHypotheticalState(angleInRads)) &&
+            // if it's not short enough the arm will approach the start of the zone
+        }else if((getState() != getHypotheticalState(angleInRads)) &&
                 Extender.getInstance().getState() != Extender.ExtenderState.IN_WALL_LENGTH){
             return (state == ElbowState.IN_BELLY ? RobotMap.TelescopicArm.Elbow.STARTING_WALL_ZONE_ANGLE - RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE : RobotMap.TelescopicArm.Elbow.END_WALL_ZONE_ANGLE+ RobotMap.TelescopicArm.Elbow.ANGLE_TOLERANCE);
         }else {
@@ -153,7 +148,7 @@ public class Elbow extends GBSubsystem {
 
     public double getAngleRadians() {
 //        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
-        return (((motor.getEncoder().getPosition())));
+        return (motor.getEncoder().getPosition());
     }
 
     public ElbowState getState() {
@@ -249,7 +244,9 @@ public class Elbow extends GBSubsystem {
     public PIDObject getPID(){
         return new PIDObject().withKp(motor.getPIDController().getP()).withKi(motor.getPIDController().getI()).withKd(motor.getPIDController().getD());
     }
-    
+    public void setAngSpeed(double speed, double angle, double length) {
+        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getStaticFeedForward(length ,angle));
+    }
     public double getGoalAngle() {
         return goalAngle;
     }

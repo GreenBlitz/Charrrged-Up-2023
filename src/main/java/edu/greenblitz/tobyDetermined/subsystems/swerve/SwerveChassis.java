@@ -177,8 +177,8 @@ public class SwerveChassis extends GBSubsystem {
 	public void setPoseByVision(){
 		if(MultiLimelight.getInstance().isConnected()) {
 			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
-				pigeonGyro.setYaw(0);
-				poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
+				getPigeonGyro().setYawAngle(0);
+				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 			}
 		}
 		else{
@@ -333,10 +333,12 @@ public class SwerveChassis extends GBSubsystem {
 	public void updateOdometry() {
 		odometry.update(getGyroAngle(), getSwerveModulePositions());
 	}
+
 	public boolean getFlHasObstacles(){return moduleHasObstacles(frontLeft);}
 	public boolean getFrHasObstacles(){return moduleHasObstacles(frontRight);}
 	public boolean getBlHasObstacles(){return moduleHasObstacles(backLeft);}
 	public boolean getBrHasObstacles(){return moduleHasObstacles(backRight);}
+
 
 
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
@@ -345,7 +347,6 @@ public class SwerveChassis extends GBSubsystem {
 			resetToVision();
 		}
 	}
-
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();
 	}
