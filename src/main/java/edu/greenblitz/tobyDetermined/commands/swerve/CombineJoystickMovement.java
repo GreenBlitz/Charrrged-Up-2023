@@ -23,6 +23,9 @@ public class CombineJoystickMovement extends SwerveCommand {
 	public CombineJoystickMovement(boolean isSlow) {
 		this(isSlow, () -> -OI.getInstance().getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_X));
 	}
+	public CombineJoystickMovement(boolean isSlow, boolean isFast) {
+		this(false, () -> -OI.getInstance().getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_X) * (isFast ? 2 : 1));
+	}
 	
 	@Override
 	public void initialize() {

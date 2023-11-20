@@ -3,7 +3,11 @@ package edu.greenblitz.tobyDetermined.commands.rotatingBelly.rotateAutomation;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateInDoorDirection;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateOutDoorDirection;
 import edu.greenblitz.tobyDetermined.subsystems.LED;
+<<<<<<< HEAD
 import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.RotatingBelly;
+=======
+import edu.greenblitz.tobyDetermined.subsystems.RotatingBelly.rotation.RotatingBelly;
+>>>>>>> origin/master
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.*;
 

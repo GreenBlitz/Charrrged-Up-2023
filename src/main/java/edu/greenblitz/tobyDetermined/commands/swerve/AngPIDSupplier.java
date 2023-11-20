@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.commands.swerve;
 
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassis;
 import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;

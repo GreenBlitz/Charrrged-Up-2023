@@ -1,8 +1,13 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.goToPosition;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+<<<<<<< HEAD
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
+=======
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
+>>>>>>> origin/master
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 

@@ -22,7 +22,7 @@ public class MoveForDuration extends SwerveCommand {
 
 	@Override
 	public void execute() {
-		swerve.moveByChassisSpeeds(speed, 0, 0, swerve.getPigeonGyro().getYaw());
+		swerve.moveByChassisSpeeds(speed, 0, 0, swerve.getGyro().getYaw());
 	}
 
 	@Override

@@ -35,10 +35,10 @@ public class BangBangBalance extends SwerveCommand {
 
 	@Override
 	public void execute() {
-		if ((pitchAngle * swerve.getPigeonGyro().getRoll() * (forwards ? -1 : 1)) < 0) {
+		if ((pitchAngle * swerve.getGyro().getRoll() * (forwards ? -1 : 1)) < 0) {
 			usedSpeed = originalSpeed * USEDSPEED_FACTOR;
 		}
-		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? -1 : 1);//gyro is flipped
+		pitchAngle = swerve.getGyro().getRoll() * (forwards ? -1 : 1);//gyro is flipped
 		if (Math.abs(pitchAngle) > usedTolerance) {
 			swerve.moveByChassisSpeeds(usedSpeed * Math.signum(pitchAngle), 0.0, 0.0, 0);
 		} else {

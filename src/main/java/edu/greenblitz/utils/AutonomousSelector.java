@@ -1,6 +1,7 @@
 package edu.greenblitz.utils;
 
 import edu.greenblitz.tobyDetermined.commands.Auto.PathFollowerBuilder;
+import edu.greenblitz.tobyDetermined.commands.Auto.balance.GetOutOfRampAndBalance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,11 +15,11 @@ public class AutonomousSelector {
 	private AutonomousSelector(){
 		//         m_chooser.addOption(auto name, path name );
 		chooser.addOption("Bjust_place", AutonomousPaths.BOTTOM_JUST_PLACE);
-		chooser.addOption("Bplace_exit", AutonomousPaths.BOTTOM_PLACE_EXIT);
+		chooser.addOption("ConePlaceAndExit", AutonomousPaths.BOTTOM_PLACE_EXIT);
 		chooser.addOption("B13_ramp", AutonomousPaths.BOTTOM_PICK_RAMP);
 		chooser.addOption("B13_a_23", AutonomousPaths.BOTTOM_TWO_OBJ);
-		chooser.addOption("Mjust_place", AutonomousPaths.MIDDLE_JUST_PLACE);
-		chooser.addOption("Mjust_ramp", AutonomousPaths.MIDDLE_JUST_RAMP);
+		chooser.addOption("just_place", AutonomousPaths.MIDDLE_JUST_PLACE);
+		chooser.addOption("just_ramp", AutonomousPaths.MIDDLE_JUST_RAMP);
 		chooser.addOption("M_ramp", AutonomousPaths.MIDDLE_PLACE_RAMP);
 		chooser.addOption("M_out_ramp", AutonomousPaths.MIDDLE_OUT_RAMP);
 		chooser.addOption("Tjust_place", AutonomousPaths.TOP_JUST_PLACE);
@@ -26,7 +27,7 @@ public class AutonomousSelector {
 		chooser.addOption("T_place_exit_ramp", AutonomousPaths.TOP_PICK_RAMP);
 		chooser.addOption("T_two_obj_plus", AutonomousPaths.TOP_TWO_OBJ_PLUS); //_93_d_83_c_82
 		chooser.addOption("T_only_two_obj", AutonomousPaths.TOP_ONLY_TWO_OBJ); //_93_d_83_c_82
-
+		chooser.addOption("better",AutonomousPaths.BETTER);
 
 
 		ShuffleboardTab tab = Shuffleboard.getTab("auto");
@@ -61,10 +62,10 @@ public class AutonomousSelector {
 		BOTTOM_PICK_RAMP(PathFollowerBuilder.getInstance().followPath("B13_ramp")),
 		MIDDLE_OUT_RAMP(PathFollowerBuilder.getInstance().followPath("M_out_ramp")),
 		MIDDLE_JUST_RAMP(PathFollowerBuilder.getInstance().followPath("Mjust_ramp")),
-		
+		BETTER(new GetOutOfRampAndBalance()),
 		
 
-		NONE(new InstantCommand());
+		NONE(BOTTOM_PICK_RAMP.autonomousCommand);
 
 
 		public CommandBase autonomousCommand;

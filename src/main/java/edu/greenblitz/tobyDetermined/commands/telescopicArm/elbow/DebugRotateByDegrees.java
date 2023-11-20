@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.elbow;
 
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.wpi.first.math.util.Units;
 
 public class DebugRotateByDegrees extends RotateToAngleRadians {
