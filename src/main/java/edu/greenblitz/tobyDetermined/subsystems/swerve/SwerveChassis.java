@@ -62,7 +62,7 @@ public class SwerveChassis extends GBSubsystem {
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
-		this.odometry = new SwerveDriveOdometry(this.kinematics, getPigeonAngle(),getSwerveModulePositions());
+		this.odometry = new SwerveDriveOdometry(this.kinematics, getGyroAngle(),getSwerveModulePositions());
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
 				getPigeonAngle(),
 				getSwerveModulePositions(),
@@ -324,8 +324,8 @@ public class SwerveChassis extends GBSubsystem {
 	public boolean getBlHasObstacles(){return moduleHasObstacles(backLeft);}
 	public boolean getBrHasObstacles(){return moduleHasObstacles(backRight);}
 
-	public void updateOdometry() {
-		odometry.update(getPigeonAngle(), getSwerveModulePositions());
+	public void updateOdometry(){
+		odometry.update(getGyroAngle(), getSwerveModulePositions());
 	}
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
