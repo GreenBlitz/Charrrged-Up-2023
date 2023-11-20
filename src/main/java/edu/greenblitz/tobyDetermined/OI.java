@@ -1,5 +1,4 @@
 package edu.greenblitz.tobyDetermined;
-
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
@@ -32,6 +31,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ObjectSelector;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class OI { //GEVALD
 
@@ -67,7 +67,6 @@ public class OI { //GEVALD
 	public static void disableHandling() {
 		isHandled = false;
 	}
-
 
 	private void initButtons() {
 		amireeeButtons();
