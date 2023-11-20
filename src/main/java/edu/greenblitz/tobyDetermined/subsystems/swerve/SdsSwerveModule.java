@@ -104,6 +104,7 @@ public class SdsSwerveModule implements SwerveModule {
 		return convertTicksToMeters(linearMotor.getSelectedSensorPosition());
 	}
 
+
 	@Override
 	public SwerveModulePosition getCurrentPosition() {
 		return new SwerveModulePosition(getCurrentMeters(),new Rotation2d(getModuleAngle()));
@@ -176,7 +177,12 @@ public class SdsSwerveModule implements SwerveModule {
 	public double getTargetVel() {
 		return targetVel;
 	}
-	
+
+	@Override
+	public double getMotorOutputCurrent() {
+		return linearMotor.getStatorCurrent();
+	}
+
 	/**
 	 * @return return the @class {@link SwerveModuleState} object of the angle and velocity of the module
 	 */

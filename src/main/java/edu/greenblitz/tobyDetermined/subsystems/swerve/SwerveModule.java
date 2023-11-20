@@ -33,6 +33,7 @@ public interface SwerveModule {
 	double getTargetAngle();
 	
 	double getTargetVel();
+	double getMotorOutputCurrent();
 	
 	SwerveModuleState getModuleState();
 	
