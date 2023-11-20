@@ -172,8 +172,8 @@ public class SwerveChassis extends GBSubsystem {
 	public void setPoseByVision(){
 		if(MultiLimelight.getInstance().isConnected()) {
 			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
-				pigeonGyro.setYaw(0);
-				poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
+				getPigeonGyro().setYawAngle(0);
+				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 			}
 		}
 		else{
@@ -301,8 +301,11 @@ public class SwerveChassis extends GBSubsystem {
 			}
 		}
 		if (doVision) {
-			for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
-				target.ifPresent(this::addVisionMeasurement);
+			if (MultiLimelight.getInstance().getAllEstimates().size() >= 1) {
+				twoApriltagsPresent = true;
+				for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
+					target.ifPresent(this::addVisionMeasurement);
+				}
 			}
 		}
 	}
@@ -319,14 +322,17 @@ public class SwerveChassis extends GBSubsystem {
 		return ((fl && fr) || (bl && br) || (fl && bl) || (br && fr) || (fl && br) || (fr && bl));
 	}
 
+	public void updateOdometry() {
+		odometry.update(getGyroAngle(), getSwerveModulePositions());
+	}
+
 	public boolean getFlHasObstacles(){return moduleHasObstacles(frontLeft);}
 	public boolean getFrHasObstacles(){return moduleHasObstacles(frontRight);}
 	public boolean getBlHasObstacles(){return moduleHasObstacles(backLeft);}
 	public boolean getBrHasObstacles(){return moduleHasObstacles(backRight);}
 
-	public void updateOdometry(){
-		odometry.update(getGyroAngle(), getSwerveModulePositions());
-	}
+
+
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
 		if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > RobotMap.Vision.MIN_DISTANCE_TO_FILTER_OUT)) {

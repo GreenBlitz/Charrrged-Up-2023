@@ -91,9 +91,9 @@ public class OI { //GEVALD
 		mainJoystick.X.whileTrue(new ResetVisionMoveToPose());
 	}
 
-    public void amireeeButtons(){
-        Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
-        ElbowSub.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
+	public void amireeeButtons() {
+		Extender.getInstance().setDefaultCommand(new ExtenderMoveByJoysticks(getSecondJoystick()));
+		ElbowSub.getInstance().setDefaultCommand(new ElbowMoveByJoysticks(getSecondJoystick()));
 
 		//screenshot
 		secondJoystick.R1.and(secondJoystick.L1).onTrue(new RewritePresetPosition());

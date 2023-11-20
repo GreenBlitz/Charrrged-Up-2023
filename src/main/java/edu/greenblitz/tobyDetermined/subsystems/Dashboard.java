@@ -106,11 +106,8 @@ public class Dashboard extends GBSubsystem {
 		driversTab.add("Field", SwerveChassis.getInstance().getField()).withPosition(5, 2).withSize(3, 2);
 		
 		driversTab.add("elbow ang", ElbowSub.getInstance().getAngleRadians());
-		
-		
 		driversTab.add("limelight NT", MultiLimelight.getInstance().isConnected());
 
-		driversTab.add("two apriltags",SwerveChassis.getInstance().twoApriltagsPresent);
 
 
 
