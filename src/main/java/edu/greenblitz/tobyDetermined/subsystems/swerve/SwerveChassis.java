@@ -20,6 +20,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -36,12 +37,13 @@ public class SwerveChassis extends GBSubsystem {
 //	private final IGyro pigeonGyro;
 	private final IGyro navX;
 	private final SwerveDriveKinematics kinematics;
+	private final BuiltInAccelerometer accelerometer;
 
 
 	private final SwerveDriveOdometry odometry;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
-	
+
 	private final Ultrasonic ultrasonic;
 	private final int FILTER_BUFFER_SIZE = 15;
 	Debouncer encoderBrokenDebouncer = new Debouncer(0.2);
@@ -50,7 +52,7 @@ public class SwerveChassis extends GBSubsystem {
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
-	public final double currentTolerance = 0.1;
+	public final double currentTolerance = 0.5;
 	
 	public SwerveChassis() {
 		this.frontLeft = new SdsSwerveModule(RobotMap.Swerve.SdsModuleFrontLeft);
@@ -76,6 +78,7 @@ public class SwerveChassis extends GBSubsystem {
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		SmartDashboard.putData("field", getField());
 		SmartDashboard.putData("field", getField());
+		accelerometer = new BuiltInAccelerometer();
 	}
 	
 	
@@ -289,7 +292,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	public void updatePoseEstimationLimeLight() {
 		if((odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT)) {
-			if(robotHasObstacles()) {
+			if(!robotHasObstacles()) {
 				poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 			}
 		}
@@ -302,9 +305,9 @@ public class SwerveChassis extends GBSubsystem {
 		}
 	}
 	private boolean moduleHasObstacles(SwerveModule module) {
-		return module.getMotorOutputCurrent() > currentTolerance + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
+		return module.getMotorOutputCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - currentTolerance && module.getMotorOutputCurrent() < currentTolerance + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
 	}
-	private boolean robotHasObstacles() {
+	public boolean robotHasObstacles() {
 
 		boolean fl = moduleHasObstacles(frontLeft);
 		boolean fr = moduleHasObstacles(frontRight);
@@ -314,10 +317,15 @@ public class SwerveChassis extends GBSubsystem {
 		return ((fl && fr) || (bl && br) || (fl && bl) || (br && fr) || (fl && br) || (fr && bl));
 	}
 
-	public void updateOdometry(){
+	public void updateOdometry() {
 		odometry.update(getGyroAngle(), getSwerveModulePositions());
-
 	}
+	public boolean getFlHasObstacles(){return moduleHasObstacles(frontLeft);}
+	public boolean getFrHasObstacles(){return moduleHasObstacles(frontRight);}
+	public boolean getBlHasObstacles(){return moduleHasObstacles(backLeft);}
+	public boolean getBrHasObstacles(){return moduleHasObstacles(backRight);}
+
+
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
 		if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > RobotMap.Vision.MIN_DISTANCE_TO_FILTER_OUT)) {
