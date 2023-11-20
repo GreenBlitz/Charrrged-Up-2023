@@ -20,7 +20,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -37,7 +36,6 @@ public class SwerveChassis extends GBSubsystem {
 //	private final IGyro pigeonGyro;
 	private final IGyro navX;
 	private final SwerveDriveKinematics kinematics;
-	private final BuiltInAccelerometer accelerometer;
 
 
 	private final SwerveDriveOdometry odometry;
@@ -78,7 +76,6 @@ public class SwerveChassis extends GBSubsystem {
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		SmartDashboard.putData("field", getField());
 		SmartDashboard.putData("field", getField());
-		accelerometer = new BuiltInAccelerometer();
 	}
 	
 	
@@ -176,6 +173,22 @@ public class SwerveChassis extends GBSubsystem {
 		navX.setYawAngle(0);
 		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), new Pose2d());
 	}
+
+	public void setPoseByVision(){
+		if(MultiLimelight.getInstance().isConnected()) {
+			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
+				pigeonGyro.setYaw(0);
+				poseEstimator.resetPosition(getPigeonAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
+			}
+		}
+		else{
+			resetChassisPose();
+		}
+	}
+
+
+
+
 	
 	/**
 	 * returns chassis angle in radians
@@ -291,7 +304,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public void updatePoseEstimationLimeLight() {
-		if((odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT)) {
+		if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent() || odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT) {
 			if(!robotHasObstacles()) {
 				poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 			}

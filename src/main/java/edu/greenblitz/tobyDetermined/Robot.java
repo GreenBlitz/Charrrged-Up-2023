@@ -53,7 +53,8 @@ public class Robot extends TimedRobot {
 //		AutonomousSelector.getInstance();
 		//swerve
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
-		SwerveChassis.getInstance().resetChassisPose();
+//		SwerveChassis.getInstance().resetChassisPose();
+		SwerveChassis.getInstance().setPoseByVision();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 	}
