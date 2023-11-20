@@ -15,7 +15,7 @@ public class GBFalcon extends TalonFX {
 	public GBFalcon(int deviceNumber) {
 		super(deviceNumber);
 	}
-	
+
 	/**
 	 * configs the motor settings using FalconConfObject
 	 *

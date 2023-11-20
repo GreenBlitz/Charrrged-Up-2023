@@ -18,10 +18,7 @@ import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -39,6 +36,9 @@ public class SwerveChassis extends GBSubsystem {
 //	private final IGyro pigeonGyro;
 	private final IGyro navX;
 	private final SwerveDriveKinematics kinematics;
+
+
+	private final SwerveDriveOdometry odometry;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
 	
@@ -70,6 +70,7 @@ public class SwerveChassis extends GBSubsystem {
 		this.kinematics = new SwerveDriveKinematics(
 				RobotMap.Swerve.SwerveLocationsInSwerveKinematicsCoordinates
 		);
+		this.odometry = new SwerveDriveOdometry(this.kinematics, getGyroAngle(),getSwerveModulePositions());
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
 				getGyroAngle(),
 				getSwerveModulePositions(),
@@ -95,7 +96,7 @@ public class SwerveChassis extends GBSubsystem {
 	
 	@Override
 	public void periodic() {
-		
+		updateOdometry();
 		updatePoseEstimationLimeLight();
 		field.setRobotPose(getRobotPose());
 	}
@@ -302,13 +303,17 @@ public class SwerveChassis extends GBSubsystem {
 		}
 	}
 
-	
+	public void updateOdometry(){
+		odometry.update(getGyroAngle(), getSwerveModulePositions());
+	}
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
 		Pose2d visionPose = poseTimestampPair.getFirst();
 		if (!(visionPose.getTranslation().getDistance(SwerveChassis.getInstance().getRobotPose().getTranslation()) > RobotMap.Vision.MIN_DISTANCE_TO_FILTER_OUT)) {
 			resetToVision();
 		}
 	}
+
+
 	
 	public Pose2d getRobotPose() {
 		return poseEstimator.getEstimatedPosition();

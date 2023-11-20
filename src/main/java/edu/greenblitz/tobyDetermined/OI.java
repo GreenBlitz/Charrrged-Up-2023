@@ -69,8 +69,7 @@ public class OI { //GEVALD
 	}
 
 	private void initButtons() {
-		amireeeButtons();
-		romyButtons();
+		SwerveChassis.getInstance().setDefaultCommand(new CombineJoystickMovement(true));
 	}
 
 	public void romyButtons() {

@@ -16,7 +16,7 @@ public class Photonvision extends GBSubsystem {
 	private PhotonCamera camera;
 	private PhotonPoseEstimator poseEstimator;
 	
-	private Photonvision() {
+	public Photonvision() {
 		camera = new PhotonCamera("photonvision");
 		poseEstimator = new PhotonPoseEstimator(
 				Field.Apriltags.aprilTagFieldLayout,
