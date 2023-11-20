@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
@@ -31,6 +32,7 @@ public class Extender extends GBSubsystem {
 	private double speed;
 	private double angle;
 
+	public GBSparkMax motor;
 	private final IExtender extender;
 	private final ExtenderInputsAutoLogged extenderInputs = new ExtenderInputsAutoLogged();
 	public static Extender getInstance() {
@@ -43,10 +45,21 @@ public class Extender extends GBSubsystem {
 			instance = new Extender();
 		}
 	}
-
+	public boolean DoesSensorExist = true;
 	private Extender() {
 		extender = ExtenderFactory.create();
 		extender.updateInputs(extenderInputs);
+
+		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+		motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
+		motor.setSmartCurrentLimit(50,EXTENDER_CONFIG_OBJECT.getCurrentLimit());
+		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
+		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(DoesSensorExist);
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
+		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
+		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
 		this.profileGenerator = new ProfiledPIDController(
 				extenderInputs.kP,
@@ -191,7 +204,7 @@ public class Extender extends GBSubsystem {
 		extender.setPower(0);
 		holdPosition = true;
 	}
-	
+
 	public void brake(){
 		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 	}

@@ -1,17 +1,20 @@
 package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.greenblitz.tobyDetermined.Robot;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Console;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.utils.PIDObject;
+import edu.greenblitz.utils.motors.GBSparkMax;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
-
+import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.*;
 
 public class Elbow extends GBSubsystem {
@@ -29,7 +32,7 @@ public class Elbow extends GBSubsystem {
 
     private boolean debug = false;
 
-
+    public GBSparkMax motor;
     private IElbow elbow;
     private ElbowInputsAutoLogged elbowInputs;
 
@@ -46,6 +49,14 @@ public class Elbow extends GBSubsystem {
     public double startingValue;
     
     private Elbow() {
+        motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
+
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_POSITION_CONVERSION_FACTOR);
+        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_VELOCITY_CONVERSION_FACTOR);
+
+        motor.getEncoder().setPositionConversionFactor(RELATIVE_POSITION_CONVERSION_FACTOR);//not the actual gear ratio, weird estimation
+        motor.getEncoder().setVelocityConversionFactor(RELATIVE_VELOCITY_CONVERSION_FACTOR);
 
         elbow = ElbowFactory.create();
         elbowInputs = new ElbowInputsAutoLogged();
@@ -148,7 +159,7 @@ public class Elbow extends GBSubsystem {
 
     public double getAngleRadians() {
 //        return motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
-        return (motor.getEncoder().getPosition());
+//        return (motor.getEncoder().getPosition());
         return elbowInputs.position;
     }
 
@@ -198,8 +209,8 @@ public class Elbow extends GBSubsystem {
     }
 
     public static double getStaticFeedForward(double extenderLength,double elbowAngle) {
-        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg ) * extenderLength)
-                / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
+//        return (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg ) * extenderLength)
+//                / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND);
 
         return RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  (RobotMap.TelescopicArm.Elbow.MIN_Kg + (((RobotMap.TelescopicArm.Elbow.MAX_Kg - RobotMap.TelescopicArm.Elbow.MIN_Kg) * extenderLength)
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND)

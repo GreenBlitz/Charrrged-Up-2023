@@ -16,21 +16,21 @@ public class NeoElbow implements IElbow {
     GBSparkMax motor;
 
     public NeoElbow() {
-        motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
-
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_POSITION_CONVERSION_FACTOR);
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_VELOCITY_CONVERSION_FACTOR);
-
-        motor.getEncoder().setPositionConversionFactor(RELATIVE_POSITION_CONVERSION_FACTOR);//not the actual gear ratio, weird estimation
-        motor.getEncoder().setVelocityConversionFactor(RELATIVE_VELOCITY_CONVERSION_FACTOR);
-
-        motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
-        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
-        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
-
+//        motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+//        motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
+//
+//        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_POSITION_CONVERSION_FACTOR);
+//        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_VELOCITY_CONVERSION_FACTOR);
+//
+//        motor.getEncoder().setPositionConversionFactor(RELATIVE_POSITION_CONVERSION_FACTOR);//not the actual gear ratio, weird estimation
+//        motor.getEncoder().setVelocityConversionFactor(RELATIVE_VELOCITY_CONVERSION_FACTOR);
+//
+//        motor.getPIDController().setFeedbackDevice(motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle));
+//        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+//        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+//        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, RobotMap.TelescopicArm.Elbow.BACKWARD_ANGLE_LIMIT);
+//        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Elbow.FORWARD_ANGLE_LIMIT);
+        motor = Elbow.getInstance().motor;
     }
 
     @Override

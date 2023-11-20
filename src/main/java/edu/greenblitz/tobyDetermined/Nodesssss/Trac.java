@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.constraint.*;
 import edu.wpi.first.math.util.Units;
+import org.littletonrobotics.junction.Logger;
 import scala.Unit;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class Trac {
 
     }
 
-    public static void main(String[] args) {
+    public static void main() {
 
         var trajectory = TrajectoryGenerator.generateTrajectory(
                 new Pose2d(4, 5, Rotation2d.fromDegrees(10)),
@@ -123,9 +124,9 @@ public class Trac {
         //Pose2d bOrigin = new Pose2d(1, 1, Rotation2d.fromDegrees(0));
         //Trajectory bTrajectory = trajectory.relativeTo(bOrigin);
         //Logger.getInstance().recordOutput("Trac5", bTrajectory);
-//        Logger.getInstance().recordOutput("Trac4", newTrajectory);
+        Logger.getInstance().recordOutput("Trac4", newTrajectory);
         //Logger.getInstance().recordOutput("Trac3", trajectoryTwo.concatenate(trajectory));
-//        Logger.getInstance().recordOutput("Trac1", trajectoryTwo);
+        Logger.getInstance().recordOutput("Trac1", trajectoryTwo);
         //Logger.getInstance().recordOutput("Trac2", trajectory);
     }
 }
