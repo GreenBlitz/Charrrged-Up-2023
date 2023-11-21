@@ -5,7 +5,6 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.GBMath;
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -63,8 +62,8 @@ public class MoveArmByTrajectory extends GBCommand {
 		double elbowVelocity = x*speeds.vyMetersPerSecond-speeds.vxMetersPerSecond*y;
 		elbowVelocity /= x*x+y*y;
 
-		extender.setLinSpeed(extenderVelocity);
-		elbow.setAngSpeed(elbowVelocity,elbow.getAngleRadians(),extender.getLength());
+		extender.setVelocity(extenderVelocity);
+		elbow.setVelocity(elbowVelocity,Elbow.getDynamicFeedForward(elbowVelocity,extender.getLength(),elbow.getAngleRadians()));
 	}
 	
 	@Override

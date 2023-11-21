@@ -5,18 +5,19 @@ import edu.greenblitz.tobyDetermined.Nodesssss.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ArmSimulation;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.GBMath;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.littletonrobotics.junction.Logger;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
 
 public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
-    private final Elbow elbowSub;
+    private final Elbow elbow;
 
     private PresetPositions start;
     private PresetPositions end;
@@ -28,8 +29,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     
     public NodeToNeighbourCommand(PresetPositions start, PresetPositions end) {
         extender = Extender.getInstance();
-        elbowSub = Elbow.getInstance();
-        require(elbowSub);
+        elbow = Elbow.getInstance();
+        require(elbow);
         require(extender);
         COMBINED_VELOCITY = 0;
         this.start = start;
@@ -52,6 +53,8 @@ public class NodeToNeighbourCommand extends GBCommand {
             );
         COMBINED_VELOCITY = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance,1,5.9,0.3);
         SmartDashboard.putNumber("Combined Velocity",COMBINED_VELOCITY);
+
+        Logger.getInstance().recordOutput("Arm/TargetPose3D/endNode",ArmSimulation.getArmPosition(NodeBase.getNode(end).getExtendPos(),(NodeBase.getNode(end).getAnglePos())));
     }
     
     public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double gamma) {
@@ -72,7 +75,7 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     public double calculateAngularVelocity(double startVelocity, NodeArm nodeEndIndex) {
 
-        double signOfAngle = Math.signum(nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians());
+        double signOfAngle = Math.signum(nodeEndIndex.getAnglePos() - elbow.getAngleRadians());
         double magnitudeOfVelocity = startVelocity / (extender.getLength() + STARTING_LENGTH);
         
         SmartDashboard.putNumber("wanted angular vel", Math.abs(magnitudeOfVelocity)*signOfAngle);
@@ -86,7 +89,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     public void moveArm(NodeArm nodeEndIndex) {
         double start = extender.getLength() + STARTING_LENGTH;
         double end = nodeEndIndex.getExtendPos() + STARTING_LENGTH;
-        double gamma = nodeEndIndex.getAnglePos() - elbowSub.getAngleRadians();
+        double gamma = nodeEndIndex.getAnglePos() - elbow.getAngleRadians();
         double ratio = getRatioBetweenAngleAndLength(start, end, gamma);
 
         double extenderVelocity = calculateExtenderVelocity(ratio, nodeEndIndex);
@@ -95,23 +98,23 @@ public class NodeToNeighbourCommand extends GBCommand {
         extenderVelocity = Math.min(MAX_EXTENDER_VELOCITY, extenderVelocity);
         extenderVelocity = Math.max(-MAX_EXTENDER_VELOCITY, extenderVelocity);
 
-        if (!(nodeEndIndex.getIsAtAngle(elbowSub.getAngleRadians()))) {
-            elbowSub.setAngSpeed(angularVelocity, elbowSub.getAngleRadians(), extender.getLength());
+        if (!(nodeEndIndex.getIsAtAngle(elbow.getAngleRadians()))) {
+            elbow.setVelocity(angularVelocity, Elbow.getDynamicFeedForward(angularVelocity,extender.getLength(), elbow.getAngleRadians()));
             SmartDashboard.putBoolean("isInThreshold", true);
         } else {
-            elbowSub.stop();
+            elbow.stop();
             SmartDashboard.putBoolean("isInThreshold", false);
         }
 
         if (end >= 0.1 || start >= 0.1)
-            extender.setLinSpeed(extenderVelocity);
+            extender.setVelocity(extenderVelocity);
         else
-            extender.setMotorVoltage(Extender.getStaticFeedForward(elbowSub.getAngleRadians()));
+            extender.setMotorVoltage(Extender.getStaticFeedForward(elbow.getAngleRadians()));
         
     }
 
     public boolean isInPlace(NodeArm target) {
-        return target.getIsAtNode(elbowSub.getAngleRadians(),extender.getLength());
+        return target.getIsAtNode(elbow.getAngleRadians(),extender.getLength());
     }
 
     @Override
@@ -132,7 +135,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            MidNode.getInstance().setNewMidNode(start, end, extender.getLength(), elbowSub.getAngleRadians());
+            MidNode.getInstance().setNewMidNode(start, end, extender.getLength(), elbow.getAngleRadians());
             CurrentNode.setCurrentNode(PresetPositions.MID_NODE);
         } else
             CurrentNode.setCurrentNode(end);

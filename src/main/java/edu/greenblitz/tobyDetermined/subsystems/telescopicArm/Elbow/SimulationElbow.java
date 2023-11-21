@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import org.littletonrobotics.junction.Logger;
@@ -12,6 +13,7 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.Simulat
 public class SimulationElbow implements IElbow {
     SingleJointedArmSim elbowSim;
     private double appliedVoltage;
+    private final PIDController controller = new PIDController(SIM_PID.getKp(),SIM_PID.getKi(),SIM_PID.getKd());
 
     public SimulationElbow() {
         elbowSim = new SingleJointedArmSim(
@@ -82,5 +84,11 @@ public class SimulationElbow implements IElbow {
     @Override
     public void setPosition(double position) {
         Logger.getInstance().recordOutput("Arm/Elbow", "tried to set the position to " + position);
+    }
+
+
+    @Override
+    public void setVelocity(double speed, double feedForward) {
+        setVoltage(controller.calculate(elbowSim.getVelocityRadPerSec(), speed));
     }
 }

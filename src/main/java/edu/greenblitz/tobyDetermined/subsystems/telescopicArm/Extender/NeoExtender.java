@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.utils.motors.GBSparkMax;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT;
@@ -16,17 +17,16 @@ public class NeoExtender implements IExtender {
     private boolean doesSensorExists = true;
 
     public NeoExtender() {
-//        motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-//        motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
-//        motor.setSmartCurrentLimit(50, EXTENDER_CONFIG_OBJECT.getCurrentLimit());
-//        motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
-//        motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(doesSensorExists);
-//        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-//        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
-//        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
-//        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
-//        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        motor = Extender.getInstance().motor;
+        motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
+        motor.setSmartCurrentLimit(50, EXTENDER_CONFIG_OBJECT.getCurrentLimit());
+        motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
+        motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(doesSensorExists);
+        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
+        motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+        motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
 
@@ -58,6 +58,12 @@ public class NeoExtender implements IExtender {
     @Override
     public void setPosition(double position) {
         motor.getEncoder().setPosition(position);
+    }
+
+    @Override
+    public void setVelocity(double speed) {
+        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, Extender.getDynamicFeedForward(speed, Elbow.getInstance().getAngleRadians()));
+
     }
 
     @Override

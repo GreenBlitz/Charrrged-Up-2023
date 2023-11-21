@@ -8,7 +8,11 @@ public interface IExtender {
      void setPower(double power);
 
      void setVoltage(double voltage);
+
      void setPosition (double position);
+
+     void setVelocity(double speed);
+
      void setIdleMode (CANSparkMax.IdleMode idleMode);
 
      void enableSoftLimit(CANSparkMax.SoftLimitDirection direction, boolean isEnabled);

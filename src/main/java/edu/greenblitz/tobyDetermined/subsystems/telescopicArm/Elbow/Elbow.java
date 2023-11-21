@@ -32,7 +32,6 @@ public class Elbow extends GBSubsystem {
 
     private boolean debug = false;
 
-    public GBSparkMax motor;
     private IElbow elbow;
     private ElbowInputsAutoLogged elbowInputs;
 
@@ -49,14 +48,6 @@ public class Elbow extends GBSubsystem {
     public double startingValue;
     
     private Elbow() {
-        motor = new GBSparkMax(RobotMap.TelescopicArm.Elbow.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor.config(RobotMap.TelescopicArm.Elbow.ELBOW_CONFIG_OBJECT);
-
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setPositionConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_POSITION_CONVERSION_FACTOR);
-        motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).setVelocityConversionFactor(RobotMap.TelescopicArm.Elbow.ABSOLUTE_VELOCITY_CONVERSION_FACTOR);
-
-        motor.getEncoder().setPositionConversionFactor(RELATIVE_POSITION_CONVERSION_FACTOR);//not the actual gear ratio, weird estimation
-        motor.getEncoder().setVelocityConversionFactor(RELATIVE_VELOCITY_CONVERSION_FACTOR);
 
         elbow = ElbowFactory.create();
         elbowInputs = new ElbowInputsAutoLogged();
@@ -81,11 +72,11 @@ public class Elbow extends GBSubsystem {
     @Override
     public void periodic() {
         state = getHypotheticalState(getAngleRadians());
-        SmartDashboard.putNumber("voltage", motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage());
+        SmartDashboard.putNumber("voltage", elbowInputs.appliedOutput);
         SmartDashboard.putNumber("velocity",getVelocity());
         SmartDashboard.putNumber("position",getAngleRadians());
-        SmartDashboard.putNumber("current", motor.getOutputCurrent());
-        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue) / (motor.getEncoder().getPosition() - startingValue));
+//        SmartDashboard.putNumber("current", motor.getOutputCurrent());
+//        SmartDashboard.putNumber("ratio", (motor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition() - startingValue) / (motor.getEncoder().getPosition() - startingValue));
         SmartDashboard.putNumber("voltage", elbowInputs.appliedOutput);
         SmartDashboard.putNumber("velocity", elbowInputs.velocity);
         SmartDashboard.putNumber("position", elbowInputs.position);
@@ -202,7 +193,7 @@ public class Elbow extends GBSubsystem {
     }
     
     public void brake(){
-        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        elbow.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
     public boolean isInTheSameState(double wantedAng) {
         return getHypotheticalState(getAngleRadians()) == getHypotheticalState(wantedAng) && (getHypotheticalState(wantedAng) != ElbowState.FORWARD_OUT_OF_BOUNDS || getHypotheticalState(wantedAng) != ElbowState.BACKWARD_OUT_OF_BOUNDS);
@@ -259,7 +250,7 @@ public class Elbow extends GBSubsystem {
     }
 
     public double getVoltage (){
-        return motor.getAppliedOutput() * Battery.getInstance().getCurrentVoltage();
+        return elbowInputs.appliedOutput;
     }
 
     public void setMotorVoltage (double voltage){
@@ -269,8 +260,8 @@ public class Elbow extends GBSubsystem {
     public PIDObject getPID(){
         return new PIDObject().withKp(elbowInputs.kP).withKi(elbowInputs.kI).withKd(elbowInputs.kD);
     }
-    public void setAngSpeed(double speed, double angle, double length) {
-        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getDynamicFeedForward(speed,length ,angle));
+    public void setVelocity(double speed, double feedForward) {
+        elbow.setVelocity(speed,feedForward);
     }
     public double getGoalAngle() {
         return goalAngle;

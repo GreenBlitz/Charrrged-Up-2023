@@ -3,15 +3,19 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.core.appender.rolling.action.IfNot;
 import org.littletonrobotics.junction.Logger;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.Simulation.SIM_PID;
 
 public class SimulationExtender implements IExtender {
     ElevatorSim extenderSim;
     private double appliedVoltage;
+    private final PIDController controller = new PIDController(SIM_PID.getKp(),SIM_PID.getKi(),SIM_PID.getKd());
 
     public SimulationExtender() {
         this.extenderSim = new ElevatorSim(
@@ -28,6 +32,7 @@ public class SimulationExtender implements IExtender {
     @Override
     public void setPower(double power) {
         setVoltage(power * RobotMap.SimulationConstants.BATTERY_VOLTAGE);
+        SmartDashboard.putNumber("simVoltage",power*RobotMap.SimulationConstants.BATTERY_VOLTAGE);
     }
 
     @Override
@@ -58,6 +63,13 @@ public class SimulationExtender implements IExtender {
     public void setPosition(double position) {
 //        System.out.println("[Extender]: tried setting the position to " + position);
         Logger.getInstance().recordOutput("Arm/Extender", "tried setting the position to " + position);
+    }
+
+    @Override
+    public void setVelocity(double speed) {
+        double voltage = controller.calculate(extenderSim.getVelocityMetersPerSecond(),speed);
+        setVoltage(voltage);
+        SmartDashboard.putNumber("simVoltage",voltage);
     }
 
     @Override

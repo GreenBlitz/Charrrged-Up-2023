@@ -32,7 +32,6 @@ public class Extender extends GBSubsystem {
 	private double speed;
 	private double angle;
 
-	public GBSparkMax motor;
 	private final IExtender extender;
 	private final ExtenderInputsAutoLogged extenderInputs = new ExtenderInputsAutoLogged();
 	public static Extender getInstance() {
@@ -49,17 +48,6 @@ public class Extender extends GBSubsystem {
 	private Extender() {
 		extender = ExtenderFactory.create();
 		extender.updateInputs(extenderInputs);
-
-		motor = new GBSparkMax(RobotMap.TelescopicArm.Extender.MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-		motor.config(RobotMap.TelescopicArm.Extender.EXTENDER_CONFIG_OBJECT);
-		motor.setSmartCurrentLimit(50,EXTENDER_CONFIG_OBJECT.getCurrentLimit());
-		motor.getEncoder().setPosition(RobotMap.TelescopicArm.Extender.STARTING_LENGTH);
-		motor.getReverseLimitSwitch(RobotMap.TelescopicArm.Extender.SWITCH_TYPE).enableLimitSwitch(DoesSensorExist);
-		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, RobotMap.TelescopicArm.Extender.FORWARD_LIMIT);
-		motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
-		motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, BACKWARDS_LIMIT);
-		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
 		this.profileGenerator = new ProfiledPIDController(
 				extenderInputs.kP,
@@ -206,7 +194,7 @@ public class Extender extends GBSubsystem {
 	}
 
 	public void brake(){
-		motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+		extender.setIdleMode(CANSparkMax.IdleMode.kBrake);
 	}
 
 	public boolean isAtLength(double wantedLength){
@@ -264,9 +252,8 @@ public class Extender extends GBSubsystem {
 		extender.setPower(voltage / Battery.getInstance().getCurrentVoltage());
 	}
 
-	public void setLinSpeed(double speed) {
-		motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, getDynamicFeedForward(speed,Elbow.getInstance().getAngleRadians()));
-		SmartDashboard.putNumber("extender output", motor.getAppliedOutput());
+	public void setVelocity(double speed) {
+		extender.setVelocity(speed);
 	}
 
 	public PIDObject getPID(){
