@@ -38,11 +38,6 @@ public class NeoElbow implements IElbow {
     }
 
     @Override
-    public void setVelocity(double speed, double feedForward) {
-        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity,0,feedForward);
-    }
-
-    @Override
     public void setPower(double power) {
         motor.set(power);
     }

@@ -15,7 +15,6 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.Simu
 public class SimulationExtender implements IExtender {
     ElevatorSim extenderSim;
     private double appliedVoltage;
-    private final PIDController controller = new PIDController(SIM_PID.getKp(),SIM_PID.getKi(),SIM_PID.getKd());
 
     public SimulationExtender() {
         this.extenderSim = new ElevatorSim(
@@ -65,13 +64,6 @@ public class SimulationExtender implements IExtender {
         Logger.getInstance().recordOutput("Arm/Extender", "tried setting the position to " + position);
     }
 
-    @Override
-    public void setVelocity(double speed) {
-        double error = controller.calculate(extenderSim.getVelocityMetersPerSecond(),speed);
-        error /= controller.getP();
-        SmartDashboard.putNumber("wantedSimVoltage",error);
-        setPower(error);
-    }
 
     @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {

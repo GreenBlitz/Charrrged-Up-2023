@@ -252,10 +252,6 @@ public class Extender extends GBSubsystem {
 		extender.setPower(voltage / Battery.getInstance().getCurrentVoltage());
 	}
 
-	public void setVelocity(double speed) {
-		extender.setVelocity(speed);
-	}
-
 	public PIDObject getPID(){
 		return new PIDObject().withKp(extenderInputs.kP).withKi(extenderInputs.kI).withKd(extenderInputs.kI);
 	}

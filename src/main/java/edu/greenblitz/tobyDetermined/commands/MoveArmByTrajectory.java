@@ -62,8 +62,8 @@ public class MoveArmByTrajectory extends GBCommand {
 		double elbowVelocity = x*speeds.vyMetersPerSecond-speeds.vxMetersPerSecond*y;
 		elbowVelocity /= x*x+y*y;
 
-		extender.setVelocity(extenderVelocity);
-		elbow.setVelocity(elbowVelocity,Elbow.getDynamicFeedForward(elbowVelocity,extender.getLength(),elbow.getAngleRadians()));
+		extender.setMotorVoltage(Extender.getDynamicFeedForward(extenderVelocity,Elbow.getInstance().getAngleRadians()));
+		elbow.setMotorVoltage(Elbow.getDynamicFeedForward(elbowVelocity,extender.getLength(),elbow.getAngleRadians()));
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow;
 
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -87,8 +88,4 @@ public class SimulationElbow implements IElbow {
     }
 
 
-    @Override
-    public void setVelocity(double speed, double feedForward) {
-        setVoltage(controller.calculate(elbowSim.getVelocityRadPerSec(), speed));
-    }
 }

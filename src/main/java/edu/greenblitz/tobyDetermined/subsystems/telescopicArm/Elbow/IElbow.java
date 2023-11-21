@@ -7,7 +7,6 @@ public interface IElbow {
 
     void setPosition(double position);
 
-    void setVelocity(double speed, double feedForward);
 
     void setPower(double power);
 

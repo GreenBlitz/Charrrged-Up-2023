@@ -19,11 +19,6 @@ public class ReplayExtender implements IExtender{
     }
 
     @Override
-    public void setVelocity(double speed) {
-
-    }
-
-    @Override
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
 
     }

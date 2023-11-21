@@ -260,9 +260,7 @@ public class Elbow extends GBSubsystem {
     public PIDObject getPID(){
         return new PIDObject().withKp(elbowInputs.kP).withKi(elbowInputs.kI).withKd(elbowInputs.kD);
     }
-    public void setVelocity(double speed, double feedForward) {
-        elbow.setVelocity(speed,feedForward);
-    }
+
     public double getGoalAngle() {
         return goalAngle;
     }

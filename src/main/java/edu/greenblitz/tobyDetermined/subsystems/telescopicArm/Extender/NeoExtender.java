@@ -61,12 +61,6 @@ public class NeoExtender implements IExtender {
     }
 
     @Override
-    public void setVelocity(double speed) {
-        motor.getPIDController().setReference(speed, CANSparkMax.ControlType.kVelocity, 0, Extender.getDynamicFeedForward(speed, Elbow.getInstance().getAngleRadians()));
-
-    }
-
-    @Override
     public void updateInputs(ExtenderInputs inputs) {
         inputs.appliedOutput = motor.getAppliedOutput();
         inputs.outputCurrent = motor.getOutputCurrent();

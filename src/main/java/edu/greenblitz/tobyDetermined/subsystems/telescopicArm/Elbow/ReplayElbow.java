@@ -9,11 +9,6 @@ public class ReplayElbow implements IElbow{
     }
 
     @Override
-    public void setVelocity(double speed, double feedForward) {
-
-    }
-
-    @Override
     public void setPower(double power) {
 
     }
