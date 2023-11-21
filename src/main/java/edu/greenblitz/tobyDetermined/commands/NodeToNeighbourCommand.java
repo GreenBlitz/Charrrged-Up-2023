@@ -25,8 +25,10 @@ public class NodeToNeighbourCommand extends GBCommand {
     private static final double STATIC_COMBINED_VELOCITY = 2; // Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1.5; //In Meters Per Second
     private static final double MAX_ANGULAR_VELOCITY = 5;//In Radians Per Second
+
     private static final double STARTING_LENGTH = RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
-    
+    private static final double EXTENDER_STOPPING_THRESHOLD = 0.1 + STARTING_LENGTH;
+
     public NodeToNeighbourCommand(PresetPositions start, PresetPositions end) {
         extender = Extender.getInstance();
         elbow = Elbow.getInstance();
@@ -106,7 +108,7 @@ public class NodeToNeighbourCommand extends GBCommand {
             SmartDashboard.putBoolean("isInThreshold", false);
         }
 
-        if (end >= 0.1 || start >= 0.1)
+        if (end >= EXTENDER_STOPPING_THRESHOLD || start >= EXTENDER_STOPPING_THRESHOLD)
             extender.setVelocity(extenderVelocity);
         else
             extender.setMotorVoltage(Extender.getStaticFeedForward(elbow.getAngleRadians()));

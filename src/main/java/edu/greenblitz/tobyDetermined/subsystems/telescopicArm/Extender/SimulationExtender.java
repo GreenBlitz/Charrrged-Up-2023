@@ -32,12 +32,12 @@ public class SimulationExtender implements IExtender {
     @Override
     public void setPower(double power) {
         setVoltage(power * RobotMap.SimulationConstants.BATTERY_VOLTAGE);
-        SmartDashboard.putNumber("simVoltage",power*RobotMap.SimulationConstants.BATTERY_VOLTAGE);
     }
 
     @Override
     public void setVoltage(double voltage) {
         appliedVoltage = MathUtil.clamp(voltage, -RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE, RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE);
+        SmartDashboard.putNumber("simVoltage",appliedVoltage);
         extenderSim.setInputVoltage(appliedVoltage);
     }
 
@@ -67,9 +67,10 @@ public class SimulationExtender implements IExtender {
 
     @Override
     public void setVelocity(double speed) {
-        double voltage = controller.calculate(extenderSim.getVelocityMetersPerSecond(),speed);
-        setVoltage(voltage);
-        SmartDashboard.putNumber("simVoltage",voltage);
+        double error = controller.calculate(extenderSim.getVelocityMetersPerSecond(),speed);
+        error /= controller.getP();
+        SmartDashboard.putNumber("wantedSimVoltage",error);
+        setPower(error);
     }
 
     @Override

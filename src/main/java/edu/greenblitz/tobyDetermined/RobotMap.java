@@ -349,7 +349,7 @@ public class RobotMap {
                 }
 
 
-                public static final PIDObject SIM_PID = new PIDObject().withKp(30).withKi(1);
+                public static final PIDObject SIM_PID = new PIDObject().withKp(10).withKi(10);
                 public static final double SIM_LENGTH_TOLERANCE = 0.001; //in meters
             }
         }
