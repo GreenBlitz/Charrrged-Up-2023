@@ -310,8 +310,10 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	}
 
 	public void updatePoseEstimationLimeLight() {
-		if (MultiLimelight.getInstance().getFirstAvailableTarget().isPresent() || odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT) {
-			if (!robotHasObstacles()) {
+		boolean hasVisionTarget = MultiLimelight.getInstance().getFirstAvailableTarget().isPresent();
+		boolean poseDifference = odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT;
+		if (hasVisionTarget || poseDifference) {
+			if (!robotStalling()) {
 				poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 			}
 		}
@@ -322,15 +324,15 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		}
 	}
 
-	private boolean moduleHasObstacles(SwerveModule module) {
+	private boolean moduleStalling(SwerveModule module) {
 		return module.getLinearCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - currentTolerance && module.getLinearCurrent() < currentTolerance + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
 	}
-	public boolean robotHasObstacles() {
+	public boolean robotStalling() {
 
-		boolean fl = moduleHasObstacles(frontLeft);
-		boolean fr = moduleHasObstacles(frontRight);
-		boolean bl = moduleHasObstacles(backLeft);
-		boolean br = moduleHasObstacles(backRight);
+		boolean fl = moduleStalling(frontLeft);
+		boolean fr = moduleStalling(frontRight);
+		boolean bl = moduleStalling(backLeft);
+		boolean br = moduleStalling(backRight);
 
 		return ((fl && fr) || (bl && br) || (fl && bl) || (br && fr) || (fl && br) || (fr && bl));
 	}
@@ -339,10 +341,10 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		odometry.update(getGyroAngle(), getSwerveModulePositions());
 	}
 
-	public boolean getFlHasObstacles(){return moduleHasObstacles(frontLeft);}
-	public boolean getFrHasObstacles(){return moduleHasObstacles(frontRight);}
-	public boolean getBlHasObstacles(){return moduleHasObstacles(backLeft);}
-	public boolean getBrHasObstacles(){return moduleHasObstacles(backRight);}
+	public boolean getFlHasObstacles(){return moduleStalling(frontLeft);}
+	public boolean getFrHasObstacles(){return moduleStalling(frontRight);}
+	public boolean getBlHasObstacles(){return moduleStalling(backLeft);}
+	public boolean getBrHasObstacles(){return moduleStalling(backRight);}
 
 
 

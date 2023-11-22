@@ -190,7 +190,7 @@ public class Dashboard extends GBSubsystem {
 		pigeonTab.addBoolean("FR has obstacles",() -> SwerveChassis.getInstance().getFrHasObstacles());
 		pigeonTab.addBoolean("BL has obstacles",() -> SwerveChassis.getInstance().getBlHasObstacles());
 		pigeonTab.addBoolean("BR has obstacles",() -> SwerveChassis.getInstance().getBrHasObstacles());
-		pigeonTab.addBoolean("robot has obstacles",() -> SwerveChassis.getInstance().robotHasObstacles());
+		pigeonTab.addBoolean("robot has obstacles",() -> SwerveChassis.getInstance().robotStalling());
 	}
 
 	public PIDObject getElbowPID() {
