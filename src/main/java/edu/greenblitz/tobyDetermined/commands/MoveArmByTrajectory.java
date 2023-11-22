@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNode;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
@@ -55,7 +56,6 @@ public class MoveArmByTrajectory extends GBCommand {
 //		Pair<Double,Double> speedsPolar = GBMath.cartesianToPolar(speeds.vxMetersPerSecond,speeds.vyMetersPerSecond);
 
 		//conversion between cartesian and polar speeds using complicated math
-
 		double extenderVelocity = x* speeds.vxMetersPerSecond + y * speeds.vyMetersPerSecond;
 		extenderVelocity /= Math.sqrt(x*x + y*y);
 

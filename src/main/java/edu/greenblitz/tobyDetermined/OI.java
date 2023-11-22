@@ -4,6 +4,7 @@ import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.commands.NodeFullPathCommand;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.*;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
+import edu.greenblitz.tobyDetermined.commands.NodeFullTrack;
 import edu.greenblitz.tobyDetermined.commands.NodeToNeighbourCommand;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.LockWheels;
 import edu.greenblitz.tobyDetermined.commands.Auto.balance.bangBangBalance.FullBalance;
@@ -11,6 +12,7 @@ import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.FullOpenIntake;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromBelly;
 import edu.greenblitz.tobyDetermined.commands.MultiSystem.GripFromFeeder;
+import edu.greenblitz.tobyDetermined.commands.NodeTracSupplier;
 import edu.greenblitz.tobyDetermined.commands.intake.roller.RollByConst;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.RotateByTrigger;
 import edu.greenblitz.tobyDetermined.commands.rotatingBelly.bellyPusher.AutoDropCone;
@@ -87,8 +89,18 @@ public class OI { //GEVALD
 				ObjectSelector.IsCone() ? RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CONE_POSITION : RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CUBE_POSITION
 		));
 		secondJoystick.POV_LEFT.whileTrue(new NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions.CUBE_MID));
-	
+
 		secondJoystick.START.whileTrue(new InstantCommand(ObjectSelector::flipSelection));
+
+		mainJoystick.X.whileTrue(new NodeFullTrack(RobotMap.TelescopicArm.PresetPositions.ZIG_HAIL));
+		mainJoystick.Y.whileTrue(new NodeFullTrack(RobotMap.TelescopicArm.PresetPositions.CONE_HIGH));
+		mainJoystick.B.whileTrue(new NodeFullTrack(RobotMap.TelescopicArm.PresetPositions.LOW));
+		mainJoystick.A.whileTrue(new NodeFullTrack(RobotMap.TelescopicArm.PresetPositions.REST_ABOVE_BELLY));
+		mainJoystick.POV_UP.whileTrue(new NodeFullTrack(RobotMap.TelescopicArm.PresetPositions.POST_CONE_DROP));
+		mainJoystick.POV_DOWN.whileTrue(new NodeFullTrack(
+				ObjectSelector.IsCone() ? RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CONE_POSITION : RobotMap.TelescopicArm.PresetPositions.INTAKE_GRAB_CUBE_POSITION
+		));
+		mainJoystick.POV_LEFT.whileTrue(new NodeFullTrack(RobotMap.TelescopicArm.PresetPositions.CUBE_MID));
 	}
 	
 
