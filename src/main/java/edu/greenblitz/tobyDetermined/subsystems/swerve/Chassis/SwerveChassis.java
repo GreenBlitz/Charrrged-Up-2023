@@ -40,6 +40,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	private boolean doVision;
 	public boolean twoApriltagsPresent;
 	public final double currentTolerance = 0.5;
+	private boolean shouldCheckByVisionAtGameStart = false;
 
 	private final SwerveChassisInputsAutoLogged ChassisInputs = new SwerveChassisInputsAutoLogged();
 	private final GyroInputsAutoLogged gyroInputs = new GyroInputsAutoLogged();
@@ -191,6 +192,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		if(MultiLimelight.getInstance().isConnected()) {
 			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
 				getGyro().setYaw(0);
+				boolean shouldCheckByVisionAtGameStart = true;
 				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 				odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 			}
@@ -310,12 +312,10 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	}
 
 	public void updatePoseEstimationLimeLight() {
-		boolean hasVisionTarget = MultiLimelight.getInstance().getFirstAvailableTarget().isPresent();
 		boolean poseDifference = odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT;
-		if (hasVisionTarget || poseDifference) {
-			if (!robotStalling()) {
-				poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
-			}
+		boolean shouldUpdateByOdometry = poseDifference && !robotStalling();
+		if (shouldCheckByVisionAtGameStart || shouldUpdateByOdometry) {
+			poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 		}
 		if (doVision) {
 				for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
