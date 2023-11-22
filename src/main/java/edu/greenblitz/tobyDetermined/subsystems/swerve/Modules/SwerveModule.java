@@ -103,7 +103,9 @@ public class SwerveModule {
         return swerveModuleInputs.absoluteEncoderPosition;
     }
 
-
+    public double getLinearCurrent (){
+        return swerveModuleInputs.linearCurrent;
+    }
 
     public void setRotPowerOnlyForCalibrations(double power){
         swerveModule.setAngularVoltage(power * Battery.getInstance().getCurrentVoltage());
