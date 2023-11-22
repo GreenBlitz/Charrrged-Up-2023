@@ -54,7 +54,7 @@ public class NodeTracSupplier implements Supplier<Command> {
                 new Pose2d(first, Rotation2d.fromRadians(0)),
                 cartesianList,//list of everything in the list except the first and last
                 new Pose2d(last, Rotation2d.fromRadians(0)),
-                new TrajectoryConfig(0.5, 1)
+                new TrajectoryConfig(0.3, 0.6)
         );
         return new MoveArmByTrajectory(trajectory).andThen( ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));
     }

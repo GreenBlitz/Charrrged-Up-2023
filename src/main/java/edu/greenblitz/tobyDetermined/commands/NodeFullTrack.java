@@ -19,6 +19,12 @@ public class NodeFullTrack extends ProxyCommand {
         extender = Extender.getInstance();
         elbow = Elbow.getInstance();
     }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+    }
+
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
