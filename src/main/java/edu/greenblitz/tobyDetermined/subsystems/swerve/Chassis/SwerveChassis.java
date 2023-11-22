@@ -9,12 +9,10 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassisInputsAutoLogged;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -189,11 +187,12 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), new Pose2d());
 	}
 
-	public void setPoseByVision(){
+	public void resetPoseByVision(){
 		if(MultiLimelight.getInstance().isConnected()) {
 			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
 				getGyro().setYaw(0);
 				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
+				odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 			}
 		}
 		else{
@@ -317,11 +316,8 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 			}
 		}
 		if (doVision) {
-			if (MultiLimelight.getInstance().getAllEstimates().size() >= 1) {
-				twoApriltagsPresent = true;
 				for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 					target.ifPresent(this::addVisionMeasurement);
-				}
 			}
 		}
 	}
