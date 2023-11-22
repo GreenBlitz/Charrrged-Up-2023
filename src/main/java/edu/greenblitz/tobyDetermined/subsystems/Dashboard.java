@@ -179,13 +179,18 @@ public class Dashboard extends GBSubsystem {
 	}
 
 	public void pigeonDashboard(){
-//		ShuffleboardTab pigeonTab = Shuffleboard.getTab("pigeon debug");
+		ShuffleboardTab pigeonTab = Shuffleboard.getTab("pigeon debug");
 //		ShuffleboardLayout pigeonWidget = pigeonTab.getLayout("pigeon angles", BuiltInLayouts.kGrid)
 //				.withPosition(0, 0).withSize(2, 2).withProperties(Map.of("Label position", "TOP", "Number of columns", 2, "Number of rows", 2));
 //
 //		pigeonWidget.addDouble("pitch (irl roll)", () -> SwerveChassis.getInstance().getPigeonGyro().getPitch());
 //		pigeonWidget.addDouble("roll (irl pitch)", () -> Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 //		pigeonWidget.addDouble("pitch roll add ", () -> PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getPitch(),SwerveChassis.getInstance().getPigeonGyro().getRoll()));
+		pigeonTab.addBoolean("FL has obstacles",() -> SwerveChassis.getInstance().getFlHasObstacles());
+		pigeonTab.addBoolean("FR has obstacles",() -> SwerveChassis.getInstance().getFrHasObstacles());
+		pigeonTab.addBoolean("BL has obstacles",() -> SwerveChassis.getInstance().getBlHasObstacles());
+		pigeonTab.addBoolean("BR has obstacles",() -> SwerveChassis.getInstance().getBrHasObstacles());
+		pigeonTab.addBoolean("robot has obstacles",() -> SwerveChassis.getInstance().robotHasObstacles());
 	}
 
 	public PIDObject getElbowPID() {
