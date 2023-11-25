@@ -110,7 +110,6 @@ public class Dashboard extends GBSubsystem {
 
 		driversTab.add("limelight NT", MultiLimelight.getInstance().isConnected());
 
-		driversTab.add("two apriltags",SwerveChassis.getInstance().twoApriltagsPresent);
 
 
 

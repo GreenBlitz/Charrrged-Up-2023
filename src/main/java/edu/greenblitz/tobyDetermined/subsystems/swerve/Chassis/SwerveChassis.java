@@ -34,12 +34,10 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final SwerveDriveOdometry odometry;
 	private final Field2d field = new Field2d();
-	private final int FILTER_BUFFER_SIZE = 15;
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
-	public boolean twoApriltagsPresent;
-	public final double currentTolerance = 0.5;
+	public final double CURRENT_TOLERANCE = 0.5;
 	private boolean shouldCheckByVisionAtGameStart = false;
 
 	private final SwerveChassisInputsAutoLogged ChassisInputs = new SwerveChassisInputsAutoLogged();
@@ -64,7 +62,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
 				getGyroAngle(),
 				getSwerveModulePositions(),
-				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
+				new Pose2d(new Translation2d(), new Rotation2d()),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		SmartDashboard.putData("field", getField());
@@ -119,7 +117,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	/**
 	 * @return returns the swerve module based on its name
 	 */
-	public SwerveModule getModule(Module module) { //TODO make private
+	public SwerveModule getModule(Module module) {
 		switch (module) {
 			case BACK_LEFT:
 				return backLeft;
@@ -179,7 +177,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		return getModule(module).getModuleAngle();
 	}
 
-	public boolean moduleIsAtAngle(Module module, double targetAngleInRads, double errorInRads) {
+	public boolean isModuleAtAngle(Module module, double targetAngleInRads, double errorInRads) {
 		return getModule(module).isAtAngle(targetAngleInRads, errorInRads);
 	}
 
@@ -192,7 +190,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		if(MultiLimelight.getInstance().isConnected()) {
 			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
 				getGyro().setYaw(0);
-				boolean shouldCheckByVisionAtGameStart = true;
+				shouldCheckByVisionAtGameStart = true;
 				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 				odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 			}
@@ -325,7 +323,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	}
 
 	private boolean moduleStalling(SwerveModule module) {
-		return module.getLinearCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - currentTolerance && module.getLinearCurrent() < currentTolerance + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
+		return module.getLinearCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - CURRENT_TOLERANCE && module.getLinearCurrent() < CURRENT_TOLERANCE + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
 	}
 	public boolean robotStalling() {
 
@@ -371,11 +369,9 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	public boolean isAtPose(Pose2d goalPose) {
 		Pose2d robotPose = getRobotPose();
 
-		//is translation difference beneath tolerance
 		boolean isAtX = Math.abs(goalPose.getX() - robotPose.getX()) <= TRANSLATION_TOLERANCE;
 		boolean isAtY = Math.abs(goalPose.getY() - robotPose.getY()) <= TRANSLATION_TOLERANCE;
 
-		//is angle difference beneath tolerance from both directions
 		Rotation2d angDifference = (goalPose.getRotation().minus(robotPose.getRotation()));
 		boolean isAtAngle = angDifference.getRadians() <= ROTATION_TOLERANCE
 				|| (Math.PI * 2) - angDifference.getRadians() <= ROTATION_TOLERANCE;
@@ -399,7 +395,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		BACK_RIGHT
 	}
 
-	public boolean moduleIsAtAngle(Module module, double errorInRads) {
+	public boolean isModuleAtAngle(Module module, double errorInRads) {
 		return getModule(module).isAtAngle(errorInRads);
 	}
 
