@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.Battery;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
@@ -18,7 +19,7 @@ public class MK4ISwerveModule implements ISwerveModule {
 
     private GBFalcon angularMotor;
     private GBFalcon linearMotor;
-    private CANCoder canCoder;
+    private CANcoder canCoder;
     private SimpleMotorFeedforward feedforward;
     private double encoderOffset;
 
@@ -50,7 +51,7 @@ public class MK4ISwerveModule implements ISwerveModule {
         linearMotor = new GBFalcon(configObject.linearMotorID);
         linearMotor.config(new GBFalcon.FalconConfObject(RobotMap.Swerve.SdsSwerve.baseLinConfObj).withInverted(configObject.linInverted));
 
-        canCoder = new CANCoder(configObject.AbsoluteEncoderID);
+        canCoder = new CANcoder(configObject.AbsoluteEncoderID);
         this.encoderOffset = configObject.encoderOffset;
 
         this.feedforward = new SimpleMotorFeedforward(RobotMap.Swerve.SdsSwerve.ks, RobotMap.Swerve.SdsSwerve.kv, RobotMap.Swerve.SdsSwerve.ka);
@@ -117,11 +118,11 @@ public class MK4ISwerveModule implements ISwerveModule {
         inputs.linearMetersPassed = Conversions.MK4IConversions.convertTicksToMeters(linearMotor.getSelectedSensorPosition());
         inputs.angularPositionInRads = Conversions.MK4IConversions.convertTicksToRads(angularMotor.getSelectedSensorPosition());
 
-        if (Double.isNaN(Units.degreesToRadians(canCoder.getAbsolutePosition()))){
+        if (Double.isNaN(Units.degreesToRadians(canCoder.getAbsolutePosition().getValue()))){
             inputs.absoluteEncoderPosition = 0;
         }else{
-            inputs.absoluteEncoderPosition = Units.degreesToRadians(canCoder.getAbsolutePosition()) - Units.rotationsToRadians(encoderOffset);
+            inputs.absoluteEncoderPosition = Units.degreesToRadians(canCoder.getAbsolutePosition().getValue()) - Units.rotationsToRadians(encoderOffset);
         }
-        inputs.isAbsoluteEncoderConnected = canCoder.getFirmwareVersion() != -1;
+        inputs.isAbsoluteEncoderConnected = canCoder.getVersionMinor().getValue() != -1;
     }
 }

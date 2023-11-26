@@ -1,8 +1,9 @@
 package edu.greenblitz.utils.motors;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix6.configs.*;
+import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.greenblitz.utils.PIDObject;
 
 public class GBFalcon extends TalonFX {
@@ -22,29 +23,29 @@ public class GBFalcon extends TalonFX {
 	 * @param conf configObject, uses builder
 	 */
 	public void config(GBFalcon.FalconConfObject conf) {
-		configFactoryDefault();
-		super.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, conf.getCurrentLimit(), conf.getCurrentLimit(), 0));
-		super.configClosedloopRamp(conf.getRampRate());
-		super.configOpenloopRamp(conf.getRampRate());
+		var motorConfigure = new TalonFXConfiguration();
+		super.getConfigurator().apply(new TalonFXConfiguration());
+		motorConfigure.withCurrentLimits(new CurrentLimitsConfigs().withStatorCurrentLimit(conf.getCurrentLimit()).withSupplyCurrentLimit(conf.getCurrentLimit()).withSupplyCurrentLimitEnable(true).withStatorCurrentLimitEnable(true));
+		motorConfigure.withOpenLoopRamps(new OpenLoopRampsConfigs().withDutyCycleOpenLoopRampPeriod(conf.getRampRate()));
 		super.setInverted(conf.isInverted());
-		super.configSelectedFeedbackCoefficient(conf.getConversionFactor());
-		super.configVoltageCompSaturation(conf.getVoltageCompSaturation());
+//		super.configSelectedFeedbackCoefficient(conf.getConversionFactor());
+//		super.configVoltageCompSaturation(conf.getVoltageCompSaturation());
 		super.setNeutralMode(conf.getNeutralMode());
 		configPID(conf.pidObject);
 	}
 	
 	public void configPID(PIDObject pidObject) {
-		super.config_kP(0, pidObject.getKp());
-		super.config_kI(0, pidObject.getKi());
-		super.config_kD(0, pidObject.getKd());
-		super.config_kF(0, pidObject.getKf());
-		super.config_IntegralZone(0, pidObject.getIZone());
-		super.configClosedLoopPeakOutput(0, pidObject.getMaxPower());
+//		super.config_kF(0, pidObject.getKf());
+//		super.config_IntegralZone(0, pidObject.getIZone());
+//		super.configClosedLoopPeakOutput(0, pidObject.getMaxPower());
+		var pidConfigure = new Slot0Configs();
+		pidConfigure.kP = pidObject.getKp();
+		pidConfigure.kI = pidObject.getKi();
+		pidConfigure.kD = pidObject.getKd();
+		super.getConfigurator().apply(pidConfigure, 0.050);
 	}
 	
-	/**
-	 * @see GBSparkMax.SparkMaxConfObject
-	 */
+
 	public static class FalconConfObject {
 		private PIDObject pidObject = new PIDObject(0, 0, 0);
 		private int currentLimit = 0;
@@ -52,7 +53,7 @@ public class GBFalcon extends TalonFX {
 		private boolean inverted = false;
 		private double conversionFactor = 1;
 		private double voltageCompSaturation = 0;
-		private NeutralMode neutralMode = NeutralMode.Brake;
+		private NeutralModeValue neutralMode = NeutralModeValue.Brake;
 		
 		public FalconConfObject(FalconConfObject other) {
 			this.pidObject = new PIDObject(other.pidObject);
@@ -88,11 +89,11 @@ public class GBFalcon extends TalonFX {
 			return voltageCompSaturation;
 		}
 		
-		public NeutralMode getNeutralMode() {
+		public NeutralModeValue getNeutralMode() {
 			return neutralMode;
 		}
 		
-		public FalconConfObject withNeutralMode(NeutralMode neutralMode) {
+		public FalconConfObject withNeutralMode(NeutralModeValue neutralMode) {
 			this.neutralMode = neutralMode;
 			return this;
 		}
@@ -121,6 +122,8 @@ public class GBFalcon extends TalonFX {
 			this.inverted = inverted;
 			return this;
 		}
+
+
 		
 		
 		public FalconConfObject withVoltageCompSaturation(double voltageCompSaturation) {
