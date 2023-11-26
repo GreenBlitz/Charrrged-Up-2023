@@ -38,7 +38,6 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
 	public final double CURRENT_TOLERANCE = 0.5;
-	private boolean shouldCheckByVisionAtGameStart = false;
 
 	private final SwerveChassisInputsAutoLogged ChassisInputs = new SwerveChassisInputsAutoLogged();
 	private final GyroInputsAutoLogged gyroInputs = new GyroInputsAutoLogged();
@@ -189,10 +188,10 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	public void resetPoseByVision(){
 		if(MultiLimelight.getInstance().isConnected()) {
 			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
+				Pose2d visionPose = MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst();
 				getGyro().setYaw(0);
-				shouldCheckByVisionAtGameStart = true;
-				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
-				odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
+				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), visionPose);
+				odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),visionPose);
 			}
 		}
 		else{
@@ -312,7 +311,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	public void updatePoseEstimationLimeLight() {
 		boolean poseDifference = odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT;
 		boolean shouldUpdateByOdometry = poseDifference && !robotStalling();
-		if (shouldCheckByVisionAtGameStart || shouldUpdateByOdometry) {
+		if (shouldUpdateByOdometry) {
 			poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
 		}
 		if (doVision) {
@@ -327,22 +326,22 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	}
 	public boolean robotStalling() {
 
-		boolean fl = moduleStalling(frontLeft);
-		boolean fr = moduleStalling(frontRight);
-		boolean bl = moduleStalling(backLeft);
-		boolean br = moduleStalling(backRight);
+		boolean frontLeft = moduleStalling(this.frontLeft);
+		boolean frontRight = moduleStalling(this.frontRight);
+		boolean backLeft = moduleStalling(this.backLeft);
+		boolean backRight = moduleStalling(this.backRight);
 
-		return ((fl && fr) || (bl && br) || (fl && bl) || (br && fr) || (fl && br) || (fr && bl));
+		return ((frontLeft && frontRight) || (backLeft && backRight) || (frontLeft && backLeft) || (backRight && frontRight) || (frontLeft && backRight) || (frontRight && backLeft));
 	}
 
 	public void updateOdometry() {
 		odometry.update(getGyroAngle(), getSwerveModulePositions());
 	}
 
-	public boolean getFlHasObstacles(){return moduleStalling(frontLeft);}
-	public boolean getFrHasObstacles(){return moduleStalling(frontRight);}
-	public boolean getBlHasObstacles(){return moduleStalling(backLeft);}
-	public boolean getBrHasObstacles(){return moduleStalling(backRight);}
+	public boolean getFrontLeftHasObstacles(){return moduleStalling(frontLeft);}
+	public boolean getFrontRightHasObstacles(){return moduleStalling(frontRight);}
+	public boolean getBackLeftHasObstacles(){return moduleStalling(backLeft);}
+	public boolean getBackRightHasObstacles(){return moduleStalling(backRight);}
 
 
 
@@ -363,6 +362,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0.6));
 			visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
 			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
+			odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 		}
 		}
 

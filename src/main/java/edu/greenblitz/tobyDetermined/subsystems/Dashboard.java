@@ -185,10 +185,10 @@ public class Dashboard extends GBSubsystem {
 //		pigeonWidget.addDouble("pitch (irl roll)", () -> SwerveChassis.getInstance().getPigeonGyro().getPitch());
 //		pigeonWidget.addDouble("roll (irl pitch)", () -> Math.toDegrees(SwerveChassis.getInstance().getPigeonGyro().getRoll()));
 //		pigeonWidget.addDouble("pitch roll add ", () -> PitchRollAdder.add(SwerveChassis.getInstance().getPigeonGyro().getPitch(),SwerveChassis.getInstance().getPigeonGyro().getRoll()));
-		pigeonTab.addBoolean("FL has obstacles",() -> SwerveChassis.getInstance().getFlHasObstacles());
-		pigeonTab.addBoolean("FR has obstacles",() -> SwerveChassis.getInstance().getFrHasObstacles());
-		pigeonTab.addBoolean("BL has obstacles",() -> SwerveChassis.getInstance().getBlHasObstacles());
-		pigeonTab.addBoolean("BR has obstacles",() -> SwerveChassis.getInstance().getBrHasObstacles());
+		pigeonTab.addBoolean("FL has obstacles",() -> SwerveChassis.getInstance().getFrontLeftHasObstacles());
+		pigeonTab.addBoolean("FR has obstacles",() -> SwerveChassis.getInstance().getFrontRightHasObstacles());
+		pigeonTab.addBoolean("BL has obstacles",() -> SwerveChassis.getInstance().getBackLeftHasObstacles());
+		pigeonTab.addBoolean("BR has obstacles",() -> SwerveChassis.getInstance().getBackRightHasObstacles());
 		pigeonTab.addBoolean("robot has obstacles",() -> SwerveChassis.getInstance().robotStalling());
 	}
 
