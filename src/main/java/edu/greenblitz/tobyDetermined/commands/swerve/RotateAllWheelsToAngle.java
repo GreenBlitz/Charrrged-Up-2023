@@ -26,7 +26,7 @@ public class RotateAllWheelsToAngle extends SwerveCommand {
 	public boolean isFinished() {
 		boolean allInPlace = true;
 		for (SwerveChassis.Module  module: SwerveChassis.Module.values()) {
-			allInPlace &= swerve.moduleIsAtAngle(module,targetAngle, threshold);
+			allInPlace &= swerve.isModuleAtAngle(module,targetAngle, threshold);
 		}
 		return allInPlace || timeOutCounter > 50;
 	}

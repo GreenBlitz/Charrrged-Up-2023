@@ -48,7 +48,7 @@ public class SetToFirstTrajectoryState extends SwerveCommand {
 	public boolean isFinished() {
 		boolean allInAngle = true;
 		for (SwerveChassis.Module module : SwerveChassis.Module.values()) {
-			allInAngle &= swerve.moduleIsAtAngle(module, MODULE_ANGLE_TOLERANCE);
+			allInAngle &= swerve.isModuleAtAngle(module, MODULE_ANGLE_TOLERANCE);
 		}
 		return allInAngle;
 	}

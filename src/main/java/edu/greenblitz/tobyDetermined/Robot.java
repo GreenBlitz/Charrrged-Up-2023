@@ -52,7 +52,7 @@ public class Robot extends LoggedRobot {
 		AutonomousSelector.getInstance();
 		//swerve
 		Extender.getInstance().setIdleMode(CANSparkMax.IdleMode.kCoast);
-		SwerveChassis.getInstance().resetChassisPose();
+		SwerveChassis.getInstance().resetPoseByVision();
 		SwerveChassis.getInstance().resetAllEncoders();
 //		SwerveChassis.getInstance().resetEncodersByCalibrationRod();
 

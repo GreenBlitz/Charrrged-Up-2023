@@ -9,19 +9,14 @@ import edu.greenblitz.tobyDetermined.subsystems.swerve.Modules.SwerveModule;
 import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Limelight.MultiLimelight;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.Chassis.SwerveChassisInputsAutoLogged;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,15 +32,12 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	private final IGyro gyro;
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
+	private final SwerveDriveOdometry odometry;
 	private final Field2d field = new Field2d();
-	private final int FILTER_BUFFER_SIZE = 15;
 	public static final double TRANSLATION_TOLERANCE = 0.05;
 	public static final double ROTATION_TOLERANCE = 2;
 	private boolean doVision;
-
-	public double limelightX;
-	public double limelightY;
-	public boolean twoApriltagsPresent;
+	public final double CURRENT_TOLERANCE = 0.5;
 
 	private final SwerveChassisInputsAutoLogged ChassisInputs = new SwerveChassisInputsAutoLogged();
 	private final GyroInputsAutoLogged gyroInputs = new GyroInputsAutoLogged();
@@ -69,10 +61,11 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		this.poseEstimator = new SwerveDrivePoseEstimator(this.kinematics,
 				getGyroAngle(),
 				getSwerveModulePositions(),
-				new Pose2d(new Translation2d(), new Rotation2d()),//Limelight.getInstance().estimateLocationByVision(),
+				new Pose2d(new Translation2d(), new Rotation2d()),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY, RobotMap.Vision.STANDARD_DEVIATION_ODOMETRY),
 				new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
 		SmartDashboard.putData("field", getField());
+		this.odometry = new SwerveDriveOdometry(this.kinematics,getGyroAngle(),getSwerveModulePositions());
 	}
 
 
@@ -105,6 +98,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		Logger.getInstance().processInputs("DriveTrain/Gyro", gyroInputs);
 
 		updatePoseEstimationLimeLight();
+		updateOdometry();
 
 
 		Logger.getInstance().recordOutput("DriveTrain/SimPose2D", ChassisInputs.chassisPose);
@@ -122,7 +116,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	/**
 	 * @return returns the swerve module based on its name
 	 */
-	public SwerveModule getModule(Module module) { //TODO make private
+	public SwerveModule getModule(Module module) {
 		switch (module) {
 			case BACK_LEFT:
 				return backLeft;
@@ -182,13 +176,27 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		return getModule(module).getModuleAngle();
 	}
 
-	public boolean moduleIsAtAngle(Module module, double targetAngleInRads, double errorInRads) {
+	public boolean isModuleAtAngle(Module module, double targetAngleInRads, double errorInRads) {
 		return getModule(module).isAtAngle(targetAngleInRads, errorInRads);
 	}
 
 	public void resetChassisPose() {
 		gyro.setYaw(0);
 		poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), new Pose2d());
+	}
+
+	public void resetPoseByVision(){
+		if(MultiLimelight.getInstance().isConnected()) {
+			if(MultiLimelight.getInstance().getFirstAvailableTarget().isPresent()) {
+				Pose2d visionPose = MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst();
+				getGyro().setYaw(0);
+				poseEstimator.resetPosition(getGyroAngle(), getSwerveModulePositions(), visionPose);
+				odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),visionPose);
+			}
+		}
+		else{
+			resetChassisPose();
+		}
 	}
 
 	/**
@@ -301,17 +309,40 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	}
 
 	public void updatePoseEstimationLimeLight() {
-		poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
-
+		boolean poseDifference = odometry.getPoseMeters().getTranslation().getDistance(getRobotPose().getTranslation()) < RobotMap.Odometry.MAX_DISTANCE_TO_FILTER_OUT;
+		boolean shouldUpdateByOdometry = poseDifference && !robotStalling();
+		if (shouldUpdateByOdometry) {
+			poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
+		}
 		if (doVision) {
-			if (MultiLimelight.getInstance().getAllEstimates().size() >= 1) {
-				twoApriltagsPresent = true;
 				for (Optional<Pair<Pose2d, Double>> target : MultiLimelight.getInstance().getAllEstimates()) {
 					target.ifPresent(this::addVisionMeasurement);
-				}
 			}
 		}
 	}
+
+	private boolean moduleStalling(SwerveModule module) {
+		return module.getLinearCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - CURRENT_TOLERANCE && module.getLinearCurrent() < CURRENT_TOLERANCE + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
+	}
+	public boolean robotStalling() {
+
+		boolean frontLeft = moduleStalling(this.frontLeft);
+		boolean frontRight = moduleStalling(this.frontRight);
+		boolean backLeft = moduleStalling(this.backLeft);
+		boolean backRight = moduleStalling(this.backRight);
+
+		return ((frontLeft && frontRight) || (backLeft && backRight) || (frontLeft && backLeft) || (backRight && frontRight) || (frontLeft && backRight) || (frontRight && backLeft));
+	}
+
+	public void updateOdometry() {
+		odometry.update(getGyroAngle(), getSwerveModulePositions());
+	}
+
+	public boolean getFrontLeftHasObstacles(){return moduleStalling(frontLeft);}
+	public boolean getFrontRightHasObstacles(){return moduleStalling(frontRight);}
+	public boolean getBackLeftHasObstacles(){return moduleStalling(backLeft);}
+	public boolean getBackRightHasObstacles(){return moduleStalling(backRight);}
+
 
 
 	private void addVisionMeasurement(Pair<Pose2d, Double> poseTimestampPair) {
@@ -331,17 +362,16 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0, 0, 0.6));
 			visionOutput.ifPresent((pose2dDoublePair) -> resetChassisPose(pose2dDoublePair.getFirst()));
 			poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION2D, RobotMap.Vision.STANDARD_DEVIATION_VISION_ANGLE));
+			odometry.resetPosition(getGyroAngle(),getSwerveModulePositions(),MultiLimelight.getInstance().getFirstAvailableTarget().get().getFirst());
 		}
 		}
 
 	public boolean isAtPose(Pose2d goalPose) {
 		Pose2d robotPose = getRobotPose();
 
-		//is translation difference beneath tolerance
 		boolean isAtX = Math.abs(goalPose.getX() - robotPose.getX()) <= TRANSLATION_TOLERANCE;
 		boolean isAtY = Math.abs(goalPose.getY() - robotPose.getY()) <= TRANSLATION_TOLERANCE;
 
-		//is angle difference beneath tolerance from both directions
 		Rotation2d angDifference = (goalPose.getRotation().minus(robotPose.getRotation()));
 		boolean isAtAngle = angDifference.getRadians() <= ROTATION_TOLERANCE
 				|| (Math.PI * 2) - angDifference.getRadians() <= ROTATION_TOLERANCE;
@@ -365,7 +395,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 		BACK_RIGHT
 	}
 
-	public boolean moduleIsAtAngle(Module module, double errorInRads) {
+	public boolean isModuleAtAngle(Module module, double errorInRads) {
 		return getModule(module).isAtAngle(errorInRads);
 	}
 
