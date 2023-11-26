@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MidNode{
     private NodeArm nodeArm;
@@ -17,6 +18,7 @@ public class MidNode{
         if (start.equals(RobotMap.TelescopicArm.PresetPositions.MID_NODE))
             start = nodeArm.getNeighbors().get(0);
         nodeArm = new NodeArm(extenderPos,anglePos);
+        SmartDashboard.putString("Current Node",start.toString());
         nodeArm.addNeighbors(new RobotMap.TelescopicArm.PresetPositions[] {start,end});
     }
 

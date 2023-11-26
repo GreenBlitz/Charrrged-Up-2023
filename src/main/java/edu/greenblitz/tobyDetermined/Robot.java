@@ -101,7 +101,6 @@ public class Robot extends LoggedRobot {
 		IntakeExtender.init();
 		IntakeRoller.init();
 		OI.init();
-		Trac.main();
 		initToggleAbleSubsystems();
 	}
 

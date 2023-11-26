@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
 
 public class RobotMap {
-    public static final Robot.RobotType ROBOT_TYPE = Robot.RobotType.FRANKENSTEIN;
+    public static final Robot.RobotType ROBOT_TYPE = Robot.RobotType.SIMULATION;
     public static final String SIMULATION_LOG_PATH = System.getProperty("user.home") + "\\Desktop\\SimulationLogs";
     public static final String ROBORIO_LOG_PATH = "/media/sda1/";
 

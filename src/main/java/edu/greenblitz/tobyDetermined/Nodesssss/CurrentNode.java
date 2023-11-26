@@ -1,6 +1,7 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions.*;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositions;
@@ -14,5 +15,6 @@ public class CurrentNode {
     }
     public static void setCurrentNode(PresetPositions pos) {
         currentNode = pos;
+        SmartDashboard.putString("Current Node",currentNode.toString());
     }
 }

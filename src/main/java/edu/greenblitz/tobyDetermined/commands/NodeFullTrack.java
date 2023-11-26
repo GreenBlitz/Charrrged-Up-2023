@@ -28,7 +28,6 @@ public class NodeFullTrack extends ProxyCommand {
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        CurrentNode.setCurrentNode(endNode);
         stopMotors();//needs to be changed when default command works
     }
     public void stopMotors(){
