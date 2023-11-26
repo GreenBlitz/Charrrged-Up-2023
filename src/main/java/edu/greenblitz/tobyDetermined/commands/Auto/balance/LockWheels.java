@@ -2,19 +2,19 @@ package edu.greenblitz.tobyDetermined.commands.Auto.balance;
 
 import edu.greenblitz.tobyDetermined.commands.swerve.RotateAllWheelsToAngle;
 import edu.greenblitz.tobyDetermined.commands.swerve.SwerveCommand;
-import edu.greenblitz.utils.PigeonGyro;
+import edu.greenblitz.tobyDetermined.subsystems.Gyros.IGyro;
 
 // import edu.wpi.first.math.geometry.Rotation2d;
 public class LockWheels extends SwerveCommand {
 
-	PigeonGyro pigeon;
+	IGyro pigeon;
 
 	public LockWheels() {
 	}
 
 	@Override
 	public void initialize() {
-		pigeon = swerve.getPigeonGyro();
+		pigeon = swerve.getGyro();
 		new RotateAllWheelsToAngle(Math.toDegrees(90) - pigeon.getYaw()).schedule();
 		swerve.setIdleModeBrake();
 	}

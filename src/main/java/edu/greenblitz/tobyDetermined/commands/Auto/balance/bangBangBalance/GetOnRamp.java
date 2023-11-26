@@ -32,7 +32,7 @@ public class GetOnRamp extends SwerveCommand {
 	@Override
 	public void execute() {
 		super.execute();
-		pitchAngle = swerve.getPigeonGyro().getRoll() * (forwards ? 1 : -1);//gyro is flipped
+		pitchAngle = swerve.getGyro().getRoll() * (forwards ? 1 : -1);//gyro is flipped
 		swerve.moveByChassisSpeeds(usedSpeed, 0, 0, 0);
 		usedSpeed += Math.signum(speed) * 0.02;
 	}

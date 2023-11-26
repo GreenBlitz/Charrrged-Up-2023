@@ -21,7 +21,7 @@ public class DebugJoystickControl extends ExtenderCommand {
 	public void execute() {
 		double power = joystick.getAxisValue(SmartJoystick.Axis.LEFT_Y) * 2;
 		
-		extender.debugSetPower(power);
+		extender.setPower(power);
 	}
 	
 	@Override

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
 import static edu.greenblitz.tobyDetermined.RobotMap.Pneumatics.PneumaticsController.ID;
 
 public class Claw extends GBSubsystem {
@@ -48,8 +47,7 @@ public class Claw extends GBSubsystem {
             motorGrip(0.1);
         }
         if (ObjectSelector.IsCone() && !isUsingSubsystem){
-            stopMotor();
-
+                stopMotor();
         }
         SmartDashboard.putNumber("claw power", motor.get());
     }

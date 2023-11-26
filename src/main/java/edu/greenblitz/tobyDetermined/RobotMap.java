@@ -1,13 +1,11 @@
 package edu.greenblitz.tobyDetermined;
-
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.KazaSwerveModule;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SdsSwerveModule;
+import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
@@ -18,15 +16,22 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import java.util.LinkedList;
-
-import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND;
-
 public class RobotMap {
-    public static final Robot.robotName ROBOT_NAME = Robot.robotName.Frankenstein;
+    public static final Robot.RobotType ROBOT_TYPE = Robot.RobotType.FRANKENSTEIN;
+    public static final String SIMULATION_LOG_PATH = System.getProperty("user.home") + "\\Desktop\\SimulationLogs";
+    public static final String ROBORIO_LOG_PATH = "/media/sda1/";
 
+    public static class SimulationConstants{
+        public static final double TIME_STEP = 0.02;
+        public static final double BATTERY_VOLTAGE = 12;
+        public static final double MAX_MOTOR_VOLTAGE = 12;
 
-    public static class BreakCoastSwitch {
-        public static final int BREAK_COAST_SWITCH_DIO_PORT = 8;
+        public static final Translation3d ARM_TO_ROBOT = new Translation3d(0,0,1.2);
+
+    }
+
+    public static class BreakCoastSwitch{
+        public static final int BREAK_COAST_SWITCH_DIO_PORT =8;
 
     }
 
@@ -41,6 +46,7 @@ public class RobotMap {
             public final static double SPARKMAX_VELOCITY_UNITS_PER_RPM = 1;
             public static final double NEO_PHYSICAL_TICKS_TO_RADIANS = SPARKMAX_TICKS_PER_RADIAN / 42; //do not use unless you understand the meaning
             public final static double FALCON_TICKS_PER_RADIAN = 2 * Math.PI / 2048.0;
+            public final static double FALCON_TICKS_PER_ROTATION = 2048.0;
 
             public final static double FALCON_VELOCITY_UNITS_PER_RPM = 600.0 / 2048;
         }
@@ -74,7 +80,7 @@ public class RobotMap {
         public static double STANDARD_DEVIATION_VISION_ANGLE = 0.6;
         public static final int[] PORT_NUMBERS = {5800, 5801, 5802, 5803, 5804, 5805};
         public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(new Translation3d(), new Rotation3d());
-        public final static double MIN_DISTANCE_TO_FILTER_OUT = 1;
+        public final static double MIN_DISTANCE_TO_FILTER_OUT = 1.5;
         public final static double VISION_CONSTANT = 0.2;
 
 
@@ -95,12 +101,29 @@ public class RobotMap {
 
     public static class Swerve {
 
+        public static class Simulation{
+
+            public static class SIMULATION_LINEAR_MOTOR{
+
+                public static final int NUMBER_OF_MOTORS = 1;
+                public static final double GEAR_RATIO = SdsSwerve.LIN_GEAR_RATIO;
+                public static final double MOMENT_OF_INERTIA = 0.0001;
+            }
+
+                public static class SIMULATION_ANGULAR_MOTOR{
+
+                public static final int NUMBER_OF_MOTORS = 1;
+                public static final double GEAR_RATIO = SdsSwerve.LIN_GEAR_RATIO;
+                public static final double MOMENT_OF_INERTIA = 0.01;
+            }
+        }
+
         public static class Frankenstein {
 
 
             public static final double ROBOT_LENGTH_IN_METERS = 0.69;
             public static final double ROBOT_WIDTH_IN_METERS = 0.79;
-            public static final double BUMPER_WIDTH = 0.08;
+            public static final double BUMPER_WIDTH = 0.13;
 
             public static final double CAPPED_MAX_VELOCITY = 2;
             public static final double CAPPED_MAX_ACCELERATION = 1.75;
@@ -121,6 +144,8 @@ public class RobotMap {
                     new Translation2d(-0.3020647, 0.25265),/*bl*/
                     new Translation2d(-0.3020647, -0.25265)/*br*/
             };
+
+            public static final double SIDEWAY_DRIVING_SPEED = 0.5;
         }
 
 
@@ -144,22 +169,20 @@ public class RobotMap {
 
         public static final double ka = 0.11023;
 
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(1, 10, 0, false); //front left
+        public static SwerveModuleConfigObject KazaModuleFrontLeft = new SwerveModuleConfigObject(1, 10, 0, false); //front left
+        public static SwerveModuleConfigObject KazaModuleFrontRight = new SwerveModuleConfigObject(3, 11, 2, true); //front right
+        public static SwerveModuleConfigObject KazaModuleBackLeft = new SwerveModuleConfigObject(2, 8, 1, false); //back left
+        public static SwerveModuleConfigObject KazaModuleBackRight = new SwerveModuleConfigObject(12, 5, 3, true); //back right
+
+        public static SwerveModuleConfigObject SdsModuleFrontLeft =new SwerveModuleConfigObject(1, 0, 1, 0.8486328125,false); //front left
+        public static SwerveModuleConfigObject SdsModuleFrontRight=new SwerveModuleConfigObject(3, 2, 2,0.2939453125 ,true); //front right
+        public static SwerveModuleConfigObject SdsModuleBackLeft = new SwerveModuleConfigObject(5, 4, 3, 0.5524,false); //back left
+        public static SwerveModuleConfigObject SdsModuleBackRight =new SwerveModuleConfigObject(7, 6, 4, 0.8718,true); //back right
 
 
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleFrontRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(3, 11, 2, true); //front right
-
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackLeft = new KazaSwerveModule.KazaSwerveModuleConfigObject(2, 8, 1, false); //back left
-
-        public static KazaSwerveModule.KazaSwerveModuleConfigObject KazaModuleBackRight = new KazaSwerveModule.KazaSwerveModuleConfigObject(12, 5, 3, true); //back right
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(1, 0, 1, 0.8486328125, false); //front left
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleFrontRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(3, 2, 2, 0.2939453125, true); //front right
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackLeft = new SdsSwerveModule.SdsSwerveModuleConfigObject(5, 4, 3, 0.5524, false); //back left
-
-        public static SdsSwerveModule.SdsSwerveModuleConfigObject SdsModuleBackRight = new SdsSwerveModule.SdsSwerveModuleConfigObject(7, 6, 4, 0.8718, true); //back right
+        public static class SimulationSwerve{
+            public static final PIDConstants angularController = new PIDConstants(1, 0, 0);
+        }
 
 
         public static class KazaSwerve {
@@ -200,7 +223,11 @@ public class RobotMap {
             public static final GBFalcon.FalconConfObject baseAngConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withInverted(true).withPID(angPID);
 
             public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
-            public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(40).withRampRate(RobotMap.General.RAMP_RATE_VAL).withPID(linPID);
+            public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject()
+                    .withNeutralMode(NeutralMode.Brake)
+                    .withCurrentLimit(40)
+                    .withRampRate(RobotMap.General.RAMP_RATE_VAL)
+                    .withPID(linPID);
         }
 
         public static class Autonomus {
@@ -235,10 +262,10 @@ public class RobotMap {
         public enum PresetPositions {
             //height in meters
             //input angle degrees output angle radians
-            CONE_HIGH(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
-            CONE_MID(0.31, /*1.94*/ Math.toRadians(107)),
-            CUBE_HIGH(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            CUBE_MID(0.29, 1.85),
+            CONE_HIGH(0.736, 2.2- STARTING_ANGLE_RELATIVE_TO_GROUND), // originally 0.775
+            CONE_MID(0.354, 1.980),
+            CUBE_HIGH(0.479, 2.068 - STARTING_ANGLE_RELATIVE_TO_GROUND),
+            CUBE_MID(0.13, 1.71),
             LOW(0.35, Math.toRadians(60)),
 
             POST_CONE_DROP(0.089, 0.1),
@@ -246,14 +273,16 @@ public class RobotMap {
 
             COMMUNITY_PRE_GRID(Extender.MAX_ENTRANCE_LENGTH - Extender.LENGTH_TOLERANCE, CONE_HIGH.angleInRadians),
 
-            INTAKE_GRAB_CONE_POSITION(0.34, 0.123),
-            INTAKE_GRAB_CUBE_POSITION(0.25, INTAKE_GRAB_CONE_POSITION.angleInRadians),
-            PRE_INTAKE_GRAB_POSITION(0.02, 0.35), //0.28),
+            INTAKE_GRAB_CONE_POSITION(0.39, 0.040823493540287),
+            INTAKE_GRAB_CUBE_POSITION(0.343106359243393, 0.141),
+            PRE_INTAKE_GRAB_POSITION(0.02,0.30), //0.28),
 
             REST_ABOVE_BELLY(-0.02, 0.196),
 
             ZIG_HAIL(0, Math.toRadians(20.7) - STARTING_ANGLE_RELATIVE_TO_GROUND),
-            FEEDER(0.663, 1.949);
+            FEEDER(0.663, 1.949),
+
+            MID_NODE(0,0);//Placeholder for setting mid nodes
 
             public double distance;
             public double angleInRadians;
@@ -273,15 +302,16 @@ public class RobotMap {
             public static final double FORWARD_LIMIT = 0.78;
             public static final double EXTENDED_LENGTH = FORWARD_LIMIT - 0.05;
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
-            public static final double MAX_LENGTH_IN_ROBOT = 0.37;
+            public static final double MAX_LENGTH_IN_ROBOT = 0.4;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final PIDObject PID = new PIDObject().withKp(0).withKd(0).withMaxPower(1);
-            //public static final PIDObject PID = new PIDObject().withKp(1).withKi(0.025).withKd(1.8).withMaxPower(1);
+            public static final PIDObject PID = new PIDObject().withKp(0).withKi(0).withKd(0).withMaxPower(1);
+//            public static final PIDObject PID = new PIDObject().withKp(1).withKi(0.025).withKd(1.8).withMaxPower(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;
 
 
-            public static final double EXTENDER_EXTENDING_GEAR_CIRC = 0.0165 * (2 * Math.PI);
+            public static final double EXTENDER_EXTENDING_GEAR_RADIUS = 0.0165;
+            public static final double EXTENDER_EXTENDING_GEAR_CIRC = EXTENDER_EXTENDING_GEAR_RADIUS * (2 * Math.PI);
             public static final double POSITION_CONVERSION_FACTOR = GEAR_RATIO * EXTENDER_EXTENDING_GEAR_CIRC;
             public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR / 60;
             public static final double LENGTH_TOLERANCE = 0.045; //in meters
@@ -292,6 +322,8 @@ public class RobotMap {
             public static final double kV = 0.10958 / POSITION_CONVERSION_FACTOR;
             public static final double kA = 0.022655 * POSITION_CONVERSION_FACTOR;
             public static final double kG = 0.67 - kS;
+
+            public static final double EXTENDER_MASS_KG = 6;
 
             public static final double MAX_ACCELERATION = 3.5; //4.2
             public static final double MAX_VELOCITY = 1.75;
@@ -304,6 +336,21 @@ public class RobotMap {
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(40);
+
+            public static class Simulation{
+
+                public static class MotorSimulationConstants {
+
+                    public static final int NUMBER_OF_MOTORS = 1;
+                    public static final double GEAR_RATIO = 1 / RobotMap.TelescopicArm.Extender.GEAR_RATIO;
+                    public static final double CARRIAGE_MASS = 6; //[Kg]
+
+                }
+
+
+                public static final PIDObject SIM_PID = new PIDObject().withKp(10).withKi(10);
+                public static final double SIM_LENGTH_TOLERANCE = 0.001; //in meters
+            }
         }
 
         public static class Claw {
@@ -335,7 +382,7 @@ public class RobotMap {
             public static final double kS = 0.1;
             public static final double kV = 1.9;
             public static final double MIN_Kg = 0.188;
-            public static final double MAX_Kg = 0.62;
+            public static final double MAX_Kg = 0.62 ;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
             public static final double MAX_ACCELERATION = 10;
@@ -351,20 +398,33 @@ public class RobotMap {
             public static final double RELATIVE_POSITION_CONVERSION_FACTOR = 0.0328; //you know of calibrating pid but have you heard of calibrating the gear ratio
             public static final double RELATIVE_VELOCITY_CONVERSION_FACTOR = 0.0328 / 60;
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
-            public static final double BACKWARD_ANGLE_LIMIT = Units.degreesToRadians(4);
+            public static final double BACKWARD_ANGLE_LIMIT = 0.02;
+            public static final double DEBUG_ANGLE_LIMIT = 0.3;
 
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);
 
 
             public static final GBSparkMax.SparkMaxConfObject ELBOW_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
-                    .withPID(PID)
+                    .withPID(RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  PID : Simulation.SIM_PID)
                     .withIdleMode(CANSparkMax.IdleMode.kBrake)
                     .withRampRate(General.RAMP_RATE_VAL)
                     .withCurrentLimit(RobotMap.TelescopicArm.Elbow.CURRENT_LIMIT);
 
             public static final int CURRENT_LIMIT = 40;
 
+            public static class Simulation {
+
+                public static class MotorSimulationConstants {
+
+                    public static final int NUMBER_OF_MOTORS = 1;
+                    public static final double GEAR_RATIO = 1 / RobotMap.TelescopicArm.Elbow.RELATIVE_POSITION_CONVERSION_FACTOR;
+
+                }
+
+                public static final PIDObject SIM_PID = new PIDObject().withKp(0.8).withKd(0.3).withMaxPower(1);
+                public static final double SIM_ANGLE_TOLERANCE = Units.degreesToRadians(3);
+            }
         }
     }
 

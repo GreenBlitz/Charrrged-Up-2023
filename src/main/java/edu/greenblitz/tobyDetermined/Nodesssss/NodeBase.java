@@ -15,6 +15,7 @@ public class NodeBase {
     protected final static HashMap<SystemsPos, GBNode> nodeMap = new HashMap<>();
     private static final LinkedList<SystemsPos> listSystemsPos = new LinkedList<>();
 
+
     static {
 //        nodeMapGrip.put(GRIPER_ONE, new GriperNode( new GriperCommand()));
 //        listGriper.add(GRIPER_ONE);

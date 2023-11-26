@@ -54,5 +54,4 @@ public class NodeArm extends GBNode {
         return getIsAtAngle(angle) && getIsAtLength(length);
 
     }
-
 }

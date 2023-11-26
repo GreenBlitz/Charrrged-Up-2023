@@ -1,7 +1,5 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveChassis;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -72,8 +70,7 @@ public class Trac {
 
     }
 
-    public static void main(String[] args) {
-
+    public static void main() {
         var trajectory = TrajectoryGenerator.generateTrajectory(
                 new Pose2d(4, 5, Rotation2d.fromDegrees(10)),
                 List.of(new Translation2d(6, 7), new Translation2d(8, 6)),
@@ -110,16 +107,16 @@ public class Trac {
                 new PIDController(1, 0, 0),
                 new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(6.28, 3.14))
         );
-        Timer t = new Timer();
-        t.start();
-        Pose2d cur = new Pose2d(1,1,Rotation2d.fromDegrees(10));//need to be pos of current state
-        while(t.get() != trajectory.getTotalTimeSeconds()){
-            Trajectory.State goal = trajectory.sample(t.get());
-            ChassisSpeeds speeds = controller.calculate(cur, goal , goal.poseMeters.getRotation());
-            double x = speeds.vxMetersPerSecond;
-            double y = speeds.vyMetersPerSecond;
-            cur = goal.poseMeters;
-        }
+//        Timer t = new Timer();
+//        t.start();
+//        Pose2d cur = new Pose2d(1,1,Rotation2d.fromDegrees(10));//need to be pos of current state
+//        while(t.get() != trajectory.getTotalTimeSeconds()){
+//            Trajectory.State goal = trajectory.sample(t.get());
+//            ChassisSpeeds speeds = controller.calculate(cur, goal , goal.poseMeters.getRotation());
+//            double x = speeds.vxMetersPerSecond;
+//            double y = speeds.vyMetersPerSecond;
+//            cur = goal.poseMeters;
+//        }
         Transform2d transform2d = new Pose2d(4, 4, Rotation2d.fromDegrees(30)).minus(trajectoryTwo.getInitialPose());
         Trajectory newTrajectory = trajectoryTwo.transformBy(transform2d);
         //Pose2d bOrigin = new Pose2d(1, 1, Rotation2d.fromDegrees(0));
