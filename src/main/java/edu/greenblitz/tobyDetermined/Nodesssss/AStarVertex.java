@@ -30,9 +30,9 @@ public class AStarVertex {
     private static boolean ifNotInVerList(LinkedList<Vertex> verList, Vertex ver) {
         for (Vertex vertex : verList) {
             if (vertex.getPos1().equals(ver.getPos1()) && vertex.getPos2().equals(ver.getPos2()))
-                return true;
+                return false;
         }
-        return false;
+        return true;
     }
 
     public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
@@ -136,6 +136,7 @@ public class AStarVertex {
             }
         }
         while (!openVer.isEmpty()) {
+
             currentVer = getVertexLowestFcost(openVer, pathMap);
             current = currentVer.getPos2();
             openVer.remove(currentVer);
