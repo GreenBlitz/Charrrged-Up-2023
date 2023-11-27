@@ -10,6 +10,7 @@ import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.utils.GBMath;
+import edu.greenblitz.utils.PIDObject;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
@@ -36,6 +37,8 @@ public class MoveArmByTrajectory extends GBCommand {
 	private LinkedList<Translation2d> posList;
 	private LinkedList<RobotMap.TelescopicArm.PresetPositions> nodeList;
 	private static final double CORRECTION_SIZE = 0.3;//in m/s
+	private static final PIDObject extenderPID = RobotMap.TelescopicArm.Extender.PID;
+	private static final PIDObject elbowPID = RobotMap.TelescopicArm.Elbow.PID;
 	private static final double STARTING_LENGTH = RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
 	private static final HolonomicDriveController controller = new HolonomicDriveController(
 			new PIDController(0.2, 0, 0),
@@ -89,6 +92,7 @@ public class MoveArmByTrajectory extends GBCommand {
 		
 		double elbowVelocity = x * (speeds.vyMetersPerSecond + speedY) - y * (speeds.vxMetersPerSecond + speedX);
 		elbowVelocity /= x * x + y * y;
+		elbowVelocity *= Math.max(Extender.getInstance().getLength(),0.25);
 		
 		prevX = cords.getX();
 		prevY = cords.getY();
