@@ -62,28 +62,31 @@ public class MoveArmByTrajectory extends GBCommand {
 	
 	@Override
 	public void execute() {
-		Translation2d cords = GBMath.polarToCartesian(extender.getLength()+STARTING_LENGTH,elbow.getAngleRadians());
-		Trajectory.State goal = path.sample(clock.get());
-		if (currentIndexInPosList >= posList.size())
-			currentIndexInPosList = posList.size()-1;
+		Translation2d cords = GBMath.polarToCartesian(extender.getLength() + STARTING_LENGTH, elbow.getAngleRadians());
+		Trajectory.State goal = path.sample(clock.get());// need to add 50 miliseconds!!!
+		if (currentIndexInPosList >= posList.size())//change to pose-1 too!!!
+			currentIndexInPosList = posList.size() - 1;
+
+		//very weird all of that down{!!!
 		double distanceToCurrentNode = cords.getDistance(posList.get(currentIndexInPosList));
 		double distanceToNextNode;
-		if (currentIndexInPosList < posList.size()-1)
-			distanceToNextNode = cords.getDistance(posList.get(currentIndexInPosList+1));
+		if (currentIndexInPosList < posList.size() - 1)
+			distanceToNextNode = cords.getDistance(posList.get(currentIndexInPosList + 1));
 		else
 			distanceToNextNode = distanceToCurrentNode;
 		if (distanceToCurrentNode <= TOLERANCE_TO_NODE)
 			currentIndexInPosList++;
 		if (distanceToNextNode <= TOLERANCE_TO_NODE)
-			currentIndexInPosList+=2;
-		ChassisSpeeds speeds = controller.calculate(new Pose2d(cords,new Rotation2d(0,0)),goal,goal.poseMeters.getRotation());
+			currentIndexInPosList += 2;
+		ChassisSpeeds speeds = controller.calculate(new Pose2d(cords, new Rotation2d(0, 0)), goal, goal.poseMeters.getRotation());
 		double x = goal.poseMeters.getX();
 		double y = goal.poseMeters.getY();
-		
+		//}!!
+
 		double speedX = 0;//no need for speed conversion, distance works
 		double speedY = 0;//great because its in meters/second
 		NodeArm target = NodeBase.getNode(nodeList.getLast());
-		if (target.getIsAtNode(extender.getLength(),elbow.getAngleRadians())) {
+		if (target.getIsAtNode(extender.getLength(),elbow.getAngleRadians())) {// condition is needed a !
 			speedX = (cords.getX() - prevX);
 			speedY = (cords.getY() - prevY);
 		}
