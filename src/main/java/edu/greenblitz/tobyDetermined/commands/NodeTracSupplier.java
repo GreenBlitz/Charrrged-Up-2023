@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import org.littletonrobotics.junction.Logger;
@@ -44,28 +45,21 @@ public class NodeTracSupplier implements Supplier<Command> {
     }
     public Command get() {
         RobotMap.TelescopicArm.PresetPositions start = CurrentNode.getCurrentNode();
+        if (end.equals(start))
+            return new GBCommand() {};
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
         LinkedList<Translation2d> cartesianList = convertPathToTrans2d(path);
         
-        Translation2d first = cartesianList.getFirst();
+        Translation2d first = GBMath.polarToCartesian(Extender.getInstance().getLength()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,Elbow.getInstance().getAngleRadians());
         Translation2d second;
         Translation2d secondToLast;
-        Translation2d last;
-        if (cartesianList.size() < 2)  {
-            last = first;
-            secondToLast=first;
+        Translation2d last = cartesianList.getLast();
+        cartesianList.removeLast();
+        secondToLast = cartesianList.getLast();
+        if (cartesianList.size() < 2)
             second = last;
-            first = GBMath.polarToCartesian(Extender.getInstance().getLength()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH, Elbow.getInstance().getAngleRadians());
-        }
-        else {
-            last = cartesianList.getLast();
-            cartesianList.removeLast();
-            secondToLast = cartesianList.getLast();
-            if (cartesianList.size() < 2)
-                second = last;
-            else
-                second = cartesianList.get(1);
-        }
+        else
+            second = cartesianList.get(1);
     
         cartesianList.removeFirst();
         Rotation2d firstRotation = Rotation2d.fromRadians(Math.tan(
@@ -78,7 +72,7 @@ public class NodeTracSupplier implements Supplier<Command> {
                 new Pose2d(first, firstRotation),
                 cartesianList,//list of everything in the list except the first and last
                 new Pose2d(last, lastRotation),
-                new TrajectoryConfig(0.1, 0.3)
+                new TrajectoryConfig(0.25, 0.6)
         );
         cartesianList.addFirst(first);
         cartesianList.addLast(last);

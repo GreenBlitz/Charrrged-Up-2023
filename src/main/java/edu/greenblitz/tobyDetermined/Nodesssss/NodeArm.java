@@ -16,8 +16,8 @@ public class NodeArm {
     private final double anglePos;
     private final double extendPos;
 
-    private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
-    private final static double TOLERANCE_LENGTH = 0.04;//In Meters
+    private final static double TOLERANCE_ANGLE = Units.degreesToRadians(2);
+    private final static double TOLERANCE_LENGTH = 0.01;//In Meters
 
     public NodeArm( double extenderPos, double anglePos){
         this.extendPos = extenderPos;
@@ -63,4 +63,5 @@ public class NodeArm {
         return getIsAtAngle(angle) && getIsAtLength(length);
 
     }
+    
 }
