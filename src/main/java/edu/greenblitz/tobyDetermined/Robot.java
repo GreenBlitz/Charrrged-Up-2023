@@ -144,6 +144,8 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void disabledInit() {
 		CommandScheduler.getInstance().cancelAll();
+
+		BreakCoastSwitch.getInstance().setIsDisabled(true);
 	}
 
 
@@ -151,6 +153,7 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void teleopInit() {
 		CommandScheduler.getInstance().cancelAll();
+		BreakCoastSwitch.getInstance().setIsDisabled(false);
 //
 //		Grid.init();
 //		MultiLimelight.getInstance().updateRobotPoseAlliance();
@@ -246,8 +249,6 @@ public class Robot extends LoggedRobot {
 //		}
 //		SwerveChassis.getInstance().isEncoderBroken();
 //		Elbow.getInstance().resetEncoder();
-
-		BreakCoastSwitch.getInstance().toggleBreakCoast();
 
 		if (SwerveChassis.getInstance().isEncoderBroken()){
 			if (Extender.getInstance().DidReset()){
