@@ -92,7 +92,7 @@ public class MoveArmByTrajectory extends GBCommand {
 		
 		double elbowVelocity = x * (speeds.vyMetersPerSecond + speedY) - y * (speeds.vxMetersPerSecond + speedX);
 		elbowVelocity /= x * x + y * y;
-		elbowVelocity *= Math.max(Extender.getInstance().getLength(),0.25);
+		elbowVelocity *= Extender.getInstance().getLength()+STARTING_LENGTH;
 		
 		prevX = cords.getX();
 		prevY = cords.getY();
