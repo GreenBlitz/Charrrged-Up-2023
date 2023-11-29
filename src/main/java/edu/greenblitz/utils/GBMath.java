@@ -1,10 +1,7 @@
 package edu.greenblitz.utils;
 
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import org.opencv.core.Mat;
 
 public class GBMath {
 	/**
@@ -21,18 +18,41 @@ public class GBMath {
 	public static double absoluteModulo(double x, double y) {
 		return ((x % y) + y) % y;
 	}
-	public static Translation2d polarToCartesian(double length, double angle) {
+	/**
+	 *
+	 * Takes a length and angle and converts it into x and y
+	 *
+	 * @param length the length of the point
+	 * @param angle the angle of the point
+	 * @return a Translation2d which houses the result
+	 */
+	public static Translation2d convertToCartesian(double length, double angle) {
 		return  new Translation2d(length*Math.cos(angle),length* Math.sin(angle));
 	}
-	public static Pair<Double,Double> cartesianToPolar(double x, double y) {
+	/**
+	 *
+	 * Takes an x and y and converts it into polar coordinates
+	 *
+	 * @param x the x coordinate of the point
+	 * @param y the y coordinate of the point
+	 * @return a Pair which houses the result in this format (length,angle)
+	 */
+	public static Pair<Double,Double> convertToPolar(double x, double y) {
 		return  new Pair<>(Math.sqrt(x*x+y*y),Math.atan2(y,x));
-	}
-	public static double distance(double x1, double y1, double x2, double y2) {
-		return Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2));
 	}
 	public static double distance(Translation2d p1, Translation2d p2) {
 		return Math.sqrt(Math.pow(p1.getX()- p2.getX(),2)+Math.pow(p1.getY()-p2.getY(),2));
 	}
+	/**
+	 *
+	 * A useful interpolation function
+	 *
+	 * @param x the variable of the function
+	 * @param size a constant scaling of the equation
+	 * @param uniformity a kind of uniformity term
+	 * @param xMovement a translation of the function to the left by xMovement units
+	 * @return a Pair which houses the result in this format (length,angle)
+	 */
 	public static double sigmoid(double x, double size, double uniformity, double xMovement) {
 		return size /(1+Math.exp(uniformity*(xMovement-x)));
 	}

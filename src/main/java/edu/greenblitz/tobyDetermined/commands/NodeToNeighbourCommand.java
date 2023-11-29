@@ -50,8 +50,8 @@ public class NodeToNeighbourCommand extends GBCommand {
             distance = GBMath.getBow(length1,NodeBase.getNode(start).getAnglePos(),length2,NodeBase.getNode(end).getAnglePos());
         else
             distance = GBMath.distance(
-                    GBMath.polarToCartesian(length1,NodeBase.getNode(start).getAnglePos()),
-                    GBMath.polarToCartesian(length2,NodeBase.getNode(end).getAnglePos())
+                    GBMath.convertToCartesian(length1,NodeBase.getNode(start).getAnglePos()),
+                    GBMath.convertToCartesian(length2,NodeBase.getNode(end).getAnglePos())
             );
         COMBINED_VELOCITY = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance,1,5.9,0.3);
         SmartDashboard.putNumber("Combined Velocity",COMBINED_VELOCITY);

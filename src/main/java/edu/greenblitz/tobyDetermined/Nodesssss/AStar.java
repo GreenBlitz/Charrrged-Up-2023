@@ -13,8 +13,8 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositio
 public class AStar {
 
     public static double getDistanceToStartPlusEnd(PresetPositions current, NodeArm start, NodeArm end){
-       double gCost = Math.abs(GBMath.distance(GBMath.polarToCartesian(start.getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,start.getAnglePos()),GBMath.polarToCartesian(NodeBase.getNode(current).getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(current).getAnglePos())));
-       double hCost = Math.abs(GBMath.distance(GBMath.polarToCartesian(end.getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,end.getAnglePos()),GBMath.polarToCartesian(NodeBase.getNode(current).getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(current).getAnglePos())));
+       double gCost = Math.abs(GBMath.distance(GBMath.convertToCartesian(start.getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,start.getAnglePos()),GBMath.convertToCartesian(NodeBase.getNode(current).getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(current).getAnglePos())));
+       double hCost = Math.abs(GBMath.distance(GBMath.convertToCartesian(end.getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,end.getAnglePos()),GBMath.convertToCartesian(NodeBase.getNode(current).getExtendPos()+RobotMap.TelescopicArm.Extender.STARTING_LENGTH,NodeBase.getNode(current).getAnglePos())));
        return gCost+hCost;
     }
 

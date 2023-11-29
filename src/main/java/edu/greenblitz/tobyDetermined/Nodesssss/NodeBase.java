@@ -60,7 +60,6 @@ public class NodeBase {
         nodeMap.get(POST_CONE_DROP).setClawPos(Claw.ClawState.CONE_MODE);
         nodeMap.get(INTAKE_GRAB_CUBE_POSITION).setClawPos(Claw.ClawState.CUBE_MODE);
     }
-
     public static NodeArm getNode(PresetPositions specNode) {
         if (specNode.equals(MID_NODE))
             return MidNode.getInstance().getNodeArm();
