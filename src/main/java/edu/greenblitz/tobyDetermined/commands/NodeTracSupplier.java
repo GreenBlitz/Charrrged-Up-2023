@@ -47,7 +47,7 @@ public class NodeTracSupplier implements Supplier<Command> {
             currentDistance = GBMath.distance(state.poseMeters.getTranslation(), GBMath.convertToCartesian(currentNode.getExtendPos(), currentNode.getAnglePos()));
             if (prevDistance != -1 && currentDistance < prevDistance) {
                 pairList.add(new Pair<>(state.timeSeconds, nodeList.get(nodeListIndex)));
-                nodeListIndex++;
+                nodeListIndex = Math.max(nodeListIndex,nodeList.size()-1);
                 currentNode = NodeBase.getNode(nodeList.get(nodeListIndex));
 
             }
