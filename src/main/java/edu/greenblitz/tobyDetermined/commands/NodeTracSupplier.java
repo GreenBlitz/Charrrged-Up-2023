@@ -38,8 +38,9 @@ public class NodeTracSupplier implements Supplier<Command> {
 
     public LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> getTimesOfNodes(Trajectory track, LinkedList<RobotMap.TelescopicArm.PresetPositions> nodeList) {
         LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> pairList = new LinkedList<>();
+        // consider changing to hashmap the above
         int nodeListIndex = 0;
-        double prevDistance = -1;
+        double prevDistance = -1;//magic number
         NodeArm currentNode = NodeBase.getNode(nodeList.get(nodeListIndex));
         double currentDistance;
         for (Trajectory.State state : track.getStates()) {
@@ -96,7 +97,7 @@ public class NodeTracSupplier implements Supplier<Command> {
                 new Pose2d(first, firstRotation),
                 cartesianList,//list of everything in the list except the first and last
                 new Pose2d(last, lastRotation),
-                new TrajectoryConfig(0.25, 0.6)
+                new TrajectoryConfig(0.25, 0.6)//magic numbers
         );
         Logger.getInstance().recordOutput("Trajectory", trajectory);
         return new MoveArmByTrajectory(trajectory, getTimesOfNodes(trajectory, path)).andThen(ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));

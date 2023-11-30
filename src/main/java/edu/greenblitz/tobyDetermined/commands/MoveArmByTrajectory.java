@@ -102,7 +102,8 @@ public class MoveArmByTrajectory extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        if (clock.get() < path.getTotalTimeSeconds()) {
+        if (clock.get() < path.getTotalTimeSeconds()) {// maybe need to chnage cause can be in node
+														// that is not the end node and doesnt must be a mid node
             setNewMidNodeByTimes();
         }
         CurrentNode.setCurrentNode(nodeTimeList.getLast().getSecond());
@@ -117,10 +118,9 @@ public class MoveArmByTrajectory extends GBCommand {
             if (nodeTimeList.get(i).getFirst() < clock.get() && nodeTimeList.get(i + 1).getFirst() >= clock.get()) {
                 start = nodeTimeList.get(i).getSecond();
                 end = nodeTimeList.get(i + 1).getSecond();
-                break;
+                break;//consider changing the break to a boolean flag
             }
         }
-
         MidNode.getInstance().setNewMidNode(start, end, extender.getLength(), elbow.getAngleRadians());
     }
 }
