@@ -16,22 +16,23 @@ import java.util.function.Supplier;
 public class NodeToNeighbourSupplier implements Supplier<Command> {
     private RobotMap.TelescopicArm.PresetPositions end;
     private GBCommand[] nodeCommands;
-    public RobotMap.TelescopicArm.PresetPositions getEnd(){
+
+    public RobotMap.TelescopicArm.PresetPositions getEnd() {
         return end;
     }
 
     public NodeToNeighbourSupplier(RobotMap.TelescopicArm.PresetPositions endNode) {
         end = endNode;
-        SmartDashboard.putNumber("passIsFinished",0);
     }
+
     public Command get() {
         RobotMap.TelescopicArm.PresetPositions start = CurrentNode.getCurrentNode();
-        LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start,end);
-        nodeCommands = new GBCommand[path.size()-1];
-        for(int i = 0; i<path.size()-1; i++) {
-            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i),path.get(i+1));
+        LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start, end);
+        nodeCommands = new GBCommand[path.size() - 1];
+        for (int i = 0; i < path.size() - 1; i++) {
+            nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
         }
-        return new SequentialCommandGroup(nodeCommands).andThen( ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));
+        return new SequentialCommandGroup(nodeCommands).andThen(ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));
     }
 
 }

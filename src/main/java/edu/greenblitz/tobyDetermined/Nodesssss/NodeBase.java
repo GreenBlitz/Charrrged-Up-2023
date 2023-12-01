@@ -16,16 +16,8 @@ public class NodeBase {
     protected final static HashMap<RobotMap.TelescopicArm.PresetPositions, NodeArm> nodeMap = new HashMap<>();
 
 
-
     static {
-        /*
-        double[][] poses = {{1,5},{2,6}};
 
-      for (int j = 0; j < poses.length; j++) {
-            addToList(new NodeArm(j, poses[j][0],poses[j][1]), list);
-
-            list.get(0).setNeighbors();
-        }*///todo change list adding to this format
         nodeMap.put(CONE_HIGH, new NodeArm(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND));
         nodeMap.put(CONE_MID, new NodeArm(0.31, /*1.94*/ Math.toRadians(107)));
         nodeMap.put(CUBE_HIGH, new NodeArm(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND));
@@ -42,12 +34,12 @@ public class NodeBase {
         nodeMap.get(CONE_MID).addNeighbors(new PresetPositions[]{CONE_HIGH, CUBE_HIGH, CUBE_MID, ZIG_HAIL, PRE_CONE_DROP, LOW});
         nodeMap.get(CUBE_HIGH).addNeighbors(new PresetPositions[]{CONE_MID, CONE_HIGH, CUBE_MID, ZIG_HAIL});
         nodeMap.get(CUBE_MID).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CONE_HIGH, ZIG_HAIL, PRE_CONE_DROP, LOW});
-        nodeMap.get(LOW).addNeighbors(new PresetPositions[]{ZIG_HAIL,CUBE_MID,CONE_MID,PRE_CONE_DROP});
-        nodeMap.get(ZIG_HAIL).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH,CUBE_MID, CONE_HIGH, REST_ABOVE_BELLY, PRE_CONE_DROP, LOW});
+        nodeMap.get(LOW).addNeighbors(new PresetPositions[]{ZIG_HAIL, CUBE_MID, CONE_MID, PRE_CONE_DROP});
+        nodeMap.get(ZIG_HAIL).addNeighbors(new PresetPositions[]{CONE_MID, CUBE_HIGH, CUBE_MID, CONE_HIGH, REST_ABOVE_BELLY, PRE_CONE_DROP, LOW});
         nodeMap.get(INTAKE_GRAB_CONE_POSITION).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CUBE_POSITION});
         nodeMap.get(INTAKE_GRAB_CUBE_POSITION).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CONE_POSITION});
-        nodeMap.get(REST_ABOVE_BELLY).addNeighbors(new PresetPositions[]{ZIG_HAIL, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION,PRE_CONE_DROP});
-        nodeMap.get(PRE_CONE_DROP).addNeighbors(new PresetPositions[]{POST_CONE_DROP, ZIG_HAIL, REST_ABOVE_BELLY,CUBE_MID,CONE_MID,LOW});
+        nodeMap.get(REST_ABOVE_BELLY).addNeighbors(new PresetPositions[]{ZIG_HAIL, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION, PRE_CONE_DROP});
+        nodeMap.get(PRE_CONE_DROP).addNeighbors(new PresetPositions[]{POST_CONE_DROP, ZIG_HAIL, REST_ABOVE_BELLY, CUBE_MID, CONE_MID, LOW});
         nodeMap.get(POST_CONE_DROP).addNeighbors(new PresetPositions[]{REST_ABOVE_BELLY, INTAKE_GRAB_CONE_POSITION, INTAKE_GRAB_CUBE_POSITION});
 
         nodeMap.get(CONE_HIGH).setClawPos(Claw.ClawState.RELEASE);
@@ -60,17 +52,11 @@ public class NodeBase {
         nodeMap.get(POST_CONE_DROP).setClawPos(Claw.ClawState.CONE_MODE);
         nodeMap.get(INTAKE_GRAB_CUBE_POSITION).setClawPos(Claw.ClawState.CUBE_MODE);
     }
+
     public static NodeArm getNode(PresetPositions specNode) {
         if (specNode.equals(MID_NODE))
             return MidNode.getInstance().getNodeArm();
         return nodeMap.get(specNode);
-    }
-
-    public static double getDistanceBetweenTwoPoints(NodeArm a, NodeArm b) {
-        return Math.sqrt(
-                Math.pow(a.getAnglePos() - b.getAnglePos(), 2)
-                        +
-                Math.pow(a.getExtendPos() - b.getExtendPos(), 2));
     }
 
 }

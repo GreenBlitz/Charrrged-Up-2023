@@ -11,11 +11,9 @@ public class NodeFullTrack extends ProxyCommand {
     private final Elbow elbow;
     private RobotMap.TelescopicArm.PresetPositions endNode;
 
-    public NodeFullTrack(RobotMap.TelescopicArm.PresetPositions endNode){
+    public NodeFullTrack(RobotMap.TelescopicArm.PresetPositions endNode) {
         super(new NodeTracSupplier(endNode));
-
         this.endNode = endNode;
-
         extender = Extender.getInstance();
         elbow = Elbow.getInstance();
     }
@@ -28,9 +26,10 @@ public class NodeFullTrack extends ProxyCommand {
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        stopMotors();//needs to be changed when default command works
+        stopMotors();
     }
-    public void stopMotors(){
+
+    public void stopMotors() {
         extender.stop();
         elbow.stop();
     }

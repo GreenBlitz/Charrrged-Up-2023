@@ -36,7 +36,6 @@ public class NodeTracSupplier implements Supplier<Command> {
 
     public NodeTracSupplier(RobotMap.TelescopicArm.PresetPositions endNode) {
         end = endNode;
-        SmartDashboard.putNumber("passIsFinished", 0);
     }
 
     public LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> getTimesOfNodes(Trajectory track, LinkedList<RobotMap.TelescopicArm.PresetPositions> nodeList) {
@@ -57,7 +56,7 @@ public class NodeTracSupplier implements Supplier<Command> {
                     indexOfLastNodeState = j;
                 }
             }
-            pairList.add(new Pair<>(track.getStates().get(indexOfLastNodeState).timeSeconds,nodeList.get(i)));
+            pairList.add(new Pair<>(track.getStates().get(indexOfLastNodeState).timeSeconds, nodeList.get(i)));
         }
         return pairList;
     }
@@ -77,6 +76,7 @@ public class NodeTracSupplier implements Supplier<Command> {
         RobotMap.TelescopicArm.PresetPositions start = CurrentNode.getCurrentNode();
         if (end.equals(start))
             return new GBCommand() {};
+
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start, end);
         LinkedList<Translation2d> cartesianNodeList = convertPathToTrans2d(path);
 
@@ -90,8 +90,8 @@ public class NodeTracSupplier implements Supplier<Command> {
             secondNode = lastNode;
         else
             secondNode = cartesianNodeList.get(1);
-
         cartesianNodeList.removeFirst();
+
         Rotation2d firstRotation = Rotation2d.fromRadians(Math.tan(
                 (firstNode.getY() - secondNode.getY()) / (firstNode.getX() - secondNode.getX())
         ));
@@ -100,7 +100,7 @@ public class NodeTracSupplier implements Supplier<Command> {
         ));
         var trajectory = TrajectoryGenerator.generateTrajectory(
                 new Pose2d(firstNode, firstRotation),
-                cartesianNodeList,//list of everything in the list except the first and last
+                cartesianNodeList,
                 new Pose2d(lastNode, lastRotation),
                 new TrajectoryConfig(MAX_VELOCITY, MAX_ACCELERATION)
         );

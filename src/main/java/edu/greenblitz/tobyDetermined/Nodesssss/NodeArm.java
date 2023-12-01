@@ -19,26 +19,30 @@ public class NodeArm {
     private final static double TOLERANCE_ANGLE = Units.degreesToRadians(2);
     private final static double TOLERANCE_LENGTH = 0.01;//In Meters
 
-    public NodeArm( double extenderPos, double anglePos){
+    public NodeArm(double extenderPos, double anglePos) {
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
         clawPos = ClawState.CONE_MODE;
-        neighbors = new LinkedList<RobotMap.TelescopicArm.PresetPositions>();
+        neighbors = new LinkedList<>();
         isNeighborsSet = false;
     }
+
     public double getExtendPos() {
         return extendPos;
     }
+
     public double getAnglePos() {
         return anglePos;
     }
-    public void addNeighbors(RobotMap.TelescopicArm.PresetPositions[] neighbors) {
-        if(!isNeighborsSet) {
+
+    public void addNeighbors(RobotMap.TelescopicArm.PresetPositions... neighbors) {
+        if (!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
-    public LinkedList<RobotMap.TelescopicArm.PresetPositions> getNeighbors(){
+
+    public LinkedList<RobotMap.TelescopicArm.PresetPositions> getNeighbors() {
         return neighbors;
     }
 
@@ -55,7 +59,7 @@ public class NodeArm {
     }
 
     public boolean getIsAtAngle(double angle) {
-        return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE ;
+        return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE;
 
     }
 
@@ -63,5 +67,5 @@ public class NodeArm {
         return getIsAtAngle(angle) && getIsAtLength(length);
 
     }
-    
+
 }

@@ -8,13 +8,15 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.PresetPositio
 
 public class CurrentNode {
     private static PresetPositions currentNode;
+
     public static PresetPositions getCurrentNode() {
         if (currentNode == null)
             currentNode = INTAKE_GRAB_CONE_POSITION;
         return currentNode;
     }
+
     public static void setCurrentNode(PresetPositions pos) {
         currentNode = pos;
-        SmartDashboard.putString("Current Node",currentNode.toString());
+        SmartDashboard.putString("Current Node", currentNode.toString());
     }
 }

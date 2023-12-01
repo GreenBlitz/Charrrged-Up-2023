@@ -34,7 +34,8 @@ public class MoveArmByTrajectory extends GBCommand {
     private double prevX;
     private double prevY;
     private LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> nodeTimeList;
-    private static final double CORRECTION_SIZE = 0.3;//in seconds
+    private static final double CORRECTION_SIZE = 1;//in seconds
+    private static final double TIME_BETWEEN_EXECUTES = 0.02;//in seconds
     private static final double STARTING_LENGTH = RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
     private static final HolonomicDriveController controller = new HolonomicDriveController(
             new PIDController(0.2, 0, 0),
@@ -63,35 +64,26 @@ public class MoveArmByTrajectory extends GBCommand {
     @Override
     public void execute() {
         Translation2d cords = GBMath.convertToCartesian(extender.getLength() + STARTING_LENGTH, elbow.getAngleRadians());
-        Trajectory.State goal = path.sample(clock.get() + 0.02);
+        Trajectory.State goal = path.sample(clock.get() + TIME_BETWEEN_EXECUTES);
 
         Pair<Double, Double> goalPolar = GBMath.convertToPolar(goal.poseMeters.getX(), goal.poseMeters.getY());
         Logger.getInstance().recordOutput("nextTrajectory", ArmSimulation.getArmPosition(goalPolar.getFirst() - STARTING_LENGTH, goalPolar.getSecond()));
 
-        ChassisSpeeds speeds = controller.calculate(new Pose2d(cords, new Rotation2d(0, 0)), goal, goal.poseMeters.getRotation());
+        ChassisSpeeds cartesianSpeeds = controller.calculate(new Pose2d(cords, new Rotation2d(0, 0)), goal, goal.poseMeters.getRotation());
         double x = goal.poseMeters.getX();
         double y = goal.poseMeters.getY();
 
         double speedX = (cords.getX() - prevX) / CORRECTION_SIZE;
-        //no need for speed conversion, distance works
         double speedY = (cords.getY() - prevY) / CORRECTION_SIZE;
-        //great because its in meters/second
-        speedX = 0;
-        speedY = 0;
 
-        //conversion between cartesian and polar speeds using complicated math
-        double extenderVelocity = x * (speeds.vxMetersPerSecond + speedX) + y * (speeds.vyMetersPerSecond + speedY);
-        extenderVelocity /= Math.sqrt(x * x + y * y);
-
-        double elbowVelocity = x * (speeds.vyMetersPerSecond + speedY) - y * (speeds.vxMetersPerSecond + speedX);
-        elbowVelocity /= x * x + y * y;
-        elbowVelocity *= (extender.getLength() + STARTING_LENGTH);
+        Pair<Double,Double> polarVelocities = GBMath.convertToPolarSpeeds(x,y,speedX+cartesianSpeeds.vxMetersPerSecond,speedY+cartesianSpeeds.vyMetersPerSecond,extender.getLength()+STARTING_LENGTH);
+        double extenderVelocity = polarVelocities.getFirst();
+        double angularVelocity = polarVelocities.getSecond();
 
         prevX = cords.getX();
         prevY = cords.getY();
-        extender.setMotorVoltage(Extender.getDynamicFeedForward(extenderVelocity, Elbow.getInstance().getAngleRadians()));
-        elbow.setMotorVoltage(Elbow.getDynamicFeedForward(elbowVelocity, extender.getLength(), elbow.getAngleRadians()));
-        System.out.println(elbow.getVelocity()+", "+ elbowVelocity);
+        extender.setMotorVoltage(Extender.getDynamicFeedForward(extenderVelocity, elbow.getAngleRadians()));
+        elbow.setMotorVoltage(Elbow.getDynamicFeedForward(angularVelocity, extender.getLength(), elbow.getAngleRadians()));
     }
 
     @Override

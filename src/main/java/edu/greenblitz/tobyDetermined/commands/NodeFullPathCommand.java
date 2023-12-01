@@ -11,23 +11,21 @@ public class NodeFullPathCommand extends ProxyCommand {
     private final Extender extender;
     private final Elbow elbow;
 
-    public NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions endNode){
-        super(
-                new NodeToNeighbourSupplier(endNode)
-        );
-
+    public NodeFullPathCommand(RobotMap.TelescopicArm.PresetPositions endNode) {
+        super(new NodeToNeighbourSupplier(endNode));
         extender = Extender.getInstance();
         elbow = Elbow.getInstance();
     }
+
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-
-        stopMotors();//needs to be changed when default command works
+        stopMotors();
     }
-    public void stopMotors(){
-    extender.stop();
-    elbow.stop();
+
+    public void stopMotors() {
+        extender.stop();
+        elbow.stop();
     }
 }
 
