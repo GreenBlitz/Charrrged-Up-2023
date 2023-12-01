@@ -27,6 +27,9 @@ import java.util.function.Supplier;
 public class NodeTracSupplier implements Supplier<Command> {
     private RobotMap.TelescopicArm.PresetPositions end;
 
+    private static final double MAX_VELOCITY = 0.25;
+    private static final double MAX_ACCELERATION = 0.6;
+
     public RobotMap.TelescopicArm.PresetPositions getEnd() {
         return end;
     }
@@ -39,9 +42,10 @@ public class NodeTracSupplier implements Supplier<Command> {
     public LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> getTimesOfNodes(Trajectory track, LinkedList<RobotMap.TelescopicArm.PresetPositions> nodeList) {
         LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> pairList = new LinkedList<>();
         int indexOfLastNodeState = 0;
-        double leastDistance = Double.MAX_VALUE;
+        double leastDistance;
         double distanceOfNodeToState;
         for (int i = 0; i < nodeList.size(); i++) {
+            leastDistance = Double.MAX_VALUE;
             for (int j = indexOfLastNodeState; j < track.getStates().size(); j++) {
                 distanceOfNodeToState = GBMath.distance(track.getStates().get(j).poseMeters.getTranslation(),
                         GBMath.convertToCartesian(
@@ -55,7 +59,6 @@ public class NodeTracSupplier implements Supplier<Command> {
             }
             pairList.add(new Pair<>(track.getStates().get(indexOfLastNodeState).timeSeconds,nodeList.get(i)));
         }
-        printListOfPairs(pairList);//debugging
         return pairList;
     }
 
@@ -73,42 +76,35 @@ public class NodeTracSupplier implements Supplier<Command> {
     public Command get() {
         RobotMap.TelescopicArm.PresetPositions start = CurrentNode.getCurrentNode();
         if (end.equals(start))
-            return new GBCommand() {
-            };
+            return new GBCommand() {};
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start, end);
-        LinkedList<Translation2d> cartesianList = convertPathToTrans2d(path);
+        LinkedList<Translation2d> cartesianNodeList = convertPathToTrans2d(path);
 
-        Translation2d first = GBMath.convertToCartesian(Extender.getInstance().getLength() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH, Elbow.getInstance().getAngleRadians());
-        Translation2d second;
-        Translation2d secondToLast;
-        Translation2d last = cartesianList.getLast();
-        cartesianList.removeLast();
-        secondToLast = cartesianList.getLast();
-        if (cartesianList.size() < 2)
-            second = last;
+        Translation2d firstNode = GBMath.convertToCartesian(Extender.getInstance().getLength() + RobotMap.TelescopicArm.Extender.STARTING_LENGTH, Elbow.getInstance().getAngleRadians());
+        Translation2d secondNode;
+        Translation2d secondToLastNode;
+        Translation2d lastNode = cartesianNodeList.getLast();
+        cartesianNodeList.removeLast();
+        secondToLastNode = cartesianNodeList.getLast();
+        if (cartesianNodeList.size() < 2)
+            secondNode = lastNode;
         else
-            second = cartesianList.get(1);
+            secondNode = cartesianNodeList.get(1);
 
-        cartesianList.removeFirst();
+        cartesianNodeList.removeFirst();
         Rotation2d firstRotation = Rotation2d.fromRadians(Math.tan(
-                (first.getY() - second.getY()) / (first.getX() - second.getX())
+                (firstNode.getY() - secondNode.getY()) / (firstNode.getX() - secondNode.getX())
         ));
         Rotation2d lastRotation = Rotation2d.fromRadians(Math.tan(
-                (last.getY() - secondToLast.getY()) / (last.getX() - secondToLast.getX())
+                (lastNode.getY() - secondToLastNode.getY()) / (lastNode.getX() - secondToLastNode.getX())
         ));
         var trajectory = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(first, firstRotation),
-                cartesianList,//list of everything in the list except the first and last
-                new Pose2d(last, lastRotation),
-                new TrajectoryConfig(0.25, 0.6)//magic numbers
+                new Pose2d(firstNode, firstRotation),
+                cartesianNodeList,//list of everything in the list except the first and last
+                new Pose2d(lastNode, lastRotation),
+                new TrajectoryConfig(MAX_VELOCITY, MAX_ACCELERATION)
         );
         Logger.getInstance().recordOutput("Trajectory", trajectory);
         return new MoveArmByTrajectory(trajectory, getTimesOfNodes(trajectory, path)).andThen(ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));
-    }
-
-    public static void printListOfPairs(LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> list) {
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getFirst() + "," + list.get(i).getSecond());
-        }
     }
 }

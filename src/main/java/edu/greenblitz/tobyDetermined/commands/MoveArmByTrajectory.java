@@ -34,11 +34,11 @@ public class MoveArmByTrajectory extends GBCommand {
     private double prevX;
     private double prevY;
     private LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> nodeTimeList;
-    private static final double CORRECTION_SIZE = 0.3;//in m/s
+    private static final double CORRECTION_SIZE = 0.3;//in seconds
     private static final double STARTING_LENGTH = RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
     private static final HolonomicDriveController controller = new HolonomicDriveController(
             new PIDController(0.2, 0, 0),
-            new PIDController(0.005, 0, 0),
+            new PIDController(0.2, 0, 0),
             new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(6.28, 3.14))
     );
 
@@ -47,7 +47,6 @@ public class MoveArmByTrajectory extends GBCommand {
         elbow = Elbow.getInstance();
         require(extender);
         require(elbow);
-
         this.nodeTimeList = nodeTimeList;
         this.path = path;
     }
@@ -74,11 +73,11 @@ public class MoveArmByTrajectory extends GBCommand {
         double y = goal.poseMeters.getY();
 
         double speedX = (cords.getX() - prevX) / CORRECTION_SIZE;
-        ;//no need for speed conversion, distance works
+        //no need for speed conversion, distance works
         double speedY = (cords.getY() - prevY) / CORRECTION_SIZE;
-        speedY = 0;
+        //great because its in meters/second
         speedX = 0;
-        ;//great because its in meters/second
+        speedY = 0;
 
         //conversion between cartesian and polar speeds using complicated math
         double extenderVelocity = x * (speeds.vxMetersPerSecond + speedX) + y * (speeds.vyMetersPerSecond + speedY);
@@ -86,12 +85,13 @@ public class MoveArmByTrajectory extends GBCommand {
 
         double elbowVelocity = x * (speeds.vyMetersPerSecond + speedY) - y * (speeds.vxMetersPerSecond + speedX);
         elbowVelocity /= x * x + y * y;
-        elbowVelocity *= extender.getLength() + STARTING_LENGTH;
+        elbowVelocity *= (extender.getLength() + STARTING_LENGTH);
 
         prevX = cords.getX();
         prevY = cords.getY();
         extender.setMotorVoltage(Extender.getDynamicFeedForward(extenderVelocity, Elbow.getInstance().getAngleRadians()));
         elbow.setMotorVoltage(Elbow.getDynamicFeedForward(elbowVelocity, extender.getLength(), elbow.getAngleRadians()));
+        System.out.println(elbow.getVelocity()+", "+ elbowVelocity);
     }
 
     @Override
@@ -102,8 +102,7 @@ public class MoveArmByTrajectory extends GBCommand {
 
     @Override
     public void end(boolean interrupted) {
-        if (clock.get() < path.getTotalTimeSeconds()) {// maybe need to chnage cause can be in node
-														// that is not the end node and doesnt must be a mid node
+        if (clock.get() < path.getTotalTimeSeconds()) {
             setNewMidNodeByTimes();
         }
         CurrentNode.setCurrentNode(nodeTimeList.getLast().getSecond());

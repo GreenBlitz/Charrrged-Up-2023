@@ -21,7 +21,7 @@ public class SimulationElbow implements IElbow {
                 DCMotor.getNEO(RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.NUMBER_OF_MOTORS),
                 RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.GEAR_RATIO,
                 SingleJointedArmSim.estimateMOI(
-                        RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,
+                        RobotMap.TelescopicArm.Extender.BACKWARDS_LIMIT + 0.02,
                         RobotMap.TelescopicArm.Extender.EXTENDER_MASS_KG
                 ),
                 RobotMap.TelescopicArm.Extender.EXTENDED_LENGTH,

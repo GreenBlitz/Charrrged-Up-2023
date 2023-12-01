@@ -379,9 +379,6 @@ public class RobotMap {
             public static final int MOTOR_ID = 1;
             public static final int RESET_MEDIAN_SIZE = 7;
             public static final double GEAR_RATIO = 1;
-
-            public static final double kS = 0.1;
-            public static final double kV = 1.9;
             public static final double MIN_Kg = 0.188;
             public static final double MAX_Kg = 0.62 ;
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
@@ -401,7 +398,8 @@ public class RobotMap {
             public static final double FORWARD_ANGLE_LIMIT = 2.13 + Math.toRadians(10);
             public static final double BACKWARD_ANGLE_LIMIT = 0.02;
             public static final double DEBUG_ANGLE_LIMIT = 0.3;
-
+            public static final double kS = 0.1;
+            public static final double kV = 1.9;
             public static final double ANGLE_TOLERANCE = Units.degreesToRadians(3.5);
             public static final double ANGULAR_VELOCITY_TOLERANCE = Units.degreesToRadians(3);
 
