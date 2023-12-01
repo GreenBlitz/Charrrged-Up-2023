@@ -38,14 +38,13 @@ public class NodeTracSupplier implements Supplier<Command> {
 
     public LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> getTimesOfNodes(Trajectory track, LinkedList<RobotMap.TelescopicArm.PresetPositions> nodeList) {
         LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> pairList = new LinkedList<>();
-        // consider changing to hashmap the above
         int nodeListIndex = 0;
         double prevDistance = -1;//magic number
         NodeArm currentNode = NodeBase.getNode(nodeList.get(nodeListIndex));
         double currentDistance;
         for (Trajectory.State state : track.getStates()) {
             currentDistance = GBMath.distance(state.poseMeters.getTranslation(), GBMath.convertToCartesian(currentNode.getExtendPos(), currentNode.getAnglePos()));
-            if (prevDistance != -1 && currentDistance < prevDistance) {
+            if (prevDistance != -1 && currentDistance <= prevDistance) {
                 pairList.add(new Pair<>(state.timeSeconds, nodeList.get(nodeListIndex)));
                 nodeListIndex = Math.max(nodeListIndex,nodeList.size()-1);
                 currentNode = NodeBase.getNode(nodeList.get(nodeListIndex));
@@ -53,6 +52,8 @@ public class NodeTracSupplier implements Supplier<Command> {
             }
             prevDistance = currentDistance;
         }
+        if (pairList.size() == 0)
+            pairList.add(new Pair<>(track.getTotalTimeSeconds(),nodeList.getLast()));
         return pairList;
     }
 
@@ -102,5 +103,9 @@ public class NodeTracSupplier implements Supplier<Command> {
         Logger.getInstance().recordOutput("Trajectory", trajectory);
         return new MoveArmByTrajectory(trajectory, getTimesOfNodes(trajectory, path)).andThen(ObjectPositionByNode.getCommandFromState(NodeBase.getNode(end).getClawPos()));
     }
-
+    public static void printListOfPairs(LinkedList<Pair<Double, RobotMap.TelescopicArm.PresetPositions>> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getFirst() + "," + list.get(i).getSecond());
+        }
+    }
 }

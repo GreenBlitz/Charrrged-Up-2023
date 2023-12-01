@@ -118,7 +118,6 @@ public class MoveArmByTrajectory extends GBCommand {
             if (nodeTimeList.get(i).getFirst() < clock.get() && nodeTimeList.get(i + 1).getFirst() >= clock.get()) {
                 start = nodeTimeList.get(i).getSecond();
                 end = nodeTimeList.get(i + 1).getSecond();
-                break;//consider changing the break to a boolean flag
             }
         }
         MidNode.getInstance().setNewMidNode(start, end, extender.getLength(), elbow.getAngleRadians());
