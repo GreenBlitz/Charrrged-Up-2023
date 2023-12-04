@@ -481,7 +481,9 @@ public class RobotMap {
             ARM_HIGH,
 
             GRIPER_OPEN,
-            GRIPER_CLOSE;
+            GRIPER_CLOSE,
+
+            MID_NODE;
 
         }
 
