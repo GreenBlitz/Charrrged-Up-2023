@@ -11,15 +11,13 @@ public abstract class GBNode {
     protected boolean isNeighborsSet;
     protected LinkedList<SystemsPos> neighbors;
 
-    protected GBCommand command;
     protected final LinkedList<SystemsPos> otherSystemMustBeToEnter;
     protected final LinkedList<SystemsPos> otherSystemMustBeToOut;
 
 
-    public GBNode(GBCommand command) {
+    public GBNode() {
         neighbors = new LinkedList<>();
         isNeighborsSet = false;
-        this.command = command;
         otherSystemMustBeToEnter = new LinkedList<>();
         otherSystemMustBeToOut = new LinkedList<>();
     }
@@ -39,21 +37,17 @@ public abstract class GBNode {
         return otherSystemMustBeToOut;
     }
 
-    public void setOtherSystemMustBeToEnter(SystemsPos[] otherSystemMustBeToEnter){
+    public void setOtherSystemMustBeToEnter(SystemsPos[] otherSystemMustBeToEnter) {
         Collections.addAll(this.otherSystemMustBeToEnter, otherSystemMustBeToEnter);
     }
-    public void setOtherSystemMustBeToOut(SystemsPos[] otherSystemMustBeToOut){
-        Collections.addAll(this.otherSystemMustBeToOut, otherSystemMustBeToOut);
-    }
 
-    public GBCommand getCommand() {
-        return command;
+    public void setOtherSystemMustBeToOut(SystemsPos[] otherSystemMustBeToOut) {
+        Collections.addAll(this.otherSystemMustBeToOut, otherSystemMustBeToOut);
     }
 
     public LinkedList<SystemsPos> getNeighbors() {
         return neighbors;
     }
-
 
 
 }

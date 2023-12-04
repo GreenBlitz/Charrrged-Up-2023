@@ -1,17 +1,19 @@
-package edu.greenblitz.tobyDetermined.Nodesssss;
+package edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem;
+
+import edu.greenblitz.tobyDetermined.RobotMap;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 
-public class CurrentNodeArm {
+public class CurrentGriperNode {
     private static SystemsPos currentNode;
     public static SystemsPos getCurrentNode() {
         if (currentNode == null)
-            currentNode = ARM_MID;
+            currentNode = GRIPER_CLOSE;
         return currentNode;
     }
-    public static void setCurrentNode(SystemsPos pos) {
+    public void setCurrentNode(SystemsPos pos) {
         currentNode = pos;
     }
 }

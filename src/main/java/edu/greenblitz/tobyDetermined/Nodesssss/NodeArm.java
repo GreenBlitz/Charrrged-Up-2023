@@ -14,13 +14,13 @@ import java.util.LinkedList;
 public class NodeArm extends GBNode {
 
     private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
-    private final static double TOLERANCE_LENGTH = 0.04;//In Meters
+    private final static double TOLERANCE_LENGTH = 0.04;
     private ClawState clawPos;
     private final double anglePos;
     private final double extendPos;
 
-    public NodeArm(double extenderPos, double anglePos, GBCommand command) {
-        super(command);
+    public NodeArm(double extenderPos, double anglePos) {
+        super();
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
         clawPos = null;
@@ -33,6 +33,7 @@ public class NodeArm extends GBNode {
     public double getAnglePos() {
         return anglePos;
     }
+
     public void setClawPos(ClawState clawPos) {
         this.clawPos = clawPos;
     }
@@ -42,16 +43,14 @@ public class NodeArm extends GBNode {
     }
 
     public boolean getIsAtLength(double length) {
-        return Math.abs(extendPos - length) <= TOLERANCE_LENGTH || (extendPos < 0.1 && length < 0.1);
+        return Math.abs(extendPos - length) <= TOLERANCE_LENGTH || (extendPos < 0.1 && length < 0.1);// magic number
     }
 
     public boolean getIsAtAngle(double angle) {
-        return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE ;
-
+        return Math.abs(anglePos - angle) <= TOLERANCE_ANGLE;
     }
 
     public boolean getIsAtNode(double angle, double length) {
         return getIsAtAngle(angle) && getIsAtLength(length);
-
     }
 }

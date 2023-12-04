@@ -31,14 +31,6 @@ public class NodeBase {
 //        nodeMapGrip.get(GRIPER_TWO).addNeighbors(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
 //        nodeMapGrip.get(GRIPER_THREE).addNeighbors(new GriperPos[]{GRIPER_TWO});
 //
-//        /*
-//        double[][] poses = {{1,5},{2,6}};
-//
-//      for (int j = 0; j < poses.length; j++) {
-//            addToList(new NodeArm(j, poses[j][0],poses[j][1]), list);
-//
-//            list.get(0).setNeighbors();
-//        }*///todo change list adding to this format
 //        nodeMapArm.put(CONE_HIGH, new NodeArm(0.71, Math.toRadians(25.1) - STARTING_ANGLE_RELATIVE_TO_GROUND, new ArmCommand()));
 //        nodeMapArm.put(CONE_MID, new NodeArm(0.31, /*1.94*/ Math.toRadians(107), new ArmCommand()));
 //        nodeMapArm.put(CUBE_HIGH, new NodeArm(0.450, Math.toRadians(15.46) - STARTING_ANGLE_RELATIVE_TO_GROUND,new ArmCommand()));
@@ -92,10 +84,10 @@ public class NodeBase {
 //        nodeMapArm.get(LOW).setOtherSystemMustBe(new GriperPos[]{GRIPER_ONE, GRIPER_THREE});
 //        nodeMapArm.get(INTAKE_GRAB_CONE_POSITION).setOtherSystemMustBe(new GriperPos[]{GRIPER_TWO});
 //        nodeMapArm.get(INTAKE_GRAB_CUBE_POSITION).setOtherSystemMustBe(new GriperPos[]{GRIPER_TWO});
-        nodeMap.put(ARM_LOWWW, new NodeArm(0, 0, new ArmCommand()));
-        nodeMap.put(ARM_GROUND, new NodeArm(1, 0, new ArmCommand()));
-        nodeMap.put(ARM_MID, new NodeArm(2, 0, new ArmCommand()));
-        nodeMap.put(ARM_HIGH, new NodeArm(3, 0, new ArmCommand()));
+        nodeMap.put(ARM_LOWWW, new NodeArm(0, 0));
+        nodeMap.put(ARM_GROUND, new NodeArm(1, 0));
+        nodeMap.put(ARM_MID, new NodeArm(2, 0));
+        nodeMap.put(ARM_HIGH, new NodeArm(3, 0));
         listSystemsPos.add(ARM_LOWWW);
         listSystemsPos.add(ARM_GROUND);
         listSystemsPos.add(ARM_MID);
@@ -106,8 +98,8 @@ public class NodeBase {
         nodeMap.get(ARM_MID).addNeighbors(new SystemsPos[]{ARM_GROUND, ARM_LOWWW, ARM_HIGH});
         nodeMap.get(ARM_HIGH).addNeighbors(new SystemsPos[]{ARM_GROUND, ARM_MID, ARM_LOWWW});
 
-        nodeMap.put(GRIPER_OPEN, new GriperNode(new GriperCommand()));
-        nodeMap.put(GRIPER_CLOSE, new GriperNode(new GriperCommand()));
+        nodeMap.put(GRIPER_OPEN, new GriperNode());
+        nodeMap.put(GRIPER_CLOSE, new GriperNode());
         listSystemsPos.add(GRIPER_OPEN);
         listSystemsPos.add(GRIPER_CLOSE);
 
@@ -121,6 +113,8 @@ public class NodeBase {
     }
 
     public static GBNode getNode(SystemsPos specificNode) {
+        if (specificNode.equals(MID_NODE))
+            return MidNode.getInstance().getNodeArm();
         return nodeMap.get(specificNode);
     }
 

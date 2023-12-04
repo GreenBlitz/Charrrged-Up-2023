@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.commands;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.CurrentNodeArm;
+import edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem.CurrentNodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
@@ -20,7 +20,6 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Elbow elbow;
     private NodeArm startNodeArm;
     private NodeArm endNodeArm;
-
     private SystemsPos start;
     private SystemsPos end;
     private double COMBINED_VELOCITY;
@@ -125,13 +124,13 @@ public class NodeToNeighbourCommand extends GBCommand {
 
     @Override
     public void execute() {
-        moveArm((NodeArm) NodeBase.getNode(end));
+        moveArm(endNodeArm);
     }
 
     @Override
     public boolean isFinished() {
         SmartDashboard.putBoolean("isInTarget",false);
-        if (isInPlace((NodeArm) NodeBase.getNode(end))) {
+        if (isInPlace(endNodeArm)) {
             SmartDashboard.putBoolean("isInTarget", true);
             return true;
         }
@@ -141,7 +140,7 @@ public class NodeToNeighbourCommand extends GBCommand {
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            MidNode.getInstance().setNewMidNode(start, end, extender.getLength(), elbow.getAngleRadians());
+            MidNode.getInstance().setNewMidNode(start, end);
             CurrentNodeArm.setCurrentNode(SystemsPos.MID_NODE);
         } else
             CurrentNodeArm.setCurrentNode(end);

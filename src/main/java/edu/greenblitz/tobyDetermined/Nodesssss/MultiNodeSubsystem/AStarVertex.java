@@ -1,5 +1,6 @@
-package edu.greenblitz.tobyDetermined.Nodesssss;
+package edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.wpi.first.math.Pair;
 
 import java.util.HashMap;
