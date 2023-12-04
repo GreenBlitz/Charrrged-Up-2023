@@ -487,6 +487,8 @@ public class RobotMap {
 
         }
 
+        static public String systemName1 = "ARM";
+        static public String systemName2 = "GRIPER";
         static LinkedList<Pair<String, Double>> costList = new LinkedList<>();
 
         static {

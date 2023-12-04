@@ -1,9 +1,10 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.commands.ArmCommand;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
+
+import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.*;
 
 public class MidNode {
     private GBNode gbNode;
@@ -22,7 +23,7 @@ public class MidNode {
     public void setNewMidNode(RobotMap.NodeSystem.SystemsPos start, RobotMap.NodeSystem.SystemsPos end) {
         if (start.equals(RobotMap.NodeSystem.SystemsPos.MID_NODE))
             start = gbNode.getNeighbors().get(0);
-        if (start.toString().contains("ARM"))
+        if (start.toString().contains(systemName1))
             gbNode = new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
         else
             gbNode = new GriperNode();
