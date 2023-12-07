@@ -50,13 +50,15 @@ public class GBMath {
      * @param radius the radius from the center to this point
      * @return a Pair which houses the result in this format (length,angle)
      */
-    public static Pair<Double, Double> convertToPolarSpeeds(double xPos, double yPos, double xVelocity, double yVelocity, double radius) {
+    public static Pair<Double, Double> convertToPolarSpeeds(double xPos, double yPos, double xVelocity, double yVelocity) {
+
+        double distance = Math.sqrt(xPos * xPos + yPos * yPos);
+
         double lengthVelocity = xPos * (xVelocity) + yPos * (yVelocity);
-        lengthVelocity /= Math.sqrt(xPos * xPos + yPos * yPos);
+        lengthVelocity /= distance;
 
         double angularVelocity = xPos * yVelocity - yPos * xVelocity;
-        angularVelocity /= xPos * xPos + yPos * yPos;
-        angularVelocity *= radius;
+        angularVelocity /= distance;
         return new Pair<>(lengthVelocity,angularVelocity);
     }
 

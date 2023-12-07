@@ -76,7 +76,7 @@ public class MoveArmByTrajectory extends GBCommand {
         double speedX = (cords.getX() - prevX) / CORRECTION_SIZE;
         double speedY = (cords.getY() - prevY) / CORRECTION_SIZE;
 
-        Pair<Double,Double> polarVelocities = GBMath.convertToPolarSpeeds(x,y,speedX+cartesianSpeeds.vxMetersPerSecond,speedY+cartesianSpeeds.vyMetersPerSecond,extender.getLength()+STARTING_LENGTH);
+        Pair<Double,Double> polarVelocities = GBMath.convertToPolarSpeeds(x,y,speedX+cartesianSpeeds.vxMetersPerSecond,speedY+cartesianSpeeds.vyMetersPerSecond);
         double extenderVelocity = polarVelocities.getFirst();
         double angularVelocity = polarVelocities.getSecond();
 
