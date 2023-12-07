@@ -47,7 +47,6 @@ public class GBMath {
      * @param yPos the y coordinate of the point
      * @param xVelocity the x Velocity of the point
      * @param yVelocity the y Velocity of the point
-     * @param radius the radius from the center to this point
      * @return a Pair which houses the result in this format (length,angle)
      */
     public static Pair<Double, Double> convertToPolarSpeeds(double xPos, double yPos, double xVelocity, double yVelocity) {
