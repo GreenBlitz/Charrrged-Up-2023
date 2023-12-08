@@ -30,7 +30,7 @@ public class MidNode {
         gbNode.addNeighbors(new RobotMap.NodeSystem.SystemsPos[]{start, end});
     }
 
-    public GBNode getNodeArm() {
+    public GBNode getGBNode() {
         return gbNode;
     }
 }

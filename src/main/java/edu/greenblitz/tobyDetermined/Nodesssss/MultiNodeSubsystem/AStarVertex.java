@@ -11,14 +11,14 @@ import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
 public class AStarVertex {
 
     public static <T> void printPath(LinkedList<T> pathList) {
-        for (int i = 0; i <= pathList.size() - 1; i++) {
+        for (int i = 0; i < pathList.size(); i++) {
             System.out.print(pathList.get(i) + ", ");
         }
         System.out.println();
     }
 
-    public static void printPathVer(LinkedList<Vertex> pathList) {
-        for (int i = 0; i <= pathList.size() - 1; i++) {
+    public static void printPathVertex(LinkedList<Vertex> pathList) {
+        for (int i = 0; i < pathList.size(); i++) {
             System.out.print(pathList.get(i).getPos1() + ", " + pathList.get(i).getPos2() + ";;;;;");
         }
         System.out.println();
@@ -28,12 +28,21 @@ public class AStarVertex {
         return list.contains(object);
     }
 
-    private static boolean ifNotInVerList(LinkedList<Vertex> verList, Vertex ver) {
+    private static boolean NotInVertexList(LinkedList<Vertex> verList, Vertex ver) {
         for (Vertex vertex : verList) {
             if (vertex.getPos1().equals(ver.getPos1()) && vertex.getPos2().equals(ver.getPos2()))
                 return false;
         }
         return true;
+    }
+
+    public static void addNeighborsToOpen(SystemsPos current, LinkedList<Vertex> closedVer, LinkedList<Vertex> openVer, Vertex currentVer, HashMap<Vertex, Vertex> parents){
+        for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+            if (NotInVertexList(closedVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos())) && NotInVertexList(openVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos()))) {
+                openVer.add(new Vertex(current, neighbor, currentVer.getOtherSystemPos()));
+                parents.put(openVer.get(openVer.size() - 1), currentVer);
+            }
+        }
     }
 
     public static Vertex getVertexLowestFcost(LinkedList<Vertex> open, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
@@ -131,11 +140,13 @@ public class AStarVertex {
         HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap = new HashMap<>();
         SystemsPos current = start;
         Vertex currentVer;
+
         for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-            if (ifNotInVerList(closedVer, new Vertex(current, neighbor, secondSystemPos)) && ifNotInVerList(openVer, new Vertex(current, neighbor, secondSystemPos))) {
+            if (NotInVertexList(closedVer, new Vertex(current, neighbor, secondSystemPos)) && NotInVertexList(openVer, new Vertex(current, neighbor, secondSystemPos))) {
                 openVer.add(new Vertex(current, neighbor, secondSystemPos));
             }
         }
+
         while (!openVer.isEmpty()) {
 
             currentVer = getVertexLowestFcost(openVer, pathMap);
@@ -146,12 +157,7 @@ public class AStarVertex {
             if (current.equals(end)) {
                 return returnPath(currentVer, parents, pathMap);
             }
-            for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-                if (ifNotInVerList(closedVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos())) && ifNotInVerList(openVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos()))) {
-                    openVer.add(new Vertex(current, neighbor, currentVer.getOtherSystemPos()));
-                    parents.put(openVer.get(openVer.size() - 1), currentVer);
-                }
-            }
+            addNeighborsToOpen(current, closedVer, openVer, currentVer, parents);
         }
         return null;
     }

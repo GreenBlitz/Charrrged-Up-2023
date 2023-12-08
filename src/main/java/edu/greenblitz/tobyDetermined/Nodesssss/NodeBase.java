@@ -1,8 +1,5 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.commands.ArmCommand;
-import edu.greenblitz.tobyDetermined.commands.GriperCommand;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -114,7 +111,7 @@ public class NodeBase {
 
     public static GBNode getNode(SystemsPos specificNode) {
         if (specificNode.equals(MID_NODE))
-            return MidNode.getInstance().getNodeArm();
+            return MidNode.getInstance().getGBNode();
         return nodeMap.get(specificNode);
     }
 
