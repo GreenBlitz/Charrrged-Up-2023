@@ -1,5 +1,6 @@
-package edu.greenblitz.tobyDetermined.Nodesssss;
+package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.GBCommand;
 

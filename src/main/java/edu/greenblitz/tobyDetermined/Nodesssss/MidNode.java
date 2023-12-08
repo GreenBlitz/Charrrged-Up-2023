@@ -1,5 +1,7 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GriperNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.NodeArm;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;

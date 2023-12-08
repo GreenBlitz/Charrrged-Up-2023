@@ -1,8 +1,8 @@
 package edu.greenblitz.tobyDetermined.commands;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem.AStarVertex;
-import edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem.CurrentGriperNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem.CurrentNodeArm;
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem.AStarVertex;
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem.CurrentGriperNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem.CurrentNodeArm;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

@@ -1,9 +1,10 @@
-package edu.greenblitz.tobyDetermined.Nodesssss;
+package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw.ClawState;
 import edu.greenblitz.utils.GBCommand;
 import edu.wpi.first.math.util.Units;

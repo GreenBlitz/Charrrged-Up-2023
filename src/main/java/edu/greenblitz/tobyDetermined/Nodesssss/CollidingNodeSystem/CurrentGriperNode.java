@@ -1,10 +1,7 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem;
-
-import edu.greenblitz.tobyDetermined.RobotMap;
+package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem;
 
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
 import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
 
 public class CurrentGriperNode {
     private static SystemsPos currentNode;

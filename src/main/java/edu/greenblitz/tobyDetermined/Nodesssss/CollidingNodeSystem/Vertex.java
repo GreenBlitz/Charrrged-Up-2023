@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem;
+package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 
@@ -44,7 +44,7 @@ public class Vertex {
                 (NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().contains(pos) || NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().isEmpty());
     }
 
-    public LinkedList<SystemsPos> mergeAndGetPos1OutAndPos2Enter() {
+    public LinkedList<SystemsPos> merge() {
         LinkedList<SystemsPos> merge = new LinkedList<>(NodeBase.getNode(pos1).getOtherSystemMustBeToOut());
         for (int i = 0; i < NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().size(); i++) {
             if (!merge.contains(NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().get(i))) {

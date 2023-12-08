@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem;
+package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.wpi.first.math.Pair;
@@ -50,12 +50,12 @@ public class AStarVertex {
         int index = 0;
         double minFCost = Double.MAX_VALUE;
         while (index != open.size()) {
-            Pair<Boolean, Double> a = returnIsVertexUsableAndCost(open.get(index), pathMap);
-            if (!a.getFirst()) {
+            Pair<Boolean, Double> vertexUsableAndCost = IsVertexUsableAndCost(open.get(index), pathMap);
+            if (!vertexUsableAndCost.getFirst()) {
                 open.remove(open.get(index));
             }
             else {
-                double currentFCost = a.getSecond();
+                double currentFCost = vertexUsableAndCost.getSecond();
                 currentFCost += open.get(index).getTimeCost();
                 if (currentFCost < minFCost) {
                     minFCost = currentFCost;
@@ -67,7 +67,7 @@ public class AStarVertex {
         return open.get(saveI);
     }
 
-    public static Pair<Boolean, Double> returnIsVertexUsableAndCost(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
+    public static Pair<Boolean, Double> IsVertexUsableAndCost(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
         double cost = 0;
         boolean check = true;
         if (!vertex.isPosFineForVertex(vertex.getOtherSystemPos())) {
@@ -95,7 +95,7 @@ public class AStarVertex {
 
     public static Double getCostOfOtherSystemPathAndAddToMap(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPos>, Double>> pathMap) {
         SystemsPos pos = vertex.getOtherSystemPos();
-        LinkedList<SystemsPos> list = vertex.mergeAndGetPos1OutAndPos2Enter();
+        LinkedList<SystemsPos> list = vertex.merge();
         double min = Double.MAX_VALUE;
         LinkedList<SystemsPos> path = new LinkedList<>();
         for (SystemsPos systemsPos : list) {

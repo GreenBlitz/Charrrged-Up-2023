@@ -1,8 +1,8 @@
 package edu.greenblitz.tobyDetermined.commands;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.MultiNodeSubsystem.CurrentNodeArm;
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem.CurrentNodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.MidNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeArm;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.NodeArm;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ArmSimulation;

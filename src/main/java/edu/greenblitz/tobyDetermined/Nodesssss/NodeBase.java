@@ -1,5 +1,8 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GriperNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.NodeArm;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
