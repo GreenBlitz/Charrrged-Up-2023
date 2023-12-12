@@ -15,11 +15,6 @@ public abstract class ClawCommand extends GBCommand {
     @Override
     public void initialize() {
         super.initialize();
-        claw.isUsingSubsystem = true;
     }
 
-    @Override
-    public void end(boolean interrupted) {
-        claw.isUsingSubsystem = false;
-    }
 }

@@ -26,9 +26,9 @@ public class MidNode {
         if (start.equals(RobotMap.NodeSystem.SystemsPos.MID_NODE))
             start = gbNode.getNeighbors().get(0);
         if (start.toString().contains(systemName1))
-            gbNode = new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
+            gbNode = getNodeBySystemName(systemName1);
         else
-            gbNode = new GriperNode();
+            gbNode = getNodeBySystemName(systemName2);
         gbNode.addNeighbors(new RobotMap.NodeSystem.SystemsPos[]{start, end});
     }
 

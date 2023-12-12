@@ -5,7 +5,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GriperNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.NodeArm;
 import edu.greenblitz.tobyDetermined.subsystems.swerve.SwerveModuleConfigObject;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
+import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.utils.PIDObject;
 import edu.greenblitz.utils.motors.GBFalcon;
 import edu.greenblitz.utils.motors.GBSparkMax;
@@ -489,6 +494,12 @@ public class RobotMap {
 
         static public String systemName1 = "ARM";
         static public String systemName2 = "GRIPER";
+
+        public static GBNode getNodeBySystemName(String systemName){
+            if (systemName.equals(systemName1))
+                return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
+            return new GriperNode();
+        }
         static LinkedList<Pair<String, Double>> costList = new LinkedList<>();
 
         static {

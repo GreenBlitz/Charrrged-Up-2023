@@ -939,6 +939,7 @@ networktables.json
 
 .idea/misc.xml
 .run/
+.run/Build Robot.run.xml
 /.idea/
 
 *.wpilog

@@ -99,7 +99,7 @@ public class AStarVertex {
         double min = Double.MAX_VALUE;
         LinkedList<SystemsPos> path = new LinkedList<>();
         for (SystemsPos systemsPos : list) {
-            Pair<LinkedList<SystemsPos>, Double> pair = getPath(pos, systemsPos, vertex.getPos1());
+            Pair<LinkedList<SystemsPos>, Double> pair = findPath(pos, systemsPos, vertex.getPos1());
             if (pair.getSecond() < min) {
                 min = pair.getSecond();
                 path = pair.getFirst();
@@ -133,7 +133,7 @@ public class AStarVertex {
         return new Pair<>(pathList, totalCost);
     }
 
-    public static Pair<LinkedList<SystemsPos>, Double> getPath(SystemsPos start, SystemsPos end, SystemsPos secondSystemPos) {
+    public static Pair<LinkedList<SystemsPos>, Double> findPath(SystemsPos start, SystemsPos end, SystemsPos secondSystemPos) {
         LinkedList<Vertex> closedVer = new LinkedList<>();
         LinkedList<Vertex> openVer = new LinkedList<>();
         HashMap<Vertex, Vertex> parents = new HashMap<>();
@@ -163,7 +163,7 @@ public class AStarVertex {
     }
 
     public static LinkedList<SystemsPos> printAndReturnFinalPath(SystemsPos start, SystemsPos end, SystemsPos secondSystemState) {
-        Pair<LinkedList<SystemsPos>, Double> finalPathAndCost = getPath(start, end, secondSystemState);
+        Pair<LinkedList<SystemsPos>, Double> finalPathAndCost = findPath(start, end, secondSystemState);
         printPath(finalPathAndCost.getFirst());
         System.out.println(finalPathAndCost.getSecond());
         return finalPathAndCost.getFirst();

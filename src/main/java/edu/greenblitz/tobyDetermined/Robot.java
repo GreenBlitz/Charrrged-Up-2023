@@ -160,7 +160,7 @@ public class Robot extends LoggedRobot {
 //			new ResetExtender().schedule();
 //		}
 //
-//		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
+		Claw.getInstance().setDefaultCommand(new DefaultRotateWhenCube());
 
 		BreakCoastSwitch.getInstance().setBreak(); //return the motors that we might have changed to break.
 

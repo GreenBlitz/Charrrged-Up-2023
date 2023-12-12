@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.Timer;
 public class GripCube extends ClawCommand {
     @Override
     public void initialize() {
-        super.initialize();
         claw.cubeCatchMode();
     }
 
@@ -23,7 +22,6 @@ public class GripCube extends ClawCommand {
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
         claw.stopMotor();
     }
 

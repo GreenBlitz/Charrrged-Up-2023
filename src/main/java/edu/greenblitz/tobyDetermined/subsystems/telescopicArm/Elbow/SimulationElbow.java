@@ -14,9 +14,10 @@ import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.Simulat
 public class SimulationElbow implements IElbow {
     SingleJointedArmSim elbowSim;
     private double appliedVoltage;
-    private final PIDController controller = new PIDController(SIM_PID.getKp(),SIM_PID.getKi(),SIM_PID.getKd());
+    private final PIDController controller ;
 
     public SimulationElbow() {
+        controller = new PIDController(SIM_PID.getKp(),SIM_PID.getKi(),SIM_PID.getKd());
         elbowSim = new SingleJointedArmSim(
                 DCMotor.getNEO(RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.NUMBER_OF_MOTORS),
                 RobotMap.TelescopicArm.Elbow.Simulation.MotorSimulationConstants.GEAR_RATIO,

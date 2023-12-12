@@ -36,7 +36,6 @@ public class SimulationExtender implements IExtender {
     @Override
     public void setVoltage(double voltage) {
         appliedVoltage = MathUtil.clamp(voltage, -RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE, RobotMap.SimulationConstants.MAX_MOTOR_VOLTAGE);
-        SmartDashboard.putNumber("simVoltage",appliedVoltage);
         extenderSim.setInputVoltage(appliedVoltage);
     }
 
