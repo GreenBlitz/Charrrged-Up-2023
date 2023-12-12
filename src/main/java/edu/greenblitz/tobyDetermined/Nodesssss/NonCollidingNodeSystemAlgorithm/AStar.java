@@ -1,15 +1,16 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystem;
+package edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
 
 
 
@@ -49,16 +50,16 @@ public class AStar {
         return pathList;
     }
 
-    public static void printPath(LinkedList<SystemsPos> pathList) {
-        for (int i = 0; i <= pathList.size() - 1; i++) {
-            System.out.print(pathList.get(i) + ", ");
+    private static void printPath(LinkedList<SystemsPos> pathList) {
+        for (SystemsPos systemsPos : pathList) {
+            System.out.print(systemsPos + ", ");
         }
         System.out.println();
     }
 
     public static void addToOpen(LinkedList<SystemsPos> nodesCanGoTo, SystemsPos current, LinkedList<SystemsPos> closed, Map<SystemsPos, SystemsPos> parents) {
        // for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-         for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()){
+         for (SystemsPos neighbor : getNode(current).getNeighbors()){
             if (!isInList(neighbor, closed) && !isInList(neighbor, nodesCanGoTo)) {
                 nodesCanGoTo.add(neighbor);
                 parents.put(neighbor, current);
@@ -73,7 +74,7 @@ public class AStar {
         SystemsPos current = start;
         nodesCanGoTo.add(start);
         while (!nodesCanGoTo.isEmpty()) {
-            current = getLowestFcost(current, nodesCanGoTo, NodeBase.getNode(start), NodeBase.getNode(end));
+            current = getLowestFcost(current, nodesCanGoTo, getNode(start), getNode(end));
             nodesCanGoTo.remove(current);
             closed.add(current);
 

@@ -1,9 +1,9 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem;
+package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 
 
 import java.util.LinkedList;
@@ -40,15 +40,15 @@ public class Vertex {
     }
 
     public boolean isPosFineForVertex(SystemsPos pos) {
-        return (NodeBase.getNode(pos1).getOtherSystemMustBeToOut().contains(pos) || NodeBase.getNode(pos1).getOtherSystemMustBeToOut().isEmpty()) &&
-                (NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().contains(pos) || NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().isEmpty());
+        return (getNode(pos1).getOtherSystemMustBeToOut().contains(pos) || getNode(pos1).getOtherSystemMustBeToOut().isEmpty()) &&
+                (getNode(pos2).getOtherSystemMustBeToEnter().contains(pos) || getNode(pos2).getOtherSystemMustBeToEnter().isEmpty());
     }
 
     public LinkedList<SystemsPos> merge() {
-        LinkedList<SystemsPos> merge = new LinkedList<>(NodeBase.getNode(pos1).getOtherSystemMustBeToOut());
-        for (int i = 0; i < NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().size(); i++) {
-            if (!merge.contains(NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().get(i))) {
-                merge.add(NodeBase.getNode(pos2).getOtherSystemMustBeToEnter().get(i));
+        LinkedList<SystemsPos> merge = new LinkedList<>(getNode(pos1).getOtherSystemMustBeToOut());
+        for (int i = 0; i < getNode(pos2).getOtherSystemMustBeToEnter().size(); i++) {
+            if (!merge.contains(getNode(pos2).getOtherSystemMustBeToEnter().get(i))) {
+                merge.add(getNode(pos2).getOtherSystemMustBeToEnter().get(i));
             }
         }
         return merge;

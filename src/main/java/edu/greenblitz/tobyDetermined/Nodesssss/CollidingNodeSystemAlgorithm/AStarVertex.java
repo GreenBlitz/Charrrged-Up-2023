@@ -1,10 +1,12 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem;
+package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.NodeArm;
 import edu.wpi.first.math.Pair;
 import java.util.HashMap;
 import java.util.LinkedList;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
 
 public class AStarVertex {
 
@@ -35,7 +37,7 @@ public class AStarVertex {
     }
 
     public static void addNeighborsToOpen(SystemsPos current, LinkedList<Vertex> closedVer, LinkedList<Vertex> openVer, Vertex currentVer, HashMap<Vertex, Vertex> parents) {
-        for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+        for (SystemsPos neighbor : getNode(current).getNeighbors()) {
             if (NotInVertexList(closedVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos())) && NotInVertexList(openVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos()))) {
                 openVer.add(new Vertex(current, neighbor, currentVer.getOtherSystemPos()));
                 parents.put(openVer.get(openVer.size() - 1), currentVer);
@@ -76,7 +78,7 @@ public class AStarVertex {
     }
 
     public static Boolean isVertexUsable(Vertex vertex) {
-        LinkedList<SystemsPos> otherSystemPositions = NodeBase.getAllSystemsPositions();
+        LinkedList<SystemsPos> otherSystemPositions = getAllSystemsPositions();
         boolean isTherePossiblePosition = false;
         for (int i = 0; i < otherSystemPositions.size() && !isTherePossiblePosition; i++) {
             if (vertex.isPosFineForVertex(otherSystemPositions.get(i))) {
@@ -84,8 +86,8 @@ public class AStarVertex {
             }
         }
         if (isTherePossiblePosition) {
-            return NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().contains(vertex.getPos1())
-                    || NodeBase.getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().isEmpty();
+            return getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().contains(vertex.getPos1())
+                    || getNode(vertex.getOtherSystemPos()).getOtherSystemMustBeToOut().isEmpty();
         }
         return false;
     }
@@ -138,7 +140,7 @@ public class AStarVertex {
         SystemsPos current = start;
         Vertex currentVer;
 
-        for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+        for (SystemsPos neighbor : getNode(current).getNeighbors()) {
             if (NotInVertexList(closedVer, new Vertex(current, neighbor, secondSystemPos)) && NotInVertexList(openVer, new Vertex(current, neighbor, secondSystemPos))) {
                 openVer.add(new Vertex(current, neighbor, secondSystemPos));
             }
@@ -167,7 +169,9 @@ public class AStarVertex {
     }
 
     public static void main(String[] args) {
-        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.ARM_LOWWW, SystemsPos.ARM_HIGH, SystemsPos.GRIPER_CLOSE);
+        //LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.ARM_LOWWW, SystemsPos.ARM_HIGH, SystemsPos.GRIPER_CLOSE);
+        NodeArm a = new NodeArm(0,'r'+'o'+'m'+'y'+' '+'i'+'s'+' '+'a'+'u'+'t'+'i'+'s'+'t'+'i'+'c');
+        System.out.println(a.getClass());
     }
 }
 

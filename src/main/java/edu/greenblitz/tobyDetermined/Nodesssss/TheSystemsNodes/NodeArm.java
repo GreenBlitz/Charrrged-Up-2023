@@ -36,4 +36,5 @@ public class NodeArm extends GBNode {
     public boolean isAtNode(double angle, double length) {
         return isAtAngle(angle) && isAtLength(length);
     }
+
 }

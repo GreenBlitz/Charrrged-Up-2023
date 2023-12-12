@@ -1,13 +1,15 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
+
 import java.util.Collections;
 import java.util.LinkedList;
+
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 
 public abstract class GBNode {
     protected boolean isNeighborsSet;
     protected LinkedList<SystemsPos> neighbors;
-
     protected final LinkedList<SystemsPos> otherSystemMustBeToEnter;
     protected final LinkedList<SystemsPos> otherSystemMustBeToOut;
 
