@@ -1,9 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.utils.GBCommand;
-
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
-
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -48,6 +45,5 @@ public abstract class GBNode {
     public LinkedList<SystemsPos> getNeighbors() {
         return neighbors;
     }
-
 
 }

@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.SystemsPos.*;
 
 public class NodeBase {
 

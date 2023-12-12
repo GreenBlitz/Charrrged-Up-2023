@@ -3,21 +3,20 @@ package edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystem;
 import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
-import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.utils.GBMath;
+
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.SystemsPos.*;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos.*;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
+
 
 public class AStar {
 
     public static double getDistanceToStartPlusEnd(SystemsPos current, SystemsPos target) {
-        return NodeSystem.getCostByMap(current, target);
+        return getCostByMap(current, target);
     }
 
 
@@ -58,7 +57,8 @@ public class AStar {
     }
 
     public static void addToOpen(LinkedList<SystemsPos> nodesCanGoTo, SystemsPos current, LinkedList<SystemsPos> closed, Map<SystemsPos, SystemsPos> parents) {
-        for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+       // for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
+         for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()){
             if (!isInList(neighbor, closed) && !isInList(neighbor, nodesCanGoTo)) {
                 nodesCanGoTo.add(neighbor);
                 parents.put(neighbor, current);

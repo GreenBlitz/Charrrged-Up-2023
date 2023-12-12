@@ -2,24 +2,22 @@ package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 import edu.wpi.first.math.Pair;
-
 import java.util.HashMap;
 import java.util.LinkedList;
-
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
 
 public class AStarVertex {
 
     public static <T> void printPath(LinkedList<T> pathList) {
-        for (int i = 0; i < pathList.size(); i++) {
-            System.out.print(pathList.get(i) + ", ");
+        for (T t : pathList) {
+            System.out.print(t + ", ");
         }
         System.out.println();
     }
 
     public static void printPathVertex(LinkedList<Vertex> pathList) {
-        for (int i = 0; i < pathList.size(); i++) {
-            System.out.print(pathList.get(i).getPos1() + ", " + pathList.get(i).getPos2() + ";;;;;");
+        for (Vertex vertex : pathList) {
+            System.out.print(vertex.getPos1() + ", " + vertex.getPos2() + ";;;;;");
         }
         System.out.println();
     }
@@ -36,7 +34,7 @@ public class AStarVertex {
         return true;
     }
 
-    public static void addNeighborsToOpen(SystemsPos current, LinkedList<Vertex> closedVer, LinkedList<Vertex> openVer, Vertex currentVer, HashMap<Vertex, Vertex> parents){
+    public static void addNeighborsToOpen(SystemsPos current, LinkedList<Vertex> closedVer, LinkedList<Vertex> openVer, Vertex currentVer, HashMap<Vertex, Vertex> parents) {
         for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
             if (NotInVertexList(closedVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos())) && NotInVertexList(openVer, new Vertex(current, neighbor, currentVer.getOtherSystemPos()))) {
                 openVer.add(new Vertex(current, neighbor, currentVer.getOtherSystemPos()));
@@ -53,8 +51,7 @@ public class AStarVertex {
             Pair<Boolean, Double> vertexUsableAndCost = IsVertexUsableAndCost(open.get(index), pathMap);
             if (!vertexUsableAndCost.getFirst()) {
                 open.remove(open.get(index));
-            }
-            else {
+            } else {
                 double currentFCost = vertexUsableAndCost.getSecond();
                 currentFCost += open.get(index).getTimeCost();
                 if (currentFCost < minFCost) {
@@ -73,9 +70,9 @@ public class AStarVertex {
         if (!vertex.isPosFineForVertex(vertex.getOtherSystemPos())) {
             check = isVertexUsable(vertex);
             if (check)
-                cost =  getCostOfOtherSystemPathAndAddToMap(vertex, pathMap);
+                cost = getCostOfOtherSystemPathAndAddToMap(vertex, pathMap);
         }
-        return new Pair<>(check,cost);
+        return new Pair<>(check, cost);
     }
 
     public static Boolean isVertexUsable(Vertex vertex) {

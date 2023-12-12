@@ -1,12 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GriperNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.NodeArm;
-import edu.greenblitz.tobyDetermined.RobotMap;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
-import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
-
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
 
 public class MidNode {
     private GBNode gbNode;
@@ -22,17 +16,18 @@ public class MidNode {
         return instance;
     }
 
-    public void setNewMidNode(RobotMap.NodeSystem.SystemsPos start, RobotMap.NodeSystem.SystemsPos end) {
-        if (start.equals(RobotMap.NodeSystem.SystemsPos.MID_NODE))
+    public void setNewMidNode(SystemsPos start, SystemsPos end) {
+        if (start.equals(SystemsPos.MID_NODE))
             start = gbNode.getNeighbors().get(0);
         if (start.toString().contains(systemName1))
             gbNode = getNodeBySystemName(systemName1);
         else
             gbNode = getNodeBySystemName(systemName2);
-        gbNode.addNeighbors(new RobotMap.NodeSystem.SystemsPos[]{start, end});
+        gbNode.addNeighbors(new SystemsPos[]{start, end});
     }
 
     public GBNode getGBNode() {
         return gbNode;
     }
+
 }

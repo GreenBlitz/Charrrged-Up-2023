@@ -457,68 +457,68 @@ public class RobotMap {
         }
     }
 
-    public static class NodeSystem {
-        public enum SystemsPos {
-            CONE_HIGH,
-            CONE_MID,
-            CUBE_HIGH,
-            CUBE_MID,
-            LOW,
-
-            POST_CONE_DROP,
-            PRE_CONE_DROP,
-
-            INTAKE_GRAB_CONE_POSITION,
-            INTAKE_GRAB_CUBE_POSITION,
-            PRE_INTAKE_GRAB_POSITION,
-
-            REST_ABOVE_BELLY,
-
-            ZIG_HAIL,
-
-            GRIPER_ONE,
-            GRIPER_TWO,
-            GRIPER_THREE,
-
-            ARM_GROUND,
-            ARM_LOWWW,
-            ARM_MID,
-            ARM_HIGH,
-
-            GRIPER_OPEN,
-            GRIPER_CLOSE,
-
-            MID_NODE;
-
-        }
-
-        static public String systemName1 = "ARM";
-        static public String systemName2 = "GRIPER";
-
-        public static GBNode getNodeBySystemName(String systemName){
-            if (systemName.equals(systemName1))
-                return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
-            return new GriperNode();
-        }
-        static LinkedList<Pair<String, Double>> costList = new LinkedList<>();
-
-        static {
-            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_MID, 3.0));
-            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_HIGH, 5.0));
-            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_GROUND, 7.0));
-            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_HIGH, 9.0));
-            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_MID, 10.0));
-            costList.add(new Pair<>(SystemsPos.ARM_MID+"-"+SystemsPos.ARM_HIGH, 12.0));
-            costList.add(new Pair<>(SystemsPos.GRIPER_CLOSE+"-"+SystemsPos.GRIPER_OPEN, 15.0));
-        }
-
-        public static double getCostByMap(SystemsPos a, SystemsPos b) {
-            for (Pair<String, Double> stringDoublePair : costList) {
-                if (stringDoublePair.getFirst().contains(a.toString()) && stringDoublePair.getFirst().contains(b.toString()))
-                    return stringDoublePair.getSecond();
-            }
-            return 0;
-        }
-
-    }
+//    public static class NodeSystem {
+//        public enum SystemsPos {
+//            CONE_HIGH,
+//            CONE_MID,
+//            CUBE_HIGH,
+//            CUBE_MID,
+//            LOW,
+//
+//            POST_CONE_DROP,
+//            PRE_CONE_DROP,
+//
+//            INTAKE_GRAB_CONE_POSITION,
+//            INTAKE_GRAB_CUBE_POSITION,
+//            PRE_INTAKE_GRAB_POSITION,
+//
+//            REST_ABOVE_BELLY,
+//
+//            ZIG_HAIL,
+//
+//            GRIPER_ONE,
+//            GRIPER_TWO,
+//            GRIPER_THREE,
+//
+//            ARM_GROUND,
+//            ARM_LOWWW,
+//            ARM_MID,
+//            ARM_HIGH,
+//
+//            GRIPER_OPEN,
+//            GRIPER_CLOSE,
+//
+//            MID_NODE;
+//
+//        }
+//
+//        static public String systemName1 = "ARM";
+//        static public String systemName2 = "GRIPER";
+//
+//        public static GBNode getNodeBySystemName(String systemName){
+//            if (systemName.equals(systemName1))
+//                return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
+//            return new GriperNode();
+//        }
+//        static LinkedList<Pair<String, Double>> costList = new LinkedList<>();
+//
+//        static {
+//            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_MID, 3.0));
+//            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_HIGH, 5.0));
+//            costList.add(new Pair<>(SystemsPos.ARM_LOWWW+"-"+SystemsPos.ARM_GROUND, 7.0));
+//            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_HIGH, 9.0));
+//            costList.add(new Pair<>(SystemsPos.ARM_GROUND+"-"+SystemsPos.ARM_MID, 10.0));
+//            costList.add(new Pair<>(SystemsPos.ARM_MID+"-"+SystemsPos.ARM_HIGH, 12.0));
+//            costList.add(new Pair<>(SystemsPos.GRIPER_CLOSE+"-"+SystemsPos.GRIPER_OPEN, 15.0));
+//        }
+//
+//        public static double getCostByMap(SystemsPos a, SystemsPos b) {
+//            for (Pair<String, Double> stringDoublePair : costList) {
+//                if (stringDoublePair.getFirst().contains(a.toString()) && stringDoublePair.getFirst().contains(b.toString()))
+//                    return stringDoublePair.getSecond();
+//            }
+//            return 0;
+//        }
+//
+//    }
 }

@@ -2,8 +2,8 @@ package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystem;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem.SystemsPos;
-import static edu.greenblitz.tobyDetermined.RobotMap.NodeSystem;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemConstants.SystemsPos.*;
 
 
 import java.util.LinkedList;
@@ -28,7 +28,7 @@ public class Vertex {
     }
 
     public double getTimeCost() {
-        return NodeSystem.getCostByMap(pos1, pos2);
+        return getCostByMap(pos1, pos2);
     }
 
     public SystemsPos getOtherSystemPos() {
