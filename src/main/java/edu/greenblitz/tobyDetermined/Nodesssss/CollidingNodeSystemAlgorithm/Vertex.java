@@ -10,13 +10,11 @@ public class Vertex {
     private final SystemsPos pos1;
     private final SystemsPos pos2;
     private SystemsPos otherSystemPos1;
-//    private SystemsPos otherSystemPos2;
 
-    public Vertex(SystemsPos one, SystemsPos two, SystemsPos otherSystem1) {//SystemsPos otherSystemOther2
+    public Vertex(SystemsPos one, SystemsPos two, SystemsPos otherSystem1) {
         this.pos1 = one;
         this.pos2 = two;
         this.otherSystemPos1 = otherSystem1;
-        //this.otherSystemPos2 = otherSystemPos2;
     }
 
     public SystemsPos getPos1() {
@@ -38,14 +36,6 @@ public class Vertex {
     public void setOtherSystemPos1(SystemsPos otherSystem) {
         this.otherSystemPos1 = otherSystem;
     }
-
-//    public void setOtherSystemPos2(SystemsPos otherSystemPos2) {
-//        this.otherSystemPos2 = otherSystemPos2;
-//    }
-//
-//    public SystemsPos getOtherSystemPos2() {
-//        return otherSystemPos2;
-//    }
 
     public boolean isPosFineForVertex(SystemsPos pos) {
         return getNode(pos1).getOtherSystemMustBeToOut1().contains(pos)
