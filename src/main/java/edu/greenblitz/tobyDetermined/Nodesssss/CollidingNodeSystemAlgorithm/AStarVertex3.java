@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
 
-public class AStarVertex {
+public class AStarVertex3 {
 
     public static <T> void printPath(LinkedList<T> pathList) {
         for (T t : pathList) {
@@ -167,9 +167,5 @@ public class AStarVertex {
     public static void main(String[] args) {
         LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.ARM_LOW, SystemsPos.ARM_HIGH, SystemsPos.GRIPER_OPEN);
 //        NodeArm a = new NodeArm(0,'r'+'o'+'m'+'y'+' '+'i'+'s'+' '+'a'+'u'+'t'+'i'+'s'+'t'+'i'+'c');
-//        System.out.println(a.getClass());
-//        Vertex b = new Vertex(SystemsPos.ARM_LOW, SystemsPos.ARM_ZG, SystemsPos.GRIPER_CLOSE);
-//        printPath(b.mergeNo());
     }
 }
-

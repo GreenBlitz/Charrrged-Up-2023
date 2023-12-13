@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.ClimbingNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.NodeArm;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
@@ -21,7 +22,9 @@ public class NodeSystemFunctions {
     public static GBNode getNodeBySystemName(SystemsPos start) {
         if (start.toString().contains(systemName1))
             return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
-        return new GriperNode();
+        else if(start.toString().contains(systemName2))
+            return new GriperNode();
+        return new ClimbingNode();
     }
 
     public static double getCostByMap(SystemsPos a, SystemsPos b) {

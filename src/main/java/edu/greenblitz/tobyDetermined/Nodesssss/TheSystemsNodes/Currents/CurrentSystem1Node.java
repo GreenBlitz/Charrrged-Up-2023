@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
+package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.Currents;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;

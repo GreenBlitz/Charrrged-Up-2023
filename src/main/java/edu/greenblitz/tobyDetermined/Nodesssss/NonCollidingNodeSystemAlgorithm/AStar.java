@@ -89,6 +89,6 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        LinkedList<SystemsPos> a = getPath(ARM_LOWWW, ARM_HIGH);
+        //LinkedList<SystemsPos> a = getPath(ARM_LOWWW, ARM_HIGH);
     }
 }
