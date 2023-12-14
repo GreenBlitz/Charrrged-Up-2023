@@ -16,13 +16,12 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateNodes.*;
 
 
-
 public class NodeSystemFunctions {
 
     public static GBNode getNodeBySystemName(SystemsPos start) {
         if (start.toString().contains(systemName1))
             return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
-        else if(start.toString().contains(systemName2))
+        else if (start.toString().contains(systemName2))
             return new GriperNode();
         return new ClimbingNode();
     }

@@ -7,6 +7,8 @@ import edu.wpi.first.math.Pair;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.systemName1;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.systemName2;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.getAllSystemsPositions;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.getNode;
 
@@ -42,6 +44,23 @@ public class BlaBla {
         return true;
     }
 
+    public static boolean smartIsOnList(SystemsPos pos, SystemsPos posTarget) {
+        if (pos.toString().contains(systemName1)) {
+            if (posTarget.toString().contains(systemName2))
+                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
+            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
+        }
+        if (pos.toString().contains(systemName2)) {
+            if (posTarget.toString().contains(systemName1))
+                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
+            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
+        } else {
+            if (posTarget.toString().contains(systemName1))
+                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
+            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
+        }
+    }
+
     public static void addNeighborsToOpen(SystemsPos current, LinkedList<BlaBlaVertex> closedVer, LinkedList<BlaBlaVertex> openVer, BlaBlaVertex currentVer, HashMap<BlaBlaVertex, BlaBlaVertex> parents) {
         for (SystemsPos neighbor : getNode(current).getNeighbors()) {
             if (NotInVertexList(closedVer, new BlaBlaVertex(current, neighbor, currentVer.getSystem2Pos(), currentVer.getSystem3Pos())) && NotInVertexList(openVer, new BlaBlaVertex(current, neighbor, currentVer.getSystem2Pos(), currentVer.getSystem3Pos()))) {
@@ -68,7 +87,8 @@ public class BlaBla {
                     saveI = index;
                 }
                 index++;
-            };
+            }
+            ;
         }
         return open.get(saveI);
     }
@@ -100,8 +120,7 @@ public class BlaBla {
                 if (blaBlaVertex.isPosFineForVertexSys2(otherSystemPositions.get(i))) {
                     isTherePossiblePosition = true;
                 }
-            }
-            else {
+            } else {
                 if (blaBlaVertex.isPosFineForVertexSys3(otherSystemPositions.get(i))) {
                     isTherePossiblePosition = true;
                 }
@@ -109,11 +128,11 @@ public class BlaBla {
         }
         if (isTherePossiblePosition) {
             if (sys == 2)
-                return blaBlaVertex.smartIsOnList(blaBlaVertex.getSystem2Pos(), blaBlaVertex.getStartPos())
-                    && blaBlaVertex.smartIsOnList(blaBlaVertex.getSystem2Pos(), blaBlaVertex.getSystem3Pos());
+                return smartIsOnList(blaBlaVertex.getSystem2Pos(), blaBlaVertex.getStartPos())
+                        && smartIsOnList(blaBlaVertex.getSystem2Pos(), blaBlaVertex.getSystem3Pos());
             else {
-                return blaBlaVertex.smartIsOnList(blaBlaVertex.getSystem3Pos(), blaBlaVertex.getStartPos())
-                        && blaBlaVertex.smartIsOnList(blaBlaVertex.getSystem3Pos(), blaBlaVertex.getSystem3Pos());
+                return smartIsOnList(blaBlaVertex.getSystem3Pos(), blaBlaVertex.getStartPos())
+                        && smartIsOnList(blaBlaVertex.getSystem3Pos(), blaBlaVertex.getSystem3Pos());
             }
         }
         return false;
@@ -126,8 +145,7 @@ public class BlaBla {
         if (check) {
             pos = blaBlaVertex.getSystem2Pos();
             list = blaBlaVertex.mergeCommonNodes2();
-        }
-        else {
+        } else {
             pos = blaBlaVertex.getSystem3Pos();
             list = blaBlaVertex.mergeCommonNodes3();
         }
@@ -146,12 +164,14 @@ public class BlaBla {
             }
         }
 
-        if(!check){
-            pathMap.get(blaBlaVertex).getFirst().addAll(path);
+        if (!check) {
+            if (pathMap.get(blaBlaVertex).getFirst() != null)
+                pathMap.get(blaBlaVertex).getFirst().addAll(path);
+            else
+                pathMap.put(blaBlaVertex, new Pair<>(path, min));
             blaBlaVertex.setSystem3Pos(path.getLast());
 
-        }
-        else {
+        } else {
             pathMap.put(blaBlaVertex, new Pair<>(path, min));
             blaBlaVertex.setSystem2Pos(path.getLast());
         }
@@ -207,12 +227,12 @@ public class BlaBla {
     public static LinkedList<SystemsPos> printAndReturnFinalPath(SystemsPos start, SystemsPos end, SystemsPos system2Pos, SystemsPos system3Pos) {
         Pair<LinkedList<SystemsPos>, Double> finalPathAndCost = findPath(start, end, system2Pos, system3Pos);
         printPath(finalPathAndCost.getFirst());
-        System.out.println(finalPathAndCost.getSecond());
+        System.out.println("cost: "+finalPathAndCost.getSecond());
         return finalPathAndCost.getFirst();
     }
 
     public static void main(String[] args) {
-        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.CLIMBING_ROMY, SystemsPos.CLIMBING_NOAM, SystemsPos.ARM_HIGH, SystemsPos.GRIPER_CLOSE );
+        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.CLIMBING_ROMY, SystemsPos.CLIMBING_NOAM, SystemsPos.ARM_HIGH, SystemsPos.GRIPER_CLOSE);
     }
 
 }

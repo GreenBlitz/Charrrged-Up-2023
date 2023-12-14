@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.Nodesssss.Bla3;
 
 import java.util.LinkedList;
 
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 
@@ -14,32 +15,28 @@ public class BlaBlaVertex {
     public BlaBlaVertex(SystemsPos startPos, SystemsPos endPos, SystemsPos system2Pos, SystemsPos system3Pos) {
         this.startPos = startPos;
         this.endPos = endPos;
-        if (startPos.toString().contains("ARM")) {
-            if (system2Pos.toString().contains("GRIPER")) {
+        if (startPos.toString().contains(systemName1)) {
+            if (system2Pos.toString().contains(systemName2)) {
                 this.system2Pos = system2Pos;
                 this.system3Pos = system3Pos;
-            }
-            else {
+            } else {
                 this.system3Pos = system2Pos;
                 this.system2Pos = system3Pos;
             }
         }
-        if (startPos.toString().contains("GRIPER")) {
-            if (system2Pos.toString().contains("ARM")) {
+        if (startPos.toString().contains(systemName2)) {
+            if (system2Pos.toString().contains(systemName1)) {
                 this.system2Pos = system2Pos;
                 this.system3Pos = system3Pos;
-            }
-            else {
+            } else {
                 this.system3Pos = system2Pos;
                 this.system2Pos = system3Pos;
             }
-        }
-        if (startPos.toString().contains("CLIMBING")) {
-            if (system2Pos.toString().contains("ARM")) {
+        } else {
+            if (system2Pos.toString().contains(systemName1)) {
                 this.system2Pos = system2Pos;
                 this.system3Pos = system3Pos;
-            }
-            else {
+            } else {
                 this.system3Pos = system2Pos;
                 this.system2Pos = system3Pos;
             }
@@ -85,6 +82,7 @@ public class BlaBlaVertex {
                 &&
                 getNode(endPos).getOtherSystemMustBeToEnter3().contains(pos);
     }
+
     public LinkedList<SystemsPos> mergeCommonNodes2() {
         LinkedList<SystemsPos> merge = new LinkedList<>();
         for (int i = 0; i < getNode(startPos).getOtherSystemMustBeToOut2().size(); i++) {
@@ -94,6 +92,7 @@ public class BlaBlaVertex {
         }
         return merge;
     }
+
     public LinkedList<SystemsPos> mergeCommonNodes3() {
         LinkedList<SystemsPos> merge = new LinkedList<>();
         for (int i = 0; i < getNode(startPos).getOtherSystemMustBeToOut3().size(); i++) {
@@ -104,22 +103,5 @@ public class BlaBlaVertex {
         return merge;
     }
 
-    public boolean smartIsOnList(SystemsPos pos, SystemsPos posTarget){
-        if (pos.toString().contains("ARM")) {
-            if (posTarget.toString().contains("GRIPER"))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        }
-        if (pos.toString().contains("GRIPER")) {
-            if (posTarget.toString().contains("ARM"))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        }
-        else {
-            if (posTarget.toString().contains("ARM"))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        }
-    }
 
 }
