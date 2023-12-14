@@ -79,14 +79,14 @@ public class BlaBla {
         if (!blaBlaVertex.isPosFineForVertexSys2(blaBlaVertex.getSystem2Pos())) {
             check = isVertexUsable(blaBlaVertex, 2);
             if (check) {
-                cost = getCostOfOtherSystemPathAndAddToMap(blaBlaVertex, pathMap, 2, false);
+                cost = getCostOfOtherSystemPathAndAddToMap(blaBlaVertex, pathMap, 2);
             }
         }
 
         if (!blaBlaVertex.isPosFineForVertexSys3(blaBlaVertex.getSystem3Pos())) {
             check = isVertexUsable(blaBlaVertex, 3);
             if (check) {
-                cost = getCostOfOtherSystemPathAndAddToMap(blaBlaVertex, pathMap, 3, true);
+                cost = getCostOfOtherSystemPathAndAddToMap(blaBlaVertex, pathMap, 3);
             }
         }
         return new Pair<>(check, cost);
@@ -146,13 +146,14 @@ public class BlaBla {
             }
         }
 
-        if(check){
+        if(!check){
             pathMap.get(blaBlaVertex).getFirst().addAll(path);
-            blaBlaVertex.setSystem2Pos(path.getLast());
+            blaBlaVertex.setSystem3Pos(path.getLast());
+
         }
         else {
             pathMap.put(blaBlaVertex, new Pair<>(path, min));
-            blaBlaVertex.setSystem3Pos(path.getLast());
+            blaBlaVertex.setSystem2Pos(path.getLast());
         }
         return min;
     }
