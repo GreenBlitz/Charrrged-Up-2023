@@ -38,16 +38,16 @@ public class Vertex {
     }
 
     public boolean isPosFineForVertex(SystemsPos pos) {
-        return getNode(pos1).getOtherSystemMustBeToOut1().contains(pos)
+        return getNode(pos1).getOtherSystemMustBeToOut2().contains(pos)
                 &&
-                getNode(pos2).getOtherSystemMustBeToEnter1().contains(pos);
+                getNode(pos2).getOtherSystemMustBeToEnter2().contains(pos);
     }
 
     public LinkedList<SystemsPos> mergeCommonNodes() {
         LinkedList<SystemsPos> merge = new LinkedList<>();
-        for (int i = 0; i < getNode(pos1).getOtherSystemMustBeToOut1().size(); i++) {
-            if (getNode(pos2).getOtherSystemMustBeToEnter1().contains(getNode(pos1).getOtherSystemMustBeToOut1().get(i))) {
-                merge.add(getNode(pos1).getOtherSystemMustBeToOut1().get(i));
+        for (int i = 0; i < getNode(pos1).getOtherSystemMustBeToOut2().size(); i++) {
+            if (getNode(pos2).getOtherSystemMustBeToEnter2().contains(getNode(pos1).getOtherSystemMustBeToOut2().get(i))) {
+                merge.add(getNode(pos1).getOtherSystemMustBeToOut2().get(i));
             }
         }
         return merge;

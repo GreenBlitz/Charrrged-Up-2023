@@ -10,19 +10,19 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 public abstract class GBNode {
     protected boolean isNeighborsSet;
     protected LinkedList<SystemsPos> neighbors;
-    protected LinkedList<SystemsPos> otherSystemMustBeToEnter1;
-    protected LinkedList<SystemsPos> otherSystemMustBeToOut1;
     protected LinkedList<SystemsPos> otherSystemMustBeToEnter2;
     protected LinkedList<SystemsPos> otherSystemMustBeToOut2;
+    protected LinkedList<SystemsPos> otherSystemMustBeToEnter3;
+    protected LinkedList<SystemsPos> otherSystemMustBeToOut3;
 
 
     public GBNode() {
         neighbors = new LinkedList<>();
         isNeighborsSet = false;
-        otherSystemMustBeToEnter1 = listSystemsPos;
-        otherSystemMustBeToOut1 = listSystemsPos;
         otherSystemMustBeToEnter2 = listSystemsPos;
         otherSystemMustBeToOut2 = listSystemsPos;
+        otherSystemMustBeToEnter3 = listSystemsPos;
+        otherSystemMustBeToOut3 = listSystemsPos;
     }
 
     public void addNeighbors(SystemsPos[] neighbors) {
@@ -30,6 +30,24 @@ public abstract class GBNode {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
+    }
+
+    public LinkedList<SystemsPos> getOtherSystemMustBeToEnter3() {
+        return otherSystemMustBeToEnter3;
+    }
+
+    public LinkedList<SystemsPos> getOtherSystemMustBeToOut3() {
+        return otherSystemMustBeToOut3;
+    }
+
+    public void setOtherSystemMustBeToEnter3(SystemsPos[] otherSystemMustBeToEnter3) {
+        this.otherSystemMustBeToEnter3 = new LinkedList<>();
+        Collections.addAll(this.otherSystemMustBeToEnter3, otherSystemMustBeToEnter3);
+    }
+
+    public void setOtherSystemMustBeToOut3(SystemsPos[] otherSystemMustBeToOut3) {
+        this.otherSystemMustBeToOut3 = new LinkedList<>();
+        Collections.addAll(this.otherSystemMustBeToOut3, otherSystemMustBeToOut3);
     }
 
     public LinkedList<SystemsPos> getOtherSystemMustBeToEnter2() {
@@ -48,24 +66,6 @@ public abstract class GBNode {
     public void setOtherSystemMustBeToOut2(SystemsPos[] otherSystemMustBeToOut2) {
         this.otherSystemMustBeToOut2 = new LinkedList<>();
         Collections.addAll(this.otherSystemMustBeToOut2, otherSystemMustBeToOut2);
-    }
-
-    public LinkedList<SystemsPos> getOtherSystemMustBeToEnter1() {
-        return otherSystemMustBeToEnter1;
-    }
-
-    public LinkedList<SystemsPos> getOtherSystemMustBeToOut1() {
-        return otherSystemMustBeToOut1;
-    }
-
-    public void setOtherSystemMustBeToEnter1(SystemsPos[] otherSystemMustBeToEnter1) {
-        this.otherSystemMustBeToEnter1 = new LinkedList<>();
-        Collections.addAll(this.otherSystemMustBeToEnter1, otherSystemMustBeToEnter1);
-    }
-
-    public void setOtherSystemMustBeToOut1(SystemsPos[] otherSystemMustBeToOut1) {
-        this.otherSystemMustBeToOut1 = new LinkedList<>();
-        Collections.addAll(this.otherSystemMustBeToOut1, otherSystemMustBeToOut1);
     }
 
     public LinkedList<SystemsPos> getNeighbors() {

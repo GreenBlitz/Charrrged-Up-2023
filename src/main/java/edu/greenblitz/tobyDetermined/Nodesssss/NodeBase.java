@@ -64,18 +64,20 @@ public class NodeBase {
             nodeMap.get(GRIPER_CLOSE).addNeighbors(new SystemsPos[]{GRIPER_OPEN});
 
 
-            nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToEnter1(new SystemsPos[]{ARM_ZG,MID_NODE,ARM_HIGH});
-            nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToOut1(new SystemsPos[]{ARM_ZG,MID_NODE,ARM_HIGH});
-            nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToEnter1(new SystemsPos[]{ARM_ZG,MID_NODE,ARM_HIGH});
-            nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToOut1(new SystemsPos[]{ARM_ZG,MID_NODE,ARM_HIGH});
+            nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG,ARM_MID,ARM_HIGH});
+            nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToOut2(new SystemsPos[]{ARM_ZG,ARM_MID,ARM_HIGH});
+            nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG,ARM_MID,ARM_HIGH});
+            nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToOut2(new SystemsPos[]{ARM_ZG,ARM_MID,ARM_HIGH});
 
-            nodeMap.get(CLIMBING_ROMY).setOtherSystemMustBeToEnter1(new SystemsPos[]{ARM_ZG});
-            nodeMap.get(CLIMBING_NOAM).setOtherSystemMustBeToEnter1(new SystemsPos[]{ARM_ZG});
+            nodeMap.get(CLIMBING_ROMY).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG});
+            nodeMap.get(CLIMBING_NOAM).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG});
+            nodeMap.get(CLIMBING_ROMY).setOtherSystemMustBeToEnter3(new SystemsPos[]{GRIPER_OPEN});
+            nodeMap.get(CLIMBING_NOAM).setOtherSystemMustBeToEnter3(new SystemsPos[]{GRIPER_OPEN});
 
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter1(new SystemsPos[]{GRIPER_OPEN});
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut1(new SystemsPos[]{GRIPER_OPEN});
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter2(new SystemsPos[]{CLIMBING_ROMY});
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut2(new SystemsPos[]{CLIMBING_ROMY});
+            nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter2(new SystemsPos[]{GRIPER_OPEN});
+            nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut2(new SystemsPos[]{GRIPER_OPEN});
+            nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter3(new SystemsPos[]{CLIMBING_ROMY});
+            nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut3(new SystemsPos[]{CLIMBING_ROMY});
 
 
         }
@@ -87,9 +89,9 @@ public class NodeBase {
             costList.add(new Pair<>(ARM_LOW + "-" + ARM_MID, 3.0));
             costList.add(new Pair<>(ARM_LOW + "-" + ARM_HIGH, 2.0));
             costList.add(new Pair<>(ARM_LOW + "-" + ARM_ZG, 7.0));
-            costList.add(new Pair<>(ARM_HIGH + "-" + ARM_ZG, 9.0));
-            costList.add(new Pair<>(ARM_HIGH + "-" + ARM_MID, 1.0));
-            costList.add(new Pair<>(ARM_ZG + "-" + ARM_MID, 2.0));
+            costList.add(new Pair<>(ARM_HIGH + "-" + ARM_ZG, 1.0));
+            costList.add(new Pair<>(ARM_HIGH + "-" + ARM_MID, 10.0));
+            costList.add(new Pair<>(ARM_ZG + "-" + ARM_MID, 12.0));
             costList.add(new Pair<>(GRIPER_CLOSE + "-" + GRIPER_OPEN, 15.0));
             costList.add(new Pair<>(CLIMBING_NOAM + "-" + CLIMBING_ROMY, 17.0));
         }
@@ -101,5 +103,9 @@ public class NodeBase {
         static public SystemsPos system1StartingNode = ARM_ZG;
         static public SystemsPos system2StartingNode = GRIPER_CLOSE;
         static public SystemsPos system3StartingNode = CLIMBING_ROMY;
+    }
+
+    public static class important{
+        NodeArm a = new NodeArm(0,'r'+'o'+'m'+'y'+' '+'i'+'s'+' '+'a'+'u'+'t'+'i'+'s'+'t'+'i'+'c');
     }
 }

@@ -84,8 +84,8 @@ public class AStarVertex {
             }
         }
         if (isTherePossiblePosition) {
-            return getNode(vertex.getOtherSystemPos1()).getOtherSystemMustBeToOut1().contains(vertex.getPos1())
-                    || getNode(vertex.getOtherSystemPos1()).getOtherSystemMustBeToOut1().isEmpty();
+            return getNode(vertex.getOtherSystemPos1()).getOtherSystemMustBeToOut2().contains(vertex.getPos1())
+                    || getNode(vertex.getOtherSystemPos1()).getOtherSystemMustBeToOut2().isEmpty();
         }
         return false;
     }
@@ -111,11 +111,10 @@ public class AStarVertex {
         LinkedList<SystemsPos> pathList = new LinkedList<>();
         double totalCost = 0;
         Vertex current = vertex;
-        pathList.addFirst(current.getPos2());
         while (current != null) {
             totalCost += current.getTimeCost();
-            if (!pathList.get(0).equals(current.getPos2()))
-                pathList.addFirst(current.getPos2());
+            pathList.addFirst(current.getPos2());
+            pathList.addFirst(current.getPos1());
             if (pathMap.containsKey(current)) {
                 totalCost += pathMap.get(current).getSecond();
                 for (int i = 0; i < pathMap.get(current).getFirst().size(); i++) {
@@ -123,8 +122,6 @@ public class AStarVertex {
                         pathList.add(i, pathMap.get(current).getFirst().get(i));
                 }
             }
-            if (!pathList.get(0).equals(current.getPos1()))
-                pathList.addFirst(current.getPos1());
             current = parents.get(current);
         }
         return new Pair<>(pathList, totalCost);
@@ -139,10 +136,9 @@ public class AStarVertex {
         Vertex currentVer;
 
         for (SystemsPos neighbor : getNode(current).getNeighbors()) {
-            if (NotInVertexList(closedVer, new Vertex(current, neighbor, secondSystemPos)) && NotInVertexList(openVer, new Vertex(current, neighbor, secondSystemPos))) {
                 openVer.add(new Vertex(current, neighbor, secondSystemPos));
-            }
         }
+
         while (!openVer.isEmpty()) {
             currentVer = getVertexLowestFcost(openVer, pathMap);
             current = currentVer.getPos2();
@@ -165,11 +161,7 @@ public class AStarVertex {
     }
 
     public static void main(String[] args) {
-        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.ARM_LOW, SystemsPos.ARM_HIGH, SystemsPos.GRIPER_OPEN);
-//        NodeArm a = new NodeArm(0,'r'+'o'+'m'+'y'+' '+'i'+'s'+' '+'a'+'u'+'t'+'i'+'s'+'t'+'i'+'c');
-//        System.out.println(a.getClass());
-//        Vertex b = new Vertex(SystemsPos.ARM_LOW, SystemsPos.ARM_ZG, SystemsPos.GRIPER_CLOSE);
-//        printPath(b.mergeNo());
+        LinkedList<SystemsPos> a = printAndReturnFinalPath(SystemsPos.GRIPER_OPEN, SystemsPos.GRIPER_CLOSE, SystemsPos.ARM_LOW);
     }
 }
 
