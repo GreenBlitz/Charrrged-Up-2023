@@ -119,10 +119,11 @@ public class BlaBla {
         return false;
     }
 
-    public static Double getCostOfOtherSystemPathAndAddToMap(BlaBlaVertex blaBlaVertex, HashMap<BlaBlaVertex, Pair<LinkedList<SystemsPos>, Double>> pathMap, int sys, boolean a) {
+    public static Double getCostOfOtherSystemPathAndAddToMap(BlaBlaVertex blaBlaVertex, HashMap<BlaBlaVertex, Pair<LinkedList<SystemsPos>, Double>> pathMap, int sys) {
         SystemsPos pos;
         LinkedList<SystemsPos> list;
-        if (sys == 2 ) {
+        boolean check = (sys == 2);
+        if (check) {
             pos = blaBlaVertex.getSystem2Pos();
             list = blaBlaVertex.mergeCommonNodes2();
         }
@@ -134,7 +135,7 @@ public class BlaBla {
         LinkedList<SystemsPos> path = new LinkedList<>();
         for (SystemsPos systemsPos : list) {
             Pair<LinkedList<SystemsPos>, Double> pair;
-            if (sys == 2)
+            if (check)
                 pair = findPath(pos, systemsPos, blaBlaVertex.getStartPos(), blaBlaVertex.getSystem3Pos());
             else
                 pair = findPath(pos, systemsPos, blaBlaVertex.getStartPos(), blaBlaVertex.getSystem2Pos());
@@ -144,16 +145,15 @@ public class BlaBla {
                 path = pair.getFirst();
             }
         }
-        if(a){
-            pathMap.get(blaBlaVertex).getFirst().addAll(path);
-        }
-        else
-            pathMap.put(blaBlaVertex, new Pair<>(path, min));
 
-        if(sys == 2)
+        if(check){
+            pathMap.get(blaBlaVertex).getFirst().addAll(path);
             blaBlaVertex.setSystem2Pos(path.getLast());
-        else
+        }
+        else {
+            pathMap.put(blaBlaVertex, new Pair<>(path, min));
             blaBlaVertex.setSystem3Pos(path.getLast());
+        }
         return min;
     }
 
