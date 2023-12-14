@@ -6,6 +6,7 @@ import edu.greenblitz.tobyDetermined.subsystems.GBSubsystem;
 import edu.greenblitz.tobyDetermined.subsystems.Photonvision;
 import edu.greenblitz.utils.PigeonGyro;
 import edu.greenblitz.utils.PitchRollAdder;
+import edu.greenblitz.utils.RoborioUtils;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Pair;
@@ -35,9 +36,10 @@ public class SwerveChassis extends GBSubsystem {
 	private final SwerveDriveKinematics kinematics;
 	private final SwerveDrivePoseEstimator poseEstimator;
 	private final Field2d field = new Field2d();
+	public double angle;
 	
 	private final Ultrasonic ultrasonic;
-	private final int FILTER_BUFFER_SIZE = 15;
+	private final int FILTER_BUFFER = 15;
 	Debouncer encoderBrokenDebouncer = new Debouncer(0.2);
 	
 	
@@ -85,7 +87,8 @@ public class SwerveChassis extends GBSubsystem {
 	
 	@Override
 	public void periodic() {
-		
+		angle = pigeonGyro.getYaw();
+//		angle -= getChassisSpeeds().omegaRadiansPerSecond * RoborioUtils.getCurrentRoborioCycle();
 //		updatePoseEstimationLimeLight();
 //		field.setRobotPose(getRobotPose());
 	}
@@ -170,11 +173,12 @@ public class SwerveChassis extends GBSubsystem {
 	 * returns chassis angle in radians
 	 */
 	private Rotation2d getPigeonAngle() {
-		return new Rotation2d(pigeonGyro.getYaw());
+//		return new Rotation2d(pigeonGyro.getYaw());
+		return Rotation2d.fromRadians(angle);
 	}
 	
 	public double getChassisAngle() {
-		return getRobotPose().getRotation().getRadians();
+		return getPigeonAngle().getRadians();
 		
 	}
 	
@@ -356,7 +360,7 @@ public class SwerveChassis extends GBSubsystem {
 	}
 	
 	public double getUltrasonicDistance() {
-		MedianFilter filter = new MedianFilter(FILTER_BUFFER_SIZE);
+		MedianFilter filter = new MedianFilter(0);
 		return filter.calculate(ultrasonic.getRangeMM());
 	}
 	
