@@ -1,42 +1,39 @@
 package edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
-
 
 
 public class AStar {
-
-    public static double getDistanceToStartPlusEnd(SystemsPos current, SystemsPos target) {
-        return getCostByMap(current, target);
+    //TODO , CHECK IN FUNCTIONS
+    public static void addToOpen(LinkedList<SystemsPos> nodesCanGoTo, SystemsPos current, LinkedList<SystemsPos> closed, Map<SystemsPos, SystemsPos> parents) {
+        for (SystemsPos neighbor : getNode(current).getNeighbors()) {
+            if (isNotInList(neighbor, closed) && isNotInList(neighbor, nodesCanGoTo)) {
+                nodesCanGoTo.add(neighbor);
+                parents.put(neighbor, current);
+            }
+        }
     }
 
-
-    public static SystemsPos getLowestFcost(SystemsPos current, LinkedList<SystemsPos> open, GBNode start, GBNode end) {
+    public static SystemsPos getLowestCostPosition(SystemsPos current, LinkedList<SystemsPos> open) {
         int saveI = 0;
-        double fCost = getDistanceToStartPlusEnd(current, open.get(0));
+        double cost = getCostByMap(current, open.get(0));
         for (int i = 1; i < open.size(); i++) {
-            double currentFCost = getDistanceToStartPlusEnd(current, open.get(i));
-            if (currentFCost < fCost) {
-                fCost = currentFCost;
+            double currentCost = getCostByMap(current, open.get(i));
+            if (currentCost < cost) {
+                cost = currentCost;
                 saveI = i;
             }
         }
         return open.get(saveI);
-    }
-
-
-    public static boolean isInList(SystemsPos nodeArmPos, LinkedList<SystemsPos> list) {
-        return list.contains(nodeArmPos);
     }
 
     public static LinkedList<SystemsPos> returnPath(SystemsPos nodeArm, Map<SystemsPos, SystemsPos> parents) {
@@ -46,25 +43,7 @@ public class AStar {
             pathList.addFirst(current);
             current = parents.get(current);
         }
-        printPath(pathList);
         return pathList;
-    }
-
-    private static void printPath(LinkedList<SystemsPos> pathList) {
-        for (SystemsPos systemsPos : pathList) {
-            System.out.print(systemsPos + ", ");
-        }
-        System.out.println();
-    }
-
-    public static void addToOpen(LinkedList<SystemsPos> nodesCanGoTo, SystemsPos current, LinkedList<SystemsPos> closed, Map<SystemsPos, SystemsPos> parents) {
-       // for (SystemsPos neighbor : NodeBase.getNode(current).getNeighbors()) {
-         for (SystemsPos neighbor : getNode(current).getNeighbors()){
-            if (!isInList(neighbor, closed) && !isInList(neighbor, nodesCanGoTo)) {
-                nodesCanGoTo.add(neighbor);
-                parents.put(neighbor, current);
-            }
-        }
     }
 
     public static LinkedList<SystemsPos> getPath(SystemsPos start, SystemsPos end) {
@@ -75,7 +54,7 @@ public class AStar {
         nodesCanGoTo.add(start);
 
         while (!nodesCanGoTo.isEmpty()) {
-            current = getLowestFcost(current, nodesCanGoTo, getNode(start), getNode(end));
+            current = getLowestCostPosition(current, nodesCanGoTo);
             nodesCanGoTo.remove(current);
             closed.add(current);
 
@@ -89,7 +68,9 @@ public class AStar {
         return null;
     }
 
+    //TODO DELETE OR FIND SOLUTION
     public static void main(String[] args) {
         LinkedList<SystemsPos> a = getPath(ARM_LOW, ARM_HIGH);
+        printPath(a);
     }
 }

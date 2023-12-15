@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
+package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.Nodes;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw.ClawState;

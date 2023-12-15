@@ -7,47 +7,47 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 import java.util.LinkedList;
 
 public class Vertex {
-    private final SystemsPos pos1;
-    private final SystemsPos pos2;
-    private SystemsPos otherSystemPos1;
+    protected final SystemsPos startPos;
+    protected final SystemsPos endPos;
+    protected SystemsPos system2Pos;
 
-    public Vertex(SystemsPos one, SystemsPos two, SystemsPos otherSystem1) {
-        this.pos1 = one;
-        this.pos2 = two;
-        this.otherSystemPos1 = otherSystem1;
+    public Vertex(SystemsPos one, SystemsPos two, SystemsPos system2Pos) {
+        this.startPos = one;
+        this.endPos = two;
+        this.system2Pos = system2Pos;
     }
 
-    public SystemsPos getPos1() {
-        return pos1;
+    public SystemsPos getStartPos() {
+        return startPos;
     }
 
-    public SystemsPos getPos2() {
-        return pos2;
+    public SystemsPos getEndPos() {
+        return endPos;
     }
 
     public double getTimeCost() {
-        return getCostByMap(pos1, pos2);
+        return getCostByMap(startPos, endPos);
     }
 
-    public SystemsPos getOtherSystemPos1() {
-        return otherSystemPos1;
+    public SystemsPos getSystem2Pos() {
+        return system2Pos;
     }
 
-    public void setOtherSystemPos1(SystemsPos otherSystem) {
-        this.otherSystemPos1 = otherSystem;
+    public void setSystem2Pos(SystemsPos otherSystem) {
+        this.system2Pos = otherSystem;
     }
 
-    public boolean isPosFineForVertex(SystemsPos pos) {
-        return getNode(pos1).getOtherSystemMustBeToOut2().contains(pos)
+    public boolean isPosFineForVertexSystem2(SystemsPos pos) {
+        return getNode(startPos).getOtherSystemMustBeToOut2().contains(pos)
                 &&
-                getNode(pos2).getOtherSystemMustBeToEnter2().contains(pos);
+                getNode(endPos).getOtherSystemMustBeToEnter2().contains(pos);
     }
 
-    public LinkedList<SystemsPos> mergeCommonNodes() {
+    public LinkedList<SystemsPos> mergeCommonNodes2() {
         LinkedList<SystemsPos> merge = new LinkedList<>();
-        for (int i = 0; i < getNode(pos1).getOtherSystemMustBeToOut2().size(); i++) {
-            if (getNode(pos2).getOtherSystemMustBeToEnter2().contains(getNode(pos1).getOtherSystemMustBeToOut2().get(i))) {
-                merge.add(getNode(pos1).getOtherSystemMustBeToOut2().get(i));
+        for (int i = 0; i < getNode(startPos).getOtherSystemMustBeToOut2().size(); i++) {
+            if (getNode(endPos).getOtherSystemMustBeToEnter2().contains(getNode(startPos).getOtherSystemMustBeToOut2().get(i))) {
+                merge.add(getNode(startPos).getOtherSystemMustBeToOut2().get(i));
             }
         }
         return merge;

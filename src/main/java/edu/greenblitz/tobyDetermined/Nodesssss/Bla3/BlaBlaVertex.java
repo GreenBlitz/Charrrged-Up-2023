@@ -1,20 +1,20 @@
 package edu.greenblitz.tobyDetermined.Nodesssss.Bla3;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.Vertex;
+
 import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 
-public class BlaBlaVertex {
-    private final SystemsPos startPos;
-    private final SystemsPos endPos;
-    private SystemsPos system2Pos;
+public class BlaBlaVertex extends Vertex {
+    //TODO GET
     private SystemsPos system3Pos;
 
     public BlaBlaVertex(SystemsPos startPos, SystemsPos endPos, SystemsPos system2Pos, SystemsPos system3Pos) {
-        this.startPos = startPos;
-        this.endPos = endPos;
+        super(startPos, endPos, system2Pos);
+        //TODO GOOD
         if (startPos.toString().contains(systemName1)) {
             if (system2Pos.toString().contains(systemName2)) {
                 this.system2Pos = system2Pos;
@@ -43,26 +43,6 @@ public class BlaBlaVertex {
         }
     }
 
-    public SystemsPos getStartPos() {
-        return startPos;
-    }
-
-    public SystemsPos getEndPos() {
-        return endPos;
-    }
-
-    public double getTimeCost() {
-        return getCostByMap(startPos, endPos);
-    }
-
-    public SystemsPos getSystem2Pos() {
-        return system2Pos;
-    }
-
-    public void setSystem2Pos(SystemsPos otherSystem) {
-        this.system2Pos = otherSystem;
-    }
-
     public void setSystem3Pos(SystemsPos system3Pos) {
         this.system3Pos = system3Pos;
     }
@@ -71,26 +51,10 @@ public class BlaBlaVertex {
         return system3Pos;
     }
 
-    public boolean isPosFineForVertexSys2(SystemsPos pos) {
-        return getNode(startPos).getOtherSystemMustBeToOut2().contains(pos)
-                &&
-                getNode(endPos).getOtherSystemMustBeToEnter2().contains(pos);
-    }
-
-    public boolean isPosFineForVertexSys3(SystemsPos pos) {
+    public boolean isPosFineForVertexSystem3(SystemsPos pos) {
         return getNode(startPos).getOtherSystemMustBeToOut3().contains(pos)
                 &&
                 getNode(endPos).getOtherSystemMustBeToEnter3().contains(pos);
-    }
-
-    public LinkedList<SystemsPos> mergeCommonNodes2() {
-        LinkedList<SystemsPos> merge = new LinkedList<>();
-        for (int i = 0; i < getNode(startPos).getOtherSystemMustBeToOut2().size(); i++) {
-            if (getNode(endPos).getOtherSystemMustBeToEnter2().contains(getNode(startPos).getOtherSystemMustBeToOut2().get(i))) {
-                merge.add(getNode(startPos).getOtherSystemMustBeToOut2().get(i));
-            }
-        }
-        return merge;
     }
 
     public LinkedList<SystemsPos> mergeCommonNodes3() {
