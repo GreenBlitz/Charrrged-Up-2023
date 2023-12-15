@@ -14,8 +14,7 @@ import java.util.LinkedList;
 import java.util.function.Supplier;
 
 public class NodeToNeighbourSupplier implements Supplier<Command> {
-    private RobotMap.TelescopicArm.PresetPositions end;
-    private GBCommand[] nodeCommands;
+    private final RobotMap.TelescopicArm.PresetPositions end;
 
     public RobotMap.TelescopicArm.PresetPositions getEnd() {
         return end;
@@ -28,7 +27,7 @@ public class NodeToNeighbourSupplier implements Supplier<Command> {
     public Command get() {
         RobotMap.TelescopicArm.PresetPositions start = CurrentNode.getCurrentNode();
         LinkedList<RobotMap.TelescopicArm.PresetPositions> path = AStar.getPath(start, end);
-        nodeCommands = new GBCommand[path.size() - 1];
+        GBCommand[] nodeCommands = new GBCommand[path.size() - 1];
         for (int i = 0; i < path.size() - 1; i++) {
             nodeCommands[i] = new NodeToNeighbourCommand(path.get(i), path.get(i + 1));
         }

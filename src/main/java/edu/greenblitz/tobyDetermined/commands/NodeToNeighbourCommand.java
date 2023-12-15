@@ -19,8 +19,8 @@ public class NodeToNeighbourCommand extends GBCommand {
     private final Extender extender;
     private final Elbow elbow;
 
-    private PresetPositions start;
-    private PresetPositions end;
+    private final PresetPositions start;
+    private final PresetPositions end;
     private double COMBINED_VELOCITY;
     private static final double STATIC_COMBINED_VELOCITY = 2; //Meters Per Second
     private static final double MAX_EXTENDER_VELOCITY = 1.5; //Meters Per Second
@@ -70,7 +70,6 @@ public class NodeToNeighbourCommand extends GBCommand {
         double signOfExtender = Math.signum(nodeEndIndex.getExtendPos() - extender.getLength());
         double extenderVelocity = Math.sqrt(COMBINED_VELOCITY * COMBINED_VELOCITY / (ratio * ratio + 1));
 
-
         return signOfExtender * extenderVelocity;
     }
 
@@ -78,7 +77,6 @@ public class NodeToNeighbourCommand extends GBCommand {
 
         double signOfAngle = Math.signum(nodeEndIndex.getAnglePos() - elbow.getAngleRadians());
         double magnitudeOfVelocity = startVelocity / (extender.getLength() + STARTING_LENGTH);
-
 
         magnitudeOfVelocity = Math.min(MAX_ANGULAR_VELOCITY, magnitudeOfVelocity);
         magnitudeOfVelocity = Math.max(-MAX_ANGULAR_VELOCITY, magnitudeOfVelocity);
