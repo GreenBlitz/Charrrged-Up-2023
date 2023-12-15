@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.smartSetList;
 
 public class NodeBase {
     public enum SystemsPos {
@@ -66,20 +67,39 @@ public class NodeBase {
             nodeMap.get(GRIPER_CLOSE).addNeighbors(new SystemsPos[]{GRIPER_OPEN});
 
 
-            nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
-            nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToOut2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
-            nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
-            nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToOut2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
+            //nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
+            smartSetList(GRIPER_OPEN, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.IN);
+            //nodeMap.get(GRIPER_OPEN).setOtherSystemMustBeToOut2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
+            smartSetList(GRIPER_OPEN, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.OUT);
 
-            nodeMap.get(CLIMBING_ROMY).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG});
-            nodeMap.get(CLIMBING_NOAM).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG});
-            nodeMap.get(CLIMBING_ROMY).setOtherSystemMustBeToEnter3(new SystemsPos[]{GRIPER_OPEN});
-            nodeMap.get(CLIMBING_NOAM).setOtherSystemMustBeToEnter3(new SystemsPos[]{GRIPER_OPEN});
+            //nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
+            smartSetList(GRIPER_CLOSE, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.IN);
+            smartSetList(GRIPER_CLOSE, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.OUT);
+            //nodeMap.get(GRIPER_CLOSE).setOtherSystemMustBeToOut2(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
 
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter2(new SystemsPos[]{GRIPER_OPEN});
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut2(new SystemsPos[]{GRIPER_OPEN});
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter3(new SystemsPos[]{CLIMBING_ROMY});
-            nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut3(new SystemsPos[]{CLIMBING_ROMY});
+
+            //nodeMap.get(CLIMBING_ROMY).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG});
+            //nodeMap.get(CLIMBING_NOAM).setOtherSystemMustBeToEnter2(new SystemsPos[]{ARM_ZG});
+            smartSetList(CLIMBING_ROMY, new SystemsPos[]{ARM_ZG}, GBNode.ListType.IN);
+            smartSetList(CLIMBING_NOAM, new SystemsPos[]{ARM_ZG}, GBNode.ListType.IN);
+            smartSetList(CLIMBING_ROMY, new SystemsPos[]{ARM_ZG}, GBNode.ListType.OUT);
+            smartSetList(CLIMBING_NOAM, new SystemsPos[]{ARM_ZG}, GBNode.ListType.OUT);
+
+            //nodeMap.get(CLIMBING_ROMY).setOtherSystemMustBeToEnter3(new SystemsPos[]{GRIPER_OPEN});
+            //nodeMap.get(CLIMBING_NOAM).setOtherSystemMustBeToEnter3(new SystemsPos[]{GRIPER_OPEN});
+            smartSetList(CLIMBING_ROMY, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
+            smartSetList(CLIMBING_NOAM, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
+            smartSetList(CLIMBING_ROMY, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
+            smartSetList(CLIMBING_NOAM, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
+
+            //nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter2(new SystemsPos[]{GRIPER_OPEN});
+            //nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut2(new SystemsPos[]{GRIPER_OPEN});
+            //nodeMap.get(ARM_LOW).setOtherSystemMustBeToEnter3(new SystemsPos[]{CLIMBING_ROMY});
+            //nodeMap.get(ARM_LOW).setOtherSystemMustBeToOut3(new SystemsPos[]{CLIMBING_ROMY});
+            smartSetList(ARM_LOW, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
+            smartSetList(ARM_LOW, new SystemsPos[]{CLIMBING_ROMY}, GBNode.ListType.IN);
+            smartSetList(ARM_LOW, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
+            smartSetList(ARM_LOW, new SystemsPos[]{CLIMBING_ROMY}, GBNode.ListType.OUT);
 
 
         }

@@ -12,7 +12,7 @@ public class SwerveModuleFactory {
             case REPLAY:
                 return new ReplaySwerveModule();
             case FRANKENSTEIN:
-                return new MK4ISwerveModule(module);
+               // return new MK4ISwerveModule(module);
             case PEGA_SWERVE:
                 return new KazaSwerveModule(module);
             case SIMULATION:

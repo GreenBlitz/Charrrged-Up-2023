@@ -2,6 +2,7 @@ package edu.greenblitz.tobyDetermined.Nodesssss.Bla3;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.Vertex;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions;
 import edu.wpi.first.math.Pair;
 
 import java.util.HashMap;
@@ -9,8 +10,7 @@ import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.systemName1;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.systemName2;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.getAllSystemsPositions;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.getNode;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
 
 public class BlaBla {
 
@@ -42,23 +42,6 @@ public class BlaBla {
                 return false;
         }
         return true;
-    }
-
-    public static boolean smartIsOnList(SystemsPos pos, SystemsPos posTarget) {
-        if (pos.toString().contains(systemName1)) {
-            if (posTarget.toString().contains(systemName2))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        }
-        if (pos.toString().contains(systemName2)) {
-            if (posTarget.toString().contains(systemName1))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        } else {
-            if (posTarget.toString().contains(systemName1))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        }
     }
 
     public static void addNeighborsToOpen(SystemsPos current, LinkedList<BlaBlaVertex> closedVer, LinkedList<BlaBlaVertex> openVer, BlaBlaVertex currentVer, HashMap<BlaBlaVertex, BlaBlaVertex> parents) {
@@ -102,7 +85,6 @@ public class BlaBla {
                 cost = getCostOfOtherSystemPathAndAddToMap(blaBlaVertex, pathMap, 2);
             }
         }
-
         if (!blaBlaVertex.isPosFineForVertexSys3(blaBlaVertex.getSystem3Pos())) {
             check = isVertexUsable(blaBlaVertex, 3);
             if (check) {
@@ -132,7 +114,7 @@ public class BlaBla {
                         && smartIsOnList(blaBlaVertex.getSystem2Pos(), blaBlaVertex.getSystem3Pos());
             else {
                 return smartIsOnList(blaBlaVertex.getSystem3Pos(), blaBlaVertex.getStartPos())
-                        && smartIsOnList(blaBlaVertex.getSystem3Pos(), blaBlaVertex.getSystem3Pos());
+                        && smartIsOnList(blaBlaVertex.getSystem3Pos(), blaBlaVertex.getSystem2Pos());
             }
         }
         return false;

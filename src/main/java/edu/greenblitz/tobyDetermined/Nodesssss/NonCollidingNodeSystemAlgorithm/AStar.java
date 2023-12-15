@@ -73,6 +73,7 @@ public class AStar {
         Map<SystemsPos, SystemsPos> parents = new HashMap<>();
         SystemsPos current = start;
         nodesCanGoTo.add(start);
+
         while (!nodesCanGoTo.isEmpty()) {
             current = getLowestFcost(current, nodesCanGoTo, getNode(start), getNode(end));
             nodesCanGoTo.remove(current);
@@ -89,6 +90,6 @@ public class AStar {
     }
 
     public static void main(String[] args) {
-        //LinkedList<SystemsPos> a = getPath(ARM_LOWWW, ARM_HIGH);
+        LinkedList<SystemsPos> a = getPath(ARM_LOW, ARM_HIGH);
     }
 }

@@ -72,4 +72,9 @@ public abstract class GBNode {
         return neighbors;
     }
 
+    public enum ListType{
+        IN,
+        OUT
+    }
+
 }
