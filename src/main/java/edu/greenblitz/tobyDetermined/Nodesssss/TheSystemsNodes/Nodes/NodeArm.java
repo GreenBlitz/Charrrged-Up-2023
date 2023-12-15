@@ -4,6 +4,8 @@ import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Claw.ClawState;
 import edu.wpi.first.math.util.Units;
 
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.systemName1;
+
 public class NodeArm extends GBNode {
 
     private final static double TOLERANCE_ANGLE = Units.degreesToRadians(3);
@@ -12,7 +14,7 @@ public class NodeArm extends GBNode {
     private final double extendPos;
 
     public NodeArm(double extenderPos, double anglePos) {
-        super();
+        super(systemName1);
         this.extendPos = extenderPos;
         this.anglePos = anglePos;
     }

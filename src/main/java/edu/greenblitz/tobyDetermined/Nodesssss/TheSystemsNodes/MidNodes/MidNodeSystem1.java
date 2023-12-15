@@ -3,7 +3,7 @@ package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes;
 import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system1StartingNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 
 

@@ -4,8 +4,8 @@ import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system3StartingNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.getNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.getNodeBySystemName;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNode;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNodeBySystemName;
 
 public class MidNodeSystem3 {
     private GBNode midNode;

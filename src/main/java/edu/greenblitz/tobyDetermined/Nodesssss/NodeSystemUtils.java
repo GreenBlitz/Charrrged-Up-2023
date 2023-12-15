@@ -17,7 +17,7 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateNodes.*;
 
 
-public class NodeSystemFunctions {
+public class NodeSystemUtils {
 
     //TODO GOOD , not good{
     public static GBNode getNodeBySystemName(SystemsPos start) {
@@ -28,52 +28,6 @@ public class NodeSystemFunctions {
         return new ClimbingNode();
     }
 
-    public static boolean smartIsOnList(SystemsPos pos, SystemsPos posTarget) {
-        if (pos.toString().contains(systemName1)) {
-            if (posTarget.toString().contains(systemName2))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        }
-        if (pos.toString().contains(systemName2)) {
-            if (posTarget.toString().contains(systemName1))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        } else {
-            if (posTarget.toString().contains(systemName1))
-                return getNode(pos).getOtherSystemMustBeToOut2().contains(posTarget);
-            return getNode(pos).getOtherSystemMustBeToOut3().contains(posTarget);
-        }
-    }
-
-    public static void smartSetList(SystemsPos pos, SystemsPos[] mustBe, GBNode.ListType listType) {
-        if (pos.toString().contains(systemName1)) {
-            if (mustBe[0].toString().contains(systemName2)) {
-                setInList(pos, listType, mustBe);
-            } else {
-                setInList(pos, listType, mustBe);
-            }
-        }
-        else if (pos.toString().contains(systemName2)) {
-            if (mustBe[0].toString().contains(systemName1)) {
-                setInList(pos, listType, mustBe);
-            } else {
-                setInList(pos, listType, mustBe);
-            }
-        } else {
-            if (mustBe[0].toString().contains(systemName1)) {
-                setInList(pos, listType, mustBe);
-            } else {
-                setInList(pos, listType, mustBe);
-            }
-        }
-    }
-    public static void setInList(SystemsPos pos, GBNode.ListType type, SystemsPos[] mustBe) {
-        if (type.equals(GBNode.ListType.IN))
-            getNode(pos).setOtherSystemMustBeToEnter2(mustBe);
-        else
-            getNode(pos).setOtherSystemMustBeToOut2(mustBe);
-    }
-    //todo good}
 
 
     //TODO GENERIC FOR ALL ALGORITHMS{
@@ -107,8 +61,17 @@ public class NodeSystemFunctions {
         return nodeMap.get(specificNode);
     }
 
-    public static LinkedList<SystemsPos> getAllSystemsPositions() {
-        return new LinkedList<>(listSystemsPos);
+    public static LinkedList<SystemsPos> getAllSystemsPositionsByNumber(int systemNumber) {
+        return new LinkedList<>(listSystemsPos.get(systemNumber-1));
     }
+
+    public static LinkedList<SystemsPos> getAllSystemPositionsByPos(SystemsPos secondSystem){
+        if (secondSystem.toString().contains(systemName1))
+            return new LinkedList<>(listSystemsPos.get(0));
+        if (secondSystem.toString().contains(systemName2))
+            return new LinkedList<>(listSystemsPos.get(1));
+        return new LinkedList<>(listSystemsPos.get(2));
+    }
+
 
 }

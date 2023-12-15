@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.smartSetList;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNode;
+import static edu.greenblitz.tobyDetermined.Nodesssss.Vertexes.VertexFunctions.smartSetListSystemPos;
 
 public class NodeBase {
     public enum SystemsPos {
@@ -30,14 +31,20 @@ public class NodeBase {
 
     public static class CreateNodes {
         protected final static HashMap<SystemsPos, GBNode> nodeMap = new HashMap<>();
-        protected final static LinkedList<SystemsPos> listSystemsPos = new LinkedList<>();
+        protected final static LinkedList<LinkedList<SystemsPos>> listSystemsPos = new LinkedList<>();
 
 
         static {
+            listSystemsPos.add(new LinkedList<>());
+            listSystemsPos.add(new LinkedList<>());
+            listSystemsPos.add(new LinkedList<>());
+
+
+
             nodeMap.put(CLIMBING_ROMY, new ClimbingNode());
-            listSystemsPos.add(CLIMBING_ROMY);
+            listSystemsPos.get(2).add(CLIMBING_ROMY);
             nodeMap.put(CLIMBING_NOAM, new ClimbingNode());
-            listSystemsPos.add(CLIMBING_NOAM);
+            listSystemsPos.get(2).add(CLIMBING_NOAM);
 
             nodeMap.get(CLIMBING_NOAM).addNeighbors(new SystemsPos[]{CLIMBING_ROMY});
             nodeMap.get(CLIMBING_ROMY).addNeighbors(new SystemsPos[]{CLIMBING_NOAM});
@@ -47,10 +54,10 @@ public class NodeBase {
             nodeMap.put(ARM_MID, new NodeArm(1, 0));
             nodeMap.put(ARM_HIGH, new NodeArm(2, 0));
             nodeMap.put(ARM_ZG, new NodeArm(3, 0));
-            listSystemsPos.add(ARM_LOW);
-            listSystemsPos.add(ARM_MID);
-            listSystemsPos.add(ARM_HIGH);
-            listSystemsPos.add(ARM_ZG);
+            listSystemsPos.get(0).add(ARM_LOW);
+            listSystemsPos.get(0).add(ARM_MID);
+            listSystemsPos.get(0).add(ARM_HIGH);
+            listSystemsPos.get(0).add(ARM_ZG);
 
             nodeMap.get(ARM_LOW).addNeighbors(new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH});
             nodeMap.get(ARM_MID).addNeighbors(new SystemsPos[]{ARM_ZG, ARM_LOW, ARM_HIGH});
@@ -60,36 +67,36 @@ public class NodeBase {
 
             nodeMap.put(GRIPER_OPEN, new GriperNode());
             nodeMap.put(GRIPER_CLOSE, new GriperNode());
-            listSystemsPos.add(GRIPER_OPEN);
-            listSystemsPos.add(GRIPER_CLOSE);
+            listSystemsPos.get(1).add(GRIPER_OPEN);
+            listSystemsPos.get(1).add(GRIPER_CLOSE);
 
             nodeMap.get(GRIPER_OPEN).addNeighbors(new SystemsPos[]{GRIPER_CLOSE});
             nodeMap.get(GRIPER_CLOSE).addNeighbors(new SystemsPos[]{GRIPER_OPEN});
 
 
-            smartSetList(GRIPER_OPEN, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.IN);
-            smartSetList(GRIPER_OPEN, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.OUT);
+            smartSetListSystemPos(GRIPER_OPEN, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.IN);
+            smartSetListSystemPos(GRIPER_OPEN, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.OUT);
 
-            smartSetList(GRIPER_CLOSE, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.IN);
-            smartSetList(GRIPER_CLOSE, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.OUT);
-
-
-
-            smartSetList(CLIMBING_ROMY, new SystemsPos[]{ARM_ZG}, GBNode.ListType.IN);
-            smartSetList(CLIMBING_NOAM, new SystemsPos[]{ARM_ZG}, GBNode.ListType.IN);
-            smartSetList(CLIMBING_ROMY, new SystemsPos[]{ARM_ZG}, GBNode.ListType.OUT);
-            smartSetList(CLIMBING_NOAM, new SystemsPos[]{ARM_ZG}, GBNode.ListType.OUT);
-
-            smartSetList(CLIMBING_ROMY, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
-            smartSetList(CLIMBING_NOAM, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
-            smartSetList(CLIMBING_ROMY, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
-            smartSetList(CLIMBING_NOAM, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
+            smartSetListSystemPos(GRIPER_CLOSE, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.IN);
+            smartSetListSystemPos(GRIPER_CLOSE, new SystemsPos[]{ARM_ZG, ARM_MID, ARM_HIGH}, GBNode.ListType.OUT);
 
 
-            smartSetList(ARM_LOW, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
-            smartSetList(ARM_LOW, new SystemsPos[]{CLIMBING_ROMY}, GBNode.ListType.IN);
-            smartSetList(ARM_LOW, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
-            smartSetList(ARM_LOW, new SystemsPos[]{CLIMBING_ROMY}, GBNode.ListType.OUT);
+
+            smartSetListSystemPos(CLIMBING_ROMY, new SystemsPos[]{ARM_ZG}, GBNode.ListType.IN);
+            smartSetListSystemPos(CLIMBING_NOAM, new SystemsPos[]{ARM_ZG}, GBNode.ListType.IN);
+            smartSetListSystemPos(CLIMBING_ROMY, new SystemsPos[]{ARM_ZG}, GBNode.ListType.OUT);
+            smartSetListSystemPos(CLIMBING_NOAM, new SystemsPos[]{ARM_ZG}, GBNode.ListType.OUT);
+
+            smartSetListSystemPos(CLIMBING_ROMY, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
+            smartSetListSystemPos(CLIMBING_NOAM, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
+            smartSetListSystemPos(CLIMBING_ROMY, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
+            smartSetListSystemPos(CLIMBING_NOAM, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
+
+
+            smartSetListSystemPos(ARM_LOW, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.IN);
+            smartSetListSystemPos(ARM_LOW, new SystemsPos[]{CLIMBING_ROMY}, GBNode.ListType.IN);
+            smartSetListSystemPos(ARM_LOW, new SystemsPos[]{GRIPER_OPEN}, GBNode.ListType.OUT);
+            smartSetListSystemPos(ARM_LOW, new SystemsPos[]{CLIMBING_ROMY}, GBNode.ListType.OUT);
 
 
         }
@@ -119,7 +126,9 @@ public class NodeBase {
         static public SystemsPos system3StartingNode = CLIMBING_ROMY;
     }
 
-    public static class important {
-        NodeArm a = new NodeArm(0, 'r' + 'o' + 'm' + 'y' + ' ' + 'i' + 's' + ' ' + 'a' + 'u' + 't' + 'i' + 's' + 't' + 'i' + 'c');
+
+    public static void main(String[] args){
+        getNode(ARM_LOW);
     }
+
 }

@@ -4,8 +4,10 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateNodes.listSystemsPos;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.systemName1;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.systemName2;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
+import static edu.greenblitz.tobyDetermined.Nodesssss.Vertexes.VertexFunctions.getAllSystemPositions;
 
 public abstract class GBNode {
     protected boolean isNeighborsSet;
@@ -14,16 +16,19 @@ public abstract class GBNode {
     protected LinkedList<SystemsPos> otherSystemMustBeToOut2;
     protected LinkedList<SystemsPos> otherSystemMustBeToEnter3;
     protected LinkedList<SystemsPos> otherSystemMustBeToOut3;
+    protected String systemName;
 
 
-    public GBNode() {
+    public GBNode(String systemName) {
+        this.systemName = systemName;
         neighbors = new LinkedList<>();
         isNeighborsSet = false;
-        otherSystemMustBeToEnter2 = listSystemsPos;
-        otherSystemMustBeToOut2 = listSystemsPos;
-        otherSystemMustBeToEnter3 = listSystemsPos;
-        otherSystemMustBeToOut3 = listSystemsPos;
+        otherSystemMustBeToEnter2 = getAllSystemPositions(systemName, 2);
+        otherSystemMustBeToOut2 = getAllSystemPositions(systemName, 2);
+        otherSystemMustBeToEnter3 = getAllSystemPositions(systemName, 3);
+        otherSystemMustBeToOut3 = getAllSystemPositions(systemName, 3);
     }
+
 
     public void addNeighbors(SystemsPos[] neighbors) {
         if (!isNeighborsSet) {
@@ -72,7 +77,29 @@ public abstract class GBNode {
         return neighbors;
     }
 
-    public enum ListType{
+    public LinkedList<SystemsPos> smartGetList(SystemsPos targetPos, ListType listType) {
+        if (systemName.equals(systemName1)) {
+            if (targetPos.toString().contains(systemName2)) {
+                if (listType.equals(ListType.IN))
+                    return getOtherSystemMustBeToEnter2();
+                return getOtherSystemMustBeToOut2();
+            }
+            if (listType.equals(ListType.IN))
+                return getOtherSystemMustBeToEnter3();
+            return getOtherSystemMustBeToOut3();
+        }
+        if (targetPos.toString().contains(systemName1)) {
+            if (listType.equals(ListType.IN))
+                return getOtherSystemMustBeToEnter2();
+            return getOtherSystemMustBeToOut2();
+        }
+        if (listType.equals(ListType.IN))
+            return getOtherSystemMustBeToEnter3();
+        return getOtherSystemMustBeToOut3();
+
+    }
+
+    public enum ListType {
         IN,
         OUT
     }

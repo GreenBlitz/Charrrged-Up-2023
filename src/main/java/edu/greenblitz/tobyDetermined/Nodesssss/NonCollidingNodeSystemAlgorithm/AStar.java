@@ -1,13 +1,11 @@
 package edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm;
 
 
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemFunctions.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPos;
 
