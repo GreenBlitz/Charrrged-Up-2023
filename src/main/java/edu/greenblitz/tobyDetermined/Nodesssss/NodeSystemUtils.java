@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System2MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System1MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
@@ -32,8 +33,10 @@ public class NodeSystemUtils {
         return -1;
     }
     public static GBNode getNode(SystemsPosition specificNode) {
-        if (specificNode.equals(MID_NODE))
-            return System1MidNode.getInstance().getMidNode();
+        if (specificNode.equals(MID_NODE_1))
+            return System1MidNode.getMidNode();
+        if (specificNode.equals(MID_NODE_2))
+            return System2MidNode.getMidNode();
         return nodeMap.get(specificNode);
     }
     public static <T> void printPath(LinkedList<T> pathList) {

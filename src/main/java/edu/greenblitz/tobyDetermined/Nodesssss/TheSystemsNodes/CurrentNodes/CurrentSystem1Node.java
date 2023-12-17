@@ -4,16 +4,9 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition;
 
 
-public class CurrentSystem1Node {
-    private static SystemsPosition currentNode;
-
-    public static SystemsPosition getCurrentNode() {
-        if (currentNode == null)
-            currentNode = system1StartingNode;
-        return currentNode;
+public class CurrentSystem1Node extends CurrentNode{
+    public CurrentSystem1Node(){
+        init(system1StartingNode);
     }
-
-    public static void setCurrentNode(SystemsPosition position) {
-        currentNode = position;
-    }
+    
 }
