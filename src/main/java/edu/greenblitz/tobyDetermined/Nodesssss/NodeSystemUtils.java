@@ -29,11 +29,11 @@ public class NodeSystemUtils {
             if (stringDoublePair.getFirst().contains(a.toString()) && stringDoublePair.getFirst().contains(b.toString()))
                 return stringDoublePair.getSecond();
         }
-        return 0;
+        return -1;
     }
     public static GBNode getNode(SystemsPosition specificNode) {
         if (specificNode.equals(MID_NODE))
-            return System1MidNode.getInstance().getGBNode();
+            return System1MidNode.getInstance().getMidNode();
         return nodeMap.get(specificNode);
     }
     public static <T> void printPath(LinkedList<T> pathList) {

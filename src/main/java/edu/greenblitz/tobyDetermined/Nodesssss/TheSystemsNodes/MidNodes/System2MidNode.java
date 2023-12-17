@@ -28,7 +28,7 @@ public class System2MidNode {
         midNode.addNeighbors(new NodeBase.SystemsPosition[]{start, end});
     }
 
-    public GBNode getGBNode() {
+    public GBNode getMidNode() {
         return midNode;
     }
 

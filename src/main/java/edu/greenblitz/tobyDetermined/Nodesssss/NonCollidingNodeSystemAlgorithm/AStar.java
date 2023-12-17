@@ -24,47 +24,46 @@ public class AStar {
         return open.get(saveI);
     }
 
-    private static boolean isNotInList(SystemsPosition nodeArmPosition, LinkedList<SystemsPosition> list) {
-        return !list.contains(nodeArmPosition);
+    private static boolean isNotInList(SystemsPosition nodePosition, LinkedList<SystemsPosition> list) {
+        return !list.contains(nodePosition);
     }
 
-    private static LinkedList<SystemsPosition> gatherPathInList(SystemsPosition nodeArm, Map<SystemsPosition, SystemsPosition> parents) {
+    private static LinkedList<SystemsPosition> getPathInListAndCost(SystemsPosition nodePosition, Map<SystemsPosition, SystemsPosition> parents) {
         LinkedList<SystemsPosition> pathList = new LinkedList<>();
-        SystemsPosition current = nodeArm;
+        SystemsPosition current = nodePosition;
         while (current != null) {
             pathList.addFirst(current);
             current = parents.get(current);
         }
-        printPath(pathList);
         return pathList;
     }
 
-    private static void addToOpen(LinkedList<SystemsPosition> nodesCanGoTo, SystemsPosition current, LinkedList<SystemsPosition> closed, Map<SystemsPosition, SystemsPosition> parents) {
+    private static void addToAvailableNodes(LinkedList<SystemsPosition> availableNodes, SystemsPosition current, LinkedList<SystemsPosition> closed, Map<SystemsPosition, SystemsPosition> parents) {
         for (SystemsPosition neighbor : getNode(current).getNeighbors()) {
-            if (isNotInList(neighbor, closed) && isNotInList(neighbor, nodesCanGoTo)) {
-                nodesCanGoTo.add(neighbor);
+            if (isNotInList(neighbor, closed) && isNotInList(neighbor, availableNodes)) {
+                availableNodes.add(neighbor);
                 parents.put(neighbor, current);
             }
         }
     }
 
     public static LinkedList<SystemsPosition> getPath(SystemsPosition start, SystemsPosition end) {
-        LinkedList<SystemsPosition> nodesCanGoTo = new LinkedList<>();
+        LinkedList<SystemsPosition> availableNodes = new LinkedList<>();
         LinkedList<SystemsPosition> closed = new LinkedList<>();
         Map<SystemsPosition, SystemsPosition> parents = new HashMap<>();
         SystemsPosition current = start;
-        nodesCanGoTo.add(start);
+        availableNodes.add(start);
 
-        while (!nodesCanGoTo.isEmpty()) {
-            current = getLowestCost(current, nodesCanGoTo);
-            nodesCanGoTo.remove(current);
+        while (!availableNodes.isEmpty()) {
+            current = getLowestCost(current, availableNodes);
+            availableNodes.remove(current);
             closed.add(current);
 
             if (current.equals(end)) {
-                return gatherPathInList(current, parents);
+                return getPathInListAndCost(current, parents);
             }
 
-            addToOpen(nodesCanGoTo, current, closed, parents);
+            addToAvailableNodes(availableNodes, current, closed, parents);
 
         }
         return null;

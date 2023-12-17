@@ -42,13 +42,17 @@ public class Vertex {
                 (getNode(endPosition).getSystem2MustBeToEnter().contains(position) || getNode(endPosition).getSystem2MustBeToEnter().isEmpty());
     }
 
-    public LinkedList<SystemsPosition> merge() {
-        LinkedList<SystemsPosition> merge = new LinkedList<>(getNode(startPosition).getSystem2MustBeToOut());
+    public LinkedList<SystemsPosition> getReunion() {
+        if (getNode(endPosition).getSystem2MustBeToEnter().isEmpty())
+            return new LinkedList<>(getNode(startPosition).getSystem2MustBeToOut());
+        if (getNode(startPosition).getSystem2MustBeToOut().isEmpty())
+            return new LinkedList<>(getNode(endPosition).getSystem2MustBeToEnter());
+        LinkedList<SystemsPosition> reunion = new LinkedList<>();
         for (int i = 0; i < getNode(endPosition).getSystem2MustBeToEnter().size(); i++) {
-            if (!merge.contains(getNode(endPosition).getSystem2MustBeToEnter().get(i))) {
-                merge.add(getNode(endPosition).getSystem2MustBeToEnter().get(i));
+            if (getNode(startPosition).getSystem2MustBeToEnter().contains(getNode(endPosition).getSystem2MustBeToEnter().get(i))) {
+                reunion.add(getNode(endPosition).getSystem2MustBeToEnter().get(i));
             }
         }
-        return merge;
+        return reunion;
     }
 }

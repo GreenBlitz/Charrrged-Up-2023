@@ -18,16 +18,17 @@ public class AStarVertex {
         return true;
     }
 
-    private static void addNeighborsToOpen(SystemsPosition current, LinkedList<Vertex> closedVer, LinkedList<Vertex> openVer, Vertex currentVer, HashMap<Vertex, Vertex> parents) {
+    private static void addNeighborsToAvailableNodes(SystemsPosition current, LinkedList<Vertex> closedVer, LinkedList<Vertex> availableNodes, Vertex currentVer, HashMap<Vertex, Vertex> parents) {
         for (SystemsPosition neighbor : getNode(current).getNeighbors()) {
-            if (NotInVertexList(closedVer, new Vertex(current, neighbor, currentVer.getSystem2Position())) && NotInVertexList(openVer, new Vertex(current, neighbor, currentVer.getSystem2Position()))) {
-                openVer.add(new Vertex(current, neighbor, currentVer.getSystem2Position()));
-                parents.put(openVer.get(openVer.size() - 1), currentVer);
+            Vertex currentToNeighbor = new Vertex(current, neighbor, currentVer.getSystem2Position());
+            if (NotInVertexList(closedVer, currentToNeighbor) && NotInVertexList(availableNodes, currentToNeighbor)) {
+                availableNodes.add(currentToNeighbor);
+                parents.put(availableNodes.get(availableNodes.size() - 1), currentVer);
             }
         }
     }
 
-    private static Vertex getVertexLowestCost(LinkedList<Vertex> open, HashMap<Vertex, Pair<LinkedList<SystemsPosition>, Double>> pathMap) {
+    private static Vertex getLowestCostVertex(LinkedList<Vertex> open, HashMap<Vertex, Pair<LinkedList<SystemsPosition>, Double>> pathMap) {
         int saveI = 0;
         int index = 0;
         double minFCost = Double.MAX_VALUE;
@@ -57,19 +58,19 @@ public class AStarVertex {
             return new Pair<>(true, 0.0);
         }
 
-        if (isSystem2CanMove(vertex) && isTherePossible(vertex)) {
+        if (canSystem2Move(vertex) && isTherePossiblePosition(vertex)) {
             return new Pair<>(true, getCostOfOtherSystemPathAndAddToMap(vertex, pathMap));
         }
 
         return new Pair<>(false, 0.0);
     }
 
-    private static boolean isSystem2CanMove(Vertex vertex) {
+    private static boolean canSystem2Move(Vertex vertex) {
         return getNode(vertex.getSystem2Position()).getSystem2MustBeToOut().contains(vertex.getStartPosition())
                 || getNode(vertex.getSystem2Position()).getSystem2MustBeToOut().isEmpty();
     }
 
-    private static boolean isTherePossible(Vertex vertex) {
+    private static boolean isTherePossiblePosition(Vertex vertex) {
         LinkedList<SystemsPosition> otherSystemPositions = getAllSystemsPositions();
         for (SystemsPosition otherSystemPosition : otherSystemPositions) {
             if (vertex.isPositionFineForVertex(otherSystemPosition)) {
@@ -80,12 +81,12 @@ public class AStarVertex {
     }
 
     private static Double getCostOfOtherSystemPathAndAddToMap(Vertex vertex, HashMap<Vertex, Pair<LinkedList<SystemsPosition>, Double>> pathMap) {
-        SystemsPosition newCurrentPosition = vertex.getSystem2Position();
-        LinkedList<SystemsPosition> list = vertex.merge();
+        SystemsPosition newStartPosition = vertex.getSystem2Position();
+        LinkedList<SystemsPosition> list = vertex.getReunion();
         double min = Double.MAX_VALUE;
         LinkedList<SystemsPosition> path = new LinkedList<>();
         for (SystemsPosition systemsPosition : list) {
-            Pair<LinkedList<SystemsPosition>, Double> pair = findPath(newCurrentPosition, systemsPosition, vertex.getStartPosition());
+            Pair<LinkedList<SystemsPosition>, Double> pair = getSystemPath(newStartPosition, systemsPosition, vertex.getStartPosition());
             if (pair.getSecond() < min) {
                 min = pair.getSecond();
                 path = pair.getFirst();
@@ -96,7 +97,7 @@ public class AStarVertex {
         return min;
     }
 
-    private static Pair<LinkedList<SystemsPosition>, Double> gatherPathInList(Vertex vertex, HashMap<Vertex, Vertex> parents, HashMap<Vertex, Pair<LinkedList<SystemsPosition>, Double>> pathMap) {
+    private static Pair<LinkedList<SystemsPosition>, Double> getPathInListAndCost(Vertex vertex, HashMap<Vertex, Vertex> parents, HashMap<Vertex, Pair<LinkedList<SystemsPosition>, Double>> pathMap) {
         LinkedList<SystemsPosition> pathList = new LinkedList<>();
         double totalCost = 0;
         Vertex current = vertex;
@@ -120,35 +121,35 @@ public class AStarVertex {
         }
     }
 
-    private static Pair<LinkedList<SystemsPosition>, Double> findPath(SystemsPosition start, SystemsPosition end, SystemsPosition system2Position) {
+    private static Pair<LinkedList<SystemsPosition>, Double> getSystemPath(SystemsPosition start, SystemsPosition end, SystemsPosition system2Position) {
         LinkedList<Vertex> closedVer = new LinkedList<>();
-        LinkedList<Vertex> openVer = new LinkedList<>();
+        LinkedList<Vertex> availableVertexes = new LinkedList<>();
         HashMap<Vertex, Vertex> parents = new HashMap<>();
         HashMap<Vertex, Pair<LinkedList<SystemsPosition>, Double>> pathMap = new HashMap<>();
         SystemsPosition current = start;
         Vertex currentVer;
 
         for (SystemsPosition neighbor : getNode(current).getNeighbors()) {
-            openVer.add(new Vertex(current, neighbor, system2Position));
+            availableVertexes.add(new Vertex(current, neighbor, system2Position));
         }
 
-        while (!openVer.isEmpty()) {
+        while (!availableVertexes.isEmpty()) {
 
-            currentVer = getVertexLowestCost(openVer, pathMap);
+            currentVer = getLowestCostVertex(availableVertexes, pathMap);
             current = currentVer.getEndPosition();
-            openVer.remove(currentVer);
+            availableVertexes.remove(currentVer);
             closedVer.add(currentVer);
 
             if (current.equals(end)) {
-                return gatherPathInList(currentVer, parents, pathMap);
+                return getPathInListAndCost(currentVer, parents, pathMap);
             }
-            addNeighborsToOpen(current, closedVer, openVer, currentVer, parents);
+            addNeighborsToAvailableNodes(current, closedVer, availableVertexes, currentVer, parents);
         }
         return null;
     }
 
-    public static LinkedList<SystemsPosition> returnPath(SystemsPosition start, SystemsPosition end, SystemsPosition system2Position) {
-        return findPath(start, end, system2Position).getFirst();
+    public static LinkedList<SystemsPosition> getFinalPath(SystemsPosition start, SystemsPosition end, SystemsPosition system2Position) {
+        return getSystemPath(start, end, system2Position).getFirst();
     }
 
 }

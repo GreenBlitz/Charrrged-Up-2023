@@ -91,8 +91,8 @@ public class NodeBase {
     public static class Debugger {
         public static void main(String[] args) {
             LinkedList<SystemsPosition> aStar = AStar.getPath(ARM_LOW, ARM_HIGH);
-            LinkedList<SystemsPosition> aStarVertex = AStarVertex.returnPath(SystemsPosition.ARM_LOW, SystemsPosition.ARM_HIGH, SystemsPosition.GRIPER_CLOSE);
-            printPath(aStar);
+            LinkedList<SystemsPosition> aStarVertex = AStarVertex.getFinalPath(SystemsPosition.ARM_LOW, SystemsPosition.ARM_HIGH, SystemsPosition.GRIPER_CLOSE);
+            //printPath(aStar);
             printPath(aStarVertex);
         }
     }

@@ -28,7 +28,7 @@ public class System1MidNode {
         midNode.addNeighbors(new SystemsPosition[]{start, end});
     }
 
-    public GBNode getGBNode() {
+    public GBNode getMidNode() {
         return midNode;
     }
 
