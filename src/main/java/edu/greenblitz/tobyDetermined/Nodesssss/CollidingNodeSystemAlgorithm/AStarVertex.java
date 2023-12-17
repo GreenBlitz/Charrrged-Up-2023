@@ -79,7 +79,8 @@ public class AStarVertex {
     }
 
     private static Boolean isSystem2CanMove(Vertex vertex, SystemsPos secondSystem) {
-        return getNode(vertex.smartGetSystemPos(secondSystem)).smartGetList(vertex.getStartPos(), GBNode.ListType.OUT).contains(vertex.getStartPos());
+        return getNode(vertex.smartGetSystemPos(secondSystem)).smartGetList(vertex.getStartPos(), GBNode.ListType.OUT).contains(vertex.getStartPos())
+                || getNode(vertex.smartGetSystemPos(secondSystem)).smartGetList(vertex.getStartPos(), GBNode.ListType.OUT).isEmpty();
     }
 
     private static Boolean isTherePossiblePosition(Vertex vertex, SystemsPos secondSystem){
@@ -167,11 +168,8 @@ public class AStarVertex {
 
     //TODO DELETE OR FIND SOLUTION
     public static void main(String[] args) {
-        //LinkedList<SystemsPos> a = returnFinalPath(SystemsPos.GRIPER_OPEN, SystemsPos.GRIPER_CLOSE, SystemsPos.ARM_LOW);
-        //printPath(a);
-        printPath(getAllSystemsPositionsByNumber(2));
-        printPath(getAllSystemPositions(systemName1, 2));
-        printPath(getNode(ARM_ZG).getOtherSystemMustBeToEnter2());
+        LinkedList<SystemsPos> a = returnFinalPath(SystemsPos.GRIPER_OPEN, SystemsPos.GRIPER_CLOSE, SystemsPos.ARM_LOW);
+        printPath(a);
     }
 }
 

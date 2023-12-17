@@ -146,20 +146,15 @@ public class Vertex {
    }
 
     private boolean isPosFineForVertexSystem2(SystemsPos pos) {
-        //System.out.println(getNode(startPos).getOtherSystemMustBeToOut2().contains(pos));
-        //System.out.println(getNode(endPos).getOtherSystemMustBeToEnter2().contains(pos));
-        //printPath(getNode(startPos).getOtherSystemMustBeToOut2());
-        //System.out.println(endPos);
-        //printPath(getNode(endPos).getOtherSystemMustBeToEnter2());
-        return getNode(startPos).getOtherSystemMustBeToOut2().contains(pos)
+        return (getNode(startPos).getOtherSystemMustBeToOut2().contains(pos) || getNode(startPos).getOtherSystemMustBeToOut2().isEmpty())
                 &&
-                getNode(endPos).getOtherSystemMustBeToEnter2().contains(pos);
+                (getNode(endPos).getOtherSystemMustBeToEnter2().contains(pos) || getNode(endPos).getOtherSystemMustBeToEnter2().isEmpty());
     }
 
     private boolean isPosFineForVertexSystem3(SystemsPos pos) {
-        return getNode(startPos).getOtherSystemMustBeToOut3().contains(pos)
+        return (getNode(startPos).getOtherSystemMustBeToOut3().contains(pos) || getNode(startPos).getOtherSystemMustBeToOut3().isEmpty())
                 &&
-                getNode(endPos).getOtherSystemMustBeToEnter3().contains(pos);
+                (getNode(endPos).getOtherSystemMustBeToEnter3().contains(pos) || getNode(endPos).getOtherSystemMustBeToEnter3().contains(pos));
     }
 }
 
