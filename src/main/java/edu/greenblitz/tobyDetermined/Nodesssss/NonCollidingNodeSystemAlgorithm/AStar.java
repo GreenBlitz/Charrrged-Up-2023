@@ -11,7 +11,7 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition;
 
 public class AStar {
 
-    private static SystemsPosition getLowestCost(SystemsPosition current, LinkedList<SystemsPosition> open) {
+    private static SystemsPosition getLowestCostPosition(SystemsPosition current, LinkedList<SystemsPosition> open) {
         int saveI = 0;
         double fCost = getCostByMap(current, open.get(0));
         for (int i = 1; i < open.size(); i++) {
@@ -55,7 +55,7 @@ public class AStar {
         availableNodes.add(start);
 
         while (!availableNodes.isEmpty()) {
-            current = getLowestCost(current, availableNodes);
+            current = getLowestCostPosition(current, availableNodes);
             availableNodes.remove(current);
             closed.add(current);
 

@@ -13,8 +13,7 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition.*
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.printPath;
 
 public class NodeBase {
-    public enum SystemsPosition
-    {
+    public enum SystemsPosition {
 
         ARM_GROUND,
         ARM_LOW,
@@ -60,7 +59,6 @@ public class NodeBase {
 
             nodeMap.get(ARM_LOW).setSystem2MustBeToEnter(new SystemsPosition[]{GRIPER_OPEN});
             nodeMap.get(ARM_LOW).setSystem2MustBeToOut(new SystemsPosition[]{GRIPER_OPEN});
-
 
         }
     }
