@@ -181,7 +181,7 @@ public class RobotMap {
 
         public static SwerveModuleConfigObject SdsModuleFrontLeft =new SwerveModuleConfigObject(1, 0, 1, 0.8486328125,false); //front left
         public static SwerveModuleConfigObject SdsModuleFrontRight=new SwerveModuleConfigObject(3, 2, 2,0.2939453125 ,true); //front right
-        public static SwerveModuleConfigObject SdsModuleBackLeft = new SwerveModuleConfigObject(5, 4, 3, 0.5524,false); //back left
+        public static SwerveModuleConfigObject SdsModuleBackLeft = new SwerveModuleConfigObject(5, 4, 3, Units.degreesToRotations(90 + 19.523437500000004),false); //back left
         public static SwerveModuleConfigObject SdsModuleBackRight =new SwerveModuleConfigObject(7, 6, 4, 0.8718,true); //back right
 
 

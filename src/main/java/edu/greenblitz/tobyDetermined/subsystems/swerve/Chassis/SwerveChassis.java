@@ -207,7 +207,7 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	}
 
 	public double getChassisAngle() {
-		return getRobotPose().getRotation().getRadians();
+		return -getGyroAngle().getRadians();
 	}
 
 
