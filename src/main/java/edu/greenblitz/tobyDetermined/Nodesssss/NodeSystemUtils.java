@@ -1,5 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.Vertex;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System2MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System1MidNode;
@@ -25,6 +26,7 @@ public class NodeSystemUtils {
             return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
         return new GriperNode();
     }
+
     public static double getCostByMap(SystemsState a, SystemsState b) {
         for (Pair<String, Double> stringDoublePair : costList) {
             if (stringDoublePair.getFirst().contains(a.toString()) && stringDoublePair.getFirst().contains(b.toString()))
@@ -32,6 +34,7 @@ public class NodeSystemUtils {
         }
         return -1;
     }
+
     public static GBNode getNode(SystemsState specificNode) {
         if (specificNode.equals(MID_NODE_1))
             return System1MidNode.getMidNode();
@@ -39,12 +42,26 @@ public class NodeSystemUtils {
             return System2MidNode.getMidNode();
         return nodeMap.get(specificNode);
     }
+
+    public static boolean isNotInVertexList(LinkedList<Vertex> vertexList, Vertex targetVertex) {
+        for (Vertex vertex : vertexList) {
+            if (vertex.getStartState().equals(targetVertex.getStartState()) && vertex.getEndState().equals(targetVertex.getEndState()))
+                return false;
+        }
+        return true;
+    }
+
     public static <T> void printPath(LinkedList<T> pathList) {
-        for (T t : pathList) {
-            System.out.print(t + ", ");
+        for (T object : pathList) {
+            System.out.print(object + ", ");
         }
         System.out.println();
     }
+
+    public static <T> boolean isNotInList(T object, LinkedList<T> list) {
+        return !list.contains(object);
+    }
+
     public static LinkedList<SystemsState> getAllSystemsState() {
         return new LinkedList<>(listSystemsStates);
     }

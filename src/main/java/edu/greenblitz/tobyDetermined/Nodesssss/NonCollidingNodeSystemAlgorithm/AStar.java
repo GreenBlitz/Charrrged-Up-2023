@@ -24,10 +24,6 @@ public class AStar {
         return open.get(saveI);
     }
 
-    private static boolean isNotInList(SystemsState nodePosition, LinkedList<SystemsState> list) {
-        return !list.contains(nodePosition);
-    }
-
     private static LinkedList<SystemsState> getPathInListAndCost(SystemsState nodePosition, Map<SystemsState, SystemsState> parents) {
         LinkedList<SystemsState> pathList = new LinkedList<>();
         SystemsState current = nodePosition;

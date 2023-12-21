@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
+import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNodeBySystemName;
 
@@ -9,16 +9,16 @@ public class MidNode {
 	
 	private static GBNode midNode;
 	
-	public static void init(NodeBase.SystemsState startingPosition) {
+	public static void init(SystemsState startingPosition) {
 		if (midNode == null)
 			setNewMidNode(startingPosition, startingPosition);
 	}
 	
-	public static void setNewMidNode(NodeBase.SystemsState start, NodeBase.SystemsState end) {
-		if (start.equals(NodeBase.SystemsState.MID_NODE_1) || start.equals(NodeBase.SystemsState.MID_NODE_2))
+	public static void setNewMidNode(SystemsState start, SystemsState end) {
+		if (start.equals(SystemsState.MID_NODE_1) || start.equals(SystemsState.MID_NODE_2))
 			start = midNode.getNeighbors().get(0);
 		midNode = getNodeBySystemName(start);
-		midNode.addNeighbors(new NodeBase.SystemsState[]{start, end});
+		midNode.addNeighbors(new SystemsState[]{start, end});
 	}
 	
 	public static GBNode getMidNode() {

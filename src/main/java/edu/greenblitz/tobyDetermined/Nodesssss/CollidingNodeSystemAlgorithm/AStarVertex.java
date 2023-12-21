@@ -10,18 +10,10 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.*;
 
 public class AStarVertex {
 
-    private static boolean notInVertexList(LinkedList<Vertex> vertexList, Vertex targetVertex) {
-        for (Vertex vertex : vertexList) {
-            if (vertex.getStartState().equals(targetVertex.getStartState()) && vertex.getEndState().equals(targetVertex.getEndState()))
-                return false;
-        }
-        return true;
-    }
-
     private static void addNeighborsToAvailableVertexes(SystemsState current, LinkedList<Vertex> checkedVertexes, LinkedList<Vertex> availableVertexes, Vertex currentVertex, HashMap<Vertex, Vertex> parents) {
         for (SystemsState neighbor : getNode(current).getNeighbors()) {
             Vertex currentToNeighbor = new Vertex(current, neighbor, currentVertex.getSystem2State());
-            if (notInVertexList(checkedVertexes, currentToNeighbor) && notInVertexList(availableVertexes, currentToNeighbor)) {
+            if (isNotInVertexList(checkedVertexes, currentToNeighbor) && isNotInVertexList(availableVertexes, currentToNeighbor)) {
                 availableVertexes.add(currentToNeighbor);
                 parents.put(availableVertexes.get(availableVertexes.size() - 1), currentVertex);
             }
