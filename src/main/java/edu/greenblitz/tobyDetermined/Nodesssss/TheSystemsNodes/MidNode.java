@@ -1,4 +1,4 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes;
+package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.GBNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;

@@ -2,8 +2,8 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.AStarEdges;
 import edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm.AStar;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.CurrentNodes.CurrentNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.MidNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.CurrentNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
 import edu.wpi.first.math.Pair;
