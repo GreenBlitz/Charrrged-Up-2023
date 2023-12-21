@@ -62,7 +62,7 @@ public class AStar {
             addToAvailableNodes(availableNodes, current, closed, parents);
 
         }
-        return null;
+        throw new RuntimeException("no working path for this states: "+start+", "+end);
     }
 
 }

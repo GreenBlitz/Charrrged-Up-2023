@@ -137,7 +137,7 @@ public class AStarEdges {
             }
             addNeighborsToAvailableEdges(current, checkedEdges, availableEdges, currentEdge, parents);
         }
-        return null;
+        throw new RuntimeException("no working path for this states: "+start+", "+end);
     }
 
     public static LinkedList<SystemsState> getFinalPath(SystemsState start, SystemsState end, SystemsState system2State) {
