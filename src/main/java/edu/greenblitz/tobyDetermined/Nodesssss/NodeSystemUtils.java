@@ -1,9 +1,7 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.Edge;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System2MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System1MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
@@ -12,6 +10,8 @@ import edu.wpi.first.math.Pair;
 import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1MidNode;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system2MidNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SetCosts.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
@@ -37,9 +37,9 @@ public class NodeSystemUtils {
 
     public static GBNode getNode(SystemsState specificNode) {
         if (specificNode.equals(MID_NODE_1))
-            return System1MidNode.getMidNode();
+            return system1MidNode.getMidNode();
         if (specificNode.equals(MID_NODE_2))
-            return System2MidNode.getMidNode();
+            return system2MidNode.getMidNode();
         return nodeMap.get(specificNode);
     }
 

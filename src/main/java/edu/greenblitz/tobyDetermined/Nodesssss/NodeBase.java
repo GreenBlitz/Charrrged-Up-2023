@@ -2,6 +2,8 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.AStarEdges;
 import edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm.AStar;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.CurrentNodes.CurrentNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
 import edu.wpi.first.math.Pair;
@@ -9,6 +11,8 @@ import edu.wpi.first.math.Pair;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system1StartingNode;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system2StartingNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.printPath;
 
@@ -82,6 +86,13 @@ public class NodeBase {
         static public String systemName2 = "GRIPER";
         static public SystemsState system1StartingNode = ARM_GROUND;
         static public SystemsState system2StartingNode = GRIPER_CLOSE;
+    }
+
+    public static class CreateCurrents {
+        static public CurrentNode system1CurrentNode = new CurrentNode(system1StartingNode);
+        static public CurrentNode system2CurrentNode = new CurrentNode(system2StartingNode);
+        static public MidNode system1MidNode = new MidNode(system1StartingNode);
+        static public MidNode system2MidNode = new MidNode(system2StartingNode);
     }
 
     public static class Important {

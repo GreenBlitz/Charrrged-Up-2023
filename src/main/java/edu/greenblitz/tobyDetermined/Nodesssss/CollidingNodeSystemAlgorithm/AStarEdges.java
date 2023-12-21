@@ -26,35 +26,35 @@ public class AStarEdges {
         double minFCost = Double.MAX_VALUE;
 
         while (index != availableEdges.size()) {
-            Pair<Boolean, Double> edgeUsableAndCost = isEdgeUsableAndCost(availableEdges.get(index), pathMap);
+            boolean isEdgeUsable = isEdgeUsable(availableEdges.get(index));
 
-            if (!edgeUsableAndCost.getFirst()) {
+            if (!isEdgeUsable) {
                 availableEdges.remove(availableEdges.get(index));
-            } else {
-                double currentFCost = edgeUsableAndCost.getSecond();
-                currentFCost += availableEdges.get(index).getTimeCost();
+            }
+            else {
+                double currentFCost = getEdgeCost(availableEdges.get(index), pathMap);
                 if (currentFCost < minFCost) {
                     minFCost = currentFCost;
                     saveI = index;
                 }
-
                 index++;
-
             }
         }
         return availableEdges.get(saveI);
     }
 
-    private static Pair<Boolean, Double> isEdgeUsableAndCost(Edge edge, HashMap<Edge, Pair<LinkedList<SystemsState>, Double>> pathMap) {
+    private static double getEdgeCost(Edge edge, HashMap<Edge, Pair<LinkedList<SystemsState>, Double>> pathMap) {
         if (edge.isValidForEdge(edge.getSystem2State())) {
-            return new Pair<>(true, 0.0);
+            return edge.getTimeCost();
         }
+        return getCostOfOtherSystemPathAndAddToMap(edge, pathMap) + edge.getTimeCost();
+    }
 
-        if (canSystem2Move(edge) && isTherePossibleState(edge)) {
-            return new Pair<>(true, getCostOfOtherSystemPathAndAddToMap(edge, pathMap));
+    private static boolean isEdgeUsable(Edge edge) {
+        if (edge.isValidForEdge(edge.getSystem2State())) {
+            return true;
         }
-
-        return new Pair<>(false, 0.0);
+        return canSystem2Move(edge) && isTherePossibleState(edge);
     }
 
     private static boolean canSystem2Move(Edge edge) {
