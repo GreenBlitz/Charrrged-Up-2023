@@ -4,49 +4,49 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getAllSystemsPositions;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getAllSystemsState;
 
 public abstract class GBNode {
     protected boolean isNeighborsSet;
-    protected LinkedList<SystemsPosition> neighbors;
-    protected LinkedList<SystemsPosition> system2MustBeToEnter;
-    protected LinkedList<SystemsPosition> system2MustBeToOut;
+    protected LinkedList<SystemsState> neighbors;
+    protected LinkedList<SystemsState> system2MustBeToEnterState;
+    protected LinkedList<SystemsState> system2MustBeToExitState;
 
 
     public GBNode() {
         neighbors = new LinkedList<>();
         isNeighborsSet = false;
-        system2MustBeToEnter = new LinkedList<>(getAllSystemsPositions());
-        system2MustBeToOut = new LinkedList<>(getAllSystemsPositions());
+        system2MustBeToEnterState = new LinkedList<>(getAllSystemsState());
+        system2MustBeToExitState = new LinkedList<>(getAllSystemsState());
     }
 
-    public void addNeighbors(SystemsPosition[] neighbors) {
+    public void addNeighbors(SystemsState[] neighbors) {
         if (!isNeighborsSet) {
             Collections.addAll(this.neighbors, neighbors);
             isNeighborsSet = true;
         }
     }
 
-    public LinkedList<SystemsPosition> getSystem2MustBeToEnter() {
-        return system2MustBeToEnter;
+    public LinkedList<SystemsState> getSystem2MustBeToEnterState() {
+        return system2MustBeToEnterState;
     }
 
-    public LinkedList<SystemsPosition> getSystem2MustBeToOut() {
-        return system2MustBeToOut;
+    public LinkedList<SystemsState> getSystem2MustBeToExitState() {
+        return system2MustBeToExitState;
     }
 
-    public void setSystem2MustBeToEnter(SystemsPosition[] system2MustBeToEnter) {
-        this.system2MustBeToEnter = new LinkedList<>();
-        Collections.addAll(this.system2MustBeToEnter, system2MustBeToEnter);
+    public void setMustBeToEnter(SystemsState[] system2MustBeToEnter) {
+        this.system2MustBeToEnterState = new LinkedList<>();
+        Collections.addAll(this.system2MustBeToEnterState, system2MustBeToEnter);
     }
 
-    public void setSystem2MustBeToOut(SystemsPosition[] system2MustBeToOut) {
-        this.system2MustBeToOut = new LinkedList<>();
-        Collections.addAll(this.system2MustBeToOut, system2MustBeToOut);
+    public void setMustBeToOut(SystemsState[] system2MustBeToOut) {
+        this.system2MustBeToExitState = new LinkedList<>();
+        Collections.addAll(this.system2MustBeToExitState, system2MustBeToOut);
     }
 
-    public LinkedList<SystemsPosition> getNeighbors() {
+    public LinkedList<SystemsState> getNeighbors() {
         return neighbors;
     }
 

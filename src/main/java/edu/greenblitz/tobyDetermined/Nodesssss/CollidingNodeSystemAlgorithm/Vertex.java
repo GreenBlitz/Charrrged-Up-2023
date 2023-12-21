@@ -1,56 +1,56 @@
 package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
 
 
 import java.util.LinkedList;
 
 public class Vertex {
-    private final SystemsPosition startPosition;
-    private final SystemsPosition endPosition;
-    private SystemsPosition system2Position;
+    private final SystemsState startState;
+    private final SystemsState endState;
+    private SystemsState system2State;
 
-    public Vertex(SystemsPosition startPosition, SystemsPosition endPosition, SystemsPosition system2Position) {
-        this.startPosition = startPosition;
-        this.endPosition = endPosition;
-        this.system2Position = system2Position;
+    public Vertex(SystemsState startState, SystemsState endState, SystemsState system2State) {
+        this.startState = startState;
+        this.endState = endState;
+        this.system2State = system2State;
     }
 
-    public SystemsPosition getStartPosition() {
-        return startPosition;
+    public SystemsState getStartState() {
+        return startState;
     }
 
-    public SystemsPosition getEndPosition() {
-        return endPosition;
+    public SystemsState getEndState() {
+        return endState;
     }
 
     public double getTimeCost() {
-        return getCostByMap(startPosition, endPosition);
+        return getCostByMap(startState, endState);
     }
 
-    public SystemsPosition getSystem2Position() {
-        return system2Position;
+    public SystemsState getSystem2State() {
+        return system2State;
     }
 
-    public void setSystem2Position(SystemsPosition otherSystem) {
-        this.system2Position = otherSystem;
+    public void setSystem2State(SystemsState otherSystem) {
+        this.system2State = otherSystem;
     }
 
-    public boolean isPositionFineForVertex(SystemsPosition position) {
-        return (getNode(startPosition).getSystem2MustBeToOut().contains(position) || getNode(startPosition).getSystem2MustBeToOut().isEmpty()) &&
-                (getNode(endPosition).getSystem2MustBeToEnter().contains(position) || getNode(endPosition).getSystem2MustBeToEnter().isEmpty());
+    public boolean isValidForVertex(SystemsState state) {
+        return (getNode(startState).getSystem2MustBeToExitState().contains(state) || getNode(startState).getSystem2MustBeToExitState().isEmpty()) &&
+                (getNode(endState).getSystem2MustBeToEnterState().contains(state) || getNode(endState).getSystem2MustBeToEnterState().isEmpty());
     }
 
-    public LinkedList<SystemsPosition> getReunion() {
-        if (getNode(endPosition).getSystem2MustBeToEnter().isEmpty())
-            return new LinkedList<>(getNode(startPosition).getSystem2MustBeToOut());
-        if (getNode(startPosition).getSystem2MustBeToOut().isEmpty())
-            return new LinkedList<>(getNode(endPosition).getSystem2MustBeToEnter());
-        LinkedList<SystemsPosition> reunion = new LinkedList<>();
-        for (int i = 0; i < getNode(endPosition).getSystem2MustBeToEnter().size(); i++) {
-            if (getNode(startPosition).getSystem2MustBeToEnter().contains(getNode(endPosition).getSystem2MustBeToEnter().get(i))) {
-                reunion.add(getNode(endPosition).getSystem2MustBeToEnter().get(i));
+    public LinkedList<SystemsState> getReunion() {
+        if (getNode(endState).getSystem2MustBeToEnterState().isEmpty())
+            return new LinkedList<>(getNode(startState).getSystem2MustBeToExitState());
+        if (getNode(startState).getSystem2MustBeToExitState().isEmpty())
+            return new LinkedList<>(getNode(endState).getSystem2MustBeToEnterState());
+        LinkedList<SystemsState> reunion = new LinkedList<>();
+        for (int i = 0; i < getNode(endState).getSystem2MustBeToEnterState().size(); i++) {
+            if (getNode(startState).getSystem2MustBeToEnterState().contains(getNode(endState).getSystem2MustBeToEnterState().get(i))) {
+                reunion.add(getNode(endState).getSystem2MustBeToEnterState().get(i));
             }
         }
         return reunion;

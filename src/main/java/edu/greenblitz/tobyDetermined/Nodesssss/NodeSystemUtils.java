@@ -12,27 +12,27 @@ import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SetCosts.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState.*;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateNodes.*;
 
 
 
 public class NodeSystemUtils {
 
-    public static GBNode getNodeBySystemName(SystemsPosition start) {
+    public static GBNode getNodeBySystemName(SystemsState start) {
         if (start.toString().contains(systemName1))
             return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
         return new GriperNode();
     }
-    public static double getCostByMap(SystemsPosition a, SystemsPosition b) {
+    public static double getCostByMap(SystemsState a, SystemsState b) {
         for (Pair<String, Double> stringDoublePair : costList) {
             if (stringDoublePair.getFirst().contains(a.toString()) && stringDoublePair.getFirst().contains(b.toString()))
                 return stringDoublePair.getSecond();
         }
         return -1;
     }
-    public static GBNode getNode(SystemsPosition specificNode) {
+    public static GBNode getNode(SystemsState specificNode) {
         if (specificNode.equals(MID_NODE_1))
             return System1MidNode.getMidNode();
         if (specificNode.equals(MID_NODE_2))
@@ -45,8 +45,8 @@ public class NodeSystemUtils {
         }
         System.out.println();
     }
-    public static LinkedList<SystemsPosition> getAllSystemsPositions() {
-        return new LinkedList<>(listSystemsPosition);
+    public static LinkedList<SystemsState> getAllSystemsState() {
+        return new LinkedList<>(listSystemsStates);
     }
 
 }

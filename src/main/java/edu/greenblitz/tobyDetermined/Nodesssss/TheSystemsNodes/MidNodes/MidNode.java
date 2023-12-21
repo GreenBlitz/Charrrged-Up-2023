@@ -9,16 +9,16 @@ public class MidNode {
 	
 	private static GBNode midNode;
 	
-	public static void init(NodeBase.SystemsPosition startingPosition) {
+	public static void init(NodeBase.SystemsState startingPosition) {
 		if (midNode == null)
 			setNewMidNode(startingPosition, startingPosition);
 	}
 	
-	public static void setNewMidNode(NodeBase.SystemsPosition start, NodeBase.SystemsPosition end) {
-		if (start.equals(NodeBase.SystemsPosition.MID_NODE_1) || start.equals(NodeBase.SystemsPosition.MID_NODE_2))
+	public static void setNewMidNode(NodeBase.SystemsState start, NodeBase.SystemsState end) {
+		if (start.equals(NodeBase.SystemsState.MID_NODE_1) || start.equals(NodeBase.SystemsState.MID_NODE_2))
 			start = midNode.getNeighbors().get(0);
 		midNode = getNodeBySystemName(start);
-		midNode.addNeighbors(new NodeBase.SystemsPosition[]{start, end});
+		midNode.addNeighbors(new NodeBase.SystemsState[]{start, end});
 	}
 	
 	public static GBNode getMidNode() {

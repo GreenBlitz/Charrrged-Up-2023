@@ -6,12 +6,12 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsPosition;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
 
 
 public class AStar {
 
-    private static SystemsPosition getLowestCostPosition(SystemsPosition current, LinkedList<SystemsPosition> open) {
+    private static SystemsState getLowestCostPosition(SystemsState current, LinkedList<SystemsState> open) {
         int saveI = 0;
         double fCost = getCostByMap(current, open.get(0));
         for (int i = 1; i < open.size(); i++) {
@@ -24,13 +24,13 @@ public class AStar {
         return open.get(saveI);
     }
 
-    private static boolean isNotInList(SystemsPosition nodePosition, LinkedList<SystemsPosition> list) {
+    private static boolean isNotInList(SystemsState nodePosition, LinkedList<SystemsState> list) {
         return !list.contains(nodePosition);
     }
 
-    private static LinkedList<SystemsPosition> getPathInListAndCost(SystemsPosition nodePosition, Map<SystemsPosition, SystemsPosition> parents) {
-        LinkedList<SystemsPosition> pathList = new LinkedList<>();
-        SystemsPosition current = nodePosition;
+    private static LinkedList<SystemsState> getPathInListAndCost(SystemsState nodePosition, Map<SystemsState, SystemsState> parents) {
+        LinkedList<SystemsState> pathList = new LinkedList<>();
+        SystemsState current = nodePosition;
         while (current != null) {
             pathList.addFirst(current);
             current = parents.get(current);
@@ -38,8 +38,8 @@ public class AStar {
         return pathList;
     }
 
-    private static void addToAvailableNodes(LinkedList<SystemsPosition> availableNodes, SystemsPosition current, LinkedList<SystemsPosition> closed, Map<SystemsPosition, SystemsPosition> parents) {
-        for (SystemsPosition neighbor : getNode(current).getNeighbors()) {
+    private static void addToAvailableNodes(LinkedList<SystemsState> availableNodes, SystemsState current, LinkedList<SystemsState> closed, Map<SystemsState, SystemsState> parents) {
+        for (SystemsState neighbor : getNode(current).getNeighbors()) {
             if (isNotInList(neighbor, closed) && isNotInList(neighbor, availableNodes)) {
                 availableNodes.add(neighbor);
                 parents.put(neighbor, current);
@@ -47,11 +47,11 @@ public class AStar {
         }
     }
 
-    public static LinkedList<SystemsPosition> getPath(SystemsPosition start, SystemsPosition end) {
-        LinkedList<SystemsPosition> availableNodes = new LinkedList<>();
-        LinkedList<SystemsPosition> closed = new LinkedList<>();
-        Map<SystemsPosition, SystemsPosition> parents = new HashMap<>();
-        SystemsPosition current = start;
+    public static LinkedList<SystemsState> getPath(SystemsState start, SystemsState end) {
+        LinkedList<SystemsState> availableNodes = new LinkedList<>();
+        LinkedList<SystemsState> closed = new LinkedList<>();
+        Map<SystemsState, SystemsState> parents = new HashMap<>();
+        SystemsState current = start;
         availableNodes.add(start);
 
         while (!availableNodes.isEmpty()) {

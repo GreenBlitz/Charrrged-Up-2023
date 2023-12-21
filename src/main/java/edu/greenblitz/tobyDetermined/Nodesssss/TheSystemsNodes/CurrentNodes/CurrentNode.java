@@ -2,22 +2,20 @@ package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.CurrentNodes;
 
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system1StartingNode;
-
 public abstract class CurrentNode {
 	
-	protected static NodeBase.SystemsPosition currentNode;
+	protected static NodeBase.SystemsState currentNode;
 	
-	public static NodeBase.SystemsPosition getCurrentNode() {
+	public static NodeBase.SystemsState getCurrentNode() {
 		return currentNode;
 	}
 	
-	public static void init(NodeBase.SystemsPosition startingNode){
+	public static void init(NodeBase.SystemsState startingNode){
 		if (currentNode == null)
 			currentNode = startingNode;
 	}
 	
-	public static void setCurrentNode(NodeBase.SystemsPosition position) {
+	public static void setCurrentNode(NodeBase.SystemsState position) {
 		currentNode = position;
 	}
 }
