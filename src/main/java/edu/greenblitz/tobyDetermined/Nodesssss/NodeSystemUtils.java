@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.Vertex;
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.Edge;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System2MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNodes.System1MidNode;
@@ -43,9 +43,9 @@ public class NodeSystemUtils {
         return nodeMap.get(specificNode);
     }
 
-    public static boolean isNotInVertexList(LinkedList<Vertex> vertexList, Vertex targetVertex) {
-        for (Vertex vertex : vertexList) {
-            if (vertex.getStartState().equals(targetVertex.getStartState()) && vertex.getEndState().equals(targetVertex.getEndState()))
+    public static boolean isNotInEdgeList(LinkedList<Edge> edgeList, Edge targetEdge) {
+        for (Edge edge : edgeList) {
+            if (edge.getStartState().equals(targetEdge.getStartState()) && edge.getEndState().equals(targetEdge.getEndState()))
                 return false;
         }
         return true;

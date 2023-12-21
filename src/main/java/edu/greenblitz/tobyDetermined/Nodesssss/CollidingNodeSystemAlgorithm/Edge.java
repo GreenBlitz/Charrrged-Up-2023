@@ -6,12 +6,12 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
 
 import java.util.LinkedList;
 
-public class Vertex {
+public class Edge {
     private final SystemsState startState;
     private final SystemsState endState;
     private SystemsState system2State;
 
-    public Vertex(SystemsState startState, SystemsState endState, SystemsState system2State) {
+    public Edge(SystemsState startState, SystemsState endState, SystemsState system2State) {
         this.startState = startState;
         this.endState = endState;
         this.system2State = system2State;
@@ -37,7 +37,7 @@ public class Vertex {
         this.system2State = otherSystem;
     }
 
-    public boolean isValidForVertex(SystemsState state) {
+    public boolean isValidForEdge(SystemsState state) {
         return (getNode(startState).getSystem2MustBeToExitState().contains(state) || getNode(startState).getSystem2MustBeToExitState().isEmpty()) &&
                 (getNode(endState).getSystem2MustBeToEnterState().contains(state) || getNode(endState).getSystem2MustBeToEnterState().isEmpty());
     }

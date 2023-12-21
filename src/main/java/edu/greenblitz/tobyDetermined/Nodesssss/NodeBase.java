@@ -1,6 +1,6 @@
 package edu.greenblitz.tobyDetermined.Nodesssss;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.AStarVertex;
+import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.AStarEdges;
 import edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm.AStar;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
@@ -91,7 +91,7 @@ public class NodeBase {
     public static class Debugger {
         public static void main(String[] args) {
             LinkedList<SystemsState> aStar = AStar.getPath(ARM_LOW, ARM_HIGH);
-            LinkedList<SystemsState> aStarVertex = AStarVertex.getFinalPath(SystemsState.ARM_LOW, SystemsState.ARM_HIGH, SystemsState.GRIPER_CLOSE);
+            LinkedList<SystemsState> aStarVertex = AStarEdges.getFinalPath(SystemsState.ARM_LOW, SystemsState.ARM_HIGH, SystemsState.GRIPER_CLOSE);
             //printPath(aStar);
             printPath(aStarVertex);
         }
