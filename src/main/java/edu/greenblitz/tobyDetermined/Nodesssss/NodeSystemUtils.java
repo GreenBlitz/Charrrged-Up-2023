@@ -27,12 +27,14 @@ public class NodeSystemUtils {
         return new GriperNode();
     }
 
-    public static double getCostByMap(SystemsState systemsState2, SystemsState systemsState1) {
+    public static double getCostByMap(SystemsState systemsState1, SystemsState systemsState2) {
+        if (systemsState1.equals(MID_NODE_1) || systemsState1.equals(MID_NODE_2) ||systemsState2.equals(MID_NODE_1) ||systemsState2.equals(MID_NODE_2))
+            return 0;
         for (Pair<String, Double> stringDoublePair : costList) {
             if (stringDoublePair.getFirst().contains(systemsState2.toString()) && stringDoublePair.getFirst().contains(systemsState1.toString()))
                 return stringDoublePair.getSecond();
         }
-        throw new RuntimeException("No cost found in map for this states: "+systemsState2+", "+systemsState1);
+        throw new RuntimeException("No cost found in map for this states: "+systemsState1+", "+systemsState2);
     }
 
     public static GBNode getNode(SystemsState specificNode) {

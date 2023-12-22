@@ -13,6 +13,7 @@ import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system1StartingNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system2StartingNode;
+import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1MidNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.printPath;
 
@@ -101,10 +102,10 @@ public class NodeBase {
 
     public static class Debugger {
         public static void main(String[] args) {
-            LinkedList<SystemsState> aStar = AStar.getPath(ARM_LOW, ARM_HIGH);
-            LinkedList<SystemsState> aStarVertex = AStarEdges.getFinalPath(SystemsState.ARM_LOW, SystemsState.ARM_HIGH, SystemsState.GRIPER_CLOSE);
+            LinkedList<SystemsState> aStar = AStar.getPath(MID_NODE_1, ARM_HIGH);
+            LinkedList<SystemsState> aStarEdges = AStarEdges.getFinalPath(MID_NODE_1, SystemsState.ARM_HIGH, SystemsState.GRIPER_CLOSE);
             //printPath(aStar);
-            printPath(aStarVertex);
+            printPath(aStarEdges);
         }
     }
 

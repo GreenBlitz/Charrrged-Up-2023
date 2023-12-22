@@ -49,18 +49,18 @@ public class AStar {
         Map<SystemsState, SystemsState> parents = new HashMap<>();
         SystemsState current = start;
         availableNodes.add(start);
+        boolean isFirstLoop = true;
 
         while (!availableNodes.isEmpty()) {
-            current = getLowestCostPosition(current, availableNodes);
+            if (!isFirstLoop)
+                current = getLowestCostPosition(current, availableNodes);
             availableNodes.remove(current);
             closed.add(current);
-
             if (current.equals(end)) {
                 return getPathInListAndCost(current, parents);
             }
-
             addToAvailableNodes(availableNodes, current, closed, parents);
-
+            isFirstLoop = false;
         }
         throw new RuntimeException("no working path for this states: "+start+", "+end);
     }
