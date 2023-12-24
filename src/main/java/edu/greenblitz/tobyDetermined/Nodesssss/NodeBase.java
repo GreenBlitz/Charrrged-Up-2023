@@ -3,6 +3,7 @@ package edu.greenblitz.tobyDetermined.Nodesssss;
 import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.AStarEdges;
 import edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm.AStar;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.CurrentNode;
+import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GBNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
@@ -13,7 +14,6 @@ import java.util.LinkedList;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system1StartingNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system2StartingNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1MidNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState.*;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.printPath;
 
@@ -94,10 +94,6 @@ public class NodeBase {
         static public CurrentNode system2CurrentNode = new CurrentNode(system2StartingNode);
         static public MidNode system1MidNode = new MidNode(system1StartingNode);
         static public MidNode system2MidNode = new MidNode(system2StartingNode);
-    }
-
-    public static class Important {
-        NodeArm a = new NodeArm(0, 'r' + 'o' + 'm' + 'y' + ' ' + 'i' + 's' + ' ' + 'a' + 'u' + 't' + 'i' + 's' + 't' + 'i' + 'c');
     }
 
     public static class Debugger {
