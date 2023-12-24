@@ -1,7 +1,7 @@
 package edu.greenblitz.tobyDetermined;
 
 
-//import com.ctre.phoenix6.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
@@ -27,7 +27,6 @@ public class RobotMap {
         public static final double MAX_MOTOR_VOLTAGE = 12;
 
         public static final Translation3d ARM_TO_ROBOT = new Translation3d(0,0,1.2);
-
     }
 
     public static class BreakCoastSwitch{
@@ -226,15 +225,15 @@ public class RobotMap {
             public static final double magEncoderTicksToFalconTicks = 2 * Math.PI / angleTicksToRadians;
 
             public static final PIDObject angPID = new PIDObject().withKp(0.05).withMaxPower(1.0).withFF(0);//.withKd(10).withMaxPower(0.8);
-            //public static final GBFalcon.FalconConfObject baseAngConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withInverted(true).withPID(angPID);
+            public static final GBFalcon.FalconConfObject baseAngConfObj = new GBFalcon.FalconConfObject().withNeutralMode(NeutralMode.Brake).withCurrentLimit(30).withRampRate(RobotMap.General.RAMP_RATE_VAL).withInverted(true).withPID(angPID);
 
             public static final PIDObject linPID = new PIDObject().withKp(0.0003).withMaxPower(0.5);
-//            public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject()
-//                    .withNeutralMode(NeutralMode.Brake)
-//                    .withCurrentLimit(40)
-//                    .withRampRate(RobotMap.General.RAMP_RATE_VAL)
-//                    .withPID(linPID);
-//            public static final double FREE_CURRENT = 1.5;
+            public static final GBFalcon.FalconConfObject baseLinConfObj = new GBFalcon.FalconConfObject()
+                    .withNeutralMode(NeutralMode.Brake)
+                    .withCurrentLimit(40)
+                    .withRampRate(RobotMap.General.RAMP_RATE_VAL)
+                    .withPID(linPID);
+            public static final double FREE_CURRENT = 1.5;
         }
 
         public static class Autonomus {
