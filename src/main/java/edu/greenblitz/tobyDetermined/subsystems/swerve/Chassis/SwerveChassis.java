@@ -322,7 +322,8 @@ public class SwerveChassis extends GBSubsystem implements ISwerveChassis {
 	}
 
 	private boolean moduleStalling(SwerveModule module) {
-		return module.getLinearCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - CURRENT_TOLERANCE && module.getLinearCurrent() < CURRENT_TOLERANCE + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
+		//return module.getLinearCurrent() > RobotMap.Swerve.SdsSwerve.FREE_CURRENT - CURRENT_TOLERANCE && module.getLinearCurrent() < CURRENT_TOLERANCE + RobotMap.Swerve.SdsSwerve.FREE_CURRENT;
+		return false;
 	}
 	public boolean robotStalling() {
 

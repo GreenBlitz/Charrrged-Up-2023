@@ -27,7 +27,6 @@ public class RobotMap {
         public static final double MAX_MOTOR_VOLTAGE = 12;
 
         public static final Translation3d ARM_TO_ROBOT = new Translation3d(0,0,1.2);
-
     }
 
     public static class BreakCoastSwitch{
