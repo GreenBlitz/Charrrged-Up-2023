@@ -121,7 +121,10 @@ public class Extender extends GBSubsystem {
 	public static double getStaticFeedForward(double elbowAngle) {
 		return RobotMap.ROBOT_TYPE != Robot.RobotType.SIMULATION ?  Math.sin(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND) * RobotMap.TelescopicArm.Extender.kG : 0;
 	}
-
+	
+	public static double getDynamicFeedForward(double wantedVelocity,double elbowAngle) {
+		return getStaticFeedForward(elbowAngle) + kV * wantedVelocity+ kS * Math.signum(wantedVelocity);
+	}
 	public double getVolt(){
 		return extenderInputs.appliedOutput * Battery.getInstance().getCurrentVoltage();
 	}
