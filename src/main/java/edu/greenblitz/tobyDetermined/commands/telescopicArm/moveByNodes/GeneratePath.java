@@ -14,6 +14,7 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.sy
 public class GeneratePath implements Supplier<Command> {
 
     private final SystemsState targetNode;
+
     public GeneratePath(SystemsState endNode) {
         targetNode = endNode;
     }

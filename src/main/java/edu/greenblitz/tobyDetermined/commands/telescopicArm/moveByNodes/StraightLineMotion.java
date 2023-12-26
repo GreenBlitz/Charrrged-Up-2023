@@ -40,8 +40,6 @@ public class StraightLineMotion extends GBCommand {
         this.endState = end;
         startingNode = (NodeArm) getNode(start);
         endNode = (NodeArm) getNode(end);
-
-
     }
 
     @Override
@@ -75,7 +73,7 @@ public class StraightLineMotion extends GBCommand {
     public double calculateExtenderVelocity(double ratio) {
         double signOfExtender = Math.signum(endNode.getExtendPosition() - extender.getLength());
         double extenderVelocity = Math.sqrt(combinedVelocity * combinedVelocity / (ratio * ratio + 1));
-        double wantedVelocity =  signOfExtender * extenderVelocity;
+        double wantedVelocity = signOfExtender * extenderVelocity;
 
         wantedVelocity = limit(wantedVelocity, MAX_EXTENDER_VELOCITY);
 
@@ -103,6 +101,7 @@ public class StraightLineMotion extends GBCommand {
         double startLength = extender.getLength() + STARTING_LENGTH;
         double endLength = endNode.getExtendPosition() + STARTING_LENGTH;
         double gamma = endNode.getAnglePosition() - elbow.getAngleRadians();
+
         double ratio = getRatioBetweenAngleAndLength(startLength, endLength, gamma);
 
         double extenderVelocity = calculateExtenderVelocity(ratio);
