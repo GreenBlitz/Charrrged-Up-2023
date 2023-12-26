@@ -4,6 +4,22 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public class GBMath {
+
+    public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double angleBetween) {
+        double sideC = GBMath.lawOfCosines(sideA, sideB, angleBetween);
+        double height = sideB * Math.sin(angleBetween);
+        double adjacent = Math.sqrt(sideC * sideC - height * height);
+        return height / adjacent;
+    }
+
+    public static double limit(double velocity, double maxMagnitude) {
+        return limit(velocity, -maxMagnitude, maxMagnitude);
+    }
+
+    public static double limit(double value, double min, double max) {
+        return Math.min(max, Math.max(min, value));
+    }
+
     /**
      * modulo (2,6) -> 0
      * modulo (2,3) -> 1
@@ -43,26 +59,26 @@ public class GBMath {
     /**
      * Takes an x and y position and speeds, and radius of polar conversion and converts it into polar speeds
      *
-     * @param xPos      the x coordinate of the point
-     * @param yPos      the y coordinate of the point
+     * @param x      the x coordinate of the point
+     * @param y      the y coordinate of the point
      * @param xVelocity the x Velocity of the point
      * @param yVelocity the y Velocity of the point
      * @return a Pair which houses the result in this format (length,angle)
      */
-    public static Pair<Double, Double> convertToPolarSpeeds(double xPos, double yPos, double xVelocity, double yVelocity) {
+    public static Pair<Double, Double> convertToPolarSpeeds(double x, double y, double xVelocity, double yVelocity) {
 
-        double distance = Math.sqrt(xPos * xPos + yPos * yPos);
+        double distance = Math.sqrt(x * x + y * y);
 
-        double lengthVelocity = xPos * (xVelocity) + yPos * (yVelocity);
+        double lengthVelocity = x * (xVelocity) + y * (yVelocity);
         lengthVelocity /= distance;
 
-        double angularVelocity = xPos * yVelocity - yPos * xVelocity;
+        double angularVelocity = x * yVelocity - y * xVelocity;
         angularVelocity /= distance;
         return new Pair<>(lengthVelocity, angularVelocity);
     }
 
-    public static double distance(Translation2d p1, Translation2d p2) {
-        return Math.sqrt(Math.pow(p1.getX() - p2.getX(), 2) + Math.pow(p1.getY() - p2.getY(), 2));
+    public static double distance(Translation2d point1, Translation2d point2) {
+        return Math.sqrt(Math.pow(point1.getX() - point2.getX(), 2) + Math.pow(point1.getY() - point2.getY(), 2));
     }
 
     /**

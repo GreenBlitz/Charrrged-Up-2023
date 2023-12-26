@@ -307,8 +307,8 @@ public class RobotMap {
             public static final SparkMaxLimitSwitch.Type SWITCH_TYPE = SparkMaxLimitSwitch.Type.kNormallyClosed;
             public static final double MAX_LENGTH_IN_ROBOT = 0.4;
             public static double MAX_ENTRANCE_LENGTH = 0.054;
-            public static final double DISTANCE_NOT_STRAIGHT_LINE = 0.1;
-            public static final double EXTENDER_STOPPING_THRESHOLD = DISTANCE_NOT_STRAIGHT_LINE + STARTING_LENGTH;
+            public static final double STRAIGHT_LINE_UNAVAILABLE_LENGTH = 0.1;
+            public static final double EXTENDER_STOPPING_THRESHOLD = STRAIGHT_LINE_UNAVAILABLE_LENGTH + STARTING_LENGTH;
             public static final PIDObject PID = new PIDObject().withKp(60).withKd(2).withMaxPower(1);
             public static final double SETPOINT_D = 10;
             public static final double DEBOUNCE_TIME_FOR_LIMIT_SWITCH = 0.05;

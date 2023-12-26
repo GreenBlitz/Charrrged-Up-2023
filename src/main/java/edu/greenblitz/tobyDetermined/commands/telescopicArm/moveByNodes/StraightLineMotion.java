@@ -3,7 +3,6 @@ package edu.greenblitz.tobyDetermined.commands.telescopicArm.moveByNodes;
 import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
 import edu.greenblitz.utils.GBCommand;
 import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
-import edu.greenblitz.tobyDetermined.RobotMap;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ArmSimulation;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
@@ -14,6 +13,7 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.sy
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1MidNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNode;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
+import static edu.greenblitz.utils.GBMath.limit;
 
 
 public class StraightLineMotion extends GBCommand {
@@ -44,30 +44,23 @@ public class StraightLineMotion extends GBCommand {
 
     @Override
     public void initialize() {
-        if (extender.getLength() + endNode.getExtendPosition() <= DISTANCE_NOT_STRAIGHT_LINE)
+        if (extender.getLength() + endNode.getExtendPosition() <= STRAIGHT_LINE_UNAVAILABLE_LENGTH)
             combinedVelocity = ONLY_ELBOW_VELOCITY;
 
         else if (endState.equals(SystemsState.ARM_GROUND))
             combinedVelocity = TO_BELLY_VELOCITY;
 
         else {
-            double length1 = startingNode.getExtendPosition() + STARTING_LENGTH;
-            double length2 = endNode.getExtendPosition() + STARTING_LENGTH;
+            double startLength = startingNode.getExtendPosition() + STARTING_LENGTH;
+            double endLength = endNode.getExtendPosition() + STARTING_LENGTH;
             double distance = GBMath.distance(
-                    GBMath.convertToCartesian(length1, startingNode.getAnglePosition()),
-                    GBMath.convertToCartesian(length2, endNode.getAnglePosition())
+                    GBMath.convertToCartesian(startLength, startingNode.getAnglePosition()),
+                    GBMath.convertToCartesian(endLength, endNode.getAnglePosition())
             );
-            combinedVelocity = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance, 1, 5.9, 0.3);//numbers that work well
+            combinedVelocity = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance, 1, 5.9, 0.3);
         }
 
         Logger.getInstance().recordOutput("Arm/TargetPose3D/endNode", ArmSimulation.getArmPosition(endNode.getExtendPosition(), (endNode.getAnglePosition())));
-    }
-
-    public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double gamma) {
-        double sideC = GBMath.lawOfCosines(sideA, sideB, gamma);
-        double height = sideB * Math.sin(gamma);
-        double adjacent = Math.sqrt(sideC * sideC - height * height);
-        return height / adjacent;
     }
 
     public double calculateExtenderVelocity(double ratio) {
@@ -89,20 +82,12 @@ public class StraightLineMotion extends GBCommand {
         return signOfAngle * Math.abs(magnitudeOfVelocity);
     }
 
-    public double limit(double v, double maxMagnitude) {
-        return limit(v, -maxMagnitude, maxMagnitude);
-    }
-
-    public double limit(double v, double min, double max) {
-        return Math.min(max, Math.max(min, v));
-    }
-
     public void moveArm() {
         double startLength = extender.getLength() + STARTING_LENGTH;
         double endLength = endNode.getExtendPosition() + STARTING_LENGTH;
-        double gamma = endNode.getAnglePosition() - elbow.getAngleRadians();
+        double angleBetween = endNode.getAnglePosition() - elbow.getAngleRadians();
 
-        double ratio = getRatioBetweenAngleAndLength(startLength, endLength, gamma);
+        double ratio = GBMath.getRatioBetweenAngleAndLength(startLength, endLength, angleBetween);
 
         double extenderVelocity = calculateExtenderVelocity(ratio);
         double angularVelocity = calculateAngularVelocity(ratio * extenderVelocity);
@@ -120,11 +105,6 @@ public class StraightLineMotion extends GBCommand {
             extender.setMotorVoltage(Extender.getStaticFeedForward(elbow.getAngleRadians()));
 
     }
-
-    public boolean isInPlace() {
-        return endNode.isAtNode(elbow.getAngleRadians(), extender.getLength());
-    }
-
     @Override
     public void execute() {
         moveArm();
@@ -132,7 +112,7 @@ public class StraightLineMotion extends GBCommand {
 
     @Override
     public boolean isFinished() {
-        return isInPlace();
+        return endNode.isAtNode(elbow.getAngleRadians(), extender.getLength());
     }
 
     @Override
