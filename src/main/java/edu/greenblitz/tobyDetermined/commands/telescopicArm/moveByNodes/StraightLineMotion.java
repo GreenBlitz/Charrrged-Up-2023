@@ -13,6 +13,7 @@ import org.littletonrobotics.junction.Logger;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1CurrentNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1MidNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNode;
+import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
 
 
 public class StraightLineMotion extends GBCommand {
@@ -28,9 +29,6 @@ public class StraightLineMotion extends GBCommand {
     private static final double MAX_ANGULAR_VELOCITY = 3;//Radians Per Second
     private static final double TO_BELLY_VELOCITY = 0.2;
     private static final double ONLY_ELBOW_VELOCITY = 1;
-    private static final double STARTING_LENGTH = RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
-    private static final double DISTANCE_NOT_STRAIGHT_LINE = 0.1;
-    private static final double EXTENDER_STOPPING_THRESHOLD = DISTANCE_NOT_STRAIGHT_LINE + STARTING_LENGTH;
 
     public StraightLineMotion(SystemsState start, SystemsState end) {
         extender = Extender.getInstance();
