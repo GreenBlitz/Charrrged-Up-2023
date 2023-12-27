@@ -5,19 +5,19 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public class GBMath {
 
-    public static double getRatioBetweenAngleAndLength(double sideA, double sideB, double angleBetween) {
-        double sideC = GBMath.lawOfCosines(sideA, sideB, angleBetween);
-        double height = sideB * Math.sin(angleBetween);
-        double adjacent = Math.sqrt(sideC * sideC - height * height);
-        return height / adjacent;
-    }
-
     public static double limit(double velocity, double maxMagnitude) {
         return limit(velocity, -maxMagnitude, maxMagnitude);
     }
 
     public static double limit(double value, double min, double max) {
         return Math.min(max, Math.max(min, value));
+    }
+
+    public static double sigNum(double end, double start){
+        return sigNum(end-start);
+    }
+    public static double sigNum(double number){
+        return Math.signum(number);
     }
 
     /**
@@ -98,7 +98,7 @@ public class GBMath {
         return Math.sqrt(sideA * sideA + sideB * sideB - 2 * sideA * sideB * Math.cos(angleBetweenSideAndSideB));
     }
 
-    public static double getBow(double length1, double angle1, double length2, double angle2) {
+    public static double getBow(double length1, double angle1, double angle2) {
         double angle = Math.abs(angle1 - angle2);
         return length1 * angle;
     }

@@ -330,8 +330,8 @@ public class RobotMap {
             public static final double EXTENDER_MASS_KG = 6;
 
             public static final double MAX_ACCELERATION = 3.5; //4.2
-            public static final double MAX_VELOCITY = 1.75;
-            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
+            public static final double MAX_EXTENDER_VELOCITY = 1.75;
+            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_EXTENDER_VELOCITY, MAX_ACCELERATION);
 
             public static final GBSparkMax.SparkMaxConfObject EXTENDER_CONFIG_OBJECT = new GBSparkMax.SparkMaxConfObject()
                     .withPID(RobotMap.TelescopicArm.Extender.PID)
@@ -390,8 +390,8 @@ public class RobotMap {
             public static final double MAX_KG_MEASUREMENT_LENGTH = 0.822964668273926;
             public static final double STARTING_ANGLE_RELATIVE_TO_GROUND = -1.765; //this is most easily measured using the encoder, so it is already radians
             public static final double MAX_ACCELERATION = 10;
-            public static final double MAX_VELOCITY = 4;
-            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_VELOCITY, MAX_ACCELERATION);
+            public static final double MAX_ANGULAR_VELOCITY = 4;
+            public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_ANGULAR_VELOCITY, MAX_ACCELERATION);
             public static final PIDObject PID = new PIDObject().withKp(4).withKd(0.4).withMaxPower(1);
             public static final double STARTING_WALL_ZONE_ANGLE = Units.degreesToRadians(11);
             public static final double END_WALL_ZONE_ANGLE = Units.degreesToRadians(35.5);

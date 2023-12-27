@@ -14,6 +14,7 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.sy
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNode;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
 import static edu.greenblitz.utils.GBMath.limit;
+import static edu.greenblitz.utils.PolarArmStraightLineUtil.*;
 
 
 public class StraightLineMotion extends GBCommand {
@@ -25,8 +26,6 @@ public class StraightLineMotion extends GBCommand {
     private final NodeArm endNode;
     private double combinedVelocity;
     private static final double STATIC_COMBINED_VELOCITY = 1; //Meters Per Second
-    private static final double MAX_EXTENDER_VELOCITY = 1.5; //Meters Per Second
-    private static final double MAX_ANGULAR_VELOCITY = 3;//Radians Per Second
     private static final double TO_BELLY_VELOCITY = 0.2;
     private static final double ONLY_ELBOW_VELOCITY = 1;
 
@@ -35,7 +34,9 @@ public class StraightLineMotion extends GBCommand {
         elbow = Elbow.getInstance();
         require(elbow);
         require(extender);
+
         combinedVelocity = 0;
+
         this.startState = start;
         this.endState = end;
         startingNode = (NodeArm) getNode(start);
@@ -63,48 +64,38 @@ public class StraightLineMotion extends GBCommand {
         Logger.getInstance().recordOutput("Arm/TargetPose3D/endNode", ArmSimulation.getArmPosition(endNode.getExtendPosition(), (endNode.getAnglePosition())));
     }
 
-    public double calculateExtenderVelocity(double ratio) {
-        double signOfExtender = Math.signum(endNode.getExtendPosition() - extender.getLength());
-        double extenderVelocity = Math.sqrt(combinedVelocity * combinedVelocity / (ratio * ratio + 1));
-        double wantedVelocity = signOfExtender * extenderVelocity;
-
-        wantedVelocity = limit(wantedVelocity, MAX_EXTENDER_VELOCITY);
-
-        return wantedVelocity;
+    public void activateExtender(double velocity, double currentLength, double currentAngle, double endLength){
+        if ((endLength + STARTING_LENGTH > EXTENDER_STOPPING_THRESHOLD || currentLength + STARTING_LENGTH > EXTENDER_STOPPING_THRESHOLD)
+                && !endNode.isAtLength(currentLength))
+            extender.setMotorVoltage(Extender.getDynamicFeedForward(velocity,currentAngle));
+        else
+            extender.setMotorVoltage(Extender.getStaticFeedForward(currentAngle));
     }
 
-    public double calculateAngularVelocity(double startVelocity) {
-        double signOfAngle = Math.signum(endNode.getAnglePosition() - elbow.getAngleRadians());
-        double magnitudeOfVelocity = startVelocity / (extender.getLength() + STARTING_LENGTH);
-
-        magnitudeOfVelocity = limit(magnitudeOfVelocity, MAX_ANGULAR_VELOCITY);
-
-        return signOfAngle * Math.abs(magnitudeOfVelocity);
+    public void activateElbow(double velocity, double currentLength, double currentAngle){
+        if (!endNode.isAtAngle(currentAngle))
+            elbow.setMotorVoltage(Elbow.getDynamicFeedForward(velocity, currentLength, currentAngle));
+        else
+            elbow.setMotorVoltage(Elbow.getStaticFeedForward(currentLength, currentAngle));
     }
 
     public void moveArm() {
-        double startLength = extender.getLength() + STARTING_LENGTH;
-        double endLength = endNode.getExtendPosition() + STARTING_LENGTH;
-        double angleBetween = endNode.getAnglePosition() - elbow.getAngleRadians();
+        double currentLength = extender.getLength();
+        double endLength = endNode.getExtendPosition();
 
-        double ratio = GBMath.getRatioBetweenAngleAndLength(startLength, endLength, angleBetween);
+        double currentAngle = elbow.getAngleRadians();
+        double endAngle = endNode.getAnglePosition();
+        double angleBetween = endAngle - currentAngle;
 
-        double extenderVelocity = calculateExtenderVelocity(ratio);
-        double angularVelocity = calculateAngularVelocity(ratio * extenderVelocity);
+        double ratio = getRatioBetweenAngleAndLength(currentAngle + STARTING_LENGTH, endAngle + STARTING_LENGTH, angleBetween);
 
-        if (!endNode.isAtAngle(elbow.getAngleRadians()))
-            elbow.setMotorVoltage(Elbow.getDynamicFeedForward(angularVelocity, extender.getLength(), elbow.getAngleRadians()));
-        else
-            elbow.setMotorVoltage(Elbow.getStaticFeedForward(extender.getLength(), elbow.getAngleRadians()));
+        double extenderVelocity = calculateExtenderVelocity(ratio, currentLength, endLength, combinedVelocity);
+        double angularVelocity = calculateAngularVelocity(ratio * extenderVelocity, currentAngle, endAngle, currentLength);
 
-
-        if ((endLength > EXTENDER_STOPPING_THRESHOLD || startLength > EXTENDER_STOPPING_THRESHOLD)
-                && !endNode.isAtLength(extender.getLength()))
-            extender.setMotorVoltage(Extender.getDynamicFeedForward(extenderVelocity, Extender.getDynamicFeedForward(extenderVelocity, Elbow.getInstance().getAngleRadians())));
-        else
-            extender.setMotorVoltage(Extender.getStaticFeedForward(elbow.getAngleRadians()));
-
+        activateElbow(angularVelocity, currentLength, currentAngle);
+        activateExtender(extenderVelocity, currentLength, currentAngle, endLength);
     }
+
     @Override
     public void execute() {
         moveArm();
