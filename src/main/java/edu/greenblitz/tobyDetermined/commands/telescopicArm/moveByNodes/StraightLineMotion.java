@@ -28,6 +28,7 @@ public class StraightLineMotion extends GBCommand {
     private static final double STATIC_COMBINED_VELOCITY = 1; //Meters Per Second
     private static final double TO_BELLY_VELOCITY = 0.2;
     private static final double ONLY_ELBOW_VELOCITY = 1;
+    private static final String LOGGER_TAB = "Arm/TargetPose3D/endNode";
 
     public StraightLineMotion(SystemsState start, SystemsState end) {
         extender = Extender.getInstance();
@@ -61,7 +62,7 @@ public class StraightLineMotion extends GBCommand {
             combinedVelocity = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance, 1, 5.9, 0.3);
         }
 
-        Logger.getInstance().recordOutput("Arm/TargetPose3D/endNode", ArmSimulation.getArmPosition(endNode.getExtendPosition(), (endNode.getAnglePosition())));
+        Logger.getInstance().recordOutput(LOGGER_TAB, ArmSimulation.getArmPosition(endNode.getExtendPosition(), (endNode.getAnglePosition())));
     }
 
     public void activateExtender(double velocity, double currentLength, double currentAngle, double endLength){
