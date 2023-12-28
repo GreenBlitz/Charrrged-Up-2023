@@ -28,6 +28,9 @@ public class StraightLineMotion extends GBCommand {
     private static final double STATIC_COMBINED_VELOCITY = 1; //Meters Per Second
     private static final double TO_BELLY_VELOCITY = 0.2;
     private static final double ONLY_ELBOW_VELOCITY = 1;
+    private static final double SIGMOID_SIZE = 1;
+    private static final double SIGMOID_UNIFORMITY = 5.9;
+    private static final double SIGMOID_MOVEMENT = 0.3;
     private static final String LOGGER_TAB = "Arm/TargetPose3D/endNode";
 
     public StraightLineMotion(SystemsState start, SystemsState end) {
@@ -59,7 +62,7 @@ public class StraightLineMotion extends GBCommand {
                     GBMath.convertToCartesian(startLength, startingNode.getAnglePosition()),
                     GBMath.convertToCartesian(endLength, endNode.getAnglePosition())
             );
-            combinedVelocity = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance, 1, 5.9, 0.3);
+            combinedVelocity = STATIC_COMBINED_VELOCITY * GBMath.sigmoid(distance, SIGMOID_SIZE, SIGMOID_UNIFORMITY, SIGMOID_MOVEMENT);
         }
 
         Logger.getInstance().recordOutput(LOGGER_TAB, ArmSimulation.getArmPosition(endNode.getExtendPosition(), (endNode.getAnglePosition())));
