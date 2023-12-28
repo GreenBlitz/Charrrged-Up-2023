@@ -1,12 +1,13 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm;
+package edu.greenblitz.utils.NodeSystemUtils.CollidingNodeSystemAlgorithm;
 
 import edu.wpi.first.math.Pair;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.*;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeSystemDependentFunctions.getNode;
+import static edu.greenblitz.utils.NodeSystemUtils.NodeSystemFunctions.*;
 
 public class AStarEdges {
 

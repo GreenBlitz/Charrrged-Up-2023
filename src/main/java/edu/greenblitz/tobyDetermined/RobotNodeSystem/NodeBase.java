@@ -1,21 +1,21 @@
-package edu.greenblitz.tobyDetermined.Nodesssss;
+package edu.greenblitz.tobyDetermined.RobotNodeSystem;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm.AStarEdges;
-import edu.greenblitz.tobyDetermined.Nodesssss.NonCollidingNodeSystemAlgorithm.AStar;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.CurrentNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GBNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.MidNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.GriperNode;
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
+import edu.greenblitz.utils.NodeSystemUtils.CollidingNodeSystemAlgorithm.AStarEdges;
+import edu.greenblitz.utils.NodeSystemUtils.NonCollidingNodeSystemAlgorithm.AStar;
+import edu.greenblitz.utils.NodeSystemUtils.TheSystemsNodes.CurrentNode;
+import edu.greenblitz.utils.NodeSystemUtils.TheSystemsNodes.GBNode;
+import edu.greenblitz.utils.NodeSystemUtils.TheSystemsNodes.MidNode;
+import edu.greenblitz.tobyDetermined.RobotNodeSystem.TheNodes.GriperNode;
+import edu.greenblitz.tobyDetermined.RobotNodeSystem.TheNodes.NodeArm;
 import edu.wpi.first.math.Pair;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system1StartingNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.Constants.system2StartingNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.printPath;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.Constants.system1StartingNode;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.Constants.system2StartingNode;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState.*;
+import static edu.greenblitz.utils.NodeSystemUtils.NodeSystemFunctions.printPath;
 
 public class NodeBase {
     public enum SystemsState {
@@ -35,7 +35,7 @@ public class NodeBase {
 
     public static class CreateNodes {
         protected final static HashMap<SystemsState, GBNode> nodeMap = new HashMap<>();
-        protected final static LinkedList<SystemsState> listSystemsStates = new LinkedList<>();
+        public final static LinkedList<SystemsState> listSystemsStates = new LinkedList<>();
 
 
         static {

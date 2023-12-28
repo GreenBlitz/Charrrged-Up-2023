@@ -1,8 +1,9 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
+package edu.greenblitz.utils.NodeSystemUtils.TheSystemsNodes;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
+import edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNodeBySystemName;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeSystemDependentFunctions.getNodeBySystemName;
+
 
 public class MidNode {
 	

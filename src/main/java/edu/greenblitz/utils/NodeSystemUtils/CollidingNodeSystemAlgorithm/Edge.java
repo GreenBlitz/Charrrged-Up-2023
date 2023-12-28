@@ -1,7 +1,8 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.CollidingNodeSystemAlgorithm;
+package edu.greenblitz.utils.NodeSystemUtils.CollidingNodeSystemAlgorithm;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.*;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeSystemDependentFunctions.getCostByMap;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeSystemDependentFunctions.getNode;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
 
 
 import java.util.LinkedList;
