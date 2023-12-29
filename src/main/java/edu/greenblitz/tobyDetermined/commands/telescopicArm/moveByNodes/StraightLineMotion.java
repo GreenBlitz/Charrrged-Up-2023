@@ -28,6 +28,8 @@ public class StraightLineMotion extends GBCommand {
     private static final double STATIC_COMBINED_VELOCITY = 1; //Meters Per Second
     private static final double TO_BELLY_VELOCITY = 0.2;
     private static final double ONLY_ELBOW_VELOCITY = 1;
+
+    //For more info on sigmoid: https://docs.google.com/document/d/1Nud3wK2SweWcnkfXrOZfS50eTqnsolggD3qc4dRBGaI/edit?usp=sharing
     private static final double SIGMOID_SIZE = 1;
     private static final double SIGMOID_UNIFORMITY = 5.9;
     private static final double SIGMOID_MOVEMENT = 0.3;
