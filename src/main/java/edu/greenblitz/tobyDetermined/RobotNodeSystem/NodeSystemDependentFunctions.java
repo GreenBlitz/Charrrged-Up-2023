@@ -14,16 +14,17 @@ import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.CreateNodes
 import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SetCosts.costList;
 import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState.MID_NODE_1;
 import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState.MID_NODE_2;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
 
 public class NodeSystemDependentFunctions {
 
-    public static GBNode getNodeBySystemName(NodeBase.SystemsState start) {
-        if (start.toString().contains(systemName1))
+    public static GBNode getNodeBySystemName(SystemsState start) {
+        if (start.systemName.equals(systemName1))
             return new NodeArm(Extender.getInstance().getLength(), Elbow.getInstance().getAngleRadians());
         return new GriperNode();
     }
 
-    public static double getCostByMap(NodeBase.SystemsState systemsState1, NodeBase.SystemsState systemsState2) {
+    public static double getCostByMap(SystemsState systemsState1, SystemsState systemsState2) {
         if (systemsState1.equals(MID_NODE_1) || systemsState1.equals(MID_NODE_2) ||systemsState2.equals(MID_NODE_1) ||systemsState2.equals(MID_NODE_2))
             return 0;
         for (Pair<String, Double> stringDoublePair : costList) {
@@ -33,7 +34,7 @@ public class NodeSystemDependentFunctions {
         throw new RuntimeException("No cost found in map for this states: "+systemsState1+", "+systemsState2);
     }
 
-    public static GBNode getNode(NodeBase.SystemsState specificNode) {
+    public static GBNode getNode(SystemsState specificNode) {
         if (specificNode.equals(MID_NODE_1))
             return system1MidNode.getMidNode();
         if (specificNode.equals(MID_NODE_2))
