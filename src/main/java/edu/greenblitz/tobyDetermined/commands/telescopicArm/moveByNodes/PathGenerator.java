@@ -8,25 +8,24 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import java.util.LinkedList;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1CurrentNode;
 
-public class GeneratePath implements Supplier<Command> {
+public class PathGenerator implements Supplier<Command> {
 
     private final SystemsState targetNode;
 
-    public GeneratePath(SystemsState endNode) {
+    public PathGenerator(SystemsState endNode) {
         targetNode = endNode;
     }
 
     public Command get() {
         SystemsState start = system1CurrentNode.getCurrentNode();
         LinkedList<SystemsState> path = AStar.getPath(start, targetNode);
-        GBCommand[] nodeCommands = new GBCommand[path.size() - 1];
-        for (int i = 0; i < path.size() - 1; i++) {
-            nodeCommands[i] = new StraightLineMotion(path.get(i), path.get(i + 1));
-        }
-        return new SequentialCommandGroup(nodeCommands);
+        return new SequentialCommandGroup(
+                IntStream.range(0, path.size() - 1).mapToObj(i -> new StraightLineMotion(path.get(i), path.get(i + 1))).toArray(GBCommand[]::new)
+        );
     }
 
 }
