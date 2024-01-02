@@ -1,11 +1,11 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
+package edu.greenblitz.utils.NodeSystemUtils.TheSystemsNodes;
 
 
 import java.util.Collections;
 import java.util.LinkedList;
 
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getAllSystemsState;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
+import static edu.greenblitz.utils.NodeSystemUtils.NodeSystemFunctions.getAllSystemsState;
 
 public abstract class GBNode {
     protected boolean isNeighborsSet;

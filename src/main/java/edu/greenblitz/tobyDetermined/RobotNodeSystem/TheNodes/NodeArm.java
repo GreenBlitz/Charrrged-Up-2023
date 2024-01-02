@@ -1,6 +1,6 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes;
+package edu.greenblitz.tobyDetermined.RobotNodeSystem.TheNodes;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.GBNode;
+import edu.greenblitz.utils.NodeSystemUtils.TheSystemsNodes.GBNode;
 import edu.wpi.first.math.util.Units;
 
 public class NodeArm extends GBNode {

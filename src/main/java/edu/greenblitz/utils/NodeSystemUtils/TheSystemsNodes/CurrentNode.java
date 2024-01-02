@@ -1,6 +1,6 @@
-package edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes;
+package edu.greenblitz.utils.NodeSystemUtils.TheSystemsNodes;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
+import edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
 
 public class CurrentNode {
 	
