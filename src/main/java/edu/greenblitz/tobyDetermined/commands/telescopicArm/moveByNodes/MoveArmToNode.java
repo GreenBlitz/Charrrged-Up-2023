@@ -1,9 +1,8 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.moveByNodes;
 
 import edu.greenblitz.utils.GBCommand;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
-
 import java.util.function.Supplier;
+import edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
 
 public class MoveArmToNode extends GBCommand {
     Supplier<SystemsState> targetNode;

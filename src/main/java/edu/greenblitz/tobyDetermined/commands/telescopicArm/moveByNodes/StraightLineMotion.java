@@ -1,20 +1,19 @@
 package edu.greenblitz.tobyDetermined.commands.telescopicArm.moveByNodes;
 
-import edu.greenblitz.tobyDetermined.Nodesssss.TheSystemsNodes.TheNodes.NodeArm;
+import edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.SystemsState;
+import edu.greenblitz.tobyDetermined.RobotNodeSystem.TheNodes.NodeArm;
 import edu.greenblitz.utils.GBCommand;
-import edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.SystemsState;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.ArmSimulation;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Elbow.Elbow;
 import edu.greenblitz.tobyDetermined.subsystems.telescopicArm.Extender.Extender;
 import edu.greenblitz.utils.GBMath;
 import org.littletonrobotics.junction.Logger;
-
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1CurrentNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1MidNode;
-import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNode;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
-import static edu.greenblitz.utils.GBMath.clamp;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.CreateCurrents.system1CurrentNode;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeBase.CreateCurrents.system1MidNode;
+import static edu.greenblitz.tobyDetermined.RobotNodeSystem.NodeSystemDependentFunctions.getNode;
 import static edu.greenblitz.utils.PolarArmStraightLineUtil.*;
+
 
 
 public class StraightLineMotion extends GBCommand {
@@ -52,7 +51,7 @@ public class StraightLineMotion extends GBCommand {
         if (extender.getLength() + endNode.getExtendPosition() <= STRAIGHT_LINE_UNAVAILABLE_LENGTH)
             combinedVelocity = ONLY_ELBOW_VELOCITY;
 
-        else if (endState.equals(SystemsState.ARM_GROUND))
+        else if (endState.equals(SystemsState.GROUND))
             combinedVelocity = TO_BELLY_VELOCITY;
 
         else {
