@@ -8,15 +8,14 @@ public class GBMath {
     public static double limit(double velocity, double maxMagnitude) {
         return limit(velocity, -maxMagnitude, maxMagnitude);
     }
-
     public static double limit(double value, double min, double max) {
         return Math.min(max, Math.max(min, value));
     }
 
-    public static double sigNum(double end, double start){
-        return sigNum(end-start);
+    public static double signOfNumber(double end, double start){
+        return signOfNumber(end-start);
     }
-    public static double sigNum(double number){
+    public static double signOfNumber(double number){
         return Math.signum(number);
     }
 
@@ -89,6 +88,7 @@ public class GBMath {
      * @param uniformity a kind of uniformity term
      * @param xMovement  a translation of the function to the left by xMovement units
      * @return a Pair which houses the result in this format (length,angle)
+     * For more info on sigmoid: https://docs.google.com/document/d/1Nud3wK2SweWcnkfXrOZfS50eTqnsolggD3qc4dRBGaI/edit?usp=sharing
      */
     public static double sigmoid(double x, double size, double uniformity, double xMovement) {
         return size / (1 + Math.exp(uniformity * (xMovement - x)));
@@ -98,7 +98,7 @@ public class GBMath {
         return Math.sqrt(sideA * sideA + sideB * sideB - 2 * sideA * sideB * Math.cos(angleBetweenSideAndSideB));
     }
 
-    public static double getBow(double length1, double angle1, double angle2) {
+    public static double arcLength(double length1, double angle1, double angle2) {
         double angle = Math.abs(angle1 - angle2);
         return length1 * angle;
     }
