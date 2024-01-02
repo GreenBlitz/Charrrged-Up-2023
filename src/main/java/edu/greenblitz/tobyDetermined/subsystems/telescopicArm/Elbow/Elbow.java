@@ -191,6 +191,10 @@ public class Elbow extends GBSubsystem {
                 / RobotMap.TelescopicArm.Elbow.MAX_KG_MEASUREMENT_LENGTH)) * Math.cos(elbowAngle + RobotMap.TelescopicArm.Elbow.STARTING_ANGLE_RELATIVE_TO_GROUND)
                 : 0;
     }
+    
+    public static double getDynamicFeedForward(double wantedVelocity, double extenderLength, double elbowAngle) {
+        return getStaticFeedForward(extenderLength, elbowAngle) + kV * wantedVelocity + kS*Math.signum(wantedVelocity);
+    }
 
 
     public double getDebugLastFF(){
