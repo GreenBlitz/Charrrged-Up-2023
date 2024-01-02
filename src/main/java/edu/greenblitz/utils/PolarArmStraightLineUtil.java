@@ -3,7 +3,7 @@ package edu.greenblitz.utils;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Elbow.MAX_ANGULAR_VELOCITY;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.MAX_EXTENDER_VELOCITY;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.STARTING_LENGTH;
-import static edu.greenblitz.utils.GBMath.limit;
+import static edu.greenblitz.utils.GBMath.clamp;
 import static edu.greenblitz.utils.GBMath.signOfNumber;
 
 public class PolarArmStraightLineUtil {
@@ -20,7 +20,7 @@ public class PolarArmStraightLineUtil {
         double extenderVelocity = Math.sqrt(velocity * velocity / (ratio * ratio + 1));
         double wantedVelocity = signOfExtender * extenderVelocity;
 
-        wantedVelocity = limit(wantedVelocity, MAX_EXTENDER_VELOCITY);
+        wantedVelocity = clamp(wantedVelocity, MAX_EXTENDER_VELOCITY);
 
         return wantedVelocity;
     }
@@ -29,7 +29,7 @@ public class PolarArmStraightLineUtil {
         double signOfAngle = GBMath.signOfNumber(targetAngle, startAngle);
         double magnitudeOfVelocity = startVelocity / (currentLength + STARTING_LENGTH);
 
-        magnitudeOfVelocity = limit(magnitudeOfVelocity, MAX_ANGULAR_VELOCITY);
+        magnitudeOfVelocity = clamp(magnitudeOfVelocity, MAX_ANGULAR_VELOCITY);
 
         return signOfAngle * Math.abs(magnitudeOfVelocity);
     }

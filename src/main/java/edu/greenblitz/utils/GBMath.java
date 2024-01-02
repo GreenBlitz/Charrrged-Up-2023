@@ -5,10 +5,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public class GBMath {
 
-    public static double limit(double velocity, double maxMagnitude) {
-        return limit(velocity, -maxMagnitude, maxMagnitude);
+    public static double clamp(double velocity, double maxMagnitude) {
+        return clamp(velocity, -maxMagnitude, maxMagnitude);
     }
-    public static double limit(double value, double min, double max) {
+    public static double clamp(double value, double min, double max) {
         return Math.min(max, Math.max(min, value));
     }
 

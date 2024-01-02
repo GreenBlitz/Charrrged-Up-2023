@@ -13,7 +13,7 @@ import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.sy
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeBase.CreateCurrents.system1MidNode;
 import static edu.greenblitz.tobyDetermined.Nodesssss.NodeSystemUtils.getNode;
 import static edu.greenblitz.tobyDetermined.RobotMap.TelescopicArm.Extender.*;
-import static edu.greenblitz.utils.GBMath.limit;
+import static edu.greenblitz.utils.GBMath.clamp;
 import static edu.greenblitz.utils.PolarArmStraightLineUtil.*;
 
 
