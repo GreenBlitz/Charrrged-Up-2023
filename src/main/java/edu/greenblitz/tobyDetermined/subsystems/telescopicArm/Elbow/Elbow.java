@@ -32,7 +32,7 @@ public class Elbow extends GBSubsystem {
 
 
     private IElbow elbow;
-    private ElbowInputsAutoLogged elbowInputs;
+    private ElbowInputs elbowInputs;
 
     public static Elbow getInstance() {
         init();
@@ -49,7 +49,7 @@ public class Elbow extends GBSubsystem {
     private Elbow() {
 
         elbow = ElbowFactory.create();
-        elbowInputs = new ElbowInputsAutoLogged();
+        elbowInputs = new ElbowInputs();
         elbow.updateInputs(elbowInputs);
 
         startingValue = elbowInputs.absoluteEncoderPosition;

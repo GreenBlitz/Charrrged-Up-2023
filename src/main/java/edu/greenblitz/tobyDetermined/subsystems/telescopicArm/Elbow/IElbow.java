@@ -18,7 +18,7 @@ public interface IElbow {
     void setSoftLimit(CANSparkMax.SoftLimitDirection direction, double limit);
 
 
-    void updateInputs(ElbowInputsAutoLogged inputs);
+    void updateInputs(ElbowInputs inputs);
 
 
 }
